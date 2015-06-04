@@ -1,0 +1,39 @@
+# Loot Filter Script created by Filtration v0.1 - www.github.com/XVar/filtration
+# Begin Script Description
+# This is a test script
+# 
+# End Script Description
+
+# First test condition booyah
+Show
+    ItemLevel = 32
+    DropLevel >= 85
+    Quality >= 15
+    Sockets < 4
+    LinkedSockets >= 3
+    SetFontSize 12
+	
+# Section: Gud stuff u shud pick up m9
+
+# Second test condition
+Show
+    ItemLevel > 50
+    Quality >= 15
+    Rarity > Magic
+    Class "Test Class 1" "Test Class 2" "Test Class 3" "Test Class 4" "Test Class 5" "Test Class 6" "Test Class 7" "Test Class 8" "Test Class 9" "Test Class 10"
+    BaseType "Test Base Type 1" "Test Base Type 2"
+    Sockets <= 5
+    LinkedSockets = 2
+    SetFontSize 10
+	
+Show
+    ItemLevel > 50
+    Quality >= 15
+    Rarity > Magic
+    Class "Test Class 1" "Test Class 2" "Test Class 3" "Test Class 4" "Test Class 5" "Test Class 6" "Test Class 7" "Test Class 8" "Test Class 9" "Test Class 10"
+    BaseType "Test Base Type 1" "Test Base Type 2"
+    Sockets <= 5
+    LinkedSockets = 2
+    SetFontSize 10
+
+Hide

@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Filtration.UserControls.EditableListBoxControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:userControls="clr-namespace:Filtration.UserControls"
+             xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=userControls:EditableListBoxControl}">
+
+    <Grid VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="40"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ListBox    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    ItemsSource="{Binding ItemsSource}"
+                    BorderThickness="1"
+                    Height="120"
+                    VerticalAlignment="Stretch" SelectionMode="Single" x:Name="ControlListBox" BorderBrush="#CCCCCC">
+            <ListBox.Resources>
+                <Style TargetType="ListBoxItem">
+                    <!-- Undo the style that we set in the parent LootFilterScriptView to hide the condition selections -->
+                    <Style.Resources>
+                        <!-- SelectedItem with focus -->
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Silver" />
+                        <!-- SelectedItem without focus -->
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightGray" />
+                        <!-- SelectedItem text foreground -->
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                    </Style.Resources>
+                </Style>
+            </ListBox.Resources>
+            <ListBox.InputBindings>
+                <KeyBinding Key="Delete" Command="{Binding Path=DeleteItemCommand}" CommandParameter="{Binding ElementName=ControlListBox, Path=SelectedValue}" />
+            </ListBox.InputBindings>
+        </ListBox>
+        <toolkit:AutoCompleteBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding AutoCompleteItemsSource}" FilterMode="Contains" Text="{Binding AddItemText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ></toolkit:AutoCompleteBox>
+        <Button Grid.Row="1" Grid.Column="1" Command="{Binding AddItemCommand}" IsDefault="True">Add</Button>
+    </Grid>
+</UserControl>

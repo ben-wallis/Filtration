@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="Filtration.Views.LootFilterScriptView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:views="clr-namespace:Filtration.Views"
+             xmlns:viewModels="clr-namespace:Filtration.ViewModels"
+             xmlns:userControls="clr-namespace:Filtration.UserControls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=viewModels:LootFilterScriptViewModel}"
+             d:DesignHeight="300" d:DesignWidth="600">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <!-- ReSharper disable once Xaml.RedundantResource -->
+                    <DataTemplate x:Key="LootFilterBlockTemplate">
+                        <views:LootFilterBlockView Margin="0,2,0,2" />
+                    </DataTemplate>
+                    <!-- ReSharper disable once Xaml.RedundantResource -->
+                    <DataTemplate x:Key="LootFilterSectionTemplate">
+                        <views:LootFilterSectionView Margin="0,2,0,2" />
+                    </DataTemplate>
+                    <views:BlockTemplateSelector x:Key="BlockTemplateSelector" />
+                </ResourceDictionary>
+                <ResourceDictionary Source="ExpanderStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> 
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" BorderThickness="2" BorderBrush="SlateGray" CornerRadius="4" Margin="5,5,5,0">
+            <StackPanel Margin="2,2,2,2">
+                <Expander Style="{StaticResource ExpanderRightAlignStyle}">
+                    <Expander.Header>
+                        <TextBlock Text="Script Description" VerticalAlignment="Center" /> 
+                    </Expander.Header>
+                    <Grid>
+                        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="5" MaxLines="20" />
+                    </Grid>
+                </Expander>
+                <!--<TextBlock Text="{Binding Filepath, StringFormat=Path: {0}}" />-->
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="1" BorderThickness="2" BorderBrush="SlateGray" CornerRadius="4" Margin="5,5,5,5">
+            <DockPanel>
+            <ToolBarTray DockPanel.Dock="Top">
+                    <ToolBarTray.Resources>
+                        <Style TargetType="{x:Type fa:ImageAwesome}">
+                            <Style.Setters>
+                                <Setter Property="Width" Value="15" />
+                                <Setter Property="Height" Value="15" />
+                            </Style.Setters>
+                        </Style>
+                    </ToolBarTray.Resources>
+                    <ToolBar>
+                        <Button ToolTip="Add Block" Command="{Binding AddBlockAboveCommand}">
+                            <fa:ImageAwesome Icon="Plus" />
+                        </Button>
+                        <Button ToolTip="Add Section" Command="{Binding AddSectionAboveCommand}">
+                            <fa:ImageAwesome Icon="ListUl" />
+                        </Button>
+                        <Button ToolTip="Delete Block/Section" Command="{Binding DeleteBlockCommand}">
+                            <fa:ImageAwesome Icon="Minus" />
+                        </Button>
+                    </ToolBar>
+                    <ToolBar>
+                        <Button ToolTip="Move Block to Top" Command="{Binding MoveBlockToTopCommand}">
+                            <fa:ImageAwesome Icon="AngleDoubleUp" />
+                        </Button>
+                        <Button ToolTip="Move Block Up" Command="{Binding MoveBlockUpCommand}">
+                            <fa:ImageAwesome Icon="AngleUp" />
+                        </Button>
+                        <Button ToolTip="Move Block Down" Command="{Binding MoveBlockDownCommand}">
+                            <fa:ImageAwesome Icon="AngleDown" />
+                        </Button>
+                        <Button ToolTip="Move Block to Bottom" Command="{Binding MoveBlockToBottomCommand}">
+                            <fa:ImageAwesome Icon="AngleDoubleDown" />
+                        </Button>
+                    </ToolBar>
+            </ToolBarTray>
+            <userControls:AutoScrollingListBox ItemsSource="{Binding LootFilterBlockViewModels}"
+                                               DockPanel.Dock="Bottom"
+                                               Margin="5,5,5,5"
+                                               HorizontalContentAlignment="Stretch"
+                                               BorderThickness="0"
+                                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                               VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                               ItemTemplateSelector="{StaticResource BlockTemplateSelector}"
+                                               SelectedItem="{Binding SelectedBlockViewModel}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="BorderBrush" Value="Red"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.Resources>
+                    <Style TargetType="ListBoxItem">
+                        <Style.Resources>
+                            <!-- SelectedItem with focus -->
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                            <!-- SelectedItem without focus -->
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                            <!-- SelectedItem text foreground -->
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                        </Style.Resources>
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                    </Style>
+                </ListBox.Resources>
+            </userControls:AutoScrollingListBox>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

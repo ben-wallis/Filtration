@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Filtration.Views.LootFilterSectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:Filtration.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewModels:LootFilterBlockViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Style.Setters>
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="Background" Value="Transparent" />
+            </Style.Setters>
+        </Style>
+    </UserControl.Resources>
+    
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Rectangle Width="7" Grid.Column="0">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="Gray" />
+                </Rectangle.Fill>
+            </Rectangle>
+        <Border Grid.Column =" 1"  BorderThickness="1" BorderBrush="SlateGray" Background="Gainsboro" CornerRadius="2" Padding="3">
+            <TextBox Text="{Binding BlockDescription, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" TextWrapping="Wrap"/>
+        </Border>
+    </Grid>
+        
+    
+</UserControl>

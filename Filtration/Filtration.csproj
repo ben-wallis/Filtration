@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{55E0A34C-E039-43D7-A024-A4045401CDDA}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Filtration</RootNamespace>
+    <AssemblyName>Filtration</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="DragAndDropLib">
+      <HintPath>..\..\DragAndDrop(Complete)\DragAndDropLib\bin\Debug\DragAndDropLib.dll</HintPath>
+    </Reference>
+    <Reference Include="FontAwesome.WPF, Version=4.3.0.26714, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FontAwesome.WPF.4.3.0.2\lib\FontAwesome.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.1.1.35049, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.1.1.35053, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Controls.Input.Toolkit">
+      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Input.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Layout.Toolkit">
+      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit">
+      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\WPFToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.4\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Converters\BlockItemTypeToStringConverter.cs" />
+    <Compile Include="Converters\BooleanInverterConverter.cs" />
+    <Compile Include="Converters\BooleanToBlockActionInverseConverter.cs" />
+    <Compile Include="Converters\BooleanToBlockActionConverter.cs" />
+    <Compile Include="Converters\ColorToSolidColorBrushConverter.cs" />
+    <Compile Include="Converters\ItemRarityConverter.cs" />
+    <Compile Include="Converters\BooleanVisibilityConverter.cs" />
+    <Compile Include="Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Enums\BlockAction.cs" />
+    <Compile Include="Enums\BlockItemType.cs" />
+    <Compile Include="Enums\FilterPredicateOperator.cs" />
+    <Compile Include="Enums\FilterType.cs" />
+    <Compile Include="Enums\ItemRarity.cs" />
+    <Compile Include="Enums\SocketColor.cs" />
+    <Compile Include="Extensions\EnumerationExtension.cs" />
+    <Compile Include="Extensions\EnumHelper.cs" />
+    <Compile Include="Models\BlockItemBaseTypes\ActionBlockItem.cs" />
+    <Compile Include="Models\BlockItemBaseTypes\ColorBlockItem.cs" />
+    <Compile Include="Models\BlockItemBaseTypes\DualIntegerBlockItem.cs" />
+    <Compile Include="Models\BlockItemBaseTypes\IntegerBlockItem.cs" />
+    <Compile Include="Models\BlockItemBaseTypes\NumericFilterPredicateBlockItem.cs" />
+    <Compile Include="Models\BlockItemBaseTypes\StringListBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\FontSizeBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\SoundBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\BorderColorBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\BaseTypeBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\BackgroundColorBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\TextColorBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\ClassBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\HeightBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\WidthBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\SocketGroupBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\LinkedSocketsBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\SocketsBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\DropLevelBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\RarityBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\QualityBlockItem.cs" />
+    <Compile Include="Models\BlockItemTypes\ItemLevelBlockItem.cs" />
+    <Compile Include="Models\IAudioVisualBlockItem.cs" />
+    <Compile Include="Models\LootFilterBlock.cs" />
+    <Compile Include="Models\ILootFilterBlockItem.cs" />
+    <Compile Include="Models\LootFilterScript.cs" />
+    <Compile Include="Models\LootFilterSection.cs" />
+    <Compile Include="Models\NumericFilterPredicate.cs" />
+    <Compile Include="Models\BlockItemBaseTypes\SocketGroupBlockItemBase.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Services\FileSystemService.cs" />
+    <Compile Include="Services\LootFilterPersistenceService.cs" />
+    <Compile Include="Services\StaticDataService.cs" />
+    <Compile Include="Translators\LootFilterBlockTranslator.cs" />
+    <Compile Include="Translators\LootFilterScriptTranslator.cs" />
+    <Compile Include="UserControls\AutoScrollingListBox.cs" />
+    <Compile Include="UserControls\CrossButton.cs" />
+    <Compile Include="UserControls\EditableListBoxControl.xaml.cs">
+      <DependentUpon>EditableListBoxControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\LineReader.cs" />
+    <Compile Include="ViewModels\FiltrationViewModelBase.cs" />
+    <Compile Include="ViewModels\ILootFilterScriptViewModelFactory.cs" />
+    <Compile Include="ViewModels\ILootFilterBlockViewModelFactory.cs" />
+    <Compile Include="ViewModels\ILootFilterScriptViewModel.cs" />
+    <Compile Include="ViewModels\ILootFilterBlockViewModel.cs" />
+    <Compile Include="ViewModels\LootFilterBlockViewModel.cs" />
+    <Compile Include="ViewModels\LootFilterScriptViewModel.cs" />
+    <Compile Include="Views\BlockTemplateSelector.cs" />
+    <Compile Include="Views\LootFilterBlockDisplaySettingsView.xaml.cs">
+      <DependentUpon>LootFilterBlockDisplaySettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LootFilterScriptView.xaml.cs">
+      <DependentUpon>LootFilterScriptView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LootFilterBlockView.xaml.cs">
+      <DependentUpon>LootFilterBlockView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\NumericFilterPredicateControl.xaml.cs">
+      <DependentUpon>NumericFilterPredicateControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LootFilterSectionView.xaml.cs">
+      <DependentUpon>LootFilterSectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindsorInstallers\ModelsInstaller.cs" />
+    <Compile Include="WindsorInstallers\ServicesInstaller.cs" />
+    <Compile Include="WindsorInstallers\TranslatorsInstaller.cs" />
+    <Compile Include="WindsorInstallers\ViewModelsInstaller.cs" />
+    <Compile Include="WindsorInstallers\ViewsInstaller.cs" />
+    <Page Include="Views\CrossButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\EditableListBoxControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExpanderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LootFilterBlockDisplaySettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LootFilterBlockViewDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LootFilterScriptView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LootFilterBlockView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LootFilterSectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\IMainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Views\IMainWindow.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="UserControls\NumericFilterPredicateControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Fontin-SmallCaps.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\groundtile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\AlertSound8.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ItemBaseTypes.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ItemClasses.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\AlertSound9.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\AlertSound7.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\AlertSound6.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\AlertSound4.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\AlertSound5.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\AlertSound2.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\AlertSound3.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\AlertSound1.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(XamlSpyInstallPath)MSBuild\FirstFloor.XamlSpy.WPF.targets" Condition="'$(XamlSpyInstallPath)' != '' and '$(Configuration)' == 'DEBUG'" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

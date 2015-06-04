@@ -1,0 +1,36 @@
+﻿Life Flasks
+Mana Flasks
+Hybrid Flasks
+Currency
+Amulets
+Rings
+Claws
+Daggers
+Wands
+One Hand Swords
+Thrusting One Hand Swords
+One Hand Axes
+One Hand Maces
+Bows
+Staves
+Two Hand Swords
+Two Hand Axes
+Two Hand Maces
+Active Skill Gems
+Support Skill Gems
+Quivers
+Belts
+Gloves
+Boots
+Body Armours
+Helmets
+Shields
+Stackable Currency
+Quest Items
+Sceptres
+Utility Flasks
+Maps
+Fishing Rods
+Map Fragments
+Hideout Doodads
+Microtransactions

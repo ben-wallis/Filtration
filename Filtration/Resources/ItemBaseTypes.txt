@@ -1,0 +1,1070 @@
+﻿Anger
+Animate Guardian
+Animate Weapon
+Arc
+Arctic Armour
+Arctic Breath
+Assassin's Mark
+Ball Lightning
+Barrage
+Bear Trap
+Blink Arrow
+Blood Rage
+Bone Offering
+Burning Arrow
+Clarity
+Cleave
+Cold Snap
+Conductivity
+Conversion Trap
+Convocation
+Cyclone
+Decoy Totem
+Desecrate
+Determination
+Detonate Dead
+Devouring Totem
+Discharge
+Discipline
+Dominating Blow
+Double Strike
+Dual Strike
+Elemental Hit
+Elemental Weakness
+Enduring Cry
+Enfeeble
+Ethereal Knives
+Explosive Arrow
+Fire Trap
+Fireball
+Firestorm
+Flame Surge
+Flame Totem
+Flameblast
+Flammability
+Flesh Offering
+Flicker Strike
+Freeze Mine
+Freezing Pulse
+Frenzy
+Frost Wall
+Frostbite
+Glacial Cascade
+Glacial Hammer
+Grace
+Ground Slam
+Haste
+Hatred
+Heavy Strike
+Herald of Ash
+Herald of Ice
+Herald of Thunder
+Ice Nova
+Ice Shot
+Ice Spear
+Ignite
+Immortal Call
+Incinerate
+Infernal Blow
+Kinetic Blast
+Leap Slam
+Lightning Arrow
+Lightning Strike
+Lightning Tendrils
+Lightning Trap
+Lightning Warp
+Mirror Arrow
+Molten Shell
+Molten Strike
+Phase Run troll
+Poacher's Mark
+Poison Arrow
+Portal
+Power Siphon
+Projectile Weakness
+Puncture
+Punishment
+Purity of Elements
+Purity of Fire
+Purity of Ice
+Purity of Lightning
+Rain of Arrows
+Raise Spectre
+Raise Zombie
+Reave
+Reckoning
+Rejuvenation Totem
+Righteous Fire
+Riposte
+Searing Bond
+Shield Charge
+Shock Nova
+Shockwave Totem
+Smoke Mine
+Spark
+Spectral Throw
+Split Arrow
+Static Strike
+Storm Call
+Summon Raging Spirit
+Summon Skeletons
+Sweep
+Tempest Shield
+Temporal Chains
+Tornado Shot
+Touch of God
+Vaal Arc
+Vaal Burning Arrow
+Vaal Clarity
+Vaal Cold Snap
+Vaal Cyclone
+Vaal Detonate Dead
+Vaal Discipline
+Vaal Double Strike
+Vaal Fireball
+Vaal Flameblast
+Vaal Glacial Hammer
+Vaal Grace
+Vaal Ground Slam
+Vaal Haste
+Vaal Heavy Strike
+Vaal Ice Nova
+Vaal Immortal Call
+Vaal Lightning Strike
+Vaal Lightning Warp
+Vaal Molten Shell
+Vaal Power Siphon
+Vaal Rain of Arrows
+Vaal Reave
+Vaal Righteous Fire
+Vaal Spark
+Vaal Spectral Throw
+Vaal Storm Call
+Vaal Summon Skeletons
+Vaal Sweep
+Vengeance
+Viper Strike
+Vitality
+Vulnerability
+Warlord's Mark
+Whirling Blades
+Wrath
+Agate Amulet
+Amber Amulet
+Citrine Amulet
+Coral Amulet
+Gold Amulet
+Jade Amulet
+Jet Amulet
+Lapis Amulet
+Onyx Amulet
+Paua Amulet
+Turquoise Amulet
+Chain Belt
+Cloth Belt
+Golden Obi
+Heavy Belt
+Leather Belt
+Rustic Sash
+Studded Belt
+Arena Plate
+Assassin's Garb
+Astral Plate
+Battle Lamellar
+Battle Plate
+Blood Raiment
+Bone Armour
+Bronze Plate
+Buckskin Tunic
+Cabalist Regalia
+Carnal Armour
+Chain Hauberk
+Chainmail Doublet
+Chainmail Tunic
+Chainmail Vest
+Chestplate
+Colosseum Plate
+Commander's Brigandine
+Conjurer's Vestment
+Conquest Chainmail
+Copper Plate
+Coronal Leather
+Crimson Raiment
+Crusader Chainmail
+Crusader Plate
+Crypt Armour
+Cutthroat's Garb
+Desert Brigandine
+Destiny Leather
+Destroyer Regalia
+Devout Chainmail
+Dragonscale Doublet
+Eelskin Tunic
+Elegant Ringmail
+Exquisite Leather
+Field Lamellar
+Frontier Leather
+Full Chainmail
+Full Dragonscale
+Full Leather
+Full Plate
+Full Ringmail
+Full Scale Armour
+Full Wyrmscale
+General's Brigandine
+Gladiator Plate
+Glorious Leather
+Glorious Plate
+Golden Plate
+Holy Chainmail
+Hussar Brigandine
+Infantry Brigandine
+Kaom's Plate
+Lacquered Garb
+Latticed Ringmail
+Light Brigandine
+Lordly Plate
+Loricated Ringmail
+Mage's Vestment
+Majestic Plate
+Necromancer Silks
+Occultist's Vestment
+Oiled Coat
+Oiled Vest
+Ornate Ringmail
+Padded Jacket
+Padded Vest
+Plate Vest
+Quilted Jacket
+Ringmail Coat
+Sacrificial Garb
+Sadist Garb
+Sage's Robe
+Saintly Chainmail
+Saint's Hauberk
+Savant's Robe
+Scale Doublet
+Scale Vest
+Scarlet Raiment
+Scholar's Robe
+Sentinel Jacket
+Shabby Jerkin
+Sharkskin Tunic
+Silk Robe
+Silken Garb
+Silken Vest
+Silken Wrap
+Simple Robe
+Sleek Coat
+Soldier's Brigandine
+Spidersilk Robe
+Strapped Leather
+Sun Leather
+Sun Plate
+Thief's Garb
+Triumphant Lamellar
+Vaal Regalia
+Varnished Coat
+War Plate
+Waxed Garb
+Widowsilk Robe
+Wild Leather
+Wyrmscale Doublet
+Zodiac Leather
+Ambush Boots
+Ancient Greaves
+Antique Greaves
+Arcanist Slippers
+Assassin's Boots
+Avian Slippers
+Bronzescale Boots
+Carnal Boots
+Chain Boots
+Clasped Boots
+Conjurer Boots
+Crusader Boots
+Deerskin Boots
+Dragonscale Boots
+Eelskin Boots
+Goathide Boots
+Golden Caligae
+Goliath Greaves
+Hydrascale Boots
+Iron Greaves
+Ironscale Boots
+Kaom's Greaves
+Leatherscale Boots
+Legion Boots
+Mesh Boots
+Murder Boots
+Nubuck Boots
+Plated Greaves
+Rawhide Boots
+Reinforced Greaves
+Ringmail Boots
+Riveted Boots
+Samite Slippers
+Satin Slippers
+Scholar Boots
+Serpentscale Boots
+Shackled Boots
+Shagreen Boots
+Sharkskin Boots
+Silk Slippers
+Slink Boots
+Soldier Boots
+Sorcerer Boots
+Stealth Boots
+Steel Greaves
+Steelscale Boots
+Strapped Boots
+Titan Greaves
+Trapper Boots
+Vaal Greaves
+Velvet Slippers
+Wool Shoes
+Wrapped Boots
+Wyrmscale Boots
+Zealot Boots
+Bone Bow
+Citadel Bow
+Composite Bow
+Compound Bow
+Crude Bow
+Death Bow
+Decimation Bow
+Decurve Bow
+Grove Bow
+Harbinger Bow
+Highborn Bow
+Imperial Bow
+Ivory Bow
+Long Bow
+Maraketh Bow
+Ranger Bow
+Recurve Bow
+Royal Bow
+Short Bow
+Sniper Bow
+Spine Bow
+Thicket Bow
+Awl
+Blinder
+Cat's Paw
+Eagle Claw
+Eye Gouger
+Fright Claw
+Gouger
+Great White Claw
+Gut Ripper
+Hellion's Paw
+Imperial Claw
+Nailed Fist
+Noble Claw
+Prehistoric Claw
+Sharktooth Claw
+Sparkling Claw
+Terror Claw
+Thresher Claw
+Throat Stabber
+Tiger's Paw
+Timeworn Claw
+Vaal Claw
+Diamond Flask
+Ambusher
+Boot Blade
+Boot Knife
+Butcher Knife
+Carving Knife
+Copper Kris
+Demon Dagger
+Ezomyte Dagger
+Fiend Dagger
+Flaying Knife
+Glass Shank
+Golden Kris
+Gutting Knife
+Imp Dagger
+Imperial Skean
+Platinum Kris
+Poignard
+Royal Skean
+Skean
+Skinning Knife
+Slaughter Knife
+Stiletto
+Fishing Rod
+Ambush Mitts
+Ancient Gauntlets
+Antique Gauntlets
+Arcanist Gloves
+Assassin's Mitts
+Bronze Gauntlets
+Bronzescale Gauntlets
+Carnal Mitts
+Chain Gloves
+Clasped Mitts
+Conjurer Gloves
+Crusader Gloves
+Deerskin Gloves
+Dragonscale Gauntlets
+Eelskin Gloves
+Embroidered Gloves
+Fishscale Gauntlets
+Goathide Gloves
+Golden Bracers
+Goliath Gauntlets
+Hydrascale Gauntlets
+Iron Gauntlets
+Ironscale Gauntlets
+Legion Gloves
+Mesh Gloves
+Murder Mitts
+Nubuck Gloves
+Plated Gauntlets
+Rawhide Gloves
+Ringmail Gloves
+Riveted Gloves
+Samite Gloves
+Satin Gloves
+Serpentscale Gauntlets
+Shagreen Gloves
+Sharkskin Gloves
+Silk Gloves
+Slink Gloves
+Soldier Gloves
+Sorcerer Gloves
+Stealth Gloves
+Steel Gauntlets
+Steelscale Gauntlets
+Strapped Mitts
+Titan Gauntlets
+Trapper Mitts
+Vaal Gauntlets
+Velvet Gloves
+Wool Gloves
+Wrapped Mitts
+Wyrmscale Gauntlets
+Zealot Gloves
+Aventail Helmet
+Barbute Helmet
+Battered Helm
+Bone Circlet
+Callous Mask
+Close Helmet
+Cone Helmet
+Crusader Helmet
+Deicide Mask
+Eternal Burgonet
+Ezomyte Burgonet
+Fencer Helm
+Festival Mask
+Fluted Bascinet
+Gilded Sallet
+Gladiator Helmet
+Golden Mask
+Golden Wreath
+Great Crown
+Great Helmet
+Harlequin Mask
+Hubris Circlet
+Hunter Hood
+Iron Circlet
+Iron Hat
+Iron Mask
+Lacquered Helmet
+Leather Cap
+Leather Hood
+Lion Pelt
+Lunaris Circlet
+Magistrate Crown
+Mind Cage
+Necromancer Circlet
+Nightmare Bascinet
+Noble Tricorne
+Pig-Faced Bascinet
+Plague Mask
+Praetor Crown
+Prophet Crown
+Raven Mask
+Reaver Helmet
+Regicide Mask
+Royal Burgonet
+Rusted Coif
+Sallet
+Samite Helmet
+Scare Mask
+Secutor Helm
+Siege Helmet
+Silken Hood
+Sinner Tricorne
+Solaris Circlet
+Soldier Helmet
+Steel Circlet
+Torture Cage
+Tribal Circlet
+Tricorne
+Ursine Pelt
+Vaal Mask
+Vine Circlet
+Visored Sallet
+Wolf Pelt
+Zealot Helmet
+Colossal Hybrid Flask
+Hallowed Hybrid Flask
+Large Hybrid Flask
+Medium Hybrid Flask
+Sacred Hybrid Flask
+Small Hybrid Flask
+Colossal Life Flask
+Divine Life Flask
+Eternal Life Flask
+Giant Life Flask
+Grand Life Flask
+Greater Life Flask
+Hallowed Life Flask
+Large Life Flask
+Medium Life Flask
+Sacred Life Flask
+Sanctified Life Flask
+Small Life Flask
+Colossal Mana Flask
+Divine Mana Flask
+Eternal Mana Flask
+Giant Mana Flask
+Grand Mana Flask
+Greater Mana Flask
+Hallowed Mana Flask
+Large Mana Flask
+Medium Mana Flask
+Sacred Mana Flask
+Sanctified Mana Flask
+Small Mana Flask
+Mortal Grief
+Mortal Hope
+Mortal Ignorance
+Mortal Rage
+Sacrifice at Dawn
+Sacrifice at Dusk
+Sacrifice at Midnight
+Sacrifice at Noon
+Academy Map
+Arachnid Nest Map
+Arcade Map
+Arsenal Map
+Bazaar Map
+Bog Map
+Canyon Map
+Catacomb Map
+Cells Map
+Cemetery Map
+Colonnade Map
+Courtyard Map
+Coves Map
+Crematorium Map
+Crypt Map
+Dark Forest Map
+Dried Lake Map
+Dry Peninsula Map
+Dry Woods Map
+Dunes Map
+Dungeon Map
+Ghetto Map
+Gorge Map
+Graveyard Map
+Grotto Map
+Jungle Valley Map
+Labyrinth Map
+Maze Map
+Mine Map
+Mountain Ledge Map
+Mud Geyser Map
+Museum Map
+Necropolis Map
+Orchard Map
+Overgrown Ruin Map
+Overgrown Shrine Map
+Palace Map
+Pier Map
+Plateau Map
+Precinct Map
+Promenade Map
+Reef Map
+Residence Map
+Sewer Map
+Shipyard Map
+Shore Map
+Shrine Map
+Spider Forest Map
+Spider Lair Map
+Springs Map
+Strand Map
+Temple Map
+Thicket Map
+Torture Chamber Map
+Tropical Island Map
+Tunnel Map
+Underground River Map
+Underground Sea Map
+Vaal Pyramid Map
+Vaal Temple Map
+Villa Map
+Waste Pool Map
+Wharf Map
+Arming Axe
+Boarding Axe
+Broad Axe
+Butcher Axe
+Ceremonial Axe
+Chest Splitter
+Cleaver
+Decorative Axe
+Infernal Axe
+Jade Hatchet
+Jasper Axe
+Karui Axe
+Reaver Axe
+Royal Axe
+Rusted Hatchet
+Siege Axe
+Spectral Axe
+Tomahawk
+Vaal Hatchet
+War Axe
+Wraith Axe
+Wrist Chopper
+Ancestral Club
+Auric Mace
+Barbed Club
+Battle Hammer
+Bladed Mace
+Ceremonial Mace
+Dream Mace
+Driftwood Club
+Flanged Mace
+Gavel
+Legion Hammer
+Nightmare Mace
+Ornate Mace
+Pernarch
+Petrified Club
+Phantom Mace
+Rock Breaker
+Spiked Club
+Stone Hammer
+Tenderizer
+Tribal Club
+War Hammer
+Ancient Sword
+Baselard
+Battle Sword
+Broad Sword
+Copper Sword
+Corsair Sword
+Cutlass
+Dusk Blade
+Elder Sword
+Elegant Sword
+Eternal Sword
+Gemstone Sword
+Gladius
+Graceful Sword
+Legion Sword
+Midnight Blade
+Rusted Sword
+Sabre
+Twilight Blade
+Vaal Blade
+Variscite Blade
+War Sword
+Alira's Amulet
+Allflame
+Ammonite Glyph
+Baleful Gem
+Book of Reform
+Book of Regrets
+Book of Skill
+Bust of Gaius Sentari
+Bust of Hector Titucius
+Bust of Marceus Lioneye
+Chitus' Plum
+Decanter Spiritus
+Golden Hand
+Golden Page
+Haliotis Glyph
+Infernal Talc
+Kraityn's Amulet
+Maligaro's Spike
+Medicine Chest
+Oak's Amulet
+Ribbon Spool
+Roseus Glyph
+Sewer Keys
+Thaumetic Emblem
+Thaumetic Sulphite
+The Apex
+Tolman's Bracelet
+Tower Key
+Blunt Arrow Quiver
+Broadhead Arrow Quiver
+Conductive Quiver
+Cured Quiver
+Fire Arrow Quiver
+Heavy Quiver
+Light Quiver
+Penetrating Arrow Quiver
+Rugged Quiver
+Serrated Arrow Quiver
+Sharktooth Arrow Quiver
+Spike-Point Arrow Quiver
+Two-Point Arrow Quiver
+Amethyst Ring
+Coral Ring
+Diamond Ring
+Gold Ring
+Golden Hoop
+Iron Ring
+Moonstone Ring
+Paua Ring
+Prismatic Ring
+Ruby Ring
+Sapphire Ring
+Topaz Ring
+Two-Stone Ring
+Unset Ring
+Abyssal Sceptre
+Blood Sceptre
+Bronze Sceptre
+Carnal Sceptre
+Crystal Sceptre
+Darkwood Sceptre
+Driftwood Sceptre
+Grinning Fetish
+Iron Sceptre
+Karui Sceptre
+Lead Sceptre
+Ochre Sceptre
+Opal Sceptre
+Platinum Sceptre
+Quartz Sceptre
+Ritual Sceptre
+Royal Sceptre
+Sekhem
+Shadow Sceptre
+Tyrant's Sekhem
+Vaal Sceptre
+Void Sceptre
+Alder Spike Shield
+Alloyed Spike Shield
+Ancient Spirit Shield
+Angelic Kite Shield
+Archon Kite Shield
+Baroque Round Shield
+Battle Buckler
+Bone Spirit Shield
+Branded Kite Shield
+Brass Spirit Shield
+Bronze Tower Shield
+Buckskin Tower Shield
+Burnished Spike Shield
+Cardinal Round Shield
+Cedar Tower Shield
+Ceremonial Kite Shield
+Champion Kite Shield
+Chiming Spirit Shield
+Colossal Tower Shield
+Compound Spiked Shield
+Copper Tower Shield
+Corroded Tower Shield
+Corrugated Buckler
+Crested Tower Shield
+Crimson Round Shield
+Crusader Buckler
+Driftwood Spiked Shield
+Ebony Tower Shield
+Elegant Round Shield
+Enameled Buckler
+Etched Kite Shield
+Ezomyte Spiked Shield
+Ezomyte Tower Shield
+Fir Round Shield
+Fossilized Spirit Shield
+Gilded Buckler
+Girded Tower Shield
+Goathide Buckler
+Golden Buckler
+Hammered Buckler
+Harmonic Spirit Shield
+Imperial Buckler
+Ironwood Buckler
+Ivory Spirit Shield
+Jingling Spirit Shield
+Lacewood Spirit Shield
+Lacquered Buckler
+Laminated Kite Shield
+Layered Kite Shield
+Linden Kite Shield
+Mahogany Tower Shield
+Maple Round Shield
+Mirrored Spiked Shield
+Mosaic Kite Shield
+Oak Buckler
+Ornate Spiked Shield
+Painted Buckler
+Painted Tower Shield
+Pine Buckler
+Pinnacle Tower Shield
+Plank Kite Shield
+Polished Spiked Shield
+Rawhide Tower Shield
+Redwood Spiked Shield
+Reinforced Kite Shield
+Reinforced Tower Shield
+Rotted Round Shield
+Scarlet Round Shield
+Shagreen Tower Shield
+Sovereign Spiked Shield
+Spiked Bundle
+Spiked Round Shield
+Spiny Round Shield
+Splendid Round Shield
+Splintered Tower Shield
+Steel Kite Shield
+Studded Round Shield
+Supreme Spiked Shield
+Tarnished Spirit Shield
+Teak Round Shield
+Thorium Spirit Shield
+Titanium Spirit Shield
+Twig Spirit Shield
+Vaal Buckler
+Vaal Spirit Shield
+Walnut Spirit Shield
+War Buckler
+Yew Spirit Shield
+Albino Rhoa Feather
+Alchemy Shard
+Alteration Shard
+Armourer's Scrap
+Blacksmith's Whetstone
+Blessed Orb
+Cartographer's Chisel
+Chaos Orb
+Chromatic Orb
+Divine Orb
+Eternal Orb
+Exalted Orb
+Gemcutter's Prism
+Glassblower's Bauble
+Imprint
+Jeweller's Orb
+Mirror of Kalandra
+Orb of Alchemy
+Orb of Alteration
+Orb of Augmentation
+Orb of Chance
+Orb of Fusing
+Orb of Regret
+Orb of Scouring
+Orb of Transmutation
+Portal Scroll
+Regal Orb
+Scroll Fragment
+Scroll of Wisdom
+Transmutation Shard
+Vaal Orb
+Coiled Staff
+Ezomyte Staff
+Foul Staff
+Gnarled Branch
+Highborn Staff
+Imperial Staff
+Iron Staff
+Judgement Staff
+Lathi
+Long Staff
+Maelström Staff
+Military Staff
+Primitive Staff
+Primordial Staff
+Quarterstaff
+Royal Staff
+Serpentine Staff
+Vile Staff
+Woodful Staff
+Added Chaos Damage
+Added Cold Damage
+Added Fire Damage
+Added Lightning Damage
+Additional Accuracy
+Blind
+Block Chance Reduction
+Blood Magic
+Cast On Critical Strike
+Cast on Death
+Cast on Melee Kill
+Cast when Damage Taken
+Cast when Stunned
+Chain
+Chance to Flee
+Chance to Ignite
+Cold Penetration
+Cold to Fire
+Concentrated Effect
+Culling Strike
+Curse On Hit
+Elemental Proliferation
+Empower
+Endurance Charge on Melee Stun
+Enhance
+Enlighten
+Faster Attacks
+Faster Casting
+Faster Projectiles
+Fire Penetration
+Fork
+Generosity
+Greater Multiple Projectiles
+Increased Area of Effect
+Increased Burning Damage
+Increased Critical Damage
+Increased Critical Strikes
+Increased Duration
+Iron Grip
+Iron Will
+Item Quantity
+Item Rarity
+Knockback
+Lesser Multiple Projectiles
+Life Gain on Hit
+Life Leech
+Lightning Penetration
+Mana Leech
+Melee Damage on Full Life
+Melee Physical Damage
+Melee Splash
+Minion and Totem Elemental Resistance
+Minion Damage
+Minion Life
+Minion Speed
+Multiple Traps
+Multistrike
+Physical Projectile Attack Damage
+Physical to Lightning
+Pierce
+Point Blank
+Power Charge On Critical
+Ranged Attack Totem
+Reduced Duration
+Reduced Mana
+Remote Mine
+Slower Projectiles
+Spell Echo
+Spell Totem
+Stun
+Trap
+Weapon Elemental Damage
+Antique Rapier
+Apex Rapier
+Basket Rapier
+Battered Foil
+Burnished Foil
+Dragonbone Rapier
+Elegant Foil
+Estoc
+Fancy Foil
+Harpy Rapier
+Jagged Foil
+Jewelled Foil
+Pecoraro
+Primeval Rapier
+Rusted Spike
+Serrated Foil
+Spiraled Foil
+Tempered Foil
+Thorn Rapier
+Vaal Rapier
+Whalebone Rapier
+Wyrmbone Rapier
+Abyssal Axe
+Despot Axe
+Double Axe
+Ezomyte Axe
+Gilded Axe
+Headsman Axe
+Jade Chopper
+Jasper Chopper
+Karui Chopper
+Labrys
+Noble Axe
+Poleaxe
+Shadow Axe
+Stone Axe
+Sundering Axe
+Timber Axe
+Vaal Axe
+Void Axe
+Woodsplitter
+Brass Maul
+Colossus Mallet
+Dread Maul
+Driftwood Maul
+Fright Maul
+Great Mallet
+Imperial Maul
+Karui Maul
+Mallet
+Meatgrinder
+Piledriver
+Plated Maul
+Sledgehammer
+Spiked Maul
+Spiny Maul
+Steelhead
+Terror Maul
+Totemic Maul
+Tribal Maul
+Bastard Sword
+Butcher Sword
+Corroded Blade
+Engraved Greatsword
+Etched Greatsword
+Ezomyte Blade
+Footman Sword
+Headman's Sword
+Highland Blade
+Infernal Sword
+Keyblade troll
+Lion Sword
+Longsword
+Ornate Sword
+Reaver Sword
+Spectral Sword
+Tiger Sword
+Two-Handed Sword
+Vaal Greatsword
+Wraith Sword
+Amethyst Flask
+Granite Flask
+Jade Flask
+Quartz Flask
+Quicksilver Flask
+Ruby Flask
+Sapphire Flask
+Topaz Flask
+Carved Wand
+Crystal Wand
+Demon's Horn
+Driftwood Wand
+Engraved Wand
+Faun's Horn
+Goat's Horn
+Imbued Wand
+Omen Wand
+Opal Wand
+Prophecy Wand
+Quartz Wand
+Sage Wand
+Serpent Wand
+Spiraled Wand
+Tornado Wand
