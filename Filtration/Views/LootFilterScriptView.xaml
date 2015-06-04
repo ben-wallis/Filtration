@@ -3,10 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight"
              xmlns:views="clr-namespace:Filtration.Views"
              xmlns:viewModels="clr-namespace:Filtration.ViewModels"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:command="http://www.galasoft.ch/mvvmlight"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewModels:LootFilterScriptViewModel}"
              d:DesignHeight="300" d:DesignWidth="600">
@@ -47,27 +50,27 @@
             </StackPanel>
         </Border>
         <Border Grid.Row="1" BorderThickness="2" BorderBrush="SlateGray" CornerRadius="4" Margin="5,5,5,5">
-            <DockPanel>
+            <DockPanel LastChildFill="True">
             <ToolBarTray DockPanel.Dock="Top">
-                    <ToolBarTray.Resources>
-                        <Style TargetType="{x:Type fa:ImageAwesome}">
-                            <Style.Setters>
-                                <Setter Property="Width" Value="15" />
-                                <Setter Property="Height" Value="15" />
-                            </Style.Setters>
-                        </Style>
-                    </ToolBarTray.Resources>
-                    <ToolBar>
-                        <Button ToolTip="Add Block" Command="{Binding AddBlockAboveCommand}">
-                            <fa:ImageAwesome Icon="Plus" />
-                        </Button>
-                        <Button ToolTip="Add Section" Command="{Binding AddSectionAboveCommand}">
-                            <fa:ImageAwesome Icon="ListUl" />
-                        </Button>
-                        <Button ToolTip="Delete Block/Section" Command="{Binding DeleteBlockCommand}">
-                            <fa:ImageAwesome Icon="Minus" />
-                        </Button>
-                    </ToolBar>
+                <ToolBarTray.Resources>
+                    <Style TargetType="{x:Type fa:ImageAwesome}">
+                        <Style.Setters>
+                            <Setter Property="Width" Value="15" />
+                            <Setter Property="Height" Value="15" />
+                        </Style.Setters>
+                    </Style>
+                </ToolBarTray.Resources>
+                <ToolBar>
+                    <Button ToolTip="Add Block" Command="{Binding AddBlockAboveCommand}">
+                        <fa:ImageAwesome Icon="Plus" />
+                    </Button>
+                    <Button ToolTip="Add Section" Command="{Binding AddSectionAboveCommand}">
+                        <fa:ImageAwesome Icon="ListUl" />
+                    </Button>
+                    <Button ToolTip="Delete Block/Section" Command="{Binding DeleteBlockCommand}">
+                        <fa:ImageAwesome Icon="Minus" />
+                    </Button>
+                </ToolBar>
                     <ToolBar>
                         <Button ToolTip="Move Block to Top" Command="{Binding MoveBlockToTopCommand}">
                             <fa:ImageAwesome Icon="AngleDoubleUp" />
@@ -82,16 +85,31 @@
                             <fa:ImageAwesome Icon="AngleDoubleDown" />
                         </Button>
                     </ToolBar>
-            </ToolBarTray>
-            <userControls:AutoScrollingListBox ItemsSource="{Binding LootFilterBlockViewModels}"
-                                               DockPanel.Dock="Bottom"
-                                               Margin="5,5,5,5"
-                                               HorizontalContentAlignment="Stretch"
-                                               BorderThickness="0"
-                                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                               VirtualizingStackPanel.VirtualizationMode="Recycling"
-                                               ItemTemplateSelector="{StaticResource BlockTemplateSelector}"
-                                               SelectedItem="{Binding SelectedBlockViewModel}">
+                </ToolBarTray>
+                <Expander DockPanel.Dock="Left" ExpandDirection="Right" MaxWidth="200" HorizontalAlignment="Left" >
+                    <Expander.Header>
+                        <TextBlock Text="Section Browser">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="-90"/>
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </Expander.Header>
+                    <ListBox ItemsSource="{Binding LootFilterSectionViewModels}" SelectedItem="{Binding SectionBrowserSelectedViewModel}" x:Name="SectionBrowserListBox" SelectionChanged="SectionBrowserListBox_OnSelectionChanged" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding BlockDescription}" ToolTip="{Binding BlockDescription}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+                <userControls:AutoScrollingListBox ItemsSource="{Binding LootFilterBlockViewModels}"
+                                                   Margin="5,5,5,5"
+                                                   HorizontalContentAlignment="Stretch"
+                                                   BorderThickness="0"
+                                                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                   VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                                   ItemTemplateSelector="{StaticResource BlockTemplateSelector}"
+                                                   SelectedItem="{Binding SelectedBlockViewModel}" x:Name="BlocksListBox">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="BorderBrush" Value="Red"/>
@@ -103,19 +121,19 @@
                         </Style>
                     </ListBox.ItemContainerStyle>
                     <ListBox.Resources>
-                    <Style TargetType="ListBoxItem">
-                        <Style.Resources>
-                            <!-- SelectedItem with focus -->
-                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
-                            <!-- SelectedItem without focus -->
-                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
-                            <!-- SelectedItem text foreground -->
-                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
-                        </Style.Resources>
-                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                    </Style>
-                </ListBox.Resources>
-            </userControls:AutoScrollingListBox>
+                        <Style TargetType="ListBoxItem">
+                            <Style.Resources>
+                                <!-- SelectedItem with focus -->
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                                <!-- SelectedItem without focus -->
+                                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                                <!-- SelectedItem text foreground -->
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                            </Style.Resources>
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                        </Style>
+                    </ListBox.Resources>
+                </userControls:AutoScrollingListBox>
             </DockPanel>
         </Border>
     </Grid>
