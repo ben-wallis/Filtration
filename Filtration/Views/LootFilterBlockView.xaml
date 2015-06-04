@@ -22,7 +22,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="TopLevelGrid">
-        <Border BorderThickness="1" BorderBrush="SlateGray" CornerRadius="2">
+        <Border BorderThickness="1" BorderBrush="SlateGray" CornerRadius="2" Background="White">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

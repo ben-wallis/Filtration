@@ -15,21 +15,14 @@
             </Style.Setters>
         </Style>
     </UserControl.Resources>
-    
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Rectangle Width="7" Grid.Column="0">
-                <Rectangle.Fill>
-                    <SolidColorBrush Color="Gray" />
-                </Rectangle.Fill>
-            </Rectangle>
-        <Border Grid.Column =" 1"  BorderThickness="1" BorderBrush="SlateGray" Background="Gainsboro" CornerRadius="2" Padding="3">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Border Width="7" Grid.Column="0" BorderBrush="Gray" Background="Gray" CornerRadius="2,0,0,2" />
+        <Border Grid.Column =" 1"  BorderThickness="1" BorderBrush="SlateGray" Background="Gainsboro" CornerRadius="0,2,2,0" Padding="3">
             <TextBox Text="{Binding BlockDescription, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" TextWrapping="Wrap"/>
         </Border>
     </Grid>
-        
-    
 </UserControl>

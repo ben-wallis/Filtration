@@ -7,6 +7,7 @@
              xmlns:viewModels="clr-namespace:Filtration.ViewModels"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:dragAndDropLib="clr-namespace:DragAndDropLib;assembly=DragAndDropLib"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewModels:LootFilterScriptViewModel}"
              d:DesignHeight="300" d:DesignWidth="600">
@@ -105,6 +106,7 @@
                 </Expander>
                 <userControls:AutoScrollingListBox ItemsSource="{Binding LootFilterBlockViewModels}"
                                                    Margin="5,5,5,5"
+                                                   Padding="5"
                                                    HorizontalContentAlignment="Stretch"
                                                    BorderThickness="0"
                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -113,7 +115,7 @@
                                                    SelectedItem="{Binding SelectedBlockViewModel}" x:Name="BlocksListBox">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
-                            <Setter Property="BorderBrush" Value="Red"/>
+                            <!--<Setter Property="BorderBrush" Value="Red"/>-->
                             <Style.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
                                     <Setter Property="BorderThickness" Value="1"/>
