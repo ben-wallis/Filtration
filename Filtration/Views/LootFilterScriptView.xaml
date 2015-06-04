@@ -3,13 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight"
              xmlns:views="clr-namespace:Filtration.Views"
              xmlns:viewModels="clr-namespace:Filtration.ViewModels"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
-             xmlns:command="http://www.galasoft.ch/mvvmlight"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewModels:LootFilterScriptViewModel}"
              d:DesignHeight="300" d:DesignWidth="600">
@@ -43,7 +40,7 @@
                         <TextBlock Text="Script Description" VerticalAlignment="Center" /> 
                     </Expander.Header>
                     <Grid>
-                        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="5" MaxLines="20" />
+                        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="5" MaxLines="20" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" />
                     </Grid>
                 </Expander>
                 <!--<TextBlock Text="{Binding Filepath, StringFormat=Path: {0}}" />-->
@@ -88,13 +85,17 @@
                 </ToolBarTray>
                 <Expander DockPanel.Dock="Left" ExpandDirection="Right" MaxWidth="200" HorizontalAlignment="Left" >
                     <Expander.Header>
-                        <TextBlock Text="Section Browser">
+                        <TextBlock Text="Section Browser" Foreground="White" VerticalAlignment="Top">
                             <TextBlock.LayoutTransform>
                                 <RotateTransform Angle="-90"/>
                             </TextBlock.LayoutTransform>
                         </TextBlock>
                     </Expander.Header>
-                    <ListBox ItemsSource="{Binding LootFilterSectionViewModels}" SelectedItem="{Binding SectionBrowserSelectedViewModel}" x:Name="SectionBrowserListBox" SelectionChanged="SectionBrowserListBox_OnSelectionChanged" >
+                    <ListBox ItemsSource="{Binding LootFilterSectionViewModels}"
+                             SelectedItem="{Binding SectionBrowserSelectedViewModel}"
+                             x:Name="SectionBrowserListBox"
+                             SelectionChanged="SectionBrowserListBox_OnSelectionChanged"
+                             ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding BlockDescription}" ToolTip="{Binding BlockDescription}" />
