@@ -41,9 +41,6 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="DragAndDropLib">
-      <HintPath>..\..\DragAndDrop(Complete)\DragAndDropLib\bin\Debug\DragAndDropLib.dll</HintPath>
-    </Reference>
     <Reference Include="FontAwesome.WPF, Version=4.3.0.26714, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\FontAwesome.WPF.4.3.0.2\lib\FontAwesome.WPF.dll</HintPath>
@@ -152,6 +149,7 @@
     <Compile Include="ViewModels\ILootFilterBlockViewModelFactory.cs" />
     <Compile Include="ViewModels\LootFilterBlockViewModel.cs" />
     <Compile Include="ViewModels\LootFilterScriptViewModel.cs" />
+    <Compile Include="Views\BindingProxy.cs" />
     <Compile Include="Views\BlockTemplateSelector.cs" />
     <Compile Include="Views\LootFilterBlockDisplaySettingsView.xaml.cs">
       <DependentUpon>LootFilterBlockDisplaySettingsView.xaml</DependentUpon>

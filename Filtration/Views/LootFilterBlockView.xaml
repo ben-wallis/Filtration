@@ -18,6 +18,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="LootFilterBlockViewDictionary.xaml" />
+                <ResourceDictionary>
+                    <views:BindingProxy x:Key="proxy" Data="{Binding}" />
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -30,28 +33,35 @@
                 </Grid.ColumnDefinitions>
                 <Rectangle Width="7" >
                     <Rectangle.Fill>
-                        <SolidColorBrush Color="Gray"></SolidColorBrush>
-                        <!--<DrawingBrush Viewbox="0,0,5,4" TileMode="Tile">
-                            <DrawingBrush.Drawing>
-                                <GeometryDrawing Brush="#FF9D9D9D">
-                                    <GeometryDrawing.Geometry>
-                                        <GeometryGroup>
-                                            <RectangleGeometry Rect="0,0,1,1" />
-                                            <RectangleGeometry Rect="4,0,1,1" />
-                                            <RectangleGeometry Rect="2,2,1,1" />
-                                        </GeometryGroup>
-                                    </GeometryDrawing.Geometry>
-                                </GeometryDrawing>
-                            </DrawingBrush.Drawing>
-                        </DrawingBrush>-->
+                        <SolidColorBrush Color="Gray" />
                     </Rectangle.Fill>
                 </Rectangle>
                 <Expander Grid.Column="1" Style="{StaticResource ExpanderRightAlignStyle}" x:Name="TestExpander" ToolTip="{Binding BlockDescription}">
                     <Expander.ContextMenu>
                         <ContextMenu>
+                            <ContextMenu.Resources>
+                                <fa:ImageAwesome Icon="Plus" Height="15" Width="15" x:Key="AddBlockIcon" />
+                                <fa:ImageAwesome Icon="ListUl" Height="15" Width="15" x:Key="AddSectionIcon" />
+                                <fa:ImageAwesome Icon="Minus" Height="15" Width="15" x:Key="DeleteBlockIcon" />
+                                <fa:ImageAwesome Icon="AngleDoubleUp" Height="15" Width="15" x:Key="MoveBlockToTopIcon" />
+                                <fa:ImageAwesome Icon="AngleUp" Height="15" Width="15" x:Key="MoveBlockUpIcon" />
+                                <fa:ImageAwesome Icon="AngleDown" Height="15" Width="15" x:Key="MoveBlockDownIcon" />
+                                <fa:ImageAwesome Icon="AngleDoubleDown" Height="15" Width="15" x:Key="MoveBlockToBottomIcon" />
+                                <fa:ImageAwesome Icon="Copy" Height="15" Width="15" x:Key="CopyIcon" />
+                                <fa:ImageAwesome Icon="Paste" Height="15" Width="15" x:Key="PasteIcon" />
+                            </ContextMenu.Resources>
                             <ContextMenu.Items>
-                                <MenuItem Header="Copy" Command="{Binding CopyBlockCommand}" />
+                                <MenuItem Header="Copy" Command="{Binding CopyBlockCommand}" Icon="{StaticResource CopyIcon}" />
+                                <MenuItem Header="Paste" Command="{Binding CopyBlockCommand}" Icon="{StaticResource PasteIcon}" />
                                 <Separator />
+                                <MenuItem Header="Add Block" Command="{Binding Data.AddBlockCommand, Source={StaticResource proxy}}" Icon="{StaticResource AddBlockIcon}" />
+                                <MenuItem Header="Add Section" Command="{Binding Data.AddSectionCommand, Source={StaticResource proxy}}" Icon="{StaticResource AddSectionIcon}">
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Header="Delete Block" Command="{Binding Data.DeleteBlockCommand, Source={StaticResource proxy}}" Icon="{StaticResource DeleteBlockIcon}" />
+                                <Separator />
+                                <MenuItem Header="Move Block Up" Command="{Binding Data.MoveBlockUpCommand, Source={StaticResource proxy}}" Icon="{StaticResource MoveBlockUpIcon}" />
+                                <MenuItem Header="Move Block Down" Command="{Binding Data.MoveBlockDownCommand, Source={StaticResource proxy}}" Icon="{StaticResource MoveBlockDownIcon}" />
                             </ContextMenu.Items>
                         </ContextMenu>
                     </Expander.ContextMenu>
@@ -61,8 +71,9 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
+                            
+                            <!-- BlockItems Summary Panel -->
                             <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
-                                <!-- BlockItems Summary Panel -->
                                 <ItemsControl ItemsSource="{Binding SummaryBlockItems}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -126,6 +137,7 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
+                        
                         <!-- Add Block Item Links -->
                         <ItemsControl ItemsSource="{Binding BlockItemTypesAvailable}" Grid.Row="0" Margin="0,0,0,10">
                             <ItemsControl.ItemsPanel>
@@ -143,6 +155,7 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+                        
                         <!-- Block Items -->
                         <WrapPanel Grid.Row="1" MaxHeight="200">
                             <ItemsControl ItemsSource="{Binding FilterBlockItems}">

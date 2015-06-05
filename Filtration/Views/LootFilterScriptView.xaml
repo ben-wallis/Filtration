@@ -7,7 +7,6 @@
              xmlns:viewModels="clr-namespace:Filtration.ViewModels"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
-             xmlns:dragAndDropLib="clr-namespace:DragAndDropLib;assembly=DragAndDropLib"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewModels:LootFilterScriptViewModel}"
              d:DesignHeight="300" d:DesignWidth="600">
@@ -59,30 +58,16 @@
                     </Style>
                 </ToolBarTray.Resources>
                 <ToolBar>
-                    <Button ToolTip="Add Block" Command="{Binding AddBlockAboveCommand}">
-                        <fa:ImageAwesome Icon="Plus" />
-                    </Button>
-                    <Button ToolTip="Add Section" Command="{Binding AddSectionAboveCommand}">
-                        <fa:ImageAwesome Icon="ListUl" />
-                    </Button>
-                    <Button ToolTip="Delete Block/Section" Command="{Binding DeleteBlockCommand}">
-                        <fa:ImageAwesome Icon="Minus" />
-                    </Button>
+                    <Button ToolTip="Add Block" Command="{Binding AddBlockCommand}" Content="{StaticResource AddBlockToolbarIcon}" />
+                    <Button ToolTip="Add Section" Command="{Binding AddSectionCommand}" Content="{StaticResource AddSectionToolbarIcon}" />
+                    <Button ToolTip="Delete Block/Section" Command="{Binding DeleteBlockCommand}" Content="{StaticResource DeleteBlockToolbarIcon}" />
                 </ToolBar>
-                    <ToolBar>
-                        <Button ToolTip="Move Block to Top" Command="{Binding MoveBlockToTopCommand}">
-                            <fa:ImageAwesome Icon="AngleDoubleUp" />
-                        </Button>
-                        <Button ToolTip="Move Block Up" Command="{Binding MoveBlockUpCommand}">
-                            <fa:ImageAwesome Icon="AngleUp" />
-                        </Button>
-                        <Button ToolTip="Move Block Down" Command="{Binding MoveBlockDownCommand}">
-                            <fa:ImageAwesome Icon="AngleDown" />
-                        </Button>
-                        <Button ToolTip="Move Block to Bottom" Command="{Binding MoveBlockToBottomCommand}">
-                            <fa:ImageAwesome Icon="AngleDoubleDown" />
-                        </Button>
-                    </ToolBar>
+                <ToolBar>
+                    <Button ToolTip="Move Block to Top" Command="{Binding MoveBlockToTopCommand}" Content="{StaticResource MoveBlockToTopToolbarIcon}" />
+                    <Button ToolTip="Move Block Up" Command="{Binding MoveBlockUpCommand}" Content="{StaticResource MoveBlockUpToolbarIcon}" />
+                    <Button ToolTip="Move Block Down" Command="{Binding MoveBlockDownCommand}" Content="{StaticResource MoveBlockDownToolbarIcon}" />
+                    <Button ToolTip="Move Block to Bottom" Command="{Binding MoveBlockToBottomCommand}" Content="{StaticResource MoveBlockToBottomToolbarIcon}" />
+                </ToolBar>
                 </ToolBarTray>
                 <Expander DockPanel.Dock="Left" ExpandDirection="Right" MaxWidth="200" HorizontalAlignment="Left" >
                     <Expander.Header>
@@ -113,6 +98,9 @@
                                                    VirtualizingStackPanel.VirtualizationMode="Recycling"
                                                    ItemTemplateSelector="{StaticResource BlockTemplateSelector}"
                                                    SelectedItem="{Binding SelectedBlockViewModel}" x:Name="BlocksListBox">
+                    <ListBox.InputBindings>
+                        <KeyBinding Key="Delete" Command="{Binding DeleteBlockCommand}" />
+                    </ListBox.InputBindings>
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <!--<Setter Property="BorderBrush" Value="Red"/>-->
@@ -127,11 +115,11 @@
                         <Style TargetType="ListBoxItem">
                             <Style.Resources>
                                 <!-- SelectedItem with focus -->
-                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
-                                <!-- SelectedItem without focus -->
-                                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
-                                <!-- SelectedItem text foreground -->
-                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                                <!--<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                                --><!-- SelectedItem without focus -->
+                                <!--<SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />-->
+                                <!-- SelectedItem text foreground --><!--
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />-->
                             </Style.Resources>
                             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                         </Style>

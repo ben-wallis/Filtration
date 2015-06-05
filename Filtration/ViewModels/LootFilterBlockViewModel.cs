@@ -15,7 +15,7 @@ namespace Filtration.ViewModels
 {
     internal interface ILootFilterBlockViewModel
     {
-        void Initialise(LootFilterBlock lootFilterBlock);
+        void Initialise(LootFilterBlock lootFilterBlock, LootFilterScriptViewModel parentScriptViewModel);
         bool IsDirty { get; set; }
         LootFilterBlock Block { get; }
     }
@@ -25,6 +25,7 @@ namespace Filtration.ViewModels
         private readonly ILootFilterBlockTranslator _translator;
         private readonly IStaticDataService _staticDataService;
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
+        private LootFilterScriptViewModel _parentScriptViewModel;
 
         private bool _displaySettingsPopupOpen;
         
@@ -33,7 +34,11 @@ namespace Filtration.ViewModels
             _translator = translator;
             _staticDataService = staticDataService;
             CopyBlockCommand = new RelayCommand(OnCopyConditionCommand);
-
+            AddBlockCommand = new RelayCommand(OnAddBlockCommand);
+            AddSectionCommand = new RelayCommand(OnAddSectionCommand);
+            DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand);
+            MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand);
+            MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand);
             AddFilterBlockItemCommand = new RelayCommand<Type>(OnAddFilterBlockItemCommand);
             AddAudioVisualBlockItemCommand = new RelayCommand<Type>(OnAddAudioVisualBlockItemCommand);
             RemoveFilterBlockItemCommand = new RelayCommand<ILootFilterBlockItem>(OnRemoveFilterBlockItemCommand);
@@ -41,12 +46,14 @@ namespace Filtration.ViewModels
             PlaySoundCommand = new RelayCommand(OnPlaySoundCommand, () => HasSound);
         }
 
-        public void Initialise(LootFilterBlock lootFilterBlock)
+        public void Initialise(LootFilterBlock lootFilterBlock, LootFilterScriptViewModel parentScriptViewModel)
         {
-            if (lootFilterBlock == null)
+            if (lootFilterBlock == null || parentScriptViewModel == null)
             {
                 throw new ArgumentNullException("lootFilterBlock");
             }
+
+            _parentScriptViewModel = parentScriptViewModel;
 
             Block = lootFilterBlock;
             lootFilterBlock.BlockItems.CollectionChanged += OnBlockItemsCollectionChanged;
@@ -58,6 +65,11 @@ namespace Filtration.ViewModels
         }
 
         public RelayCommand CopyBlockCommand { get; private set; }
+        public RelayCommand AddBlockCommand { get; private set; }
+        public RelayCommand AddSectionCommand { get; private set; }
+        public RelayCommand DeleteBlockCommand { get; private set; }
+        public RelayCommand MoveBlockUpCommand { get; private set; }
+        public RelayCommand MoveBlockDownCommand { get; private set; }
         public RelayCommand<Type> AddFilterBlockItemCommand { get; private set; }
         public RelayCommand<Type> AddAudioVisualBlockItemCommand { get; private set; }
         public RelayCommand<ILootFilterBlockItem> RemoveFilterBlockItemCommand { get; private set; }
@@ -264,6 +276,31 @@ namespace Filtration.ViewModels
             IsDirty = true;
         }
 
+        private void OnAddBlockCommand()
+        {
+            _parentScriptViewModel.AddBlock(this);
+        }
+
+        private void OnAddSectionCommand()
+        {
+            _parentScriptViewModel.AddSection(this);
+        }
+
+        private void OnDeleteBlockCommand()
+        {
+            _parentScriptViewModel.DeleteBlock(this);
+        }
+
+        private void OnMoveBlockUpCommand()
+        {
+            _parentScriptViewModel.MoveBlockUp(this);
+        }
+
+        private void OnMoveBlockDownCommand()
+        {
+            _parentScriptViewModel.MoveBlockDown(this);
+        }
+        
         private bool AddBlockItemAllowed(Type type)
         {
             var blockItem = (ILootFilterBlockItem)Activator.CreateInstance(type);

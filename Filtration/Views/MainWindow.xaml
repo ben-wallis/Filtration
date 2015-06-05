@@ -25,7 +25,14 @@
                 <MenuItem Header="_Copy Script to Clipboard" Command="{Binding CopyScriptCommand}" />
             </MenuItem>
         </Menu>
-        <controls:MetroTabControl ItemsSource="{Binding ScriptViewModels}" SelectedItem="{Binding CurrentScriptViewModel}" DockPanel.Dock="Bottom" Name="TabControl">
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Command="{Binding NewScriptCommand}" Content="{StaticResource NewIcon}" ToolTip="New Script" />
+                <Button Command="{Binding OpenScriptCommand}" Content="{StaticResource OpenIcon}" ToolTip="Open Script" />
+                <Button Command="{Binding SaveScriptCommand}" Content="{StaticResource SaveIcon}" ToolTip="Save Script" />
+            </ToolBar>
+        </ToolBarTray>
+        <controls:MetroTabControl ItemsSource="{Binding ScriptViewModels}" SelectedItem="{Binding CurrentScriptViewModel}" Name="TabControl">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
