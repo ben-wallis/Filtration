@@ -11,6 +11,10 @@ using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace Filtration.ViewModels
 {
+    internal interface IMainWindowViewModel
+    {
+    }
+
     internal class MainWindowViewModel : FiltrationViewModelBase, IMainWindowViewModel
     {
         private LootFilterScript _loadedScript;

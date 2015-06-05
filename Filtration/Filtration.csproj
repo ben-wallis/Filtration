@@ -150,8 +150,6 @@
     <Compile Include="ViewModels\FiltrationViewModelBase.cs" />
     <Compile Include="ViewModels\ILootFilterScriptViewModelFactory.cs" />
     <Compile Include="ViewModels\ILootFilterBlockViewModelFactory.cs" />
-    <Compile Include="ViewModels\ILootFilterScriptViewModel.cs" />
-    <Compile Include="ViewModels\ILootFilterBlockViewModel.cs" />
     <Compile Include="ViewModels\LootFilterBlockViewModel.cs" />
     <Compile Include="ViewModels\LootFilterScriptViewModel.cs" />
     <Compile Include="Views\BlockTemplateSelector.cs" />
@@ -215,9 +213,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\IMainWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="Views\IMainWindow.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

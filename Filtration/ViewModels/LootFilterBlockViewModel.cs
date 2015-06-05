@@ -13,6 +13,13 @@ using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Filtration.ViewModels
 {
+    internal interface ILootFilterBlockViewModel
+    {
+        void Initialise(LootFilterBlock lootFilterBlock);
+        bool IsDirty { get; set; }
+        LootFilterBlock Block { get; }
+    }
+
     internal class LootFilterBlockViewModel : FiltrationViewModelBase, ILootFilterBlockViewModel
     {
         private readonly ILootFilterBlockTranslator _translator;

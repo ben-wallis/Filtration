@@ -9,6 +9,15 @@ using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Filtration.ViewModels
 {
+    internal interface ILootFilterScriptViewModel
+    {
+        LootFilterScript Script { get; }
+        bool IsDirty { get; }
+        string Description { get; set; }
+        void Initialise(LootFilterScript lootFilterScript);
+        void RemoveDirtyFlag();
+    }
+
     internal class LootFilterScriptViewModel : FiltrationViewModelBase, ILootFilterScriptViewModel
     {
         private readonly ILootFilterBlockViewModelFactory _lootFilterBlockViewModelFactory;
