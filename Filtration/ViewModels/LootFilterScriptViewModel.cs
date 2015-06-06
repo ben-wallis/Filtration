@@ -42,7 +42,7 @@ namespace Filtration.ViewModels
             AddBlockCommand = new RelayCommand(OnAddBlockCommand);
             AddSectionCommand = new RelayCommand(OnAddSectionCommand, () => SelectedBlockViewModel != null);
             CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => SelectedBlockViewModel != null);
-            PasteBlockCommand = new RelayCommand(OnPasteBlockCommand);
+            PasteBlockCommand = new RelayCommand(OnPasteBlockCommand, () => SelectedBlockViewModel != null);
             _lootFilterBlockViewModelFactory = lootFilterBlockViewModelFactory;
             _blockTranslator = blockTranslator;
             LootFilterBlockViewModels = new ObservableCollection<ILootFilterBlockViewModel>();

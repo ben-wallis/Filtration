@@ -48,7 +48,7 @@ namespace Filtration.ViewModels
             SaveScriptAsCommand = new RelayCommand(OnSaveScriptAsCommand, () => CurrentScriptViewModel != null);
             CopyScriptCommand = new RelayCommand(OnCopyScriptCommand, () => CurrentScriptViewModel != null);
             CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => CurrentScriptViewModel != null && CurrentScriptViewModel.SelectedBlockViewModel != null);
-            PasteCommand = new RelayCommand(OnPasteCommand, () => CurrentScriptViewModel != null);
+            PasteCommand = new RelayCommand(OnPasteCommand, () => CurrentScriptViewModel != null && CurrentScriptViewModel.SelectedBlockViewModel != null);
             NewScriptCommand = new RelayCommand(OnNewScriptCommand);
             CloseScriptCommand = new RelayCommand<ILootFilterScriptViewModel>(OnCloseScriptCommand, v => CurrentScriptViewModel != null);
             ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, () => CurrentScriptViewModel != null);
