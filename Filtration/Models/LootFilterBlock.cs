@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Filtration.Enums;
 using Filtration.Models.BlockItemBaseTypes;
+using Filtration.Models.BlockItemTypes;
 
 namespace Filtration.Models
 {
@@ -40,6 +41,11 @@ namespace Filtration.Models
         {
             var blockItem = (ILootFilterBlockItem)Activator.CreateInstance(type);
             return BlockCount(type) < blockItem.MaximumAllowed;
+        }
+
+        public bool HasBlockItemOfType<T>()
+        {
+            return BlockItems.Count(b => b is T) > 0; 
         }
     }
 }

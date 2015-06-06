@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Windows;
 using System.Windows.Media;
 using Filtration.Models;
 using Filtration.Models.BlockItemTypes;
 using Filtration.Services;
-using Filtration.Translators;
+using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Filtration.ViewModels
@@ -23,14 +22,17 @@ namespace Filtration.ViewModels
     internal class LootFilterBlockViewModel : FiltrationViewModelBase, ILootFilterBlockViewModel
     {
         private readonly IStaticDataService _staticDataService;
+        private readonly IReplaceColorsViewModel _replaceColorsViewModel;
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
         private LootFilterScriptViewModel _parentScriptViewModel;
 
         private bool _displaySettingsPopupOpen;
         
-        public LootFilterBlockViewModel(IStaticDataService staticDataService)
+        public LootFilterBlockViewModel(IStaticDataService staticDataService, IReplaceColorsViewModel replaceColorsViewModel)
         {
             _staticDataService = staticDataService;
+            _replaceColorsViewModel = replaceColorsViewModel;
+
             CopyBlockCommand = new RelayCommand(OnCopyBlockCommand);
             PasteBlockCommand = new RelayCommand(OnPasteBlockCommand);
             AddBlockCommand = new RelayCommand(OnAddBlockCommand);
@@ -40,6 +42,7 @@ namespace Filtration.ViewModels
             MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand);
             MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand);
             MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand);
+            ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand);
             AddFilterBlockItemCommand = new RelayCommand<Type>(OnAddFilterBlockItemCommand);
             AddAudioVisualBlockItemCommand = new RelayCommand<Type>(OnAddAudioVisualBlockItemCommand);
             RemoveFilterBlockItemCommand = new RelayCommand<ILootFilterBlockItem>(OnRemoveFilterBlockItemCommand);
@@ -74,6 +77,7 @@ namespace Filtration.ViewModels
         public RelayCommand MoveBlockDownCommand { get; private set; }
         public RelayCommand MoveBlockToTopCommand { get; private set; }
         public RelayCommand MoveBlockToBottomCommand { get; private set; }
+        public RelayCommand ReplaceColorsCommand { get; private set; }
         public RelayCommand<Type> AddFilterBlockItemCommand { get; private set; }
         public RelayCommand<Type> AddAudioVisualBlockItemCommand { get; private set; }
         public RelayCommand<ILootFilterBlockItem> RemoveFilterBlockItemCommand { get; private set; }
@@ -188,7 +192,7 @@ namespace Filtration.ViewModels
         
         public bool HasTextColor
         {
-            get { return FilterBlockItems.Count(b => b is TextColorBlockItem) > 0; }
+            get { return Block.HasBlockItemOfType<TextColorBlockItem>(); }
         }
 
         public Color DisplayTextColor
@@ -203,7 +207,7 @@ namespace Filtration.ViewModels
 
         public bool HasBackgroundColor
         {
-            get { return FilterBlockItems.Count(b => b is BackgroundColorBlockItem) > 0; }
+            get { return Block.HasBlockItemOfType<BackgroundColorBlockItem>(); }
         }
 
         public Color DisplayBackgroundColor
@@ -218,7 +222,7 @@ namespace Filtration.ViewModels
 
         public bool HasBorderColor
         {
-            get { return FilterBlockItems.Count(b => b is BorderColorBlockItem) > 0; }
+            get { return Block.HasBlockItemOfType<BorderColorBlockItem>(); }
         }
 
         public Color DisplayBorderColor
@@ -233,12 +237,12 @@ namespace Filtration.ViewModels
 
         public bool HasFontSize
         {
-            get { return FilterBlockItems.Count(b => b is FontSizeBlockItem) > 0; }
+            get { return Block.HasBlockItemOfType<FontSizeBlockItem>(); }
         }
 
         public bool HasSound
         {
-            get { return FilterBlockItems.Count(b => b is SoundBlockItem) > 0; }
+            get { return Block.HasBlockItemOfType<SoundBlockItem>(); }
         }
 
         private void OnAddFilterBlockItemCommand(Type blockItemType)
@@ -319,6 +323,13 @@ namespace Filtration.ViewModels
         private void OnMoveBlockToBottomCommand()
         {
             _parentScriptViewModel.MoveBlockToBottom(this);
+        }
+
+        private void OnReplaceColorsCommand()
+        {
+            _replaceColorsViewModel.Initialise(_parentScriptViewModel.Script, Block);
+            var replaceColorsWindow = new ReplaceColorsWindow { DataContext = _replaceColorsViewModel };
+            replaceColorsWindow.ShowDialog();
         }
         
         private bool AddBlockItemAllowed(Type type)

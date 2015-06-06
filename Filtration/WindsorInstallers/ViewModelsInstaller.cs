@@ -25,6 +25,11 @@ namespace Filtration.WindsorInstallers
                     .ImplementedBy<LootFilterScriptViewModel>()
                     .LifeStyle.Transient);
 
+            container.Register(
+                Component.For<IReplaceColorsViewModel>()
+                    .ImplementedBy<ReplaceColorsViewModel>()
+                    .LifeStyle.Singleton);
+
             container.AddFacility<TypedFactoryFacility>();
             container.Register(
                 Component.For<ILootFilterBlockViewModelFactory>().AsFactory());

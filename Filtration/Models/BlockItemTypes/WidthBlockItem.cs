@@ -40,7 +40,7 @@ namespace Filtration.Models.BlockItemTypes
 
         public override Color SummaryBackgroundColor
         {
-            get { return Colors.Tan; }
+            get { return Colors.MediumPurple; }
         }
 
         public override Color SummaryTextColor

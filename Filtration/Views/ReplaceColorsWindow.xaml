@@ -1,0 +1,75 @@
+﻿<controls:MetroWindow x:Class="Filtration.Views.ReplaceColorsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:viewModels="clr-namespace:Filtration.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=viewModels:ReplaceColorsViewModel}"
+        ShowMaxRestoreButton="False"
+        Title="Replace Script Colors" Height="230" Width="500"
+        BorderThickness="1" BorderBrush="Black"
+        Loaded="ReplaceColorsWindow_OnLoaded">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="LootFilterBlockViewDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="20"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <CheckBox Grid.Row="0" Grid.Column="0" Content="Replace Text Color" IsChecked="{Binding ReplaceTextColor}" />
+        <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">Existing Text Color</TextBlock>
+        <xctk:ColorPicker Grid.Row="0" Grid.Column="4" SelectedColor="{Binding ReplaceColorsParameterSet.OldTextColor}"  />
+        <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">New Text Color</TextBlock>
+        <xctk:ColorPicker Grid.Row="1" Grid.Column="4" SelectedColor="{Binding NewTextColor}"  />
+
+
+        <CheckBox Grid.Row="2" Grid.Column="0" Content="Replace Background Color" IsChecked="{Binding ReplaceBackgroundColor}" />
+        <TextBlock Grid.Row="2" Grid.Column="2" VerticalAlignment="Center">Existing Background Color</TextBlock>
+        <xctk:ColorPicker Grid.Row="2" Grid.Column="4" SelectedColor="{Binding ReplaceColorsParameterSet.OldBackgroundColor}"  />
+        <TextBlock Grid.Row="3" Grid.Column="2" VerticalAlignment="Center">New Background Color</TextBlock>
+        <xctk:ColorPicker Grid.Row="3" Grid.Column="4" SelectedColor="{Binding NewBackgroundColor}"  />
+
+        <CheckBox Grid.Row="4" Grid.Column="0" Content="Replace Border Color" IsChecked="{Binding ReplaceBorderColor}" />
+        <TextBlock Grid.Row="4" Grid.Column="2" VerticalAlignment="Center">Existing Border Color</TextBlock>
+        <xctk:ColorPicker Grid.Row="4" Grid.Column="4" SelectedColor="{Binding ReplaceColorsParameterSet.OldBorderColor}"  />
+        <TextBlock Grid.Row="5" Grid.Column="2" VerticalAlignment="Center">New Border Color</TextBlock>
+        <xctk:ColorPicker Grid.Row="5" Grid.Column="4" SelectedColor="{Binding NewBorderColor}"  />
+
+        <Grid Grid.Row="6" Grid.Column="4">
+            <Image Source="pack://application:,,,/resources/groundtile.png" Stretch="Fill" />
+            <Border Padding="4,2,4,2" BorderThickness="2" BorderBrush="{Binding DisplayBorderColor, Converter={StaticResource ColorToSolidColorBrushConverter}}">
+                <Border.Background>
+                    <SolidColorBrush Color="{Binding DisplayBackgroundColor}" />
+                </Border.Background>
+                <TextBlock TextAlignment="Center" Text="Test Item Preview" Style="{StaticResource PathOfExileFont}">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{Binding DisplayTextColor}" />
+                    </TextBlock.Foreground>
+                </TextBlock>
+            </Border>
+        </Grid>
+        <TextBlock Grid.Row="7" Grid.Column="2" VerticalAlignment="Center">Preview</TextBlock>
+        <Button Grid.Row="7" Grid.Column="4" Command="{Binding ReplaceColorsCommand}">Replace Colors</Button>
+    </Grid>
+</controls:MetroWindow>

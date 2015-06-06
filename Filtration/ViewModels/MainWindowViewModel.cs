@@ -26,16 +26,19 @@ namespace Filtration.ViewModels
         private readonly ILootFilterScriptViewModelFactory _lootFilterScriptViewModelFactory;
         private readonly ILootFilterPersistenceService _persistenceService;
         private readonly ILootFilterScriptTranslator _lootFilterScriptTranslator;
+        private readonly IReplaceColorsViewModel _replaceColorsViewModel;
         private ILootFilterScriptViewModel _currentScriptViewModel;
         private readonly ObservableCollection<ILootFilterScriptViewModel> _scriptViewModels;
 
         public MainWindowViewModel(ILootFilterScriptViewModelFactory lootFilterScriptViewModelFactory,
                                    ILootFilterPersistenceService persistenceService,
-                                   ILootFilterScriptTranslator lootFilterScriptTranslator)
+                                   ILootFilterScriptTranslator lootFilterScriptTranslator,
+                                   IReplaceColorsViewModel replaceColorsViewModel)
         {
             _lootFilterScriptViewModelFactory = lootFilterScriptViewModelFactory;
             _persistenceService = persistenceService;
             _lootFilterScriptTranslator = lootFilterScriptTranslator;
+            _replaceColorsViewModel = replaceColorsViewModel;
 
             _scriptViewModels = new ObservableCollection<ILootFilterScriptViewModel>();
 
@@ -48,8 +51,9 @@ namespace Filtration.ViewModels
             PasteCommand = new RelayCommand(OnPasteCommand, () => CurrentScriptViewModel != null);
             NewScriptCommand = new RelayCommand(OnNewScriptCommand);
             CloseScriptCommand = new RelayCommand<ILootFilterScriptViewModel>(OnCloseScriptCommand, v => CurrentScriptViewModel != null);
+            ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, () => CurrentScriptViewModel != null);
 
-            LoadScriptFromFile("C:\\ThioleLootFilter.txt");
+            //LoadScriptFromFile("C:\\ThioleLootFilter.txt");
 
             SetLootFilterScriptDirectory();
         }
@@ -63,6 +67,7 @@ namespace Filtration.ViewModels
         public RelayCommand NewScriptCommand { get; private set; }
         public RelayCommand<ILootFilterScriptViewModel> CloseScriptCommand { get; private set; }
         public RelayCommand OpenAboutWindowCommand { get; private set; }
+        public RelayCommand ReplaceColorsCommand { get; private set; }
 
         public ObservableCollection<ILootFilterScriptViewModel> ScriptViewModels
         {
@@ -87,9 +92,15 @@ namespace Filtration.ViewModels
             {
                 _currentScriptViewModel = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged("NoScriptsOpen");
                 SaveScriptCommand.RaiseCanExecuteChanged();
                 SaveScriptAsCommand.RaiseCanExecuteChanged();
             }
+        }
+
+        public bool NoScriptsOpen
+        {
+            get { return _currentScriptViewModel == null; }
         }
 
         private void OnOpenAboutWindowCommand()
@@ -204,6 +215,13 @@ namespace Filtration.ViewModels
                     MessageBoxIcon.Error);
                 CurrentScriptViewModel.Script.FilePath = previousFilePath;
             }
+        }
+
+        private void OnReplaceColorsCommand()
+        {
+            _replaceColorsViewModel.Initialise(CurrentScriptViewModel.Script);
+            var replaceColorsWindow = new ReplaceColorsWindow {DataContext = _replaceColorsViewModel};
+            replaceColorsWindow.ShowDialog();
         }
 
         private bool ValidateScript()

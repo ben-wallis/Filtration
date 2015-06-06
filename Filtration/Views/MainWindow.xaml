@@ -11,6 +11,10 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
         Title="{Binding WindowTitle}" Height="707" Width="930" BorderThickness="1" BorderBrush="Black">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+        
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -27,6 +31,9 @@
                 <Separator />
                 <MenuItem Header="Copy _Script" Command="{Binding CopyScriptCommand}" Icon="{StaticResource CopyIcon}" />
             </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="_Replace Colors" Command="{Binding ReplaceColorsCommand}" Icon="{StaticResource ReplaceColorsIcon}" />
+            </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="_About" Command="{Binding OpenAboutWindowCommand}" Icon="{StaticResource AboutIcon}" />
             </MenuItem>
@@ -38,22 +45,26 @@
                 <Button Command="{Binding SaveScriptCommand}" Content="{StaticResource SaveIcon}" ToolTip="Save Script" />
             </ToolBar>
         </ToolBarTray>
-        <controls:MetroTabControl ItemsSource="{Binding ScriptViewModels}" SelectedItem="{Binding CurrentScriptViewModel}" Name="TabControl">
-            <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-                        <TextBlock Text="{Binding DisplayName}" FontSize="16" VerticalAlignment="Center" Margin="0,0,3,0" />
-                        <userControls:CrossButton Height="12"  Command="{Binding ElementName=TabControl, Path=DataContext.CloseScriptCommand}" CommandParameter="{Binding}" />
-                    </StackPanel>
-                </DataTemplate>
-            </TabControl.ItemTemplate>
-            <TabControl.ContentTemplate>
-                <DataTemplate>
-                    <controls:MetroContentControl>
-                        <views:LootFilterScriptView DataContext="{Binding}" />
-                    </controls:MetroContentControl>
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-        </controls:MetroTabControl>
+        <Grid>
+            <controls:MetroTabControl ItemsSource="{Binding ScriptViewModels}" SelectedItem="{Binding CurrentScriptViewModel}" Name="TabControl" Background="White">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                            <TextBlock Text="{Binding DisplayName}" FontSize="16" VerticalAlignment="Center" Margin="0,0,3,0" />
+                            <userControls:CrossButton Height="12"  Command="{Binding ElementName=TabControl, Path=DataContext.CloseScriptCommand}" CommandParameter="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <controls:MetroContentControl>
+                            <views:LootFilterScriptView DataContext="{Binding}" />
+                        </controls:MetroContentControl>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </controls:MetroTabControl>
+            <TextBlock FontStyle="Italic" Margin="5" FontSize="13" Visibility="{Binding NoScriptsOpen, Converter={StaticResource BooleanToVisibilityConverter}}">Welcome to Filtration, to get started either 
+                <Hyperlink Command="{Binding NewScriptCommand}">create a new script</Hyperlink> or <Hyperlink Command="{Binding OpenScriptCommand}">open an existing script</Hyperlink></TextBlock>
+        </Grid>
     </DockPanel>
 </controls:MetroWindow>

@@ -37,12 +37,12 @@ namespace Filtration.Models.BlockItemTypes
 
         public override Color SummaryBackgroundColor
         {
-            get { return Colors.Plum; }
+            get { return Colors.LightBlue; }
         }
 
         public override Color SummaryTextColor
         {
-            get { return Colors.White; }
+            get { return Colors.Black; }
         }
 
         public override int SortOrder

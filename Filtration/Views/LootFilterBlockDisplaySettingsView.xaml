@@ -92,7 +92,7 @@
                             <TextBlock Grid.Column="0" Text="{Binding DisplayHeading}" Style="{StaticResource DisplayHeading}" />
                             <WrapPanel  Grid.Column="1"  Grid.Row="0" HorizontalAlignment="Right">
                                 <Button Command="{Binding ElementName=SettingsGrid, Path=DataContext.PlaySoundCommand}" Width="20" Height="20" Padding="3" Background="Transparent" BorderBrush="Transparent">
-                                    <Image Source="/Filtration;component/Resources/Icons/play_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Button>
                                 <ComboBox ItemsSource="{Binding ElementName=SettingsGrid, Path=DataContext.SoundsAvailable}" SelectedValue="{Binding Value}" />
                                 <xctk:ShortUpDown Value="{Binding Path=SecondValue}" Minimum="1" Maximum="100" HorizontalAlignment="Right" ToolTip="Volume"/>

@@ -34,6 +34,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Filtration.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\filtration.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
@@ -129,6 +135,7 @@
     <Compile Include="Models\LootFilterSection.cs" />
     <Compile Include="Models\NumericFilterPredicate.cs" />
     <Compile Include="Models\BlockItemBaseTypes\SocketGroupBlockItemBase.cs" />
+    <Compile Include="Models\ReplaceColorsParameterSet.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Services\FileSystemService.cs" />
     <Compile Include="Services\LootFilterPersistenceService.cs" />
@@ -146,6 +153,7 @@
     <Compile Include="ViewModels\ILootFilterBlockViewModelFactory.cs" />
     <Compile Include="ViewModels\LootFilterBlockViewModel.cs" />
     <Compile Include="ViewModels\LootFilterScriptViewModel.cs" />
+    <Compile Include="ViewModels\ReplaceColorsViewModel.cs" />
     <Compile Include="Views\BindingProxy.cs" />
     <Compile Include="Views\BlockTemplateSelector.cs" />
     <Compile Include="Views\LootFilterBlockDisplaySettingsView.xaml.cs">
@@ -165,6 +173,9 @@
     </Compile>
     <Compile Include="Views\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReplaceColorsWindow.xaml.cs">
+      <DependentUpon>ReplaceColorsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindsorInstallers\ModelsInstaller.cs" />
     <Compile Include="WindsorInstallers\ServicesInstaller.cs" />
@@ -228,6 +239,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ReplaceColorsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -282,6 +297,8 @@
     <Resource Include="Resources\Icons\arrow_top_icon.png" />
     <Resource Include="Resources\Icons\arrow_bottom_icon.png" />
     <Resource Include="Resources\Icons\about_icon.png" />
+    <Resource Include="Resources\filtration.ico" />
+    <Resource Include="Resources\Icons\replace_colors_icon.png" />
     <Content Include="Resources\ItemBaseTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

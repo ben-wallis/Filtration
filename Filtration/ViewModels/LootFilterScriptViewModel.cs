@@ -15,6 +15,7 @@ namespace Filtration.ViewModels
         LootFilterScript Script { get; }
         bool IsDirty { get; }
         string Description { get; set; }
+        string DisplayName { get; }
         void Initialise(LootFilterScript lootFilterScript);
         ILootFilterBlockViewModel SelectedBlockViewModel { get; set; }
         void RemoveDirtyFlag();
@@ -93,7 +94,10 @@ namespace Filtration.ViewModels
         public bool IsDirty
         {
             get { return _isDirty || HasDirtyChildren; }
-            set { _isDirty = value; }
+            set
+            {
+                _isDirty = value;
+            }
         }
 
         private bool HasDirtyChildren
@@ -113,6 +117,8 @@ namespace Filtration.ViewModels
         {
             CleanChildren();
             IsDirty = false;
+            RaisePropertyChanged("Filename");
+            RaisePropertyChanged("DisplayName");
         }
         
         public string DisplayName
@@ -279,7 +285,7 @@ namespace Filtration.ViewModels
             var newBlock = new LootFilterBlock();
             vm.Initialise(newBlock, this);
 
-            if (LootFilterBlockViewModels.Count > 0)
+            if (targetBlockViewModel != null)
             {
                 Script.LootFilterBlocks.Insert(Script.LootFilterBlocks.IndexOf(targetBlockViewModel.Block) + 1, newBlock);
                 LootFilterBlockViewModels.Insert(LootFilterBlockViewModels.IndexOf(targetBlockViewModel) + 1, vm);

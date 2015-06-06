@@ -32,7 +32,6 @@
             <RowDefinition Height="Auto"/> 
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <!--<Border Grid.Row="0" BorderThickness="2" BorderBrush="SlateGray" CornerRadius="4" Margin="5,5,5,0">-->
         <Border Grid.Row="0" BorderThickness="1" BorderBrush="DarkGray"  Margin="5,5,5,0">
             <StackPanel Margin="2,2,2,2">
                 <Expander Style="{StaticResource ExpanderRightAlignStyle}">
@@ -45,7 +44,6 @@
                 </Expander>
             </StackPanel>
         </Border>
-        <!--<Border Grid.Row="1" BorderThickness="2" BorderBrush="SlateGray" CornerRadius="4" Margin="5,5,5,5">-->
         <Border Grid.Row="1" BorderThickness="1" BorderBrush="DarkGray" Margin="5,5,5,5" Padding="2">
             <DockPanel LastChildFill="True">
             <ToolBarTray DockPanel.Dock="Top">

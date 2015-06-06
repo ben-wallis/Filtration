@@ -52,6 +52,8 @@
                                 <MenuItem Header="Move Block Up" Command="{Binding Data.MoveBlockUpCommand, Source={StaticResource proxy}}" Icon="{StaticResource MoveUpIcon}" />
                                 <MenuItem Header="Move Block Down" Command="{Binding Data.MoveBlockDownCommand, Source={StaticResource proxy}}" Icon="{StaticResource MoveDownIcon}" />
                                 <MenuItem Header="Move Block To Bottom" Command="{Binding Data.MoveBlockToBottomCommand, Source={StaticResource proxy}}" Icon="{StaticResource MoveToBottomIcon}" />
+                                <Separator />
+                                <MenuItem Header="Replace Colors" Command="{Binding Data.ReplaceColorsCommand, Source={StaticResource proxy}}" Icon="{StaticResource ReplaceColorsIcon}" />
                             </ContextMenu.Items>
                         </ContextMenu>
                     </Expander.ContextMenu>
