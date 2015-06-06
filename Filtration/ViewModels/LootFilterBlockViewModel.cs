@@ -33,7 +33,8 @@ namespace Filtration.ViewModels
         {
             _translator = translator;
             _staticDataService = staticDataService;
-            CopyBlockCommand = new RelayCommand(OnCopyConditionCommand);
+            CopyBlockCommand = new RelayCommand(OnCopyBlockCommand);
+            PasteBlockCommand = new RelayCommand(OnPasteBlockCommand);
             AddBlockCommand = new RelayCommand(OnAddBlockCommand);
             AddSectionCommand = new RelayCommand(OnAddSectionCommand);
             DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand);
@@ -65,6 +66,7 @@ namespace Filtration.ViewModels
         }
 
         public RelayCommand CopyBlockCommand { get; private set; }
+        public RelayCommand PasteBlockCommand { get; private set; }
         public RelayCommand AddBlockCommand { get; private set; }
         public RelayCommand AddSectionCommand { get; private set; }
         public RelayCommand DeleteBlockCommand { get; private set; }
@@ -237,11 +239,6 @@ namespace Filtration.ViewModels
             get { return FilterBlockItems.Count(b => b is SoundBlockItem) > 0; }
         }
 
-        private void OnCopyConditionCommand()
-        {
-            Clipboard.SetText(_translator.TranslateLootFilterBlockToString(Block));
-        }
-
         private void OnAddFilterBlockItemCommand(Type blockItemType)
         {
             if (!AddBlockItemAllowed(blockItemType)) return;
@@ -275,6 +272,17 @@ namespace Filtration.ViewModels
             OnAudioVisualBlockItemChanged(null, null);
             IsDirty = true;
         }
+
+        private void OnCopyBlockCommand()
+        {
+            _parentScriptViewModel.CopyBlock(this);
+        }
+
+        private void OnPasteBlockCommand()
+        {
+            _parentScriptViewModel.PasteBlock(this);
+        }
+
 
         private void OnAddBlockCommand()
         {
@@ -310,7 +318,7 @@ namespace Filtration.ViewModels
 
         private void OnPlaySoundCommand()
         {
-            var soundUri = "Resources/AlertSound" + FilterBlockItems.OfType<SoundBlockItem>().First().Value + ".wav";
+            var soundUri = "Resources/AlertSounds/AlertSound" + FilterBlockItems.OfType<SoundBlockItem>().First().Value + ".wav";
             _mediaPlayer.Open(new Uri(soundUri, UriKind.Relative));
             _mediaPlayer.Play();
         }

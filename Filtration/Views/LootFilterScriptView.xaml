@@ -49,24 +49,24 @@
         <Border Grid.Row="1" BorderThickness="2" BorderBrush="SlateGray" CornerRadius="4" Margin="5,5,5,5">
             <DockPanel LastChildFill="True">
             <ToolBarTray DockPanel.Dock="Top">
-                <ToolBarTray.Resources>
+                <!--<ToolBarTray.Resources>
                     <Style TargetType="{x:Type fa:ImageAwesome}">
                         <Style.Setters>
                             <Setter Property="Width" Value="15" />
                             <Setter Property="Height" Value="15" />
                         </Style.Setters>
                     </Style>
-                </ToolBarTray.Resources>
+                </ToolBarTray.Resources>-->
                 <ToolBar>
-                    <Button ToolTip="Add Block" Command="{Binding AddBlockCommand}" Content="{StaticResource AddBlockToolbarIcon}" />
-                    <Button ToolTip="Add Section" Command="{Binding AddSectionCommand}" Content="{StaticResource AddSectionToolbarIcon}" />
-                    <Button ToolTip="Delete Block/Section" Command="{Binding DeleteBlockCommand}" Content="{StaticResource DeleteBlockToolbarIcon}" />
+                    <Button ToolTip="Add Block" Command="{Binding AddBlockCommand}" Content="{DynamicResource AddBlockIcon}" />
+                    <Button ToolTip="Add Section" Command="{Binding AddSectionCommand}" Content="{DynamicResource AddSectionIcon}" />
+                    <Button ToolTip="Delete Block/Section" Command="{Binding DeleteBlockCommand}" Content="{DynamicResource DeleteIcon}" />
                 </ToolBar>
                 <ToolBar>
-                    <Button ToolTip="Move Block to Top" Command="{Binding MoveBlockToTopCommand}" Content="{StaticResource MoveBlockToTopToolbarIcon}" />
-                    <Button ToolTip="Move Block Up" Command="{Binding MoveBlockUpCommand}" Content="{StaticResource MoveBlockUpToolbarIcon}" />
-                    <Button ToolTip="Move Block Down" Command="{Binding MoveBlockDownCommand}" Content="{StaticResource MoveBlockDownToolbarIcon}" />
-                    <Button ToolTip="Move Block to Bottom" Command="{Binding MoveBlockToBottomCommand}" Content="{StaticResource MoveBlockToBottomToolbarIcon}" />
+                    <Button ToolTip="Move Block to Top" Command="{Binding MoveBlockToTopCommand}" Content="{DynamicResource MoveToTopIcon}" />
+                    <Button ToolTip="Move Block Up" Command="{Binding MoveBlockUpCommand}" Content="{DynamicResource MoveUpIcon}" />
+                    <Button ToolTip="Move Block Down" Command="{Binding MoveBlockDownCommand}" Content="{DynamicResource MoveDownIcon}" />
+                    <Button ToolTip="Move Block to Bottom" Command="{Binding MoveBlockToBottomCommand}" Content="{DynamicResource MoveToBottomIcon}" />
                 </ToolBar>
                 </ToolBarTray>
                 <Expander DockPanel.Dock="Left" ExpandDirection="Right" MaxWidth="200" HorizontalAlignment="Left" >

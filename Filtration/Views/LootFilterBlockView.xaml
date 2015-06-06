@@ -8,7 +8,6 @@
              xmlns:views="clr-namespace:Filtration.Views"
              xmlns:blockItemBaseTypes="clr-namespace:Filtration.Models.BlockItemBaseTypes"
              xmlns:blockItemTypes="clr-namespace:Filtration.Models.BlockItemTypes"
-             xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:enums="clr-namespace:Filtration.Enums"
              xmlns:extensions="clr-namespace:Filtration.Extensions"
              mc:Ignorable="d" 
@@ -39,29 +38,18 @@
                 <Expander Grid.Column="1" Style="{StaticResource ExpanderRightAlignStyle}" x:Name="TestExpander" ToolTip="{Binding BlockDescription}">
                     <Expander.ContextMenu>
                         <ContextMenu>
-                            <ContextMenu.Resources>
-                                <fa:ImageAwesome Icon="Plus" Height="15" Width="15" x:Key="AddBlockIcon" />
-                                <fa:ImageAwesome Icon="ListUl" Height="15" Width="15" x:Key="AddSectionIcon" />
-                                <fa:ImageAwesome Icon="Minus" Height="15" Width="15" x:Key="DeleteBlockIcon" />
-                                <fa:ImageAwesome Icon="AngleDoubleUp" Height="15" Width="15" x:Key="MoveBlockToTopIcon" />
-                                <fa:ImageAwesome Icon="AngleUp" Height="15" Width="15" x:Key="MoveBlockUpIcon" />
-                                <fa:ImageAwesome Icon="AngleDown" Height="15" Width="15" x:Key="MoveBlockDownIcon" />
-                                <fa:ImageAwesome Icon="AngleDoubleDown" Height="15" Width="15" x:Key="MoveBlockToBottomIcon" />
-                                <fa:ImageAwesome Icon="Copy" Height="15" Width="15" x:Key="CopyIcon" />
-                                <fa:ImageAwesome Icon="Paste" Height="15" Width="15" x:Key="PasteIcon" />
-                            </ContextMenu.Resources>
                             <ContextMenu.Items>
-                                <MenuItem Header="Copy" Command="{Binding CopyBlockCommand}" Icon="{StaticResource CopyIcon}" />
-                                <MenuItem Header="Paste" Command="{Binding CopyBlockCommand}" Icon="{StaticResource PasteIcon}" />
+                                <MenuItem Header="Copy" Command="{Binding CopyBlockCommand}" Icon="{DynamicResource CopyIcon}" />
+                                <MenuItem Header="Paste" Command="{Binding PasteBlockCommand}" Icon="{DynamicResource PasteIcon}" />
                                 <Separator />
-                                <MenuItem Header="Add Block" Command="{Binding Data.AddBlockCommand, Source={StaticResource proxy}}" Icon="{StaticResource AddBlockIcon}" />
-                                <MenuItem Header="Add Section" Command="{Binding Data.AddSectionCommand, Source={StaticResource proxy}}" Icon="{StaticResource AddSectionIcon}">
+                                <MenuItem Header="Add Block" Command="{Binding Data.AddBlockCommand, Source={StaticResource proxy}}" Icon="{DynamicResource AddBlockIcon}" />
+                                <MenuItem Header="Add Section" Command="{Binding Data.AddSectionCommand, Source={StaticResource proxy}}" Icon="{DynamicResource AddSectionIcon}">
                                 </MenuItem>
                                 <Separator />
-                                <MenuItem Header="Delete Block" Command="{Binding Data.DeleteBlockCommand, Source={StaticResource proxy}}" Icon="{StaticResource DeleteBlockIcon}" />
+                                <MenuItem Header="Delete Block" Command="{Binding Data.DeleteBlockCommand, Source={StaticResource proxy}}" Icon="{DynamicResource DeleteIcon}" />
                                 <Separator />
-                                <MenuItem Header="Move Block Up" Command="{Binding Data.MoveBlockUpCommand, Source={StaticResource proxy}}" Icon="{StaticResource MoveBlockUpIcon}" />
-                                <MenuItem Header="Move Block Down" Command="{Binding Data.MoveBlockDownCommand, Source={StaticResource proxy}}" Icon="{StaticResource MoveBlockDownIcon}" />
+                                <MenuItem Header="Move Block Up" Command="{Binding Data.MoveBlockUpCommand, Source={StaticResource proxy}}" Icon="{DynamicResource MoveUpIcon}" />
+                                <MenuItem Header="Move Block Down" Command="{Binding Data.MoveBlockDownCommand, Source={StaticResource proxy}}" Icon="{DynamicResource MoveDownIcon}" />
                             </ContextMenu.Items>
                         </ContextMenu>
                     </Expander.ContextMenu>
@@ -92,7 +80,7 @@
 
                             <!-- Item Preview Box -->
                             <WrapPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
-                                <fa:ImageAwesome Icon="VolumeUp" VerticalAlignment="Center" HorizontalAlignment="Center" Height="15" Width="15" Margin="0,0,3,0" Visibility="{Binding HasSound, Converter={StaticResource BooleanVisibilityConverter}}" />
+                                <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="15" Width="15" Margin="0,0,3,0" Visibility="{Binding HasSound, Converter={StaticResource BooleanVisibilityConverter}}" />
                                 <ToggleButton Width="140"
                                               Height="25"
                                               Margin="0,0,8,0"

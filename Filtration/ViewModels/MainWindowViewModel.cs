@@ -13,6 +13,7 @@ namespace Filtration.ViewModels
 {
     internal interface IMainWindowViewModel
     {
+        void LoadScriptFromFile(string path);
     }
 
     internal class MainWindowViewModel : FiltrationViewModelBase, IMainWindowViewModel
@@ -38,6 +39,8 @@ namespace Filtration.ViewModels
             SaveScriptCommand = new RelayCommand(OnSaveScriptCommand, () => CurrentScriptViewModel != null);
             SaveScriptAsCommand = new RelayCommand(OnSaveScriptAsCommand, () => CurrentScriptViewModel != null);
             CopyScriptCommand = new RelayCommand(OnCopyScriptCommand, () => CurrentScriptViewModel != null);
+            CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => CurrentScriptViewModel != null && CurrentScriptViewModel.SelectedBlockViewModel != null);
+            PasteCommand = new RelayCommand(OnPasteCommand, () => CurrentScriptViewModel != null);
             NewScriptCommand = new RelayCommand(OnNewScriptCommand);
             CloseScriptCommand = new RelayCommand<ILootFilterScriptViewModel>(OnCloseScriptCommand, v => CurrentScriptViewModel != null);
 
@@ -49,6 +52,8 @@ namespace Filtration.ViewModels
         public RelayCommand OpenScriptCommand { get; private set; }
         public RelayCommand SaveScriptCommand { get; private set; }
         public RelayCommand SaveScriptAsCommand { get; private set; }
+        public RelayCommand CopyBlockCommand { get; private set; }
+        public RelayCommand PasteCommand { get; private set; }
         public RelayCommand CopyScriptCommand { get; private set; }
         public RelayCommand NewScriptCommand { get; private set; }
         public RelayCommand<ILootFilterScriptViewModel> CloseScriptCommand { get; private set; }
@@ -84,7 +89,7 @@ namespace Filtration.ViewModels
             LoadScriptFromFile(openFileDialog.FileName);
         }
 
-        private void LoadScriptFromFile(string path)
+        public void LoadScriptFromFile(string path)
         {
             try
             {
@@ -200,7 +205,17 @@ namespace Filtration.ViewModels
 
         private void OnCopyScriptCommand()
         {
-            Clipboard.SetText(_lootFilterScriptTranslator.TranslateLootFilterScriptToString(_loadedScript));
+            Clipboard.SetText(_lootFilterScriptTranslator.TranslateLootFilterScriptToString(_currentScriptViewModel.Script));
+        }
+
+        private void OnCopyBlockCommand()
+        {
+            _currentScriptViewModel.CopyBlock(_currentScriptViewModel.SelectedBlockViewModel);
+        }
+
+        private void OnPasteCommand()
+        {
+            _currentScriptViewModel.PasteBlock(_currentScriptViewModel.SelectedBlockViewModel);
         }
 
         private void OnNewScriptCommand()

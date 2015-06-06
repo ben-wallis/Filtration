@@ -11,7 +11,8 @@ namespace Filtration.Views
 
         private void SectionBrowserListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            BlocksListBox.ScrollIntoView(((ListBox)sender).SelectedItem);
+            var listBox = (ListBox) sender;
+            BlocksListBox.ScrollIntoView(listBox.SelectedItem);
         }
     }
 }

@@ -8,21 +8,42 @@
         xmlns:views="clr-namespace:Filtration.Views"
         xmlns:viewModels="clr-namespace:Filtration.ViewModels"
         xmlns:userControls="clr-namespace:Filtration.UserControls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
         Title="Filtration - v0.1" Height="690" Width="930" BorderThickness="1" BorderBrush="Black">
+    <controls:MetroWindow.Resources>
+        <Image Source="/Filtration;component/Resources/Icons/add_block_icon.png" x:Key="AddBlockIcon" x:Shared="false" />
+        <Image Source="/Filtration;component/Resources/Icons/add_section_icon.png" x:Key="AddSectionIcon" x:Shared="false" />
+        <Image Source="/Filtration;component/Resources/Icons/copy_icon.png" x:Key="CopyIcon" x:Shared="false" />
+        <Image Source="/Filtration;component/Resources/Icons/delete_icon.png" x:Key="DeleteIcon" x:Shared="false" />
+        <Image Source="/Filtration;component/Resources/Icons/new_icon.png" x:Key="NewIcon" x:Shared="false" />
+        <Image Source="/Filtration;component/Resources/Icons/open_icon.png" x:Key="OpenIcon" x:Shared="false" />
+        <Image Source="/Filtration;component/Resources/Icons/paste_icon.png" x:Key="PasteIcon" x:Shared="false" />
+        <Image Source="/Filtration;component/Resources/Icons/save_all_icon.png" x:Key="SaveAllIcon" x:Shared="false" />
+        <Image Source="/Filtration;component/Resources/Icons/save_icon.png" x:Key="SaveIcon" x:Shared="false" />
+        <Image Source="/Filtration;component/Resources/Icons/arrow_up_large_icon.png" x:Key="MoveToTopIcon" x:Shared="false" />
+        <Image Source="/Filtration;component/Resources/Icons/arrow_up_small_icon.png" x:Key="MoveUpIcon" x:Shared="false" />
+        <Image Source="/Filtration;component/Resources/Icons/arrow_down_large_icon.png" x:Key="MoveToBottomIcon" x:Shared="false" />
+        <Image Source="/Filtration;component/Resources/Icons/arrow_down_small_icon.png" x:Key="MoveDownIcon" x:Shared="false" />
+        <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png" x:Key="SpeakerIcon" x:Shared="false" />
+        <Image Source="/Filtration;component/Resources/Icons/play_icon.png" x:Key="PlayIcon" x:Shared="false" />
+    </controls:MetroWindow.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_New Script" Command="{Binding NewScriptCommand}"/>
-                <MenuItem Header="_Open Script" Command="{Binding OpenScriptCommand}"/>
-                <MenuItem Header="_Save Script" Command="{Binding SaveScriptCommand}"/>
-                <MenuItem Header="Save Script _As" Command="{Binding SaveScriptAsCommand}"/>
+                <MenuItem Header="_New Script" Command="{Binding NewScriptCommand}" Icon="{StaticResource NewIcon}"/>
+                <MenuItem Header="_Open Script" Command="{Binding OpenScriptCommand}" Icon="{StaticResource OpenIcon}"/>
+                <MenuItem Header="_Save Script" Command="{Binding SaveScriptCommand}" Icon="{StaticResource SaveIcon}"/>
+                <MenuItem Header="Save Script _As" Command="{Binding SaveScriptAsCommand}"  Icon="{StaticResource SaveIcon}"/>
                 <MenuItem Header="_Close Script" Command="{Binding CloseScriptCommand}" CommandParameter="{Binding CurrentScriptViewModel}"/>
                 <MenuItem Header="E_xit"/>
             </MenuItem>
             <MenuItem Header="_Edit">
-                <MenuItem Header="_Copy Script to Clipboard" Command="{Binding CopyScriptCommand}" />
+                <MenuItem Header="_Copy Block" Command="{Binding CopyBlockCommand}" Icon="{StaticResource CopyIcon}" />
+                <MenuItem Header="_Paste Block" Command="{Binding PasteCommand}" Icon="{StaticResource PasteIcon}" />
+                <Separator />
+                <MenuItem Header="Copy _Script" Command="{Binding CopyScriptCommand}" Icon="{StaticResource CopyIcon}" />
             </MenuItem>
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">

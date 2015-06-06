@@ -41,10 +41,6 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="FontAwesome.WPF, Version=4.3.0.26714, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FontAwesome.WPF.4.3.0.2\lib\FontAwesome.WPF.dll</HintPath>
-    </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.1.1.35049, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
@@ -254,9 +250,24 @@
     <Resource Include="Resources\groundtile.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\AlertSound8.wav">
+    <Content Include="Resources\AlertSounds\AlertSound8.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Icons\add_block_icon.png" />
+    <Resource Include="Resources\Icons\add_section_icon.png" />
+    <Resource Include="Resources\Icons\copy_icon.png" />
+    <Resource Include="Resources\Icons\delete_icon.png" />
+    <Resource Include="Resources\Icons\new_icon.png" />
+    <Resource Include="Resources\Icons\paste_icon.png" />
+    <Resource Include="Resources\Icons\save_all_icon.png" />
+    <Resource Include="Resources\Icons\save_icon.png" />
+    <Resource Include="Resources\Icons\open_icon.png" />
+    <Resource Include="Resources\Icons\arrow_down_large_icon.png" />
+    <Resource Include="Resources\Icons\arrow_down_small_icon.png" />
+    <Resource Include="Resources\Icons\arrow_up_large_icon.png" />
+    <Resource Include="Resources\Icons\arrow_up_small_icon.png" />
+    <Resource Include="Resources\Icons\speaker_icon.png" />
+    <Resource Include="Resources\Icons\play_icon.png" />
     <Content Include="Resources\ItemBaseTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -265,42 +276,42 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\AlertSound9.wav">
+    <Content Include="Resources\AlertSounds\AlertSound9.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\AlertSound7.wav">
+    <Content Include="Resources\AlertSounds\AlertSound7.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\AlertSound6.wav">
+    <Content Include="Resources\AlertSounds\AlertSound6.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\AlertSound4.wav">
+    <Content Include="Resources\AlertSounds\AlertSound4.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\AlertSound5.wav">
+    <Content Include="Resources\AlertSounds\AlertSound5.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\AlertSound2.wav">
+    <Content Include="Resources\AlertSounds\AlertSound2.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\AlertSound3.wav">
+    <Content Include="Resources\AlertSounds\AlertSound3.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\AlertSound1.wav">
+    <Content Include="Resources\AlertSounds\AlertSound1.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

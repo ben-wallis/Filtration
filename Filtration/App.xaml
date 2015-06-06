@@ -12,19 +12,6 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Steel.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
                 <ResourceDictionary Source="Views/CrossButton.xaml" />
-                <ResourceDictionary>
-                    <!-- TODO: Fix these icons so we don't need one resource for each instance. x:Shared="False" does not work for ImageAwesome -->
-                    <fa:ImageAwesome Icon="Plus" Height="15" Width="15" x:Key="AddBlockToolbarIcon" />
-                    <fa:ImageAwesome Icon="ListUl" Height="15" Width="15" x:Key="AddSectionToolbarIcon" />
-                    <fa:ImageAwesome Icon="Minus" Height="15" Width="15" x:Key="DeleteBlockToolbarIcon" />
-                    <fa:ImageAwesome Icon="AngleDoubleUp" Height="15" Width="15" x:Key="MoveBlockToTopToolbarIcon" />
-                    <fa:ImageAwesome Icon="AngleUp" Height="15" Width="15" x:Key="MoveBlockUpToolbarIcon" />
-                    <fa:ImageAwesome Icon="AngleDown" Height="15" Width="15" x:Key="MoveBlockDownToolbarIcon" />
-                    <fa:ImageAwesome Icon="AngleDoubleDown" Height="15" Width="15" x:Key="MoveBlockToBottomToolbarIcon" />
-                    <fa:ImageAwesome Icon="FileOutlined" Height="15" Width="15" x:Key="NewIcon" />
-                    <fa:ImageAwesome Icon="FolderOpenOutlined" Height="15" Width="15" x:Key="OpenIcon" />
-                    <fa:ImageAwesome Icon="FloppyOutlined" Height="15" Width="15" x:Key="SaveIcon" />
-                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
