@@ -69,7 +69,7 @@
                 </TextBlock>
             </Border>
         </Grid>
-        <TextBlock Grid.Row="7" Grid.Column="2" VerticalAlignment="Center">Preview</TextBlock>
+        <TextBlock Grid.Row="6" Grid.Column="2" VerticalAlignment="Center">Preview</TextBlock>
         <Button Grid.Row="7" Grid.Column="4" Command="{Binding ReplaceColorsCommand}">Replace Colors</Button>
     </Grid>
 </controls:MetroWindow>
