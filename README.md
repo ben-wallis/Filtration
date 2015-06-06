@@ -32,3 +32,7 @@ Filtration requires .NET Framework 4.5.1 installed.
 
 ##### Replace Colors Tool
 <img src="http://i.imgur.com/oY1q6hq.png" />
+
+## Contact
+
+You can find me on irc.freenode.net in #filtration
