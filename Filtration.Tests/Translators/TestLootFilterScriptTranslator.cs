@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using Filtration.Enums;
 using Filtration.Models;
-using Filtration.Models.BlockItemBaseTypes;
 using Filtration.Models.BlockItemTypes;
 using Filtration.Translators;
 using Moq;

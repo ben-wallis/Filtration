@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Forms;
 using Castle.Core;
 using Filtration.Models;
@@ -61,6 +63,16 @@ namespace Filtration.ViewModels
         public ObservableCollection<ILootFilterScriptViewModel> ScriptViewModels
         {
             get { return _scriptViewModels; }
+        }
+
+        public string WindowTitle
+        {
+            get
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+                return "Filtration v" + fvi.FileMajorPart + "." +  fvi.FileMinorPart;
+            }
         }
 
         [DoNotWire]

@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Image Source="/Filtration;component/Resources/Icons/add_block_icon.png" x:Key="AddBlockIcon" x:Shared="false" />
+    <Image Source="/Filtration;component/Resources/Icons/add_section_icon.png" x:Key="AddSectionIcon" x:Shared="false" />
+    <Image Source="/Filtration;component/Resources/Icons/copy_icon.png" x:Key="CopyIcon" x:Shared="false" />
+    <Image Source="/Filtration;component/Resources/Icons/delete_icon.png" x:Key="DeleteIcon" x:Shared="false" />
+    <Image Source="/Filtration;component/Resources/Icons/new_icon.png" x:Key="NewIcon" x:Shared="false" />
+    <Image Source="/Filtration;component/Resources/Icons/open_icon.png" x:Key="OpenIcon" x:Shared="false" />
+    <Image Source="/Filtration;component/Resources/Icons/paste_icon.png" x:Key="PasteIcon" x:Shared="false" />
+    <Image Source="/Filtration;component/Resources/Icons/save_all_icon.png" x:Key="SaveAllIcon" x:Shared="false" />
+    <Image Source="/Filtration;component/Resources/Icons/save_icon.png" x:Key="SaveIcon" x:Shared="false" />
+    <Image Source="/Filtration;component/Resources/Icons/arrow_top_icon.png" x:Key="MoveToTopIcon" x:Shared="false" />
+    <Image Source="/Filtration;component/Resources/Icons/arrow_up_large_icon.png" x:Key="MoveUpIcon" x:Shared="false" />
+    <Image Source="/Filtration;component/Resources/Icons/arrow_bottom_icon.png" x:Key="MoveToBottomIcon" x:Shared="false" />
+    <Image Source="/Filtration;component/Resources/Icons/arrow_down_large_icon.png" x:Key="MoveDownIcon" x:Shared="false" />
+    <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png" x:Key="SpeakerIcon" x:Shared="false" />
+    <Image Source="/Filtration;component/Resources/Icons/play_icon.png" x:Key="PlayIcon" x:Shared="false" />
+</ResourceDictionary>

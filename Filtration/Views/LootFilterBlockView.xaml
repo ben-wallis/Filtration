@@ -35,21 +35,23 @@
                         <SolidColorBrush Color="Gray" />
                     </Rectangle.Fill>
                 </Rectangle>
-                <Expander Grid.Column="1" Style="{StaticResource ExpanderRightAlignStyle}" x:Name="TestExpander" ToolTip="{Binding BlockDescription}">
+                <Expander Grid.Column="1" Style="{StaticResource ExpanderRightAlignStyle}" x:Name="TestExpander" ToolTip="{Binding BlockDescription}" ToolTipService.IsEnabled="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsExpanded, Converter={StaticResource BoolInverterConverter}}">
                     <Expander.ContextMenu>
                         <ContextMenu>
                             <ContextMenu.Items>
-                                <MenuItem Header="Copy" Command="{Binding CopyBlockCommand}" Icon="{DynamicResource CopyIcon}" />
-                                <MenuItem Header="Paste" Command="{Binding PasteBlockCommand}" Icon="{DynamicResource PasteIcon}" />
+                                <MenuItem Header="Copy" Command="{Binding CopyBlockCommand}" Icon="{StaticResource CopyIcon}" />
+                                <MenuItem Header="Paste" Command="{Binding PasteBlockCommand}" Icon="{StaticResource PasteIcon}" />
                                 <Separator />
-                                <MenuItem Header="Add Block" Command="{Binding Data.AddBlockCommand, Source={StaticResource proxy}}" Icon="{DynamicResource AddBlockIcon}" />
-                                <MenuItem Header="Add Section" Command="{Binding Data.AddSectionCommand, Source={StaticResource proxy}}" Icon="{DynamicResource AddSectionIcon}">
+                                <MenuItem Header="Add Block" Command="{Binding Data.AddBlockCommand, Source={StaticResource proxy}}" Icon="{StaticResource AddBlockIcon}" />
+                                <MenuItem Header="Add Section" Command="{Binding Data.AddSectionCommand, Source={StaticResource proxy}}" Icon="{StaticResource AddSectionIcon}">
                                 </MenuItem>
                                 <Separator />
-                                <MenuItem Header="Delete Block" Command="{Binding Data.DeleteBlockCommand, Source={StaticResource proxy}}" Icon="{DynamicResource DeleteIcon}" />
+                                <MenuItem Header="Delete Block" Command="{Binding Data.DeleteBlockCommand, Source={StaticResource proxy}}" Icon="{StaticResource DeleteIcon}" />
                                 <Separator />
-                                <MenuItem Header="Move Block Up" Command="{Binding Data.MoveBlockUpCommand, Source={StaticResource proxy}}" Icon="{DynamicResource MoveUpIcon}" />
-                                <MenuItem Header="Move Block Down" Command="{Binding Data.MoveBlockDownCommand, Source={StaticResource proxy}}" Icon="{DynamicResource MoveDownIcon}" />
+                                <MenuItem Header="Move Block To Top" Command="{Binding Data.MoveBlockToTopCommand, Source={StaticResource proxy}}" Icon="{StaticResource MoveToTopIcon}" />
+                                <MenuItem Header="Move Block Up" Command="{Binding Data.MoveBlockUpCommand, Source={StaticResource proxy}}" Icon="{StaticResource MoveUpIcon}" />
+                                <MenuItem Header="Move Block Down" Command="{Binding Data.MoveBlockDownCommand, Source={StaticResource proxy}}" Icon="{StaticResource MoveDownIcon}" />
+                                <MenuItem Header="Move Block To Bottom" Command="{Binding Data.MoveBlockToBottomCommand, Source={StaticResource proxy}}" Icon="{StaticResource MoveToBottomIcon}" />
                             </ContextMenu.Items>
                         </ContextMenu>
                     </Expander.ContextMenu>

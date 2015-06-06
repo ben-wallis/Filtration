@@ -187,11 +187,17 @@ namespace Filtration.ViewModels
 
         private void OnMoveBlockToTopCommand()
         {
-            var currentIndex = LootFilterBlockViewModels.IndexOf(SelectedBlockViewModel);
+            MoveBlockToTop(SelectedBlockViewModel);
+           
+        }
+
+        public void MoveBlockToTop(ILootFilterBlockViewModel targetBlockViewModel)
+        {
+            var currentIndex = LootFilterBlockViewModels.IndexOf(targetBlockViewModel);
 
             if (currentIndex > 0)
             {
-                var block = SelectedBlockViewModel.Block;
+                var block = targetBlockViewModel.Block;
                 Script.LootFilterBlocks.Remove(block);
                 Script.LootFilterBlocks.Insert(0, block);
                 LootFilterBlockViewModels.Move(currentIndex, 0);
@@ -244,11 +250,16 @@ namespace Filtration.ViewModels
 
         private void OnMoveBlockToBottomCommand()
         {
-            var currentIndex = LootFilterBlockViewModels.IndexOf(SelectedBlockViewModel);
+            MoveBlockToBottom(SelectedBlockViewModel);
+        }
+
+        public void MoveBlockToBottom(ILootFilterBlockViewModel targetBlockViewModel)
+        {
+            var currentIndex = LootFilterBlockViewModels.IndexOf(targetBlockViewModel);
 
             if (currentIndex < LootFilterBlockViewModels.Count - 1)
             {
-                var block = SelectedBlockViewModel.Block;
+                var block = targetBlockViewModel.Block;
                 Script.LootFilterBlocks.Remove(block);
                 Script.LootFilterBlocks.Add(block);
                 LootFilterBlockViewModels.Move(currentIndex, LootFilterBlockViewModels.Count - 1);

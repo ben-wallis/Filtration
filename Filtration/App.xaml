@@ -1,7 +1,6 @@
 <Application x:Class="Filtration.App" 
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:fa="http://schemas.fontawesome.io/icons/"
              Startup="Application_Startup">
     <Application.Resources>
         <ResourceDictionary>
@@ -12,6 +11,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Steel.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
                 <ResourceDictionary Source="Views/CrossButton.xaml" />
+                <ResourceDictionary Source="Views/IconsDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

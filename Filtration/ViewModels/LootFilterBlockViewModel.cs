@@ -22,16 +22,14 @@ namespace Filtration.ViewModels
 
     internal class LootFilterBlockViewModel : FiltrationViewModelBase, ILootFilterBlockViewModel
     {
-        private readonly ILootFilterBlockTranslator _translator;
         private readonly IStaticDataService _staticDataService;
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
         private LootFilterScriptViewModel _parentScriptViewModel;
 
         private bool _displaySettingsPopupOpen;
         
-        public LootFilterBlockViewModel(ILootFilterBlockTranslator translator, IStaticDataService staticDataService)
+        public LootFilterBlockViewModel(IStaticDataService staticDataService)
         {
-            _translator = translator;
             _staticDataService = staticDataService;
             CopyBlockCommand = new RelayCommand(OnCopyBlockCommand);
             PasteBlockCommand = new RelayCommand(OnPasteBlockCommand);
@@ -40,6 +38,8 @@ namespace Filtration.ViewModels
             DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand);
             MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand);
             MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand);
+            MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand);
+            MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand);
             AddFilterBlockItemCommand = new RelayCommand<Type>(OnAddFilterBlockItemCommand);
             AddAudioVisualBlockItemCommand = new RelayCommand<Type>(OnAddAudioVisualBlockItemCommand);
             RemoveFilterBlockItemCommand = new RelayCommand<ILootFilterBlockItem>(OnRemoveFilterBlockItemCommand);
@@ -72,6 +72,8 @@ namespace Filtration.ViewModels
         public RelayCommand DeleteBlockCommand { get; private set; }
         public RelayCommand MoveBlockUpCommand { get; private set; }
         public RelayCommand MoveBlockDownCommand { get; private set; }
+        public RelayCommand MoveBlockToTopCommand { get; private set; }
+        public RelayCommand MoveBlockToBottomCommand { get; private set; }
         public RelayCommand<Type> AddFilterBlockItemCommand { get; private set; }
         public RelayCommand<Type> AddAudioVisualBlockItemCommand { get; private set; }
         public RelayCommand<ILootFilterBlockItem> RemoveFilterBlockItemCommand { get; private set; }
@@ -307,6 +309,16 @@ namespace Filtration.ViewModels
         private void OnMoveBlockDownCommand()
         {
             _parentScriptViewModel.MoveBlockDown(this);
+        }
+
+        private void OnMoveBlockToTopCommand()
+        {
+            _parentScriptViewModel.MoveBlockToTop(this);
+        }
+
+        private void OnMoveBlockToBottomCommand()
+        {
+            _parentScriptViewModel.MoveBlockToBottom(this);
         }
         
         private bool AddBlockItemAllowed(Type type)

@@ -179,6 +179,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\IconsDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LootFilterBlockDisplaySettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -263,11 +267,11 @@
     <Resource Include="Resources\Icons\save_icon.png" />
     <Resource Include="Resources\Icons\open_icon.png" />
     <Resource Include="Resources\Icons\arrow_down_large_icon.png" />
-    <Resource Include="Resources\Icons\arrow_down_small_icon.png" />
     <Resource Include="Resources\Icons\arrow_up_large_icon.png" />
-    <Resource Include="Resources\Icons\arrow_up_small_icon.png" />
     <Resource Include="Resources\Icons\speaker_icon.png" />
     <Resource Include="Resources\Icons\play_icon.png" />
+    <Resource Include="Resources\Icons\arrow_top_icon.png" />
+    <Resource Include="Resources\Icons\arrow_bottom_icon.png" />
     <Content Include="Resources\ItemBaseTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
