@@ -7,6 +7,8 @@ Filtration is an editor for Path of Exile loot filter scripts, allowing you to n
 
 <b>Zip File (7.01mb)</b> <a href="https://github.com/ben-wallis/Filtration/releases/download/0.1/filtration_0.1.zip">filtration_0.1.zip</a>
 
+## System Requirements
+Filtration requires .NET Framework 4.5.1 installed.
 
 ## Features
 
