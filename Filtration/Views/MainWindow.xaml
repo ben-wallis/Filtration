@@ -27,6 +27,9 @@
                 <Separator />
                 <MenuItem Header="Copy _Script" Command="{Binding CopyScriptCommand}" Icon="{StaticResource CopyIcon}" />
             </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About" Command="{Binding OpenAboutWindowCommand}" Icon="{StaticResource AboutIcon}" />
+            </MenuItem>
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>

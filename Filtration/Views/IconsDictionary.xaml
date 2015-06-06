@@ -15,4 +15,5 @@
     <Image Source="/Filtration;component/Resources/Icons/arrow_down_large_icon.png" x:Key="MoveDownIcon" x:Shared="false" />
     <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png" x:Key="SpeakerIcon" x:Shared="false" />
     <Image Source="/Filtration;component/Resources/Icons/play_icon.png" x:Key="PlayIcon" x:Shared="false" />
+    <Image Source="/Filtration;component/Resources/Icons/about_icon.png" x:Key="AboutIcon" x:Shared="false" />
 </ResourceDictionary>

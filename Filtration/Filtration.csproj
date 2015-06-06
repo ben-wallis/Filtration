@@ -99,6 +99,7 @@
     <Compile Include="Enums\SocketColor.cs" />
     <Compile Include="Extensions\EnumerationExtension.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
+    <Compile Include="Extensions\HyperlinkExtensions.cs" />
     <Compile Include="Models\BlockItemBaseTypes\ActionBlockItem.cs" />
     <Compile Include="Models\BlockItemBaseTypes\ColorBlockItem.cs" />
     <Compile Include="Models\BlockItemBaseTypes\DualIntegerBlockItem.cs" />
@@ -162,6 +163,9 @@
     <Compile Include="Views\LootFilterSectionView.xaml.cs">
       <DependentUpon>LootFilterSectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindsorInstallers\ModelsInstaller.cs" />
     <Compile Include="WindsorInstallers\ServicesInstaller.cs" />
     <Compile Include="WindsorInstallers\TranslatorsInstaller.cs" />
@@ -220,6 +224,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -257,6 +265,7 @@
     <Content Include="Resources\AlertSounds\AlertSound8.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\logo.png" />
     <Resource Include="Resources\Icons\add_block_icon.png" />
     <Resource Include="Resources\Icons\add_section_icon.png" />
     <Resource Include="Resources\Icons\copy_icon.png" />
@@ -272,6 +281,7 @@
     <Resource Include="Resources\Icons\play_icon.png" />
     <Resource Include="Resources\Icons\arrow_top_icon.png" />
     <Resource Include="Resources\Icons\arrow_bottom_icon.png" />
+    <Resource Include="Resources\Icons\about_icon.png" />
     <Content Include="Resources\ItemBaseTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1,0 +1,71 @@
+﻿<controls:MetroWindow x:Class="Filtration.Views.AboutWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:extensions="clr-namespace:Filtration.Extensions"
+                      Title="About Filtration"
+                      Height="360"
+                      Width="560"
+                      Loaded="AboutWindow_OnLoaded"
+                      BorderThickness="1" BorderBrush="Black">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Image Source="/Filtration;component/Resources/logo.png" Width="75" Height="75" VerticalAlignment="Top" />
+            <StackPanel Grid.Row="0" Grid.Column="1">
+                <TextBlock FontWeight="Black">Filtration</TextBlock>
+                <TextBlock>Version 0.1</TextBlock>
+                <TextBlock>Copyright © 2015</TextBlock>
+                <TextBlock>Created by Ben Wallis</TextBlock>
+                <TextBlock>
+                    <Hyperlink NavigateUri="http://ben-wallis.github.io/Filtration/" extensions:HyperlinkExtensions.IsExternal="True">http://ben-wallis.github.io/Filtration/</Hyperlink>
+                    <LineBreak />
+                </TextBlock>
+            </StackPanel>
+            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap">
+                As you may be able to tell from the MSPaint logo that I have expertly applied a lens flare to, I am not an artist. If you'd like to create a swanky logo for Filtration please
+               get in touch via e-mail or IRC.
+            </TextBlock>
+        </Grid>
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <TextBlock FontWeight="Bold">Contact</TextBlock>
+            <TextBlock TextWrapping="Wrap">IRC: irc.freenode.net #filtration</TextBlock>
+            <TextBlock TextWrapping="Wrap">E-mail: ben-wallis@users.noreply.github.com</TextBlock>
+            <TextBlock TextWrapping="Wrap">In-Game: AtomYcX</TextBlock>
+        </StackPanel>
+        <ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,20,0,0" >
+            <TextBlock TextWrapping="Wrap" FontStyle="Italic">
+                This program is free software; you can redistribute it and/or
+                modify it under the terms of the GNU General Public License
+                as published by the Free Software Foundation; either version 2
+                of the License, or (at your option) any later version.
+                <LineBreak />
+                <LineBreak />
+                This program is distributed in the hope that it will be useful,
+                but WITHOUT ANY WARRANTY; without even the implied warranty of
+                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                GNU General Public License for more details.
+                <LineBreak />
+                <LineBreak />
+                You should have received a copy of the GNU General Public License
+                along with this program; if not, write to the Free Software
+                Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+            </TextBlock>
+        </ScrollViewer>
+    </Grid>
+</controls:MetroWindow>

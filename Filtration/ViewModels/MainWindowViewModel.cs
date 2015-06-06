@@ -7,6 +7,7 @@ using Castle.Core;
 using Filtration.Models;
 using Filtration.Services;
 using Filtration.Translators;
+using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
 using Clipboard = System.Windows.Clipboard;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -29,7 +30,8 @@ namespace Filtration.ViewModels
         private readonly ObservableCollection<ILootFilterScriptViewModel> _scriptViewModels;
 
         public MainWindowViewModel(ILootFilterScriptViewModelFactory lootFilterScriptViewModelFactory,
-            ILootFilterPersistenceService persistenceService, ILootFilterScriptTranslator lootFilterScriptTranslator)
+                                   ILootFilterPersistenceService persistenceService,
+                                   ILootFilterScriptTranslator lootFilterScriptTranslator)
         {
             _lootFilterScriptViewModelFactory = lootFilterScriptViewModelFactory;
             _persistenceService = persistenceService;
@@ -37,6 +39,7 @@ namespace Filtration.ViewModels
 
             _scriptViewModels = new ObservableCollection<ILootFilterScriptViewModel>();
 
+            OpenAboutWindowCommand = new RelayCommand(OnOpenAboutWindowCommand);
             OpenScriptCommand = new RelayCommand(OnOpenScriptCommand);
             SaveScriptCommand = new RelayCommand(OnSaveScriptCommand, () => CurrentScriptViewModel != null);
             SaveScriptAsCommand = new RelayCommand(OnSaveScriptAsCommand, () => CurrentScriptViewModel != null);
@@ -59,6 +62,7 @@ namespace Filtration.ViewModels
         public RelayCommand CopyScriptCommand { get; private set; }
         public RelayCommand NewScriptCommand { get; private set; }
         public RelayCommand<ILootFilterScriptViewModel> CloseScriptCommand { get; private set; }
+        public RelayCommand OpenAboutWindowCommand { get; private set; }
 
         public ObservableCollection<ILootFilterScriptViewModel> ScriptViewModels
         {
@@ -86,6 +90,12 @@ namespace Filtration.ViewModels
                 SaveScriptCommand.RaiseCanExecuteChanged();
                 SaveScriptAsCommand.RaiseCanExecuteChanged();
             }
+        }
+
+        private void OnOpenAboutWindowCommand()
+        {
+            var aboutWindow = new AboutWindow();
+            aboutWindow.ShowDialog();
         }
 
         private void OnOpenScriptCommand()
