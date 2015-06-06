@@ -119,7 +119,8 @@ namespace Filtration.Tests.Translators
             script.LootFilterBlocks.Add(block1);
             script.LootFilterBlocks.Add(block2);
 
-            var expectedOutput = "# Test script description" + Environment.NewLine +
+            var expectedOutput = "# Script edited with Filtration - http://ben-wallis.github.io/Filtration/" + Environment.NewLine +
+                                 "# Test script description" + Environment.NewLine +
                                  "# This is a really great script!" + Environment.NewLine + 
                                  "# Multiple line script descriptions are fun!" + Environment.NewLine +
                                  Environment.NewLine +
@@ -131,6 +132,29 @@ namespace Filtration.Tests.Translators
                                  "    Quality < 15" + Environment.NewLine +
                                  "    Width = 3" + Environment.NewLine +
                                  "    SetFontSize 7" + Environment.NewLine + Environment.NewLine;
+
+            var blockTranslator = new LootFilterBlockTranslator();
+            var translator = new LootFilterScriptTranslator(blockTranslator);
+
+            // Act
+            var result = translator.TranslateLootFilterScriptToString(script);
+
+            // Assert
+            Assert.AreEqual(expectedOutput, result);
+        }
+        
+        [Test]
+        public void TranslateLootFilterScriptToString_FullScriptWithExistingFiltrationTagline_ReturnsCorrectOutput()
+        {
+            var script = new LootFilterScript
+            {
+                Description = "Script edited with Filtration - http://ben-wallis.github.io/Filtration/" + Environment.NewLine +
+                              "Test script description" + Environment.NewLine
+            };
+
+            var expectedOutput = "# Script edited with Filtration - http://ben-wallis.github.io/Filtration/" +
+                                 Environment.NewLine +
+                                 "# Test script description" + Environment.NewLine + Environment.NewLine;
 
             var blockTranslator = new LootFilterBlockTranslator();
             var translator = new LootFilterScriptTranslator(blockTranslator);

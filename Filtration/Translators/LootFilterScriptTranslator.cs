@@ -82,12 +82,18 @@ namespace Filtration.Translators
         {
             var outputString = string.Empty;
 
+            outputString += "# Script edited with Filtration - http://ben-wallis.github.io/Filtration/" +
+                            Environment.NewLine;
+
             if (!string.IsNullOrEmpty(script.Description))
             {
                 // ReSharper disable once LoopCanBeConvertedToQuery
                 foreach (var line in new LineReader(() => new StringReader(script.Description)))
                 {
-                    outputString += "# " + line + Environment.NewLine;
+                    if (!line.Contains("Script edited with Filtration"))
+                    {
+                        outputString += "# " + line + Environment.NewLine;
+                    }
                 }
                 outputString += Environment.NewLine;
             }
