@@ -15,7 +15,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="LootFilterBlockViewDictionary.xaml" />
+                <ResourceDictionary Source="SharedResourcesDictionary.xaml" />
                 <ResourceDictionary>
                     <CollectionViewSource x:Key="AudioVisualBlockItemsViewSource" Source="{Binding AudioVisualBlockItems}">
                         <CollectionViewSource.SortDescriptions>

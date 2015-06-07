@@ -31,25 +31,28 @@ namespace Filtration.ViewModels
             if (initialiseFromBlock.BlockItems.Count(b => b.GetType() == typeof (TextColorBlockItem)) > 0)
             {
                 _replaceColorsParameterSet.ReplaceTextColor = true;
-                _replaceColorsParameterSet.OldTextColor =
-                    ((TextColorBlockItem)
+                var existingBlockColor = ((TextColorBlockItem)
                         initialiseFromBlock.BlockItems.First(b => b.GetType() == typeof (TextColorBlockItem))).Color;
+                _replaceColorsParameterSet.OldTextColor = existingBlockColor;
+                _replaceColorsParameterSet.NewTextColor = existingBlockColor;
             }
 
             if (initialiseFromBlock.BlockItems.Count(b => b.GetType() == typeof(BackgroundColorBlockItem)) > 0)
             {
                 _replaceColorsParameterSet.ReplaceBackgroundColor = true;
-                _replaceColorsParameterSet.OldBackgroundColor =
-                    ((BackgroundColorBlockItem)
+                var existingBlockColor = ((BackgroundColorBlockItem)
                         initialiseFromBlock.BlockItems.First(b => b.GetType() == typeof(BackgroundColorBlockItem))).Color;
+                _replaceColorsParameterSet.OldBackgroundColor = existingBlockColor;
+                _replaceColorsParameterSet.NewBackgroundColor = existingBlockColor;
             }
 
             if (initialiseFromBlock.BlockItems.Count(b => b.GetType() == typeof(BorderColorBlockItem)) > 0)
             {
                 _replaceColorsParameterSet.ReplaceBorderColor = true;
-                _replaceColorsParameterSet.OldBorderColor =
-                    ((BorderColorBlockItem)
+                var existingBlockColor = ((BorderColorBlockItem)
                         initialiseFromBlock.BlockItems.First(b => b.GetType() == typeof(BorderColorBlockItem))).Color;
+                _replaceColorsParameterSet.OldBorderColor = existingBlockColor;
+                _replaceColorsParameterSet.NewBorderColor = existingBlockColor;
             }
 
             _lootFilterScript = lootFilterScript;

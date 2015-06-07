@@ -148,6 +148,9 @@
     <Compile Include="UserControls\EditableListBoxControl.xaml.cs">
       <DependentUpon>EditableListBoxControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ItemPreviewControl.xaml.cs">
+      <DependentUpon>ItemPreviewControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\LineReader.cs" />
     <Compile Include="ViewModels\FiltrationViewModelBase.cs" />
     <Compile Include="ViewModels\ILootFilterScriptViewModelFactory.cs" />
@@ -183,6 +186,10 @@
     <Compile Include="WindsorInstallers\TranslatorsInstaller.cs" />
     <Compile Include="WindsorInstallers\ViewModelsInstaller.cs" />
     <Compile Include="WindsorInstallers\ViewsInstaller.cs" />
+    <Page Include="UserControls\ItemPreviewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CrossButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -203,7 +210,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LootFilterBlockViewDictionary.xaml">
+    <Page Include="Views\SharedResourcesDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

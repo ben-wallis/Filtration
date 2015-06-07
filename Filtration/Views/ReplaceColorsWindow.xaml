@@ -6,6 +6,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:viewModels="clr-namespace:Filtration.ViewModels"
+        xmlns:userControls="clr-namespace:Filtration.UserControls"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:ReplaceColorsViewModel}"
         ShowMaxRestoreButton="False"
@@ -15,7 +16,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="LootFilterBlockViewDictionary.xaml" />
+                <ResourceDictionary Source="SharedResourcesDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -56,19 +57,7 @@
         <TextBlock Grid.Row="5" Grid.Column="2" VerticalAlignment="Center">New Border Color</TextBlock>
         <xctk:ColorPicker Grid.Row="5" Grid.Column="4" SelectedColor="{Binding NewBorderColor}"  />
 
-        <Grid Grid.Row="6" Grid.Column="4">
-            <Image Source="pack://application:,,,/resources/groundtile.png" Stretch="Fill" />
-            <Border Padding="4,2,4,2" BorderThickness="2" BorderBrush="{Binding DisplayBorderColor, Converter={StaticResource ColorToSolidColorBrushConverter}}">
-                <Border.Background>
-                    <SolidColorBrush Color="{Binding DisplayBackgroundColor}" />
-                </Border.Background>
-                <TextBlock TextAlignment="Center" Text="Test Item Preview" Style="{StaticResource PathOfExileFont}">
-                    <TextBlock.Foreground>
-                        <SolidColorBrush Color="{Binding DisplayTextColor}" />
-                    </TextBlock.Foreground>
-                </TextBlock>
-            </Border>
-        </Grid>
+        <userControls:ItemPreviewControl Grid.Row="6" Grid.Column="4" TextColor="{Binding DisplayTextColor}" BackgroundColor="{Binding DisplayBackgroundColor}" BorderColor="{Binding DisplayBorderColor}" />
         <TextBlock Grid.Row="6" Grid.Column="2" VerticalAlignment="Center">Preview</TextBlock>
         <Button Grid.Row="7" Grid.Column="4" Command="{Binding ReplaceColorsCommand}">Replace Colors</Button>
     </Grid>
