@@ -1,16 +1,18 @@
 # Filtration
 
-Filtration is an editor for Path of Exile loot filter scripts, allowing you to not only create new scripts, but edit existing ones too.
+Filtration is an editor for Path of Exile item filter scripts.
 
 ## Current Release
 <b>Installer (5.71mb)</b> <a href="https://github.com/ben-wallis/Filtration/releases/download/0.1/filtration_0.1_setup.exe">filtration_0.1_setup.exe</a>
 
 <b>Zip File (7.01mb)</b> <a href="https://github.com/ben-wallis/Filtration/releases/download/0.1/filtration_0.1.zip">filtration_0.1.zip</a>
 
+## System Requirements
+Filtration requires .NET Framework 4.5.1 installed.
 
 ## Features
 
-* Quick and easy editing of item filter scripts - no direct editing of scripts required
+* Quick and easy editing and creation of item filter scripts - no direct editing of scripts required
 * Full support for all item filter attributes
 * Visual preview of colour settings
 * Copy & paste filter blocks between scripts
@@ -30,3 +32,7 @@ Filtration is an editor for Path of Exile loot filter scripts, allowing you to n
 
 ##### Replace Colors Tool
 <img src="http://i.imgur.com/oY1q6hq.png" />
+
+## Contact
+
+You can find me on irc.freenode.net in #filtration
