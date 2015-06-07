@@ -82,7 +82,7 @@ namespace Filtration.Translators
         {
             var outputString = string.Empty;
 
-            outputString += "# Script edited with Filtration - http://ben-wallis.github.io/Filtration/" +
+            outputString += "# Script edited with Filtration - https://github.com/ben-wallis/Filtration" +
                             Environment.NewLine;
 
             if (!string.IsNullOrEmpty(script.Description))
