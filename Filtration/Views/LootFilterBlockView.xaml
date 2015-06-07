@@ -85,8 +85,8 @@
                             <!-- Item Preview Box -->
                             <WrapPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
                                 <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="15" Width="15" Margin="0,0,3,0" Visibility="{Binding HasSound, Converter={StaticResource BooleanVisibilityConverter}}" />
-                                <ToggleButton Width="140"
-                                              Height="25"
+                                <ToggleButton Width="143"
+                                              Height="28"
                                               Margin="0,0,8,0"
                                               Style="{StaticResource ChromelessToggleButton}"
                                               x:Name="ItemPreviewButton"
@@ -94,7 +94,7 @@
                                               ToolTip="Click here to change color and font settings" Cursor="Hand" >
                                     <Grid>
                                         <Image Source="pack://application:,,,/resources/groundtile.png" Stretch="Fill" />
-                                        <Border Padding="4,2,4,2" BorderThickness="2" BorderBrush="{Binding DisplayBorderColor, Converter={StaticResource ColorToSolidColorBrushConverter}}">
+                                        <Border Margin="3" Padding="4,0,4,2" BorderThickness="2" BorderBrush="{Binding DisplayBorderColor, Converter={StaticResource ColorToSolidColorBrushConverter}}">
                                             <Border.Background>
                                                 <SolidColorBrush Color="{Binding DisplayBackgroundColor}" />
                                             </Border.Background>
