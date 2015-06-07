@@ -5,7 +5,7 @@
                       xmlns:extensions="clr-namespace:Filtration.Extensions"
                       Title="About Filtration"
                       Height="360"
-                      Width="560"
+                      Width="580"
                       Loaded="AboutWindow_OnLoaded"
                       BorderThickness="1" BorderBrush="Black">
     <Grid Margin="15">
@@ -29,11 +29,11 @@
             <Image Source="/Filtration;component/Resources/logo.png" Width="75" Height="75" VerticalAlignment="Top" />
             <StackPanel Grid.Row="0" Grid.Column="1">
                 <TextBlock FontWeight="Black">Filtration</TextBlock>
-                <TextBlock>Version 0.1</TextBlock>
+                <TextBlock>Version 0.2</TextBlock>
                 <TextBlock>Copyright © 2015</TextBlock>
                 <TextBlock>Created by Ben Wallis</TextBlock>
                 <TextBlock>
-                    <Hyperlink NavigateUri="http://ben-wallis.github.io/Filtration/" extensions:HyperlinkExtensions.IsExternal="True">http://ben-wallis.github.io/Filtration/</Hyperlink>
+                    <Hyperlink NavigateUri="https://github.com/ben-wallis/Filtration/" extensions:HyperlinkExtensions.IsExternal="True">https://github.com/ben-wallis/Filtration/</Hyperlink>
                     <LineBreak />
                 </TextBlock>
             </StackPanel>
