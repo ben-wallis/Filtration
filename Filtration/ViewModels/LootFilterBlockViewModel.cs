@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 using Filtration.Models;
+using Filtration.Models.BlockItemBaseTypes;
 using Filtration.Models.BlockItemTypes;
 using Filtration.Services;
 using Filtration.Views;
@@ -44,6 +46,7 @@ namespace Filtration.ViewModels
             MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand);
             ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand);
             AddFilterBlockItemCommand = new RelayCommand<Type>(OnAddFilterBlockItemCommand);
+            ToggleBlockActionCommand = new RelayCommand(OnToggleBlockActionCommand);
             AddAudioVisualBlockItemCommand = new RelayCommand<Type>(OnAddAudioVisualBlockItemCommand);
             RemoveFilterBlockItemCommand = new RelayCommand<ILootFilterBlockItem>(OnRemoveFilterBlockItemCommand);
             RemoveAudioVisualBlockItemCommand = new RelayCommand<ILootFilterBlockItem>(OnRemoveAudioVisualBlockItemCommand);
@@ -77,6 +80,7 @@ namespace Filtration.ViewModels
         public RelayCommand MoveBlockDownCommand { get; private set; }
         public RelayCommand MoveBlockToTopCommand { get; private set; }
         public RelayCommand MoveBlockToBottomCommand { get; private set; }
+        public RelayCommand ToggleBlockActionCommand { get; private set; }
         public RelayCommand ReplaceColorsCommand { get; private set; }
         public RelayCommand<Type> AddFilterBlockItemCommand { get; private set; }
         public RelayCommand<Type> AddAudioVisualBlockItemCommand { get; private set; }
@@ -243,6 +247,15 @@ namespace Filtration.ViewModels
         public bool HasSound
         {
             get { return Block.HasBlockItemOfType<SoundBlockItem>(); }
+        }
+
+        private void OnToggleBlockActionCommand()
+        {
+            var actionBlock = Block.BlockItems.OfType<ActionBlockItem>().First();
+            if (actionBlock != null)
+            {
+                actionBlock.ToggleAction();
+            }
         }
 
         private void OnAddFilterBlockItemCommand(Type blockItemType)

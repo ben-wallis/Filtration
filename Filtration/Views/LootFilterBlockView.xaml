@@ -10,6 +10,7 @@
              xmlns:blockItemTypes="clr-namespace:Filtration.Models.BlockItemTypes"
              xmlns:enums="clr-namespace:Filtration.Enums"
              xmlns:extensions="clr-namespace:Filtration.Extensions"
+             xmlns:models="clr-namespace:Filtration.Models"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewModels:LootFilterBlockViewModel}"
              d:DesignHeight="200" d:DesignWidth="800">
@@ -72,13 +73,24 @@
                                             <WrapPanel />
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
+                                    <ItemsControl.Resources>
+                                        
+                                   
+                                   
+                                        <DataTemplate DataType="{x:Type blockItemBaseTypes:BlockItemBase}">
                                             <Border BorderBrush="Black" CornerRadius="4" Margin="0,2,2,2" BorderThickness="1" Background="{Binding SummaryBackgroundColor, Converter={StaticResource ColorToSolidColorBrushConverter}}">
                                                 <TextBlock Text="{Binding SummaryText}" Margin="5,1,5,1" Foreground="{Binding SummaryTextColor, Converter={StaticResource ColorToSolidColorBrushConverter}}" />
                                             </Border>
                                         </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type blockItemBaseTypes:ActionBlockItem}">
+                                            <Button Command="{Binding ElementName=TopLevelGrid, Path=DataContext.ToggleBlockActionCommand}" Style="{StaticResource ChromelessButton}">
+                                            <Border BorderBrush="Black" CornerRadius="4" Margin="0,2,2,2" BorderThickness="1" Background="{Binding SummaryBackgroundColor, Converter={StaticResource ColorToSolidColorBrushConverter}}">
+                                                <TextBlock Text="{Binding SummaryText}" Margin="5,1,5,1" Foreground="{Binding SummaryTextColor, Converter={StaticResource ColorToSolidColorBrushConverter}}" />
+                                            </Border>
+                                            </Button>
+                                        </DataTemplate>
+                                    <!--</ItemsControl.ItemTemplate>-->
+                                    </ItemsControl.Resources>
                                 </ItemsControl>
                             </StackPanel>
 

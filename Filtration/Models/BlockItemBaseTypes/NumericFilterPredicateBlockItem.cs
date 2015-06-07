@@ -1,13 +1,9 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Media;
-using Filtration.Annotations;
 using Filtration.Enums;
 
 namespace Filtration.Models.BlockItemBaseTypes
 {
-    internal abstract class NumericFilterPredicateBlockItem : ILootFilterBlockItem
+    internal abstract class NumericFilterPredicateBlockItem : BlockItemBase
     {
         private NumericFilterPredicate _filterPredicate;
 
@@ -22,14 +18,6 @@ namespace Filtration.Models.BlockItemBaseTypes
             FilterPredicate = new NumericFilterPredicate(predicateOperator, predicateOperand);
             FilterPredicate.PropertyChanged += OnFilterPredicateChanged;
         }
-
-        public abstract string PrefixText { get; }
-        public abstract int MaximumAllowed { get; }
-        public abstract string DisplayHeading { get; }
-        public abstract string SummaryText { get; }
-        public abstract Color SummaryBackgroundColor { get; }
-        public abstract Color SummaryTextColor { get; }
-        public abstract int SortOrder { get; }
 
         public abstract int Minimum { get; }
         public abstract int Maximum { get; }
@@ -48,14 +36,6 @@ namespace Filtration.Models.BlockItemBaseTypes
         {
             OnPropertyChanged("FilterPredicate");
             OnPropertyChanged("SummaryText");
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

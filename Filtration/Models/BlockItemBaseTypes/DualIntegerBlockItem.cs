@@ -1,11 +1,8 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Media;
-using Filtration.Annotations;
+﻿using System.Windows.Media;
 
 namespace Filtration.Models.BlockItemBaseTypes
 {
-    internal abstract class DualIntegerBlockItem : ILootFilterBlockItem, IAudioVisualBlockItem
+    internal abstract class DualIntegerBlockItem : BlockItemBase, IAudioVisualBlockItem
     {
         private int _value;
         private int _secondValue;
@@ -20,14 +17,9 @@ namespace Filtration.Models.BlockItemBaseTypes
             SecondValue = secondValue;
         }
 
-        public abstract string PrefixText { get; }
-        public abstract int MaximumAllowed { get; }
-        public abstract string DisplayHeading { get; }
-
-        public string SummaryText { get { return string.Empty; } }
-        public Color SummaryBackgroundColor { get { return Colors.Transparent; } }
-        public Color SummaryTextColor { get { return Colors.Transparent; } }
-        public abstract int SortOrder { get; }
+        public override string SummaryText { get { return string.Empty; } }
+        public override Color SummaryBackgroundColor { get { return Colors.Transparent; } }
+        public override Color SummaryTextColor { get { return Colors.Transparent; } }
 
         public int Value
         {
@@ -47,14 +39,6 @@ namespace Filtration.Models.BlockItemBaseTypes
                 _secondValue = value;
                 OnPropertyChanged();
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

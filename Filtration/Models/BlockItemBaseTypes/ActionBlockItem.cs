@@ -1,12 +1,9 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Media;
-using Filtration.Annotations;
+﻿using System.Windows.Media;
 using Filtration.Enums;
 
 namespace Filtration.Models.BlockItemBaseTypes
 {
-    internal class ActionBlockItem : ILootFilterBlockItem
+    internal class ActionBlockItem : BlockItemBase
     {
         private BlockAction _action;
 
@@ -28,17 +25,17 @@ namespace Filtration.Models.BlockItemBaseTypes
             }
         }
 
-        public string PrefixText
+        public override string PrefixText
         {
             get { return string.Empty; }
         }
 
-        public int MaximumAllowed
+        public override int MaximumAllowed
         {
             get { return 1; }
         }
 
-        public string DisplayHeading
+        public override string DisplayHeading
         {
             get
             {
@@ -46,7 +43,7 @@ namespace Filtration.Models.BlockItemBaseTypes
             }
         }
 
-        public string SummaryText
+        public override string SummaryText
         {
             get
             {
@@ -54,7 +51,7 @@ namespace Filtration.Models.BlockItemBaseTypes
             }
         }
 
-        public Color SummaryBackgroundColor
+        public override Color SummaryBackgroundColor
         {
             get
             {
@@ -62,7 +59,7 @@ namespace Filtration.Models.BlockItemBaseTypes
             }
         }
 
-        public Color SummaryTextColor
+        public override Color SummaryTextColor
         {
             get
             {
@@ -70,15 +67,11 @@ namespace Filtration.Models.BlockItemBaseTypes
             }
         }
 
-        public int SortOrder { get { return 0; } }
+        public override int SortOrder { get { return 0; } }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public void ToggleAction()
         {
-            var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            Action = Action == BlockAction.Show ? BlockAction.Hide : BlockAction.Show;
         }
     }
 }

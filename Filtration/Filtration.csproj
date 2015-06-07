@@ -107,6 +107,7 @@
     <Compile Include="Extensions\EnumHelper.cs" />
     <Compile Include="Extensions\HyperlinkExtensions.cs" />
     <Compile Include="Models\BlockItemBaseTypes\ActionBlockItem.cs" />
+    <Compile Include="Models\BlockItemBaseTypes\BlockItemBase.cs" />
     <Compile Include="Models\BlockItemBaseTypes\ColorBlockItem.cs" />
     <Compile Include="Models\BlockItemBaseTypes\DualIntegerBlockItem.cs" />
     <Compile Include="Models\BlockItemBaseTypes\IntegerBlockItem.cs" />

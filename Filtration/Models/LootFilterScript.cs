@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Filtration.Models.BlockItemTypes;
+using Filtration.ViewModels;
+using Filtration.Views;
 
 namespace Filtration.Models
 {

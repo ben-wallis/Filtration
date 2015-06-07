@@ -21,6 +21,17 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style x:Key="ChromelessButton" TargetType="{x:Type Button}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <ContentPresenter/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <converters:IntToItemRarityConverter x:Key="IntToItemRarityConverter" />
             <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
             <converters:BoolInverterConverter x:Key="BoolInverterConverter" />
