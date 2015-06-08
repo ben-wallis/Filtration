@@ -8,13 +8,13 @@ namespace Filtration.ViewModels
 {
     internal interface IReplaceColorsViewModel
     {
-        void Initialise(LootFilterScript lootFilterScript, LootFilterBlock initialiseFromBlock);
-        void Initialise(LootFilterScript lootFilterScript);
+        void Initialise(ItemFilterScript itemFilterScript, ItemFilterBlock initialiseFromBlock);
+        void Initialise(ItemFilterScript itemFilterScript);
     }
 
     internal class ReplaceColorsViewModel : FiltrationViewModelBase, IReplaceColorsViewModel
     {
-        private LootFilterScript _lootFilterScript;
+        private ItemFilterScript _itemFilterScript;
         private ReplaceColorsParameterSet _replaceColorsParameterSet;
 
         public ReplaceColorsViewModel()
@@ -24,7 +24,7 @@ namespace Filtration.ViewModels
 
         public RelayCommand ReplaceColorsCommand { get; private set; }
 
-        public void Initialise(LootFilterScript lootFilterScript, LootFilterBlock initialiseFromBlock)
+        public void Initialise(ItemFilterScript itemFilterScript, ItemFilterBlock initialiseFromBlock)
         {
             _replaceColorsParameterSet = new ReplaceColorsParameterSet();
 
@@ -55,7 +55,7 @@ namespace Filtration.ViewModels
                 _replaceColorsParameterSet.NewBorderColor = existingBlockColor;
             }
 
-            _lootFilterScript = lootFilterScript;
+            _itemFilterScript = itemFilterScript;
         }
 
         public Color NewTextColor
@@ -159,15 +159,15 @@ namespace Filtration.ViewModels
             }
         }
 
-        public void Initialise(LootFilterScript lootFilterScript)
+        public void Initialise(ItemFilterScript itemFilterScript)
         {
             _replaceColorsParameterSet = new ReplaceColorsParameterSet();
-            _lootFilterScript = lootFilterScript;
+            _itemFilterScript = itemFilterScript;
         }
 
         private void OnReplaceColorsCommand()
         {
-            _lootFilterScript.ReplaceColors(_replaceColorsParameterSet);
+            _itemFilterScript.ReplaceColors(_replaceColorsParameterSet);
         }
         
     }

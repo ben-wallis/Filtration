@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Filtration.Views.LootFilterScriptView"
+﻿<UserControl x:Class="Filtration.Views.ItemFilterScriptView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,19 +7,19 @@
              xmlns:viewModels="clr-namespace:Filtration.ViewModels"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=viewModels:LootFilterScriptViewModel}"
+             d:DataContext="{d:DesignInstance Type=viewModels:ItemFilterScriptViewModel}"
              d:DesignHeight="300" d:DesignWidth="600">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <!-- ReSharper disable once Xaml.RedundantResource -->
-                    <DataTemplate x:Key="LootFilterBlockTemplate">
-                        <views:LootFilterBlockView Margin="0,2,0,2" />
+                    <DataTemplate x:Key="ItemFilterBlockTemplate">
+                        <views:ItemFilterBlockView Margin="0,2,0,2" />
                     </DataTemplate>
                     <!-- ReSharper disable once Xaml.RedundantResource -->
-                    <DataTemplate x:Key="LootFilterSectionTemplate">
-                        <views:LootFilterSectionView Margin="0,2,0,2" />
+                    <DataTemplate x:Key="ItemFilterSectionTemplate">
+                        <views:ItemFilterSectionView Margin="0,2,0,2" />
                     </DataTemplate>
                     <views:BlockTemplateSelector x:Key="BlockTemplateSelector" />
                 </ResourceDictionary>
@@ -67,7 +67,7 @@
                             </TextBlock.LayoutTransform>
                         </TextBlock>
                     </Expander.Header>
-                    <ListBox ItemsSource="{Binding LootFilterSectionViewModels}"
+                    <ListBox ItemsSource="{Binding ItemFilterSectionViewModels}"
                              SelectedItem="{Binding SectionBrowserSelectedViewModel}"
                              x:Name="SectionBrowserListBox"
                              SelectionChanged="SectionBrowserListBox_OnSelectionChanged"
@@ -79,7 +79,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </Expander>
-                <userControls:AutoScrollingListBox ItemsSource="{Binding LootFilterBlockViewModels}"
+                <userControls:AutoScrollingListBox ItemsSource="{Binding ItemFilterBlockViewModels}"
                                                    Margin="5,5,5,5"
                                                    Padding="5"
                                                    HorizontalContentAlignment="Stretch"

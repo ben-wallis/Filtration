@@ -1,4 +1,4 @@
-# Loot Filter Script created by Filtration v0.1 - www.github.com/XVar/filtration
+# Item Filter Script created by Filtration v0.1 - www.github.com/XVar/filtration
 # Begin Script Description
 # This is a test script
 # 

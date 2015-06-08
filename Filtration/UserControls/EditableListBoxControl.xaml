@@ -26,7 +26,7 @@
                     VerticalAlignment="Stretch" SelectionMode="Single" x:Name="ControlListBox" BorderBrush="#CCCCCC">
             <ListBox.Resources>
                 <Style TargetType="ListBoxItem">
-                    <!-- Undo the style that we set in the parent LootFilterScriptView to hide the condition selections -->
+                    <!-- Undo the style that we set in the parent ItemFilterScriptView to hide the condition selections -->
                     <Style.Resources>
                         <!-- SelectedItem with focus -->
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Silver" />

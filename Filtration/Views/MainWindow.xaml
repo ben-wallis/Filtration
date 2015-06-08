@@ -58,7 +58,7 @@
                 <TabControl.ContentTemplate>
                     <DataTemplate>
                         <controls:MetroContentControl>
-                            <views:LootFilterScriptView DataContext="{Binding}" />
+                            <views:ItemFilterScriptView DataContext="{Binding}" />
                         </controls:MetroContentControl>
                     </DataTemplate>
                 </TabControl.ContentTemplate>

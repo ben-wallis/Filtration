@@ -3,15 +3,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Filtration.Enums;
 using Filtration.Models.BlockItemBaseTypes;
-using Filtration.Models.BlockItemTypes;
 
 namespace Filtration.Models
 {
-    internal class LootFilterBlock
+    internal class ItemFilterBlock
     {
-        public LootFilterBlock()
+        public ItemFilterBlock()
         {
-            BlockItems = new ObservableCollection<ILootFilterBlockItem> {new ActionBlockItem(BlockAction.Show)};
+            BlockItems = new ObservableCollection<IItemFilterBlockItem> {new ActionBlockItem(BlockAction.Show)};
         }
         
         public string Description { get; set; }
@@ -30,7 +29,7 @@ namespace Filtration.Models
             }
         }
 
-        public ObservableCollection<ILootFilterBlockItem> BlockItems { get; private set; }
+        public ObservableCollection<IItemFilterBlockItem> BlockItems { get; private set; }
 
         public int BlockCount(Type type)
         {
@@ -39,7 +38,7 @@ namespace Filtration.Models
 
         public bool AddBlockItemAllowed(Type type)
         {
-            var blockItem = (ILootFilterBlockItem)Activator.CreateInstance(type);
+            var blockItem = (IItemFilterBlockItem)Activator.CreateInstance(type);
             return BlockCount(type) < blockItem.MaximumAllowed;
         }
 

@@ -7,7 +7,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Filtration")]
-[assembly: AssemblyDescription("A loot filter script manager for Path of Exile")]
+[assembly: AssemblyDescription("An item filter script manager for Path of Exile")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("XVar Industries Inc.")]
 [assembly: AssemblyProduct("Filtration")]

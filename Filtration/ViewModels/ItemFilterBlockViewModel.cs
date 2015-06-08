@@ -14,23 +14,23 @@ using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Filtration.ViewModels
 {
-    internal interface ILootFilterBlockViewModel
+    internal interface IItemFilterBlockViewModel
     {
-        void Initialise(LootFilterBlock lootFilterBlock, LootFilterScriptViewModel parentScriptViewModel);
+        void Initialise(ItemFilterBlock itemFilterBlock, ItemFilterScriptViewModel parentScriptViewModel);
         bool IsDirty { get; set; }
-        LootFilterBlock Block { get; }
+        ItemFilterBlock Block { get; }
     }
 
-    internal class LootFilterBlockViewModel : FiltrationViewModelBase, ILootFilterBlockViewModel
+    internal class ItemFilterBlockViewModel : FiltrationViewModelBase, IItemFilterBlockViewModel
     {
         private readonly IStaticDataService _staticDataService;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
-        private LootFilterScriptViewModel _parentScriptViewModel;
+        private ItemFilterScriptViewModel _parentScriptViewModel;
 
         private bool _displaySettingsPopupOpen;
         
-        public LootFilterBlockViewModel(IStaticDataService staticDataService, IReplaceColorsViewModel replaceColorsViewModel)
+        public ItemFilterBlockViewModel(IStaticDataService staticDataService, IReplaceColorsViewModel replaceColorsViewModel)
         {
             _staticDataService = staticDataService;
             _replaceColorsViewModel = replaceColorsViewModel;
@@ -48,24 +48,24 @@ namespace Filtration.ViewModels
             AddFilterBlockItemCommand = new RelayCommand<Type>(OnAddFilterBlockItemCommand);
             ToggleBlockActionCommand = new RelayCommand(OnToggleBlockActionCommand);
             AddAudioVisualBlockItemCommand = new RelayCommand<Type>(OnAddAudioVisualBlockItemCommand);
-            RemoveFilterBlockItemCommand = new RelayCommand<ILootFilterBlockItem>(OnRemoveFilterBlockItemCommand);
-            RemoveAudioVisualBlockItemCommand = new RelayCommand<ILootFilterBlockItem>(OnRemoveAudioVisualBlockItemCommand);
+            RemoveFilterBlockItemCommand = new RelayCommand<IItemFilterBlockItem>(OnRemoveFilterBlockItemCommand);
+            RemoveAudioVisualBlockItemCommand = new RelayCommand<IItemFilterBlockItem>(OnRemoveAudioVisualBlockItemCommand);
             PlaySoundCommand = new RelayCommand(OnPlaySoundCommand, () => HasSound);
         }
 
-        public void Initialise(LootFilterBlock lootFilterBlock, LootFilterScriptViewModel parentScriptViewModel)
+        public void Initialise(ItemFilterBlock itemFilterBlock, ItemFilterScriptViewModel parentScriptViewModel)
         {
-            if (lootFilterBlock == null || parentScriptViewModel == null)
+            if (itemFilterBlock == null || parentScriptViewModel == null)
             {
-                throw new ArgumentNullException("lootFilterBlock");
+                throw new ArgumentNullException("itemFilterBlock");
             }
 
             _parentScriptViewModel = parentScriptViewModel;
 
-            Block = lootFilterBlock;
-            lootFilterBlock.BlockItems.CollectionChanged += OnBlockItemsCollectionChanged;
+            Block = itemFilterBlock;
+            itemFilterBlock.BlockItems.CollectionChanged += OnBlockItemsCollectionChanged;
 
-            foreach (var blockItem in lootFilterBlock.BlockItems.OfType<IAudioVisualBlockItem>())
+            foreach (var blockItem in itemFilterBlock.BlockItems.OfType<IAudioVisualBlockItem>())
             {
                 blockItem.PropertyChanged += OnAudioVisualBlockItemChanged;
             }
@@ -84,24 +84,24 @@ namespace Filtration.ViewModels
         public RelayCommand ReplaceColorsCommand { get; private set; }
         public RelayCommand<Type> AddFilterBlockItemCommand { get; private set; }
         public RelayCommand<Type> AddAudioVisualBlockItemCommand { get; private set; }
-        public RelayCommand<ILootFilterBlockItem> RemoveFilterBlockItemCommand { get; private set; }
-        public RelayCommand<ILootFilterBlockItem> RemoveAudioVisualBlockItemCommand { get; private set; }
+        public RelayCommand<IItemFilterBlockItem> RemoveFilterBlockItemCommand { get; private set; }
+        public RelayCommand<IItemFilterBlockItem> RemoveAudioVisualBlockItemCommand { get; private set; }
         public RelayCommand PlaySoundCommand { get; private set; }
 
-        public LootFilterBlock Block { get; private set; }
+        public ItemFilterBlock Block { get; private set; }
         public bool IsDirty { get; set; }
 
-        public ObservableCollection<ILootFilterBlockItem> FilterBlockItems
+        public ObservableCollection<IItemFilterBlockItem> FilterBlockItems
         {
             get { return Block.BlockItems; }
         }
 
-        public IEnumerable<ILootFilterBlockItem> SummaryBlockItems
+        public IEnumerable<IItemFilterBlockItem> SummaryBlockItems
         {
             get { return Block.BlockItems.Where(b => !(b is IAudioVisualBlockItem)); }
         }
 
-        public IEnumerable<ILootFilterBlockItem> AudioVisualBlockItems
+        public IEnumerable<IItemFilterBlockItem> AudioVisualBlockItems
         {
             get { return Block.BlockItems.Where(b => b is IAudioVisualBlockItem); }
         }
@@ -261,13 +261,13 @@ namespace Filtration.ViewModels
         private void OnAddFilterBlockItemCommand(Type blockItemType)
         {
             if (!AddBlockItemAllowed(blockItemType)) return;
-            var newBlockItem = (ILootFilterBlockItem) Activator.CreateInstance(blockItemType);
+            var newBlockItem = (IItemFilterBlockItem) Activator.CreateInstance(blockItemType);
         
             FilterBlockItems.Add(newBlockItem);
             IsDirty = true;
         }
 
-        private void OnRemoveFilterBlockItemCommand(ILootFilterBlockItem blockItem)
+        private void OnRemoveFilterBlockItemCommand(IItemFilterBlockItem blockItem)
         {
             FilterBlockItems.Remove(blockItem);
             IsDirty = true;
@@ -276,7 +276,7 @@ namespace Filtration.ViewModels
         private void OnAddAudioVisualBlockItemCommand(Type blockItemType)
         {
             if (!AddBlockItemAllowed(blockItemType)) return;
-            var newBlockItem = (ILootFilterBlockItem) Activator.CreateInstance(blockItemType);
+            var newBlockItem = (IItemFilterBlockItem) Activator.CreateInstance(blockItemType);
 
             newBlockItem.PropertyChanged += OnAudioVisualBlockItemChanged;
             FilterBlockItems.Add(newBlockItem);
@@ -284,7 +284,7 @@ namespace Filtration.ViewModels
             IsDirty = true;
         }
 
-        private void OnRemoveAudioVisualBlockItemCommand(ILootFilterBlockItem blockItem)
+        private void OnRemoveAudioVisualBlockItemCommand(IItemFilterBlockItem blockItem)
         {
             blockItem.PropertyChanged -= OnAudioVisualBlockItemChanged;
             FilterBlockItems.Remove(blockItem);
@@ -347,7 +347,7 @@ namespace Filtration.ViewModels
         
         private bool AddBlockItemAllowed(Type type)
         {
-            var blockItem = (ILootFilterBlockItem)Activator.CreateInstance(type);
+            var blockItem = (IItemFilterBlockItem)Activator.CreateInstance(type);
             var blockCount = FilterBlockItems.Count(b => b.GetType() == type);
             return blockCount < blockItem.MaximumAllowed;
         }

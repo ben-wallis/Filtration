@@ -7,24 +7,24 @@ using Filtration.Utilities;
 
 namespace Filtration.Translators
 {
-    internal interface ILootFilterScriptTranslator
+    internal interface IItemFilterScriptTranslator
     {
-        LootFilterScript TranslateStringToLootFilterScript(string inputString);
-        string TranslateLootFilterScriptToString(LootFilterScript script);
+        ItemFilterScript TranslateStringToItemFilterScript(string inputString);
+        string TranslateItemFilterScriptToString(ItemFilterScript script);
     }
 
-    internal class LootFilterScriptTranslator : ILootFilterScriptTranslator
+    internal class ItemFilterScriptTranslator : IItemFilterScriptTranslator
     {
-        private readonly ILootFilterBlockTranslator _blockTranslator;
+        private readonly IItemFilterBlockTranslator _blockTranslator;
 
-        public LootFilterScriptTranslator(ILootFilterBlockTranslator blockTranslator)
+        public ItemFilterScriptTranslator(IItemFilterBlockTranslator blockTranslator)
         {
             _blockTranslator = blockTranslator;
         }
 
-        public LootFilterScript TranslateStringToLootFilterScript(string inputString)
+        public ItemFilterScript TranslateStringToItemFilterScript(string inputString)
         {
-            var script = new LootFilterScript();
+            var script = new ItemFilterScript();
             inputString = inputString.Replace("\t", "");
             var conditionBoundaries = IdentifyBlockBoundaries(inputString);
 
@@ -40,8 +40,8 @@ namespace Filtration.Translators
             }
             script.Description = script.Description.TrimEnd('\n').TrimEnd('\r');
 
-            // Extract each block from between boundaries and translate it into a LootFilterBlock object
-            // and add that object to the LootFilterBlocks list 
+            // Extract each block from between boundaries and translate it into a ItemFilterBlock object
+            // and add that object to the ItemFilterBlocks list 
             for (var boundary = conditionBoundaries.First; boundary != null; boundary = boundary.Next)
             {
                 var begin = boundary.Value;
@@ -49,7 +49,7 @@ namespace Filtration.Translators
                 var block = new string[end - begin];
                 Array.Copy(lines, begin, block, 0, end - begin);
                 var blockString = string.Join("\r\n", block);
-                script.LootFilterBlocks.Add(_blockTranslator.TranslateStringToLootFilterBlock(blockString));
+                script.ItemFilterBlocks.Add(_blockTranslator.TranslateStringToItemFilterBlock(blockString));
             }
 
             return script;
@@ -78,7 +78,7 @@ namespace Filtration.Translators
             return blockBoundaries;
         }
 
-        public string TranslateLootFilterScriptToString(LootFilterScript script)
+        public string TranslateItemFilterScriptToString(ItemFilterScript script)
         {
             var outputString = string.Empty;
 
@@ -99,9 +99,9 @@ namespace Filtration.Translators
             }
 
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (var block in script.LootFilterBlocks)
+            foreach (var block in script.ItemFilterBlocks)
             {
-                outputString += _blockTranslator.TranslateLootFilterBlockToString(block) + Environment.NewLine + Environment.NewLine;
+                outputString += _blockTranslator.TranslateItemFilterBlockToString(block) + Environment.NewLine + Environment.NewLine;
             }
 
             return outputString;

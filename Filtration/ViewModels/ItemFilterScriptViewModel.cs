@@ -10,29 +10,29 @@ using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Filtration.ViewModels
 {
-    internal interface ILootFilterScriptViewModel
+    internal interface IItemFilterScriptViewModel
     {
-        LootFilterScript Script { get; }
+        ItemFilterScript Script { get; }
         bool IsDirty { get; }
         string Description { get; set; }
         string DisplayName { get; }
-        void Initialise(LootFilterScript lootFilterScript);
-        ILootFilterBlockViewModel SelectedBlockViewModel { get; set; }
+        void Initialise(ItemFilterScript itemFilterScript);
+        IItemFilterBlockViewModel SelectedBlockViewModel { get; set; }
         void RemoveDirtyFlag();
-        void AddSection(ILootFilterBlockViewModel targetBlockViewModel);
-        void AddBlock(ILootFilterBlockViewModel targetBlockViewModel);
-        void CopyBlock(ILootFilterBlockViewModel targetBlockViewModel);
-        void PasteBlock(ILootFilterBlockViewModel targetBlockViewModel);
+        void AddSection(IItemFilterBlockViewModel targetBlockViewModel);
+        void AddBlock(IItemFilterBlockViewModel targetBlockViewModel);
+        void CopyBlock(IItemFilterBlockViewModel targetBlockViewModel);
+        void PasteBlock(IItemFilterBlockViewModel targetBlockViewModel);
     }
 
-    internal class LootFilterScriptViewModel : FiltrationViewModelBase, ILootFilterScriptViewModel
+    internal class ItemFilterScriptViewModel : FiltrationViewModelBase, IItemFilterScriptViewModel
     {
-        private readonly ILootFilterBlockViewModelFactory _lootFilterBlockViewModelFactory;
-        private readonly ILootFilterBlockTranslator _blockTranslator;
+        private readonly IItemFilterBlockViewModelFactory _itemFilterBlockViewModelFactory;
+        private readonly IItemFilterBlockTranslator _blockTranslator;
         private bool _isDirty;
-        private ILootFilterBlockViewModel _selectedBlockViewModel;
+        private IItemFilterBlockViewModel _selectedBlockViewModel;
 
-        public LootFilterScriptViewModel(ILootFilterBlockViewModelFactory lootFilterBlockViewModelFactory, ILootFilterBlockTranslator blockTranslator)
+        public ItemFilterScriptViewModel(IItemFilterBlockViewModelFactory itemFilterBlockViewModelFactory, IItemFilterBlockTranslator blockTranslator)
         {
             DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => SelectedBlockViewModel != null);
             MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand, () => SelectedBlockViewModel != null);
@@ -43,9 +43,9 @@ namespace Filtration.ViewModels
             AddSectionCommand = new RelayCommand(OnAddSectionCommand, () => SelectedBlockViewModel != null);
             CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => SelectedBlockViewModel != null);
             PasteBlockCommand = new RelayCommand(OnPasteBlockCommand, () => SelectedBlockViewModel != null);
-            _lootFilterBlockViewModelFactory = lootFilterBlockViewModelFactory;
+            _itemFilterBlockViewModelFactory = itemFilterBlockViewModelFactory;
             _blockTranslator = blockTranslator;
-            LootFilterBlockViewModels = new ObservableCollection<ILootFilterBlockViewModel>();
+            ItemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModel>();
 
         }
 
@@ -59,14 +59,14 @@ namespace Filtration.ViewModels
         public RelayCommand CopyBlockCommand { get; private set; }
         public RelayCommand PasteBlockCommand { get; private set; }
 
-        public ObservableCollection<ILootFilterBlockViewModel> LootFilterBlockViewModels { get; private set; }
+        public ObservableCollection<IItemFilterBlockViewModel> ItemFilterBlockViewModels { get; private set; }
 
-        public IEnumerable<ILootFilterBlockViewModel> LootFilterSectionViewModels
+        public IEnumerable<IItemFilterBlockViewModel> ItemFilterSectionViewModels
         {
-            get { return LootFilterBlockViewModels.Where(b => b.Block.GetType() == typeof (LootFilterSection)); }
+            get { return ItemFilterBlockViewModels.Where(b => b.Block.GetType() == typeof (ItemFilterSection)); }
         }
 
-        public ILootFilterBlockViewModel SectionBrowserSelectedViewModel { get; set; }
+        public IItemFilterBlockViewModel SectionBrowserSelectedViewModel { get; set; }
 
         public string Description
         {
@@ -79,7 +79,7 @@ namespace Filtration.ViewModels
             }
         }
 
-        public ILootFilterBlockViewModel SelectedBlockViewModel
+        public IItemFilterBlockViewModel SelectedBlockViewModel
         {
             get { return _selectedBlockViewModel; }
             set
@@ -89,7 +89,7 @@ namespace Filtration.ViewModels
             }
         }
 
-        public LootFilterScript Script { get; private set; }
+        public ItemFilterScript Script { get; private set; }
 
         public bool IsDirty
         {
@@ -102,12 +102,12 @@ namespace Filtration.ViewModels
 
         private bool HasDirtyChildren
         {
-            get { return LootFilterBlockViewModels.Any(vm => vm.IsDirty); }
+            get { return ItemFilterBlockViewModels.Any(vm => vm.IsDirty); }
         }
 
         private void CleanChildren()
         {
-            foreach (var vm in LootFilterBlockViewModels)
+            foreach (var vm in ItemFilterBlockViewModels)
             {
                 vm.IsDirty = false;
             }
@@ -136,16 +136,16 @@ namespace Filtration.ViewModels
             get { return Script.FilePath; }
         }
 
-        public void Initialise(LootFilterScript lootFilterScript)
+        public void Initialise(ItemFilterScript itemFilterScript)
         {
-            LootFilterBlockViewModels.Clear();
+            ItemFilterBlockViewModels.Clear();
 
-            Script = lootFilterScript;
-            foreach (var block in Script.LootFilterBlocks)
+            Script = itemFilterScript;
+            foreach (var block in Script.ItemFilterBlocks)
             {
-                var vm = _lootFilterBlockViewModelFactory.Create();
+                var vm = _itemFilterBlockViewModelFactory.Create();
                 vm.Initialise(block, this);
-                LootFilterBlockViewModels.Add(vm);
+                ItemFilterBlockViewModels.Add(vm);
             }
         }
 
@@ -154,9 +154,9 @@ namespace Filtration.ViewModels
             CopyBlock(SelectedBlockViewModel);
         }
 
-        public void CopyBlock(ILootFilterBlockViewModel targetBlockViewModel)
+        public void CopyBlock(IItemFilterBlockViewModel targetBlockViewModel)
         {
-            Clipboard.SetText(_blockTranslator.TranslateLootFilterBlockToString(SelectedBlockViewModel.Block));
+            Clipboard.SetText(_blockTranslator.TranslateItemFilterBlockToString(SelectedBlockViewModel.Block));
         }
 
         private void OnPasteBlockCommand()
@@ -164,26 +164,26 @@ namespace Filtration.ViewModels
             PasteBlock(SelectedBlockViewModel);
         }
 
-        public void PasteBlock(ILootFilterBlockViewModel targetBlockViewModel)
+        public void PasteBlock(IItemFilterBlockViewModel targetBlockViewModel)
         {
             var clipboardText = Clipboard.GetText();
             if (clipboardText.IsNullOrEmpty()) return;
             
-            var translatedBlock = _blockTranslator.TranslateStringToLootFilterBlock(clipboardText);
+            var translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(clipboardText);
             if (translatedBlock == null) return;
 
-            var vm = _lootFilterBlockViewModelFactory.Create();
+            var vm = _itemFilterBlockViewModelFactory.Create();
             vm.Initialise(translatedBlock, this);
 
-            if (LootFilterBlockViewModels.Count > 0)
+            if (ItemFilterBlockViewModels.Count > 0)
             {
-                Script.LootFilterBlocks.Insert(Script.LootFilterBlocks.IndexOf(targetBlockViewModel.Block) + 1, translatedBlock);
-                LootFilterBlockViewModels.Insert(LootFilterBlockViewModels.IndexOf(targetBlockViewModel) + 1, vm);
+                Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModel.Block) + 1, translatedBlock);
+                ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModel) + 1, vm);
             }
             else
             {
-                Script.LootFilterBlocks.Add(translatedBlock);
-                LootFilterBlockViewModels.Add(vm);
+                Script.ItemFilterBlocks.Add(translatedBlock);
+                ItemFilterBlockViewModels.Add(vm);
             }
 
             SelectedBlockViewModel = vm;
@@ -197,18 +197,18 @@ namespace Filtration.ViewModels
            
         }
 
-        public void MoveBlockToTop(ILootFilterBlockViewModel targetBlockViewModel)
+        public void MoveBlockToTop(IItemFilterBlockViewModel targetBlockViewModel)
         {
-            var currentIndex = LootFilterBlockViewModels.IndexOf(targetBlockViewModel);
+            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModel);
 
             if (currentIndex > 0)
             {
                 var block = targetBlockViewModel.Block;
-                Script.LootFilterBlocks.Remove(block);
-                Script.LootFilterBlocks.Insert(0, block);
-                LootFilterBlockViewModels.Move(currentIndex, 0);
+                Script.ItemFilterBlocks.Remove(block);
+                Script.ItemFilterBlocks.Insert(0, block);
+                ItemFilterBlockViewModels.Move(currentIndex, 0);
                 _isDirty = true;
-                RaisePropertyChanged("LootFilterSectionViewModels");
+                RaisePropertyChanged("ItemFilterSectionViewModels");
             }
         }
 
@@ -217,19 +217,19 @@ namespace Filtration.ViewModels
             MoveBlockUp(SelectedBlockViewModel);
         }
 
-        public void MoveBlockUp(ILootFilterBlockViewModel targetBlockViewModel)
+        public void MoveBlockUp(IItemFilterBlockViewModel targetBlockViewModel)
         {
-            var currentIndex = LootFilterBlockViewModels.IndexOf(targetBlockViewModel);
+            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModel);
 
             if (currentIndex > 0)
             {
                 var block = targetBlockViewModel.Block;
-                var blockPos = Script.LootFilterBlocks.IndexOf(block);
-                Script.LootFilterBlocks.RemoveAt(blockPos);
-                Script.LootFilterBlocks.Insert(blockPos - 1, block);
-                LootFilterBlockViewModels.Move(currentIndex, currentIndex - 1);
+                var blockPos = Script.ItemFilterBlocks.IndexOf(block);
+                Script.ItemFilterBlocks.RemoveAt(blockPos);
+                Script.ItemFilterBlocks.Insert(blockPos - 1, block);
+                ItemFilterBlockViewModels.Move(currentIndex, currentIndex - 1);
                 _isDirty = true;
-                RaisePropertyChanged("LootFilterSectionViewModels");
+                RaisePropertyChanged("ItemFilterSectionViewModels");
             }
         }
 
@@ -238,19 +238,19 @@ namespace Filtration.ViewModels
             MoveBlockDown(SelectedBlockViewModel);
         }
 
-        public void MoveBlockDown(ILootFilterBlockViewModel targetBlockViewModel)
+        public void MoveBlockDown(IItemFilterBlockViewModel targetBlockViewModel)
         {
-            var currentIndex = LootFilterBlockViewModels.IndexOf(targetBlockViewModel);
+            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModel);
 
-            if (currentIndex < LootFilterBlockViewModels.Count - 1)
+            if (currentIndex < ItemFilterBlockViewModels.Count - 1)
             {
                 var block = targetBlockViewModel.Block;
-                var blockPos = Script.LootFilterBlocks.IndexOf(block);
-                Script.LootFilterBlocks.RemoveAt(blockPos);
-                Script.LootFilterBlocks.Insert(blockPos + 1, block);
-                LootFilterBlockViewModels.Move(currentIndex, currentIndex + 1);
+                var blockPos = Script.ItemFilterBlocks.IndexOf(block);
+                Script.ItemFilterBlocks.RemoveAt(blockPos);
+                Script.ItemFilterBlocks.Insert(blockPos + 1, block);
+                ItemFilterBlockViewModels.Move(currentIndex, currentIndex + 1);
                 _isDirty = true;
-                RaisePropertyChanged("LootFilterSectionViewModels");
+                RaisePropertyChanged("ItemFilterSectionViewModels");
             }
         }
 
@@ -259,18 +259,18 @@ namespace Filtration.ViewModels
             MoveBlockToBottom(SelectedBlockViewModel);
         }
 
-        public void MoveBlockToBottom(ILootFilterBlockViewModel targetBlockViewModel)
+        public void MoveBlockToBottom(IItemFilterBlockViewModel targetBlockViewModel)
         {
-            var currentIndex = LootFilterBlockViewModels.IndexOf(targetBlockViewModel);
+            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModel);
 
-            if (currentIndex < LootFilterBlockViewModels.Count - 1)
+            if (currentIndex < ItemFilterBlockViewModels.Count - 1)
             {
                 var block = targetBlockViewModel.Block;
-                Script.LootFilterBlocks.Remove(block);
-                Script.LootFilterBlocks.Add(block);
-                LootFilterBlockViewModels.Move(currentIndex, LootFilterBlockViewModels.Count - 1);
+                Script.ItemFilterBlocks.Remove(block);
+                Script.ItemFilterBlocks.Add(block);
+                ItemFilterBlockViewModels.Move(currentIndex, ItemFilterBlockViewModels.Count - 1);
                 _isDirty = true;
-                RaisePropertyChanged("LootFilterSectionViewModels");
+                RaisePropertyChanged("ItemFilterSectionViewModels");
             }
         }
 
@@ -279,21 +279,21 @@ namespace Filtration.ViewModels
             AddBlock(SelectedBlockViewModel);
         }
 
-        public void AddBlock(ILootFilterBlockViewModel targetBlockViewModel)
+        public void AddBlock(IItemFilterBlockViewModel targetBlockViewModel)
         {
-            var vm = _lootFilterBlockViewModelFactory.Create();
-            var newBlock = new LootFilterBlock();
+            var vm = _itemFilterBlockViewModelFactory.Create();
+            var newBlock = new ItemFilterBlock();
             vm.Initialise(newBlock, this);
 
             if (targetBlockViewModel != null)
             {
-                Script.LootFilterBlocks.Insert(Script.LootFilterBlocks.IndexOf(targetBlockViewModel.Block) + 1, newBlock);
-                LootFilterBlockViewModels.Insert(LootFilterBlockViewModels.IndexOf(targetBlockViewModel) + 1, vm);
+                Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModel.Block) + 1, newBlock);
+                ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModel) + 1, vm);
             }
             else
             {
-                Script.LootFilterBlocks.Add(newBlock);
-                LootFilterBlockViewModels.Add(vm);
+                Script.ItemFilterBlocks.Add(newBlock);
+                ItemFilterBlockViewModels.Add(vm);
             }
 
             SelectedBlockViewModel = vm;
@@ -305,17 +305,17 @@ namespace Filtration.ViewModels
             AddSection(SelectedBlockViewModel);
         }
 
-        public void AddSection(ILootFilterBlockViewModel targetBlockViewModel)
+        public void AddSection(IItemFilterBlockViewModel targetBlockViewModel)
         {
-            var vm = _lootFilterBlockViewModelFactory.Create();
-            var newSection = new LootFilterSection { Description = "New Section" };
+            var vm = _itemFilterBlockViewModelFactory.Create();
+            var newSection = new ItemFilterSection { Description = "New Section" };
             vm.Initialise(newSection, this);
 
-            Script.LootFilterBlocks.Insert(Script.LootFilterBlocks.IndexOf(targetBlockViewModel.Block) + 1, newSection);
-            LootFilterBlockViewModels.Insert(LootFilterBlockViewModels.IndexOf(targetBlockViewModel) + 1, vm);
+            Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModel.Block) + 1, newSection);
+            ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModel) + 1, vm);
             _isDirty = true;
             SelectedBlockViewModel = vm;
-            RaisePropertyChanged("LootFilterSectionViewModels");
+            RaisePropertyChanged("ItemFilterSectionViewModels");
         }
 
         private void OnDeleteBlockCommand()
@@ -323,15 +323,15 @@ namespace Filtration.ViewModels
             DeleteBlock(SelectedBlockViewModel);
         }
 
-        public void DeleteBlock(ILootFilterBlockViewModel targetBlockViewModel)
+        public void DeleteBlock(IItemFilterBlockViewModel targetBlockViewModel)
         {
             var result = MessageBox.Show("Are you sure you wish to delete this block?", "Delete Confirmation",
                 MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
-                Script.LootFilterBlocks.Remove(targetBlockViewModel.Block);
-                LootFilterBlockViewModels.Remove(targetBlockViewModel);
+                Script.ItemFilterBlocks.Remove(targetBlockViewModel.Block);
+                ItemFilterBlockViewModels.Remove(targetBlockViewModel);
                 _isDirty = true;
             }
             SelectedBlockViewModel = null;

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 using Filtration.Models;
 using Filtration.Models.BlockItemTypes;
@@ -12,14 +8,14 @@ using NUnit.Framework;
 namespace Filtration.Tests.Models
 {
     [TestFixture]
-    public class TestLootFilterScript
+    public class TestItemFilterScript
     {
         [Test]
         public void Validate_AtLeastOneBlock_Fail_ReturnsListWithCorrectError()
         {
             // Arrange
 
-            var script = new LootFilterScript();
+            var script = new ItemFilterScript();
 
             // Act
             var result = script.Validate();
@@ -33,9 +29,9 @@ namespace Filtration.Tests.Models
         {
             // Arrange
 
-            var script = new LootFilterScript
+            var script = new ItemFilterScript
             {
-                LootFilterBlocks = new ObservableCollection<LootFilterBlock> {new LootFilterBlock()}
+                ItemFilterBlocks = new ObservableCollection<ItemFilterBlock> {new ItemFilterBlock()}
             };
 
             // Act
@@ -59,16 +55,16 @@ namespace Filtration.Tests.Models
                 ReplaceBackgroundColor = true
             };
 
-            var testInputBlock1 = new LootFilterBlock();
+            var testInputBlock1 = new ItemFilterBlock();
             testInputBlock1.BlockItems.Add(new BackgroundColorBlockItem(new Color {A = 255, R = 255, G = 0, B = 0}));
-            var testInputBlock2 = new LootFilterBlock();
+            var testInputBlock2 = new ItemFilterBlock();
             testInputBlock2.BlockItems.Add(new BackgroundColorBlockItem(new Color { A = 255, R = 255, G = 1, B = 0 }));
-            var testInputBlock3 = new LootFilterBlock();
+            var testInputBlock3 = new ItemFilterBlock();
             testInputBlock3.BlockItems.Add(new BackgroundColorBlockItem(new Color { A = 255, R = 255, G = 0, B = 0 }));
 
-            var script = new LootFilterScript()
+            var script = new ItemFilterScript()
             {
-                LootFilterBlocks = new ObservableCollection<LootFilterBlock>
+                ItemFilterBlocks = new ObservableCollection<ItemFilterBlock>
                 {
                     testInputBlock1,
                     testInputBlock2,
@@ -105,16 +101,16 @@ namespace Filtration.Tests.Models
                 ReplaceTextColor = true
             };
 
-            var testInputBlock1 = new LootFilterBlock();
+            var testInputBlock1 = new ItemFilterBlock();
             testInputBlock1.BlockItems.Add(new BackgroundColorBlockItem(oldBackgroundColor));
             testInputBlock1.BlockItems.Add(new TextColorBlockItem(oldTextColor));
-            var testInputBlock2 = new LootFilterBlock();
+            var testInputBlock2 = new ItemFilterBlock();
             testInputBlock2.BlockItems.Add(new BackgroundColorBlockItem(oldBackgroundColor));
             testInputBlock2.BlockItems.Add(new TextColorBlockItem(new Color {A = 1, R = 2, G = 3, B = 4}));
 
-            var script = new LootFilterScript
+            var script = new ItemFilterScript
             {
-                LootFilterBlocks = new ObservableCollection<LootFilterBlock>
+                ItemFilterBlocks = new ObservableCollection<ItemFilterBlock>
                 {
                     testInputBlock1,
                     testInputBlock2

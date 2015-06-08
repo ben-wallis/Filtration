@@ -9,18 +9,18 @@ namespace Filtration.Views
     {
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            var viewModel = item as LootFilterBlockViewModel;
+            var viewModel = item as ItemFilterBlockViewModel;
             var element = container as FrameworkElement;
 
             if (viewModel == null || element == null)
                 return null;
 
-            if (viewModel.Block is LootFilterSection)
+            if (viewModel.Block is ItemFilterSection)
             {
-                return element.FindResource("LootFilterSectionTemplate") as DataTemplate;
+                return element.FindResource("ItemFilterSectionTemplate") as DataTemplate;
             }
 
-            return element.FindResource("LootFilterBlockTemplate") as DataTemplate;
+            return element.FindResource("ItemFilterBlockTemplate") as DataTemplate;
         }
     }
 }

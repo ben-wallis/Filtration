@@ -1,8 +1,8 @@
 ﻿namespace Filtration.Views
 {
-    public partial class LootFilterBlockView
+    public partial class ItemFilterBlockView
     {
-        public LootFilterBlockView()
+        public ItemFilterBlockView()
         {
             InitializeComponent();
         }

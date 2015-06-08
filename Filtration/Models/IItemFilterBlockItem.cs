@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace Filtration.Models
 {
-    internal interface ILootFilterBlockItem : INotifyPropertyChanged
+    internal interface IItemFilterBlockItem : INotifyPropertyChanged
     {
         string PrefixText { get; }
         int MaximumAllowed { get; }

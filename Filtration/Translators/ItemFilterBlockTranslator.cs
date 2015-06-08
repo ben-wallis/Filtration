@@ -13,28 +13,28 @@ using Filtration.Utilities;
 
 namespace Filtration.Translators
 {
-    internal interface ILootFilterBlockTranslator
+    internal interface IItemFilterBlockTranslator
     {
-        LootFilterBlock TranslateStringToLootFilterBlock(string inputString);
-        string TranslateLootFilterBlockToString(LootFilterBlock block);
+        ItemFilterBlock TranslateStringToItemFilterBlock(string inputString);
+        string TranslateItemFilterBlockToString(ItemFilterBlock block);
     }
 
-    internal class LootFilterBlockTranslator : ILootFilterBlockTranslator
+    internal class ItemFilterBlockTranslator : IItemFilterBlockTranslator
     {
         private const string Indent = "    ";
         private readonly string _newLine = Environment.NewLine + Indent;
 
-        // This method converts a string into a LootFilterBlock. This is used for pasting LootFilterBlocks 
-        // and reading LootFilterScripts from a file.
-        public LootFilterBlock TranslateStringToLootFilterBlock(string inputString)
+        // This method converts a string into a ItemFilterBlock. This is used for pasting ItemFilterBlocks 
+        // and reading ItemFilterScripts from a file.
+        public ItemFilterBlock TranslateStringToItemFilterBlock(string inputString)
         {
-            var block = new LootFilterBlock();
+            var block = new ItemFilterBlock();
             var showHideFound = false;
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
                 if (line.StartsWith(@"# Section:"))
                 {
-                    var section = new LootFilterSection
+                    var section = new ItemFilterSection
                     {
                         Description = line.Substring(line.IndexOf(":", StringComparison.Ordinal) + 1).Trim()
                     };
@@ -215,7 +215,7 @@ namespace Filtration.Translators
             return block;
         }
 
-        private static void RemoveExistingBlockItemsOfType<T>(LootFilterBlock block)
+        private static void RemoveExistingBlockItemsOfType<T>(ItemFilterBlock block)
         {
             var existingBlockItemCount = block.BlockItems.Count(b => b.GetType() == typeof(T));
             if (existingBlockItemCount > 0)
@@ -225,7 +225,7 @@ namespace Filtration.Translators
             }
         }
 
-        private static void AddNumericFilterPredicateItemToBlockItems<T>(LootFilterBlock block, string inputString) where T : NumericFilterPredicateBlockItem
+        private static void AddNumericFilterPredicateItemToBlockItems<T>(ItemFilterBlock block, string inputString) where T : NumericFilterPredicateBlockItem
         {
             var blockItem = Activator.CreateInstance<T>();
             
@@ -243,7 +243,7 @@ namespace Filtration.Translators
             predicate.PredicateOperand = Convert.ToInt16(result.Groups[2].Value);
         }
 
-        private static void AddStringListItemToBlockItems<T>(LootFilterBlock block, string inputString) where T : StringListBlockItem
+        private static void AddStringListItemToBlockItems<T>(ItemFilterBlock block, string inputString) where T : StringListBlockItem
         {
             var blockItem = Activator.CreateInstance<T>();
             PopulateListFromString(blockItem.Items, inputString.Substring(inputString.IndexOf(" ", StringComparison.Ordinal) + 1).Trim());
@@ -261,7 +261,7 @@ namespace Filtration.Translators
             }
         }
 
-        private static void AddColorItemToBlockItems<T>(LootFilterBlock block, string inputString) where T : ColorBlockItem
+        private static void AddColorItemToBlockItems<T>(ItemFilterBlock block, string inputString) where T : ColorBlockItem
         {
             var blockItem = Activator.CreateInstance<T>();
             blockItem.Color = GetColorFromString(inputString);
@@ -294,11 +294,11 @@ namespace Filtration.Translators
             return new Color();
         }
 
-        // This method converts a LootFilterBlock object into a string. This is used for copying a LootFilterBlock
-        // to the clipboard, and when saving a LootFilterScript.
-        public string TranslateLootFilterBlockToString(LootFilterBlock block)
+        // This method converts a ItemFilterBlock object into a string. This is used for copying a ItemFilterBlock
+        // to the clipboard, and when saving a ItemFilterScript.
+        public string TranslateItemFilterBlockToString(ItemFilterBlock block)
         {
-            if (block.GetType() == typeof (LootFilterSection))
+            if (block.GetType() == typeof (ItemFilterSection))
             {
                 return "# Section: " + block.Description;
             }
@@ -312,7 +312,7 @@ namespace Filtration.Translators
 
             outputString += block.Action.GetAttributeDescription();
 
-            // This could be refactored to use the upcasted NumericFilterPredicateBlockItem (or even ILootFilterBlockItem) instead
+            // This could be refactored to use the upcasted NumericFilterPredicateBlockItem (or even IItemFilterBlockItem) instead
             // of the specific downcasts. Leaving it like this currently to preserve sorting since the different
             // downcasts have no defined sort order (yet).
             foreach (var blockItem in block.BlockItems.OfType<ItemLevelBlockItem>())

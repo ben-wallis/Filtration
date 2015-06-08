@@ -5,13 +5,13 @@ using NUnit.Framework;
 namespace Filtration.Tests.Models
 {
     [TestFixture]
-    public class TestLootFilterBlock
+    public class TestItemFilterBlock
     {
         [Test]
-        public void LootFilterBlock_BlockCount_ReturnsCorrectNumber()
+        public void ItemFilterBlock_BlockCount_ReturnsCorrectNumber()
         {
             // Arrange
-            var block = new LootFilterBlock();
+            var block = new ItemFilterBlock();
             block.BlockItems.Add(new ItemLevelBlockItem());
             block.BlockItems.Add(new ItemLevelBlockItem());
             block.BlockItems.Add(new ItemLevelBlockItem());
@@ -25,10 +25,10 @@ namespace Filtration.Tests.Models
         }
 
         [Test]
-        public void LootFilterBlock_AddBlockItemAllowed_LessThanMaximum_ReturnsTrue()
+        public void ItemFilterBlock_AddBlockItemAllowed_LessThanMaximum_ReturnsTrue()
         {
             // Arrange
-            var block = new LootFilterBlock();
+            var block = new ItemFilterBlock();
             block.BlockItems.Add(new ItemLevelBlockItem());
 
             // Act
@@ -39,10 +39,10 @@ namespace Filtration.Tests.Models
         }
 
         [Test]
-        public void LootFilterBlock_AddBlockItemAllowed_MoreThanMaximum_ReturnsFalse()
+        public void ItemFilterBlock_AddBlockItemAllowed_MoreThanMaximum_ReturnsFalse()
         {
             // Arrange
-            var block = new LootFilterBlock();
+            var block = new ItemFilterBlock();
             block.BlockItems.Add(new SoundBlockItem());
 
             // Act

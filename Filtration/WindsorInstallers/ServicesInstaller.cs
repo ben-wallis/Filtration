@@ -15,8 +15,8 @@ namespace Filtration.WindsorInstallers
                     .LifeStyle.Singleton);
 
             container.Register(
-                Component.For<ILootFilterPersistenceService>()
-                    .ImplementedBy<LootFilterPersistenceService>()
+                Component.For<IItemFilterPersistenceService>()
+                    .ImplementedBy<ItemFilterPersistenceService>()
                     .LifeStyle.Singleton);
 
             container.Register(

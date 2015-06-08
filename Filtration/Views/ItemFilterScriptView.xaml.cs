@@ -2,9 +2,9 @@
 
 namespace Filtration.Views
 {
-    public partial class LootFilterScriptView
+    public partial class ItemFilterScriptView
     {
-        public LootFilterScriptView()
+        public ItemFilterScriptView()
         {
             InitializeComponent();
         }

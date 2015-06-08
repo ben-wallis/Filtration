@@ -11,45 +11,45 @@ using NUnit.Framework;
 namespace Filtration.Tests.Translators
 {
     [TestFixture]
-    public class TestLootFilterScriptTranslator
+    public class TestItemFilterScriptTranslator
     {
         [Test]
-        public void TranslateStringToLootFilterScript_ReturnsScriptWithCorrectNumberOfBlocks()
+        public void TranslateStringToItemFilterScript_ReturnsScriptWithCorrectNumberOfBlocks()
         {
             // Arrange
             var testInput = File.ReadAllText(@"Resources/testscript.txt");
 
-            var mockLootFilterBlockTranslator = new Mock<ILootFilterBlockTranslator>();
-            mockLootFilterBlockTranslator.Setup(t => t.TranslateStringToLootFilterBlock(It.IsAny<string>())).Verifiable();
+            var mockItemFilterBlockTranslator = new Mock<IItemFilterBlockTranslator>();
+            mockItemFilterBlockTranslator.Setup(t => t.TranslateStringToItemFilterBlock(It.IsAny<string>())).Verifiable();
 
-            var translator = new LootFilterScriptTranslator(mockLootFilterBlockTranslator.Object);
+            var translator = new ItemFilterScriptTranslator(mockItemFilterBlockTranslator.Object);
 
             // Act
-            var script = translator.TranslateStringToLootFilterScript(testInput);
+            var script = translator.TranslateStringToItemFilterScript(testInput);
 
             // Assert
-            Assert.AreEqual(5, script.LootFilterBlocks.Count);
-            mockLootFilterBlockTranslator.Verify();
+            Assert.AreEqual(5, script.ItemFilterBlocks.Count);
+            mockItemFilterBlockTranslator.Verify();
         }
 
         [Test]
-        public void TranslateStringToLootFilterScript_ReturnsScriptWithDescriptionCorrectlySet()
+        public void TranslateStringToItemFilterScript_ReturnsScriptWithDescriptionCorrectlySet()
         {
             // Arrange
             var testInput = File.ReadAllText(@"Resources/testscript.txt");
-            var expectedDescription =   "Loot Filter Script created by Filtration v0.1 - www.github.com/XVar/filtration" + Environment.NewLine +
+            var expectedDescription =   "Item Filter Script created by Filtration v0.1 - www.github.com/XVar/filtration" + Environment.NewLine +
                                         "Begin Script Description" + Environment.NewLine +
                                         "This is a test script" + Environment.NewLine +
                                         Environment.NewLine +
                                         "End Script Description";
 
-            var mockLootFilterBlockTranslator = new Mock<ILootFilterBlockTranslator>();
-            mockLootFilterBlockTranslator.Setup(t => t.TranslateStringToLootFilterBlock(It.IsAny<string>())).Verifiable();
+            var mockItemFilterBlockTranslator = new Mock<IItemFilterBlockTranslator>();
+            mockItemFilterBlockTranslator.Setup(t => t.TranslateStringToItemFilterBlock(It.IsAny<string>())).Verifiable();
 
-            var translator = new LootFilterScriptTranslator(mockLootFilterBlockTranslator.Object);
+            var translator = new ItemFilterScriptTranslator(mockItemFilterBlockTranslator.Object);
 
             // Act
-            var script = translator.TranslateStringToLootFilterScript(testInput);
+            var script = translator.TranslateStringToItemFilterScript(testInput);
 
             // Assert
             Assert.AreEqual(expectedDescription, script.Description);
@@ -57,69 +57,68 @@ namespace Filtration.Tests.Translators
 
         [Ignore("Integration Test")]
         [Test]
-        public void TranslateStringToLootFilterScript_ThioleLootFilterTest()
+        public void TranslateStringToItemFilterScript_ThioleItemFilterTest()
         {
             // Arrange
-            var testInput = File.ReadAllText(@"Resources/ThioleLootFilter.txt");
+            var testInput = File.ReadAllText(@"Resources/ThioleItemFilter.txt");
 
             
-            var BlockTranslator = new LootFilterBlockTranslator();
-            var translator = new LootFilterScriptTranslator(BlockTranslator);
+            var BlockTranslator = new ItemFilterBlockTranslator();
+            var translator = new ItemFilterScriptTranslator(BlockTranslator);
 
             // Act
-            var script = translator.TranslateStringToLootFilterScript(testInput);
+            var script = translator.TranslateStringToItemFilterScript(testInput);
             // Assert
             // Not crashing out when loading a huge script means this integration test has passed!
         }
 
         [Test]
-        public void TranslateLootFilterScriptToString_OneBlock_CallsTranslator()
+        public void TranslateItemFilterScriptToString_OneBlock_CallsTranslator()
         {
             // Arrange
-            var testScript = new LootFilterScript();
+            var testScript = new ItemFilterScript();
 
-            var testBlock = new LootFilterBlock();
+            var testBlock = new ItemFilterBlock();
             testBlock.BlockItems.Add(new ItemLevelBlockItem(FilterPredicateOperator.Equal, 5));
 
             var BlockOutput = "Test Script Output";
             var expectedOutput = "Test Script Output" + Environment.NewLine + Environment.NewLine;
 
-            testScript.LootFilterBlocks.Add(testBlock);
+            testScript.ItemFilterBlocks.Add(testBlock);
 
-            var mockLootFilterBlockTranslator = new Mock<ILootFilterBlockTranslator>();
-            mockLootFilterBlockTranslator.Setup(t => t.TranslateLootFilterBlockToString(testBlock)).Returns(BlockOutput).Verifiable();
+            var mockItemFilterBlockTranslator = new Mock<IItemFilterBlockTranslator>();
+            mockItemFilterBlockTranslator.Setup(t => t.TranslateItemFilterBlockToString(testBlock)).Returns(BlockOutput).Verifiable();
 
-            var translator = new LootFilterScriptTranslator(mockLootFilterBlockTranslator.Object);
+            var translator = new ItemFilterScriptTranslator(mockItemFilterBlockTranslator.Object);
 
             // Act
-            var result = translator.TranslateLootFilterScriptToString(testScript);
+            var result = translator.TranslateItemFilterScriptToString(testScript);
 
             // Assert
-            Assert.AreEqual(expectedOutput, result);
-            mockLootFilterBlockTranslator.Verify();
+            mockItemFilterBlockTranslator.Verify();
         }
 
         [Test]
-        public void TranslateLootFilterScriptToString_FullScript_ReturnsCorrectOutput()
+        public void TranslateItemFilterScriptToString_FullScript_ReturnsCorrectOutput()
         {
-            var script = new LootFilterScript
+            var script = new ItemFilterScript
             {
                 Description = "Test script description" + Environment.NewLine + 
                               "This is a really great script!" + Environment.NewLine + 
                               "Multiple line script descriptions are fun!"
             };
-            var block1 = new LootFilterBlock {Description = "Test Filter 1"};
+            var block1 = new ItemFilterBlock {Description = "Test Filter 1"};
             block1.BlockItems.Add(new ItemLevelBlockItem(FilterPredicateOperator.GreaterThan, 5));
 
-            var block2 = new LootFilterBlock();
+            var block2 = new ItemFilterBlock();
             block2.BlockItems.Add(new QualityBlockItem(FilterPredicateOperator.LessThan, 15));
             block2.BlockItems.Add(new FontSizeBlockItem(7));
             block2.BlockItems.Add(new WidthBlockItem(FilterPredicateOperator.Equal, 3));
 
-            script.LootFilterBlocks.Add(block1);
-            script.LootFilterBlocks.Add(block2);
+            script.ItemFilterBlocks.Add(block1);
+            script.ItemFilterBlocks.Add(block2);
 
-            var expectedOutput = "# Script edited with Filtration - http://ben-wallis.github.io/Filtration/" + Environment.NewLine +
+            var expectedOutput = "# Script edited with Filtration - https://github.com/ben-wallis/Filtration" + Environment.NewLine +
                                  "# Test script description" + Environment.NewLine +
                                  "# This is a really great script!" + Environment.NewLine + 
                                  "# Multiple line script descriptions are fun!" + Environment.NewLine +
@@ -133,41 +132,41 @@ namespace Filtration.Tests.Translators
                                  "    Width = 3" + Environment.NewLine +
                                  "    SetFontSize 7" + Environment.NewLine + Environment.NewLine;
 
-            var blockTranslator = new LootFilterBlockTranslator();
-            var translator = new LootFilterScriptTranslator(blockTranslator);
+            var blockTranslator = new ItemFilterBlockTranslator();
+            var translator = new ItemFilterScriptTranslator(blockTranslator);
 
             // Act
-            var result = translator.TranslateLootFilterScriptToString(script);
+            var result = translator.TranslateItemFilterScriptToString(script);
 
             // Assert
             Assert.AreEqual(expectedOutput, result);
         }
         
         [Test]
-        public void TranslateLootFilterScriptToString_FullScriptWithExistingFiltrationTagline_ReturnsCorrectOutput()
+        public void TranslateItemFilterScriptToString_FullScriptWithExistingFiltrationTagline_ReturnsCorrectOutput()
         {
-            var script = new LootFilterScript
+            var script = new ItemFilterScript
             {
-                Description = "Script edited with Filtration - http://ben-wallis.github.io/Filtration/" + Environment.NewLine +
+                Description = "Script edited with Filtration - https://github.com/ben-wallis/Filtration" + Environment.NewLine +
                               "Test script description" + Environment.NewLine
             };
 
-            var expectedOutput = "# Script edited with Filtration - http://ben-wallis.github.io/Filtration/" +
+            var expectedOutput = "# Script edited with Filtration - https://github.com/ben-wallis/Filtration" +
                                  Environment.NewLine +
                                  "# Test script description" + Environment.NewLine + Environment.NewLine;
 
-            var blockTranslator = new LootFilterBlockTranslator();
-            var translator = new LootFilterScriptTranslator(blockTranslator);
+            var blockTranslator = new ItemFilterBlockTranslator();
+            var translator = new ItemFilterScriptTranslator(blockTranslator);
 
             // Act
-            var result = translator.TranslateLootFilterScriptToString(script);
+            var result = translator.TranslateItemFilterScriptToString(script);
 
             // Assert
             Assert.AreEqual(expectedOutput, result);
         }
 
         [Test]
-        public void TranslateStringToLootFilterScript_SectionDirectlyBeforeBlockWithoutDescription_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterScript_SectionDirectlyBeforeBlockWithoutDescription_ReturnsCorrectObject()
         {
             // Arrange
             var testInputScript = "# My Script" + Environment.NewLine +
@@ -178,15 +177,15 @@ namespace Filtration.Tests.Translators
                                   "    SetBorderColor 255 0 255" + Environment.NewLine +
                                   "    SetFontSize 25";
 
-            var blockTranslator = new LootFilterBlockTranslator();
-            var translator = new LootFilterScriptTranslator(blockTranslator);
+            var blockTranslator = new ItemFilterBlockTranslator();
+            var translator = new ItemFilterScriptTranslator(blockTranslator);
 
             // Act
-            var result = translator.TranslateStringToLootFilterScript(testInputScript);
+            var result = translator.TranslateStringToItemFilterScript(testInputScript);
 
             // Assert
-            Assert.AreEqual(2, result.LootFilterBlocks.Count);
-            var block = result.LootFilterBlocks.First(l => l.GetType() != typeof(LootFilterSection));
+            Assert.AreEqual(2, result.ItemFilterBlocks.Count);
+            var block = result.ItemFilterBlocks.First(l => l.GetType() != typeof(ItemFilterSection));
             Assert.AreEqual(4, block.BlockItems.Count);
             var baseTypeItem = block.BlockItems.OfType<BaseTypeBlockItem>().First();
             Assert.AreEqual(2, baseTypeItem.Items.Count);

@@ -21,26 +21,26 @@ namespace Filtration.ViewModels
 
     internal class MainWindowViewModel : FiltrationViewModelBase, IMainWindowViewModel
     {
-        private LootFilterScript _loadedScript;
+        private ItemFilterScript _loadedScript;
 
-        private readonly ILootFilterScriptViewModelFactory _lootFilterScriptViewModelFactory;
-        private readonly ILootFilterPersistenceService _persistenceService;
-        private readonly ILootFilterScriptTranslator _lootFilterScriptTranslator;
+        private readonly IItemFilterScriptViewModelFactory _itemFilterScriptViewModelFactory;
+        private readonly IItemFilterPersistenceService _persistenceService;
+        private readonly IItemFilterScriptTranslator _itemFilterScriptTranslator;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
-        private ILootFilterScriptViewModel _currentScriptViewModel;
-        private readonly ObservableCollection<ILootFilterScriptViewModel> _scriptViewModels;
+        private IItemFilterScriptViewModel _currentScriptViewModel;
+        private readonly ObservableCollection<IItemFilterScriptViewModel> _scriptViewModels;
 
-        public MainWindowViewModel(ILootFilterScriptViewModelFactory lootFilterScriptViewModelFactory,
-                                   ILootFilterPersistenceService persistenceService,
-                                   ILootFilterScriptTranslator lootFilterScriptTranslator,
+        public MainWindowViewModel(IItemFilterScriptViewModelFactory itemFilterScriptViewModelFactory,
+                                   IItemFilterPersistenceService persistenceService,
+                                   IItemFilterScriptTranslator itemFilterScriptTranslator,
                                    IReplaceColorsViewModel replaceColorsViewModel)
         {
-            _lootFilterScriptViewModelFactory = lootFilterScriptViewModelFactory;
+            _itemFilterScriptViewModelFactory = itemFilterScriptViewModelFactory;
             _persistenceService = persistenceService;
-            _lootFilterScriptTranslator = lootFilterScriptTranslator;
+            _itemFilterScriptTranslator = itemFilterScriptTranslator;
             _replaceColorsViewModel = replaceColorsViewModel;
 
-            _scriptViewModels = new ObservableCollection<ILootFilterScriptViewModel>();
+            _scriptViewModels = new ObservableCollection<IItemFilterScriptViewModel>();
 
             OpenAboutWindowCommand = new RelayCommand(OnOpenAboutWindowCommand);
             OpenScriptCommand = new RelayCommand(OnOpenScriptCommand);
@@ -50,12 +50,12 @@ namespace Filtration.ViewModels
             CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => CurrentScriptViewModel != null && CurrentScriptViewModel.SelectedBlockViewModel != null);
             PasteCommand = new RelayCommand(OnPasteCommand, () => CurrentScriptViewModel != null && CurrentScriptViewModel.SelectedBlockViewModel != null);
             NewScriptCommand = new RelayCommand(OnNewScriptCommand);
-            CloseScriptCommand = new RelayCommand<ILootFilterScriptViewModel>(OnCloseScriptCommand, v => CurrentScriptViewModel != null);
+            CloseScriptCommand = new RelayCommand<IItemFilterScriptViewModel>(OnCloseScriptCommand, v => CurrentScriptViewModel != null);
             ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, () => CurrentScriptViewModel != null);
 
             //LoadScriptFromFile("C:\\ThioleLootFilter.txt");
 
-            SetLootFilterScriptDirectory();
+            SetItemFilterScriptDirectory();
         }
 
         public RelayCommand OpenScriptCommand { get; private set; }
@@ -65,11 +65,11 @@ namespace Filtration.ViewModels
         public RelayCommand PasteCommand { get; private set; }
         public RelayCommand CopyScriptCommand { get; private set; }
         public RelayCommand NewScriptCommand { get; private set; }
-        public RelayCommand<ILootFilterScriptViewModel> CloseScriptCommand { get; private set; }
+        public RelayCommand<IItemFilterScriptViewModel> CloseScriptCommand { get; private set; }
         public RelayCommand OpenAboutWindowCommand { get; private set; }
         public RelayCommand ReplaceColorsCommand { get; private set; }
 
-        public ObservableCollection<ILootFilterScriptViewModel> ScriptViewModels
+        public ObservableCollection<IItemFilterScriptViewModel> ScriptViewModels
         {
             get { return _scriptViewModels; }
         }
@@ -85,7 +85,7 @@ namespace Filtration.ViewModels
         }
 
         [DoNotWire]
-        public ILootFilterScriptViewModel CurrentScriptViewModel
+        public IItemFilterScriptViewModel CurrentScriptViewModel
         {
             get { return _currentScriptViewModel; }
             set
@@ -114,7 +114,7 @@ namespace Filtration.ViewModels
             var openFileDialog = new OpenFileDialog
             {
                 Filter = "Filter Files (*.filter)|*.filter|All Files (*.*)|*.*",
-                InitialDirectory = _persistenceService.LootFilterScriptDirectory
+                InitialDirectory = _persistenceService.ItemFilterScriptDirectory
             };
 
             if (openFileDialog.ShowDialog() != true) return;
@@ -126,7 +126,7 @@ namespace Filtration.ViewModels
         {
             try
             {
-                _loadedScript = _persistenceService.LoadLootFilterScript(path);
+                _loadedScript = _persistenceService.LoadItemFilterScript(path);
             }
             catch (Exception e)
             {
@@ -135,18 +135,18 @@ namespace Filtration.ViewModels
                 return;
             }
 
-            var newViewModel = _lootFilterScriptViewModelFactory.Create();
+            var newViewModel = _itemFilterScriptViewModelFactory.Create();
             newViewModel.Initialise(_loadedScript);
             ScriptViewModels.Add(newViewModel);
             CurrentScriptViewModel = newViewModel;
         }
 
-        private void SetLootFilterScriptDirectory()
+        private void SetItemFilterScriptDirectory()
         {
             var defaultDir = _persistenceService.DefaultPathOfExileDirectory();
             if (!string.IsNullOrEmpty(defaultDir))
             {
-                _persistenceService.LootFilterScriptDirectory = defaultDir;
+                _persistenceService.ItemFilterScriptDirectory = defaultDir;
             }
             else
             {
@@ -159,7 +159,7 @@ namespace Filtration.ViewModels
 
                 if (result == DialogResult.OK)
                 {
-                    _persistenceService.LootFilterScriptDirectory = dlg.SelectedPath;
+                    _persistenceService.ItemFilterScriptDirectory = dlg.SelectedPath;
                 }
             }
         }
@@ -176,7 +176,7 @@ namespace Filtration.ViewModels
 
             try
             {
-                _persistenceService.SaveLootFilterScript(CurrentScriptViewModel.Script);
+                _persistenceService.SaveItemFilterScript(CurrentScriptViewModel.Script);
                 CurrentScriptViewModel.RemoveDirtyFlag();
             }
             catch (Exception e)
@@ -195,7 +195,7 @@ namespace Filtration.ViewModels
             {
                 DefaultExt = ".filter",
                 Filter = @"Filter Files (*.filter)|*.filter|All Files (*.*)|*.*",
-                InitialDirectory = _persistenceService.LootFilterScriptDirectory
+                InitialDirectory = _persistenceService.ItemFilterScriptDirectory
             };
 
             var result = saveDialog.ShowDialog();
@@ -206,7 +206,7 @@ namespace Filtration.ViewModels
             try
             {
                 CurrentScriptViewModel.Script.FilePath = saveDialog.FileName;
-                _persistenceService.SaveLootFilterScript(CurrentScriptViewModel.Script);
+                _persistenceService.SaveItemFilterScript(CurrentScriptViewModel.Script);
                 CurrentScriptViewModel.RemoveDirtyFlag();
             }
             catch (Exception e)
@@ -245,7 +245,7 @@ namespace Filtration.ViewModels
 
         private void OnCopyScriptCommand()
         {
-            Clipboard.SetText(_lootFilterScriptTranslator.TranslateLootFilterScriptToString(_currentScriptViewModel.Script));
+            Clipboard.SetText(_itemFilterScriptTranslator.TranslateItemFilterScriptToString(_currentScriptViewModel.Script));
         }
 
         private void OnCopyBlockCommand()
@@ -260,15 +260,15 @@ namespace Filtration.ViewModels
 
         private void OnNewScriptCommand()
         {
-            var newScript = new LootFilterScript();
-            var newViewModel = _lootFilterScriptViewModelFactory.Create();
+            var newScript = new ItemFilterScript();
+            var newViewModel = _itemFilterScriptViewModelFactory.Create();
             newViewModel.Initialise(newScript);
             newViewModel.Description = "New Script";
             ScriptViewModels.Add(newViewModel);
             CurrentScriptViewModel = newViewModel;
         }
 
-        private void OnCloseScriptCommand(ILootFilterScriptViewModel scriptViewModel)
+        private void OnCloseScriptCommand(IItemFilterScriptViewModel scriptViewModel)
         {
             CurrentScriptViewModel = scriptViewModel;
             if (!CurrentScriptViewModel.IsDirty)

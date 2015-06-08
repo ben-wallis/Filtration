@@ -11,25 +11,25 @@ using NUnit.Framework;
 namespace Filtration.Tests.Translators
 {
     [TestFixture]
-    public class TestLootFilterBlockTranslator
+    public class TestItemFilterBlockTranslator
     {
-        private LootFilterBlockTranslatorTestUtility _testUtility;
+        private ItemFilterBlockTranslatorTestUtility _testUtility;
 
         [SetUp]
-        public void LootFilterBlockTranslatorTestSetUp()
+        public void ItemFilterBlockTranslatorTestSetUp()
         {
-            _testUtility = new LootFilterBlockTranslatorTestUtility();
+            _testUtility = new ItemFilterBlockTranslatorTestUtility();
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_NoDescriptionComment_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_NoDescriptionComment_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    ItemLevel >= 55";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is ItemLevelBlockItem));
@@ -39,13 +39,13 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_Hide_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_Hide_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Hide" + Environment.NewLine;
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is ActionBlockItem));
@@ -53,7 +53,7 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_DescriptionComment_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_DescriptionComment_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "# This is a test Block" + Environment.NewLine +
@@ -61,7 +61,7 @@ namespace Filtration.Tests.Translators
                               "    ItemLevel >= 55";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual("This is a test Block", result.Description);
@@ -72,7 +72,7 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_MultiLineDescriptionComment_OnlyAddsLastCommentLineToDescription()
+        public void TranslateStringToItemFilterBlock_MultiLineDescriptionComment_OnlyAddsLastCommentLineToDescription()
         {
             // Arrange
             var inputString = "#First line" + Environment.NewLine +
@@ -81,7 +81,7 @@ namespace Filtration.Tests.Translators
                               "    ItemLevel >= 55";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual("Second Line", result.Description);
@@ -92,14 +92,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_DropLevel_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_DropLevel_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    DropLevel = 40";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
 
@@ -110,14 +110,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_Quality_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_Quality_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    Quality < 18";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
 
@@ -128,14 +128,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_Rarity_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_Rarity_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    Rarity > Normal";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
 
@@ -146,14 +146,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_Rarity_WorksWithoutPredicateOperator()
+        public void TranslateStringToItemFilterBlock_Rarity_WorksWithoutPredicateOperator()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    Rarity Normal";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is RarityBlockItem));
@@ -163,14 +163,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_Class_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_Class_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               @"    Class ""Test Class 1"" ""TestOneWordClassInQuotes"" TestOneWordClassNotInQuotes ""Test Class 2""";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is ClassBlockItem));
@@ -182,14 +182,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_BaseType_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_BaseType_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               @"    BaseType ""Test Base Type 1"" ""TestOneWordBaseTypeInQuotes"" TestOneWordBaseTypeNotInQuotes ""Test BaseType 2""";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is BaseTypeBlockItem));
@@ -201,14 +201,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_Sockets_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_Sockets_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    Sockets > 2";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
 
@@ -219,14 +219,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_LinkedSockets_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_LinkedSockets_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    LinkedSockets != 1";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
 
@@ -237,14 +237,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_Width_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_Width_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    Width != 1";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
 
@@ -255,14 +255,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_Height_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_Height_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    Height <= 3";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
 
@@ -273,14 +273,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_Height_PredicatesWorkWithoutSpaceBetweenOperatorAndOperand()
+        public void TranslateStringToItemFilterBlock_Height_PredicatesWorkWithoutSpaceBetweenOperatorAndOperand()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    Height <=3";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is HeightBlockItem));
@@ -290,14 +290,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_SocketGroup_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_SocketGroup_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    SocketGroup RRGB";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is SocketGroupBlockItem));
@@ -308,14 +308,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_SetTextColor_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_SetTextColor_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    SetTextColor 255 20 100";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is TextColorBlockItem));
@@ -326,14 +326,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_SetTextColorWithAlpha_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_SetTextColorWithAlpha_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    SetTextColor 65 0 255 12";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is TextColorBlockItem));
@@ -345,14 +345,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_SetBackgroundColor_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_SetBackgroundColor_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    SetBackgroundColor 255 20 100";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is BackgroundColorBlockItem));
@@ -364,14 +364,14 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_SetBorderColor_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_SetBorderColor_ReturnsCorrectObject()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    SetBorderColor 255 20 100";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is BorderColorBlockItem));
@@ -382,7 +382,7 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_SetFontSize_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_SetFontSize_ReturnsCorrectObject()
         {
             // Arrange
 
@@ -390,7 +390,7 @@ namespace Filtration.Tests.Translators
                               "    SetFontSize 15";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is FontSizeBlockItem));
@@ -399,7 +399,7 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_PlayAlertSoundWithoutVolume_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_PlayAlertSoundWithoutVolume_ReturnsCorrectObject()
         {
             // Arrange
 
@@ -407,7 +407,7 @@ namespace Filtration.Tests.Translators
                               "    PlayAlertSound 4";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is SoundBlockItem));
@@ -417,7 +417,7 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_PlayAlertSoundWithVolume_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_PlayAlertSoundWithVolume_ReturnsCorrectObject()
         {
             // Arrange
 
@@ -425,7 +425,7 @@ namespace Filtration.Tests.Translators
                               "    PlayAlertSound 2 95";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is SoundBlockItem));
@@ -435,22 +435,22 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_SectionComment_ReturnsLootFilterSectionObjectWithCorrectDescription()
+        public void TranslateStringToItemFilterBlock_SectionComment_ReturnsItemFilterSectionObjectWithCorrectDescription()
         {
             // Arrange
             const string TestInputSectionDescription = "Wonderful items that you definitely won't want to miss!";
             var inputString = "# Section: " + TestInputSectionDescription;
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
-            Assert.IsInstanceOf<LootFilterSection>(result);
+            Assert.IsInstanceOf<ItemFilterSection>(result);
             Assert.AreEqual(TestInputSectionDescription, result.Description);
         }
         
         [Test]
-        public void TranslateStringToLootFilterBlock_Everything_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_Everything_ReturnsCorrectObject()
         {
             // Arrange
 
@@ -475,7 +475,7 @@ namespace Filtration.Tests.Translators
                               "    PlayAlertSound 3";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual("Test filter with everything", result.Description);
@@ -546,7 +546,7 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_MultipleValues_ReturnsCorrectObject()
+        public void TranslateStringToItemFilterBlock_MultipleValues_ReturnsCorrectObject()
         {
             // Arrange
 
@@ -557,7 +557,7 @@ namespace Filtration.Tests.Translators
                               "    Quality < 17";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(2, result.BlockItems.Count(b => b is ItemLevelBlockItem));
@@ -578,7 +578,7 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_MultipleTextColorItems_OnlyLastOneUsed()
+        public void TranslateStringToItemFilterBlock_MultipleTextColorItems_OnlyLastOneUsed()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
@@ -586,7 +586,7 @@ namespace Filtration.Tests.Translators
                               "    SetTextColor 255 20 100";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is TextColorBlockItem));
@@ -597,7 +597,7 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_MultipleFontSizeItems_OnlyLastOneUsed()
+        public void TranslateStringToItemFilterBlock_MultipleFontSizeItems_OnlyLastOneUsed()
         {
             // Arrange
 
@@ -607,7 +607,7 @@ namespace Filtration.Tests.Translators
                               "    SetFontSize 27" + Environment.NewLine;
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is FontSizeBlockItem));
@@ -616,7 +616,7 @@ namespace Filtration.Tests.Translators
         }
         
         [Test]
-        public void TranslateStringToLootFilterBlock_MultipleSoundItems_OnlyLastOneUsed()
+        public void TranslateStringToItemFilterBlock_MultipleSoundItems_OnlyLastOneUsed()
         {
             // Arrange
 
@@ -626,7 +626,7 @@ namespace Filtration.Tests.Translators
                               "    PlayAlertSound 2" + Environment.NewLine;
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is SoundBlockItem));
@@ -636,7 +636,7 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_MultipleBackgroundColorItems_OnlyLastOneUsed()
+        public void TranslateStringToItemFilterBlock_MultipleBackgroundColorItems_OnlyLastOneUsed()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
@@ -644,7 +644,7 @@ namespace Filtration.Tests.Translators
                               "    SetBackgroundColor 255 20 100";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is BackgroundColorBlockItem));
@@ -655,7 +655,7 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
-        public void TranslateStringToLootFilterBlock_MultipleBorderColorItems_OnlyLastOneUsed()
+        public void TranslateStringToItemFilterBlock_MultipleBorderColorItems_OnlyLastOneUsed()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
@@ -663,7 +663,7 @@ namespace Filtration.Tests.Translators
                               "    SetBorderColor 255 20 100";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToLootFilterBlock(inputString);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is BorderColorBlockItem));
@@ -674,20 +674,20 @@ namespace Filtration.Tests.Translators
         }
         
         [Test]
-        public void TranslateLootFilterBlockToString_NothingPopulated_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_NothingPopulated_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show";
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_FilterTypeHide_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_FilterTypeHide_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Hide";
@@ -695,14 +695,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.Action = BlockAction.Hide;
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_FilterDescription_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_FilterDescription_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "# Test Block Description" + Environment.NewLine +
@@ -711,14 +711,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.Description = "Test Block Description";
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_FilterDescriptionWithApostraphes_DoesNotDuplicateApostraphes()
+        public void TranslateItemFilterBlockToString_FilterDescriptionWithApostraphes_DoesNotDuplicateApostraphes()
         {
             // Arrange
             var expectedResult = "# Test Block Descr'iption" + Environment.NewLine +
@@ -727,14 +727,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.Description = "Test Block Descr'iption";
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_ItemLevel_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_ItemLevel_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -743,14 +743,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new ItemLevelBlockItem(FilterPredicateOperator.GreaterThanOrEqual, 56));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_DropLevel_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_DropLevel_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -759,14 +759,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new DropLevelBlockItem(FilterPredicateOperator.Equal, 23));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_Quality_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_Quality_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -775,14 +775,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new QualityBlockItem(FilterPredicateOperator.LessThan, 10));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_Rarity_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_Rarity_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -792,14 +792,14 @@ namespace Filtration.Tests.Translators
                 (int) ItemRarity.Rare));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_Classes_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_Classes_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -812,14 +812,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(classBlockItem);
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_Classes_DoesNotDuplicateApostraphes()
+        public void TranslateItemFilterBlockToString_Classes_DoesNotDuplicateApostraphes()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -830,14 +830,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(classBlockItem);
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_BaseTypes_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_BaseTypes_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -850,14 +850,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(baseTypeBlockItem);
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_Sockets_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_Sockets_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -866,14 +866,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new SocketsBlockItem(FilterPredicateOperator.GreaterThanOrEqual, 5));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_SocketGroup_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_SocketGroup_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -885,14 +885,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(socketGroupBlockItem);
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_LinkedSockets_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_LinkedSockets_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -901,14 +901,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new LinkedSocketsBlockItem(FilterPredicateOperator.NotEqual, 3));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_Width_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_Width_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -917,14 +917,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new WidthBlockItem(FilterPredicateOperator.Equal, 4));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_Height_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_Height_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -933,14 +933,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new HeightBlockItem(FilterPredicateOperator.GreaterThan, 1));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_TextColorMaxAlpha_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_TextColorMaxAlpha_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -949,14 +949,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new TextColorBlockItem(new Color {A = 255, R = 54, G = 102, B = 255}));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_TextColorNotMaxAlpha_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_TextColorNotMaxAlpha_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -965,14 +965,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new TextColorBlockItem(new Color {A = 66, R = 54, G = 102, B = 255}));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_BackgroundColorNotMaxAlpha_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_BackgroundColorNotMaxAlpha_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -982,14 +982,14 @@ namespace Filtration.Tests.Translators
                 new BackgroundColorBlockItem(new Color {A = 69, R = 12, G = 0, B = 212}));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_BorderColorNotMaxAlpha_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_BorderColorNotMaxAlpha_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -998,14 +998,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new BorderColorBlockItem(new Color {A = 1, R = 128, G = 32, B = 0}));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_FontSize_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_FontSize_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -1014,14 +1014,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new FontSizeBlockItem(15));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_Sound_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_Sound_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -1030,14 +1030,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new SoundBlockItem(2, 50));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_MultipleItemLevel_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_MultipleItemLevel_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -1050,14 +1050,14 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new ItemLevelBlockItem(FilterPredicateOperator.LessThan, 100));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_MultipleFontSize_UsesFirstFontSize()
+        public void TranslateItemFilterBlockToString_MultipleFontSize_UsesFirstFontSize()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -1070,30 +1070,30 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new FontSizeBlockItem(15));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_Section_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_Section_ReturnsCorrectString()
         {
             // Arrange
             var TestInputSectionText = "Ermagerd it's a section!";
             var expectedResult = "# Section: " + TestInputSectionText;
 
-            _testUtility.TestBlock = new LootFilterSection { Description = TestInputSectionText };
+            _testUtility.TestBlock = new ItemFilterSection { Description = TestInputSectionText };
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void TranslateLootFilterBlockToString_Everything_ReturnsCorrectString()
+        public void TranslateItemFilterBlockToString_Everything_ReturnsCorrectString()
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
@@ -1145,25 +1145,25 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new SoundBlockItem(6, 90));
 
             // Act
-            var result = _testUtility.Translator.TranslateLootFilterBlockToString(_testUtility.TestBlock);
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
-        private class LootFilterBlockTranslatorTestUtility
+        private class ItemFilterBlockTranslatorTestUtility
         {
-            public LootFilterBlockTranslatorTestUtility()
+            public ItemFilterBlockTranslatorTestUtility()
             {
                 // Test Data
-                TestBlock = new LootFilterBlock();
+                TestBlock = new ItemFilterBlock();
 
                 // Class under test instantiation
-                Translator = new LootFilterBlockTranslator();
+                Translator = new ItemFilterBlockTranslator();
             }
 
-            public LootFilterBlock TestBlock { get; set; }
-            public LootFilterBlockTranslator Translator { get; private set; }
+            public ItemFilterBlock TestBlock { get; set; }
+            public ItemFilterBlockTranslator Translator { get; private set; }
         }
     }
 }

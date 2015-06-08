@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Filtration.Models.BlockItemTypes;
-using Filtration.ViewModels;
-using Filtration.Views;
 
 namespace Filtration.Models
 {
-    internal class LootFilterScript
+    internal class ItemFilterScript
     {
-        public LootFilterScript()
+        public ItemFilterScript()
         {
-            LootFilterBlocks = new ObservableCollection<LootFilterBlock>();
+            ItemFilterBlocks = new ObservableCollection<ItemFilterBlock>();
         }
 
-        public ObservableCollection<LootFilterBlock> LootFilterBlocks { get; set; }
+        public ObservableCollection<ItemFilterBlock> ItemFilterBlocks { get; set; }
         public string FilePath { get; set; }
         public string Description { get; set; }
         public DateTime DateModified { get; set; }
@@ -24,7 +22,7 @@ namespace Filtration.Models
         {
             var validationErrors = new List<string>();
 
-            if (LootFilterBlocks.Count == 0)
+            if (ItemFilterBlocks.Count == 0)
             {
                 validationErrors.Add("A script must have at least one block");
             }
@@ -37,7 +35,7 @@ namespace Filtration.Models
 
             foreach (
                 var block in
-                    LootFilterBlocks.Where(b => BlockIsColorReplacementCandidate(replaceColorsParameterSet, b)))
+                    ItemFilterBlocks.Where(b => BlockIsColorReplacementCandidate(replaceColorsParameterSet, b)))
             {
                 if (replaceColorsParameterSet.ReplaceTextColor)
                 {
@@ -58,7 +56,7 @@ namespace Filtration.Models
 
         }
 
-        private bool BlockIsColorReplacementCandidate(ReplaceColorsParameterSet replaceColorsParameterSet, LootFilterBlock block)
+        private bool BlockIsColorReplacementCandidate(ReplaceColorsParameterSet replaceColorsParameterSet, ItemFilterBlock block)
         {
             var textColorItem = block.HasBlockItemOfType<TextColorBlockItem>()
                 ? block.BlockItems.OfType<TextColorBlockItem>().First()

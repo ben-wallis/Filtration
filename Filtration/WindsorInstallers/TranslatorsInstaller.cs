@@ -10,13 +10,13 @@ namespace Filtration.WindsorInstallers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component.For<ILootFilterScriptTranslator>()
-                    .ImplementedBy<LootFilterScriptTranslator>()
+                Component.For<IItemFilterScriptTranslator>()
+                    .ImplementedBy<ItemFilterScriptTranslator>()
                     .LifeStyle.Singleton);
 
             container.Register(
-                Component.For<ILootFilterBlockTranslator>()
-                    .ImplementedBy<LootFilterBlockTranslator>()
+                Component.For<IItemFilterBlockTranslator>()
+                    .ImplementedBy<ItemFilterBlockTranslator>()
                     .LifeStyle.Singleton);
         }
     }

@@ -130,19 +130,20 @@
     <Compile Include="Models\BlockItemTypes\QualityBlockItem.cs" />
     <Compile Include="Models\BlockItemTypes\ItemLevelBlockItem.cs" />
     <Compile Include="Models\IAudioVisualBlockItem.cs" />
-    <Compile Include="Models\LootFilterBlock.cs" />
-    <Compile Include="Models\ILootFilterBlockItem.cs" />
-    <Compile Include="Models\LootFilterScript.cs" />
-    <Compile Include="Models\LootFilterSection.cs" />
+    <Compile Include="Models\ItemFilterBlockGroup.cs" />
+    <Compile Include="Models\ItemFilterBlock.cs" />
+    <Compile Include="Models\IItemFilterBlockItem.cs" />
+    <Compile Include="Models\ItemFilterScript.cs" />
+    <Compile Include="Models\ItemFilterSection.cs" />
     <Compile Include="Models\NumericFilterPredicate.cs" />
     <Compile Include="Models\BlockItemBaseTypes\SocketGroupBlockItemBase.cs" />
     <Compile Include="Models\ReplaceColorsParameterSet.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Services\FileSystemService.cs" />
-    <Compile Include="Services\LootFilterPersistenceService.cs" />
+    <Compile Include="Services\ItemFilterPersistenceService.cs" />
     <Compile Include="Services\StaticDataService.cs" />
-    <Compile Include="Translators\LootFilterBlockTranslator.cs" />
-    <Compile Include="Translators\LootFilterScriptTranslator.cs" />
+    <Compile Include="Translators\ItemFilterBlockTranslator.cs" />
+    <Compile Include="Translators\ItemFilterScriptTranslator.cs" />
     <Compile Include="UserControls\AutoScrollingListBox.cs" />
     <Compile Include="UserControls\CrossButton.cs" />
     <Compile Include="UserControls\EditableListBoxControl.xaml.cs">
@@ -153,27 +154,27 @@
     </Compile>
     <Compile Include="Utilities\LineReader.cs" />
     <Compile Include="ViewModels\FiltrationViewModelBase.cs" />
-    <Compile Include="ViewModels\ILootFilterScriptViewModelFactory.cs" />
-    <Compile Include="ViewModels\ILootFilterBlockViewModelFactory.cs" />
-    <Compile Include="ViewModels\LootFilterBlockViewModel.cs" />
-    <Compile Include="ViewModels\LootFilterScriptViewModel.cs" />
+    <Compile Include="ViewModels\IItemFilterScriptViewModelFactory.cs" />
+    <Compile Include="ViewModels\IItemFilterBlockViewModelFactory.cs" />
+    <Compile Include="ViewModels\ItemFilterBlockViewModel.cs" />
+    <Compile Include="ViewModels\ItemFilterScriptViewModel.cs" />
     <Compile Include="ViewModels\ReplaceColorsViewModel.cs" />
     <Compile Include="Views\BindingProxy.cs" />
     <Compile Include="Views\BlockTemplateSelector.cs" />
-    <Compile Include="Views\LootFilterBlockDisplaySettingsView.xaml.cs">
-      <DependentUpon>LootFilterBlockDisplaySettingsView.xaml</DependentUpon>
+    <Compile Include="Views\ItemFilterBlockDisplaySettingsView.xaml.cs">
+      <DependentUpon>ItemFilterBlockDisplaySettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LootFilterScriptView.xaml.cs">
-      <DependentUpon>LootFilterScriptView.xaml</DependentUpon>
+    <Compile Include="Views\ItemFilterScriptView.xaml.cs">
+      <DependentUpon>ItemFilterScriptView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LootFilterBlockView.xaml.cs">
-      <DependentUpon>LootFilterBlockView.xaml</DependentUpon>
+    <Compile Include="Views\ItemFilterBlockView.xaml.cs">
+      <DependentUpon>ItemFilterBlockView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\NumericFilterPredicateControl.xaml.cs">
       <DependentUpon>NumericFilterPredicateControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LootFilterSectionView.xaml.cs">
-      <DependentUpon>LootFilterSectionView.xaml</DependentUpon>
+    <Compile Include="Views\ItemFilterSectionView.xaml.cs">
+      <DependentUpon>ItemFilterSectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
@@ -206,7 +207,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LootFilterBlockDisplaySettingsView.xaml">
+    <Page Include="Views\ItemFilterBlockDisplaySettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -214,15 +215,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LootFilterScriptView.xaml">
+    <Page Include="Views\ItemFilterScriptView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LootFilterBlockView.xaml">
+    <Page Include="Views\ItemFilterBlockView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LootFilterSectionView.xaml">
+    <Page Include="Views\ItemFilterSectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

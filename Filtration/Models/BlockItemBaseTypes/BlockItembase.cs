@@ -5,7 +5,7 @@ using Filtration.Annotations;
 
 namespace Filtration.Models.BlockItemBaseTypes
 {
-    abstract class BlockItemBase : ILootFilterBlockItem
+    abstract class BlockItemBase : IItemFilterBlockItem
     {
         public abstract string PrefixText { get; }
         public abstract int MaximumAllowed { get; }

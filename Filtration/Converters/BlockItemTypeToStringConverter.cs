@@ -9,7 +9,7 @@ namespace Filtration.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var test = (ILootFilterBlockItem)Activator.CreateInstance((Type) value);
+            var test = (IItemFilterBlockItem)Activator.CreateInstance((Type) value);
             return test.DisplayHeading;
         }
 

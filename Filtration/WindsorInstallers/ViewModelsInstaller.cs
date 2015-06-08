@@ -16,13 +16,13 @@ namespace Filtration.WindsorInstallers
                     .LifeStyle.Transient);
 
             container.Register(
-                Component.For<ILootFilterBlockViewModel>()
-                    .ImplementedBy<LootFilterBlockViewModel>()
+                Component.For<IItemFilterBlockViewModel>()
+                    .ImplementedBy<ItemFilterBlockViewModel>()
                     .LifeStyle.Transient);
 
             container.Register(
-                Component.For<ILootFilterScriptViewModel>()
-                    .ImplementedBy<LootFilterScriptViewModel>()
+                Component.For<IItemFilterScriptViewModel>()
+                    .ImplementedBy<ItemFilterScriptViewModel>()
                     .LifeStyle.Transient);
 
             container.Register(
@@ -32,10 +32,10 @@ namespace Filtration.WindsorInstallers
 
             container.AddFacility<TypedFactoryFacility>();
             container.Register(
-                Component.For<ILootFilterBlockViewModelFactory>().AsFactory());
+                Component.For<IItemFilterBlockViewModelFactory>().AsFactory());
 
             container.Register(
-                Component.For<ILootFilterScriptViewModelFactory>().AsFactory());
+                Component.For<IItemFilterScriptViewModelFactory>().AsFactory());
         }
     }
 }

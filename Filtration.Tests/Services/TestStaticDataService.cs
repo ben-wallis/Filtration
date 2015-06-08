@@ -13,7 +13,7 @@ namespace Filtration.Tests.Services
             // Arrange
 
             var mockFileSystemService = new Mock<IFileSystemService>();
-            mockFileSystemService.Setup(f => f.ReadFileAsString(It.IsAny<string>())).Verifiable();
+            mockFileSystemService.Setup(f => f.ReadFileAsString(It.IsAny<string>())).Returns("TestResult").Verifiable();
 
             var service = new StaticDataService(mockFileSystemService.Object);
 
