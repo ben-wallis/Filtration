@@ -21,8 +21,14 @@ namespace Filtration.Translators
 
     internal class ItemFilterBlockTranslator : IItemFilterBlockTranslator
     {
+        private readonly IBlockGroupHierarchyBuilder _blockGroupHierarchyBuilder;
         private const string Indent = "    ";
         private readonly string _newLine = Environment.NewLine + Indent;
+
+        public ItemFilterBlockTranslator(IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder)
+        {
+            _blockGroupHierarchyBuilder = blockGroupHierarchyBuilder;
+        }
 
         // This method converts a string into a ItemFilterBlock. This is used for pasting ItemFilterBlocks 
         // and reading ItemFilterScripts from a file.
@@ -32,6 +38,7 @@ namespace Filtration.Translators
             var showHideFound = false;
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
+
                 if (line.StartsWith(@"# Section:"))
                 {
                     var section = new ItemFilterSection
@@ -47,7 +54,8 @@ namespace Filtration.Translators
                     continue;
                 }
 
-                var trimmedLine = line.TrimStart(' ');
+                var adjustedLine = line.Replace("#", " # ");
+                var trimmedLine = adjustedLine.TrimStart(' ');
                 var spaceOrEndOfLinePos = trimmedLine.IndexOf(" ", StringComparison.Ordinal) > 0 ? trimmedLine.IndexOf(" ", StringComparison.Ordinal) : trimmedLine.Length;
 
                 var lineOption = trimmedLine.Substring(0, spaceOrEndOfLinePos);
@@ -56,10 +64,12 @@ namespace Filtration.Translators
                     case "Show":
                         showHideFound = true;
                         block.Action = BlockAction.Show;
+                        AddBlockGroupToBlock(block, trimmedLine);
                         break;
                     case "Hide":
                         showHideFound = true;
                         block.Action = BlockAction.Hide;
+                        AddBlockGroupToBlock(block, trimmedLine);
                         break;
                     case "ItemLevel":
                     {
@@ -122,20 +132,6 @@ namespace Filtration.Translators
                     }
                     case "SocketGroup":
                     {
-                        //var blockItem = new SocketGroupBlockItem();
-
-                        //var socketGroups = Regex.Matches(trimmedLine, @"\s+([RGBW]{1,6})");
-
-                        //foreach (Match socketGroupMatch in socketGroups)
-                        //{
-
-                        //    var socketGroupCharArray = socketGroupMatch.Groups[1].Value.Trim(' ').ToCharArray();
-                        //    var socketColorList = socketGroupCharArray.Select(c => (EnumHelper.GetEnumValueFromDescription<SocketColor>(c.ToString()))).ToList();
-
-                        //    blockItem.SocketColorGroups.Add(socketColorList);
-                        //}
-
-                        //block.FilterBlockItems.Add(blockItem);
                         AddStringListItemToBlockItems<SocketGroupBlockItem>(block, trimmedLine);
                         break;
                     }
@@ -268,6 +264,19 @@ namespace Filtration.Translators
             block.BlockItems.Add(blockItem);
         }
 
+        private void AddBlockGroupToBlock(ItemFilterBlock block, string inputString)
+        {
+            var blockGroupStart = inputString.IndexOf("#", StringComparison.Ordinal);
+            if (blockGroupStart <= 0) return;
+
+            var blockGroupText = inputString.Substring(blockGroupStart + 1);
+            var blockGroups = blockGroupText.Split('-').ToList();
+            if (blockGroups.Count(b => !string.IsNullOrEmpty(b.Trim())) > 0)
+            {
+                block.BlockGroup = _blockGroupHierarchyBuilder.IntegrateStringListIntoBlockGroupHierarchy(blockGroups);
+            }
+        }
+
         private static Color GetColorFromString(string inputString)
         {
             var argbValues = Regex.Matches(inputString, @"\s+(\d+)");
@@ -294,7 +303,7 @@ namespace Filtration.Translators
             return new Color();
         }
 
-        // This method converts a ItemFilterBlock object into a string. This is used for copying a ItemFilterBlock
+        // This method converts an ItemFilterBlock object into a string. This is used for copying a ItemFilterBlock
         // to the clipboard, and when saving a ItemFilterScript.
         public string TranslateItemFilterBlockToString(ItemFilterBlock block)
         {
@@ -311,6 +320,11 @@ namespace Filtration.Translators
             }
 
             outputString += block.Action.GetAttributeDescription();
+
+            if (block.BlockGroup != null)
+            {
+                outputString += " # " + block.BlockGroup;
+            }
 
             // This could be refactored to use the upcasted NumericFilterPredicateBlockItem (or even IItemFilterBlockItem) instead
             // of the specific downcasts. Leaving it like this currently to preserve sorting since the different

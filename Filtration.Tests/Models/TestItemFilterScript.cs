@@ -29,10 +29,8 @@ namespace Filtration.Tests.Models
         {
             // Arrange
 
-            var script = new ItemFilterScript
-            {
-                ItemFilterBlocks = new ObservableCollection<ItemFilterBlock> {new ItemFilterBlock()}
-            };
+            var script = new ItemFilterScript();
+            script.ItemFilterBlocks.Add(new ItemFilterBlock());
 
             // Act
             var result = script.Validate();
@@ -62,15 +60,12 @@ namespace Filtration.Tests.Models
             var testInputBlock3 = new ItemFilterBlock();
             testInputBlock3.BlockItems.Add(new BackgroundColorBlockItem(new Color { A = 255, R = 255, G = 0, B = 0 }));
 
-            var script = new ItemFilterScript()
-            {
-                ItemFilterBlocks = new ObservableCollection<ItemFilterBlock>
-                {
-                    testInputBlock1,
-                    testInputBlock2,
-                    testInputBlock3
-                }
-            };
+            var script = new ItemFilterScript();
+
+            script.ItemFilterBlocks.Add(testInputBlock1);
+            script.ItemFilterBlocks.Add(testInputBlock2);
+            script.ItemFilterBlocks.Add(testInputBlock3);
+                
 
             // Act
             script.ReplaceColors(testInputReplaceColors);
@@ -108,14 +103,9 @@ namespace Filtration.Tests.Models
             testInputBlock2.BlockItems.Add(new BackgroundColorBlockItem(oldBackgroundColor));
             testInputBlock2.BlockItems.Add(new TextColorBlockItem(new Color {A = 1, R = 2, G = 3, B = 4}));
 
-            var script = new ItemFilterScript
-            {
-                ItemFilterBlocks = new ObservableCollection<ItemFilterBlock>
-                {
-                    testInputBlock1,
-                    testInputBlock2
-                }
-            };
+            var script = new ItemFilterScript();
+            script.ItemFilterBlocks.Add(testInputBlock1);
+            script.ItemFilterBlocks.Add(testInputBlock2);
 
             // Act
             script.ReplaceColors(testInputReplaceColors);
@@ -131,3 +121,4 @@ namespace Filtration.Tests.Models
         }
     }
 }
+

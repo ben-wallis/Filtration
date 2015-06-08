@@ -14,6 +14,7 @@ namespace Filtration.Models
         }
         
         public string Description { get; set; }
+        public ItemFilterBlockGroup BlockGroup { get; set; }
 
         public BlockAction Action
         {

@@ -13,23 +13,28 @@ namespace Filtration.Tests.Translators
     [TestFixture]
     public class TestItemFilterScriptTranslator
     {
+        private ItemFilterScriptTranslatorTestUtility _testUtility;
+
+        [SetUp]
+        public void ItemFilterScriptTranslatorTestSetup()
+        {
+            _testUtility = new ItemFilterScriptTranslatorTestUtility();
+        }
+
         [Test]
         public void TranslateStringToItemFilterScript_ReturnsScriptWithCorrectNumberOfBlocks()
         {
             // Arrange
             var testInput = File.ReadAllText(@"Resources/testscript.txt");
 
-            var mockItemFilterBlockTranslator = new Mock<IItemFilterBlockTranslator>();
-            mockItemFilterBlockTranslator.Setup(t => t.TranslateStringToItemFilterBlock(It.IsAny<string>())).Verifiable();
-
-            var translator = new ItemFilterScriptTranslator(mockItemFilterBlockTranslator.Object);
+            _testUtility.MockItemFilterBlockTranslator.Setup(t => t.TranslateStringToItemFilterBlock(It.IsAny<string>())).Verifiable();
 
             // Act
-            var script = translator.TranslateStringToItemFilterScript(testInput);
+            var script = _testUtility.ScriptTranslator.TranslateStringToItemFilterScript(testInput);
 
             // Assert
             Assert.AreEqual(5, script.ItemFilterBlocks.Count);
-            mockItemFilterBlockTranslator.Verify();
+            _testUtility.MockItemFilterBlockTranslator.Verify();
         }
 
         [Test]
@@ -46,10 +51,8 @@ namespace Filtration.Tests.Translators
             var mockItemFilterBlockTranslator = new Mock<IItemFilterBlockTranslator>();
             mockItemFilterBlockTranslator.Setup(t => t.TranslateStringToItemFilterBlock(It.IsAny<string>())).Verifiable();
 
-            var translator = new ItemFilterScriptTranslator(mockItemFilterBlockTranslator.Object);
-
             // Act
-            var script = translator.TranslateStringToItemFilterScript(testInput);
+            var script = _testUtility.ScriptTranslator.TranslateStringToItemFilterScript(testInput);
 
             // Assert
             Assert.AreEqual(expectedDescription, script.Description);
@@ -62,9 +65,10 @@ namespace Filtration.Tests.Translators
             // Arrange
             var testInput = File.ReadAllText(@"Resources/ThioleItemFilter.txt");
 
-            
-            var BlockTranslator = new ItemFilterBlockTranslator();
-            var translator = new ItemFilterScriptTranslator(BlockTranslator);
+
+            var mockBlockGroupHierarchyBuilder = new Mock<IBlockGroupHierarchyBuilder>();
+            var blockTranslator = new ItemFilterBlockTranslator(mockBlockGroupHierarchyBuilder.Object);
+            var translator = new ItemFilterScriptTranslator(blockTranslator, mockBlockGroupHierarchyBuilder.Object);
 
             // Act
             var script = translator.TranslateStringToItemFilterScript(testInput);
@@ -82,20 +86,17 @@ namespace Filtration.Tests.Translators
             testBlock.BlockItems.Add(new ItemLevelBlockItem(FilterPredicateOperator.Equal, 5));
 
             var BlockOutput = "Test Script Output";
-            var expectedOutput = "Test Script Output" + Environment.NewLine + Environment.NewLine;
 
             testScript.ItemFilterBlocks.Add(testBlock);
 
-            var mockItemFilterBlockTranslator = new Mock<IItemFilterBlockTranslator>();
-            mockItemFilterBlockTranslator.Setup(t => t.TranslateItemFilterBlockToString(testBlock)).Returns(BlockOutput).Verifiable();
+            _testUtility.MockItemFilterBlockTranslator.Setup(t => t.TranslateItemFilterBlockToString(testBlock)).Returns(BlockOutput).Verifiable();
 
-            var translator = new ItemFilterScriptTranslator(mockItemFilterBlockTranslator.Object);
 
             // Act
-            var result = translator.TranslateItemFilterScriptToString(testScript);
+            var result = _testUtility.ScriptTranslator.TranslateItemFilterScriptToString(testScript);
 
             // Assert
-            mockItemFilterBlockTranslator.Verify();
+            _testUtility.MockItemFilterBlockTranslator.Verify();
         }
 
         [Test]
@@ -132,8 +133,9 @@ namespace Filtration.Tests.Translators
                                  "    Width = 3" + Environment.NewLine +
                                  "    SetFontSize 7" + Environment.NewLine + Environment.NewLine;
 
-            var blockTranslator = new ItemFilterBlockTranslator();
-            var translator = new ItemFilterScriptTranslator(blockTranslator);
+            var mockBlockGroupHierarchyBuilder = new Mock<IBlockGroupHierarchyBuilder>();
+            var blockTranslator = new ItemFilterBlockTranslator(mockBlockGroupHierarchyBuilder.Object);
+            var translator = new ItemFilterScriptTranslator(blockTranslator, mockBlockGroupHierarchyBuilder.Object);
 
             // Act
             var result = translator.TranslateItemFilterScriptToString(script);
@@ -155,11 +157,8 @@ namespace Filtration.Tests.Translators
                                  Environment.NewLine +
                                  "# Test script description" + Environment.NewLine + Environment.NewLine;
 
-            var blockTranslator = new ItemFilterBlockTranslator();
-            var translator = new ItemFilterScriptTranslator(blockTranslator);
-
             // Act
-            var result = translator.TranslateItemFilterScriptToString(script);
+            var result = _testUtility.ScriptTranslator.TranslateItemFilterScriptToString(script);
 
             // Assert
             Assert.AreEqual(expectedOutput, result);
@@ -177,8 +176,8 @@ namespace Filtration.Tests.Translators
                                   "    SetBorderColor 255 0 255" + Environment.NewLine +
                                   "    SetFontSize 25";
 
-            var blockTranslator = new ItemFilterBlockTranslator();
-            var translator = new ItemFilterScriptTranslator(blockTranslator);
+            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
+            var translator = new ItemFilterScriptTranslator(blockTranslator, _testUtility.MockBlockGroupHierarchyBuilder.Object);
 
             // Act
             var result = translator.TranslateStringToItemFilterScript(testInputScript);
@@ -190,6 +189,23 @@ namespace Filtration.Tests.Translators
             var baseTypeItem = block.BlockItems.OfType<BaseTypeBlockItem>().First();
             Assert.AreEqual(2, baseTypeItem.Items.Count);
 
+        }
+
+        private class ItemFilterScriptTranslatorTestUtility
+        {
+            public ItemFilterScriptTranslatorTestUtility()
+            {
+                // Mock setups
+                MockItemFilterBlockTranslator = new Mock<IItemFilterBlockTranslator>();
+                MockBlockGroupHierarchyBuilder = new Mock<IBlockGroupHierarchyBuilder>();
+
+                // Class under test instantiation
+                ScriptTranslator = new ItemFilterScriptTranslator(MockItemFilterBlockTranslator.Object, MockBlockGroupHierarchyBuilder.Object);
+            }
+
+            public ItemFilterScriptTranslator ScriptTranslator { get; private set; }
+            public Mock<IItemFilterBlockTranslator> MockItemFilterBlockTranslator { get; private set; }
+            public Mock<IBlockGroupHierarchyBuilder> MockBlockGroupHierarchyBuilder { get; private set; }
         }
     }
 }

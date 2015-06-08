@@ -11,9 +11,15 @@ namespace Filtration.Models
         public ItemFilterScript()
         {
             ItemFilterBlocks = new ObservableCollection<ItemFilterBlock>();
+            ItemFilterBlockGroups = new ObservableCollection<ItemFilterBlockGroup>
+            {
+                new ItemFilterBlockGroup("Root", null)
+            };
         }
 
-        public ObservableCollection<ItemFilterBlock> ItemFilterBlocks { get; set; }
+        public ObservableCollection<ItemFilterBlock> ItemFilterBlocks { get; private set; }
+        public ObservableCollection<ItemFilterBlockGroup> ItemFilterBlockGroups { get; private set; } 
+
         public string FilePath { get; set; }
         public string Description { get; set; }
         public DateTime DateModified { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Filtration.Models;
 using Filtration.Utilities;
@@ -16,15 +17,19 @@ namespace Filtration.Translators
     internal class ItemFilterScriptTranslator : IItemFilterScriptTranslator
     {
         private readonly IItemFilterBlockTranslator _blockTranslator;
+        private readonly IBlockGroupHierarchyBuilder _blockGroupHierarchyBuilder;
 
-        public ItemFilterScriptTranslator(IItemFilterBlockTranslator blockTranslator)
+        public ItemFilterScriptTranslator(IItemFilterBlockTranslator blockTranslator, IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder)
         {
             _blockTranslator = blockTranslator;
+            _blockGroupHierarchyBuilder = blockGroupHierarchyBuilder;
         }
 
         public ItemFilterScript TranslateStringToItemFilterScript(string inputString)
         {
             var script = new ItemFilterScript();
+            _blockGroupHierarchyBuilder.Initialise(script.ItemFilterBlockGroups.First());
+
             inputString = inputString.Replace("\t", "");
             var conditionBoundaries = IdentifyBlockBoundaries(inputString);
 

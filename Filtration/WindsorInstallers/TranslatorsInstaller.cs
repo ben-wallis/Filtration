@@ -18,6 +18,11 @@ namespace Filtration.WindsorInstallers
                 Component.For<IItemFilterBlockTranslator>()
                     .ImplementedBy<ItemFilterBlockTranslator>()
                     .LifeStyle.Singleton);
+
+            container.Register(
+                Component.For<IBlockGroupHierarchyBuilder>()
+                    .ImplementedBy<BlockGroupHierarchyBuilder>()
+                    .LifeStyle.Singleton);
         }
     }
 }

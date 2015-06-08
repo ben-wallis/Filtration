@@ -142,6 +142,7 @@
     <Compile Include="Services\FileSystemService.cs" />
     <Compile Include="Services\ItemFilterPersistenceService.cs" />
     <Compile Include="Services\StaticDataService.cs" />
+    <Compile Include="Translators\BlockGroupHierarchyBuilder.cs" />
     <Compile Include="Translators\ItemFilterBlockTranslator.cs" />
     <Compile Include="Translators\ItemFilterScriptTranslator.cs" />
     <Compile Include="UserControls\AutoScrollingListBox.cs" />

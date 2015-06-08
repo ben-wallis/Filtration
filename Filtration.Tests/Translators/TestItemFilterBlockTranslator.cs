@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
 using Filtration.Enums;
@@ -6,6 +7,7 @@ using Filtration.Models;
 using Filtration.Models.BlockItemBaseTypes;
 using Filtration.Models.BlockItemTypes;
 using Filtration.Translators;
+using Moq;
 using NUnit.Framework;
 
 namespace Filtration.Tests.Translators
@@ -36,6 +38,64 @@ namespace Filtration.Tests.Translators
             var blockItem = result.BlockItems.OfType<ItemLevelBlockItem>().First();
             Assert.AreEqual(55, blockItem.FilterPredicate.PredicateOperand);
             Assert.AreEqual(FilterPredicateOperator.GreaterThanOrEqual, blockItem.FilterPredicate.PredicateOperator);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_BlockGroupComment_CallsBlockGroupHierarchyBuilder()
+        {
+            // Arrange
+            var inputString = "Show # TestBlockGroup" + Environment.NewLine;
+
+            // Act
+            _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Verifiable();
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
+
+            // Assert
+            _testUtility.MockBlockGroupHierarchyBuilder.Verify();
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_NoBlockGroupComment_CallsBlockGroupHierarchyBuilder()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine;
+
+            // Act
+            _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Verifiable();
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
+
+            // Assert
+            _testUtility.MockBlockGroupHierarchyBuilder.Verify(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>()), Times.Never);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_BlockGroupCommentWithNoGroups_DoesNotThrow()
+        {
+            // Arrange
+            var inputString = "Show    #" + Environment.NewLine;
+
+            // Act
+            _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Verifiable();
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
+
+            // Assert
+            _testUtility.MockBlockGroupHierarchyBuilder.Verify(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>()), Times.Never);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_BlockGroupComment_SetsBlockItemGroupCorrectly()
+        {
+            // Arrange
+            var inputString = "Show # Test Block Group - Test Sub Block Group - Test Another Block Group" + Environment.NewLine;
+            var testBlockGroup = new ItemFilterBlockGroup("zzzzz", null);
+
+            // Act
+            _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Returns(testBlockGroup).Verifiable();
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
+
+            // Assert
+            Assert.AreEqual(testBlockGroup, result.BlockGroup);
+            _testUtility.MockBlockGroupHierarchyBuilder.Verify();
         }
 
         [Test]
@@ -687,6 +747,24 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
+        public void TranslateItemFilterBlockToString_HasBlockGroup_ReturnsCorrectString()
+        {
+            // Arrange
+            var expectedResult = "Show # Child 1 Block Group - Child 2 Block Group";
+            
+            var rootBlockGroup = new ItemFilterBlockGroup("Root Block Group", null);
+            var child1BlockGroup = new ItemFilterBlockGroup("Child 1 Block Group", rootBlockGroup);
+            var child2BlockGroup = new ItemFilterBlockGroup("Child 2 Block Group", child1BlockGroup);
+            _testUtility.TestBlock.BlockGroup = child2BlockGroup;
+
+            // Act
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
         public void TranslateItemFilterBlockToString_FilterTypeHide_ReturnsCorrectString()
         {
             // Arrange
@@ -1158,11 +1236,15 @@ namespace Filtration.Tests.Translators
                 // Test Data
                 TestBlock = new ItemFilterBlock();
 
+                // Mock setups
+                MockBlockGroupHierarchyBuilder = new Mock<IBlockGroupHierarchyBuilder>();
+
                 // Class under test instantiation
-                Translator = new ItemFilterBlockTranslator();
+                Translator = new ItemFilterBlockTranslator(MockBlockGroupHierarchyBuilder.Object);
             }
 
             public ItemFilterBlock TestBlock { get; set; }
+            public Mock<IBlockGroupHierarchyBuilder> MockBlockGroupHierarchyBuilder { get; private set; }
             public ItemFilterBlockTranslator Translator { get; private set; }
         }
     }
