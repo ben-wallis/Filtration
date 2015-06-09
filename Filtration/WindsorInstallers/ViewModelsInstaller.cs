@@ -13,7 +13,7 @@ namespace Filtration.WindsorInstallers
             container.Register(
                 Component.For<IMainWindowViewModel>()
                     .ImplementedBy<MainWindowViewModel>()
-                    .LifeStyle.Transient);
+                    .LifeStyle.Singleton);
 
             container.Register(
                 Component.For<IItemFilterBlockViewModel>()
@@ -28,6 +28,11 @@ namespace Filtration.WindsorInstallers
             container.Register(
                 Component.For<IReplaceColorsViewModel>()
                     .ImplementedBy<ReplaceColorsViewModel>()
+                    .LifeStyle.Singleton);
+
+            container.Register(
+                Component.For<ISectionBrowserViewModel>()
+                    .ImplementedBy<SectionBrowserViewModel>()
                     .LifeStyle.Singleton);
 
             container.AddFacility<TypedFactoryFacility>();

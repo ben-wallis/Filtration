@@ -59,7 +59,7 @@
                     <Button ToolTip="Move Block to Bottom" Command="{Binding MoveBlockToBottomCommand}" Content="{StaticResource MoveToBottomIcon}" />
                 </ToolBar>
                 </ToolBarTray>
-                <Expander DockPanel.Dock="Left" ExpandDirection="Right" MaxWidth="200" HorizontalAlignment="Left" >
+                <!--<Expander DockPanel.Dock="Left" ExpandDirection="Right" MaxWidth="200" HorizontalAlignment="Left" >
                     <Expander.Header>
                         <TextBlock Text="Section Browser" Foreground="White" VerticalAlignment="Top">
                             <TextBlock.LayoutTransform>
@@ -78,7 +78,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                </Expander>
+                </Expander>-->
                 <userControls:AutoScrollingListBox ItemsSource="{Binding ItemFilterBlockViewModels}"
                                                    Margin="5,5,5,5"
                                                    Padding="5"

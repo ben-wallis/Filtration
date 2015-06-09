@@ -5,14 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:views="clr-namespace:Filtration.Views"
         xmlns:viewModels="clr-namespace:Filtration.ViewModels"
-        xmlns:userControls="clr-namespace:Filtration.UserControls"
+        xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:converters="clr-namespace:Filtration.Converters"
+        xmlns:views="clr-namespace:Filtration.Views"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
         Title="{Binding WindowTitle}" Height="707" Width="930" BorderThickness="1" BorderBrush="Black">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:ActiveDocumentConverter x:Key="ActiveDocumentConverter" />
     </Window.Resources>
         
     <DockPanel>
@@ -22,7 +24,7 @@
                 <MenuItem Header="_Open Script" Command="{Binding OpenScriptCommand}" Icon="{StaticResource OpenIcon}"/>
                 <MenuItem Header="_Save Script" Command="{Binding SaveScriptCommand}" Icon="{StaticResource SaveIcon}"/>
                 <MenuItem Header="Save Script _As" Command="{Binding SaveScriptAsCommand}"  Icon="{StaticResource SaveIcon}"/>
-                <MenuItem Header="_Close Script" Command="{Binding CloseScriptCommand}" CommandParameter="{Binding CurrentScriptViewModel}"/>
+                <MenuItem Header="_Close Script" Command="{Binding CloseScriptCommand}" CommandParameter="{Binding ActiveDocument}"/>
                 <MenuItem Header="E_xit"/>
             </MenuItem>
             <MenuItem Header="_Edit">
@@ -46,7 +48,63 @@
             </ToolBar>
         </ToolBarTray>
         <Grid>
-            <controls:MetroTabControl ItemsSource="{Binding ScriptViewModels}" SelectedItem="{Binding CurrentScriptViewModel}" Name="TabControl" Background="White">
+            <avalonDock:DockingManager x:Name="dockManager"
+                                       AnchorablesSource="{Binding Tools}"
+                                       DocumentsSource="{Binding ScriptViewModels}"
+                                       ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}">
+                <avalonDock:DockingManager.LayoutItemTemplateSelector>
+                    <views:PanesTemplateSelector>
+                        <views:PanesTemplateSelector.ItemFilterScriptTemplate>
+                            <DataTemplate>
+                                <views:ItemFilterScriptView DataContext="{Binding}" />
+                            </DataTemplate>
+                        </views:PanesTemplateSelector.ItemFilterScriptTemplate>
+                        <views:PanesTemplateSelector.SectionBrowserTemplate>
+                            <DataTemplate>
+                                <views:SectionBrowserView DataContext="{Binding}" />
+                            </DataTemplate>
+                        </views:PanesTemplateSelector.SectionBrowserTemplate>
+                    </views:PanesTemplateSelector>
+                </avalonDock:DockingManager.LayoutItemTemplateSelector>
+                
+                <avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+                    <views:PanesStyleSelector>
+                        <views:PanesStyleSelector.ToolStyle>
+                            <Style TargetType="{x:Type avalonDock:LayoutAnchorableItem}">
+                                <Setter Property="Title" Value="{Binding Model.Title}"/>
+                                <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
+                                <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
+                                <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
+                                <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}"/>
+                                <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}"/>
+                            </Style>
+                        </views:PanesStyleSelector.ToolStyle>
+                        <views:PanesStyleSelector.ScriptStyle>
+                            <Style TargetType="{x:Type avalonDock:LayoutItem}">
+                                <Setter Property="Title" Value="{Binding Model.Title}"/>
+                                <!--<Setter Property="ToolTip" Value="{Binding Model.FilePath}"/>
+                                <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>-->
+                                <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
+                                <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
+                            </Style>
+                        </views:PanesStyleSelector.ScriptStyle>
+                    </views:PanesStyleSelector>
+                </avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+                <avalonDock:DockingManager.LayoutUpdateStrategy>
+                    <views:LayoutInitializer></views:LayoutInitializer>
+                </avalonDock:DockingManager.LayoutUpdateStrategy>
+                
+                <avalonDock:LayoutRoot>
+                    <avalonDock:LayoutPanel Orientation="Horizontal">
+                        <avalonDock:LayoutAnchorablePane Name="ToolsPane" DockWidth="150" />
+                        <avalonDock:LayoutDocumentPane/>
+                        
+                    </avalonDock:LayoutPanel>
+                </avalonDock:LayoutRoot>
+            </avalonDock:DockingManager>
+                                       
+            
+            <!--<controls:MetroTabControl ItemsSource="{Binding ScriptViewModels}" SelectedItem="{Binding CurrentScriptViewModel}" Name="TabControl" Background="White">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
@@ -62,7 +120,7 @@
                         </controls:MetroContentControl>
                     </DataTemplate>
                 </TabControl.ContentTemplate>
-            </controls:MetroTabControl>
+            </controls:MetroTabControl>-->
             <TextBlock FontStyle="Italic" Margin="5" FontSize="13" Visibility="{Binding NoScriptsOpen, Converter={StaticResource BooleanToVisibilityConverter}}">Welcome to Filtration, to get started either 
                 <Hyperlink Command="{Binding NewScriptCommand}">create a new script</Hyperlink> or <Hyperlink Command="{Binding OpenScriptCommand}">open an existing script</Hyperlink></TextBlock>
         </Grid>

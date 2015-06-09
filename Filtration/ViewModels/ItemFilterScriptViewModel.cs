@@ -19,13 +19,14 @@ namespace Filtration.ViewModels
         void Initialise(ItemFilterScript itemFilterScript);
         IItemFilterBlockViewModel SelectedBlockViewModel { get; set; }
         void RemoveDirtyFlag();
+        IEnumerable<IItemFilterBlockViewModel> ItemFilterSectionViewModels { get; }
         void AddSection(IItemFilterBlockViewModel targetBlockViewModel);
         void AddBlock(IItemFilterBlockViewModel targetBlockViewModel);
         void CopyBlock(IItemFilterBlockViewModel targetBlockViewModel);
         void PasteBlock(IItemFilterBlockViewModel targetBlockViewModel);
     }
 
-    internal class ItemFilterScriptViewModel : FiltrationViewModelBase, IItemFilterScriptViewModel
+    internal class ItemFilterScriptViewModel : PaneViewModel, IItemFilterScriptViewModel
     {
         private readonly IItemFilterBlockViewModelFactory _itemFilterBlockViewModelFactory;
         private readonly IItemFilterBlockTranslator _blockTranslator;
@@ -147,6 +148,9 @@ namespace Filtration.ViewModels
                 vm.Initialise(block, this);
                 ItemFilterBlockViewModels.Add(vm);
             }
+
+            Title = Filename;
+            ContentId = "testcontentid";
         }
 
         private void OnCopyBlockCommand()

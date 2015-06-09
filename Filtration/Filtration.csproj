@@ -79,6 +79,21 @@
     <Reference Include="WPFToolkit">
       <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\WPFToolkit.dll</HintPath>
     </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock">
+      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero">
+      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Expression">
+      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.Expression.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro">
+      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
+      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.Toolkit, Version=2.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Extended.Wpf.Toolkit.2.4\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
@@ -89,6 +104,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\ActiveDocumentConverter.cs" />
     <Compile Include="Converters\BlockItemTypeToStringConverter.cs" />
     <Compile Include="Converters\BooleanInverterConverter.cs" />
     <Compile Include="Converters\BooleanToBlockActionInverseConverter.cs" />
@@ -159,7 +175,10 @@
     <Compile Include="ViewModels\IItemFilterBlockViewModelFactory.cs" />
     <Compile Include="ViewModels\ItemFilterBlockViewModel.cs" />
     <Compile Include="ViewModels\ItemFilterScriptViewModel.cs" />
+    <Compile Include="ViewModels\PaneViewModel.cs" />
     <Compile Include="ViewModels\ReplaceColorsViewModel.cs" />
+    <Compile Include="ViewModels\SectionBrowserViewModel.cs" />
+    <Compile Include="ViewModels\ToolViewModel.cs" />
     <Compile Include="Views\BindingProxy.cs" />
     <Compile Include="Views\BlockTemplateSelector.cs" />
     <Compile Include="Views\ItemFilterBlockDisplaySettingsView.xaml.cs">
@@ -180,8 +199,14 @@
     <Compile Include="Views\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LayoutInitializer.cs" />
+    <Compile Include="Views\PanesStyleSelector.cs" />
+    <Compile Include="Views\PanesTemplateSelector.cs" />
     <Compile Include="Views\ReplaceColorsWindow.xaml.cs">
       <DependentUpon>ReplaceColorsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SectionBrowserView.xaml.cs">
+      <DependentUpon>SectionBrowserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindsorInstallers\ModelsInstaller.cs" />
     <Compile Include="WindsorInstallers\ServicesInstaller.cs" />
@@ -209,6 +234,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ItemFilterBlockDisplaySettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SectionBrowserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
