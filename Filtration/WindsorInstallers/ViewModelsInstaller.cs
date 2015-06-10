@@ -31,8 +31,18 @@ namespace Filtration.WindsorInstallers
                     .LifeStyle.Singleton);
 
             container.Register(
+                Component.For<IStartPageViewModel>()
+                    .ImplementedBy<StartPageViewModel>()
+                    .LifeStyle.Singleton);
+
+            container.Register(
                 Component.For<ISectionBrowserViewModel>()
                     .ImplementedBy<SectionBrowserViewModel>()
+                    .LifeStyle.Singleton);
+
+            container.Register(
+                Component.For<IBlockGroupBrowserViewModel>()
+                    .ImplementedBy<BlockGroupBrowserViewModel>()
                     .LifeStyle.Singleton);
 
             container.AddFacility<TypedFactoryFacility>();

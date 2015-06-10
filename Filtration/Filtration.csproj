@@ -170,7 +170,9 @@
       <DependentUpon>ItemPreviewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\LineReader.cs" />
+    <Compile Include="ViewModels\BlockGroupBrowserViewModel.cs" />
     <Compile Include="ViewModels\FiltrationViewModelBase.cs" />
+    <Compile Include="ViewModels\IDocument.cs" />
     <Compile Include="ViewModels\IItemFilterScriptViewModelFactory.cs" />
     <Compile Include="ViewModels\IItemFilterBlockViewModelFactory.cs" />
     <Compile Include="ViewModels\ItemFilterBlockViewModel.cs" />
@@ -178,8 +180,13 @@
     <Compile Include="ViewModels\PaneViewModel.cs" />
     <Compile Include="ViewModels\ReplaceColorsViewModel.cs" />
     <Compile Include="ViewModels\SectionBrowserViewModel.cs" />
+    <Compile Include="ViewModels\StartPageViewModel.cs" />
     <Compile Include="ViewModels\ToolViewModel.cs" />
+    <Compile Include="Views\AttachedProperties\SelectingItemAttachedProperty.cs" />
     <Compile Include="Views\BindingProxy.cs" />
+    <Compile Include="Views\BlockGroupBrowserView.xaml.cs">
+      <DependentUpon>BlockGroupBrowserView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BlockTemplateSelector.cs" />
     <Compile Include="Views\ItemFilterBlockDisplaySettingsView.xaml.cs">
       <DependentUpon>ItemFilterBlockDisplaySettingsView.xaml</DependentUpon>
@@ -199,14 +206,17 @@
     <Compile Include="Views\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LayoutInitializer.cs" />
-    <Compile Include="Views\PanesStyleSelector.cs" />
-    <Compile Include="Views\PanesTemplateSelector.cs" />
+    <Compile Include="Views\AvalonDock\LayoutInitializer.cs" />
+    <Compile Include="Views\AvalonDock\PanesStyleSelector.cs" />
+    <Compile Include="Views\AvalonDock\PanesTemplateSelector.cs" />
     <Compile Include="Views\ReplaceColorsWindow.xaml.cs">
       <DependentUpon>ReplaceColorsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SectionBrowserView.xaml.cs">
       <DependentUpon>SectionBrowserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StartPageView.xaml.cs">
+      <DependentUpon>StartPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindsorInstallers\ModelsInstaller.cs" />
     <Compile Include="WindsorInstallers\ServicesInstaller.cs" />
@@ -214,6 +224,10 @@
     <Compile Include="WindsorInstallers\ViewModelsInstaller.cs" />
     <Compile Include="WindsorInstallers\ViewsInstaller.cs" />
     <Page Include="UserControls\ItemPreviewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BlockGroupBrowserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -282,6 +296,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\StartPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -338,6 +356,7 @@
     <Resource Include="Resources\Icons\about_icon.png" />
     <Resource Include="Resources\filtration.ico" />
     <Resource Include="Resources\Icons\replace_colors_icon.png" />
+    <Resource Include="Resources\Icons\block_group_browser_icon.png" />
     <Content Include="Resources\ItemBaseTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

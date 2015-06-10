@@ -9,7 +9,7 @@ namespace Filtration.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is ItemFilterScriptViewModel)
+            if (value is IDocument)
                 return value;
 
             return Binding.DoNothing;
@@ -17,7 +17,7 @@ namespace Filtration.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is ItemFilterScriptViewModel)
+            if (value is IDocument)
                 return value;
 
             return Binding.DoNothing;

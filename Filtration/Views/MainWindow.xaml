@@ -9,6 +9,7 @@
         xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:converters="clr-namespace:Filtration.Converters"
         xmlns:views="clr-namespace:Filtration.Views"
+        xmlns:viewsAvalonDock="clr-namespace:Filtration.Views.AvalonDock"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
         Title="{Binding WindowTitle}" Height="707" Width="930" BorderThickness="1" BorderBrush="Black">
@@ -50,26 +51,37 @@
         <Grid>
             <avalonDock:DockingManager x:Name="dockManager"
                                        AnchorablesSource="{Binding Tools}"
-                                       DocumentsSource="{Binding ScriptViewModels}"
+                                       AllowMixedOrientation="True"
+                                       DocumentsSource="{Binding OpenDocuments}"
                                        ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}">
                 <avalonDock:DockingManager.LayoutItemTemplateSelector>
-                    <views:PanesTemplateSelector>
-                        <views:PanesTemplateSelector.ItemFilterScriptTemplate>
+                    <viewsAvalonDock:PanesTemplateSelector>
+                        <viewsAvalonDock:PanesTemplateSelector.ItemFilterScriptTemplate>
                             <DataTemplate>
                                 <views:ItemFilterScriptView DataContext="{Binding}" />
                             </DataTemplate>
-                        </views:PanesTemplateSelector.ItemFilterScriptTemplate>
-                        <views:PanesTemplateSelector.SectionBrowserTemplate>
+                        </viewsAvalonDock:PanesTemplateSelector.ItemFilterScriptTemplate>
+                        <viewsAvalonDock:PanesTemplateSelector.BlockGroupBrowserTemplate>
+                            <DataTemplate>
+                                <views:BlockGroupBrowserView DataContext="{Binding}" />
+                            </DataTemplate>
+                        </viewsAvalonDock:PanesTemplateSelector.BlockGroupBrowserTemplate>
+                        <viewsAvalonDock:PanesTemplateSelector.SectionBrowserTemplate>
                             <DataTemplate>
                                 <views:SectionBrowserView DataContext="{Binding}" />
                             </DataTemplate>
-                        </views:PanesTemplateSelector.SectionBrowserTemplate>
-                    </views:PanesTemplateSelector>
+                        </viewsAvalonDock:PanesTemplateSelector.SectionBrowserTemplate>
+                        <viewsAvalonDock:PanesTemplateSelector.StartPageTemplate>
+                            <DataTemplate>
+                                <views:StartPageView DataContext="{Binding}" />
+                            </DataTemplate>
+                        </viewsAvalonDock:PanesTemplateSelector.StartPageTemplate>
+                    </viewsAvalonDock:PanesTemplateSelector>
                 </avalonDock:DockingManager.LayoutItemTemplateSelector>
                 
                 <avalonDock:DockingManager.LayoutItemContainerStyleSelector>
-                    <views:PanesStyleSelector>
-                        <views:PanesStyleSelector.ToolStyle>
+                    <viewsAvalonDock:PanesStyleSelector>
+                        <viewsAvalonDock:PanesStyleSelector.ToolStyle>
                             <Style TargetType="{x:Type avalonDock:LayoutAnchorableItem}">
                                 <Setter Property="Title" Value="{Binding Model.Title}"/>
                                 <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
@@ -78,51 +90,30 @@
                                 <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}"/>
                                 <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}"/>
                             </Style>
-                        </views:PanesStyleSelector.ToolStyle>
-                        <views:PanesStyleSelector.ScriptStyle>
+                        </viewsAvalonDock:PanesStyleSelector.ToolStyle>
+                        <viewsAvalonDock:PanesStyleSelector.DocumentStyle>
                             <Style TargetType="{x:Type avalonDock:LayoutItem}">
                                 <Setter Property="Title" Value="{Binding Model.Title}"/>
-                                <!--<Setter Property="ToolTip" Value="{Binding Model.FilePath}"/>
-                                <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>-->
+                                <!--<Setter Property="ToolTip" Value="{Binding Model.FilePath}"/> -->
+                                <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>
                                 <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
                                 <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
                             </Style>
-                        </views:PanesStyleSelector.ScriptStyle>
-                    </views:PanesStyleSelector>
+                        </viewsAvalonDock:PanesStyleSelector.DocumentStyle>
+                    </viewsAvalonDock:PanesStyleSelector>
                 </avalonDock:DockingManager.LayoutItemContainerStyleSelector>
                 <avalonDock:DockingManager.LayoutUpdateStrategy>
-                    <views:LayoutInitializer></views:LayoutInitializer>
+                    <viewsAvalonDock:LayoutInitializer></viewsAvalonDock:LayoutInitializer>
                 </avalonDock:DockingManager.LayoutUpdateStrategy>
                 
                 <avalonDock:LayoutRoot>
                     <avalonDock:LayoutPanel Orientation="Horizontal">
-                        <avalonDock:LayoutAnchorablePane Name="ToolsPane" DockWidth="150" />
+                        <avalonDock:LayoutAnchorablePane Name="SectionBrowserPane" DockWidth="150" />
                         <avalonDock:LayoutDocumentPane/>
-                        
+                        <avalonDock:LayoutAnchorablePane Name="BlockGroupBrowserPane" DockWidth="150" />
                     </avalonDock:LayoutPanel>
                 </avalonDock:LayoutRoot>
             </avalonDock:DockingManager>
-                                       
-            
-            <!--<controls:MetroTabControl ItemsSource="{Binding ScriptViewModels}" SelectedItem="{Binding CurrentScriptViewModel}" Name="TabControl" Background="White">
-                <TabControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-                            <TextBlock Text="{Binding DisplayName}" FontSize="16" VerticalAlignment="Center" Margin="0,0,3,0" />
-                            <userControls:CrossButton Height="12"  Command="{Binding ElementName=TabControl, Path=DataContext.CloseScriptCommand}" CommandParameter="{Binding}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </TabControl.ItemTemplate>
-                <TabControl.ContentTemplate>
-                    <DataTemplate>
-                        <controls:MetroContentControl>
-                            <views:ItemFilterScriptView DataContext="{Binding}" />
-                        </controls:MetroContentControl>
-                    </DataTemplate>
-                </TabControl.ContentTemplate>
-            </controls:MetroTabControl>-->
-            <TextBlock FontStyle="Italic" Margin="5" FontSize="13" Visibility="{Binding NoScriptsOpen, Converter={StaticResource BooleanToVisibilityConverter}}">Welcome to Filtration, to get started either 
-                <Hyperlink Command="{Binding NewScriptCommand}">create a new script</Hyperlink> or <Hyperlink Command="{Binding OpenScriptCommand}">open an existing script</Hyperlink></TextBlock>
         </Grid>
     </DockPanel>
 </controls:MetroWindow>

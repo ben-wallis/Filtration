@@ -2,12 +2,12 @@
 using System.Windows.Controls;
 using Filtration.ViewModels;
 
-namespace Filtration.Views
+namespace Filtration.Views.AvalonDock
 {
     class PanesStyleSelector : StyleSelector
     {
         public Style ToolStyle { get; set; }
-        public Style ScriptStyle { get; set; }
+        public Style DocumentStyle { get; set; }
 
         public override Style SelectStyle(object item, DependencyObject container)
         {
@@ -16,11 +16,11 @@ namespace Filtration.Views
                 return ToolStyle;
             }
 
-            if (item is IItemFilterScriptViewModel)
+            if (item is IDocument)
             {
-                return ScriptStyle;
+                return DocumentStyle;
             }
-
+            
             return base.SelectStyle(item, container);
         }
     }

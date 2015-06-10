@@ -11,7 +11,6 @@
         <ListBox ItemsSource="{Binding SectionBlockViewModels}"
                              SelectedItem="{Binding SelectedSectionBlockViewModel}"
                              x:Name="SectionBrowserListBox"
-                             
                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"><!--SelectionChanged="SectionBrowserListBox_OnSelectionChanged"-->
             <ListBox.ItemTemplate>
                 <DataTemplate>

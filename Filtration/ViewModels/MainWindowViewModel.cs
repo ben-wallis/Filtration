@@ -10,7 +10,6 @@ using Filtration.Services;
 using Filtration.Translators;
 using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
-using Xceed.Wpf.AvalonDock.Layout;
 using Clipboard = System.Windows.Clipboard;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
@@ -18,9 +17,13 @@ namespace Filtration.ViewModels
 {
     internal interface IMainWindowViewModel
     {
-        IItemFilterScriptViewModel ActiveDocument { get; set; }
+        IDocument ActiveDocument { get; set; }
+        IItemFilterScriptViewModel ActiveScriptViewModel { get; }
         event EventHandler ActiveDocumentChanged;
         void LoadScriptFromFile(string path);
+        RelayCommand OpenScriptCommand { get; }
+        RelayCommand NewScriptCommand { get; }
+        void Close(IDocument scriptToClose);
     }
 
     internal class MainWindowViewModel : FiltrationViewModelBase, IMainWindowViewModel
@@ -32,38 +35,52 @@ namespace Filtration.ViewModels
         private readonly IItemFilterPersistenceService _persistenceService;
         private readonly IItemFilterScriptTranslator _itemFilterScriptTranslator;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
-        private IItemFilterScriptViewModel _activeDocument;
-        private readonly ObservableCollection<IItemFilterScriptViewModel> _scriptViewModels;
-        private readonly SectionBrowserViewModel _sectionBrowserViewModel;
+        private IDocument _activeDocument;
+        private IItemFilterScriptViewModel _activeScriptViewModel;
+        private readonly ObservableCollection<IDocument> _openDocuments;
+        private readonly ISectionBrowserViewModel _sectionBrowserViewModel;
+        private readonly IBlockGroupBrowserViewModel _blockGroupBrowserViewModel;
+        private readonly IStartPageViewModel _startPageViewModel;
 
         public MainWindowViewModel(IItemFilterScriptViewModelFactory itemFilterScriptViewModelFactory,
                                    IItemFilterPersistenceService persistenceService,
                                    IItemFilterScriptTranslator itemFilterScriptTranslator,
-                                   IReplaceColorsViewModel replaceColorsViewModel)
+                                   IReplaceColorsViewModel replaceColorsViewModel,
+                                   ISectionBrowserViewModel sectionBrowserViewModel,
+                                   IBlockGroupBrowserViewModel blockGroupBrowserViewModel,
+                                   IStartPageViewModel startPageViewModel)
         {
             _itemFilterScriptViewModelFactory = itemFilterScriptViewModelFactory;
             _persistenceService = persistenceService;
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
             _replaceColorsViewModel = replaceColorsViewModel;
-            _sectionBrowserViewModel = new SectionBrowserViewModel();
-            _sectionBrowserViewModel.Initialise(this);
+            _sectionBrowserViewModel = sectionBrowserViewModel;
+            _blockGroupBrowserViewModel = blockGroupBrowserViewModel;
+            _startPageViewModel = startPageViewModel;
 
-            _scriptViewModels = new ObservableCollection<IItemFilterScriptViewModel>();
+            _sectionBrowserViewModel.Initialise(this);
+            _blockGroupBrowserViewModel.Initialise(this);
+            _startPageViewModel.Initialise(this);
+
+            _openDocuments = new ObservableCollection<IDocument>();
 
             OpenAboutWindowCommand = new RelayCommand(OnOpenAboutWindowCommand);
             OpenScriptCommand = new RelayCommand(OnOpenScriptCommand);
-            SaveScriptCommand = new RelayCommand(OnSaveScriptCommand, () => ActiveDocument != null);
-            SaveScriptAsCommand = new RelayCommand(OnSaveScriptAsCommand, () => ActiveDocument != null);
-            CopyScriptCommand = new RelayCommand(OnCopyScriptCommand, () => ActiveDocument != null);
-            CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => ActiveDocument != null && ActiveDocument.SelectedBlockViewModel != null);
-            PasteCommand = new RelayCommand(OnPasteCommand, () => ActiveDocument != null && ActiveDocument.SelectedBlockViewModel != null);
+            SaveScriptCommand = new RelayCommand(OnSaveScriptCommand, () => ActiveDocument != null && ActiveDocument.IsScript);
+            SaveScriptAsCommand = new RelayCommand(OnSaveScriptAsCommand, () => ActiveDocument != null && ActiveDocument.IsScript);
+            CopyScriptCommand = new RelayCommand(OnCopyScriptCommand, () => ActiveDocument != null && ActiveDocument.IsScript);
+            CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => ActiveDocument != null && ActiveDocument.IsScript && ((IItemFilterScriptViewModel)ActiveDocument).SelectedBlockViewModel != null);
+            PasteCommand = new RelayCommand(OnPasteCommand, () => ActiveDocument != null && ActiveDocument.IsScript && ((IItemFilterScriptViewModel)ActiveDocument).SelectedBlockViewModel != null);
             NewScriptCommand = new RelayCommand(OnNewScriptCommand);
-            CloseScriptCommand = new RelayCommand<IItemFilterScriptViewModel>(OnCloseScriptCommand, v => ActiveDocument != null);
-            ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, () => ActiveDocument != null);
+            CloseScriptCommand = new RelayCommand<IDocument>(OnCloseScriptCommand, v => ActiveDocument != null && ActiveDocument.IsScript);
+            ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, () => ActiveDocument != null && ActiveDocument.IsScript);
 
             //LoadScriptFromFile("C:\\ThioleLootFilter.txt");
 
             SetItemFilterScriptDirectory();
+            
+            _openDocuments.Add(_startPageViewModel);
+            ActiveDocument = startPageViewModel;
         }
 
         public RelayCommand OpenScriptCommand { get; private set; }
@@ -73,35 +90,27 @@ namespace Filtration.ViewModels
         public RelayCommand PasteCommand { get; private set; }
         public RelayCommand CopyScriptCommand { get; private set; }
         public RelayCommand NewScriptCommand { get; private set; }
-        public RelayCommand<IItemFilterScriptViewModel> CloseScriptCommand { get; private set; }
+        public RelayCommand<IDocument> CloseScriptCommand { get; private set; }
         public RelayCommand OpenAboutWindowCommand { get; private set; }
         public RelayCommand ReplaceColorsCommand { get; private set; }
 
-        public ObservableCollection<IItemFilterScriptViewModel> ScriptViewModels
+        public ObservableCollection<IDocument> OpenDocuments
         {
-            get { return _scriptViewModels; }
+            get { return _openDocuments; }
         }
 
-        private List<ToolViewModel> _tools;
+        private List<IToolViewModel> _tools;
 
-        public IEnumerable<ToolViewModel> Tools
+        public IEnumerable<IToolViewModel> Tools
         {
             get
             {
                 if (_tools == null)
                 {
-                    _tools = new List<ToolViewModel> { _sectionBrowserViewModel };
+                    _tools = new List<IToolViewModel> {_sectionBrowserViewModel, _blockGroupBrowserViewModel};
                 }
 
                 return _tools;
-            }
-        }
-
-        public SectionBrowserViewModel SectionBrowserViewModel
-        {
-            get
-            {
-                return _sectionBrowserViewModel;
             }
         }
 
@@ -115,14 +124,19 @@ namespace Filtration.ViewModels
             }
         }
 
-        [DoNotWire]
-        public IItemFilterScriptViewModel ActiveDocument
+        public IDocument ActiveDocument
         {
             get { return _activeDocument; }
             set
             {
                 _activeDocument = value;
                 RaisePropertyChanged();
+                
+                if (value.IsScript)
+                {
+                    _activeScriptViewModel = (IItemFilterScriptViewModel)value;
+                }
+
                 if (ActiveDocumentChanged != null)
                 {
                     ActiveDocumentChanged(this, EventArgs.Empty);
@@ -133,6 +147,12 @@ namespace Filtration.ViewModels
                 SaveScriptAsCommand.RaiseCanExecuteChanged();
             }
         }
+
+        public IItemFilterScriptViewModel ActiveScriptViewModel
+        {
+            get { return _activeScriptViewModel; }
+        }
+        
 
         public event EventHandler ActiveDocumentChanged;
 
@@ -175,8 +195,9 @@ namespace Filtration.ViewModels
 
             var newViewModel = _itemFilterScriptViewModelFactory.Create();
             newViewModel.Initialise(_loadedScript);
-            ScriptViewModels.Add(newViewModel);
-            ActiveDocument = newViewModel;
+            _activeScriptViewModel = newViewModel;
+            OpenDocuments.Add((IDocument)newViewModel);
+            ActiveDocument = (IDocument)newViewModel;
         }
 
         private void SetItemFilterScriptDirectory()
@@ -206,7 +227,7 @@ namespace Filtration.ViewModels
         {
             if (!ValidateScript()) return;
 
-            if (string.IsNullOrEmpty(ActiveDocument.Script.FilePath))
+            if (string.IsNullOrEmpty(_activeScriptViewModel.Script.FilePath))
             {
                 OnSaveScriptAsCommand();
                 return;
@@ -214,8 +235,8 @@ namespace Filtration.ViewModels
 
             try
             {
-                _persistenceService.SaveItemFilterScript(ActiveDocument.Script);
-                ActiveDocument.RemoveDirtyFlag();
+                _persistenceService.SaveItemFilterScript(_activeScriptViewModel.Script);
+                _activeScriptViewModel.RemoveDirtyFlag();
             }
             catch (Exception e)
             {
@@ -240,31 +261,31 @@ namespace Filtration.ViewModels
 
             if (result != DialogResult.OK) return;
 
-            var previousFilePath = ActiveDocument.Script.FilePath;
+            var previousFilePath = _activeScriptViewModel.Script.FilePath;
             try
             {
-                ActiveDocument.Script.FilePath = saveDialog.FileName;
-                _persistenceService.SaveItemFilterScript(ActiveDocument.Script);
-                ActiveDocument.RemoveDirtyFlag();
+                _activeScriptViewModel.Script.FilePath = saveDialog.FileName;
+                _persistenceService.SaveItemFilterScript(_activeScriptViewModel.Script);
+                _activeScriptViewModel.RemoveDirtyFlag();
             }
             catch (Exception e)
             {
                 MessageBox.Show(@"Error saving filter file - " + e.Message, @"Save Error", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
-                ActiveDocument.Script.FilePath = previousFilePath;
+                _activeScriptViewModel.Script.FilePath = previousFilePath;
             }
         }
 
         private void OnReplaceColorsCommand()
         {
-            _replaceColorsViewModel.Initialise(ActiveDocument.Script);
+            _replaceColorsViewModel.Initialise(_activeScriptViewModel.Script);
             var replaceColorsWindow = new ReplaceColorsWindow {DataContext = _replaceColorsViewModel};
             replaceColorsWindow.ShowDialog();
         }
 
         private bool ValidateScript()
         {
-            var result = ActiveDocument.Script.Validate();
+            var result = _activeScriptViewModel.Script.Validate();
 
             if (result.Count == 0) return true;
 
@@ -283,17 +304,17 @@ namespace Filtration.ViewModels
 
         private void OnCopyScriptCommand()
         {
-            Clipboard.SetText(_itemFilterScriptTranslator.TranslateItemFilterScriptToString(_activeDocument.Script));
+            Clipboard.SetText(_itemFilterScriptTranslator.TranslateItemFilterScriptToString(_activeScriptViewModel.Script));
         }
 
         private void OnCopyBlockCommand()
         {
-            _activeDocument.CopyBlock(_activeDocument.SelectedBlockViewModel);
+            _activeScriptViewModel.CopyBlock(_activeScriptViewModel.SelectedBlockViewModel);
         }
 
         private void OnPasteCommand()
         {
-            _activeDocument.PasteBlock(_activeDocument.SelectedBlockViewModel);
+            _activeScriptViewModel.PasteBlock(_activeScriptViewModel.SelectedBlockViewModel);
         }
 
         private void OnNewScriptCommand()
@@ -302,40 +323,66 @@ namespace Filtration.ViewModels
             var newViewModel = _itemFilterScriptViewModelFactory.Create();
             newViewModel.Initialise(newScript);
             newViewModel.Description = "New Script";
-            ScriptViewModels.Add(newViewModel);
-            ActiveDocument = newViewModel;
+            _activeScriptViewModel = newViewModel;
+            OpenDocuments.Add((IDocument)newViewModel);
+            ActiveDocument = (IDocument)newViewModel;
         }
 
-        private void OnCloseScriptCommand(IItemFilterScriptViewModel scriptViewModel)
+        private void OnCloseScriptCommand(IDocument documentToClose)
         {
-            ActiveDocument = scriptViewModel;
-            if (!ActiveDocument.IsDirty)
+            Close(documentToClose);
+        }
+
+        public void Close(IDocument documentToClose)
+        {
+            ActiveDocument = documentToClose;
+            if (ActiveDocument.IsScript)
             {
-                ScriptViewModels.Remove(ActiveDocument);
-            }
-            else
-            {
-                var result = MessageBox.Show(@"Want to save your changes to this script?",
-                    @"Filtration", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                switch (result)
+                if (!_activeScriptViewModel.IsDirty)
                 {
-                    case DialogResult.Yes:
+                    RemoveDocument(ActiveDocument);
+                }
+                else
+                {
+                    var result = MessageBox.Show(@"Want to save your changes to this script?",
+                        @"Filtration", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                    switch (result)
                     {
-                        OnSaveScriptCommand();
-                        ScriptViewModels.Remove(ActiveDocument);
-                        break;
-                    }
-                    case DialogResult.No:
-                    {
-                        ScriptViewModels.Remove(ActiveDocument);
-                        break;
-                    }
-                    case DialogResult.Cancel:
-                    {
-                        break;
+                        case DialogResult.Yes:
+                        {
+                            OnSaveScriptCommand();
+                            RemoveDocument(ActiveDocument);
+                            break;
+                        }
+                        case DialogResult.No:
+                        {
+                            RemoveDocument(ActiveDocument);
+                            break;
+                        }
+                        case DialogResult.Cancel:
+                        {
+                            return;
+                        }
                     }
                 }
             }
+            else
+            {
+                RemoveDocument(documentToClose);
+            }
+
         }
+
+        private void RemoveDocument(IDocument documentToRemove)
+        {
+            if (documentToRemove.IsScript)
+            {
+                _sectionBrowserViewModel.ClearDown();
+            }
+
+            OpenDocuments.Remove(documentToRemove);
+        }
+
+
     }
 }

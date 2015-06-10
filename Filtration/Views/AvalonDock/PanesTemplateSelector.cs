@@ -3,15 +3,14 @@ using System.Windows.Controls;
 using Filtration.ViewModels;
 using Xceed.Wpf.AvalonDock.Layout;
 
-namespace Filtration.Views
+namespace Filtration.Views.AvalonDock
 {
     class PanesTemplateSelector : DataTemplateSelector
     {
         public DataTemplate ItemFilterScriptTemplate { get; set; }
-
+        public DataTemplate BlockGroupBrowserTemplate { get; set; }
         public DataTemplate SectionBrowserTemplate { get; set; }
-
-
+        public DataTemplate StartPageTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -25,6 +24,16 @@ namespace Filtration.Views
             if (item is SectionBrowserViewModel)
             {
                 return SectionBrowserTemplate;
+            }
+
+            if (item is BlockGroupBrowserViewModel)
+            {
+                return BlockGroupBrowserTemplate;
+            }
+
+            if (item is StartPageViewModel)
+            {
+                return StartPageTemplate;
             }
 
             return base.SelectTemplate(item, container);

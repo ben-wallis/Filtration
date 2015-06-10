@@ -18,7 +18,9 @@ namespace Filtration.ViewModels
         string DisplayName { get; }
         void Initialise(ItemFilterScript itemFilterScript);
         IItemFilterBlockViewModel SelectedBlockViewModel { get; set; }
+        IItemFilterBlockViewModel SectionBrowserSelectedBlockViewModel { get; set; }
         void RemoveDirtyFlag();
+        IEnumerable<ItemFilterBlockGroup> BlockGroups { get; }
         IEnumerable<IItemFilterBlockViewModel> ItemFilterSectionViewModels { get; }
         void AddSection(IItemFilterBlockViewModel targetBlockViewModel);
         void AddBlock(IItemFilterBlockViewModel targetBlockViewModel);
@@ -26,15 +28,18 @@ namespace Filtration.ViewModels
         void PasteBlock(IItemFilterBlockViewModel targetBlockViewModel);
     }
 
-    internal class ItemFilterScriptViewModel : PaneViewModel, IItemFilterScriptViewModel
+    internal class ItemFilterScriptViewModel : PaneViewModel, IItemFilterScriptViewModel, IDocument
     {
         private readonly IItemFilterBlockViewModelFactory _itemFilterBlockViewModelFactory;
         private readonly IItemFilterBlockTranslator _blockTranslator;
+        private readonly IMainWindowViewModel _mainWindowViewModel;
         private bool _isDirty;
         private IItemFilterBlockViewModel _selectedBlockViewModel;
+        private IItemFilterBlockViewModel _sectionBrowserSelectedBlockViewModel;
 
-        public ItemFilterScriptViewModel(IItemFilterBlockViewModelFactory itemFilterBlockViewModelFactory, IItemFilterBlockTranslator blockTranslator)
+        public ItemFilterScriptViewModel(IItemFilterBlockViewModelFactory itemFilterBlockViewModelFactory, IItemFilterBlockTranslator blockTranslator, IMainWindowViewModel mainWindowViewModel)
         {
+            CloseCommand = new RelayCommand(OnCloseCommand);
             DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => SelectedBlockViewModel != null);
             MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand, () => SelectedBlockViewModel != null);
             MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand, () => SelectedBlockViewModel != null);
@@ -46,10 +51,16 @@ namespace Filtration.ViewModels
             PasteBlockCommand = new RelayCommand(OnPasteBlockCommand, () => SelectedBlockViewModel != null);
             _itemFilterBlockViewModelFactory = itemFilterBlockViewModelFactory;
             _blockTranslator = blockTranslator;
+            _mainWindowViewModel = mainWindowViewModel;
             ItemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModel>();
-
         }
 
+        public bool IsScript
+        {
+            get { return true; }
+        }
+
+        public RelayCommand CloseCommand { get; private set; }
         public RelayCommand DeleteBlockCommand { get; private set; }
         public RelayCommand MoveBlockToTopCommand { get; private set; }
         public RelayCommand MoveBlockUpCommand { get; private set; }
@@ -66,9 +77,7 @@ namespace Filtration.ViewModels
         {
             get { return ItemFilterBlockViewModels.Where(b => b.Block.GetType() == typeof (ItemFilterSection)); }
         }
-
-        public IItemFilterBlockViewModel SectionBrowserSelectedViewModel { get; set; }
-
+        
         public string Description
         {
             get { return Script.Description; }
@@ -90,7 +99,23 @@ namespace Filtration.ViewModels
             }
         }
 
+        public IItemFilterBlockViewModel SectionBrowserSelectedBlockViewModel
+        {
+            get { return _sectionBrowserSelectedBlockViewModel; }
+            set
+            {
+                _sectionBrowserSelectedBlockViewModel = value;
+                SelectedBlockViewModel = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public ItemFilterScript Script { get; private set; }
+
+        public IEnumerable<ItemFilterBlockGroup> BlockGroups
+        {
+            get { return Script.ItemFilterBlockGroups; }
+        }
 
         public bool IsDirty
         {
@@ -153,6 +178,10 @@ namespace Filtration.ViewModels
             ContentId = "testcontentid";
         }
 
+        private void OnCloseCommand()
+        {
+            _mainWindowViewModel.Close(this);
+        }
         private void OnCopyBlockCommand()
         {
             CopyBlock(SelectedBlockViewModel);

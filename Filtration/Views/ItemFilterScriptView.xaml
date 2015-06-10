@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:views="clr-namespace:Filtration.Views"
+             xmlns:attachedProperties="clr-namespace:Filtration.Views.AttachedProperties"
              xmlns:viewModels="clr-namespace:Filtration.ViewModels"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
              mc:Ignorable="d" 
@@ -87,6 +88,7 @@
                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                                    VirtualizingStackPanel.VirtualizationMode="Recycling"
                                                    ItemTemplateSelector="{StaticResource BlockTemplateSelector}"
+                                                   attachedProperties:SelectingItemAttachedProperty.SelectingItem="{Binding SectionBrowserSelectedBlockViewModel}"
                                                    SelectedItem="{Binding SelectedBlockViewModel}" x:Name="BlocksListBox">
                     <ListBox.InputBindings>
                         <KeyBinding Key="Delete" Command="{Binding DeleteBlockCommand}" />

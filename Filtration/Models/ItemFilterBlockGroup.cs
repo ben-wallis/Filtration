@@ -16,10 +16,15 @@ namespace Filtration.Models
             var currentBlockGroup = this;
             
             var outputString = GroupName;
-            while (currentBlockGroup.ParentGroup.ParentGroup != null)
+
+            // TODO: This is retarded, fix this.
+            if (currentBlockGroup.ParentGroup != null)
             {
-                outputString = currentBlockGroup.ParentGroup.GroupName + " - " + outputString;
-                currentBlockGroup = currentBlockGroup.ParentGroup;
+                while (currentBlockGroup.ParentGroup.ParentGroup != null)
+                {
+                    outputString = currentBlockGroup.ParentGroup.GroupName + " - " + outputString;
+                    currentBlockGroup = currentBlockGroup.ParentGroup;
+                }
             }
 
             return outputString;

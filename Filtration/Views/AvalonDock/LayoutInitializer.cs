@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Xceed.Wpf.AvalonDock.Layout;
 
-namespace Filtration.Views
+namespace Filtration.Views.AvalonDock
 {
     class LayoutInitializer : ILayoutUpdateStrategy
     {
@@ -15,12 +15,29 @@ namespace Filtration.Views
                 destinationContainer.FindParent<LayoutFloatingWindow>() != null)
                 return false;
 
-            var toolsPane = layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == "ToolsPane");
-            if (toolsPane != null)
-            {
-                toolsPane.Children.Add(anchorableToShow);
-                return true;
-            }
+            //if (anchorableToShow.ContentId == "SectionBrowserTool")
+            //{
+            //    var toolsPane = layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == "SectionBrowserPane");
+            //    if (toolsPane != null)
+            //    {
+            //        anchorableToShow.CanHide = false;
+            //        toolsPane.Children.Add(anchorableToShow);
+            //        return true;
+            //    }
+            //}
+
+            //if (anchorableToShow.ContentId == "BlockGroupBrowserTool")
+            //{
+            //    var toolsPane = layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == "BlockGroupBrowserPane");
+            //    if (toolsPane != null)
+            //    {
+            //        anchorableToShow.CanHide = false;
+            //        toolsPane.Children.Add(anchorableToShow);
+            //        return true;
+            //    }
+            //}
+
+
 
             return false;
 

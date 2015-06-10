@@ -1,6 +1,11 @@
 ﻿namespace Filtration.ViewModels
 {
-    class ToolViewModel : PaneViewModel
+    internal interface IToolViewModel
+    {
+        void Initialise(IMainWindowViewModel mainWindowViewModel);
+    }
+
+    class ToolViewModel : PaneViewModel, IToolViewModel
     {
         public ToolViewModel(string name)
         {
@@ -22,6 +27,13 @@
                     RaisePropertyChanged();
                 }
             }
+        }
+
+        protected IMainWindowViewModel MainWindowViewModel { get; private set; }
+
+        public virtual void Initialise(IMainWindowViewModel mainWindowViewModel)
+        {
+            MainWindowViewModel = mainWindowViewModel;
         }
     }
 }
