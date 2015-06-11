@@ -10,7 +10,7 @@
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:converters="clr-namespace:Filtration.Converters"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=viewModels:AvalonDockWorkspaceViewModel}"
+             d:DataContext="{d:DesignInstance d:Type=viewModels:AvalonDockWorkspaceViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />

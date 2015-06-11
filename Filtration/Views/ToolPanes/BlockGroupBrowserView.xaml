@@ -16,7 +16,7 @@
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type models:ItemFilterBlockGroup}" ItemsSource="{Binding ChildGroups}">
                     <WrapPanel>
-                        <CheckBox IsThreeState="True" />
+                        <CheckBox IsThreeState="True" IsChecked="{Binding IsChecked}" Click="BlockGroupCheckBox_Clicked"  />
                         <TextBlock Text="{Binding GroupName}" />
                     </WrapPanel>
                 </HierarchicalDataTemplate>
