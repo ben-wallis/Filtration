@@ -112,6 +112,7 @@ namespace Filtration.ViewModels
             if (document.IsScript)
             {
                 _sectionBrowserViewModel.ClearDown();
+                _blockGroupBrowserViewModel.ClearDown();
             }
 
             OpenDocuments.Remove(document);

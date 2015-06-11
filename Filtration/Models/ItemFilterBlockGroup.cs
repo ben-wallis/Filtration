@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -17,11 +18,16 @@ namespace Filtration.Models
             ParentGroup = parent;
             ChildGroups = new ObservableCollection<ItemFilterBlockGroup>();
         }
+        
+        public event EventHandler BlockGroupStatusChanged;
+        public string GroupName { get; private set; }
+        public ItemFilterBlockGroup ParentGroup { get; private set; }
+        public ObservableCollection<ItemFilterBlockGroup> ChildGroups { get; private set; }
 
         public override string ToString()
         {
             var currentBlockGroup = this;
-            
+
             var outputString = GroupName;
 
             // TODO: This is retarded, fix this.
@@ -36,10 +42,6 @@ namespace Filtration.Models
 
             return outputString;
         }
-
-        public string GroupName { get; private set; }
-        public ItemFilterBlockGroup ParentGroup { get; private set; }
-        public ObservableCollection<ItemFilterBlockGroup> ChildGroups { get; private set; }
 
         public bool? IsChecked
         {
@@ -59,6 +61,13 @@ namespace Filtration.Models
                     _isChecked = value;
                     UpdateCheckState();
                     OnPropertyChanged();
+
+                    // Raise an event to let blocks that have this block group assigned that
+                    // they might need to change their Action due to the block group status changing.
+                    if (BlockGroupStatusChanged != null)
+                    {
+                        BlockGroupStatusChanged.Invoke(null, null);
+                    }
                     _reentrancyCheck = false;
                 }
             }

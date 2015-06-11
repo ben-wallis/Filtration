@@ -8,13 +8,40 @@ namespace Filtration.Models
 {
     internal class ItemFilterBlock
     {
+        private ItemFilterBlockGroup _blockGroup;
+
         public ItemFilterBlock()
         {
             BlockItems = new ObservableCollection<IItemFilterBlockItem> {new ActionBlockItem(BlockAction.Show)};
         }
         
         public string Description { get; set; }
-        public ItemFilterBlockGroup BlockGroup { get; set; }
+
+        public ItemFilterBlockGroup BlockGroup
+        {
+            get { return _blockGroup; }
+            set
+            {
+                var oldBlockGroup = _blockGroup;
+                _blockGroup = value;
+
+                if (_blockGroup != null)
+                {
+                    _blockGroup.BlockGroupStatusChanged += OnBlockGroupStatusChanged;
+                    if (oldBlockGroup != null)
+                    {
+                        oldBlockGroup.BlockGroupStatusChanged -= OnBlockGroupStatusChanged;
+                    }
+                }
+                else
+                {
+                    if (oldBlockGroup != null)
+                    {
+                        oldBlockGroup.BlockGroupStatusChanged -= OnBlockGroupStatusChanged;
+                    }
+                }
+            }
+        }
 
         public BlockAction Action
         {
@@ -46,6 +73,18 @@ namespace Filtration.Models
         public bool HasBlockItemOfType<T>()
         {
             return BlockItems.Count(b => b is T) > 0; 
+        }
+
+        private void OnBlockGroupStatusChanged(object sender, EventArgs e)
+        {
+            if (BlockGroup.IsChecked == false && Action == BlockAction.Show)
+            {
+                Action = BlockAction.Hide;
+            }
+            else if (BlockGroup.IsChecked == true && Action == BlockAction.Hide)
+            {
+                Action = BlockAction.Show;
+            }
         }
     }
 }

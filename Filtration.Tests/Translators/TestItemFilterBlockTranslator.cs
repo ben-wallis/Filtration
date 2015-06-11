@@ -55,6 +55,36 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlock_ShowBlock_SetsBlockGroupIsCheckedCorrectly()
+        {
+            // Arrange
+            var inputString = "Show # TestBlockGroup" + Environment.NewLine;
+            var inputBlockGroup = new ItemFilterBlockGroup("TestBlockGroup", null);
+
+            // Act
+            _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Returns(inputBlockGroup).Verifiable();
+            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
+
+            // Assert
+            Assert.AreEqual(true, inputBlockGroup.IsChecked);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_HideBlock_SetsBlockGroupIsCheckedCorrectly()
+        {
+            // Arrange
+            var inputString = "Hide # TestBlockGroup" + Environment.NewLine;
+            var inputBlockGroup = new ItemFilterBlockGroup("TestBlockGroup", null);
+
+            // Act
+            _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Returns(inputBlockGroup).Verifiable();
+            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
+
+            // Assert
+            Assert.AreEqual(false, inputBlockGroup.IsChecked);
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_NoBlockGroupComment_CallsBlockGroupHierarchyBuilder()
         {
             // Arrange
