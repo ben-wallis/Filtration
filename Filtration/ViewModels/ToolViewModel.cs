@@ -1,8 +1,10 @@
-﻿namespace Filtration.ViewModels
+﻿using System;
+
+namespace Filtration.ViewModels
 {
     internal interface IToolViewModel
     {
-        void Initialise(IMainWindowViewModel mainWindowViewModel);
+        void Initialise(IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel);
     }
 
     class ToolViewModel : PaneViewModel, IToolViewModel
@@ -29,11 +31,16 @@
             }
         }
 
-        protected IMainWindowViewModel MainWindowViewModel { get; private set; }
+        protected IAvalonDockWorkspaceViewModel AvalonDockWorkspaceViewModel{ get; private set; }
 
-        public virtual void Initialise(IMainWindowViewModel mainWindowViewModel)
+        protected virtual void OnActiveDocumentChanged(object sender, EventArgs e)
         {
-            MainWindowViewModel = mainWindowViewModel;
+        }
+
+        public virtual void Initialise(IAvalonDockWorkspaceViewModel avalonDockWorkSpaceViewModel)
+        {
+            AvalonDockWorkspaceViewModel = avalonDockWorkSpaceViewModel;
+            avalonDockWorkSpaceViewModel.ActiveDocumentChanged += OnActiveDocumentChanged;
         }
     }
 }

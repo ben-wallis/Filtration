@@ -60,6 +60,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ObjectModel" />
     <Reference Include="System.Windows.Controls.Input.Toolkit">
       <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Input.Toolkit.dll</HintPath>
     </Reference>
@@ -170,6 +171,7 @@
       <DependentUpon>ItemPreviewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\LineReader.cs" />
+    <Compile Include="ViewModels\AvalonDockWorkspaceViewModel.cs" />
     <Compile Include="ViewModels\BlockGroupBrowserViewModel.cs" />
     <Compile Include="ViewModels\FiltrationViewModelBase.cs" />
     <Compile Include="ViewModels\IDocument.cs" />
@@ -183,8 +185,11 @@
     <Compile Include="ViewModels\StartPageViewModel.cs" />
     <Compile Include="ViewModels\ToolViewModel.cs" />
     <Compile Include="Views\AttachedProperties\SelectingItemAttachedProperty.cs" />
+    <Compile Include="Views\AvalonDock\AvalonDockWorkspaceView.xaml.cs">
+      <DependentUpon>AvalonDockWorkspaceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BindingProxy.cs" />
-    <Compile Include="Views\BlockGroupBrowserView.xaml.cs">
+    <Compile Include="Views\ToolPanes\BlockGroupBrowserView.xaml.cs">
       <DependentUpon>BlockGroupBrowserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BlockTemplateSelector.cs" />
@@ -212,7 +217,7 @@
     <Compile Include="Views\ReplaceColorsWindow.xaml.cs">
       <DependentUpon>ReplaceColorsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SectionBrowserView.xaml.cs">
+    <Compile Include="Views\ToolPanes\SectionBrowserView.xaml.cs">
       <DependentUpon>SectionBrowserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StartPageView.xaml.cs">
@@ -227,7 +232,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\BlockGroupBrowserView.xaml">
+    <Page Include="Views\AvalonDock\AvalonDockWorkspaceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ToolPanes\BlockGroupBrowserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -251,7 +260,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SectionBrowserView.xaml">
+    <Page Include="Views\ToolPanes\SectionBrowserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,43 +1,57 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using Castle.Core.Internal;
 using Filtration.Models;
+using Filtration.Services;
 using Filtration.Translators;
 using GalaSoft.MvvmLight.CommandWpf;
+using Clipboard = System.Windows.Clipboard;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Filtration.ViewModels
 {
-    internal interface IItemFilterScriptViewModel
+    internal interface IItemFilterScriptViewModel : IDocument
     {
         ItemFilterScript Script { get; }
+        IItemFilterBlockViewModel SelectedBlockViewModel { get; set; }
+        IItemFilterBlockViewModel SectionBrowserSelectedBlockViewModel { get; set; }
+        IEnumerable<ItemFilterBlockGroup> BlockGroups { get; }
+        IEnumerable<IItemFilterBlockViewModel> ItemFilterSectionViewModels { get; }
         bool IsDirty { get; }
         string Description { get; set; }
         string DisplayName { get; }
+        
         void Initialise(ItemFilterScript itemFilterScript);
-        IItemFilterBlockViewModel SelectedBlockViewModel { get; set; }
-        IItemFilterBlockViewModel SectionBrowserSelectedBlockViewModel { get; set; }
         void RemoveDirtyFlag();
-        IEnumerable<ItemFilterBlockGroup> BlockGroups { get; }
-        IEnumerable<IItemFilterBlockViewModel> ItemFilterSectionViewModels { get; }
+        void SaveScript();
+        void SaveScriptAs();
+        void Close();
         void AddSection(IItemFilterBlockViewModel targetBlockViewModel);
         void AddBlock(IItemFilterBlockViewModel targetBlockViewModel);
         void CopyBlock(IItemFilterBlockViewModel targetBlockViewModel);
         void PasteBlock(IItemFilterBlockViewModel targetBlockViewModel);
     }
 
-    internal class ItemFilterScriptViewModel : PaneViewModel, IItemFilterScriptViewModel, IDocument
+    internal class ItemFilterScriptViewModel : PaneViewModel, IItemFilterScriptViewModel
     {
         private readonly IItemFilterBlockViewModelFactory _itemFilterBlockViewModelFactory;
         private readonly IItemFilterBlockTranslator _blockTranslator;
-        private readonly IMainWindowViewModel _mainWindowViewModel;
+        private readonly IAvalonDockWorkspaceViewModel _avalonDockWorkspaceViewModel;
+        private readonly IItemFilterPersistenceService _persistenceService;
+
         private bool _isDirty;
         private IItemFilterBlockViewModel _selectedBlockViewModel;
         private IItemFilterBlockViewModel _sectionBrowserSelectedBlockViewModel;
 
-        public ItemFilterScriptViewModel(IItemFilterBlockViewModelFactory itemFilterBlockViewModelFactory, IItemFilterBlockTranslator blockTranslator, IMainWindowViewModel mainWindowViewModel)
+        public ItemFilterScriptViewModel(IItemFilterBlockViewModelFactory itemFilterBlockViewModelFactory,
+                                         IItemFilterBlockTranslator blockTranslator,
+                                         IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
+                                         IItemFilterPersistenceService persistenceService)
         {
             CloseCommand = new RelayCommand(OnCloseCommand);
             DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => SelectedBlockViewModel != null);
@@ -51,13 +65,9 @@ namespace Filtration.ViewModels
             PasteBlockCommand = new RelayCommand(OnPasteBlockCommand, () => SelectedBlockViewModel != null);
             _itemFilterBlockViewModelFactory = itemFilterBlockViewModelFactory;
             _blockTranslator = blockTranslator;
-            _mainWindowViewModel = mainWindowViewModel;
+            _avalonDockWorkspaceViewModel = avalonDockWorkspaceViewModel;
+            _persistenceService = persistenceService;
             ItemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModel>();
-        }
-
-        public bool IsScript
-        {
-            get { return true; }
         }
 
         public RelayCommand CloseCommand { get; private set; }
@@ -77,7 +87,12 @@ namespace Filtration.ViewModels
         {
             get { return ItemFilterBlockViewModels.Where(b => b.Block.GetType() == typeof (ItemFilterSection)); }
         }
-        
+
+        public bool IsScript
+        {
+            get { return true; }
+        }
+
         public string Description
         {
             get { return Script.Description; }
@@ -178,10 +193,114 @@ namespace Filtration.ViewModels
             ContentId = "testcontentid";
         }
 
+        public void SaveScript()
+        {
+            if (!ValidateScript()) return;
+
+            if (string.IsNullOrEmpty(Script.FilePath))
+            {
+                SaveScriptAs();
+                return;
+            }
+
+            try
+            {
+                _persistenceService.SaveItemFilterScript(Script);
+                RemoveDirtyFlag();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(@"Error saving filter file - " + e.Message, @"Save Error", MessageBoxButton.OK,
+                   MessageBoxImage.Error);
+            }
+        }
+
+        public void SaveScriptAs()
+        {
+            if (!ValidateScript()) return;
+
+            var saveDialog = new SaveFileDialog
+            {
+                DefaultExt = ".filter",
+                Filter = @"Filter Files (*.filter)|*.filter|All Files (*.*)|*.*",
+                InitialDirectory = _persistenceService.ItemFilterScriptDirectory
+            };
+
+            var result = saveDialog.ShowDialog();
+
+            if (result != DialogResult.OK) return;
+
+            var previousFilePath = Script.FilePath;
+            try
+            {
+                Script.FilePath = saveDialog.FileName;
+                _persistenceService.SaveItemFilterScript(Script);
+                RemoveDirtyFlag();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(@"Error saving filter file - " + e.Message, @"Save Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                Script.FilePath = previousFilePath;
+            }
+        }
+
+        private bool ValidateScript()
+        {
+            var result = Script.Validate();
+
+            if (result.Count == 0) return true;
+
+            var failures = string.Empty;
+
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (string failure in result)
+            {
+                failures += failure + Environment.NewLine;
+            }
+
+            var messageText = "The following script validation errors occurred:" + Environment.NewLine + failures;
+
+            MessageBox.Show(messageText, "Script Validation Failure", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            return false;
+        }
+
+        public void Close()
+        {
+            if (!IsDirty)
+            {
+                _avalonDockWorkspaceViewModel.CloseDocument(this);
+            }
+            else
+            {
+                var result = MessageBox.Show(@"Want to save your changes to this script?",
+                    @"Filtration", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        {
+                            SaveScript();
+                            _avalonDockWorkspaceViewModel.CloseDocument(this);
+                            break;
+                        }
+                    case MessageBoxResult.No:
+                        {
+                            _avalonDockWorkspaceViewModel.CloseDocument(this);
+                            break;
+                        }
+                    case MessageBoxResult.Cancel:
+                        {
+                            return;
+                        }
+                }
+            }
+        }
+
         private void OnCloseCommand()
         {
-            _mainWindowViewModel.Close(this);
+            Close();
         }
+
         private void OnCopyBlockCommand()
         {
             CopyBlock(SelectedBlockViewModel);

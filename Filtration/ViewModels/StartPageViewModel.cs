@@ -4,25 +4,19 @@ namespace Filtration.ViewModels
 {
     internal interface IStartPageViewModel : IDocument
     {
-        void Initialise(IMainWindowViewModel mainWindowViewModel);
     }
 
     internal class StartPageViewModel : PaneViewModel, IStartPageViewModel
     {
-        private IMainWindowViewModel _mainWindowViewModel;
 
         public StartPageViewModel()
         {
             Title = "Start Page";
         }
-
-        public void Initialise(IMainWindowViewModel mainWindowViewModel)
-        {
-            _mainWindowViewModel = mainWindowViewModel;
-        }
-
-        public RelayCommand OpenScriptCommand { get { return _mainWindowViewModel.OpenScriptCommand; } }
-        public RelayCommand NewScriptCommand { get { return _mainWindowViewModel.NewScriptCommand; } }
+        
+        // TODO: Replace with MVVMLight ViewModel Messages
+        public RelayCommand OpenScriptCommand { get { return null; } }
+        public RelayCommand NewScriptCommand { get { return null; } }
 
         public bool IsScript { get { return false; } }
     }

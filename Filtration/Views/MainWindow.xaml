@@ -6,18 +6,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:viewModels="clr-namespace:Filtration.ViewModels"
-        xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
-        xmlns:converters="clr-namespace:Filtration.Converters"
-        xmlns:views="clr-namespace:Filtration.Views"
         xmlns:viewsAvalonDock="clr-namespace:Filtration.Views.AvalonDock"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
         Title="{Binding WindowTitle}" Height="707" Width="930" BorderThickness="1" BorderBrush="Black">
-    <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <converters:ActiveDocumentConverter x:Key="ActiveDocumentConverter" />
-    </Window.Resources>
-        
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -25,7 +17,7 @@
                 <MenuItem Header="_Open Script" Command="{Binding OpenScriptCommand}" Icon="{StaticResource OpenIcon}"/>
                 <MenuItem Header="_Save Script" Command="{Binding SaveScriptCommand}" Icon="{StaticResource SaveIcon}"/>
                 <MenuItem Header="Save Script _As" Command="{Binding SaveScriptAsCommand}"  Icon="{StaticResource SaveIcon}"/>
-                <MenuItem Header="_Close Script" Command="{Binding CloseScriptCommand}" CommandParameter="{Binding ActiveDocument}"/>
+                <MenuItem Header="_Close Script" Command="{Binding CloseScriptCommand}" />
                 <MenuItem Header="E_xit"/>
             </MenuItem>
             <MenuItem Header="_Edit">
@@ -49,71 +41,7 @@
             </ToolBar>
         </ToolBarTray>
         <Grid>
-            <avalonDock:DockingManager x:Name="dockManager"
-                                       AnchorablesSource="{Binding Tools}"
-                                       AllowMixedOrientation="True"
-                                       DocumentsSource="{Binding OpenDocuments}"
-                                       ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}">
-                <avalonDock:DockingManager.LayoutItemTemplateSelector>
-                    <viewsAvalonDock:PanesTemplateSelector>
-                        <viewsAvalonDock:PanesTemplateSelector.ItemFilterScriptTemplate>
-                            <DataTemplate>
-                                <views:ItemFilterScriptView DataContext="{Binding}" />
-                            </DataTemplate>
-                        </viewsAvalonDock:PanesTemplateSelector.ItemFilterScriptTemplate>
-                        <viewsAvalonDock:PanesTemplateSelector.BlockGroupBrowserTemplate>
-                            <DataTemplate>
-                                <views:BlockGroupBrowserView DataContext="{Binding}" />
-                            </DataTemplate>
-                        </viewsAvalonDock:PanesTemplateSelector.BlockGroupBrowserTemplate>
-                        <viewsAvalonDock:PanesTemplateSelector.SectionBrowserTemplate>
-                            <DataTemplate>
-                                <views:SectionBrowserView DataContext="{Binding}" />
-                            </DataTemplate>
-                        </viewsAvalonDock:PanesTemplateSelector.SectionBrowserTemplate>
-                        <viewsAvalonDock:PanesTemplateSelector.StartPageTemplate>
-                            <DataTemplate>
-                                <views:StartPageView DataContext="{Binding}" />
-                            </DataTemplate>
-                        </viewsAvalonDock:PanesTemplateSelector.StartPageTemplate>
-                    </viewsAvalonDock:PanesTemplateSelector>
-                </avalonDock:DockingManager.LayoutItemTemplateSelector>
-                
-                <avalonDock:DockingManager.LayoutItemContainerStyleSelector>
-                    <viewsAvalonDock:PanesStyleSelector>
-                        <viewsAvalonDock:PanesStyleSelector.ToolStyle>
-                            <Style TargetType="{x:Type avalonDock:LayoutAnchorableItem}">
-                                <Setter Property="Title" Value="{Binding Model.Title}"/>
-                                <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
-                                <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
-                                <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
-                                <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}"/>
-                                <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}"/>
-                            </Style>
-                        </viewsAvalonDock:PanesStyleSelector.ToolStyle>
-                        <viewsAvalonDock:PanesStyleSelector.DocumentStyle>
-                            <Style TargetType="{x:Type avalonDock:LayoutItem}">
-                                <Setter Property="Title" Value="{Binding Model.Title}"/>
-                                <!--<Setter Property="ToolTip" Value="{Binding Model.FilePath}"/> -->
-                                <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>
-                                <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
-                                <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
-                            </Style>
-                        </viewsAvalonDock:PanesStyleSelector.DocumentStyle>
-                    </viewsAvalonDock:PanesStyleSelector>
-                </avalonDock:DockingManager.LayoutItemContainerStyleSelector>
-                <avalonDock:DockingManager.LayoutUpdateStrategy>
-                    <viewsAvalonDock:LayoutInitializer></viewsAvalonDock:LayoutInitializer>
-                </avalonDock:DockingManager.LayoutUpdateStrategy>
-                
-                <avalonDock:LayoutRoot>
-                    <avalonDock:LayoutPanel Orientation="Horizontal">
-                        <avalonDock:LayoutAnchorablePane Name="SectionBrowserPane" DockWidth="150" />
-                        <avalonDock:LayoutDocumentPane/>
-                        <avalonDock:LayoutAnchorablePane Name="BlockGroupBrowserPane" DockWidth="150" />
-                    </avalonDock:LayoutPanel>
-                </avalonDock:LayoutRoot>
-            </avalonDock:DockingManager>
+            <viewsAvalonDock:AvalonDockWorkspaceView DataContext="{Binding AvalonDockWorkspaceViewModel}" />
         </Grid>
     </DockPanel>
 </controls:MetroWindow>

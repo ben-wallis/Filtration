@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="Filtration.Views.AvalonDock.AvalonDockWorkspaceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:Filtration.ViewModels"
+             xmlns:viewsAvalonDock="clr-namespace:Filtration.Views.AvalonDock"
+             xmlns:views="clr-namespace:Filtration.Views"
+             xmlns:toolPanes="clr-namespace:Filtration.Views.ToolPanes"
+             xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+             xmlns:converters="clr-namespace:Filtration.Converters"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=viewModels:AvalonDockWorkspaceViewModel}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:ActiveDocumentConverter x:Key="ActiveDocumentConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <!-- ReSharper disable once InconsistentNaming -->
+        <xcad:DockingManager x:Name="dockManager"
+                             AnchorablesSource="{Binding Tools}"
+                             AllowMixedOrientation="True"
+                             DocumentsSource="{Binding OpenDocuments}"
+                             ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}">
+            <xcad:DockingManager.LayoutItemTemplateSelector>
+                <viewsAvalonDock:PanesTemplateSelector>
+                    <viewsAvalonDock:PanesTemplateSelector.ItemFilterScriptTemplate>
+                        <DataTemplate>
+                            <views:ItemFilterScriptView DataContext="{Binding}" />
+                        </DataTemplate>
+                    </viewsAvalonDock:PanesTemplateSelector.ItemFilterScriptTemplate>
+                    <viewsAvalonDock:PanesTemplateSelector.BlockGroupBrowserTemplate>
+                        <DataTemplate>
+                            <toolPanes:BlockGroupBrowserView DataContext="{Binding}" />
+                        </DataTemplate>
+                    </viewsAvalonDock:PanesTemplateSelector.BlockGroupBrowserTemplate>
+                    <viewsAvalonDock:PanesTemplateSelector.SectionBrowserTemplate>
+                        <DataTemplate>
+                            <toolPanes:SectionBrowserView DataContext="{Binding}" />
+                        </DataTemplate>
+                    </viewsAvalonDock:PanesTemplateSelector.SectionBrowserTemplate>
+                    <viewsAvalonDock:PanesTemplateSelector.StartPageTemplate>
+                        <DataTemplate>
+                            <views:StartPageView DataContext="{Binding}" />
+                        </DataTemplate>
+                    </viewsAvalonDock:PanesTemplateSelector.StartPageTemplate>
+                </viewsAvalonDock:PanesTemplateSelector>
+            </xcad:DockingManager.LayoutItemTemplateSelector>
+
+            <xcad:DockingManager.LayoutItemContainerStyleSelector>
+                <viewsAvalonDock:PanesStyleSelector>
+                    <viewsAvalonDock:PanesStyleSelector.ToolStyle>
+                        <Style TargetType="{x:Type xcad:LayoutAnchorableItem}">
+                            <Setter Property="Title" Value="{Binding Model.Title}"/>
+                            <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
+                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
+                            <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
+                            <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}"/>
+                            <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}"/>
+                        </Style>
+                    </viewsAvalonDock:PanesStyleSelector.ToolStyle>
+                    <viewsAvalonDock:PanesStyleSelector.DocumentStyle>
+                        <Style TargetType="{x:Type xcad:LayoutItem}">
+                            <Setter Property="Title" Value="{Binding Model.Title}"/>
+                            <!--<Setter Property="ToolTip" Value="{Binding Model.FilePath}"/> -->
+                            <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>
+                            <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
+                            <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
+                        </Style>
+                    </viewsAvalonDock:PanesStyleSelector.DocumentStyle>
+                </viewsAvalonDock:PanesStyleSelector>
+            </xcad:DockingManager.LayoutItemContainerStyleSelector>
+            <xcad:DockingManager.LayoutUpdateStrategy>
+                <viewsAvalonDock:LayoutInitializer></viewsAvalonDock:LayoutInitializer>
+            </xcad:DockingManager.LayoutUpdateStrategy>
+
+            <xcad:LayoutRoot>
+                <xcad:LayoutPanel Orientation="Horizontal">
+                    <xcad:LayoutAnchorablePane Name="SectionBrowserPane" DockWidth="150" />
+                    <xcad:LayoutDocumentPane/>
+                    <xcad:LayoutAnchorablePane Name="BlockGroupBrowserPane" DockWidth="150" />
+                </xcad:LayoutPanel>
+            </xcad:LayoutRoot>
+        </xcad:DockingManager>
+    </Grid>
+</UserControl>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Filtration.ViewModels
@@ -27,12 +26,6 @@ namespace Filtration.ViewModels
 
         public const string ToolContentId = "SectionBrowserTool";
 
-        public override void Initialise(IMainWindowViewModel mainWindowViewModel)
-        {
-            base.Initialise(mainWindowViewModel);
-            MainWindowViewModel.ActiveDocumentChanged += OnActiveDocumentChanged;
-        }
-        
         public IEnumerable<IItemFilterBlockViewModel> SectionBlockViewModels
         {
             get { return _sectionBlockViewModels; }
@@ -49,19 +42,19 @@ namespace Filtration.ViewModels
             set
             {
                 _selectedSectionBlockViewModel = value;
-                if (MainWindowViewModel.ActiveDocument.IsScript)
+                if (AvalonDockWorkspaceViewModel.ActiveDocument.IsScript)
                 {
-                    MainWindowViewModel.ActiveScriptViewModel.SectionBrowserSelectedBlockViewModel = value;
+                    AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SectionBrowserSelectedBlockViewModel = value;
                 }
                 RaisePropertyChanged();
             }
         }
 
-        private void OnActiveDocumentChanged(object sender, EventArgs e)
+        protected override void OnActiveDocumentChanged(object sender, EventArgs e)
         {
-            if (MainWindowViewModel.ActiveScriptViewModel != null && MainWindowViewModel.ActiveDocument.IsScript)
+            if (AvalonDockWorkspaceViewModel.ActiveScriptViewModel != null && AvalonDockWorkspaceViewModel.ActiveDocument.IsScript)
             {
-                SectionBlockViewModels = MainWindowViewModel.ActiveScriptViewModel.ItemFilterSectionViewModels;
+                SectionBlockViewModels = AvalonDockWorkspaceViewModel.ActiveScriptViewModel.ItemFilterSectionViewModels;
             }
             else
             {

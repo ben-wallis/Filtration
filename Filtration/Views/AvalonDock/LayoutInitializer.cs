@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Xceed.Wpf.AvalonDock.Layout;
+﻿using Xceed.Wpf.AvalonDock.Layout;
 
 namespace Filtration.Views.AvalonDock
 {

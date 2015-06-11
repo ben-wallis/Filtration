@@ -16,6 +16,11 @@ namespace Filtration.WindsorInstallers
                     .LifeStyle.Singleton);
 
             container.Register(
+                Component.For<IAvalonDockWorkspaceViewModel>()
+                    .ImplementedBy<AvalonDockWorkspaceViewModel>()
+                    .LifeStyle.Singleton);
+
+            container.Register(
                 Component.For<IItemFilterBlockViewModel>()
                     .ImplementedBy<ItemFilterBlockViewModel>()
                     .LifeStyle.Transient);
