@@ -4,9 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:Filtration.ViewModels"
+             xmlns:converters="clr-namespace:Filtration.Converters"
              d:DataContext="{d:DesignInstance Type=viewModels:SectionBrowserViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converters:HashSignRemovalConverter x:Key="HashSignRemovalConverter" />
+    </UserControl.Resources>
     <Grid>
         <ListBox ItemsSource="{Binding SectionBlockViewModels}"
                              SelectedItem="{Binding SelectedSectionBlockViewModel}"
@@ -14,7 +18,7 @@
                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"><!--SelectionChanged="SectionBrowserListBox_OnSelectionChanged"-->
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Block.Description}" ToolTip="{Binding Block.Description}" />
+                    <TextBlock Text="{Binding Block.Description, Converter={StaticResource HashSignRemovalConverter}}" ToolTip="{Binding Block.Description}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

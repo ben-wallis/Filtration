@@ -62,7 +62,7 @@
                                 <ColumnDefinition SharedSizeGroup="AudioVisualBlockItemCloseColumn" Width="Auto"  />
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="{Binding DisplayHeading}" Style="{StaticResource DisplayHeading}" />
-                            <xctk:ColorPicker Grid.Column="1" SelectedColor="{Binding Color}" HorizontalAlignment="Right" Width="100" />
+                            <xctk:ColorPicker Grid.Column="1" SelectedColor="{Binding Color}" HorizontalAlignment="Right" Width="100" AvailableColors="{Binding ElementName=SettingsGrid, Path=DataContext.AvailableColors}" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors"/>
                             <userControls:CrossButton Grid.Column="2" Height="12" Command="{Binding ElementName=SettingsGrid, Path=DataContext.RemoveAudioVisualBlockItemCommand}" CommandParameter="{Binding}" />
                         </Grid>
                     </DataTemplate>

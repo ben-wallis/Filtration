@@ -1,4 +1,6 @@
-﻿using Xceed.Wpf.AvalonDock.Layout;
+﻿using System.Linq;
+using Filtration.ViewModels;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace Filtration.Views.AvalonDock
 {
@@ -14,6 +16,16 @@ namespace Filtration.Views.AvalonDock
                 destinationContainer.FindParent<LayoutFloatingWindow>() != null)
                 return false;
 
+            if (anchorableToShow.Content is SectionBrowserViewModel)
+            {
+                var toolsPane = layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == "SectionBrowserPane");
+                if (toolsPane != null)
+                {
+                    anchorableToShow.CanHide = false;
+                    toolsPane.Children.Add(anchorableToShow);
+                    return true;
+                }
+            }
             //if (anchorableToShow.ContentId == "SectionBrowserTool")
             //{
             //    var toolsPane = layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == "SectionBrowserPane");

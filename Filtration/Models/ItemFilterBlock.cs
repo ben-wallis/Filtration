@@ -75,6 +75,25 @@ namespace Filtration.Models
             return BlockItems.Count(b => b is T) > 0; 
         }
 
+        public bool HasBlockGroupInParentHierarchy(ItemFilterBlockGroup targetBlockGroup, ItemFilterBlockGroup startingBlockGroup)
+        {
+            if (startingBlockGroup == targetBlockGroup)
+            {
+                return true;
+            }
+            if (BlockGroup == null)
+            {
+                return false;
+            }
+
+            if (startingBlockGroup.ParentGroup != null)
+            {
+                return HasBlockGroupInParentHierarchy(targetBlockGroup, startingBlockGroup.ParentGroup);
+            }
+
+            return false;
+        }
+        
         private void OnBlockGroupStatusChanged(object sender, EventArgs e)
         {
             if (BlockGroup.IsChecked == false && Action == BlockAction.Show)

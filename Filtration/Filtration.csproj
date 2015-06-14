@@ -112,6 +112,7 @@
     <Compile Include="Converters\BooleanToBlockActionInverseConverter.cs" />
     <Compile Include="Converters\BooleanToBlockActionConverter.cs" />
     <Compile Include="Converters\ColorToSolidColorBrushConverter.cs" />
+    <Compile Include="Converters\HashSignRemovalConverter.cs" />
     <Compile Include="Converters\ItemRarityConverter.cs" />
     <Compile Include="Converters\BooleanVisibilityConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
@@ -189,7 +190,9 @@
     <Compile Include="Views\AvalonDock\AvalonDockWorkspaceView.xaml.cs">
       <DependentUpon>AvalonDockWorkspaceView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Behaviors\BindableSelectedItemBehavior.cs" />
     <Compile Include="Views\BindingProxy.cs" />
+    <Compile Include="Views\PathOfExileColors.cs" />
     <Compile Include="Views\ToolPanes\BlockGroupBrowserView.xaml.cs">
       <DependentUpon>BlockGroupBrowserView.xaml</DependentUpon>
     </Compile>
@@ -367,6 +370,8 @@
     <Resource Include="Resources\filtration.ico" />
     <Resource Include="Resources\Icons\replace_colors_icon.png" />
     <Resource Include="Resources\Icons\block_group_browser_icon.png" />
+    <Resource Include="Resources\Icons\clear_filter_icon.png" />
+    <Resource Include="Resources\Icons\filter_icon.png" />
     <Content Include="Resources\ItemBaseTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

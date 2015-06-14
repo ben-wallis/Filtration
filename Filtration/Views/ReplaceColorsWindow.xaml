@@ -40,22 +40,22 @@
         </Grid.ColumnDefinitions>
         <CheckBox Grid.Row="0" Grid.Column="0" Content="Replace Text Color" IsChecked="{Binding ReplaceTextColor}" />
         <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">Existing Text Color</TextBlock>
-        <xctk:ColorPicker Grid.Row="0" Grid.Column="4" SelectedColor="{Binding ReplaceColorsParameterSet.OldTextColor}"  />
+        <xctk:ColorPicker Grid.Row="0" Grid.Column="4" SelectedColor="{Binding ReplaceColorsParameterSet.OldTextColor}" AvailableColors="{Binding AvailableColors}" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors" />
         <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">New Text Color</TextBlock>
-        <xctk:ColorPicker Grid.Row="1" Grid.Column="4" SelectedColor="{Binding NewTextColor}"  />
+        <xctk:ColorPicker Grid.Row="1" Grid.Column="4" SelectedColor="{Binding NewTextColor}" AvailableColors="{Binding AvailableColors}" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors" />
 
 
         <CheckBox Grid.Row="2" Grid.Column="0" Content="Replace Background Color" IsChecked="{Binding ReplaceBackgroundColor}" />
         <TextBlock Grid.Row="2" Grid.Column="2" VerticalAlignment="Center">Existing Background Color</TextBlock>
-        <xctk:ColorPicker Grid.Row="2" Grid.Column="4" SelectedColor="{Binding ReplaceColorsParameterSet.OldBackgroundColor}"  />
+        <xctk:ColorPicker Grid.Row="2" Grid.Column="4" SelectedColor="{Binding ReplaceColorsParameterSet.OldBackgroundColor}" AvailableColors="{Binding AvailableColors}" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors" />
         <TextBlock Grid.Row="3" Grid.Column="2" VerticalAlignment="Center">New Background Color</TextBlock>
-        <xctk:ColorPicker Grid.Row="3" Grid.Column="4" SelectedColor="{Binding NewBackgroundColor}"  />
+        <xctk:ColorPicker Grid.Row="3" Grid.Column="4" SelectedColor="{Binding NewBackgroundColor}" AvailableColors="{Binding AvailableColors}" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors" />
 
         <CheckBox Grid.Row="4" Grid.Column="0" Content="Replace Border Color" IsChecked="{Binding ReplaceBorderColor}" />
         <TextBlock Grid.Row="4" Grid.Column="2" VerticalAlignment="Center">Existing Border Color</TextBlock>
-        <xctk:ColorPicker Grid.Row="4" Grid.Column="4" SelectedColor="{Binding ReplaceColorsParameterSet.OldBorderColor}"  />
+        <xctk:ColorPicker Grid.Row="4" Grid.Column="4" SelectedColor="{Binding ReplaceColorsParameterSet.OldBorderColor}" AvailableColors="{Binding AvailableColors}" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors" />
         <TextBlock Grid.Row="5" Grid.Column="2" VerticalAlignment="Center">New Border Color</TextBlock>
-        <xctk:ColorPicker Grid.Row="5" Grid.Column="4" SelectedColor="{Binding NewBorderColor}"  />
+        <xctk:ColorPicker Grid.Row="5" Grid.Column="4" SelectedColor="{Binding NewBorderColor}" AvailableColors="{Binding AvailableColors}" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors" />
 
         <userControls:ItemPreviewControl Grid.Row="6" Grid.Column="4" TextColor="{Binding DisplayTextColor}" BackgroundColor="{Binding DisplayBackgroundColor}" BorderColor="{Binding DisplayBorderColor}" />
         <TextBlock Grid.Row="6" Grid.Column="2" VerticalAlignment="Center">Preview</TextBlock>

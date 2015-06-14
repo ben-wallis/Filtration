@@ -6,6 +6,7 @@ namespace Filtration.Models.BlockItemTypes
     {
         public FontSizeBlockItem()
         {
+            Value = 35;
         }
 
         public FontSizeBlockItem(int value) : base(value)

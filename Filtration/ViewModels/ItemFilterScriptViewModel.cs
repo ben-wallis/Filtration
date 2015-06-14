@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Forms;
 using Castle.Core.Internal;
+using Filtration.Enums;
 using Filtration.Models;
 using Filtration.Services;
 using Filtration.Translators;
@@ -22,11 +25,12 @@ namespace Filtration.ViewModels
         IItemFilterBlockViewModel SectionBrowserSelectedBlockViewModel { get; set; }
         IEnumerable<ItemFilterBlockGroup> BlockGroups { get; }
         IEnumerable<IItemFilterBlockViewModel> ItemFilterSectionViewModels { get; }
+        Predicate<IItemFilterBlockViewModel> BlockFilterPredicate { get; set; }
         bool IsDirty { get; }
         string Description { get; set; }
         string DisplayName { get; }
         
-        void Initialise(ItemFilterScript itemFilterScript);
+        void Initialise(ItemFilterScript itemFilterScript, bool newScript);
         void RemoveDirtyFlag();
         void SaveScript();
         void SaveScriptAs();
@@ -47,12 +51,23 @@ namespace Filtration.ViewModels
         private bool _isDirty;
         private IItemFilterBlockViewModel _selectedBlockViewModel;
         private IItemFilterBlockViewModel _sectionBrowserSelectedBlockViewModel;
+        private readonly ObservableCollection<IItemFilterBlockViewModel> _itemFilterBlockViewModels;
+        private ICollectionView _itemFilterBlockViewModelsCollectionView;
+        private Predicate<IItemFilterBlockViewModel> _blockFilterPredicate;
 
         public ItemFilterScriptViewModel(IItemFilterBlockViewModelFactory itemFilterBlockViewModelFactory,
                                          IItemFilterBlockTranslator blockTranslator,
                                          IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
                                          IItemFilterPersistenceService persistenceService)
         {
+            _itemFilterBlockViewModelFactory = itemFilterBlockViewModelFactory;
+            _blockTranslator = blockTranslator;
+            _avalonDockWorkspaceViewModel = avalonDockWorkspaceViewModel;
+            _avalonDockWorkspaceViewModel.ActiveDocumentChanged += OnActiveDocumentChanged;
+            _persistenceService = persistenceService;
+            _itemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModel>();
+
+            ClearFilterCommand = new RelayCommand(OnClearFilterCommand, () => BlockFilterPredicate != null);
             CloseCommand = new RelayCommand(OnCloseCommand);
             DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => SelectedBlockViewModel != null);
             MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand, () => SelectedBlockViewModel != null);
@@ -63,13 +78,9 @@ namespace Filtration.ViewModels
             AddSectionCommand = new RelayCommand(OnAddSectionCommand, () => SelectedBlockViewModel != null);
             CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => SelectedBlockViewModel != null);
             PasteBlockCommand = new RelayCommand(OnPasteBlockCommand, () => SelectedBlockViewModel != null);
-            _itemFilterBlockViewModelFactory = itemFilterBlockViewModelFactory;
-            _blockTranslator = blockTranslator;
-            _avalonDockWorkspaceViewModel = avalonDockWorkspaceViewModel;
-            _persistenceService = persistenceService;
-            ItemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModel>();
         }
 
+        public RelayCommand ClearFilterCommand { get; private set; }
         public RelayCommand CloseCommand { get; private set; }
         public RelayCommand DeleteBlockCommand { get; private set; }
         public RelayCommand MoveBlockToTopCommand { get; private set; }
@@ -81,8 +92,43 @@ namespace Filtration.ViewModels
         public RelayCommand CopyBlockCommand { get; private set; }
         public RelayCommand PasteBlockCommand { get; private set; }
 
-        public ObservableCollection<IItemFilterBlockViewModel> ItemFilterBlockViewModels { get; private set; }
+        public ObservableCollection<IItemFilterBlockViewModel> ItemFilterBlockViewModels
+        {
+            get
+            {
+                _itemFilterBlockViewModelsCollectionView =
+                    CollectionViewSource.GetDefaultView(_itemFilterBlockViewModels);
+                if (BlockFilterPredicate != null)
+                {
+                    _itemFilterBlockViewModelsCollectionView.Filter = BlockFilter;
+                }
+                else
+                {
+                    _itemFilterBlockViewModelsCollectionView.Filter = null;
+                }
+                return _itemFilterBlockViewModels;
+                
+            }
+        }
 
+        private bool BlockFilter(object item)
+        {
+            var blockViewModel = item as IItemFilterBlockViewModel;
+            return BlockFilterPredicate(blockViewModel);
+        }
+
+        public Predicate<IItemFilterBlockViewModel> BlockFilterPredicate
+        {
+            get { return _blockFilterPredicate; }
+            set
+            {
+                _blockFilterPredicate = value;
+                RaisePropertyChanged("ItemFilterBlockViewModels");
+            }
+        }
+
+        public ObservableCollection<IItemFilterBlockViewModel> DisplayedItemFilterBlockViewModels { get; private set; }
+        
         public IEnumerable<IItemFilterBlockViewModel> ItemFilterSectionViewModels
         {
             get { return ItemFilterBlockViewModels.Where(b => b.Block.GetType() == typeof (ItemFilterSection)); }
@@ -99,7 +145,7 @@ namespace Filtration.ViewModels
             set
             {
                 Script.Description = value;
-                _isDirty = true;
+                IsDirty = true;
                 RaisePropertyChanged();
             }
         }
@@ -137,20 +183,19 @@ namespace Filtration.ViewModels
             get { return _isDirty || HasDirtyChildren; }
             set
             {
-                _isDirty = value;
-            }
-        }
+                if (_isDirty != value)
+                {
+                    _isDirty = value;
+                    if (_isDirty)
+                    {
+                        Title = Filename + "*";
+                    }
+                    else
+                    {
+                        Title = Filename;
+                    }
+                }
 
-        private bool HasDirtyChildren
-        {
-            get { return ItemFilterBlockViewModels.Any(vm => vm.IsDirty); }
-        }
-
-        private void CleanChildren()
-        {
-            foreach (var vm in ItemFilterBlockViewModels)
-            {
-                vm.IsDirty = false;
             }
         }
 
@@ -177,7 +222,9 @@ namespace Filtration.ViewModels
             get { return Script.FilePath; }
         }
 
-        public void Initialise(ItemFilterScript itemFilterScript)
+        private bool _filenameIsFake;
+
+        public void Initialise(ItemFilterScript itemFilterScript, bool newScript)
         {
             ItemFilterBlockViewModels.Clear();
 
@@ -189,6 +236,13 @@ namespace Filtration.ViewModels
                 ItemFilterBlockViewModels.Add(vm);
             }
 
+            _filenameIsFake = newScript;
+
+            if (newScript)
+            {
+                Script.FilePath = "Untitled.filter";
+            }
+
             Title = Filename;
             ContentId = "testcontentid";
         }
@@ -197,7 +251,7 @@ namespace Filtration.ViewModels
         {
             if (!ValidateScript()) return;
 
-            if (string.IsNullOrEmpty(Script.FilePath))
+            if (_filenameIsFake)
             {
                 SaveScriptAs();
                 return;
@@ -235,6 +289,8 @@ namespace Filtration.ViewModels
             {
                 Script.FilePath = saveDialog.FileName;
                 _persistenceService.SaveItemFilterScript(Script);
+                _filenameIsFake = false;
+                Title = Filename;
                 RemoveDirtyFlag();
             }
             catch (Exception e)
@@ -242,6 +298,27 @@ namespace Filtration.ViewModels
                 MessageBox.Show(@"Error saving filter file - " + e.Message, @"Save Error", MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 Script.FilePath = previousFilePath;
+            }
+        }
+
+        private void OnActiveDocumentChanged(object sender, EventArgs e)
+        {
+            if (_avalonDockWorkspaceViewModel.ActiveScriptViewModel != this)
+            {
+                BlockFilterPredicate = null;
+            }
+        }
+
+        private bool HasDirtyChildren
+        {
+            get { return ItemFilterBlockViewModels.Any(vm => vm.IsDirty); }
+        }
+
+        private void CleanChildren()
+        {
+            foreach (var vm in ItemFilterBlockViewModels)
+            {
+                vm.IsDirty = false;
             }
         }
 
@@ -265,11 +342,16 @@ namespace Filtration.ViewModels
             return false;
         }
 
+        private void OnCloseCommand()
+        {
+            Close();
+        }
+        
         public void Close()
         {
             if (!IsDirty)
             {
-                _avalonDockWorkspaceViewModel.CloseDocument(this);
+                CloseScript();
             }
             else
             {
@@ -280,12 +362,12 @@ namespace Filtration.ViewModels
                     case MessageBoxResult.Yes:
                         {
                             SaveScript();
-                            _avalonDockWorkspaceViewModel.CloseDocument(this);
+                            CloseScript();
                             break;
                         }
                     case MessageBoxResult.No:
                         {
-                            _avalonDockWorkspaceViewModel.CloseDocument(this);
+                            CloseScript();
                             break;
                         }
                     case MessageBoxResult.Cancel:
@@ -296,9 +378,15 @@ namespace Filtration.ViewModels
             }
         }
 
-        private void OnCloseCommand()
+        private void CloseScript()
         {
-            Close();
+            _avalonDockWorkspaceViewModel.ActiveDocumentChanged -= OnActiveDocumentChanged;
+            _avalonDockWorkspaceViewModel.CloseDocument(this);
+        }
+
+        private void OnClearFilterCommand()
+        {
+            BlockFilterPredicate = null;
         }
 
         private void OnCopyBlockCommand()
@@ -339,7 +427,7 @@ namespace Filtration.ViewModels
             }
 
             SelectedBlockViewModel = vm;
-            _isDirty = true;
+            IsDirty = true;
 
         }
 
@@ -359,7 +447,7 @@ namespace Filtration.ViewModels
                 Script.ItemFilterBlocks.Remove(block);
                 Script.ItemFilterBlocks.Insert(0, block);
                 ItemFilterBlockViewModels.Move(currentIndex, 0);
-                _isDirty = true;
+                IsDirty = true;
                 RaisePropertyChanged("ItemFilterSectionViewModels");
             }
         }
@@ -380,7 +468,7 @@ namespace Filtration.ViewModels
                 Script.ItemFilterBlocks.RemoveAt(blockPos);
                 Script.ItemFilterBlocks.Insert(blockPos - 1, block);
                 ItemFilterBlockViewModels.Move(currentIndex, currentIndex - 1);
-                _isDirty = true;
+                IsDirty = true;
                 RaisePropertyChanged("ItemFilterSectionViewModels");
             }
         }
@@ -401,7 +489,7 @@ namespace Filtration.ViewModels
                 Script.ItemFilterBlocks.RemoveAt(blockPos);
                 Script.ItemFilterBlocks.Insert(blockPos + 1, block);
                 ItemFilterBlockViewModels.Move(currentIndex, currentIndex + 1);
-                _isDirty = true;
+                IsDirty = true;
                 RaisePropertyChanged("ItemFilterSectionViewModels");
             }
         }
@@ -421,7 +509,7 @@ namespace Filtration.ViewModels
                 Script.ItemFilterBlocks.Remove(block);
                 Script.ItemFilterBlocks.Add(block);
                 ItemFilterBlockViewModels.Move(currentIndex, ItemFilterBlockViewModels.Count - 1);
-                _isDirty = true;
+                IsDirty = true;
                 RaisePropertyChanged("ItemFilterSectionViewModels");
             }
         }
@@ -449,7 +537,7 @@ namespace Filtration.ViewModels
             }
 
             SelectedBlockViewModel = vm;
-            _isDirty = true;
+            IsDirty = true;
         }
 
         private void OnAddSectionCommand()
@@ -465,7 +553,7 @@ namespace Filtration.ViewModels
 
             Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModel.Block) + 1, newSection);
             ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModel) + 1, vm);
-            _isDirty = true;
+            IsDirty = true;
             SelectedBlockViewModel = vm;
             RaisePropertyChanged("ItemFilterSectionViewModels");
         }
@@ -484,7 +572,7 @@ namespace Filtration.ViewModels
             {
                 Script.ItemFilterBlocks.Remove(targetBlockViewModel.Block);
                 ItemFilterBlockViewModels.Remove(targetBlockViewModel);
-                _isDirty = true;
+                IsDirty = true;
             }
             SelectedBlockViewModel = null;
         }

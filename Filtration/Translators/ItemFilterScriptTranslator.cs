@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Castle.Core.Internal;
 using Filtration.Models;
 using Filtration.Utilities;
 
@@ -43,7 +44,11 @@ namespace Filtration.Translators
                     script.Description += lines[i].Substring(1).Trim(' ') + Environment.NewLine;
                 }    
             }
-            script.Description = script.Description.TrimEnd('\n').TrimEnd('\r');
+
+            if (!script.Description.IsNullOrEmpty())
+            {
+                script.Description = script.Description.TrimEnd('\n').TrimEnd('\r');
+            }
 
             // Extract each block from between boundaries and translate it into a ItemFilterBlock object
             // and add that object to the ItemFilterBlocks list 

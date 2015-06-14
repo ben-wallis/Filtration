@@ -9,7 +9,7 @@
         xmlns:viewsAvalonDock="clr-namespace:Filtration.Views.AvalonDock"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
-        Title="{Binding WindowTitle}" Height="707" Width="930" BorderThickness="1" BorderBrush="Black">
+        Title="{Binding WindowTitle}" Height="768" Width="1024" BorderThickness="1" BorderBrush="Black">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">

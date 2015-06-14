@@ -10,6 +10,7 @@ using Filtration.Models.BlockItemTypes;
 using Filtration.Services;
 using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
+using Xceed.Wpf.Toolkit;
 
 namespace Filtration.ViewModels
 {
@@ -188,11 +189,25 @@ namespace Filtration.ViewModels
             }
             set
             {
-                Block.Description = value;
-                RaisePropertyChanged();
+                if (Block.Description != value)
+                {
+                    Block.Description = value;
+                    IsDirty = true;
+                    RaisePropertyChanged();
+                }
             }
         }
-        
+
+        public ObservableCollection<ColorItem> AvailableColors
+        {
+            get
+            {
+                {
+                    return PathOfExileColors.DefaultColors;
+                }
+            }
+        }
+
         public bool HasTextColor
         {
             get { return Block.HasBlockItemOfType<TextColorBlockItem>(); }

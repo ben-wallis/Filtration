@@ -47,39 +47,22 @@
         </Border>
         <Border Grid.Row="1" BorderThickness="1" BorderBrush="DarkGray" Margin="5,5,5,5" Padding="2">
             <DockPanel LastChildFill="True">
-            <ToolBarTray DockPanel.Dock="Top">
-                <ToolBar>
-                    <Button ToolTip="Add Block" Command="{Binding AddBlockCommand}" Content="{StaticResource AddBlockIcon}" />
-                    <Button ToolTip="Add Section" Command="{Binding AddSectionCommand}" Content="{StaticResource AddSectionIcon}" />
+                <ToolBarTray DockPanel.Dock="Top">
+                    <ToolBar>
+                        <Button ToolTip="Add Block" Command="{Binding AddBlockCommand}" Content="{StaticResource AddBlockIcon}" />
+                        <Button ToolTip="Add Section" Command="{Binding AddSectionCommand}" Content="{StaticResource AddSectionIcon}" />
                         <Button ToolTip="Delete Block/Section" Command="{Binding DeleteBlockCommand}" Content="{StaticResource DeleteIcon}" />
                     </ToolBar>
-                <ToolBar>
-                    <Button ToolTip="Move Block to Top" Command="{Binding MoveBlockToTopCommand}" Content="{StaticResource MoveToTopIcon}" />
-                    <Button ToolTip="Move Block Up" Command="{Binding MoveBlockUpCommand}" Content="{StaticResource MoveUpIcon}" />
-                    <Button ToolTip="Move Block Down" Command="{Binding MoveBlockDownCommand}" Content="{StaticResource MoveDownIcon}" />
-                    <Button ToolTip="Move Block to Bottom" Command="{Binding MoveBlockToBottomCommand}" Content="{StaticResource MoveToBottomIcon}" />
-                </ToolBar>
+                    <ToolBar>
+                        <Button ToolTip="Move Block to Top" Command="{Binding MoveBlockToTopCommand}" Content="{StaticResource MoveToTopIcon}" />
+                        <Button ToolTip="Move Block Up" Command="{Binding MoveBlockUpCommand}" Content="{StaticResource MoveUpIcon}" />
+                        <Button ToolTip="Move Block Down" Command="{Binding MoveBlockDownCommand}" Content="{StaticResource MoveDownIcon}" />
+                        <Button ToolTip="Move Block to Bottom" Command="{Binding MoveBlockToBottomCommand}" Content="{StaticResource MoveToBottomIcon}" />
+                    </ToolBar>
+                    <ToolBar>
+                        <Button ToolTip="Clear Filter" Command="{Binding ClearFilterCommand}" Content="{StaticResource ClearFilterIcon}" />
+                    </ToolBar>
                 </ToolBarTray>
-                <!--<Expander DockPanel.Dock="Left" ExpandDirection="Right" MaxWidth="200" HorizontalAlignment="Left" >
-                    <Expander.Header>
-                        <TextBlock Text="Section Browser" Foreground="White" VerticalAlignment="Top">
-                            <TextBlock.LayoutTransform>
-                                <RotateTransform Angle="-90"/>
-                            </TextBlock.LayoutTransform>
-                        </TextBlock>
-                    </Expander.Header>
-                    <ListBox ItemsSource="{Binding ItemFilterSectionViewModels}"
-                             SelectedItem="{Binding SectionBrowserSelectedViewModel}"
-                             x:Name="SectionBrowserListBox"
-                             SelectionChanged="SectionBrowserListBox_OnSelectionChanged"
-                             ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding BlockDescription}" ToolTip="{Binding BlockDescription}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Expander>-->
                 <userControls:AutoScrollingListBox ItemsSource="{Binding ItemFilterBlockViewModels}"
                                                    Margin="5,5,5,5"
                                                    Padding="5"

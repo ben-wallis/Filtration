@@ -43,7 +43,6 @@ namespace Filtration.ViewModels
             _replaceColorsViewModel = replaceColorsViewModel;
             _avalonDockWorkspaceViewModel = avalonDockWorkspaceViewModel;
 
-
             OpenAboutWindowCommand = new RelayCommand(OnOpenAboutWindowCommand);
             OpenScriptCommand = new RelayCommand(OnOpenScriptCommand);
             SaveScriptCommand = new RelayCommand(OnSaveScriptCommand, ActiveDocumentIsScript);
@@ -74,6 +73,16 @@ namespace Filtration.ViewModels
                         NewScriptCommand.RaiseCanExecuteChanged();
                         CloseScriptCommand.RaiseCanExecuteChanged();
                         ReplaceColorsCommand.RaiseCanExecuteChanged();
+                        break;
+                    }
+                    case "NewScript":
+                    {
+                        OnNewScriptCommand();
+                        break;
+                    }
+                    case "OpenScript":
+                    {
+                        OnOpenScriptCommand();
                         break;
                     }
                 }
@@ -145,7 +154,7 @@ namespace Filtration.ViewModels
             }
 
             var newViewModel = _itemFilterScriptViewModelFactory.Create();
-            newViewModel.Initialise(loadedScript);
+            newViewModel.Initialise(loadedScript, false);
             _avalonDockWorkspaceViewModel.AddDocument(newViewModel);
         }
 
@@ -208,8 +217,7 @@ namespace Filtration.ViewModels
         {
             var newScript = new ItemFilterScript();
             var newViewModel = _itemFilterScriptViewModelFactory.Create();
-            newViewModel.Initialise(newScript);
-            newViewModel.Description = "New Script";
+            newViewModel.Initialise(newScript, true);
             _avalonDockWorkspaceViewModel.AddDocument(newViewModel);
         }
 
