@@ -106,6 +106,14 @@ namespace Filtration.ViewModels
             get { return Block.BlockItems.Where(b => b is IAudioVisualBlockItem); }
         }
 
+        public bool AdvancedBlockGroup
+        {
+            get
+            {
+                return Block.BlockGroup != null && Block.BlockGroup.Advanced;
+            }
+        }
+
         public bool DisplaySettingsPopupOpen
         {
             get { return _displaySettingsPopupOpen; }

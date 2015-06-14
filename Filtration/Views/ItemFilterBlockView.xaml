@@ -6,6 +6,7 @@
              xmlns:viewModels="clr-namespace:Filtration.ViewModels"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
              xmlns:views="clr-namespace:Filtration.Views"
+             xmlns:converters="clr-namespace:Filtration.Converters"
              xmlns:blockItemBaseTypes="clr-namespace:Filtration.Models.BlockItemBaseTypes"
              xmlns:blockItemTypes="clr-namespace:Filtration.Models.BlockItemTypes"
              xmlns:enums="clr-namespace:Filtration.Enums"
@@ -19,6 +20,8 @@
                 <ResourceDictionary Source="SharedResourcesDictionary.xaml" />
                 <ResourceDictionary>
                     <views:BindingProxy x:Key="proxy" Data="{Binding}" />
+                    <converters:BlockGroupAdvancedFillColorConverter x:Key="BlockGroupAdvancedFillColorConverter" />
+                    
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -30,10 +33,10 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Rectangle Width="7" >
-                    <Rectangle.Fill>
-                        <SolidColorBrush Color="Gray" />
-                    </Rectangle.Fill>
+                <Rectangle Width="7" Fill="{Binding AdvancedBlockGroup, Converter={StaticResource BlockGroupAdvancedFillColorConverter}}">
+                    <Rectangle.ToolTip>
+                        <ToolTip Visibility="{Binding AdvancedBlockGroup, Converter={StaticResource BooleanVisibilityConverter}}">Advanced Block Group</ToolTip>
+                    </Rectangle.ToolTip>
                 </Rectangle>
                 <Expander Grid.Column="1" Style="{StaticResource ExpanderRightAlignStyle}" x:Name="TestExpander" ToolTip="{Binding BlockDescription}" ToolTipService.IsEnabled="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsExpanded, Converter={StaticResource BoolInverterConverter}}">
                     <Expander.ContextMenu>

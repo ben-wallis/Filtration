@@ -107,6 +107,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\ActiveDocumentConverter.cs" />
+    <Compile Include="Converters\BlockGroupAdvancedFillConverter.cs" />
     <Compile Include="Converters\BlockGroupAdvancedColorConverter.cs" />
     <Compile Include="Converters\BlockGroupVisibilityConverter.cs" />
     <Compile Include="Converters\BlockItemTypeToStringConverter.cs" />
