@@ -7,7 +7,10 @@
                       Height="360"
                       Width="580"
                       Loaded="AboutWindow_OnLoaded"
-                      BorderThickness="1" BorderBrush="Black">
+                      BorderThickness="1"
+                      BorderBrush="Black"
+                      ShowMaxRestoreButton="False"
+                      ShowMinButton="False">
     <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -29,7 +32,7 @@
             <Image Source="/Filtration;component/Resources/logo.png" Width="75" Height="75" VerticalAlignment="Top" />
             <StackPanel Grid.Row="0" Grid.Column="1">
                 <TextBlock FontWeight="Black">Filtration</TextBlock>
-                <TextBlock>Version 0.2</TextBlock>
+                <TextBlock Text="{Binding Version}" />
                 <TextBlock>Copyright © 2015</TextBlock>
                 <TextBlock>Created by Ben Wallis</TextBlock>
                 <TextBlock>

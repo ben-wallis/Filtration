@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Reflection;
+using System.Windows;
 
 namespace Filtration.Views
 {
@@ -7,6 +9,7 @@ namespace Filtration.Views
         public AboutWindow()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         private void AboutWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -15,6 +18,16 @@ namespace Filtration.Views
             var mainWindow = curApp.MainWindow;
             Left = mainWindow.Left + (mainWindow.Width - ActualWidth) / 2;
             Top = mainWindow.Top + (mainWindow.Height - ActualHeight) / 2;
+        }
+
+        public string Version
+        {
+            get
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+                return "Version " + fvi.FileMajorPart + "." + fvi.FileMinorPart;
+            }
         }
     }
 }
