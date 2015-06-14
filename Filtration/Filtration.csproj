@@ -107,6 +107,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\ActiveDocumentConverter.cs" />
+    <Compile Include="Converters\BlockGroupAdvancedColorConverter.cs" />
+    <Compile Include="Converters\BlockGroupVisibilityConverter.cs" />
     <Compile Include="Converters\BlockItemTypeToStringConverter.cs" />
     <Compile Include="Converters\BooleanInverterConverter.cs" />
     <Compile Include="Converters\BooleanToBlockActionInverseConverter.cs" />
@@ -372,6 +374,7 @@
     <Resource Include="Resources\Icons\block_group_browser_icon.png" />
     <Resource Include="Resources\Icons\clear_filter_icon.png" />
     <Resource Include="Resources\Icons\filter_icon.png" />
+    <Resource Include="Resources\Icons\show_advanced_icon.png" />
     <Content Include="Resources\ItemBaseTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

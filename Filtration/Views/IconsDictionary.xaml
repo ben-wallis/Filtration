@@ -19,4 +19,5 @@
     <Image Source="/Filtration;component/Resources/Icons/replace_colors_icon.png" x:Key="ReplaceColorsIcon" x:Shared="false" />
     <Image Source="/Filtration;component/Resources/Icons/clear_filter_icon.png" x:Key="ClearFilterIcon" x:Shared="False" />
     <Image Source="/Filtration;component/Resources/Icons/filter_icon.png" x:Key="FilterIcon" x:Shared="False" />
+    <Image Source="/Filtration;component/Resources/Icons/show_advanced_icon.png" x:Key="ShowAdvancedIcon" x:Shared="False" />
 </ResourceDictionary>

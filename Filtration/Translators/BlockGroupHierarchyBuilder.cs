@@ -33,6 +33,10 @@ namespace Filtration.Translators
         {
             var inputGroups = groupStrings.ToList();
             var firstGroup = inputGroups.First().Trim();
+            if (firstGroup.StartsWith("~"))
+            {
+                firstGroup = firstGroup.Substring(1);
+            }
 
             ItemFilterBlockGroup matchingChildItemGroup = null;
             if (startItemGroup.ChildGroups.Count(g => g.GroupName == firstGroup) > 0)
@@ -42,13 +46,31 @@ namespace Filtration.Translators
 
             if (matchingChildItemGroup == null)
             {
-                var newItemGroup = new ItemFilterBlockGroup(inputGroups.First().Trim(), startItemGroup);
+                var newItemGroup = CreateBlockGroup(inputGroups.First().Trim(), startItemGroup);
                 startItemGroup.ChildGroups.Add(newItemGroup);
                 inputGroups = inputGroups.Skip(1).ToList();
                 return inputGroups.Count > 0 ? IntegrateStringListIntoBlockGroupHierarchy(inputGroups, newItemGroup) : newItemGroup;
             }
             inputGroups = inputGroups.Skip(1).ToList();
             return inputGroups.Count > 0 ? IntegrateStringListIntoBlockGroupHierarchy(inputGroups, matchingChildItemGroup) : matchingChildItemGroup;
+        }
+
+        private ItemFilterBlockGroup CreateBlockGroup(string groupNameString, ItemFilterBlockGroup parentGroup)
+        {
+            var advanced = false;
+
+            if (groupNameString.StartsWith("~"))
+            {
+                groupNameString = groupNameString.Substring(1);
+                advanced = true;
+            }
+
+            if (parentGroup.Advanced)
+            {
+                advanced = true;
+            }
+
+            return new ItemFilterBlockGroup(groupNameString, parentGroup, advanced);
         }
     }
 }

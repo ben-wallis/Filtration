@@ -12,10 +12,11 @@ namespace Filtration.Models
         private bool? _isChecked;
         private bool _reentrancyCheck;
 
-        public ItemFilterBlockGroup(string groupName, ItemFilterBlockGroup parent)
+        public ItemFilterBlockGroup(string groupName, ItemFilterBlockGroup parent, bool advanced = false)
         {
             GroupName = groupName;
             ParentGroup = parent;
+            Advanced = advanced;
             ChildGroups = new ObservableCollection<ItemFilterBlockGroup>();
         }
         
@@ -42,6 +43,8 @@ namespace Filtration.Models
 
             return outputString;
         }
+
+        public bool Advanced { get; private set; }
 
         public bool? IsChecked
         {
@@ -91,7 +94,7 @@ namespace Filtration.Models
 
         private void UpdateChildrenCheckState()
         {
-            foreach (var childGroup in ChildGroups.Where(c => IsChecked != null))
+            foreach (var childGroup in ChildGroups.Where(c => IsChecked != null && !c.Advanced))
             {
                 childGroup.IsChecked = IsChecked;
             }
@@ -113,6 +116,28 @@ namespace Filtration.Models
 
             return null;
         }
+
+        public ItemFilterBlockGroup Search(Func<ItemFilterBlockGroup, bool> predicate)
+        {
+            // if node is a leaf
+            if (ChildGroups == null || ChildGroups.Count == 0)
+            {
+                return predicate(this) ? this : null;
+            }
+
+            var results = ChildGroups
+                .Select(i => i.Search(predicate))
+                .Where(i => i != null).ToList();
+
+            if (results.Any())
+            {
+                var result = (ItemFilterBlockGroup)MemberwiseClone();
+                result.ChildGroups = new ObservableCollection<ItemFilterBlockGroup>(results);
+                return result;
+            }
+            return null;
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

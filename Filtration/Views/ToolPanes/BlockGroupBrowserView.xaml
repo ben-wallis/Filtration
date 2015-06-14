@@ -5,13 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:models="clr-namespace:Filtration.Models"
              xmlns:viewModels="clr-namespace:Filtration.ViewModels"
+             xmlns:converters="clr-namespace:Filtration.Converters"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:behaviors="clr-namespace:Filtration.Views.Behaviors"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewModels:BlockGroupBrowserViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-
+        <converters:BlockGroupAdvancedColorConverter x:Key="BlockGroupAdvancedColorConverter" />
+        <converters:BlockGroupVisibilityConverter x:Key="BlockGroupVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -22,7 +24,7 @@
             <Button Height="20" Command="{Binding FilterToSelectedBlockGroupCommand}" Content="{StaticResource FilterIcon}" ToolTip="Filter to Selected Block Group" />
         </ToolBar>
         
-        <TreeView Grid.Row="1" ItemsSource="{Binding BlockGroups}">
+        <TreeView Grid.Row="1" ItemsSource="{Binding BlockGroups}" Name="TreeView">
             <i:Interaction.Behaviors>
                 <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding SelectedBlockGroup, Mode=OneWayToSource}" />
             </i:Interaction.Behaviors>
@@ -30,7 +32,7 @@
                 <HierarchicalDataTemplate DataType="{x:Type models:ItemFilterBlockGroup}" ItemsSource="{Binding ChildGroups}">
                     <WrapPanel>
                         <CheckBox IsThreeState="True" IsChecked="{Binding IsChecked}" Click="BlockGroupCheckBox_Clicked"   />
-                        <TextBlock Text="{Binding GroupName}" />
+                        <TextBlock Text="{Binding GroupName}" Foreground="{Binding Advanced, Converter={StaticResource BlockGroupAdvancedColorConverter}}" />
                     </WrapPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>

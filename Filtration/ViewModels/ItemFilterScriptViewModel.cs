@@ -13,6 +13,7 @@ using Filtration.Models;
 using Filtration.Services;
 using Filtration.Translators;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
 using Clipboard = System.Windows.Clipboard;
 using MessageBox = System.Windows.MessageBox;
 
@@ -27,6 +28,7 @@ namespace Filtration.ViewModels
         IEnumerable<IItemFilterBlockViewModel> ItemFilterSectionViewModels { get; }
         Predicate<IItemFilterBlockViewModel> BlockFilterPredicate { get; set; }
         bool IsDirty { get; }
+        bool ShowAdvanced { get; }
         string Description { get; set; }
         string DisplayName { get; }
         
@@ -67,6 +69,7 @@ namespace Filtration.ViewModels
             _persistenceService = persistenceService;
             _itemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModel>();
 
+            ToggleShowAdvancedCommand = new RelayCommand<bool>(OnToggleShowAdvancedCommand);
             ClearFilterCommand = new RelayCommand(OnClearFilterCommand, () => BlockFilterPredicate != null);
             CloseCommand = new RelayCommand(OnCloseCommand);
             DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => SelectedBlockViewModel != null);
@@ -80,6 +83,7 @@ namespace Filtration.ViewModels
             PasteBlockCommand = new RelayCommand(OnPasteBlockCommand, () => SelectedBlockViewModel != null);
         }
 
+        public RelayCommand<bool> ToggleShowAdvancedCommand { get; private set; }
         public RelayCommand ClearFilterCommand { get; private set; }
         public RelayCommand CloseCommand { get; private set; }
         public RelayCommand DeleteBlockCommand { get; private set; }
@@ -146,6 +150,16 @@ namespace Filtration.ViewModels
             {
                 Script.Description = value;
                 IsDirty = true;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool ShowAdvanced
+        {
+            get { return _showAdvanced; }
+            private set
+            {
+                _showAdvanced = value;
                 RaisePropertyChanged();
             }
         }
@@ -223,6 +237,7 @@ namespace Filtration.ViewModels
         }
 
         private bool _filenameIsFake;
+        private bool _showAdvanced;
 
         public void Initialise(ItemFilterScript itemFilterScript, bool newScript)
         {
@@ -382,6 +397,12 @@ namespace Filtration.ViewModels
         {
             _avalonDockWorkspaceViewModel.ActiveDocumentChanged -= OnActiveDocumentChanged;
             _avalonDockWorkspaceViewModel.CloseDocument(this);
+        }
+
+        private void OnToggleShowAdvancedCommand(bool showAdvanced)
+        {
+            ShowAdvanced = !ShowAdvanced;
+            Messenger.Default.Send(new NotificationMessage<bool>(ShowAdvanced, "ShowAdvancedToggled"));
         }
 
         private void OnClearFilterCommand()

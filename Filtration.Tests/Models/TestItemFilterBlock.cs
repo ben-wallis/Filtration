@@ -51,5 +51,22 @@ namespace Filtration.Tests.Models
             // Assert
             Assert.IsFalse(result);
         }
+
+        [Test]
+        public void HasParentInBlockGroupHierarchy_ReturnsCorrectResult()
+        {
+            // Arrange
+            var testInputRootBlockGroup = new ItemFilterBlockGroup("Root Block Group", null);
+            var testInputSubBlockGroup = new ItemFilterBlockGroup("Sub Block Group", testInputRootBlockGroup);
+            var testInputSubSubBlockGroup = new ItemFilterBlockGroup("Sub Sub Block Group", testInputSubBlockGroup);
+
+            var block = new ItemFilterBlock {BlockGroup = testInputSubSubBlockGroup};
+
+            // Act
+
+            // Assert
+            Assert.AreEqual(true, block.HasBlockGroupInParentHierarchy(testInputRootBlockGroup, block.BlockGroup));
+            Assert.AreEqual(true, block.HasBlockGroupInParentHierarchy(testInputSubBlockGroup, block.BlockGroup));
+        }
     }
 }

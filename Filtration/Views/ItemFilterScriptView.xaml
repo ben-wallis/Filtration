@@ -61,6 +61,7 @@
                     </ToolBar>
                     <ToolBar>
                         <Button ToolTip="Clear Filter" Command="{Binding ClearFilterCommand}" Content="{StaticResource ClearFilterIcon}" />
+                        <!--<ToggleButton ToolTip="Show Advanced Block Groups" Command="{Binding ToggleShowAdvancedCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"  Content="{StaticResource ShowAdvancedIcon}" />-->
                     </ToolBar>
                 </ToolBarTray>
                 <userControls:AutoScrollingListBox ItemsSource="{Binding ItemFilterBlockViewModels}"

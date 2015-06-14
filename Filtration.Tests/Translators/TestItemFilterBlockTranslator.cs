@@ -45,9 +45,10 @@ namespace Filtration.Tests.Translators
         {
             // Arrange
             var inputString = "Show # TestBlockGroup" + Environment.NewLine;
+            var inputBlockGroup = new ItemFilterBlockGroup("TestBlockGroup", null);
 
             // Act
-            _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Verifiable();
+            _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Returns(inputBlockGroup).Verifiable();
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
