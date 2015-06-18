@@ -8,7 +8,6 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Forms;
 using Castle.Core.Internal;
-using Filtration.Enums;
 using Filtration.Models;
 using Filtration.Services;
 using Filtration.Translators;
@@ -24,7 +23,7 @@ namespace Filtration.ViewModels
         ItemFilterScript Script { get; }
         IItemFilterBlockViewModel SelectedBlockViewModel { get; set; }
         IItemFilterBlockViewModel SectionBrowserSelectedBlockViewModel { get; set; }
-        IEnumerable<ItemFilterBlockGroup> BlockGroups { get; }
+        ObservableCollection<ItemFilterBlockGroup> BlockGroups { get; }
         IEnumerable<IItemFilterBlockViewModel> ItemFilterSectionViewModels { get; }
         Predicate<IItemFilterBlockViewModel> BlockFilterPredicate { get; set; }
         bool IsDirty { get; }
@@ -68,7 +67,7 @@ namespace Filtration.ViewModels
             _avalonDockWorkspaceViewModel.ActiveDocumentChanged += OnActiveDocumentChanged;
             _persistenceService = persistenceService;
             _itemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModel>();
-
+            
             ToggleShowAdvancedCommand = new RelayCommand<bool>(OnToggleShowAdvancedCommand);
             ClearFilterCommand = new RelayCommand(OnClearFilterCommand, () => BlockFilterPredicate != null);
             CloseCommand = new RelayCommand(OnCloseCommand);
@@ -111,7 +110,6 @@ namespace Filtration.ViewModels
                     _itemFilterBlockViewModelsCollectionView.Filter = null;
                 }
                 return _itemFilterBlockViewModels;
-                
             }
         }
 
@@ -131,8 +129,6 @@ namespace Filtration.ViewModels
             }
         }
 
-        public ObservableCollection<IItemFilterBlockViewModel> DisplayedItemFilterBlockViewModels { get; private set; }
-        
         public IEnumerable<IItemFilterBlockViewModel> ItemFilterSectionViewModels
         {
             get { return ItemFilterBlockViewModels.Where(b => b.Block.GetType() == typeof (ItemFilterSection)); }
@@ -187,7 +183,7 @@ namespace Filtration.ViewModels
 
         public ItemFilterScript Script { get; private set; }
 
-        public IEnumerable<ItemFilterBlockGroup> BlockGroups
+        public ObservableCollection<ItemFilterBlockGroup> BlockGroups
         {
             get { return Script.ItemFilterBlockGroups; }
         }
@@ -250,6 +246,12 @@ namespace Filtration.ViewModels
                 vm.Initialise(block, this);
                 ItemFilterBlockViewModels.Add(vm);
             }
+           
+            //BlockGroupViewModels =_blockGroupMapper.MapBlockGroupsToViewModels(Script.ItemFilterBlockGroups, false);
+            
+            // Necessary to perform the AfterMap here instead of in the AutoMapper config due to the mapping being
+            // performed on a collection, but the postmap needs to be performed from the root BlockGroup.
+            //AutoMapperHelpers.ItemFilterBlockGroupViewModelPostMap(BlockGroupViewModels.First());
 
             _filenameIsFake = newScript;
 

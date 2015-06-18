@@ -433,6 +433,7 @@ namespace Filtration.Translators
 
         private void AddStringListBlockItemToString(ref string targetString, StringListBlockItem blockItem)
         {
+            
             var enumerable = blockItem.Items as IList<string> ?? blockItem.Items.ToList();
             if (enumerable.Count > 0)
             {
