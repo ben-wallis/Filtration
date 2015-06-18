@@ -1,4 +1,5 @@
-﻿using Filtration.Models;
+﻿using System.IO;
+using Filtration.Models;
 using Filtration.Services;
 using Filtration.Translators;
 using Moq;
@@ -78,6 +79,45 @@ namespace Filtration.Tests.Services
 
             // Assert
             mockFileSystemService.Verify();
+        }
+
+        [Test]
+        public void SetItemFilterScriptDirectory_InvalidPath_ThrowsDirectoryNotFoundException()
+        {
+            // Arrange
+            var testInputPath = "C:\\Test\\Path";
+
+            var mockFileSystemService = new Mock<IFileSystemService>();
+            mockFileSystemService.Setup(f => f.DirectoryExists(testInputPath)).Returns(false).Verifiable();
+
+            var mockItemFilterScriptTranslator = new Mock<IItemFilterScriptTranslator>();
+
+            var service = new ItemFilterPersistenceService(mockFileSystemService.Object, mockItemFilterScriptTranslator.Object);
+
+            // Act
+            
+            // Assert
+            Assert.Throws<DirectoryNotFoundException>(() => service.SetItemFilterScriptDirectory(testInputPath));
+        }
+
+        [Test]
+        public void SetItemFilterScriptDirectory_ValidPath_SetsItemFilterScriptDirectory()
+        {
+            // Arrange
+            var testInputPath = "C:\\Test\\Path";
+
+            var mockFileSystemService = new Mock<IFileSystemService>();
+            mockFileSystemService.Setup(f => f.DirectoryExists(testInputPath)).Returns(true).Verifiable();
+
+            var mockItemFilterScriptTranslator = new Mock<IItemFilterScriptTranslator>();
+
+            var service = new ItemFilterPersistenceService(mockFileSystemService.Object, mockItemFilterScriptTranslator.Object);
+
+            // Act
+            service.SetItemFilterScriptDirectory(testInputPath);
+
+            // Assert
+            Assert.AreEqual(testInputPath, service.ItemFilterScriptDirectory);
         }
     }
 }

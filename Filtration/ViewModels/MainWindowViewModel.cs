@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using Filtration.Models;
+using Filtration.Repositories;
 using Filtration.Services;
 using Filtration.Translators;
 using Filtration.Views;
@@ -16,29 +18,25 @@ namespace Filtration.ViewModels
 {
     internal interface IMainWindowViewModel
     {
-        void LoadScriptFromFile(string path);
         RelayCommand OpenScriptCommand { get; }
         RelayCommand NewScriptCommand { get; }
     }
 
     internal class MainWindowViewModel : FiltrationViewModelBase, IMainWindowViewModel
     {
-        private readonly IItemFilterScriptViewModelFactory _itemFilterScriptViewModelFactory;
-        private readonly IItemFilterPersistenceService _persistenceService;
+        private readonly IItemFilterScriptRepository _itemFilterScriptRepository;
         private readonly IItemFilterScriptTranslator _itemFilterScriptTranslator;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
         private readonly IAvalonDockWorkspaceViewModel _avalonDockWorkspaceViewModel;
 
         private IDocument _activeDocument;
 
-        public MainWindowViewModel(IItemFilterScriptViewModelFactory itemFilterScriptViewModelFactory,
-                                   IItemFilterPersistenceService persistenceService,
+        public MainWindowViewModel(IItemFilterScriptRepository itemFilterScriptRepository,
                                    IItemFilterScriptTranslator itemFilterScriptTranslator,
                                    IReplaceColorsViewModel replaceColorsViewModel,
                                    IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel)
         {
-            _itemFilterScriptViewModelFactory = itemFilterScriptViewModelFactory;
-            _persistenceService = persistenceService;
+            _itemFilterScriptRepository = itemFilterScriptRepository;
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
             _replaceColorsViewModel = replaceColorsViewModel;
             _avalonDockWorkspaceViewModel = avalonDockWorkspaceViewModel;
@@ -56,7 +54,10 @@ namespace Filtration.ViewModels
 
             //LoadScriptFromFile("C:\\ThioleLootFilter.txt");
 
-            SetItemFilterScriptDirectory();
+            if (string.IsNullOrEmpty(_itemFilterScriptRepository.GetItemFilterScriptDirectory()))
+            {
+                SetItemFilterScriptDirectory();
+            }
 
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
@@ -131,53 +132,40 @@ namespace Filtration.ViewModels
             var openFileDialog = new OpenFileDialog
             {
                 Filter = "Filter Files (*.filter)|*.filter|All Files (*.*)|*.*",
-                InitialDirectory = _persistenceService.ItemFilterScriptDirectory
+                InitialDirectory = _itemFilterScriptRepository.GetItemFilterScriptDirectory()
             };
 
             if (openFileDialog.ShowDialog() != true) return;
 
-            LoadScriptFromFile(openFileDialog.FileName);
-        }
+            IItemFilterScriptViewModel loadedViewModel;
 
-        public void LoadScriptFromFile(string path)
-        {
-            var loadedScript = _persistenceService.LoadItemFilterScript(path);
             try
             {
-                
+                loadedViewModel = _itemFilterScriptRepository.LoadScriptFromFile(openFileDialog.FileName);
             }
-            catch (Exception e)
+            catch(IOException e)
             {
-                MessageBox.Show(@"Error loading filter script - " + e.Message, @"Script Load Error", MessageBoxButtons.OK,
-                   MessageBoxIcon.Error);
+                MessageBox.Show(@"Error loading filter script - " + e.Message, @"Script Load Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
                 return;
             }
 
-            var newViewModel = _itemFilterScriptViewModelFactory.Create();
-            newViewModel.Initialise(loadedScript, false);
-            _avalonDockWorkspaceViewModel.AddDocument(newViewModel);
+            _avalonDockWorkspaceViewModel.AddDocument(loadedViewModel);
         }
 
         private void SetItemFilterScriptDirectory()
         {
-            var defaultDir = _persistenceService.DefaultPathOfExileDirectory();
-            if (!string.IsNullOrEmpty(defaultDir))
+            var dlg = new FolderBrowserDialog
             {
-                _persistenceService.ItemFilterScriptDirectory = defaultDir;
-            }
-            else
-            {
-                var dlg = new FolderBrowserDialog
-                {
-                    Description = @"Select your Path of Exile data directory, usually in Documents\My Games",
-                    ShowNewFolderButton = false
-                };
-                var result = dlg.ShowDialog();
+                Description = @"Select your Path of Exile data directory, usually in Documents\My Games",
+                ShowNewFolderButton = false
+            };
+            var result = dlg.ShowDialog();
 
-                if (result == DialogResult.OK)
-                {
-                    _persistenceService.ItemFilterScriptDirectory = dlg.SelectedPath;
-                }
+            if (result == DialogResult.OK)
+            {
+                _itemFilterScriptRepository.SetItemFilterScriptDirectory(dlg.SelectedPath);
             }
         }
 
@@ -215,9 +203,7 @@ namespace Filtration.ViewModels
 
         private void OnNewScriptCommand()
         {
-            var newScript = new ItemFilterScript();
-            var newViewModel = _itemFilterScriptViewModelFactory.Create();
-            newViewModel.Initialise(newScript, true);
+            var newViewModel = _itemFilterScriptRepository.NewScript();
             _avalonDockWorkspaceViewModel.AddDocument(newViewModel);
         }
 

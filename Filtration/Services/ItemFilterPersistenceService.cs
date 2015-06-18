@@ -1,11 +1,13 @@
-﻿using Filtration.Models;
+﻿using System.IO;
+using Filtration.Models;
 using Filtration.Translators;
 
 namespace Filtration.Services
 {
     internal interface IItemFilterPersistenceService
     {
-        string ItemFilterScriptDirectory { get; set; }
+        void SetItemFilterScriptDirectory(string path);
+        string ItemFilterScriptDirectory { get; }
         ItemFilterScript LoadItemFilterScript(string filePath);
         void SaveItemFilterScript(ItemFilterScript script);
         string DefaultPathOfExileDirectory();
@@ -20,9 +22,30 @@ namespace Filtration.Services
         {
             _fileSystemService = fileSystemService;
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
+
+            ItemFilterScriptDirectory = DefaultPathOfExileDirectory();
         }
 
-        public string ItemFilterScriptDirectory { get; set; }
+        public string ItemFilterScriptDirectory { get; private set; }
+
+        public string DefaultPathOfExileDirectory()
+        {
+            var defaultDir = _fileSystemService.GetUserProfilePath() + "\\Documents\\My Games\\Path of Exile";
+            var defaultDirExists = _fileSystemService.DirectoryExists(defaultDir);
+
+            return defaultDirExists ? defaultDir : string.Empty;
+        }
+
+        public void SetItemFilterScriptDirectory(string path)
+        {
+            var validPath = _fileSystemService.DirectoryExists(path);
+            if (!validPath)
+            {
+                throw new DirectoryNotFoundException();
+            }
+
+            ItemFilterScriptDirectory = path;
+        }
 
         public ItemFilterScript LoadItemFilterScript(string filePath)
         {
@@ -40,12 +63,6 @@ namespace Filtration.Services
                 _itemFilterScriptTranslator.TranslateItemFilterScriptToString(script));
         }
 
-        public string DefaultPathOfExileDirectory()
-        {
-            var defaultDir = _fileSystemService.GetUserProfilePath() + "\\Documents\\My Games\\Path of Exile";
-            var defaultDirExists = _fileSystemService.DirectoryExists(defaultDir);
 
-            return defaultDirExists ? defaultDir : string.Empty;
-        }
     }
 }

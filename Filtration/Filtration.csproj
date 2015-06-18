@@ -167,6 +167,7 @@
     <Compile Include="Models\BlockItemBaseTypes\SocketGroupBlockItemBase.cs" />
     <Compile Include="Models\ReplaceColorsParameterSet.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Repositories\ItemFilterScriptRepository.cs" />
     <Compile Include="Services\FileSystemService.cs" />
     <Compile Include="Services\ItemFilterPersistenceService.cs" />
     <Compile Include="Services\StaticDataService.cs" />
@@ -240,6 +241,7 @@
       <DependentUpon>StartPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindsorInstallers\ModelsInstaller.cs" />
+    <Compile Include="WindsorInstallers\RepositoriesInstaller.cs" />
     <Compile Include="WindsorInstallers\ServicesInstaller.cs" />
     <Compile Include="WindsorInstallers\TranslatorsInstaller.cs" />
     <Compile Include="WindsorInstallers\ViewModelsInstaller.cs" />
