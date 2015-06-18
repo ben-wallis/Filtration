@@ -3,9 +3,9 @@
 Filtration is an editor for Path of Exile item filter scripts.
 
 ## Current Release
-<b>Installer (5.85mb)</b> <a href="https://github.com/ben-wallis/Filtration/releases/download/0.2/filtration_0.2_setup.exe">filtration_0.2_setup.exe</a>
+<b>Installer (5.82mb)</b> <a href="https://github.com/ben-wallis/Filtration/releases/download/0.3/filtration_0.3_setup.exe">filtration_0.3_setup.exe</a>
 
-<b>Zip File (7.18mb)</b> <a href="https://github.com/ben-wallis/Filtration/releases/download/0.2/filtration_0.2.zip">filtration_0.2.zip</a>
+<b>Zip File (7.22mb)</b> <a href="https://github.com/ben-wallis/Filtration/releases/download/0.3/filtration_0.3.zip">filtration_0.3.zip</a>
 
 ## System Requirements
 Filtration requires .NET Framework 4.5.1 installed.
@@ -18,14 +18,18 @@ Filtration requires .NET Framework 4.5.1 installed.
 * Copy & paste filter blocks between scripts
 * Section navigation via the Section Browser
 * The Replace Colors tool allows you to quickly replace all instances of particular color combinations throughout a script
+* The Block Group Browser allows users of your scripts to easily toggle Show/Hide for groups of blocks.
+
+## Notes for Script Creators
+If you'd like to make your script fully compatible with Filtration, please take a look at the [Notes for Script Creators](https://github.com/ben-wallis/Filtration/wiki/Notes-for-Script-Creators) wiki page.
 
 ## Screenshots
 
 ##### Main Window
-<img src="http://i.imgur.com/cGTuGKq.png" />
+<img src="http://i.imgur.com/d9ACtbt.png" />
 
 ##### Block Editor
-<img src="http://i.imgur.com/nfzhWfn.png" />
+<img src="http://i.imgur.com/JqK2mAg.png" />
 
 ##### Block Color Editor
 <img src="http://i.imgur.com/nlBGiG4.png" />
