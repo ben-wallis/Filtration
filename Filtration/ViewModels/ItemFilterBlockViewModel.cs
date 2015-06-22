@@ -91,7 +91,7 @@ namespace Filtration.ViewModels
         public ItemFilterBlock Block { get; private set; }
         public bool IsDirty { get; set; }
 
-        public ObservableCollection<IItemFilterBlockItem> FilterBlockItems
+        public ObservableCollection<IItemFilterBlockItem> BlockItems
         {
             get { return Block.BlockItems; }
         }
@@ -226,7 +226,7 @@ namespace Filtration.ViewModels
             get
             {
                 return HasTextColor
-                    ? FilterBlockItems.OfType<TextColorBlockItem>().First().Color
+                    ? BlockItems.OfType<TextColorBlockItem>().First().Color
                     : new Color { A = 255, R = 255, G = 255, B = 255 };
             }
         }
@@ -241,7 +241,7 @@ namespace Filtration.ViewModels
             get
             {
                 return HasBackgroundColor
-                    ? FilterBlockItems.OfType<BackgroundColorBlockItem>().First().Color
+                    ? BlockItems.OfType<BackgroundColorBlockItem>().First().Color
                     : new Color { A = 255, R = 0, G = 0, B = 0 };
             }
         }
@@ -256,7 +256,7 @@ namespace Filtration.ViewModels
             get
             {
                 return HasBorderColor
-                    ? FilterBlockItems.OfType<BorderColorBlockItem>().First().Color
+                    ? BlockItems.OfType<BorderColorBlockItem>().First().Color
                     : new Color { A = 255, R = 0, G = 0, B = 0 };
             }
         }
@@ -285,13 +285,13 @@ namespace Filtration.ViewModels
             if (!AddBlockItemAllowed(blockItemType)) return;
             var newBlockItem = (IItemFilterBlockItem) Activator.CreateInstance(blockItemType);
         
-            FilterBlockItems.Add(newBlockItem);
+            BlockItems.Add(newBlockItem);
             IsDirty = true;
         }
 
         private void OnRemoveFilterBlockItemCommand(IItemFilterBlockItem blockItem)
         {
-            FilterBlockItems.Remove(blockItem);
+            BlockItems.Remove(blockItem);
             IsDirty = true;
         }
 
@@ -301,7 +301,7 @@ namespace Filtration.ViewModels
             var newBlockItem = (IItemFilterBlockItem) Activator.CreateInstance(blockItemType);
 
             newBlockItem.PropertyChanged += OnAudioVisualBlockItemChanged;
-            FilterBlockItems.Add(newBlockItem);
+            BlockItems.Add(newBlockItem);
             OnAudioVisualBlockItemChanged(null, null);
             IsDirty = true;
         }
@@ -309,7 +309,7 @@ namespace Filtration.ViewModels
         private void OnRemoveAudioVisualBlockItemCommand(IItemFilterBlockItem blockItem)
         {
             blockItem.PropertyChanged -= OnAudioVisualBlockItemChanged;
-            FilterBlockItems.Remove(blockItem);
+            BlockItems.Remove(blockItem);
             OnAudioVisualBlockItemChanged(null, null);
             IsDirty = true;
         }
@@ -370,13 +370,13 @@ namespace Filtration.ViewModels
         private bool AddBlockItemAllowed(Type type)
         {
             var blockItem = (IItemFilterBlockItem)Activator.CreateInstance(type);
-            var blockCount = FilterBlockItems.Count(b => b.GetType() == type);
+            var blockCount = BlockItems.Count(b => b.GetType() == type);
             return blockCount < blockItem.MaximumAllowed;
         }
 
         private void OnPlaySoundCommand()
         {
-            var soundUri = "Resources/AlertSounds/AlertSound" + FilterBlockItems.OfType<SoundBlockItem>().First().Value + ".wav";
+            var soundUri = "Resources/AlertSounds/AlertSound" + BlockItems.OfType<SoundBlockItem>().First().Value + ".wav";
             _mediaPlayer.Open(new Uri(soundUri, UriKind.Relative));
             _mediaPlayer.Play();
         }

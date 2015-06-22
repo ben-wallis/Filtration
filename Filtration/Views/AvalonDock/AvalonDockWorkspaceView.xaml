@@ -71,14 +71,18 @@
                     </viewsAvalonDock:PanesStyleSelector.DocumentStyle>
                 </viewsAvalonDock:PanesStyleSelector>
             </xcad:DockingManager.LayoutItemContainerStyleSelector>
+            
             <xcad:DockingManager.LayoutUpdateStrategy>
-                <viewsAvalonDock:LayoutInitializer></viewsAvalonDock:LayoutInitializer>
+                <viewsAvalonDock:LayoutInitializer />
             </xcad:DockingManager.LayoutUpdateStrategy>
 
             <xcad:LayoutRoot>
                 <xcad:LayoutPanel Orientation="Horizontal">
                     <xcad:LayoutAnchorablePane Name="SectionBrowserPane" DockWidth="150" />
-                    <xcad:LayoutDocumentPane/>
+                    <xcad:LayoutPanel Orientation="Vertical">
+                        <xcad:LayoutDocumentPane />
+                        <xcad:LayoutAnchorablePane Name="BlockOutputPreviewPane" DockHeight="100" />
+                    </xcad:LayoutPanel>
                     <xcad:LayoutAnchorablePane Name="BlockGroupBrowserPane" DockWidth="200" />
                 </xcad:LayoutPanel>
             </xcad:LayoutRoot>

@@ -26,32 +26,19 @@ namespace Filtration.Views.AvalonDock
                     return true;
                 }
             }
-            //if (anchorableToShow.ContentId == "SectionBrowserTool")
-            //{
-            //    var toolsPane = layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == "SectionBrowserPane");
-            //    if (toolsPane != null)
-            //    {
-            //        anchorableToShow.CanHide = false;
-            //        toolsPane.Children.Add(anchorableToShow);
-            //        return true;
-            //    }
-            //}
 
-            //if (anchorableToShow.ContentId == "BlockGroupBrowserTool")
-            //{
-            //    var toolsPane = layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == "BlockGroupBrowserPane");
-            //    if (toolsPane != null)
-            //    {
-            //        anchorableToShow.CanHide = false;
-            //        toolsPane.Children.Add(anchorableToShow);
-            //        return true;
-            //    }
-            //}
-
-
+            if (anchorableToShow.Content is BlockGroupBrowserViewModel)
+            {
+                var toolsPane = layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == "BlockGroupBrowserPane");
+                if (toolsPane != null)
+                {
+                    anchorableToShow.CanHide = false;
+                    toolsPane.Children.Add(anchorableToShow);
+                    return true;
+                }
+            }
 
             return false;
-
         }
 
 

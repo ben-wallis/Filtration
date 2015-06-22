@@ -38,7 +38,7 @@
                         <ToolTip Visibility="{Binding AdvancedBlockGroup, Converter={StaticResource BooleanVisibilityConverter}}">Advanced Block Group</ToolTip>
                     </Rectangle.ToolTip>
                 </Rectangle>
-                <Expander Grid.Column="1" Style="{StaticResource ExpanderRightAlignStyle}" x:Name="TestExpander" ToolTip="{Binding BlockDescription}" ToolTipService.IsEnabled="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsExpanded, Converter={StaticResource BoolInverterConverter}}">
+                <Expander Grid.Column="1" Style="{StaticResource ExpanderRightAlignStyle}" x:Name="BlockExpander" MouseDoubleClick="BlockExpander_OnMouseDoubleClick" ToolTip="{Binding BlockDescription}" ToolTipService.IsEnabled="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsExpanded, Converter={StaticResource BoolInverterConverter}}">
                     <Expander.ContextMenu>
                         <ContextMenu>
                             <ContextMenu.Items>
@@ -121,7 +121,7 @@
                             </Popup>
                         </Grid>
                     </Expander.Header>
-                    <Grid Margin="10,5,10,5">
+                    <Grid Margin="10,5,10,5" x:Name="BlockItemsGrid">
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />
@@ -148,7 +148,7 @@
                         
                         <!-- Block Items -->
                         <WrapPanel Grid.Row="1" MaxHeight="200">
-                            <ItemsControl ItemsSource="{Binding FilterBlockItems}">
+                            <ItemsControl ItemsSource="{Binding BlockItems}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel Orientation="Vertical" />
