@@ -1,17 +1,13 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using Filtration.Models;
 using Filtration.Repositories;
-using Filtration.Services;
 using Filtration.Translators;
 using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using Clipboard = System.Windows.Clipboard;
-using MessageBox = System.Windows.Forms.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace Filtration.ViewModels

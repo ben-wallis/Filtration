@@ -260,7 +260,10 @@ namespace Filtration.Translators
         private static void AddColorItemToBlockItems<T>(ItemFilterBlock block, string inputString) where T : ColorBlockItem
         {
             var blockItem = Activator.CreateInstance<T>();
-            blockItem.Color = GetColorFromString(inputString);
+            var result = Regex.Matches(inputString, @"([\w\s]*)[#]?(.*)");
+
+            // When Theme support is added result[0].Groups[2].Value will contain the ColorGroup in the comment if it exists.
+            blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
             block.BlockItems.Add(blockItem);
         }
 

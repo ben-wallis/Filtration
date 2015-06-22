@@ -23,7 +23,6 @@ namespace Filtration.ViewModels
         ItemFilterScript Script { get; }
         IItemFilterBlockViewModel SelectedBlockViewModel { get; set; }
         IItemFilterBlockViewModel SectionBrowserSelectedBlockViewModel { get; set; }
-        ObservableCollection<ItemFilterBlockGroup> BlockGroups { get; }
         IEnumerable<IItemFilterBlockViewModel> ItemFilterSectionViewModels { get; }
         Predicate<IItemFilterBlockViewModel> BlockFilterPredicate { get; set; }
         bool IsDirty { get; }
@@ -182,11 +181,6 @@ namespace Filtration.ViewModels
         }
 
         public ItemFilterScript Script { get; private set; }
-
-        public ObservableCollection<ItemFilterBlockGroup> BlockGroups
-        {
-            get { return Script.ItemFilterBlockGroups; }
-        }
 
         public bool IsDirty
         {

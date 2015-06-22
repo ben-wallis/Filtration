@@ -473,6 +473,27 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlock_SetBorderColor_CommentWithLargeNumber_DoesNotThrow()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    SetBorderColor 255 20 100 # Some stuff 8504 with a number in a comment";
+
+            // Act
+
+            Assert.DoesNotThrow(() => _testUtility.Translator.TranslateStringToItemFilterBlock(inputString));
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is BorderColorBlockItem));
+            var blockItem = result.BlockItems.OfType<BorderColorBlockItem>().First();
+            Assert.AreEqual(255, blockItem.Color.R);
+            Assert.AreEqual(20, blockItem.Color.G);
+            Assert.AreEqual(100, blockItem.Color.B);
+
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_SetFontSize_ReturnsCorrectObject()
         {
             // Arrange
