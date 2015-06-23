@@ -131,7 +131,7 @@ namespace Filtration.ViewModels
                 throw new ArgumentException("CloseDocument called with non-existant document");
             }
 
-            if (document.IsScript)
+            if (document.IsScript && ActiveDocument == document)
             {
                 _sectionBrowserViewModel.ClearDown();
                 _blockGroupBrowserViewModel.ClearDown();
