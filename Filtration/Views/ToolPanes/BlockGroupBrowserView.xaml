@@ -7,8 +7,9 @@
              xmlns:converters="clr-namespace:Filtration.Converters"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:behaviors="clr-namespace:Filtration.Views.Behaviors"
+             xmlns:toolPanes="clr-namespace:Filtration.ViewModels.ToolPanes"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=viewModels:BlockGroupBrowserViewModel}"
+             d:DataContext="{d:DesignInstance Type=toolPanes:BlockGroupBrowserViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <converters:BlockGroupAdvancedColorConverter x:Key="BlockGroupAdvancedColorConverter" />

@@ -11,6 +11,7 @@ using Castle.Core.Internal;
 using Filtration.Models;
 using Filtration.Services;
 using Filtration.Translators;
+using Filtration.ViewModels.ToolPanes;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using Clipboard = System.Windows.Clipboard;

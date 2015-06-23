@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Filtration.ViewModels;
+using Filtration.ViewModels.ToolPanes;
 using Xceed.Wpf.AvalonDock.Layout;
 
 namespace Filtration.Views.AvalonDock
@@ -10,6 +11,7 @@ namespace Filtration.Views.AvalonDock
         public DataTemplate ItemFilterScriptTemplate { get; set; }
         public DataTemplate BlockGroupBrowserTemplate { get; set; }
         public DataTemplate SectionBrowserTemplate { get; set; }
+        public DataTemplate BlockOutputPreviewTemplate { get; set; }
         public DataTemplate StartPageTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
@@ -29,6 +31,11 @@ namespace Filtration.Views.AvalonDock
             if (item is BlockGroupBrowserViewModel)
             {
                 return BlockGroupBrowserTemplate;
+            }
+
+            if (item is BlockOutputPreviewViewModel)
+            {
+                return BlockOutputPreviewTemplate;
             }
 
             if (item is StartPageViewModel)

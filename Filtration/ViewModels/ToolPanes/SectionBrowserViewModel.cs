@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
 
-namespace Filtration.ViewModels
+namespace Filtration.ViewModels.ToolPanes
 {
     internal interface ISectionBrowserViewModel : IToolViewModel
     {
         void ClearDown();
+        bool IsVisible { get; set; }
     }
 
     internal class SectionBrowserViewModel : ToolViewModel, ISectionBrowserViewModel

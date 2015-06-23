@@ -26,6 +26,11 @@
                 <Separator />
                 <MenuItem Header="Copy _Script" Command="{Binding CopyScriptCommand}" Icon="{StaticResource CopyIcon}" />
             </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="Section Browser" IsCheckable="True" IsChecked="{Binding AvalonDockWorkspaceViewModel.SectionBrowserViewModel.IsVisible}" Icon="{StaticResource AddSectionIcon}" />
+                <MenuItem Header="Block Output Preview" IsCheckable="True" IsChecked="{Binding AvalonDockWorkspaceViewModel.BlockOutputPreviewViewModel.IsVisible}" Icon="{StaticResource BlockOutputPreviewIcon}" />
+                <MenuItem Header="Block Group Browser" IsCheckable="True" IsChecked="{Binding AvalonDockWorkspaceViewModel.BlockGroupBrowserViewModel.IsVisible}" Icon="{StaticResource BlockGroupBrowserIcon}" />
+            </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem Header="_Replace Colors" Command="{Binding ReplaceColorsCommand}" Icon="{StaticResource ReplaceColorsIcon}" />
             </MenuItem>

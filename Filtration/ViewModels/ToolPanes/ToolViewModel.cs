@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Filtration.ViewModels
+namespace Filtration.ViewModels.ToolPanes
 {
     internal interface IToolViewModel
     {
@@ -26,7 +26,7 @@ namespace Filtration.ViewModels
                 if (_isVisible != value)
                 {
                     _isVisible = value;
-                    RaisePropertyChanged();
+                    RaisePropertyChanged("IsVisible");
                 }
             }
         }

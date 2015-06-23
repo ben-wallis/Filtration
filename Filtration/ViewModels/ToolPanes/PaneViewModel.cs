@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace Filtration.ViewModels
+namespace Filtration.ViewModels.ToolPanes
 {
     class PaneViewModel : FiltrationViewModelBase
     {

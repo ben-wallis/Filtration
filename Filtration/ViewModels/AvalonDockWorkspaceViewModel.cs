@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Filtration.ViewModels.ToolPanes;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace Filtration.ViewModels
@@ -10,6 +11,9 @@ namespace Filtration.ViewModels
         event EventHandler ActiveDocumentChanged;
         IDocument ActiveDocument { get; set; }
         IItemFilterScriptViewModel ActiveScriptViewModel { get; }
+        ISectionBrowserViewModel SectionBrowserViewModel { get; }
+        IBlockGroupBrowserViewModel BlockGroupBrowserViewModel { get; }
+        IBlockOutputPreviewViewModel BlockOutputPreviewViewModel { get; }
         void AddDocument(IDocument document);
         void CloseDocument(IDocument document);
         void SwitchActiveDocument(IDocument document);
@@ -19,6 +23,7 @@ namespace Filtration.ViewModels
     {
         private readonly ISectionBrowserViewModel _sectionBrowserViewModel;
         private readonly IBlockGroupBrowserViewModel _blockGroupBrowserViewModel;
+        private readonly IBlockOutputPreviewViewModel _blockOutputPreviewViewModel;
 
         private IDocument _activeDocument;
         private IItemFilterScriptViewModel _activeScriptViewModel;
@@ -26,10 +31,12 @@ namespace Filtration.ViewModels
 
         public AvalonDockWorkspaceViewModel(ISectionBrowserViewModel sectionBrowserViewModel,
                                             IBlockGroupBrowserViewModel blockGroupBrowserViewModel,
-                                            IStartPageViewModel startPageViewModel)
+                                            IStartPageViewModel startPageViewModel,
+                                            IBlockOutputPreviewViewModel blockOutputPreviewViewModel)
         {
             _sectionBrowserViewModel = sectionBrowserViewModel;
             _blockGroupBrowserViewModel = blockGroupBrowserViewModel;
+            _blockOutputPreviewViewModel = blockOutputPreviewViewModel;
 
             _sectionBrowserViewModel.Initialise(this);
             _blockGroupBrowserViewModel.Initialise(this);
@@ -76,18 +83,33 @@ namespace Filtration.ViewModels
             get { return _activeScriptViewModel; }
         }
 
+        public IBlockGroupBrowserViewModel BlockGroupBrowserViewModel
+        {
+            get { return _blockGroupBrowserViewModel; }
+        }
+
+        public IBlockOutputPreviewViewModel BlockOutputPreviewViewModel
+        {
+            get { return _blockOutputPreviewViewModel; }
+        }
+
+        public ISectionBrowserViewModel SectionBrowserViewModel
+        {
+            get { return _sectionBrowserViewModel; }
+        }
+
         private List<IToolViewModel> _tools;
 
         public IEnumerable<IToolViewModel> Tools
         {
             get
             {
-                if (_tools == null)
+                return _tools ?? (_tools = new List<IToolViewModel>
                 {
-                    _tools = new List<IToolViewModel> { _sectionBrowserViewModel, _blockGroupBrowserViewModel };
-                }
-
-                return _tools;
+                    _sectionBrowserViewModel,
+                    _blockGroupBrowserViewModel,
+                    _blockOutputPreviewViewModel
+                });
             }
         }
 
@@ -95,7 +117,7 @@ namespace Filtration.ViewModels
         {
             if (document.IsScript)
             {
-                _activeScriptViewModel = (IItemFilterScriptViewModel)document;
+                _activeScriptViewModel = (IItemFilterScriptViewModel) document;
             }
 
             OpenDocuments.Add(document);

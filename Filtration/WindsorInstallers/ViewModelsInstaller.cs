@@ -3,6 +3,7 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Filtration.ViewModels;
+using Filtration.ViewModels.ToolPanes;
 
 namespace Filtration.WindsorInstallers
 {
@@ -48,6 +49,11 @@ namespace Filtration.WindsorInstallers
             container.Register(
                 Component.For<IBlockGroupBrowserViewModel>()
                     .ImplementedBy<BlockGroupBrowserViewModel>()
+                    .LifeStyle.Singleton);
+
+            container.Register(
+                Component.For<IBlockOutputPreviewViewModel>()
+                    .ImplementedBy<BlockOutputPreviewViewModel>()
                     .LifeStyle.Singleton);
 
             container.AddFacility<TypedFactoryFacility>();

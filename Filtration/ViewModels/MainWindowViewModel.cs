@@ -116,7 +116,7 @@ namespace Filtration.ViewModels
         {
             return _activeDocument != null && _activeDocument.IsScript;
         }
-        
+
         private void OnOpenAboutWindowCommand()
         {
             var aboutWindow = new AboutWindow();

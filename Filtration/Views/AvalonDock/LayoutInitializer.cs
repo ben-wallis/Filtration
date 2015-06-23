@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Filtration.ViewModels;
+using Filtration.ViewModels.ToolPanes;
 using Xceed.Wpf.AvalonDock.Layout;
 
 namespace Filtration.Views.AvalonDock
@@ -21,7 +21,7 @@ namespace Filtration.Views.AvalonDock
                 var toolsPane = layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == "SectionBrowserPane");
                 if (toolsPane != null)
                 {
-                    anchorableToShow.CanHide = false;
+                   // anchorableToShow.CanHide = false;
                     toolsPane.Children.Add(anchorableToShow);
                     return true;
                 }
@@ -32,7 +32,17 @@ namespace Filtration.Views.AvalonDock
                 var toolsPane = layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == "BlockGroupBrowserPane");
                 if (toolsPane != null)
                 {
-                    anchorableToShow.CanHide = false;
+                   // anchorableToShow.CanHide = false;
+                    toolsPane.Children.Add(anchorableToShow);
+                    return true;
+                }
+            }
+
+            if (anchorableToShow.Content is BlockOutputPreviewViewModel)
+            {
+                var toolsPane = layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == "BlockOutputPreviewPane");
+                if (toolsPane != null)
+                {
                     toolsPane.Children.Add(anchorableToShow);
                     return true;
                 }

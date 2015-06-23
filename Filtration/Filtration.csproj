@@ -85,25 +85,11 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WPFToolkit">
-      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\WPFToolkit.dll</HintPath>
+      <HintPath>bin\Debug\WPFToolkit.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock">
-      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero">
-      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Expression">
-      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.Expression.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro">
-      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
-      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2013">
-      <HintPath>.\Xceed.Wpf.AvalonDock.Themes.VS2013.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.Toolkit, Version=2.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -189,7 +175,7 @@
     <Compile Include="Utilities\BlockGroupMapper.cs" />
     <Compile Include="Utilities\LineReader.cs" />
     <Compile Include="ViewModels\AvalonDockWorkspaceViewModel.cs" />
-    <Compile Include="ViewModels\BlockGroupBrowserViewModel.cs" />
+    <Compile Include="ViewModels\ToolPanes\BlockGroupBrowserViewModel.cs" />
     <Compile Include="ViewModels\FiltrationViewModelBase.cs" />
     <Compile Include="ViewModels\IDocument.cs" />
     <Compile Include="ViewModels\IItemFilterScriptViewModelFactory.cs" />
@@ -197,11 +183,12 @@
     <Compile Include="ViewModels\ItemFilterBlockGroupViewModel.cs" />
     <Compile Include="ViewModels\ItemFilterBlockViewModel.cs" />
     <Compile Include="ViewModels\ItemFilterScriptViewModel.cs" />
-    <Compile Include="ViewModels\PaneViewModel.cs" />
+    <Compile Include="ViewModels\ToolPanes\BlockOutputPreviewViewModel.cs" />
+    <Compile Include="ViewModels\ToolPanes\PaneViewModel.cs" />
     <Compile Include="ViewModels\ReplaceColorsViewModel.cs" />
-    <Compile Include="ViewModels\SectionBrowserViewModel.cs" />
+    <Compile Include="ViewModels\ToolPanes\SectionBrowserViewModel.cs" />
     <Compile Include="ViewModels\StartPageViewModel.cs" />
-    <Compile Include="ViewModels\ToolViewModel.cs" />
+    <Compile Include="ViewModels\ToolPanes\ToolViewModel.cs" />
     <Compile Include="Views\AttachedProperties\SelectingItemAttachedProperty.cs" />
     <Compile Include="Views\AvalonDock\AvalonDockWorkspaceView.xaml.cs">
       <DependentUpon>AvalonDockWorkspaceView.xaml</DependentUpon>
@@ -236,6 +223,9 @@
     <Compile Include="Views\AvalonDock\PanesTemplateSelector.cs" />
     <Compile Include="Views\ReplaceColorsWindow.xaml.cs">
       <DependentUpon>ReplaceColorsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ToolPanes\BlockOutputPreviewView.xaml.cs">
+      <DependentUpon>BlockOutputPreviewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ToolPanes\SectionBrowserView.xaml.cs">
       <DependentUpon>SectionBrowserView.xaml</DependentUpon>
@@ -278,6 +268,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ItemFilterBlockDisplaySettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ToolPanes\BlockOutputPreviewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -390,6 +384,7 @@
     <Resource Include="Resources\Icons\clear_filter_icon.png" />
     <Resource Include="Resources\Icons\filter_icon.png" />
     <Resource Include="Resources\Icons\show_advanced_icon.png" />
+    <Resource Include="Resources\Icons\block_output_preview_icon.png" />
     <Content Include="Resources\ItemBaseTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

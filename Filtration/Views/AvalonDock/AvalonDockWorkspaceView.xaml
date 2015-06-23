@@ -7,13 +7,13 @@
              xmlns:viewsAvalonDock="clr-namespace:Filtration.Views.AvalonDock"
              xmlns:views="clr-namespace:Filtration.Views"
              xmlns:toolPanes="clr-namespace:Filtration.Views.ToolPanes"
-             xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:converters="clr-namespace:Filtration.Converters"
+             xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance d:Type=viewModels:AvalonDockWorkspaceViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <xcad:BoolToVisibilityConverter x:Key="AvalonBoolToVisibilityConverter" />
         <converters:ActiveDocumentConverter x:Key="ActiveDocumentConverter" />
     </UserControl.Resources>
     <Grid>
@@ -40,6 +40,11 @@
                             <toolPanes:SectionBrowserView DataContext="{Binding}" />
                         </DataTemplate>
                     </viewsAvalonDock:PanesTemplateSelector.SectionBrowserTemplate>
+                    <viewsAvalonDock:PanesTemplateSelector.BlockOutputPreviewTemplate>
+                        <DataTemplate>
+                            <toolPanes:BlockOutputPreviewView DataContext="{Binding}" />
+                        </DataTemplate>
+                    </viewsAvalonDock:PanesTemplateSelector.BlockOutputPreviewTemplate>
                     <viewsAvalonDock:PanesTemplateSelector.StartPageTemplate>
                         <DataTemplate>
                             <views:StartPageView DataContext="{Binding}" />
@@ -54,7 +59,7 @@
                         <Style TargetType="{x:Type xcad:LayoutAnchorableItem}">
                             <Setter Property="Title" Value="{Binding Model.Title}"/>
                             <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
-                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
+                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource AvalonBoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
                             <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
                             <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}"/>
                             <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}"/>
@@ -81,7 +86,8 @@
                     <xcad:LayoutAnchorablePane Name="SectionBrowserPane" DockWidth="150" />
                     <xcad:LayoutPanel Orientation="Vertical">
                         <xcad:LayoutDocumentPane />
-                        <xcad:LayoutAnchorablePane Name="BlockOutputPreviewPane" DockHeight="100" />
+                        <xcad:LayoutAnchorablePane Name="BlockOutputPreviewPane" DockHeight="100">
+                        </xcad:LayoutAnchorablePane>
                     </xcad:LayoutPanel>
                     <xcad:LayoutAnchorablePane Name="BlockGroupBrowserPane" DockWidth="200" />
                 </xcad:LayoutPanel>
