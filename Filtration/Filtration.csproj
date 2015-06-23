@@ -153,7 +153,6 @@
     <Compile Include="Models\ItemFilterScript.cs" />
     <Compile Include="Models\ItemFilterSection.cs" />
     <Compile Include="Models\NumericFilterPredicate.cs" />
-    <Compile Include="Models\BlockItemBaseTypes\SocketGroupBlockItemBase.cs" />
     <Compile Include="Models\ReplaceColorsParameterSet.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repositories\ItemFilterScriptRepository.cs" />

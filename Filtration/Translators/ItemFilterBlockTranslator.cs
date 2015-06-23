@@ -330,126 +330,16 @@ namespace Filtration.Translators
                 outputString += " # " + block.BlockGroup;
             }
 
-            // This could be refactored to use the upcasted NumericFilterPredicateBlockItem (or even IItemFilterBlockItem) instead
-            // of the specific downcasts. Leaving it like this currently to preserve sorting since the different
-            // downcasts have no defined sort order (yet).
-            foreach (var blockItem in block.BlockItems.OfType<ItemLevelBlockItem>())
-            {
-                AddNumericFilterPredicateBlockItemToString(ref outputString, blockItem);
-            }
-
-            foreach (var blockItem in block.BlockItems.OfType<DropLevelBlockItem>())
-            {
-                AddNumericFilterPredicateBlockItemToString(ref outputString, blockItem);
-            }
-
-            foreach (var blockItem in block.BlockItems.OfType<QualityBlockItem>())
-            {
-                AddNumericFilterPredicateBlockItemToString(ref outputString, blockItem);
-            }
-
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (var blockItem in block.BlockItems.OfType<RarityBlockItem>())
+            foreach (var blockItem in block.BlockItems.Where(b => b.GetType() != typeof(ActionBlockItem)).OrderBy(b => b.SortOrder))
             {
-                outputString += _newLine + "Rarity " +
-                                blockItem.FilterPredicate.PredicateOperator
-                                    .GetAttributeDescription() +
-                                " " +
-                                ((ItemRarity) blockItem.FilterPredicate.PredicateOperand)
-                                    .GetAttributeDescription();
-            }
-
-            foreach (var blockItem in block.BlockItems.OfType<ClassBlockItem>())
-            {
-                AddStringListBlockItemToString(ref outputString, blockItem);
-            }
-
-            foreach (var blockItem in block.BlockItems.OfType<BaseTypeBlockItem>())
-            {
-                AddStringListBlockItemToString(ref outputString, blockItem);
-            }
-
-            foreach (var blockItem in block.BlockItems.OfType<SocketsBlockItem>())
-            {
-                AddNumericFilterPredicateBlockItemToString(ref outputString, blockItem);
-            }
-
-            foreach (var blockItem in block.BlockItems.OfType<LinkedSocketsBlockItem>())
-            {
-                AddNumericFilterPredicateBlockItemToString(ref outputString, blockItem);
-            }
-
-            foreach (var blockItem in block.BlockItems.OfType<WidthBlockItem>())
-            {
-                AddNumericFilterPredicateBlockItemToString(ref outputString, blockItem);
-            }
-
-            foreach (var blockItem in block.BlockItems.OfType<HeightBlockItem>())
-            {
-                AddNumericFilterPredicateBlockItemToString(ref outputString, blockItem);
-            }
-
-            foreach (var blockItem in block.BlockItems.OfType<SocketGroupBlockItem>())
-            {
-                AddStringListBlockItemToString(ref outputString, blockItem);
-            }
-
-            if (block.BlockItems.Count(b => b is TextColorBlockItem) > 0)
-            {
-                // Only add the first TextColorBlockItem type (not that we should ever have more than one).
-                AddColorBlockItemToString(ref outputString, block.BlockItems.OfType<TextColorBlockItem>().First());
-            }
-
-            if (block.BlockItems.Count(b => b.GetType() == typeof(BackgroundColorBlockItem)) > 0)
-            {
-                // Only add the first BackgroundColorBlockItem type (not that we should ever have more than one).
-                AddColorBlockItemToString(ref outputString, block.BlockItems.OfType<BackgroundColorBlockItem>().First());
-            }
-
-            if (block.BlockItems.Count(b => b.GetType() == typeof(BorderColorBlockItem)) > 0)
-            {
-                // Only add the first BorderColorBlockItem (not that we should ever have more than one).
-                AddColorBlockItemToString(ref outputString, block.BlockItems.OfType<BorderColorBlockItem>().First());
-            }
-
-            if (block.BlockItems.Count(b => b.GetType() == typeof(FontSizeBlockItem)) > 0)
-            {
-                outputString += _newLine + "SetFontSize " +
-                                block.BlockItems.OfType<FontSizeBlockItem>().First().Value;
-            }
-
-            if (block.BlockItems.Count(b => b.GetType() == typeof(SoundBlockItem)) > 0)
-            {
-                var blockItemValue = block.BlockItems.OfType<SoundBlockItem>().First();
-                outputString += _newLine + "PlayAlertSound " + blockItemValue.Value + " " + blockItemValue.SecondValue;
+                if (blockItem.OutputText != string.Empty)
+                {
+                    outputString += _newLine + blockItem.OutputText;
+                }
             }
             
             return outputString;
-        }
-
-        private void AddNumericFilterPredicateBlockItemToString(ref string targetString, NumericFilterPredicateBlockItem blockItem)
-        {
-            targetString += _newLine + blockItem.PrefixText + " " +
-                            blockItem.FilterPredicate.PredicateOperator.GetAttributeDescription() +
-                            " " + blockItem.FilterPredicate.PredicateOperand;
-        }
-
-        private void AddStringListBlockItemToString(ref string targetString, StringListBlockItem blockItem)
-        {
-            
-            var enumerable = blockItem.Items as IList<string> ?? blockItem.Items.ToList();
-            if (enumerable.Count > 0)
-            {
-                targetString += _newLine + blockItem.PrefixText + " " +
-                                string.Format("\"{0}\"",
-                                    string.Join("\" \"", enumerable.ToArray()));
-            }
-        }
-
-        private void AddColorBlockItemToString(ref string targetString, ColorBlockItem blockItem)
-        {
-            targetString += _newLine + blockItem.PrefixText + " " + blockItem.Color.R + " " + blockItem.Color.G + " "
-                            + blockItem.Color.B + (blockItem.Color.A < 255 ? " " + blockItem.Color.A : string.Empty);
         }
     }
 }

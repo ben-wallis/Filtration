@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media;
 using Filtration.Enums;
+using Filtration.Extensions;
 
 namespace Filtration.Models.BlockItemBaseTypes
 {
@@ -23,6 +24,11 @@ namespace Filtration.Models.BlockItemBaseTypes
                 OnPropertyChanged("SummaryBackgroundColor");
                 OnPropertyChanged("SummaryTextColor");
             }
+        }
+
+        public override string OutputText
+        {
+            get { return Action.GetAttributeDescription(); }
         }
 
         public override string PrefixText

@@ -15,10 +15,22 @@ namespace Filtration.Models.BlockItemTypes
             : base(predicateOperator, predicateOperand)
         {
         }
-
+        
         public override string PrefixText
         {
             get { return "Rarity"; }
+        }
+
+        public override string OutputText
+        {
+            get
+            {
+                return PrefixText + " " + FilterPredicate.PredicateOperator
+                    .GetAttributeDescription() +
+                       " " +
+                       ((ItemRarity) FilterPredicate.PredicateOperand)
+                           .GetAttributeDescription();
+            }
         }
 
         public override int MaximumAllowed

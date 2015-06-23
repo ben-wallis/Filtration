@@ -8,6 +8,7 @@ namespace Filtration.Models.BlockItemBaseTypes
     abstract class BlockItemBase : IItemFilterBlockItem
     {
         public abstract string PrefixText { get; }
+        public abstract string OutputText { get; }
         public abstract int MaximumAllowed { get; }
         public abstract string DisplayHeading { get; }
         public abstract string SummaryText { get; }

@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 
 namespace Filtration.Models.BlockItemBaseTypes
 {
@@ -9,6 +11,22 @@ namespace Filtration.Models.BlockItemBaseTypes
         {
             Items = new ObservableCollection<string>();
             Items.CollectionChanged += OnItemsCollectionChanged;
+        }
+
+        public override string OutputText
+        {
+            get
+            {
+                var enumerable = Items as IList<string> ?? Items.ToList();
+                if (enumerable.Count > 0)
+                {
+                    return PrefixText + " " +
+                           string.Format("\"{0}\"",
+                               string.Join("\" \"", enumerable.ToArray()));
+                }
+
+                return string.Empty;
+            }
         }
 
         public ObservableCollection<string> Items { get; protected set; }

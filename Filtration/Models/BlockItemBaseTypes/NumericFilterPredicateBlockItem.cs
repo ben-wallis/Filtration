@@ -1,5 +1,6 @@
 ﻿using System;
 using Filtration.Enums;
+using Filtration.Extensions;
 
 namespace Filtration.Models.BlockItemBaseTypes
 {
@@ -17,6 +18,15 @@ namespace Filtration.Models.BlockItemBaseTypes
         {
             FilterPredicate = new NumericFilterPredicate(predicateOperator, predicateOperand);
             FilterPredicate.PropertyChanged += OnFilterPredicateChanged;
+        }
+
+        public override string OutputText
+        {
+            get
+            {
+                return PrefixText + " " + FilterPredicate.PredicateOperator.GetAttributeDescription() +
+                       " " + FilterPredicate.PredicateOperand;
+            }
         }
 
         public abstract int Minimum { get; }

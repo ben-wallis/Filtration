@@ -15,6 +15,15 @@ namespace Filtration.Models.BlockItemBaseTypes
             Color = color;
         }
 
+        public override string OutputText
+        {
+            get
+            {
+                return PrefixText + " " + +Color.R + " " + Color.G + " "
+                       + Color.B + (Color.A < 255 ? " " + Color.A : string.Empty);
+            }
+        }
+
         public override string SummaryText
         {
             get { return string.Empty; }
