@@ -34,5 +34,17 @@ namespace Filtration.Properties {
                 this["DefaultFilterDirectory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ExtraLineBetweenBlocks {
+            get {
+                return ((bool)(this["ExtraLineBetweenBlocks"]));
+            }
+            set {
+                this["ExtraLineBetweenBlocks"] = value;
+            }
+        }
     }
 }

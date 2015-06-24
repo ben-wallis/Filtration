@@ -26,19 +26,11 @@
         </ToolBar>
         
         <TreeView Grid.Row="1" ItemsSource="{Binding BlockGroupViewModels}" Name="TreeView">
-            <TreeView.Style>
-                <Style TargetType="{x:Type TreeView}"></Style>
-            </TreeView.Style>
             <i:Interaction.Behaviors>
                 <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding SelectedBlockGroupViewModel, Mode=OneWayToSource}" />
             </i:Interaction.Behaviors>
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type viewModels:ItemFilterBlockGroupViewModel}" ItemsSource="{Binding ChildGroups}">
-                    <HierarchicalDataTemplate.ItemContainerStyle>
-                        <Style TargetType="{x:Type TreeViewItem}">
-                            <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
-                        </Style>
-                    </HierarchicalDataTemplate.ItemContainerStyle>
                     <WrapPanel>
                             <CheckBox IsThreeState="True" IsChecked="{Binding IsChecked}" Click="BlockGroupCheckBox_Clicked" />
                             <TextBlock Text="{Binding GroupName}" Foreground="{Binding Advanced, Converter={StaticResource BlockGroupAdvancedColorConverter}}" />

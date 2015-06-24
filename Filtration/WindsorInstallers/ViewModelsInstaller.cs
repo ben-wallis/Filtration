@@ -56,6 +56,11 @@ namespace Filtration.WindsorInstallers
                     .ImplementedBy<BlockOutputPreviewViewModel>()
                     .LifeStyle.Singleton);
 
+            container.Register(
+                Component.For<ISettingsWindowViewModel>()
+                    .ImplementedBy<SettingsWindowViewModel>()
+                    .LifeStyle.Transient);
+
             container.AddFacility<TypedFactoryFacility>();
             container.Register(
                 Component.For<IItemFilterBlockViewModelFactory>().AsFactory());

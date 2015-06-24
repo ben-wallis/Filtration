@@ -24,20 +24,24 @@ namespace Filtration.ViewModels
         private readonly IItemFilterScriptTranslator _itemFilterScriptTranslator;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
         private readonly IAvalonDockWorkspaceViewModel _avalonDockWorkspaceViewModel;
+        private readonly ISettingsWindowViewModel _settingsWindowViewModel;
 
         private IDocument _activeDocument;
 
         public MainWindowViewModel(IItemFilterScriptRepository itemFilterScriptRepository,
                                    IItemFilterScriptTranslator itemFilterScriptTranslator,
                                    IReplaceColorsViewModel replaceColorsViewModel,
-                                   IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel)
+                                   IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
+                                   ISettingsWindowViewModel settingsWindowViewModel)
         {
             _itemFilterScriptRepository = itemFilterScriptRepository;
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
             _replaceColorsViewModel = replaceColorsViewModel;
             _avalonDockWorkspaceViewModel = avalonDockWorkspaceViewModel;
+            _settingsWindowViewModel = settingsWindowViewModel;
 
             OpenAboutWindowCommand = new RelayCommand(OnOpenAboutWindowCommand);
+            OpenSettingsWindowCommand = new RelayCommand(OnOpenSettingsWindowCommand);
             OpenScriptCommand = new RelayCommand(OnOpenScriptCommand);
             SaveScriptCommand = new RelayCommand(OnSaveScriptCommand, ActiveDocumentIsScript);
             SaveScriptAsCommand = new RelayCommand(OnSaveScriptAsCommand, ActiveDocumentIsScript);
@@ -95,6 +99,7 @@ namespace Filtration.ViewModels
         public RelayCommand NewScriptCommand { get; private set; }
         public RelayCommand CloseScriptCommand { get; private set; }
         public RelayCommand OpenAboutWindowCommand { get; private set; }
+        public RelayCommand OpenSettingsWindowCommand { get; private set; }
         public RelayCommand ReplaceColorsCommand { get; private set; }
 
         public IAvalonDockWorkspaceViewModel AvalonDockWorkspaceViewModel
@@ -121,6 +126,13 @@ namespace Filtration.ViewModels
         {
             var aboutWindow = new AboutWindow();
             aboutWindow.ShowDialog();
+        }
+
+        private void OnOpenSettingsWindowCommand()
+        {
+            var settingsWindow = new SettingsWindow {DataContext = _settingsWindowViewModel};
+            _settingsWindowViewModel.OnRequestClose += (s, e) => settingsWindow.Close();
+            settingsWindow.ShowDialog();
         }
 
         private void OnOpenScriptCommand()
