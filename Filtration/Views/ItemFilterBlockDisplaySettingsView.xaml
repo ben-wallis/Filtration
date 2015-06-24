@@ -6,9 +6,9 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
              xmlns:viewModels="clr-namespace:Filtration.ViewModels"
-             xmlns:blockItemBaseTypes="clr-namespace:Filtration.Models.BlockItemBaseTypes"
-             xmlns:blockItemTypes="clr-namespace:Filtration.Models.BlockItemTypes"
+             xmlns:blockItembaseTypes="clr-namespace:Filtration.ObjectModel.BlockItemBaseTypes;assembly=Filtration.ObjectModel"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:blockItemTypes="clr-namespace:Filtration.ObjectModel.BlockItemTypes;assembly=Filtration.ObjectModel"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewModels:ItemFilterBlockViewModel}"
              d:DesignHeight="120" d:DesignWidth="175">
@@ -54,7 +54,7 @@
                         <Setter Property="Margin" Value="0,0,5,0" />
                         <Setter Property="VerticalAlignment" Value="Center" />
                     </Style>
-                    <DataTemplate DataType="{x:Type blockItemBaseTypes:ColorBlockItem}">
+                    <DataTemplate DataType="{x:Type blockItembaseTypes:ColorBlockItem}">
                         <Grid Margin="0,0,0,2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition SharedSizeGroup="AudioVisualBlockItemTitleColumn" Width="*"  />
@@ -66,7 +66,7 @@
                             <userControls:CrossButton Grid.Column="2" Height="12" Command="{Binding ElementName=SettingsGrid, Path=DataContext.RemoveAudioVisualBlockItemCommand}" CommandParameter="{Binding}" />
                         </Grid>
                     </DataTemplate>
-                    <DataTemplate DataType="{x:Type blockItemBaseTypes:IntegerBlockItem}">
+                    <DataTemplate DataType="{x:Type blockItembaseTypes:IntegerBlockItem}">
                         <Grid Margin="0,0,0,2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition SharedSizeGroup="AudioVisualBlockItemTitleColumn" Width="*"  />

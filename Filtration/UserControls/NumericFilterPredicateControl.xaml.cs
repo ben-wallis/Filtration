@@ -2,8 +2,8 @@
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Filtration.Annotations;
-using Filtration.Enums;
-using Filtration.Models;
+using Filtration.ObjectModel;
+using Filtration.ObjectModel.Enums;
 
 namespace Filtration.UserControls
 {

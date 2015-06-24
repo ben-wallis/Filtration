@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using Filtration.Models;
+using Filtration.ObjectModel;
 using Filtration.Services;
 using Filtration.Translators;
 using Moq;
@@ -75,7 +75,7 @@ namespace Filtration.Tests.Services
             var service = new ItemFilterPersistenceService(mockFileSystemService.Object, mockItemFilterScriptTranslator.Object);
 
             // Act
-            var result = service.DefaultPathOfExileDirectory();
+            service.DefaultPathOfExileDirectory();
 
             // Assert
             mockFileSystemService.Verify();

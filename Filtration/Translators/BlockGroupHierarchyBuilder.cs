@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Filtration.Models;
+using Filtration.ObjectModel;
 
 namespace Filtration.Translators
 {

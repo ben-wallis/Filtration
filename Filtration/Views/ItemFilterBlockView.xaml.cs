@@ -1,5 +1,5 @@
-﻿using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Filtration.Views
 {
@@ -12,7 +12,7 @@ namespace Filtration.Views
 
         private void BlockExpander_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var originalSource = e.OriginalSource as System.Windows.Media.Visual;
+            var originalSource = e.OriginalSource as Visual;
             if (originalSource != null && originalSource.IsDescendantOf(BlockItemsGrid))
             {
                 return;

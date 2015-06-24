@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Filtration.Enums;
-using Filtration.Models;
-using Filtration.Models.BlockItemTypes;
+using Filtration.ObjectModel;
+using Filtration.ObjectModel.BlockItemTypes;
+using Filtration.ObjectModel.Enums;
 using Filtration.Translators;
 using Moq;
 using NUnit.Framework;
@@ -71,7 +71,7 @@ namespace Filtration.Tests.Translators
             var translator = new ItemFilterScriptTranslator(blockTranslator, mockBlockGroupHierarchyBuilder.Object);
 
             // Act
-            var script = translator.TranslateStringToItemFilterScript(testInput);
+            translator.TranslateStringToItemFilterScript(testInput);
             // Assert
             // Not crashing out when loading a huge script means this integration test has passed!
         }
@@ -85,7 +85,7 @@ namespace Filtration.Tests.Translators
             var testBlock = new ItemFilterBlock();
             testBlock.BlockItems.Add(new ItemLevelBlockItem(FilterPredicateOperator.Equal, 5));
 
-            var BlockOutput = "Test Script Output";
+            const string BlockOutput = "Test Script Output";
 
             testScript.ItemFilterBlocks.Add(testBlock);
 
@@ -93,7 +93,7 @@ namespace Filtration.Tests.Translators
 
 
             // Act
-            var result = _testUtility.ScriptTranslator.TranslateItemFilterScriptToString(testScript);
+            _testUtility.ScriptTranslator.TranslateItemFilterScriptToString(testScript);
 
             // Assert
             _testUtility.MockItemFilterBlockTranslator.Verify();

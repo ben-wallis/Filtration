@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
-using Filtration.Enums;
-using Filtration.Extensions;
-using Filtration.Models;
-using Filtration.Models.BlockItemBaseTypes;
-using Filtration.Models.BlockItemTypes;
+using Filtration.ObjectModel;
+using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.BlockItemTypes;
+using Filtration.ObjectModel.Enums;
+using Filtration.ObjectModel.Extensions;
 using Filtration.Utilities;
 
 namespace Filtration.Translators

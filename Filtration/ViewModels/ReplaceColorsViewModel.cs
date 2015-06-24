@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
-using Filtration.Models;
-using Filtration.Models.BlockItemTypes;
+using Filtration.ObjectModel;
+using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
 using Xceed.Wpf.Toolkit;

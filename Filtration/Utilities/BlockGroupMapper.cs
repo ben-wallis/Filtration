@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using AutoMapper;
-using Filtration.Models;
+using Filtration.ObjectModel;
 using Filtration.ViewModels;
 
 namespace Filtration.Utilities

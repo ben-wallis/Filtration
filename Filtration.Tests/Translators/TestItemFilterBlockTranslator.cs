@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
-using Filtration.Enums;
-using Filtration.Models;
-using Filtration.Models.BlockItemBaseTypes;
-using Filtration.Models.BlockItemTypes;
+using Filtration.ObjectModel;
+using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.BlockItemTypes;
+using Filtration.ObjectModel.Enums;
 using Filtration.Translators;
 using Moq;
 using NUnit.Framework;
@@ -49,7 +49,7 @@ namespace Filtration.Tests.Translators
 
             // Act
             _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Returns(inputBlockGroup).Verifiable();
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
+            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             _testUtility.MockBlockGroupHierarchyBuilder.Verify();
@@ -93,7 +93,7 @@ namespace Filtration.Tests.Translators
 
             // Act
             _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Verifiable();
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
+            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             _testUtility.MockBlockGroupHierarchyBuilder.Verify(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>()), Times.Never);
@@ -107,7 +107,7 @@ namespace Filtration.Tests.Translators
 
             // Act
             _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Verifiable();
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
+            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
 
             // Assert
             _testUtility.MockBlockGroupHierarchyBuilder.Verify(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>()), Times.Never);
@@ -1211,7 +1211,7 @@ namespace Filtration.Tests.Translators
         public void TranslateItemFilterBlockToString_Section_ReturnsCorrectString()
         {
             // Arrange
-            var TestInputSectionText = "Ermagerd it's a section!";
+            const string TestInputSectionText = "Ermagerd it's a section!";
             var expectedResult = "# Section: " + TestInputSectionText;
 
             _testUtility.TestBlock = new ItemFilterSection { Description = TestInputSectionText };
@@ -1233,14 +1233,14 @@ namespace Filtration.Tests.Translators
                                  "    DropLevel != 56" + Environment.NewLine +
                                  "    Quality > 2" + Environment.NewLine +
                                  "    Rarity = Unique" + Environment.NewLine +
-                                 "    Class \"Body Armour\" \"Gloves\" \"Belt\" \"Two Hand Axes\"" + Environment.NewLine +
-                                 "    BaseType \"Greater Life Flask\" \"Simple Robe\" \"Full Wyrmscale\"" +
-                                 Environment.NewLine +
                                  "    Sockets <= 6" + Environment.NewLine +
                                  "    LinkedSockets >= 4" + Environment.NewLine +
                                  "    Width = 3" + Environment.NewLine +
                                  "    Height <= 6" + Environment.NewLine +
                                  "    Height >= 2" + Environment.NewLine +
+                                 "    Class \"Body Armour\" \"Gloves\" \"Belt\" \"Two Hand Axes\"" + Environment.NewLine +
+                                 "    BaseType \"Greater Life Flask\" \"Simple Robe\" \"Full Wyrmscale\"" +
+                                 Environment.NewLine +
                                  "    SetTextColor 255 89 0 56" + Environment.NewLine +
                                  "    SetBackgroundColor 0 0 0" + Environment.NewLine +
                                  "    SetBorderColor 255 1 254" + Environment.NewLine +

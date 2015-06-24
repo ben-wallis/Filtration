@@ -7,10 +7,10 @@
              xmlns:userControls="clr-namespace:Filtration.UserControls"
              xmlns:views="clr-namespace:Filtration.Views"
              xmlns:converters="clr-namespace:Filtration.Converters"
-             xmlns:blockItemBaseTypes="clr-namespace:Filtration.Models.BlockItemBaseTypes"
-             xmlns:blockItemTypes="clr-namespace:Filtration.Models.BlockItemTypes"
-             xmlns:enums="clr-namespace:Filtration.Enums"
              xmlns:extensions="clr-namespace:Filtration.Extensions"
+             xmlns:blockItemBaseTypes="clr-namespace:Filtration.ObjectModel.BlockItemBaseTypes;assembly=Filtration.ObjectModel"
+             xmlns:blockItemTypes="clr-namespace:Filtration.ObjectModel.BlockItemTypes;assembly=Filtration.ObjectModel"
+             xmlns:enums="clr-namespace:Filtration.ObjectModel.Enums;assembly=Filtration.ObjectModel"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewModels:ItemFilterBlockViewModel}"
              d:DesignHeight="200" d:DesignWidth="800">

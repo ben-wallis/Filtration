@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Castle.Core.Internal;
-using Filtration.Models;
+using Filtration.ObjectModel;
 using Filtration.Utilities;
 
 namespace Filtration.Translators

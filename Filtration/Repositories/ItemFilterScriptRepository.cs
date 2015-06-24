@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Filtration.Models;
+using Filtration.ObjectModel;
 using Filtration.Services;
 using Filtration.ViewModels;
 

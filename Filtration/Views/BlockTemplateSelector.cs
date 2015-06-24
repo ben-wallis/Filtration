@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Filtration.Models;
+using Filtration.ObjectModel;
 using Filtration.ViewModels;
 
 namespace Filtration.Views

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using Filtration.Models;
+using Filtration.ObjectModel;
 
 namespace Filtration.Converters
 {

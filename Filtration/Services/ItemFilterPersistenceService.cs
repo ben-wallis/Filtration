@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using Filtration.Models;
+using Filtration.ObjectModel;
 using Filtration.Translators;
 
 namespace Filtration.Services
