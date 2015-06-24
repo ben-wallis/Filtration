@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Castle.Core.Internal;
 using Filtration.ObjectModel;
+using Filtration.Properties;
 using Filtration.Utilities;
 
 namespace Filtration.Translators
@@ -111,7 +112,12 @@ namespace Filtration.Translators
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var block in script.ItemFilterBlocks)
             {
-                outputString += _blockTranslator.TranslateItemFilterBlockToString(block) + Environment.NewLine + Environment.NewLine;
+                outputString += _blockTranslator.TranslateItemFilterBlockToString(block) + Environment.NewLine;
+
+                if (Settings.Default.ExtraLineBetweenBlocks)
+                {
+                    outputString += Environment.NewLine;
+                }
             }
 
             return outputString;

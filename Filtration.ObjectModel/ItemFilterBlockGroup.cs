@@ -44,14 +44,14 @@ namespace Filtration.ObjectModel
         {
             var currentBlockGroup = this;
 
-            var outputString = GroupName;
+            var outputString = (Advanced ? "~" : string.Empty) + GroupName;
 
             // TODO: This is retarded, fix this.
             if (currentBlockGroup.ParentGroup != null)
             {
                 while (currentBlockGroup.ParentGroup.ParentGroup != null)
                 {
-                    outputString = currentBlockGroup.ParentGroup.GroupName + " - " + outputString;
+                    outputString = (currentBlockGroup.ParentGroup.Advanced ? "~" : string.Empty) + currentBlockGroup.ParentGroup.GroupName + " - " + outputString;
                     currentBlockGroup = currentBlockGroup.ParentGroup;
                 }
             }

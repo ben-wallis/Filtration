@@ -89,10 +89,12 @@
                     <xcad:LayoutAnchorablePane Name="SectionBrowserPane" DockWidth="150" />
                     <xcad:LayoutPanel Orientation="Vertical">
                         <xcad:LayoutDocumentPane />
-                        <xcad:LayoutAnchorablePane Name="BlockOutputPreviewPane" DockHeight="100">
-                        </xcad:LayoutAnchorablePane>
+                        
                     </xcad:LayoutPanel>
-                    <xcad:LayoutAnchorablePane Name="BlockGroupBrowserPane" DockWidth="200" />
+                    <xcad:LayoutAnchorablePaneGroup DockWidth="200" Orientation="Vertical">
+                        <xcad:LayoutAnchorablePane Name="BlockGroupBrowserPane" />
+                        <xcad:LayoutAnchorablePane Name="BlockOutputPreviewPane" />
+                    </xcad:LayoutAnchorablePaneGroup>
                 </xcad:LayoutPanel>
             </xcad:LayoutRoot>
         </xcad:DockingManager>
