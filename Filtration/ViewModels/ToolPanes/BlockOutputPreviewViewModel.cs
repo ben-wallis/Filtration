@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Windows.Media.Imaging;
+using Filtration.Translators;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace Filtration.ViewModels.ToolPanes
 {
     internal interface IBlockOutputPreviewViewModel : IToolViewModel
     {
         bool IsVisible { get; set; }
+        void ClearDown();
     }
 
     internal class BlockOutputPreviewViewModel : ToolViewModel, IBlockOutputPreviewViewModel
     {
-        public BlockOutputPreviewViewModel() : base("Block Output Preview")
+        private readonly IItemFilterBlockTranslator _itemFilterBlockTranslator;
+        private string _previewText;
+
+        public BlockOutputPreviewViewModel(IItemFilterBlockTranslator itemFilterBlockTranslator) : base("Block Output Preview")
         {
+            _itemFilterBlockTranslator = itemFilterBlockTranslator;
             ContentId = ToolContentId;
             var icon = new BitmapImage();
             icon.BeginInit();
@@ -19,10 +26,56 @@ namespace Filtration.ViewModels.ToolPanes
             icon.EndInit();
             IconSource = icon;
 
-           IsVisible = false;
+            IsVisible = false;
+
+            Messenger.Default.Register<NotificationMessage>(this, message =>
+            {
+                switch (message.Notification)
+                {
+                    case "SelectedBlockChanged":
+                    {
+                        OnSelectedBlockChanged(null, null);
+                        break;
+                    }
+                    case "ActiveDocumentChanged":
+                    {
+                        OnSelectedBlockChanged(null, null);
+                        break;
+                    }
+                }
+            });
+
+        }
+        
+        public const string ToolContentId = "BlockOutputPreviewTool";
+
+        public string PreviewText
+        {
+            get { return _previewText; }
+            private set
+            {
+                _previewText = value;
+                RaisePropertyChanged();
+            }
         }
 
+        public void ClearDown()
+        {
+            PreviewText = string.Empty;
+        }
 
-        public const string ToolContentId = "BlockOutputPreviewTool";
+        private void OnSelectedBlockChanged(object sender, EventArgs e)
+        {
+            if (AvalonDockWorkspaceViewModel.ActiveScriptViewModel == null ||
+                AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel == null)
+            {
+                PreviewText = string.Empty;
+                return;
+            }
+
+            PreviewText =
+                _itemFilterBlockTranslator.TranslateItemFilterBlockToString(
+                    AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel.Block);
+        }
     }
 }

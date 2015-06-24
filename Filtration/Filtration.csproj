@@ -121,6 +121,7 @@
     <Compile Include="Services\FileSystemService.cs" />
     <Compile Include="Services\ItemFilterPersistenceService.cs" />
     <Compile Include="Services\StaticDataService.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Translators\BlockGroupHierarchyBuilder.cs" />
     <Compile Include="Translators\ItemFilterBlockTranslator.cs" />
     <Compile Include="Translators\ItemFilterScriptTranslator.cs" />
@@ -346,6 +347,8 @@
     <Resource Include="Resources\Icons\filter_icon.png" />
     <Resource Include="Resources\Icons\show_advanced_icon.png" />
     <Resource Include="Resources\Icons\block_output_preview_icon.png" />
+    <Resource Include="Resources\Icons\collapse_icon.png" />
+    <Resource Include="Resources\Icons\expand_icon.png" />
     <Content Include="Resources\ItemBaseTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

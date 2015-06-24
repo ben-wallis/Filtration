@@ -40,6 +40,7 @@ namespace Filtration.ViewModels
 
             _sectionBrowserViewModel.Initialise(this);
             _blockGroupBrowserViewModel.Initialise(this);
+            _blockOutputPreviewViewModel.Initialise(this);
 
             _openDocuments = new ObservableCollection<IDocument> {startPageViewModel};
             ActiveDocument = startPageViewModel;
@@ -135,6 +136,7 @@ namespace Filtration.ViewModels
             {
                 _sectionBrowserViewModel.ClearDown();
                 _blockGroupBrowserViewModel.ClearDown();
+                _blockOutputPreviewViewModel.ClearDown();
             }
 
             OpenDocuments.Remove(document);

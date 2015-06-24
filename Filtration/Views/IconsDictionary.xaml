@@ -22,4 +22,6 @@
     <Image Source="/Filtration;component/Resources/Icons/show_advanced_icon.png" x:Key="ShowAdvancedIcon" x:Shared="False" />
     <Image Source="/Filtration;component/Resources/Icons/block_group_browser_icon.png" x:Key="BlockGroupBrowserIcon" x:Shared="False" />
     <Image Source="/Filtration;component/Resources/Icons/block_output_preview_icon.png" x:Key="BlockOutputPreviewIcon" x:Shared="False" />
+    <Image Source="/Filtration;component/Resources/Icons/expand_icon.png" x:Key="ExpandIcon" x:Shared="False" />
+    <Image Source="/Filtration;component/Resources/Icons/collapse_icon.png" x:Key="CollapseIcon" x:Shared="False" />
 </ResourceDictionary>

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Filtration.ObjectModel;
+using Filtration.Properties;
 using Filtration.Translators;
 
 namespace Filtration.Services
@@ -23,7 +24,15 @@ namespace Filtration.Services
             _fileSystemService = fileSystemService;
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
 
-            ItemFilterScriptDirectory = DefaultPathOfExileDirectory();
+            if (string.IsNullOrEmpty(Settings.Default.DefaultFilterDirectory))
+            {
+                ItemFilterScriptDirectory = DefaultPathOfExileDirectory();
+                Settings.Default.DefaultFilterDirectory = ItemFilterScriptDirectory;
+            }
+            else
+            {
+                ItemFilterScriptDirectory = Settings.Default.DefaultFilterDirectory;
+            }
         }
 
         public string ItemFilterScriptDirectory { get; private set; }
@@ -45,6 +54,7 @@ namespace Filtration.Services
             }
 
             ItemFilterScriptDirectory = path;
+            Settings.Default.DefaultFilterDirectory = path;
         }
 
         public ItemFilterScript LoadItemFilterScript(string filePath)

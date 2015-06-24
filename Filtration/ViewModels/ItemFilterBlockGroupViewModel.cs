@@ -9,6 +9,7 @@ namespace Filtration.ViewModels
         private bool? _isChecked;
         private bool _reentrancyCheck;
         private bool _postMapComplete;
+        private bool _isExpanded;
 
         public ItemFilterBlockGroupViewModel()
         {
@@ -51,6 +52,16 @@ namespace Filtration.ViewModels
                         _reentrancyCheck = false;
                     }
                 }
+            }
+        }
+
+        public bool IsExpanded
+        {
+            get { return _isExpanded; }
+            set
+            {
+                _isExpanded = value;
+                RaisePropertyChanged();
             }
         }
 

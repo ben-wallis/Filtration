@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:toolPanes="clr-namespace:Filtration.ViewModels.ToolPanes"
+             d:DataContext="{d:DesignInstance Type=toolPanes:BlockOutputPreviewViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-            <TextBlock>This is the Block Text Preview Pane</TextBlock>
+        <TextBlock Text="{Binding PreviewText}" ToolTip="{Binding PreviewText}" Margin="10" />
     </Grid>
 </UserControl>

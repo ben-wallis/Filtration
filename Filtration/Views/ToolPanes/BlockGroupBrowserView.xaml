@@ -21,17 +21,27 @@
         </Grid.RowDefinitions>
         <ToolBar Grid.Row="0">
             <Button Height="20" Command="{Binding FilterToSelectedBlockGroupCommand}" Content="{StaticResource FilterIcon}" ToolTip="Filter to Selected Block Group" />
+            <Button Height="20" Content="{StaticResource ExpandIcon}" ToolTip="Expand All (Not Implemented)" Name="ExpandAllButton" />
+            <Button Height="20" Content="{StaticResource CollapseIcon}" ToolTip="Collapse All (Not Implemented)" Name="CollapseAllButton" />
         </ToolBar>
         
         <TreeView Grid.Row="1" ItemsSource="{Binding BlockGroupViewModels}" Name="TreeView">
+            <TreeView.Style>
+                <Style TargetType="{x:Type TreeView}"></Style>
+            </TreeView.Style>
             <i:Interaction.Behaviors>
                 <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding SelectedBlockGroupViewModel, Mode=OneWayToSource}" />
             </i:Interaction.Behaviors>
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type viewModels:ItemFilterBlockGroupViewModel}" ItemsSource="{Binding ChildGroups}">
+                    <HierarchicalDataTemplate.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                        </Style>
+                    </HierarchicalDataTemplate.ItemContainerStyle>
                     <WrapPanel>
-                        <CheckBox IsThreeState="True" IsChecked="{Binding IsChecked}" Click="BlockGroupCheckBox_Clicked"   />
-                        <TextBlock Text="{Binding GroupName}" Foreground="{Binding Advanced, Converter={StaticResource BlockGroupAdvancedColorConverter}}" />
+                            <CheckBox IsThreeState="True" IsChecked="{Binding IsChecked}" Click="BlockGroupCheckBox_Clicked" />
+                            <TextBlock Text="{Binding GroupName}" Foreground="{Binding Advanced, Converter={StaticResource BlockGroupAdvancedColorConverter}}" />
                     </WrapPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>

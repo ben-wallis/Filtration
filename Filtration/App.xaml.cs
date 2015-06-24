@@ -3,6 +3,7 @@ using System.Windows;
 using Castle.MicroKernel.ModelBuilder.Inspectors;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using Filtration.Properties;
 using Filtration.Views;
 
 namespace Filtration
@@ -31,6 +32,7 @@ namespace Filtration
         protected override void OnExit(ExitEventArgs e)
         {
             _container.Dispose();
+            Settings.Default.Save();
             base.OnExit(e);
         }
     }

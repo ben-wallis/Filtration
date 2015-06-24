@@ -165,8 +165,12 @@ namespace Filtration.ViewModels
             get { return _selectedBlockViewModel; }
             set
             {
-                _selectedBlockViewModel = value;
-                RaisePropertyChanged();
+                if (value != _selectedBlockViewModel)
+                {
+                    _selectedBlockViewModel = value;
+                    Messenger.Default.Send(new NotificationMessage("SelectedBlockChanged"));
+                    RaisePropertyChanged();
+                }
             }
         }
 
