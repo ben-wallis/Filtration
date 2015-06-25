@@ -54,7 +54,7 @@ namespace Filtration.ViewModels
                     OnRequestClose(this, new EventArgs());
                 }
             }
-            catch (DirectoryNotFoundException e)
+            catch (DirectoryNotFoundException)
             {
                 MessageBox.Show("The entered Default Filter Directory is invalid or does not exist.", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Exclamation);

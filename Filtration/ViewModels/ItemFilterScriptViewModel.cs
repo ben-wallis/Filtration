@@ -101,14 +101,8 @@ namespace Filtration.ViewModels
             {
                 _itemFilterBlockViewModelsCollectionView =
                     CollectionViewSource.GetDefaultView(_itemFilterBlockViewModels);
-                if (BlockFilterPredicate != null)
-                {
-                    _itemFilterBlockViewModelsCollectionView.Filter = BlockFilter;
-                }
-                else
-                {
-                    _itemFilterBlockViewModelsCollectionView.Filter = null;
-                }
+                _itemFilterBlockViewModelsCollectionView.Filter = BlockFilter;
+                
                 return _itemFilterBlockViewModels;
             }
         }
@@ -116,7 +110,29 @@ namespace Filtration.ViewModels
         private bool BlockFilter(object item)
         {
             var blockViewModel = item as IItemFilterBlockViewModel;
-            return BlockFilterPredicate(blockViewModel);
+
+            if (BlockFilterPredicate != null)
+            {
+                return BlockFilterPredicate(blockViewModel) && ShowBlockBasedOnAdvanced(blockViewModel);
+            }
+
+            return ShowBlockBasedOnAdvanced(blockViewModel);
+        }
+
+        private bool ShowBlockBasedOnAdvanced(IItemFilterBlockViewModel blockViewModel)
+        {
+            if (ShowAdvanced)
+            {
+                return true;
+            }
+
+            if (blockViewModel.Block.BlockGroup == null)
+            {
+                return true;
+            }
+
+            return !blockViewModel.Block.BlockGroup.Advanced;
+
         }
 
         public Predicate<IItemFilterBlockViewModel> BlockFilterPredicate
@@ -157,6 +173,7 @@ namespace Filtration.ViewModels
             {
                 _showAdvanced = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged("ItemFilterBlockViewModels");
             }
         }
 

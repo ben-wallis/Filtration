@@ -23,6 +23,11 @@ namespace Filtration.WindsorInstallers
                 Component.For<IBlockGroupHierarchyBuilder>()
                     .ImplementedBy<BlockGroupHierarchyBuilder>()
                     .LifeStyle.Singleton);
+
+            container.Register(
+                Component.For<IThemeComponentListBuilder>()
+                    .ImplementedBy<ThemeComponentListBuilder>()
+                    .LifeStyle.Singleton);
         }
     }
 }

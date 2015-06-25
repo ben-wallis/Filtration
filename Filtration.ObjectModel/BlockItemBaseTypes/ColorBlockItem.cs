@@ -1,4 +1,5 @@
 ﻿using System.Windows.Media;
+using Filtration.ThemeEditor.Models;
 
 namespace Filtration.ObjectModel.BlockItemBaseTypes
 {
@@ -20,7 +21,8 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
             get
             {
                 return PrefixText + " " + +Color.R + " " + Color.G + " "
-                       + Color.B + (Color.A < 255 ? " " + Color.A : string.Empty);
+                       + Color.B + (Color.A < 255 ? " " + Color.A : string.Empty) +
+                       (ThemeComponent != null ? " # " + ThemeComponent.ComponentName : string.Empty);
             }
         }
 
@@ -28,6 +30,8 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
         {
             get { return string.Empty; }
         }
+
+        public ThemeComponent ThemeComponent { get; set; }
 
         public override Color SummaryBackgroundColor { get { return Colors.Transparent; } }
         public override Color SummaryTextColor { get { return Colors.Transparent; } }

@@ -6,6 +6,7 @@ using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
+using Filtration.ThemeEditor.Models;
 using Filtration.Translators;
 using Moq;
 using NUnit.Framework;
@@ -490,7 +491,28 @@ namespace Filtration.Tests.Translators
             Assert.AreEqual(255, blockItem.Color.R);
             Assert.AreEqual(20, blockItem.Color.G);
             Assert.AreEqual(100, blockItem.Color.B);
+        }
 
+        [Test]
+        public void TranslateStringToItemFilterBlock_SetTextColorWithThemeComponent_CallsThemeListBuilderAddComponent()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    SetTextColor 255 20 100 # Rare Item Text";
+            var testComponent = new ThemeComponent(typeof(TextColorBlockItem), "testComponent", new Color());
+
+            _testUtility.MockThemeComponentListBuilder.Setup(
+                t =>
+                    t.AddComponent(typeof (TextColorBlockItem), "Rare Item Text",
+                        new Color {A = 255, R = 255, G = 20, B = 100})).Returns(testComponent).Verifiable();
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
+
+            // Assert
+            var blockItem = result.BlockItems.OfType<TextColorBlockItem>().First();
+            Assert.AreSame(testComponent, blockItem.ThemeComponent);
+            _testUtility.MockThemeComponentListBuilder.Verify();
         }
 
         [Test]
@@ -1086,6 +1108,27 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
+        public void TranslateItemFilterBlockToString_TextColorWithThemeComponent_ReturnsCorrectString()
+        {
+            // Arrange
+            var expectedResult = "Show" + Environment.NewLine +
+                                 "    SetTextColor 54 102 255 # Test Theme Component";
+
+            var blockItem = new TextColorBlockItem(new Color {A = 255, R = 54, G = 102, B = 255})
+            {
+                ThemeComponent = new ThemeComponent(typeof (TextColorBlockItem), "Test Theme Component", new Color())
+            };
+
+            _testUtility.TestBlock.BlockItems.Add(blockItem);
+
+            // Act
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
         public void TranslateItemFilterBlockToString_TextColorNotMaxAlpha_ReturnsCorrectString()
         {
             // Arrange
@@ -1291,13 +1334,16 @@ namespace Filtration.Tests.Translators
 
                 // Mock setups
                 MockBlockGroupHierarchyBuilder = new Mock<IBlockGroupHierarchyBuilder>();
+                MockThemeComponentListBuilder = new Mock<IThemeComponentListBuilder>();
 
                 // Class under test instantiation
-                Translator = new ItemFilterBlockTranslator(MockBlockGroupHierarchyBuilder.Object);
+                Translator = new ItemFilterBlockTranslator(MockBlockGroupHierarchyBuilder.Object,
+                    MockThemeComponentListBuilder.Object);
             }
 
             public ItemFilterBlock TestBlock { get; set; }
             public Mock<IBlockGroupHierarchyBuilder> MockBlockGroupHierarchyBuilder { get; private set; }
+            public Mock<IThemeComponentListBuilder> MockThemeComponentListBuilder { get; private set; }
             public ItemFilterBlockTranslator Translator { get; private set; }
         }
     }

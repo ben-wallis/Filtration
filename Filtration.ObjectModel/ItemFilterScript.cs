@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Filtration.ObjectModel.BlockItemTypes;
+using Filtration.ThemeEditor.Models;
 
 namespace Filtration.ObjectModel
 {
@@ -15,10 +16,13 @@ namespace Filtration.ObjectModel
             {
                 new ItemFilterBlockGroup("Root", null)
             };
+            ThemeComponents = new List<ThemeComponent>();
         }
 
         public ObservableCollection<ItemFilterBlock> ItemFilterBlocks { get; private set; }
-        public ObservableCollection<ItemFilterBlockGroup> ItemFilterBlockGroups { get; private set; } 
+        public ObservableCollection<ItemFilterBlockGroup> ItemFilterBlockGroups { get; private set; }
+
+        public List<ThemeComponent> ThemeComponents { get; set; } 
 
         public string FilePath { get; set; }
         public string Description { get; set; }
@@ -38,7 +42,6 @@ namespace Filtration.ObjectModel
 
         public void ReplaceColors(ReplaceColorsParameterSet replaceColorsParameterSet)
         {
-
             foreach (
                 var block in
                     ItemFilterBlocks.Where(b => BlockIsColorReplacementCandidate(replaceColorsParameterSet, b)))
@@ -59,7 +62,6 @@ namespace Filtration.ObjectModel
                     borderColorBlockItem.Color = replaceColorsParameterSet.NewBorderColor;
                 }
             }
-
         }
 
         private bool BlockIsColorReplacementCandidate(ReplaceColorsParameterSet replaceColorsParameterSet, ItemFilterBlock block)

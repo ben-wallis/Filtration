@@ -20,11 +20,15 @@ namespace Filtration.Translators
     {
         private readonly IItemFilterBlockTranslator _blockTranslator;
         private readonly IBlockGroupHierarchyBuilder _blockGroupHierarchyBuilder;
+        private readonly IThemeComponentListBuilder _themeComponentListBuilder;
 
-        public ItemFilterScriptTranslator(IItemFilterBlockTranslator blockTranslator, IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder)
+        public ItemFilterScriptTranslator(IItemFilterBlockTranslator blockTranslator,
+                                          IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder,
+                                          IThemeComponentListBuilder themeComponentListBuilder)
         {
             _blockTranslator = blockTranslator;
             _blockGroupHierarchyBuilder = blockGroupHierarchyBuilder;
+            _themeComponentListBuilder = themeComponentListBuilder;
         }
 
         public ItemFilterScript TranslateStringToItemFilterScript(string inputString)
@@ -51,6 +55,8 @@ namespace Filtration.Translators
                 script.Description = script.Description.TrimEnd('\n').TrimEnd('\r');
             }
 
+            _themeComponentListBuilder.Initialise();
+
             // Extract each block from between boundaries and translate it into a ItemFilterBlock object
             // and add that object to the ItemFilterBlocks list 
             for (var boundary = conditionBoundaries.First; boundary != null; boundary = boundary.Next)
@@ -62,6 +68,8 @@ namespace Filtration.Translators
                 var blockString = string.Join("\r\n", block);
                 script.ItemFilterBlocks.Add(_blockTranslator.TranslateStringToItemFilterBlock(blockString));
             }
+
+            script.ThemeComponents = _themeComponentListBuilder.GetComponents();
 
             return script;
         }

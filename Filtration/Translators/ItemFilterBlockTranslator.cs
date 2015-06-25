@@ -22,12 +22,14 @@ namespace Filtration.Translators
     internal class ItemFilterBlockTranslator : IItemFilterBlockTranslator
     {
         private readonly IBlockGroupHierarchyBuilder _blockGroupHierarchyBuilder;
+        private readonly IThemeComponentListBuilder _themeComponentListBuilder;
         private const string Indent = "    ";
         private readonly string _newLine = Environment.NewLine + Indent;
 
-        public ItemFilterBlockTranslator(IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder)
+        public ItemFilterBlockTranslator(IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder, IThemeComponentListBuilder themeComponentListBuilder)
         {
             _blockGroupHierarchyBuilder = blockGroupHierarchyBuilder;
+            _themeComponentListBuilder = themeComponentListBuilder;
         }
 
         // This method converts a string into a ItemFilterBlock. This is used for pasting ItemFilterBlocks 
@@ -257,13 +259,20 @@ namespace Filtration.Translators
             }
         }
 
-        private static void AddColorItemToBlockItems<T>(ItemFilterBlock block, string inputString) where T : ColorBlockItem
+        private void AddColorItemToBlockItems<T>(ItemFilterBlock block, string inputString) where T : ColorBlockItem
         {
             var blockItem = Activator.CreateInstance<T>();
             var result = Regex.Matches(inputString, @"([\w\s]*)[#]?(.*)");
 
             // When Theme support is added result[0].Groups[2].Value will contain the ColorGroup in the comment if it exists.
             blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
+            
+            var componentName = result[0].Groups[2].Value.Trim();
+            if (!string.IsNullOrEmpty(componentName))
+            {
+               blockItem.ThemeComponent = _themeComponentListBuilder.AddComponent(typeof(T), componentName, blockItem.Color);
+            }
+
             block.BlockItems.Add(blockItem);
         }
 

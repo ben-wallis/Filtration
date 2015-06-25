@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filtration.ObjectModel", "F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filtration.ObjectModel.Tests", "Filtration.ObjectModel.Tests\Filtration.ObjectModel.Tests.csproj", "{537BE676-2FF6-4995-B05B-9CFACE852EC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filtration.ThemeEditor", "Filtration.ThemeEditor\Filtration.ThemeEditor.csproj", "{41B8F5C2-65AA-42F0-A20B-6F95B13A9F48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filtration.ThemeEditor.Tests", "Filtration.ThemeEditor.Tests\Filtration.ThemeEditor.Tests.csproj", "{450AC313-BF25-4BFD-A066-9F39F026FDCF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{537BE676-2FF6-4995-B05B-9CFACE852EC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{537BE676-2FF6-4995-B05B-9CFACE852EC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{537BE676-2FF6-4995-B05B-9CFACE852EC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41B8F5C2-65AA-42F0-A20B-6F95B13A9F48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41B8F5C2-65AA-42F0-A20B-6F95B13A9F48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41B8F5C2-65AA-42F0-A20B-6F95B13A9F48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41B8F5C2-65AA-42F0-A20B-6F95B13A9F48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{450AC313-BF25-4BFD-A066-9F39F026FDCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{450AC313-BF25-4BFD-A066-9F39F026FDCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{450AC313-BF25-4BFD-A066-9F39F026FDCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{450AC313-BF25-4BFD-A066-9F39F026FDCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

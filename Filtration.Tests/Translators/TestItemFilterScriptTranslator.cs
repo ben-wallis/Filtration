@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
 using Filtration.Properties;
+using Filtration.ThemeEditor.Models;
 using Filtration.Translators;
 using Moq;
 using NUnit.Framework;
@@ -60,6 +63,37 @@ namespace Filtration.Tests.Translators
             Assert.AreEqual(expectedDescription, script.Description);
         }
 
+        [Test]
+        public void TranslateStringToItemFilterScript_CallsThemeComponentListBuilderInitialise()
+        {
+            // Arrange
+            var testInput = File.ReadAllText(@"Resources/testscript.txt");
+
+            _testUtility.MockThemeComponentListBuilder.Setup(t => t.Initialise()).Verifiable();
+            // Act
+            _testUtility.ScriptTranslator.TranslateStringToItemFilterScript(testInput);
+
+            // Assert
+            _testUtility.MockThemeComponentListBuilder.Verify();
+        }
+
+
+        [Test]
+        public void TranslateStringToItemFilterScript_SetsScriptThemeComponentsToComponentListBuilderResult()
+        {
+            // Arrange
+            var testInput = File.ReadAllText(@"Resources/testscript.txt");
+            List<ThemeComponent> testThemeComponents = new List<ThemeComponent>();
+
+            _testUtility.MockThemeComponentListBuilder.Setup(t => t.GetComponents()).Returns(testThemeComponents).Verifiable();
+            // Act
+            var result = _testUtility.ScriptTranslator.TranslateStringToItemFilterScript(testInput);
+
+            // Assert
+            _testUtility.MockThemeComponentListBuilder.Verify();
+            Assert.AreSame(testThemeComponents, result.ThemeComponents);
+        }
+
         [Ignore("Integration Test")]
         [Test]
         public void TranslateStringToItemFilterScript_ThioleItemFilterTest()
@@ -67,10 +101,10 @@ namespace Filtration.Tests.Translators
             // Arrange
             var testInput = File.ReadAllText(@"Resources/ThioleItemFilter.txt");
 
-
-            var mockBlockGroupHierarchyBuilder = new Mock<IBlockGroupHierarchyBuilder>();
-            var blockTranslator = new ItemFilterBlockTranslator(mockBlockGroupHierarchyBuilder.Object);
-            var translator = new ItemFilterScriptTranslator(blockTranslator, mockBlockGroupHierarchyBuilder.Object);
+            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object,
+                _testUtility.MockThemeComponentListBuilder.Object);
+            var translator = new ItemFilterScriptTranslator(blockTranslator,
+                _testUtility.MockBlockGroupHierarchyBuilder.Object, _testUtility.MockThemeComponentListBuilder.Object);
 
             // Act
             translator.TranslateStringToItemFilterScript(testInput);
@@ -127,9 +161,10 @@ namespace Filtration.Tests.Translators
                                  "    Width = 3" + Environment.NewLine +
                                  "    SetFontSize 7" + Environment.NewLine;
 
-            var mockBlockGroupHierarchyBuilder = new Mock<IBlockGroupHierarchyBuilder>();
-            var blockTranslator = new ItemFilterBlockTranslator(mockBlockGroupHierarchyBuilder.Object);
-            var translator = new ItemFilterScriptTranslator(blockTranslator, mockBlockGroupHierarchyBuilder.Object);
+            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object,
+                _testUtility.MockThemeComponentListBuilder.Object);
+            var translator = new ItemFilterScriptTranslator(blockTranslator,
+                _testUtility.MockBlockGroupHierarchyBuilder.Object, _testUtility.MockThemeComponentListBuilder.Object);
 
             // Act
             var result = translator.TranslateItemFilterScriptToString(script);
@@ -172,9 +207,10 @@ namespace Filtration.Tests.Translators
                                  "    Width = 3" + Environment.NewLine +
                                  "    SetFontSize 7" + Environment.NewLine + Environment.NewLine;
 
-            var mockBlockGroupHierarchyBuilder = new Mock<IBlockGroupHierarchyBuilder>();
-            var blockTranslator = new ItemFilterBlockTranslator(mockBlockGroupHierarchyBuilder.Object);
-            var translator = new ItemFilterScriptTranslator(blockTranslator, mockBlockGroupHierarchyBuilder.Object);
+            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object,
+                _testUtility.MockThemeComponentListBuilder.Object);
+            var translator = new ItemFilterScriptTranslator(blockTranslator,
+                _testUtility.MockBlockGroupHierarchyBuilder.Object, _testUtility.MockThemeComponentListBuilder.Object);
 
             // Act
             var result = translator.TranslateItemFilterScriptToString(script);
@@ -215,8 +251,10 @@ namespace Filtration.Tests.Translators
                                   "    SetBorderColor 255 0 255" + Environment.NewLine +
                                   "    SetFontSize 25";
 
-            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
-            var translator = new ItemFilterScriptTranslator(blockTranslator, _testUtility.MockBlockGroupHierarchyBuilder.Object);
+            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object,
+                _testUtility.MockThemeComponentListBuilder.Object);
+            var translator = new ItemFilterScriptTranslator(blockTranslator,
+                _testUtility.MockBlockGroupHierarchyBuilder.Object, _testUtility.MockThemeComponentListBuilder.Object);
 
             // Act
             var result = translator.TranslateStringToItemFilterScript(testInputScript);
@@ -237,14 +275,16 @@ namespace Filtration.Tests.Translators
                 // Mock setups
                 MockItemFilterBlockTranslator = new Mock<IItemFilterBlockTranslator>();
                 MockBlockGroupHierarchyBuilder = new Mock<IBlockGroupHierarchyBuilder>();
+                MockThemeComponentListBuilder = new Mock<IThemeComponentListBuilder>();
 
                 // Class under test instantiation
-                ScriptTranslator = new ItemFilterScriptTranslator(MockItemFilterBlockTranslator.Object, MockBlockGroupHierarchyBuilder.Object);
+                ScriptTranslator = new ItemFilterScriptTranslator(MockItemFilterBlockTranslator.Object, MockBlockGroupHierarchyBuilder.Object, MockThemeComponentListBuilder.Object);
             }
 
             public ItemFilterScriptTranslator ScriptTranslator { get; private set; }
             public Mock<IItemFilterBlockTranslator> MockItemFilterBlockTranslator { get; private set; }
             public Mock<IBlockGroupHierarchyBuilder> MockBlockGroupHierarchyBuilder { get; private set; }
+            public Mock<IThemeComponentListBuilder> MockThemeComponentListBuilder { get; private set; }
         }
     }
 }
