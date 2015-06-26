@@ -9,6 +9,7 @@
              xmlns:toolPanes="clr-namespace:Filtration.Views.ToolPanes"
              xmlns:converters="clr-namespace:Filtration.Converters"
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+             xmlns:themeEditorViews="clr-namespace:Filtration.ThemeEditor.Views;assembly=Filtration.ThemeEditor"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance d:Type=viewModels:AvalonDockWorkspaceViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">
@@ -53,6 +54,11 @@
                             <views:StartPageView DataContext="{Binding}" />
                         </DataTemplate>
                     </viewsAvalonDock:PanesTemplateSelector.StartPageTemplate>
+                    <viewsAvalonDock:PanesTemplateSelector.ThemeEditorTemplate>
+                        <DataTemplate>
+                            <themeEditorViews:ThemeEditorView DataContext="{Binding}" />
+                        </DataTemplate>
+                    </viewsAvalonDock:PanesTemplateSelector.ThemeEditorTemplate>
                 </viewsAvalonDock:PanesTemplateSelector>
             </xcad:DockingManager.LayoutItemTemplateSelector>
 

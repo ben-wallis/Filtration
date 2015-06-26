@@ -156,7 +156,6 @@
     <Compile Include="ViewModels\SettingsWindowViewModel.cs" />
     <Compile Include="ViewModels\ToolPanes\BlockGroupBrowserViewModel.cs" />
     <Compile Include="ViewModels\FiltrationViewModelBase.cs" />
-    <Compile Include="ViewModels\IDocument.cs" />
     <Compile Include="ViewModels\IItemFilterScriptViewModelFactory.cs" />
     <Compile Include="ViewModels\IItemFilterBlockViewModelFactory.cs" />
     <Compile Include="ViewModels\ItemFilterBlockGroupViewModel.cs" />
@@ -421,9 +420,17 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Filtration.Interface\Filtration.Interface.csproj">
+      <Project>{0f333344-7695-47b2-b0e6-172e4de74819}</Project>
+      <Name>Filtration.Interface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Filtration.ObjectModel\Filtration.ObjectModel.csproj">
       <Project>{4aac3beb-1dc1-483e-9d11-0e9334e80227}</Project>
       <Name>Filtration.ObjectModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Filtration.ThemeEditor\Filtration.ThemeEditor.csproj">
+      <Project>{41b8f5c2-65aa-42f0-a20b-6f95b13a9f48}</Project>
+      <Name>Filtration.ThemeEditor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

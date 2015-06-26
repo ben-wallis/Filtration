@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Filtration.ThemeEditor.ViewModels;
 using Filtration.ViewModels;
 using Filtration.ViewModels.ToolPanes;
 using Xceed.Wpf.AvalonDock.Layout;
@@ -13,6 +14,7 @@ namespace Filtration.Views.AvalonDock
         public DataTemplate SectionBrowserTemplate { get; set; }
         public DataTemplate BlockOutputPreviewTemplate { get; set; }
         public DataTemplate StartPageTemplate { get; set; }
+        public DataTemplate ThemeEditorTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -21,6 +23,11 @@ namespace Filtration.Views.AvalonDock
             if (item is ItemFilterScriptViewModel)
             {
                 return ItemFilterScriptTemplate;
+            }
+
+            if (item is ThemeEditorViewModel)
+            {
+                return ThemeEditorTemplate;
             }
 
             if (item is SectionBrowserViewModel)

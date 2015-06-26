@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filtration.ThemeEditor", "F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filtration.ThemeEditor.Tests", "Filtration.ThemeEditor.Tests\Filtration.ThemeEditor.Tests.csproj", "{450AC313-BF25-4BFD-A066-9F39F026FDCF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filtration.Interface", "Filtration.Interface\Filtration.Interface.csproj", "{0F333344-7695-47B2-B0E6-172E4DE74819}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{450AC313-BF25-4BFD-A066-9F39F026FDCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{450AC313-BF25-4BFD-A066-9F39F026FDCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{450AC313-BF25-4BFD-A066-9F39F026FDCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F333344-7695-47B2-B0E6-172E4DE74819}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F333344-7695-47B2-B0E6-172E4DE74819}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F333344-7695-47B2-B0E6-172E4DE74819}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F333344-7695-47B2-B0E6-172E4DE74819}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

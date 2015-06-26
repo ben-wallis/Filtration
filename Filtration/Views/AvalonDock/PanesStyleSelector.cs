@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Filtration.ViewModels;
+using Filtration.Interface;
 using Filtration.ViewModels.ToolPanes;
 
 namespace Filtration.Views.AvalonDock

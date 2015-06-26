@@ -2,7 +2,9 @@
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using Filtration.Interface;
 using Filtration.Repositories;
+using Filtration.ThemeEditor.ViewModels;
 using Filtration.Translators;
 using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -25,6 +27,7 @@ namespace Filtration.ViewModels
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
         private readonly IAvalonDockWorkspaceViewModel _avalonDockWorkspaceViewModel;
         private readonly ISettingsWindowViewModel _settingsWindowViewModel;
+        private readonly IThemeEditorViewModel _themeEditorViewModel;
 
         private IDocument _activeDocument;
 
@@ -32,16 +35,19 @@ namespace Filtration.ViewModels
                                    IItemFilterScriptTranslator itemFilterScriptTranslator,
                                    IReplaceColorsViewModel replaceColorsViewModel,
                                    IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
-                                   ISettingsWindowViewModel settingsWindowViewModel)
+                                   ISettingsWindowViewModel settingsWindowViewModel,
+                                   IThemeEditorViewModel themeEditorViewModel)
         {
             _itemFilterScriptRepository = itemFilterScriptRepository;
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
             _replaceColorsViewModel = replaceColorsViewModel;
             _avalonDockWorkspaceViewModel = avalonDockWorkspaceViewModel;
             _settingsWindowViewModel = settingsWindowViewModel;
+            _themeEditorViewModel = themeEditorViewModel;
 
             OpenAboutWindowCommand = new RelayCommand(OnOpenAboutWindowCommand);
             OpenSettingsWindowCommand = new RelayCommand(OnOpenSettingsWindowCommand);
+            OpenThemeEditorCommand = new RelayCommand(OnOpenThemeEditorCommand);
             OpenScriptCommand = new RelayCommand(OnOpenScriptCommand);
             SaveScriptCommand = new RelayCommand(OnSaveScriptCommand, ActiveDocumentIsScript);
             SaveScriptAsCommand = new RelayCommand(OnSaveScriptAsCommand, ActiveDocumentIsScript);
@@ -100,6 +106,7 @@ namespace Filtration.ViewModels
         public RelayCommand CloseScriptCommand { get; private set; }
         public RelayCommand OpenAboutWindowCommand { get; private set; }
         public RelayCommand OpenSettingsWindowCommand { get; private set; }
+        public RelayCommand OpenThemeEditorCommand { get; private set; }
         public RelayCommand ReplaceColorsCommand { get; private set; }
 
         public IAvalonDockWorkspaceViewModel AvalonDockWorkspaceViewModel
@@ -120,6 +127,18 @@ namespace Filtration.ViewModels
         private bool ActiveDocumentIsScript()
         {
             return _activeDocument != null && _activeDocument.IsScript;
+        }
+
+        private void OnOpenThemeEditorCommand()
+        {
+            if (AvalonDockWorkspaceViewModel.OpenDocuments.Contains(_themeEditorViewModel))
+            {
+                AvalonDockWorkspaceViewModel.SwitchActiveDocument(_themeEditorViewModel);
+            }
+            else
+            {
+                AvalonDockWorkspaceViewModel.AddDocument(_themeEditorViewModel);
+            }
         }
 
         private void OnOpenAboutWindowCommand()

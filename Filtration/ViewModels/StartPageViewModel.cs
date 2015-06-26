@@ -1,4 +1,5 @@
-﻿using Filtration.ViewModels.ToolPanes;
+﻿using Filtration.Interface;
+using Filtration.ViewModels.ToolPanes;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 

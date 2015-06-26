@@ -33,6 +33,7 @@
             </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem Header="_Replace Colors" Command="{Binding ReplaceColorsCommand}" Icon="{StaticResource ReplaceColorsIcon}" />
+                <MenuItem Header="_Theme Editor" Command="{Binding OpenThemeEditorCommand}" Icon="{StaticResource ReplaceColorsIcon}" />
                 <MenuItem Header="_Settings" Command="{Binding OpenSettingsWindowCommand}" />
             </MenuItem>
             <MenuItem Header="_Help">

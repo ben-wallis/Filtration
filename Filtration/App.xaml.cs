@@ -23,7 +23,7 @@ namespace Filtration
 
             _container.Kernel.ComponentModelBuilder.RemoveContributor(propInjector);
 
-            _container.Install(FromAssembly.This());
+            _container.Install(FromAssembly.InThisApplication());
 
             var mainWindow = _container.Resolve<IMainWindow>();
             mainWindow.Show();

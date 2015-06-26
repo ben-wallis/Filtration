@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Forms;
 using Castle.Core.Internal;
+using Filtration.Interface;
 using Filtration.ObjectModel;
 using Filtration.Services;
 using Filtration.Translators;

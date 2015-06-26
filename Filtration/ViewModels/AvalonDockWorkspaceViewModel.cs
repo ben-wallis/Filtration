@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Filtration.Interface;
 using Filtration.ViewModels.ToolPanes;
 using GalaSoft.MvvmLight.Messaging;
 
@@ -10,6 +11,7 @@ namespace Filtration.ViewModels
     {
         event EventHandler ActiveDocumentChanged;
         IDocument ActiveDocument { get; set; }
+        ReadOnlyObservableCollection<IDocument> OpenDocuments { get; }
         IItemFilterScriptViewModel ActiveScriptViewModel { get; }
         ISectionBrowserViewModel SectionBrowserViewModel { get; }
         IBlockGroupBrowserViewModel BlockGroupBrowserViewModel { get; }
@@ -28,6 +30,7 @@ namespace Filtration.ViewModels
         private IDocument _activeDocument;
         private IItemFilterScriptViewModel _activeScriptViewModel;
         private readonly ObservableCollection<IDocument> _openDocuments;
+        private readonly ReadOnlyObservableCollection<IDocument> _readOnlyOpenDocuments;
 
         public AvalonDockWorkspaceViewModel(ISectionBrowserViewModel sectionBrowserViewModel,
                                             IBlockGroupBrowserViewModel blockGroupBrowserViewModel,
@@ -43,14 +46,15 @@ namespace Filtration.ViewModels
             _blockOutputPreviewViewModel.Initialise(this);
 
             _openDocuments = new ObservableCollection<IDocument> {startPageViewModel};
+            _readOnlyOpenDocuments = new ReadOnlyObservableCollection<IDocument>(_openDocuments);
             ActiveDocument = startPageViewModel;
         }
 
         public event EventHandler ActiveDocumentChanged;
 
-        public ObservableCollection<IDocument> OpenDocuments
+        public ReadOnlyObservableCollection<IDocument> OpenDocuments
         {
-            get { return _openDocuments; }
+            get { return _readOnlyOpenDocuments; }
         }
 
         public IDocument ActiveDocument
@@ -121,7 +125,7 @@ namespace Filtration.ViewModels
                 _activeScriptViewModel = (IItemFilterScriptViewModel) document;
             }
 
-            OpenDocuments.Add(document);
+            _openDocuments.Add(document);
             ActiveDocument = document;
         }
 
@@ -139,7 +143,7 @@ namespace Filtration.ViewModels
                 _blockOutputPreviewViewModel.ClearDown();
             }
 
-            OpenDocuments.Remove(document);
+            _openDocuments.Remove(document);
         }
 
         public void SwitchActiveDocument(IDocument document)

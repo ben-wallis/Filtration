@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using Filtration.ViewModels;
+using Filtration.Interface;
 
 namespace Filtration.Converters
 {
