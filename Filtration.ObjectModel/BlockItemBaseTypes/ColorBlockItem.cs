@@ -1,5 +1,5 @@
 ﻿using System.Windows.Media;
-using Filtration.ThemeEditor.Models;
+using Filtration.ObjectModel.ThemeEditor;
 
 namespace Filtration.ObjectModel.BlockItemBaseTypes
 {

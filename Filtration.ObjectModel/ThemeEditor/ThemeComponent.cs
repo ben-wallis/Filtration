@@ -1,24 +1,31 @@
 ﻿using System;
 using System.Windows.Media;
+using Filtration.ObjectModel.Enums;
 
-namespace Filtration.ThemeEditor.Models
+namespace Filtration.ObjectModel.ThemeEditor
 {
+    [Serializable]
     public class ThemeComponent
     {
-        public ThemeComponent(Type targetType, string componentName, Color componentColor)
+        public ThemeComponent()
         {
-            if (targetType == null || componentName == null || componentColor == null)
+            
+        }
+
+        public ThemeComponent(ThemeComponentType componentType, string componentName, Color componentColor)
+        {
+            if (componentName == null || componentColor == null)
             {
                 throw new ArgumentException("Null parameters not allowed in ThemeComponent constructor");
             }
 
-            TargetType = targetType;
+            ComponentType = componentType;
             Color = componentColor;
             ComponentName = componentName;
         }
 
         public string ComponentName { get; set; }
-        public Type TargetType { get; private set; }
+        public ThemeComponentType ComponentType{ get; set; }
         public Color Color { get; set; }
     }
 }

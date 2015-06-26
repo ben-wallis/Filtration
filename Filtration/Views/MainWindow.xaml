@@ -15,9 +15,10 @@
             <MenuItem Header="_File">
                 <MenuItem Header="_New Script" Command="{Binding NewScriptCommand}" Icon="{StaticResource NewIcon}"/>
                 <MenuItem Header="_Open Script" Command="{Binding OpenScriptCommand}" Icon="{StaticResource OpenIcon}"/>
-                <MenuItem Header="_Save Script" Command="{Binding SaveScriptCommand}" Icon="{StaticResource SaveIcon}"/>
-                <MenuItem Header="Save Script _As" Command="{Binding SaveScriptAsCommand}"  Icon="{StaticResource SaveIcon}"/>
-                <MenuItem Header="_Close Script" Command="{Binding CloseScriptCommand}" />
+                <MenuItem Header="_Open Theme" Command="{Binding OpenThemeCommand}" Icon="{StaticResource OpenIcon}"/>
+                <MenuItem Header="_Save" Command="{Binding SaveCommand}" Icon="{StaticResource SaveIcon}"/>
+                <MenuItem Header="Save _As" Command="{Binding SaveAsCommand}"  Icon="{StaticResource SaveIcon}"/>
+                <MenuItem Header="_Close Script" Command="{Binding CloseCommand}" />
                 <MenuItem Header="E_xit"/>
             </MenuItem>
             <MenuItem Header="_Edit">
@@ -33,7 +34,6 @@
             </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem Header="_Replace Colors" Command="{Binding ReplaceColorsCommand}" Icon="{StaticResource ReplaceColorsIcon}" />
-                <MenuItem Header="_Theme Editor" Command="{Binding OpenThemeEditorCommand}" Icon="{StaticResource ReplaceColorsIcon}" />
                 <MenuItem Header="_Settings" Command="{Binding OpenSettingsWindowCommand}" />
             </MenuItem>
             <MenuItem Header="_Help">
@@ -44,7 +44,10 @@
             <ToolBar>
                 <Button Command="{Binding NewScriptCommand}" Content="{StaticResource NewIcon}" ToolTip="New Script" />
                 <Button Command="{Binding OpenScriptCommand}" Content="{StaticResource OpenIcon}" ToolTip="Open Script" />
-                <Button Command="{Binding SaveScriptCommand}" Content="{StaticResource SaveIcon}" ToolTip="Save Script" />
+                <Button Command="{Binding SaveCommand}" Content="{StaticResource SaveIcon}" ToolTip="Save" />
+                <Separator />
+                <Button Command="{Binding CreateThemeCommand}" Content="{StaticResource ThemeIcon}" ToolTip="Create Theme for Script" />
+                
             </ToolBar>
         </ToolBarTray>
         <Grid>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Filtration.Common.ViewModels;
 using Filtration.ObjectModel;
 
 namespace Filtration.ViewModels

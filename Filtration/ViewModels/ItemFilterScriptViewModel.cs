@@ -7,7 +7,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Forms;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Castle.Core.Internal;
+using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using Filtration.ObjectModel;
 using Filtration.Services;
@@ -20,23 +23,21 @@ using MessageBox = System.Windows.MessageBox;
 
 namespace Filtration.ViewModels
 {
-    internal interface IItemFilterScriptViewModel : IDocument
+    internal interface IItemFilterScriptViewModel : IEditableDocument
     {
         ItemFilterScript Script { get; }
         IItemFilterBlockViewModel SelectedBlockViewModel { get; set; }
         IItemFilterBlockViewModel SectionBrowserSelectedBlockViewModel { get; set; }
         IEnumerable<IItemFilterBlockViewModel> ItemFilterSectionViewModels { get; }
         Predicate<IItemFilterBlockViewModel> BlockFilterPredicate { get; set; }
-        bool IsDirty { get; }
+        
         bool ShowAdvanced { get; }
         string Description { get; set; }
         string DisplayName { get; }
         
         void Initialise(ItemFilterScript itemFilterScript, bool newScript);
         void RemoveDirtyFlag();
-        void SaveScript();
-        void SaveScriptAs();
-        void Close();
+
         void AddSection(IItemFilterBlockViewModel targetBlockViewModel);
         void AddBlock(IItemFilterBlockViewModel targetBlockViewModel);
         void CopyBlock(IItemFilterBlockViewModel targetBlockViewModel);
@@ -81,6 +82,12 @@ namespace Filtration.ViewModels
             AddSectionCommand = new RelayCommand(OnAddSectionCommand, () => SelectedBlockViewModel != null);
             CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => SelectedBlockViewModel != null);
             PasteBlockCommand = new RelayCommand(OnPasteBlockCommand, () => SelectedBlockViewModel != null);
+
+            var icon = new BitmapImage();
+            icon.BeginInit();
+            icon.UriSource = new Uri("pack://application:,,,/Filtration;component/Resources/Icons/script_icon.png");
+            icon.EndInit();
+            IconSource = icon;
         }
 
         public RelayCommand<bool> ToggleShowAdvancedCommand { get; private set; }
@@ -151,10 +158,8 @@ namespace Filtration.ViewModels
             get { return ItemFilterBlockViewModels.Where(b => b.Block.GetType() == typeof (ItemFilterSection)); }
         }
 
-        public bool IsScript
-        {
-            get { return true; }
-        }
+        public bool IsScript { get { return true; } }
+        public bool IsTheme { get { return false; } }
 
         public string Description
         {
@@ -264,12 +269,6 @@ namespace Filtration.ViewModels
                 ItemFilterBlockViewModels.Add(vm);
             }
            
-            //BlockGroupViewModels =_blockGroupMapper.MapBlockGroupsToViewModels(Script.ItemFilterBlockGroups, false);
-            
-            // Necessary to perform the AfterMap here instead of in the AutoMapper config due to the mapping being
-            // performed on a collection, but the postmap needs to be performed from the root BlockGroup.
-            //AutoMapperHelpers.ItemFilterBlockGroupViewModelPostMap(BlockGroupViewModels.First());
-
             _filenameIsFake = newScript;
 
             if (newScript)
@@ -281,13 +280,13 @@ namespace Filtration.ViewModels
             ContentId = "testcontentid";
         }
 
-        public void SaveScript()
+        public void Save()
         {
             if (!ValidateScript()) return;
 
             if (_filenameIsFake)
             {
-                SaveScriptAs();
+                SaveAs();
                 return;
             }
 
@@ -303,7 +302,7 @@ namespace Filtration.ViewModels
             }
         }
 
-        public void SaveScriptAs()
+        public void SaveAs()
         {
             if (!ValidateScript()) return;
 
@@ -395,7 +394,7 @@ namespace Filtration.ViewModels
                 {
                     case MessageBoxResult.Yes:
                         {
-                            SaveScript();
+                            Save();
                             CloseScript();
                             break;
                         }
@@ -411,7 +410,7 @@ namespace Filtration.ViewModels
                 }
             }
         }
-
+        
         private void CloseScript()
         {
             _avalonDockWorkspaceViewModel.ActiveDocumentChanged -= OnActiveDocumentChanged;

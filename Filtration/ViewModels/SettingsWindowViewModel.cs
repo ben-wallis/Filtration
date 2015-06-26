@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using Filtration.Common.ViewModels;
 using Filtration.Properties;
 using Filtration.Services;
 using GalaSoft.MvvmLight.CommandWpf;

@@ -11,11 +11,6 @@ namespace Filtration.WindsorInstallers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component.For<IFileSystemService>()
-                    .ImplementedBy<FileSystemService>()
-                    .LifeStyle.Singleton);
-
-            container.Register(
                 Component.For<IItemFilterPersistenceService>()
                     .ImplementedBy<ItemFilterPersistenceService>()
                     .LifeStyle.Singleton);

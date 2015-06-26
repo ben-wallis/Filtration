@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 
-namespace Filtration.Services
+namespace Filtration.Common.Services
 {
-    internal interface IFileSystemService
+    public interface IFileSystemService
     {
         string ReadFileAsString(string filePath);
         void WriteFileFromString(string filePath, string inputString);

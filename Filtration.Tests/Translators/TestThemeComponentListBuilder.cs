@@ -1,5 +1,7 @@
-﻿using System.Windows.Media;
+﻿using System.Net.Mime;
+using System.Windows.Media;
 using Filtration.ObjectModel.BlockItemTypes;
+using Filtration.ObjectModel.Enums;
 using Filtration.Translators;
 using NUnit.Framework;
 
@@ -13,7 +15,7 @@ namespace Filtration.Tests.Translators
         {
             // Arrange
 
-            var testInputTargetType = typeof (TextColorBlockItem);
+            var testInputTargetType = ThemeComponentType.TextColor;
             var testInputComponentName = "testComponent";
             var testInputColor = new Color();
 

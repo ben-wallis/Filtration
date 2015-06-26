@@ -1,4 +1,5 @@
 ﻿using System;
+using Filtration.Common.ViewModels;
 
 namespace Filtration.ViewModels.ToolPanes
 {

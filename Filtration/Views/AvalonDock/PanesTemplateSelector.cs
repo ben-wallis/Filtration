@@ -14,7 +14,7 @@ namespace Filtration.Views.AvalonDock
         public DataTemplate SectionBrowserTemplate { get; set; }
         public DataTemplate BlockOutputPreviewTemplate { get; set; }
         public DataTemplate StartPageTemplate { get; set; }
-        public DataTemplate ThemeEditorTemplate { get; set; }
+        public DataTemplate ThemeTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -25,9 +25,9 @@ namespace Filtration.Views.AvalonDock
                 return ItemFilterScriptTemplate;
             }
 
-            if (item is ThemeEditorViewModel)
+            if (item is IThemeViewModel)
             {
-                return ThemeEditorTemplate;
+                return ThemeTemplate;
             }
 
             if (item is SectionBrowserViewModel)

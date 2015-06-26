@@ -69,6 +69,7 @@
     <Compile Include="Enums\FilterType.cs" />
     <Compile Include="Enums\ItemRarity.cs" />
     <Compile Include="Enums\SocketColor.cs" />
+    <Compile Include="Enums\ThemeComponentType.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
     <Compile Include="IAudioVisualBlockItem.cs" />
     <Compile Include="IItemFilterBlockItem.cs" />

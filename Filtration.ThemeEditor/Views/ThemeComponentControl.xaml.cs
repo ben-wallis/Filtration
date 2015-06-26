@@ -1,8 +1,8 @@
 ﻿namespace Filtration.ThemeEditor.Views
 {
-    public partial class ThemeEditorView
+    public partial class ThemeComponentControl
     {
-        public ThemeEditorView()
+        public ThemeComponentControl()
         {
             InitializeComponent();
         }

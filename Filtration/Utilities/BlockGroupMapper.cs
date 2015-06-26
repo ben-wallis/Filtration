@@ -18,7 +18,7 @@ namespace Filtration.Utilities
             ObservableCollection<ItemFilterBlockGroup> blockGroups, bool showAdvanced)
         {
 
-            Mapper.Reset();
+            //Mapper.Reset();
             if (showAdvanced)
             {
                 Mapper.CreateMap<ItemFilterBlockGroup, ItemFilterBlockGroupViewModel>()

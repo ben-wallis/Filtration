@@ -270,7 +270,25 @@ namespace Filtration.Translators
             var componentName = result[0].Groups[2].Value.Trim();
             if (!string.IsNullOrEmpty(componentName))
             {
-               blockItem.ThemeComponent = _themeComponentListBuilder.AddComponent(typeof(T), componentName, blockItem.Color);
+                ThemeComponentType componentType;
+                if (typeof (T) == typeof (TextColorBlockItem))
+                {
+                    componentType = ThemeComponentType.TextColor;
+                }
+                else if (typeof (T) == typeof (BackgroundColorBlockItem))
+                {
+                    componentType = ThemeComponentType.BackgroundColor;
+                }
+                else if (typeof (T) == typeof (BorderColorBlockItem))
+                {
+                    componentType = ThemeComponentType.BorderColor;
+                }
+                else
+                {
+                    throw new Exception("Parsing error - unknown theme component type");
+                }
+
+                blockItem.ThemeComponent = _themeComponentListBuilder.AddComponent(componentType, componentName, blockItem.Color);
             }
 
             block.BlockItems.Add(blockItem);

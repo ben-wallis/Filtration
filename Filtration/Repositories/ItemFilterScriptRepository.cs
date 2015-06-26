@@ -18,7 +18,6 @@ namespace Filtration.Repositories
     {
         private readonly IItemFilterPersistenceService _itemFilterPersistenceService;
         private readonly IItemFilterScriptViewModelFactory _itemFilterScriptViewModelFactory;
-        //private List<ItemFilterScript> _itemFilterScripts;
 
         public ItemFilterScriptRepository(IItemFilterPersistenceService itemFilterPersistenceService,
                                           IItemFilterScriptViewModelFactory itemFilterScriptViewModelFactory)

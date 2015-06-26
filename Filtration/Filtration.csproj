@@ -133,7 +133,6 @@
     <Compile Include="Extensions\HyperlinkExtensions.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repositories\ItemFilterScriptRepository.cs" />
-    <Compile Include="Services\FileSystemService.cs" />
     <Compile Include="Services\ItemFilterPersistenceService.cs" />
     <Compile Include="Services\StaticDataService.cs" />
     <Compile Include="Settings.cs" />
@@ -155,14 +154,12 @@
     <Compile Include="ViewModels\AvalonDockWorkspaceViewModel.cs" />
     <Compile Include="ViewModels\SettingsWindowViewModel.cs" />
     <Compile Include="ViewModels\ToolPanes\BlockGroupBrowserViewModel.cs" />
-    <Compile Include="ViewModels\FiltrationViewModelBase.cs" />
     <Compile Include="ViewModels\IItemFilterScriptViewModelFactory.cs" />
     <Compile Include="ViewModels\IItemFilterBlockViewModelFactory.cs" />
     <Compile Include="ViewModels\ItemFilterBlockGroupViewModel.cs" />
     <Compile Include="ViewModels\ItemFilterBlockViewModel.cs" />
     <Compile Include="ViewModels\ItemFilterScriptViewModel.cs" />
     <Compile Include="ViewModels\ToolPanes\BlockOutputPreviewViewModel.cs" />
-    <Compile Include="ViewModels\ToolPanes\PaneViewModel.cs" />
     <Compile Include="ViewModels\ReplaceColorsViewModel.cs" />
     <Compile Include="ViewModels\ToolPanes\SectionBrowserViewModel.cs" />
     <Compile Include="ViewModels\StartPageViewModel.cs" />
@@ -372,6 +369,8 @@
     <Resource Include="Resources\Icons\block_output_preview_icon.png" />
     <Resource Include="Resources\Icons\collapse_icon.png" />
     <Resource Include="Resources\Icons\expand_icon.png" />
+    <Resource Include="Resources\Icons\theme_icon.png" />
+    <Resource Include="Resources\Icons\script_icon.png" />
     <Content Include="Resources\ItemBaseTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -420,6 +419,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Filtration.Common\Filtration.Common.csproj">
+      <Project>{8cb44f28-2956-4c2a-9314-72727262edd4}</Project>
+      <Name>Filtration.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Filtration.Interface\Filtration.Interface.csproj">
       <Project>{0f333344-7695-47b2-b0e6-172e4de74819}</Project>
       <Name>Filtration.Interface</Name>

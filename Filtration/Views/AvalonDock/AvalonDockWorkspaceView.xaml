@@ -54,11 +54,11 @@
                             <views:StartPageView DataContext="{Binding}" />
                         </DataTemplate>
                     </viewsAvalonDock:PanesTemplateSelector.StartPageTemplate>
-                    <viewsAvalonDock:PanesTemplateSelector.ThemeEditorTemplate>
+                    <viewsAvalonDock:PanesTemplateSelector.ThemeTemplate>
                         <DataTemplate>
-                            <themeEditorViews:ThemeEditorView DataContext="{Binding}" />
+                            <themeEditorViews:ThemeControl DataContext="{Binding}" />
                         </DataTemplate>
-                    </viewsAvalonDock:PanesTemplateSelector.ThemeEditorTemplate>
+                    </viewsAvalonDock:PanesTemplateSelector.ThemeTemplate>
                 </viewsAvalonDock:PanesTemplateSelector>
             </xcad:DockingManager.LayoutItemTemplateSelector>
 

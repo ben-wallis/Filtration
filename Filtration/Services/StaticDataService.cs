@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Filtration.Common.Services;
 using Filtration.Utilities;
 
 namespace Filtration.Services

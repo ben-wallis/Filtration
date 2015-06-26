@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using Filtration.ViewModels.ToolPanes;
 using GalaSoft.MvvmLight.Messaging;

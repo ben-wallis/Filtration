@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
-using Filtration.ThemeEditor.Models;
+using Filtration.ObjectModel.Enums;
+using Filtration.ObjectModel.ThemeEditor;
 
 namespace Filtration.Translators
 {
     internal interface IThemeComponentListBuilder
     {
         void Initialise();
-        ThemeComponent AddComponent(Type targetType, string componentName, Color componentColor);
+        ThemeComponent AddComponent(ThemeComponentType componentType, string componentName, Color componentColor);
         List<ThemeComponent> GetComponents();
     }
 
@@ -27,14 +28,14 @@ namespace Filtration.Translators
             _themeComponents = new List<ThemeComponent>();
         }
         
-        public ThemeComponent AddComponent(Type targetType, string componentName, Color componentColor)
+        public ThemeComponent AddComponent(ThemeComponentType componentType, string componentName, Color componentColor)
         {
-            if (ComponentExists(targetType, componentName))
+            if (ComponentExists(componentType, componentName))
             {
-                return _themeComponents.FirstOrDefault(t => t.ComponentName == componentName && t.TargetType == targetType);
+                return _themeComponents.FirstOrDefault(t => t.ComponentName == componentName && t.ComponentType == componentType);
             }
 
-            var component = new ThemeComponent(targetType, componentName, componentColor);
+            var component = new ThemeComponent(componentType, componentName, componentColor);
             _themeComponents.Add(component);
 
             return component;
@@ -45,9 +46,9 @@ namespace Filtration.Translators
             return _themeComponents;
         }
 
-        private bool ComponentExists(Type targetType, string componentName)
+        private bool ComponentExists(ThemeComponentType componentType, string componentName)
         {
-            return _themeComponents.Exists(c => c.ComponentName == componentName && c.TargetType == targetType);
+            return _themeComponents.Exists(c => c.ComponentName == componentName && c.ComponentType == componentType);
         }
     }
 }

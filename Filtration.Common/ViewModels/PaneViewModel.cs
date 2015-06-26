@@ -1,8 +1,8 @@
 ﻿using System.Windows.Media;
 
-namespace Filtration.ViewModels.ToolPanes
+namespace Filtration.Common.ViewModels
 {
-    class PaneViewModel : FiltrationViewModelBase
+    public class PaneViewModel : FiltrationViewModelBase
     {
         private string _title;
         public string Title

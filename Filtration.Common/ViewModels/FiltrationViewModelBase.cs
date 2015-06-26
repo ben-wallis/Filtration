@@ -1,10 +1,10 @@
 ﻿using System.Runtime.CompilerServices;
-using Filtration.Annotations;
+using Filtration.ObjectModel.Annotations;
 using GalaSoft.MvvmLight;
 
-namespace Filtration.ViewModels
+namespace Filtration.Common.ViewModels
 {
-    internal class FiltrationViewModelBase : ViewModelBase
+    public class FiltrationViewModelBase : ViewModelBase
     {
         /// This gives us the ReSharper option to transform an autoproperty into a property with change notification
         /// Also leverages .net 4.5 callermembername attribute

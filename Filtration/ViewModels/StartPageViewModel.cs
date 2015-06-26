@@ -1,4 +1,5 @@
-﻿using Filtration.Interface;
+﻿using Filtration.Common.ViewModels;
+using Filtration.Interface;
 using Filtration.ViewModels.ToolPanes;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
@@ -23,7 +24,13 @@ namespace Filtration.ViewModels
         public RelayCommand NewScriptCommand { get; private set; }
 
         public bool IsScript { get { return false; } }
+        public bool IsTheme { get { return false; } }
 
+        public void Close()
+        {
+            throw new System.NotImplementedException();
+        }
+        
         private static void OnOpenScriptCommand()
         {
             Messenger.Default.Send(new NotificationMessage("OpenScript"));

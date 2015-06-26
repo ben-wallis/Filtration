@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="Filtration.ThemeEditor.Views.ThemeComponentControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:Filtration.ThemeEditor.ViewModels"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:converters="clr-namespace:Filtration.ThemeEditor.Converters"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=viewModels:ThemeComponentViewModel}"
+             d:DesignHeight="40" d:DesignWidth="200">
+    <UserControl.Resources>
+        <converters:ThemeComponentTypeToStringConverter x:Key="ThemeComponentTypeToStringConverter" />
+    </UserControl.Resources>
+    <Grid Width="200">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding ComponentType, Converter={StaticResource ThemeComponentTypeToStringConverter}}" Foreground="Red" FontSize="10" />
+        <TextBlock Grid.Row="1" Grid.Column="0"  Text="{Binding ComponentName}" />
+        <xctk:ColorPicker Grid.Row="2" Grid.Column="0" SelectedColor="{Binding Color}" />
+    </Grid>
+</UserControl>

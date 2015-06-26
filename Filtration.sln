@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filtration.ThemeEditor.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filtration.Interface", "Filtration.Interface\Filtration.Interface.csproj", "{0F333344-7695-47B2-B0E6-172E4DE74819}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filtration.Common", "Filtration.Common\Filtration.Common.csproj", "{8CB44F28-2956-4C2A-9314-72727262EDD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filtration.Common.Tests", "Filtration.Common.Tests\Filtration.Common.Tests.csproj", "{1E42A658-45C4-4DD9-83C5-2A10728DBDFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{0F333344-7695-47B2-B0E6-172E4DE74819}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F333344-7695-47B2-B0E6-172E4DE74819}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F333344-7695-47B2-B0E6-172E4DE74819}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CB44F28-2956-4C2A-9314-72727262EDD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CB44F28-2956-4C2A-9314-72727262EDD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CB44F28-2956-4C2A-9314-72727262EDD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CB44F28-2956-4C2A-9314-72727262EDD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E42A658-45C4-4DD9-83C5-2A10728DBDFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E42A658-45C4-4DD9-83C5-2A10728DBDFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E42A658-45C4-4DD9-83C5-2A10728DBDFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E42A658-45C4-4DD9-83C5-2A10728DBDFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

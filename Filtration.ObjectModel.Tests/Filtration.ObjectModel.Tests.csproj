@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E0693972-72C5-4E05-A9C5-A5943E4015C6}</ProjectGuid>
+    <ProjectGuid>{537BE676-2FF6-4995-B05B-9CFACE852EC9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Filtration.Tests</RootNamespace>
-    <AssemblyName>Filtration.Tests</AssemblyName>
+    <RootNamespace>Filtration.ObjectModel.Tests</RootNamespace>
+    <AssemblyName>Filtration.ObjectModel.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+      <HintPath>..\packages\Moq.4.2.1506.2016\lib\net40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
@@ -47,47 +47,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\TestItemFilterScriptRepository.cs" />
-    <Compile Include="Services\TestItemFilterPersistenceService.cs" />
-    <Compile Include="Services\TestStaticDataService.cs" />
-    <Compile Include="Translators\TestBlockGroupHierarchyBuilder.cs" />
-    <Compile Include="Translators\TestItemFilterBlockTranslator.cs" />
-    <Compile Include="Translators\TestItemFilterScriptTranslator.cs" />
-    <Compile Include="Translators\TestThemeComponentListBuilder.cs" />
+    <Compile Include="TestItemFilterBlock.cs" />
+    <Compile Include="TestItemFilterBlockGroup.cs" />
+    <Compile Include="TestItemFilterScript.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Filtration.Common\Filtration.Common.csproj">
-      <Project>{8cb44f28-2956-4c2a-9314-72727262edd4}</Project>
-      <Name>Filtration.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Filtration.Interface\Filtration.Interface.csproj">
-      <Project>{0f333344-7695-47b2-b0e6-172e4de74819}</Project>
-      <Name>Filtration.Interface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Filtration.ObjectModel\Filtration.ObjectModel.csproj">
       <Project>{4aac3beb-1dc1-483e-9d11-0e9334e80227}</Project>
       <Name>Filtration.ObjectModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Filtration\Filtration.csproj">
-      <Project>{55e0a34c-e039-43d7-a024-a4045401cdda}</Project>
-      <Name>Filtration</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\testscript.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\ThioleItemFilter.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

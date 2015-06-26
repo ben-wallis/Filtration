@@ -60,8 +60,7 @@ namespace Filtration.WindsorInstallers
                 Component.For<ISettingsWindowViewModel>()
                     .ImplementedBy<SettingsWindowViewModel>()
                     .LifeStyle.Transient);
-
-            container.AddFacility<TypedFactoryFacility>();
+            
             container.Register(
                 Component.For<IItemFilterBlockViewModelFactory>().AsFactory());
 

@@ -6,7 +6,7 @@ using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
-using Filtration.ThemeEditor.Models;
+using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Translators;
 using Moq;
 using NUnit.Framework;
@@ -499,11 +499,11 @@ namespace Filtration.Tests.Translators
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    SetTextColor 255 20 100 # Rare Item Text";
-            var testComponent = new ThemeComponent(typeof(TextColorBlockItem), "testComponent", new Color());
+            var testComponent = new ThemeComponent(ThemeComponentType.TextColor, "testComponent", new Color());
 
             _testUtility.MockThemeComponentListBuilder.Setup(
                 t =>
-                    t.AddComponent(typeof (TextColorBlockItem), "Rare Item Text",
+                    t.AddComponent(ThemeComponentType.TextColor, "Rare Item Text",
                         new Color {A = 255, R = 255, G = 20, B = 100})).Returns(testComponent).Verifiable();
 
             // Act
@@ -1116,7 +1116,7 @@ namespace Filtration.Tests.Translators
 
             var blockItem = new TextColorBlockItem(new Color {A = 255, R = 54, G = 102, B = 255})
             {
-                ThemeComponent = new ThemeComponent(typeof (TextColorBlockItem), "Test Theme Component", new Color())
+                ThemeComponent = new ThemeComponent(ThemeComponentType.TextColor, "Test Theme Component", new Color())
             };
 
             _testUtility.TestBlock.BlockItems.Add(blockItem);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Filtration.ObjectModel.BlockItemTypes;
-using Filtration.ThemeEditor.Models;
+using Filtration.ObjectModel.ThemeEditor;
 
 namespace Filtration.ObjectModel
 {

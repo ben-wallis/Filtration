@@ -24,4 +24,6 @@
     <Image Source="/Filtration;component/Resources/Icons/block_output_preview_icon.png" x:Key="BlockOutputPreviewIcon" x:Shared="False" />
     <Image Source="/Filtration;component/Resources/Icons/expand_icon.png" x:Key="ExpandIcon" x:Shared="False" />
     <Image Source="/Filtration;component/Resources/Icons/collapse_icon.png" x:Key="CollapseIcon" x:Shared="False" />
+    <Image Source="/Filtration;component/Resources/Icons/theme_icon.png" x:Key="ThemeIcon" x:Shared="False" />
+    <Image Source="/Filtration;component/Resources/Icons/script_icon.png" x:Key="ScriptIcon" x:Shared="False" />
 </ResourceDictionary>
