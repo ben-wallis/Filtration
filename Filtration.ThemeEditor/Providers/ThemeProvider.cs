@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using AutoMapper;
 using Filtration.ObjectModel;
-using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.ThemeEditor;
 using Filtration.ThemeEditor.Services;
 using Filtration.ThemeEditor.ViewModels;
@@ -12,6 +11,7 @@ namespace Filtration.ThemeEditor.Providers
     {
         IThemeViewModel NewThemeForScript(ItemFilterScript script);
         IThemeViewModel LoadThemeFromFile(string filePath);
+        Theme LoadThemeModelFromFile(string filePath);
         void SaveTheme(IThemeViewModel themeViewModel, string filePath);
     }
 
@@ -29,7 +29,6 @@ namespace Filtration.ThemeEditor.Providers
         public IThemeViewModel NewThemeForScript(ItemFilterScript script)
         {
             Mapper.CreateMap<ThemeComponent, ThemeComponentViewModel>();
-            //Mapper.CreateMap<ThemeComponentType, ThemeComponentType>();
 
             var themeComponentViewModels = Mapper.Map<ObservableCollection<ThemeComponentViewModel>>(script.ThemeComponents);
             var themeViewModel = _themeViewModelFactory.Create();
@@ -43,7 +42,6 @@ namespace Filtration.ThemeEditor.Providers
         {
             Mapper.CreateMap<Theme, IThemeViewModel>().ConstructUsingServiceLocator();
             Mapper.CreateMap<ThemeComponent, ThemeComponentViewModel>();
-            //Mapper.CreateMap<ThemeComponentType, ThemeComponentType>();
 
             var model = _themePersistenceService.LoadTheme(filePath);
             var viewModel = Mapper.Map<IThemeViewModel>(model);
@@ -51,11 +49,15 @@ namespace Filtration.ThemeEditor.Providers
             return viewModel;
         }
 
+        public Theme LoadThemeModelFromFile(string filePath)
+        {
+            return _themePersistenceService.LoadTheme(filePath);
+        }
+
         public void SaveTheme(IThemeViewModel themeViewModel, string filePath)
         {
             Mapper.CreateMap<IThemeViewModel, Theme>();
             Mapper.CreateMap<ThemeComponentViewModel, ThemeComponent>();
-            //Mapper.CreateMap<ThemeComponentType, ThemeComponentType>();
 
             var theme = Mapper.Map<Theme>(themeViewModel);
             _themePersistenceService.SaveTheme(theme, filePath);

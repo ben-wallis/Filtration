@@ -7,7 +7,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Forms;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Castle.Core.Internal;
 using Filtration.Common.ViewModels;
@@ -15,7 +14,6 @@ using Filtration.Interface;
 using Filtration.ObjectModel;
 using Filtration.Services;
 using Filtration.Translators;
-using Filtration.ViewModels.ToolPanes;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using Clipboard = System.Windows.Clipboard;
@@ -37,6 +35,7 @@ namespace Filtration.ViewModels
         
         void Initialise(ItemFilterScript itemFilterScript, bool newScript);
         void RemoveDirtyFlag();
+        void SetDirtyFlag();
 
         void AddSection(IItemFilterBlockViewModel targetBlockViewModel);
         void AddBlock(IItemFilterBlockViewModel targetBlockViewModel);
@@ -238,7 +237,14 @@ namespace Filtration.ViewModels
             RaisePropertyChanged("Filename");
             RaisePropertyChanged("DisplayName");
         }
-        
+
+        public void SetDirtyFlag()
+        {
+            IsDirty = true;
+            RaisePropertyChanged("Filename");
+            RaisePropertyChanged("DisplayName");
+        }
+
         public string DisplayName
         {
             get { return !string.IsNullOrEmpty(Filename) ? Filename : Description; }

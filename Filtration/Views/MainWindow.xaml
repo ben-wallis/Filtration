@@ -9,7 +9,7 @@
         xmlns:viewsAvalonDock="clr-namespace:Filtration.Views.AvalonDock"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
-        Title="{Binding WindowTitle}" Height="768" Width="1024" BorderThickness="1" BorderBrush="Black">
+        Title="{Binding WindowTitle}" Height="768" Width="1100" BorderThickness="1" BorderBrush="Black">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -33,6 +33,7 @@
                 <MenuItem Header="Block Group Browser" IsCheckable="True" IsChecked="{Binding AvalonDockWorkspaceViewModel.BlockGroupBrowserViewModel.IsVisible}" Icon="{StaticResource BlockGroupBrowserIcon}" />
             </MenuItem>
             <MenuItem Header="_Tools">
+                <MenuItem Header="_Apply Theme to Script" Command="{Binding ApplyThemeToScriptCommand}" Icon="{StaticResource ThemeIcon}" />
                 <MenuItem Header="_Replace Colors" Command="{Binding ReplaceColorsCommand}" Icon="{StaticResource ReplaceColorsIcon}" />
                 <MenuItem Header="_Settings" Command="{Binding OpenSettingsWindowCommand}" />
             </MenuItem>

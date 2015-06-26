@@ -4,8 +4,10 @@ using System.Reflection;
 using System.Windows.Forms;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
+using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Repositories;
 using Filtration.ThemeEditor.Providers;
+using Filtration.ThemeEditor.Services;
 using Filtration.ThemeEditor.ViewModels;
 using Filtration.Translators;
 using Filtration.Views;
@@ -30,6 +32,7 @@ namespace Filtration.ViewModels
         private readonly IAvalonDockWorkspaceViewModel _avalonDockWorkspaceViewModel;
         private readonly ISettingsWindowViewModel _settingsWindowViewModel;
         private readonly IThemeProvider _themeProvider;
+        private readonly IThemeService _themeService;
 
         private IDocument _activeDocument;
 
@@ -38,7 +41,8 @@ namespace Filtration.ViewModels
                                    IReplaceColorsViewModel replaceColorsViewModel,
                                    IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
                                    ISettingsWindowViewModel settingsWindowViewModel,
-                                   IThemeProvider themeProvider)
+                                   IThemeProvider themeProvider,
+                                   IThemeService themeService)
         {
             _itemFilterScriptRepository = itemFilterScriptRepository;
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
@@ -46,11 +50,13 @@ namespace Filtration.ViewModels
             _avalonDockWorkspaceViewModel = avalonDockWorkspaceViewModel;
             _settingsWindowViewModel = settingsWindowViewModel;
             _themeProvider = themeProvider;
+            _themeService = themeService;
 
             NewScriptCommand = new RelayCommand(OnNewScriptCommand);
             CopyScriptCommand = new RelayCommand(OnCopyScriptCommand, ActiveDocumentIsScript);
             OpenScriptCommand = new RelayCommand(OnOpenScriptCommand);
             OpenThemeCommand = new RelayCommand(OnOpenThemeCommand);
+
 
             SaveCommand = new RelayCommand(OnSaveDocumentCommand, ActiveDocumentIsEditable);
             SaveAsCommand = new RelayCommand(OnSaveAsCommand, ActiveDocumentIsEditable);
@@ -63,6 +69,7 @@ namespace Filtration.ViewModels
             OpenSettingsWindowCommand = new RelayCommand(OnOpenSettingsWindowCommand);
             ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, ActiveDocumentIsScript);
             CreateThemeCommand = new RelayCommand(OnCreateThemeCommand, ActiveDocumentIsScript);
+            ApplyThemeToScriptCommand = new RelayCommand(OnApplyThemeToScriptCommand, ActiveDocumentIsScript);
 
             //LoadScriptFromFile("C:\\ThioleLootFilter.txt");
 
@@ -78,14 +85,16 @@ namespace Filtration.ViewModels
                     case "ActiveDocumentChanged":
                     {
                         _activeDocument = _avalonDockWorkspaceViewModel.ActiveDocument;
+                        
+                        CopyScriptCommand.RaiseCanExecuteChanged();
                         SaveCommand.RaiseCanExecuteChanged();
                         SaveAsCommand.RaiseCanExecuteChanged();
-                        CopyScriptCommand.RaiseCanExecuteChanged();
+                        CloseCommand.RaiseCanExecuteChanged();
                         CopyBlockCommand.RaiseCanExecuteChanged();
                         PasteCommand.RaiseCanExecuteChanged();
-                        NewScriptCommand.RaiseCanExecuteChanged();
-                        CloseCommand.RaiseCanExecuteChanged();
                         ReplaceColorsCommand.RaiseCanExecuteChanged();
+                        ApplyThemeToScriptCommand.RaiseCanExecuteChanged();
+                        CreateThemeCommand.RaiseCanExecuteChanged();
                         break;
                     }
                     case "NewScript":
@@ -115,6 +124,7 @@ namespace Filtration.ViewModels
         public RelayCommand OpenSettingsWindowCommand { get; private set; }
         public RelayCommand ReplaceColorsCommand { get; private set; }
         public RelayCommand CreateThemeCommand { get; private set; }
+        public RelayCommand ApplyThemeToScriptCommand { get; private set; }
 
         public IAvalonDockWorkspaceViewModel AvalonDockWorkspaceViewModel
         {
@@ -201,19 +211,18 @@ namespace Filtration.ViewModels
 
         private void OnOpenThemeCommand()
         {
-            var openFileDialog = new OpenFileDialog
+
+            var filePath = ShowOpenThemeDialog();
+            if (string.IsNullOrEmpty(filePath))
             {
-                Filter = "Filter Theme Files (*.filtertheme)|*.filtertheme|All Files (*.*)|*.*",
-                InitialDirectory = _itemFilterScriptRepository.GetItemFilterScriptDirectory()
-            };
-            
-            if (openFileDialog.ShowDialog() != true) return;
+                return;
+            }
 
             IThemeViewModel loadedViewModel;
 
             try
             {
-                loadedViewModel = _themeProvider.LoadThemeFromFile(openFileDialog.FileName);
+                loadedViewModel = _themeProvider.LoadThemeFromFile(filePath);
             }
             catch (IOException e)
             {
@@ -225,6 +234,53 @@ namespace Filtration.ViewModels
             
             _avalonDockWorkspaceViewModel.AddDocument(loadedViewModel);
         }
+
+        private void OnApplyThemeToScriptCommand()
+        {
+            var filePath = ShowOpenThemeDialog();
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return;
+            }
+
+            Theme loadedTheme;
+
+            try
+            {
+                loadedTheme = _themeProvider.LoadThemeModelFromFile(filePath);
+            }
+            catch (IOException e)
+            {
+                MessageBox.Show(@"Error loading filter theme - " + e.Message, @"Theme Load Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            var result = MessageBox.Show(@"Are you sure you wish to apply this theme to the current filter script?",
+                @"Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+
+            _themeService.ApplyThemeToScript(loadedTheme, AvalonDockWorkspaceViewModel.ActiveScriptViewModel.Script);
+            AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SetDirtyFlag();
+        }
+
+
+        private string ShowOpenThemeDialog()
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "Filter Theme Files (*.filtertheme)|*.filtertheme|All Files (*.*)|*.*",
+                InitialDirectory = _itemFilterScriptRepository.GetItemFilterScriptDirectory()
+            };
+
+            return openFileDialog.ShowDialog() != true ? string.Empty : openFileDialog.FileName;
+        }
+
+
 
         private void SetItemFilterScriptDirectory()
         {

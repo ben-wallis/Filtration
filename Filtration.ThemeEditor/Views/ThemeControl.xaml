@@ -10,7 +10,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl ItemsSource="{Binding Components}">
+            <ItemsControl ItemsSource="{Binding Components}" Margin="10">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel />
@@ -18,7 +18,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <views:ThemeComponentControl DataContext="{Binding}" Margin="10" />
+                        <views:ThemeComponentControl DataContext="{Binding}" Margin="10,5,10,5" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

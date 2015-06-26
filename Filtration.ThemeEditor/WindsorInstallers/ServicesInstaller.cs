@@ -13,6 +13,11 @@ namespace Filtration.ThemeEditor.WindsorInstallers
                 Component.For<IThemePersistenceService>()
                     .ImplementedBy<ThemePersistenceService>()
                     .LifeStyle.Singleton);
+
+            container.Register(
+                Component.For<IThemeService>()
+                    .ImplementedBy<ThemeService>()
+                    .LifeStyle.Singleton);
         }
     }
 }
