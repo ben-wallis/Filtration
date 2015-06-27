@@ -53,25 +53,39 @@ namespace Filtration.ViewModels
             _themeService = themeService;
 
             NewScriptCommand = new RelayCommand(OnNewScriptCommand);
-            CopyScriptCommand = new RelayCommand(OnCopyScriptCommand, ActiveDocumentIsScript);
+            CopyScriptCommand = new RelayCommand(OnCopyScriptCommand, () => ActiveDocumentIsScript);
             OpenScriptCommand = new RelayCommand(OnOpenScriptCommand);
             OpenThemeCommand = new RelayCommand(OnOpenThemeCommand);
-
 
             SaveCommand = new RelayCommand(OnSaveDocumentCommand, ActiveDocumentIsEditable);
             SaveAsCommand = new RelayCommand(OnSaveAsCommand, ActiveDocumentIsEditable);
             CloseCommand = new RelayCommand(OnCloseDocumentCommand, () => AvalonDockWorkspaceViewModel.ActiveDocument != null);
 
-            CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => ActiveDocumentIsScript() && (_avalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel != null));
-            PasteCommand = new RelayCommand(OnPasteCommand, () => ActiveDocumentIsScript() && (_avalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel != null));
+            CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
+            CopyBlockStyleCommand = new RelayCommand(OnCopyBlockStyleCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
+            PasteCommand = new RelayCommand(OnPasteCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
+            PasteBlockStyleCommand = new RelayCommand(OnPasteBlockStyleCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
+
+            MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
+            MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
+            MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
+            MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
+
+            AddBlockCommand = new RelayCommand(OnAddBlockCommand, () => ActiveDocumentIsScript);
+            AddSectionCommand = new RelayCommand(OnAddSectionCommand, () => ActiveDocumentIsScript);
+            DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand,  () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
 
             OpenAboutWindowCommand = new RelayCommand(OnOpenAboutWindowCommand);
             OpenSettingsWindowCommand = new RelayCommand(OnOpenSettingsWindowCommand);
-            ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, ActiveDocumentIsScript);
-            CreateThemeCommand = new RelayCommand(OnCreateThemeCommand, ActiveDocumentIsScript);
-            ApplyThemeToScriptCommand = new RelayCommand(OnApplyThemeToScriptCommand, ActiveDocumentIsScript);
+            ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, () => ActiveDocumentIsScript);
+            CreateThemeCommand = new RelayCommand(OnCreateThemeCommand, () => ActiveDocumentIsScript);
+            ApplyThemeToScriptCommand = new RelayCommand(OnApplyThemeToScriptCommand, () => ActiveDocumentIsScript);
 
-            //LoadScriptFromFile("C:\\ThioleLootFilter.txt");
+            ExpandAllBlocksCommand = new RelayCommand(OnExpandAllBlocksCommand, () => ActiveDocumentIsScript);
+            CollapseAllBlocksCommand = new RelayCommand(OnCollapseAllBlocksCommand, () => ActiveDocumentIsScript);
+
+            ToggleShowAdvancedCommand = new RelayCommand<bool>(OnToggleShowAdvancedCommand, s => ActiveDocumentIsScript);
+            ClearFiltersCommand = new RelayCommand(OnClearFiltersCommand, () => ActiveDocumentIsScript);
 
             if (string.IsNullOrEmpty(_itemFilterScriptRepository.GetItemFilterScriptDirectory()))
             {
@@ -95,6 +109,7 @@ namespace Filtration.ViewModels
                         ReplaceColorsCommand.RaiseCanExecuteChanged();
                         ApplyThemeToScriptCommand.RaiseCanExecuteChanged();
                         CreateThemeCommand.RaiseCanExecuteChanged();
+                        RaisePropertyChanged("ShowAdvancedStatus");
                         break;
                     }
                     case "NewScript":
@@ -116,7 +131,9 @@ namespace Filtration.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand SaveAsCommand { get; private set; }
         public RelayCommand CopyBlockCommand { get; private set; }
+        public RelayCommand CopyBlockStyleCommand { get; private set; }
         public RelayCommand PasteCommand { get; private set; }
+        public RelayCommand PasteBlockStyleCommand { get; private set; }
         public RelayCommand CopyScriptCommand { get; private set; }
         public RelayCommand NewScriptCommand { get; private set; }
         public RelayCommand CloseCommand { get; private set; }
@@ -125,6 +142,21 @@ namespace Filtration.ViewModels
         public RelayCommand ReplaceColorsCommand { get; private set; }
         public RelayCommand CreateThemeCommand { get; private set; }
         public RelayCommand ApplyThemeToScriptCommand { get; private set; }
+        
+        public RelayCommand AddBlockCommand { get; private set; }
+        public RelayCommand AddSectionCommand { get; private set; }
+        public RelayCommand DeleteBlockCommand { get; private set; }
+
+        public RelayCommand MoveBlockUpCommand { get; private set; }
+        public RelayCommand MoveBlockDownCommand { get; private set; }
+        public RelayCommand MoveBlockToTopCommand { get; private set; }
+        public RelayCommand MoveBlockToBottomCommand { get; private set; }
+
+        public RelayCommand ExpandAllBlocksCommand { get; private set; }
+        public RelayCommand CollapseAllBlocksCommand { get; private set; }
+
+        public RelayCommand<bool> ToggleShowAdvancedCommand { get; private set; }
+        public RelayCommand ClearFiltersCommand { get; private set; }
 
         public IAvalonDockWorkspaceViewModel AvalonDockWorkspaceViewModel
         {
@@ -141,14 +173,38 @@ namespace Filtration.ViewModels
             }
         }
 
-        private bool ActiveDocumentIsScript()
+        public bool ActiveDocumentIsScript
         {
-            return _activeDocument is IItemFilterScriptViewModel;
+            get
+            {
+                {
+                    var isScript = _activeDocument is ItemFilterScriptViewModel;
+                    return isScript;
+                }
+            }
+        }
+
+        public bool ActiveScriptHasSelectedBlock
+        {
+            get { return AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel != null; }
+        }
+
+        public bool ActiveDocumentIsTheme
+        {
+            get { { return _activeDocument is ThemeViewModel; } }
         }
 
         private bool ActiveDocumentIsEditable()
         {
             return _activeDocument is IEditableDocument;
+        }
+
+        public bool ShowAdvancedStatus
+        {
+            get
+            {
+                return ActiveDocumentIsScript && _avalonDockWorkspaceViewModel.ActiveScriptViewModel.ShowAdvanced;
+            }
         }
 
         private void OnCreateThemeCommand()
@@ -321,12 +377,22 @@ namespace Filtration.ViewModels
 
         private void OnCopyBlockCommand()
         {
-            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.CopyBlock(_avalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel);
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.CopyBlockCommand.Execute(null);
+        }
+
+        private void OnCopyBlockStyleCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.CopyBlockStyleCommand.Execute(null);
         }
 
         private void OnPasteCommand()
         {
-            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.PasteBlock(_avalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel);
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.PasteBlockCommand.Execute(null);
+        }
+
+        private void OnPasteBlockStyleCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.PasteBlockStyleCommand.Execute(null);
         }
 
         private void OnNewScriptCommand()
@@ -338,6 +404,61 @@ namespace Filtration.ViewModels
         private void OnCloseDocumentCommand()
         {
             _avalonDockWorkspaceViewModel.ActiveDocument.Close();
+        }
+
+        private void OnMoveBlockUpCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.MoveBlockUpCommand.Execute(null);
+        }
+
+        private void OnMoveBlockDownCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.MoveBlockDownCommand.Execute(null);
+        }
+
+        private void OnMoveBlockToTopCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.MoveBlockToTopCommand.Execute(null);
+        }
+
+        private void OnMoveBlockToBottomCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.MoveBlockToBottomCommand.Execute(null);
+        }
+
+        private void OnAddBlockCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.AddBlockCommand.Execute(null);
+        }
+
+        private void OnAddSectionCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.AddSectionCommand.Execute(null);
+        }
+
+        private void OnDeleteBlockCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.DeleteBlockCommand.Execute(null);
+        }
+
+        private void OnExpandAllBlocksCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.ExpandAllBlocksCommand.Execute(null);
+        }
+
+        private void OnCollapseAllBlocksCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.CollapseAllBlocksCommand.Execute(null);
+        }
+
+        private void OnToggleShowAdvancedCommand(bool showAdvanced)
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.ToggleShowAdvancedCommand.Execute(showAdvanced);
+        }
+
+        private void OnClearFiltersCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.ClearFilterCommand.Execute(null);
         }
     }
 }

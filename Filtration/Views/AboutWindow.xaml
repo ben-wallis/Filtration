@@ -1,16 +1,15 @@
-﻿<controls:MetroWindow x:Class="Filtration.Views.AboutWindow"
+﻿<Window x:Class="Filtration.Views.AboutWindow"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:extensions="clr-namespace:Filtration.Extensions"
                       Title="About Filtration"
                       Height="360"
                       Width="580"
                       Loaded="AboutWindow_OnLoaded"
                       BorderThickness="1"
-                      BorderBrush="Black"
-                      ShowMaxRestoreButton="False"
-                      ShowMinButton="False">
+                      BorderBrush="Black">
+    <!--ShowMaxRestoreButton="False"
+                      ShowMinButton="False"-->
     <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -71,4 +70,4 @@
             </TextBlock>
         </ScrollViewer>
     </Grid>
-</controls:MetroWindow>
+</Window>

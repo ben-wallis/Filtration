@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
 using Filtration.ObjectModel;
@@ -1323,6 +1324,108 @@ namespace Filtration.Tests.Translators
 
             // Assert
             Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void ReplaceColorBlockItemsFromString_SingleLine_ReplacesColorBlock()
+        {
+            // Arrange
+            var testInputString = "SetTextColor 240 200 150 # Rarest Currency";
+
+            var testInputBlockItems = new ObservableCollection<IItemFilterBlockItem>();
+            var testInputBlockItem = new TextColorBlockItem(Colors.Red);
+            testInputBlockItems.Add(testInputBlockItem);
+
+            // Act
+            _testUtility.Translator.ReplaceColorBlockItemsFromString(testInputBlockItems, testInputString);
+            
+            // Assert
+            var textColorBlockItem = testInputBlockItems.First(b => b is TextColorBlockItem) as TextColorBlockItem;
+            Assert.IsNotNull(textColorBlockItem);
+            Assert.AreNotSame(testInputBlockItem, textColorBlockItem);
+            Assert.AreEqual(new Color { R = 240, G = 200, B = 150, A = 255}, textColorBlockItem.Color);
+        }
+
+        [Test]
+        public void ReplaceColorBlockItemsFromString_MalformedLine_DoesNothing()
+        {
+            // Arrange
+            var testInputString = "SetTextCsaolor 240 200 150 # Rarest Currency";
+
+            var testInputBlockItems = new ObservableCollection<IItemFilterBlockItem>();
+            var testInputBlockItem = new TextColorBlockItem(Colors.Red);
+            testInputBlockItems.Add(testInputBlockItem);
+
+            // Act
+            _testUtility.Translator.ReplaceColorBlockItemsFromString(testInputBlockItems, testInputString);
+
+            // Assert
+            var textColorBlockItem = testInputBlockItems.First(b => b is TextColorBlockItem) as TextColorBlockItem;
+            Assert.IsNotNull(textColorBlockItem);
+            Assert.AreSame(testInputBlockItem, textColorBlockItem);
+        }
+
+        [Test]
+        public void ReplaceColorBlockItemsFromString_MultipleLines_ExistingBlockItems()
+        {
+            // Arrange
+            var testInputString = "SetTextColor 240 200 150 # Rarest Currency" + Environment.NewLine +
+                                  "SetBackgroundColor 0 0 0 # Rarest Currency Background" + Environment.NewLine +
+                                  "SetBorderColor 255 255 255 # Rarest Currency Border";
+
+            var testInputBlockItems = new ObservableCollection<IItemFilterBlockItem>();
+            var testInputTextColorBlockItem = new TextColorBlockItem(Colors.Red);
+            var testInputBackgroundColorBlockItem = new BackgroundColorBlockItem(Colors.Blue);
+            var testInpuBorderColorBlockItem = new BorderColorBlockItem(Colors.Yellow);
+            testInputBlockItems.Add(testInputTextColorBlockItem);
+            testInputBlockItems.Add(testInputBackgroundColorBlockItem);
+            testInputBlockItems.Add(testInpuBorderColorBlockItem);
+
+            // Act
+            _testUtility.Translator.ReplaceColorBlockItemsFromString(testInputBlockItems, testInputString);
+
+            // Assert
+            var textColorBlockItem = testInputBlockItems.First(b => b is TextColorBlockItem) as TextColorBlockItem;
+            Assert.IsNotNull(textColorBlockItem);
+            Assert.AreNotSame(testInputTextColorBlockItem, textColorBlockItem);
+            Assert.AreEqual(new Color {A = 255, R = 240, G = 200, B = 150}, textColorBlockItem.Color);
+
+            var backgroundColorBlockItem = testInputBlockItems.First(b => b is BackgroundColorBlockItem) as BackgroundColorBlockItem;
+            Assert.IsNotNull(backgroundColorBlockItem);
+            Assert.AreNotSame(testInputBackgroundColorBlockItem, backgroundColorBlockItem);
+            Assert.AreEqual(new Color { A = 255, R = 0, G = 0, B = 0 }, backgroundColorBlockItem.Color);
+
+            var borderColorBlockItem = testInputBlockItems.First(b => b is BorderColorBlockItem) as BorderColorBlockItem;
+            Assert.IsNotNull(borderColorBlockItem);
+            Assert.AreNotSame(testInpuBorderColorBlockItem, borderColorBlockItem);
+            Assert.AreEqual(new Color { A = 255, R = 255, G = 255, B = 255 }, borderColorBlockItem.Color);
+        }
+
+        [Test]
+        public void ReplaceColorBlockItemsFromString_MultipleLines_NoExistingBlockItems()
+        {
+            // Arrange
+            var testInputString = "SetTextColor 240 200 150 # Rarest Currency" + Environment.NewLine +
+                                  "SetBackgroundColor 0 0 0 # Rarest Currency Background" + Environment.NewLine +
+                                  "SetBorderColor 255 255 255 # Rarest Currency Border";
+
+            var testInputBlockItems = new ObservableCollection<IItemFilterBlockItem>();
+            
+            // Act
+            _testUtility.Translator.ReplaceColorBlockItemsFromString(testInputBlockItems, testInputString);
+
+            // Assert
+            var textColorBlockItem = testInputBlockItems.First(b => b is TextColorBlockItem) as TextColorBlockItem;
+            Assert.IsNotNull(textColorBlockItem);
+            Assert.AreEqual(new Color { A = 255, R = 240, G = 200, B = 150 }, textColorBlockItem.Color);
+
+            var backgroundColorBlockItem = testInputBlockItems.First(b => b is BackgroundColorBlockItem) as BackgroundColorBlockItem;
+            Assert.IsNotNull(backgroundColorBlockItem);
+            Assert.AreEqual(new Color { A = 255, R = 0, G = 0, B = 0 }, backgroundColorBlockItem.Color);
+
+            var borderColorBlockItem = testInputBlockItems.First(b => b is BorderColorBlockItem) as BorderColorBlockItem;
+            Assert.IsNotNull(borderColorBlockItem);
+            Assert.AreEqual(new Color { A = 255, R = 255, G = 255, B = 255 }, borderColorBlockItem.Color);
         }
 
         private class ItemFilterBlockTranslatorTestUtility

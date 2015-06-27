@@ -8,7 +8,7 @@
         <ResourceDictionary>
             <Style x:Key="PathOfExileFont">
                 <Setter Property="TextElement.FontFamily" Value="pack://application:,,,/resources/#Fontin SmallCaps" />
-                <Setter Property="TextElement.FontSize" Value="14" />
+                <!--<Setter Property="TextElement.FontSize" Value="14" />-->
             </Style>
             <Style x:Key="ChromelessToggleButton" TargetType="{x:Type ToggleButton}">
                 <Setter Property="Template">

@@ -37,10 +37,28 @@ namespace Filtration.ViewModels
         void RemoveDirtyFlag();
         void SetDirtyFlag();
 
+        RelayCommand AddBlockCommand { get; }
+        RelayCommand AddSectionCommand { get; }
+        RelayCommand DeleteBlockCommand { get; }
+        RelayCommand MoveBlockUpCommand { get; }
+        RelayCommand MoveBlockDownCommand { get; }
+        RelayCommand MoveBlockToTopCommand { get; }
+        RelayCommand MoveBlockToBottomCommand { get;}
+        RelayCommand CopyBlockCommand { get; }
+        RelayCommand PasteBlockCommand { get; }
+        RelayCommand CopyBlockStyleCommand { get; }
+        RelayCommand PasteBlockStyleCommand { get; }
+        RelayCommand ExpandAllBlocksCommand { get; }
+        RelayCommand CollapseAllBlocksCommand { get; }
+        RelayCommand<bool> ToggleShowAdvancedCommand { get; }
+        RelayCommand ClearFilterCommand { get; }
+
         void AddSection(IItemFilterBlockViewModel targetBlockViewModel);
         void AddBlock(IItemFilterBlockViewModel targetBlockViewModel);
         void CopyBlock(IItemFilterBlockViewModel targetBlockViewModel);
+        void CopyBlockStyle(IItemFilterBlockViewModel targetBlockViewModel);
         void PasteBlock(IItemFilterBlockViewModel targetBlockViewModel);
+        void PasteBlockStyle(IItemFilterBlockViewModel targetBlockViewModel);
     }
 
     internal class ItemFilterScriptViewModel : PaneViewModel, IItemFilterScriptViewModel
@@ -80,7 +98,11 @@ namespace Filtration.ViewModels
             AddBlockCommand = new RelayCommand(OnAddBlockCommand);
             AddSectionCommand = new RelayCommand(OnAddSectionCommand, () => SelectedBlockViewModel != null);
             CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => SelectedBlockViewModel != null);
+            CopyBlockStyleCommand = new RelayCommand(OnCopyBlockStyleCommand, () => SelectedBlockViewModel != null);
             PasteBlockCommand = new RelayCommand(OnPasteBlockCommand, () => SelectedBlockViewModel != null);
+            PasteBlockStyleCommand = new RelayCommand(OnPasteBlockStyleCommand, () => SelectedBlockViewModel != null);
+            ExpandAllBlocksCommand = new RelayCommand(OnExpandAllBlocksCommand);
+            CollapseAllBlocksCommand = new RelayCommand(OnCollapseAllBlocksCommand);
 
             var icon = new BitmapImage();
             icon.BeginInit();
@@ -100,7 +122,11 @@ namespace Filtration.ViewModels
         public RelayCommand AddBlockCommand { get; private set; }
         public RelayCommand AddSectionCommand { get; private set; }
         public RelayCommand CopyBlockCommand { get; private set; }
+        public RelayCommand CopyBlockStyleCommand { get; private set; }
         public RelayCommand PasteBlockCommand { get; private set; }
+        public RelayCommand PasteBlockStyleCommand { get; private set; }
+        public RelayCommand ExpandAllBlocksCommand { get; private set; }
+        public RelayCommand CollapseAllBlocksCommand { get; private set; }
 
         public ObservableCollection<IItemFilterBlockViewModel> ItemFilterBlockViewModels
         {
@@ -444,6 +470,44 @@ namespace Filtration.ViewModels
             Clipboard.SetText(_blockTranslator.TranslateItemFilterBlockToString(SelectedBlockViewModel.Block));
         }
 
+        private void OnCopyBlockStyleCommand()
+        {
+            CopyBlockStyle(SelectedBlockViewModel);
+        }
+
+        public void CopyBlockStyle(IItemFilterBlockViewModel targetBlockViewModel)
+        {
+            string outputText = string.Empty;
+
+            foreach (var blockItem in targetBlockViewModel.Block.BlockItems.Where(b => b is IAudioVisualBlockItem))
+            {
+                if (outputText != string.Empty)
+                {
+                    outputText += Environment.NewLine;
+                }
+                outputText += blockItem.OutputText;
+            }
+
+            Clipboard.SetText(outputText);
+        }
+
+        private void OnPasteBlockStyleCommand()
+        {
+            PasteBlockStyle(SelectedBlockViewModel);
+        }
+
+        public void PasteBlockStyle(IItemFilterBlockViewModel targetBlockViewModel)
+        {
+            var clipboardText = Clipboard.GetText();
+            if (string.IsNullOrEmpty(clipboardText))
+            {
+                return;
+            }
+
+            _blockTranslator.ReplaceColorBlockItemsFromString(targetBlockViewModel.Block.BlockItems, clipboardText);
+            targetBlockViewModel.RefreshBlockPreview();
+        }
+
         private void OnPasteBlockCommand()
         {
             PasteBlock(SelectedBlockViewModel);
@@ -479,7 +543,6 @@ namespace Filtration.ViewModels
         private void OnMoveBlockToTopCommand()
         {
             MoveBlockToTop(SelectedBlockViewModel);
-           
         }
 
         public void MoveBlockToTop(IItemFilterBlockViewModel targetBlockViewModel)
@@ -589,18 +652,34 @@ namespace Filtration.ViewModels
         {
             AddSection(SelectedBlockViewModel);
         }
-
+        
         public void AddSection(IItemFilterBlockViewModel targetBlockViewModel)
         {
             var vm = _itemFilterBlockViewModelFactory.Create();
             var newSection = new ItemFilterSection { Description = "New Section" };
             vm.Initialise(newSection, this);
 
-            Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModel.Block) + 1, newSection);
-            ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModel) + 1, vm);
+            Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModel.Block), newSection);
+            ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModel), vm);
             IsDirty = true;
             SelectedBlockViewModel = vm;
             RaisePropertyChanged("ItemFilterSectionViewModels");
+        }
+
+        private void OnExpandAllBlocksCommand()
+        {
+            foreach (var blockViewModel in ItemFilterBlockViewModels)
+            {
+                blockViewModel.IsExpanded = true;
+            }
+        }
+
+        private void OnCollapseAllBlocksCommand()
+        {
+            foreach (var blockViewModel in ItemFilterBlockViewModels)
+            {
+                blockViewModel.IsExpanded = false;
+            }
         }
 
         private void OnDeleteBlockCommand()

@@ -10,17 +10,31 @@
     <UserControl.Resources>
         <ResourceDictionary Source="../Views/SharedResourcesDictionary.xaml" />
     </UserControl.Resources>
-    <Grid Width="143" Height="28">
+    <Border BorderBrush="Black" BorderThickness="1">
+        <Grid Width="154" Height="35">
             <Image Source="pack://application:,,,/resources/groundtile.png" Stretch="Fill" />
-            <Border Margin="3" Padding="4,0,4,2" BorderThickness="2" BorderBrush="{Binding BorderColor, Converter={StaticResource ColorToSolidColorBrushConverter}}">
-                <Border.Background>
-                    <SolidColorBrush Color="{Binding BackgroundColor}" />
-                </Border.Background>
-                <TextBlock TextAlignment="Center" Text="Test Item Preview" Style="{StaticResource PathOfExileFont}">
-                    <TextBlock.Foreground>
-                        <SolidColorBrush Color="{Binding TextColor}" />
-                    </TextBlock.Foreground>
-                </TextBlock>
-            </Border>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Row="1" Grid.Column="1" Margin="3" Padding="4,0,4,0" BorderThickness="1" BorderBrush="{Binding BorderColor, Converter={StaticResource ColorToSolidColorBrushConverter}}">
+                    <Border.Background>
+                        <SolidColorBrush Color="{Binding BackgroundColor}" />
+                    </Border.Background>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Item Preview" Style="{StaticResource PathOfExileFont}" FontSize="{Binding BlockFontSize}">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{Binding TextColor}" />
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                </Border>
+            </Grid>
         </Grid>
+    </Border>
 </UserControl>

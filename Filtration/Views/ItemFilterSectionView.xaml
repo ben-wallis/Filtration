@@ -22,7 +22,13 @@
         </Grid.ColumnDefinitions>
         <Border Width="7" Grid.Column="0" BorderBrush="Gray" Background="Gray" CornerRadius="2,0,0,2" />
         <Border Grid.Column =" 1"  BorderThickness="1" BorderBrush="SlateGray" Background="Gainsboro" CornerRadius="0,2,2,0" Padding="3">
-            <TextBox Text="{Binding BlockDescription, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" TextWrapping="Wrap"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column ="0" Text="{Binding BlockDescription, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" TextWrapping="Wrap" MinWidth="150"/>
+            </Grid>
         </Border>
     </Grid>
 </UserControl>

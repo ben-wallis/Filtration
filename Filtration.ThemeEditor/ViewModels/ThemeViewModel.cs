@@ -36,7 +36,7 @@ namespace Filtration.ThemeEditor.ViewModels
 
             var icon = new BitmapImage();
             icon.BeginInit();
-            icon.UriSource = new Uri("pack://application:,,,/Filtration;component/Resources/Icons/theme_icon.png");
+            icon.UriSource = new Uri("pack://application:,,,/Filtration;component/Resources/Icons/Theme.ico");
             icon.EndInit();
             IconSource = icon;
         }

@@ -53,6 +53,12 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="Fluent">
+      <HintPath>..\packages\Fluent.Ribbon.3.4.0\lib\net45\Fluent.dll</HintPath>
+    </Reference>
+    <Reference Include="FontAwesome.WPF">
+      <HintPath>..\packages\FontAwesome.WPF.4.3.0.3\lib\FontAwesome.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.1.1.35049, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
@@ -60,9 +66,6 @@
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.1.1.35053, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="MahApps.Metro">
-      <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -75,7 +78,9 @@
       <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fluent.Ribbon.3.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml">
@@ -124,6 +129,7 @@
     <Compile Include="Converters\BooleanInverterConverter.cs" />
     <Compile Include="Converters\BooleanToBlockActionInverseConverter.cs" />
     <Compile Include="Converters\BooleanToBlockActionConverter.cs" />
+    <Compile Include="Converters\BooleanVisibilityConverterCopy.cs" />
     <Compile Include="Converters\ColorToSolidColorBrushConverter.cs" />
     <Compile Include="Converters\HashSignRemovalConverter.cs" />
     <Compile Include="Converters\ItemRarityConverter.cs" />
@@ -346,10 +352,8 @@
     <Resource Include="Resources\logo.png" />
     <Resource Include="Resources\Icons\add_block_icon.png" />
     <Resource Include="Resources\Icons\add_section_icon.png" />
-    <Resource Include="Resources\Icons\copy_icon.png" />
     <Resource Include="Resources\Icons\delete_icon.png" />
     <Resource Include="Resources\Icons\new_icon.png" />
-    <Resource Include="Resources\Icons\paste_icon.png" />
     <Resource Include="Resources\Icons\save_all_icon.png" />
     <Resource Include="Resources\Icons\save_icon.png" />
     <Resource Include="Resources\Icons\open_icon.png" />
@@ -361,7 +365,6 @@
     <Resource Include="Resources\Icons\arrow_bottom_icon.png" />
     <Resource Include="Resources\Icons\about_icon.png" />
     <Resource Include="Resources\filtration.ico" />
-    <Resource Include="Resources\Icons\replace_colors_icon.png" />
     <Resource Include="Resources\Icons\block_group_browser_icon.png" />
     <Resource Include="Resources\Icons\clear_filter_icon.png" />
     <Resource Include="Resources\Icons\filter_icon.png" />
@@ -369,8 +372,13 @@
     <Resource Include="Resources\Icons\block_output_preview_icon.png" />
     <Resource Include="Resources\Icons\collapse_icon.png" />
     <Resource Include="Resources\Icons\expand_icon.png" />
-    <Resource Include="Resources\Icons\theme_icon.png" />
     <Resource Include="Resources\Icons\script_icon.png" />
+    <Resource Include="Resources\Icons\settings_icon.png" />
+    <Resource Include="Resources\Icons\Copy.ico" />
+    <Resource Include="Resources\Icons\Paste.ico" />
+    <Resource Include="Resources\Icons\PasteStyle.ico" />
+    <Resource Include="Resources\Icons\ReplaceColors.ico" />
+    <Resource Include="Resources\Icons\Theme.ico" />
     <Content Include="Resources\ItemBaseTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -10,6 +10,12 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewModels:ItemFilterScriptViewModel}"
              d:DesignHeight="300" d:DesignWidth="600">
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding CopyBlockCommand}" Modifiers="Control" Key="C" />
+        <KeyBinding Command="{Binding PasteBlockCommand}" Modifiers="Control" Key="V" />
+        <KeyBinding Command="{Binding CopyBlockStyleCommand}" Modifiers="Shift+Control" Key="C" />
+        <KeyBinding Command="{Binding PasteBlockStyleCommand}" Modifiers="Shift+Control" Key="V" />
+    </UserControl.InputBindings>
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -47,23 +53,6 @@
         </Border>
         <Border Grid.Row="1" BorderThickness="1" BorderBrush="DarkGray" Margin="5,5,5,5" Padding="2">
             <DockPanel LastChildFill="True">
-                <ToolBarTray DockPanel.Dock="Top">
-                    <ToolBar>
-                        <Button ToolTip="Add Block" Command="{Binding AddBlockCommand}" Content="{StaticResource AddBlockIcon}" />
-                        <Button ToolTip="Add Section" Command="{Binding AddSectionCommand}" Content="{StaticResource AddSectionIcon}" />
-                        <Button ToolTip="Delete Block/Section" Command="{Binding DeleteBlockCommand}" Content="{StaticResource DeleteIcon}" />
-                    </ToolBar>
-                    <ToolBar>
-                        <Button ToolTip="Move Block to Top" Command="{Binding MoveBlockToTopCommand}" Content="{StaticResource MoveToTopIcon}" />
-                        <Button ToolTip="Move Block Up" Command="{Binding MoveBlockUpCommand}" Content="{StaticResource MoveUpIcon}" />
-                        <Button ToolTip="Move Block Down" Command="{Binding MoveBlockDownCommand}" Content="{StaticResource MoveDownIcon}" />
-                        <Button ToolTip="Move Block to Bottom" Command="{Binding MoveBlockToBottomCommand}" Content="{StaticResource MoveToBottomIcon}" />
-                    </ToolBar>
-                    <ToolBar>
-                        <Button ToolTip="Clear Filter" Command="{Binding ClearFilterCommand}" Content="{StaticResource ClearFilterIcon}" />
-                        <ToggleButton ToolTip="Show Advanced Block Groups" Command="{Binding ToggleShowAdvancedCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"  Content="{StaticResource ShowAdvancedIcon}" />
-                    </ToolBar>
-                </ToolBarTray>
                 <userControls:AutoScrollingListBox ItemsSource="{Binding ItemFilterBlockViewModels}"
                                                    Margin="5,5,5,5"
                                                    Padding="5"
@@ -88,14 +77,6 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.Resources>
                         <Style TargetType="ListBoxItem">
-                            <Style.Resources>
-                                <!-- SelectedItem with focus -->
-                                <!--<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
-                                --><!-- SelectedItem without focus -->
-                                <!--<SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />-->
-                                <!-- SelectedItem text foreground --><!--
-                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />-->
-                            </Style.Resources>
                             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                         </Style>
                     </ListBox.Resources>

@@ -19,7 +19,9 @@ namespace Filtration.ViewModels
     {
         void Initialise(ItemFilterBlock itemFilterBlock, ItemFilterScriptViewModel parentScriptViewModel);
         bool IsDirty { get; set; }
+        bool IsExpanded { get; set; }
         ItemFilterBlock Block { get; }
+        void RefreshBlockPreview();
     }
 
     internal class ItemFilterBlockViewModel : FiltrationViewModelBase, IItemFilterBlockViewModel
@@ -38,6 +40,8 @@ namespace Filtration.ViewModels
 
             CopyBlockCommand = new RelayCommand(OnCopyBlockCommand);
             PasteBlockCommand = new RelayCommand(OnPasteBlockCommand);
+            CopyBlockStyleCommand = new RelayCommand(OnCopyBlockStyleCommand);
+            PasteBlockStyleCommand = new RelayCommand(OnPasteBlockStyleCommand);
             AddBlockCommand = new RelayCommand(OnAddBlockCommand);
             AddSectionCommand = new RelayCommand(OnAddSectionCommand);
             DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand);
@@ -74,6 +78,8 @@ namespace Filtration.ViewModels
 
         public RelayCommand CopyBlockCommand { get; private set; }
         public RelayCommand PasteBlockCommand { get; private set; }
+        public RelayCommand CopyBlockStyleCommand { get; private set; }
+        public RelayCommand PasteBlockStyleCommand { get; private set; }
         public RelayCommand AddBlockCommand { get; private set; }
         public RelayCommand AddSectionCommand { get; private set; }
         public RelayCommand DeleteBlockCommand { get; private set; }
@@ -90,7 +96,9 @@ namespace Filtration.ViewModels
         public RelayCommand PlaySoundCommand { get; private set; }
 
         public ItemFilterBlock Block { get; private set; }
+
         public bool IsDirty { get; set; }
+        public bool IsExpanded { get; set; }
 
         public ObservableCollection<IItemFilterBlockItem> BlockItems
         {
@@ -228,7 +236,7 @@ namespace Filtration.ViewModels
             {
                 return HasTextColor
                     ? BlockItems.OfType<TextColorBlockItem>().First().Color
-                    : new Color { A = 255, R = 255, G = 255, B = 255 };
+                    : new Color { A = 255, R = 200, G = 200, B = 200 };
             }
         }
 
@@ -265,6 +273,12 @@ namespace Filtration.ViewModels
         public bool HasFontSize
         {
             get { return Block.HasBlockItemOfType<FontSizeBlockItem>(); }
+        }
+
+        public int DisplayFontSize
+        {
+            // Dividing by 1.8 roughly scales in-game font sizes down to WPF sizes
+            get { return HasFontSize ? (int)(BlockItems.OfType<FontSizeBlockItem>().First().Value / 1.8) : 19; }
         }
 
         public bool HasSound
@@ -325,6 +339,15 @@ namespace Filtration.ViewModels
             _parentScriptViewModel.PasteBlock(this);
         }
 
+        private void OnCopyBlockStyleCommand()
+        {
+            _parentScriptViewModel.CopyBlockStyle(this);
+        }
+
+        private void OnPasteBlockStyleCommand()
+        {
+            _parentScriptViewModel.PasteBlockStyle(this);
+        }
 
         private void OnAddBlockCommand()
         {
@@ -384,9 +407,15 @@ namespace Filtration.ViewModels
 
         private void OnAudioVisualBlockItemChanged(object sender, EventArgs e)
         {
+            RefreshBlockPreview();
+        }
+
+        public void RefreshBlockPreview()
+        {
             RaisePropertyChanged("DisplayTextColor");
             RaisePropertyChanged("DisplayBackgroundColor");
             RaisePropertyChanged("DisplayBorderColor");
+            RaisePropertyChanged("DisplayFontSize");
             RaisePropertyChanged("HasSound");
         }
 

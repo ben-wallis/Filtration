@@ -11,6 +11,7 @@
              xmlns:blockItemBaseTypes="clr-namespace:Filtration.ObjectModel.BlockItemBaseTypes;assembly=Filtration.ObjectModel"
              xmlns:blockItemTypes="clr-namespace:Filtration.ObjectModel.BlockItemTypes;assembly=Filtration.ObjectModel"
              xmlns:enums="clr-namespace:Filtration.ObjectModel.Enums;assembly=Filtration.ObjectModel"
+             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewModels:ItemFilterBlockViewModel}"
              d:DesignHeight="200" d:DesignWidth="800">
@@ -38,13 +39,23 @@
                         <ToolTip Visibility="{Binding AdvancedBlockGroup, Converter={StaticResource BooleanVisibilityConverter}}">Advanced Block Group</ToolTip>
                     </Rectangle.ToolTip>
                 </Rectangle>
-                <Expander Grid.Column="1" Style="{StaticResource ExpanderRightAlignStyle}" x:Name="BlockExpander" MouseDoubleClick="BlockExpander_OnMouseDoubleClick" ToolTip="{Binding BlockDescription}" ToolTipService.IsEnabled="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsExpanded, Converter={StaticResource BoolInverterConverter}}">
+                <Expander Grid.Column="1"
+                          Style="{StaticResource ExpanderRightAlignStyle}"
+                          x:Name="BlockExpander"
+                          MouseDoubleClick="BlockExpander_OnMouseDoubleClick"
+                          ToolTip="{Binding BlockDescription}"
+                          ToolTipService.IsEnabled="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsExpanded, Converter={StaticResource BoolInverterConverter}}"
+                          IsExpanded="{Binding IsExpanded}">
                     <Expander.ContextMenu>
                         <ContextMenu>
                             <ContextMenu.Items>
                                 <MenuItem Header="Copy" Command="{Binding CopyBlockCommand}" Icon="{StaticResource CopyIcon}" />
                                 <MenuItem Header="Paste" Command="{Binding PasteBlockCommand}" Icon="{StaticResource PasteIcon}" />
                                 <Separator />
+                                <MenuItem Header="Block Style">
+                                    <MenuItem Header="Copy Block Style" Command="{Binding CopyBlockStyleCommand}" Icon="{StaticResource CopyIcon}" />
+                                    <MenuItem Header="Paste Block Style" Command="{Binding PasteBlockStyleCommand}" Icon="{StaticResource PasteIcon}" />
+                                </MenuItem>
                                 <MenuItem Header="Add Block" Command="{Binding Data.AddBlockCommand, Source={StaticResource proxy}}" Icon="{StaticResource AddBlockIcon}" />
                                 <MenuItem Header="Add Section" Command="{Binding Data.AddSectionCommand, Source={StaticResource proxy}}" Icon="{StaticResource AddSectionIcon}">
                                 </MenuItem>
@@ -66,7 +77,6 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            
                             <!-- BlockItems Summary Panel -->
                             <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
                                 <ItemsControl ItemsSource="{Binding SummaryBlockItems}">
@@ -94,15 +104,21 @@
 
                             <!-- Item Preview Box -->
                             <WrapPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
-                                <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="15" Width="15" Margin="0,0,3,0" Visibility="{Binding HasSound, Converter={StaticResource BooleanVisibilityConverter}}" />
-                                <ToggleButton Width="143"
-                                              Height="28"
-                                              Margin="0,0,8,0"
+                                <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       Height="15" Width="15"
+                                       Margin="0,0,3,0"
+                                       Visibility="{Binding HasSound, Converter={StaticResource BooleanVisibilityConverter}}" />
+                                <ToggleButton Margin="0,2,8,2"
                                               Style="{StaticResource ChromelessToggleButton}"
                                               x:Name="ItemPreviewButton"
                                               IsChecked="{Binding DisplaySettingsPopupOpen, Mode=OneWayToSource}"
                                               ToolTip="Click here to change color and font settings" Cursor="Hand" >
-                                    <userControls:ItemPreviewControl TextColor="{Binding DisplayTextColor}" BackgroundColor="{Binding DisplayBackgroundColor}" BorderColor="{Binding DisplayBorderColor}" />
+                                    <userControls:ItemPreviewControl TextColor="{Binding DisplayTextColor}"
+                                                                     BackgroundColor="{Binding DisplayBackgroundColor}"
+                                                                     BorderColor="{Binding DisplayBorderColor}"
+                                                                     BlockFontSize="{Binding DisplayFontSize}" />
                                 </ToggleButton>
                             </WrapPanel>
 
@@ -148,12 +164,39 @@
                         
                         <!-- Block Items -->
                         <WrapPanel Grid.Row="1" MaxHeight="200">
-                            <ItemsControl ItemsSource="{Binding BlockItems}">
+                            <WrapPanel.Resources>
+                                <CollectionViewSource Source="{Binding BlockItems}" x:Key="BlockItemsCollectionViewSource">
+                                    <CollectionViewSource.SortDescriptions>
+                                        <componentModel:SortDescription PropertyName="SortOrder"/>
+                                    </CollectionViewSource.SortDescriptions>
+                                </CollectionViewSource>
+                            </WrapPanel.Resources>
+                            <ItemsControl ItemsSource="{Binding Source={StaticResource BlockItemsCollectionViewSource}}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel Orientation="Vertical" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ContentPresenter}">
+                                        <Setter Property="LayoutTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform x:Name="transform" />
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <EventTrigger RoutedEvent="Loaded">
+                                                <EventTrigger.Actions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:2" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger.Actions>
+                                            </EventTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
                                 <ItemsControl.Resources>
                                     <Style TargetType="{x:Type Border}" x:Key="BlockItemBorder">
                                         <Setter Property="BorderThickness" Value="1" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -17,6 +18,7 @@ namespace Filtration.Translators
     {
         ItemFilterBlock TranslateStringToItemFilterBlock(string inputString);
         string TranslateItemFilterBlockToString(ItemFilterBlock block);
+        void ReplaceColorBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString);
     }
 
     internal class ItemFilterBlockTranslator : IItemFilterBlockTranslator
@@ -261,25 +263,29 @@ namespace Filtration.Translators
 
         private void AddColorItemToBlockItems<T>(ItemFilterBlock block, string inputString) where T : ColorBlockItem
         {
+            block.BlockItems.Add(GetColorBlockItemFromString<T>(inputString));
+        }
+
+        private T GetColorBlockItemFromString<T>(string inputString) where T: ColorBlockItem
+        {
             var blockItem = Activator.CreateInstance<T>();
             var result = Regex.Matches(inputString, @"([\w\s]*)[#]?(.*)");
 
-            // When Theme support is added result[0].Groups[2].Value will contain the ColorGroup in the comment if it exists.
             blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
-            
+
             var componentName = result[0].Groups[2].Value.Trim();
             if (!string.IsNullOrEmpty(componentName))
             {
                 ThemeComponentType componentType;
-                if (typeof (T) == typeof (TextColorBlockItem))
+                if (typeof(T) == typeof(TextColorBlockItem))
                 {
                     componentType = ThemeComponentType.TextColor;
                 }
-                else if (typeof (T) == typeof (BackgroundColorBlockItem))
+                else if (typeof(T) == typeof(BackgroundColorBlockItem))
                 {
                     componentType = ThemeComponentType.BackgroundColor;
                 }
-                else if (typeof (T) == typeof (BorderColorBlockItem))
+                else if (typeof(T) == typeof(BorderColorBlockItem))
                 {
                     componentType = ThemeComponentType.BorderColor;
                 }
@@ -291,7 +297,58 @@ namespace Filtration.Translators
                 blockItem.ThemeComponent = _themeComponentListBuilder.AddComponent(componentType, componentName, blockItem.Color);
             }
 
-            block.BlockItems.Add(blockItem);
+            return blockItem;
+        }
+
+        public void ReplaceColorBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems , string inputString)
+        {
+            foreach (var line in new LineReader(() => new StringReader(inputString)))
+            {
+                var matches = Regex.Match(line, @"(\w+)");
+                
+                switch (matches.Value)
+                {
+                    case "SetTextColor":
+                    {
+                        ReplaceColorBlockItem<TextColorBlockItem>(blockItems, line);
+                        break;
+                    }
+                    case "SetBackgroundColor":
+                    {
+                        ReplaceColorBlockItem<BackgroundColorBlockItem>(blockItems, line);
+                        break;
+                    }
+                    case "SetBorderColor":
+                    {
+                        ReplaceColorBlockItem<BorderColorBlockItem>(blockItems, line);
+                        break;
+                    }
+                    case "SetFontSize":
+                    {
+                        ReplaceFontSizeBlockItem(blockItems, line);
+                        break;
+                    }
+                } 
+            }
+        }
+
+        private void ReplaceColorBlockItem<T>(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString) where T : ColorBlockItem
+        {
+            var newBlockItem = GetColorBlockItemFromString<T>(inputString);
+            var existingBlockItem = blockItems.OfType<T>().FirstOrDefault();
+            blockItems.Remove(existingBlockItem);
+            blockItems.Add(newBlockItem);
+        }
+
+        private void ReplaceFontSizeBlockItem(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString)
+        {
+            var match = Regex.Match(inputString, @"\s+(\d+)");
+            if (!match.Success) return;
+
+            var newBlockItem = new FontSizeBlockItem(Convert.ToInt16(match.Value));
+            var existingBlockItem = blockItems.OfType<FontSizeBlockItem>().FirstOrDefault();
+            blockItems.Remove(existingBlockItem);
+            blockItems.Add(newBlockItem);
         }
 
         private void AddBlockGroupToBlock(ItemFilterBlock block, string inputString)

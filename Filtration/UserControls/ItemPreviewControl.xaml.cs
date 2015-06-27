@@ -33,6 +33,13 @@ namespace Filtration.UserControls
             new FrameworkPropertyMetadata()
         );
 
+        public static readonly DependencyProperty BlockFontSizeProperty = DependencyProperty.Register(
+            "BlockFontSize",
+            typeof(int),
+            typeof(ItemPreviewControl),
+            new FrameworkPropertyMetadata()
+        );
+
         public Color TextColor
         {
             get { return (Color) GetValue(TextColorProperty); }
@@ -50,25 +57,11 @@ namespace Filtration.UserControls
             get { return (Color)GetValue(BorderColorProperty); }
             set { SetValue(BorderColorProperty, value); }
         }
-        
-        //private static void OnItemPreviewControlPropertyChanged(DependencyObject source,
-        //    DependencyPropertyChangedEventArgs e)
-        //{
-        //    var control = source as ItemPreviewControl;
-        //    if (control == null) return;
 
-        //    control.OnPropertyChanged("TextColor");
-        //    control.OnPropertyChanged("BackgroundColor");
-        //    control.OnPropertyChanged("BorderColor");
-        //}
-
-        //public event PropertyChangedEventHandler PropertyChanged;
-
-        //[NotifyPropertyChangedInvocator]
-        //protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        //{
-        //    var handler = PropertyChanged;
-        //    if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        //}
+        public int BlockFontSize
+        {
+            get { return (int)GetValue(BlockFontSizeProperty); }
+            set { SetValue(BlockFontSizeProperty, value); }
+        }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Windows.Media;
-
-namespace Filtration.Interface
+﻿namespace Filtration.Interface
 {
     public interface IDocument
     {
