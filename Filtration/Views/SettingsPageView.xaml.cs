@@ -1,8 +1,8 @@
 ﻿namespace Filtration.Views
 {
-    public partial class SettingsWindow
+    public partial class SettingsPageView
     {
-        public SettingsWindow()
+        public SettingsPageView()
         {
             InitializeComponent();
         }

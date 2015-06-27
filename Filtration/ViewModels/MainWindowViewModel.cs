@@ -30,17 +30,15 @@ namespace Filtration.ViewModels
         private readonly IItemFilterScriptTranslator _itemFilterScriptTranslator;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
         private readonly IAvalonDockWorkspaceViewModel _avalonDockWorkspaceViewModel;
-        private readonly ISettingsWindowViewModel _settingsWindowViewModel;
+        private readonly ISettingsPageViewModel _settingsPageViewModel;
         private readonly IThemeProvider _themeProvider;
         private readonly IThemeService _themeService;
-
-        private IDocument _activeDocument;
 
         public MainWindowViewModel(IItemFilterScriptRepository itemFilterScriptRepository,
                                    IItemFilterScriptTranslator itemFilterScriptTranslator,
                                    IReplaceColorsViewModel replaceColorsViewModel,
                                    IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
-                                   ISettingsWindowViewModel settingsWindowViewModel,
+                                   ISettingsPageViewModel settingsPageViewModel,
                                    IThemeProvider themeProvider,
                                    IThemeService themeService)
         {
@@ -48,7 +46,7 @@ namespace Filtration.ViewModels
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
             _replaceColorsViewModel = replaceColorsViewModel;
             _avalonDockWorkspaceViewModel = avalonDockWorkspaceViewModel;
-            _settingsWindowViewModel = settingsWindowViewModel;
+            _settingsPageViewModel = settingsPageViewModel;
             _themeProvider = themeProvider;
             _themeService = themeService;
 
@@ -76,7 +74,6 @@ namespace Filtration.ViewModels
             DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand,  () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
 
             OpenAboutWindowCommand = new RelayCommand(OnOpenAboutWindowCommand);
-            OpenSettingsWindowCommand = new RelayCommand(OnOpenSettingsWindowCommand);
             ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, () => ActiveDocumentIsScript);
             CreateThemeCommand = new RelayCommand(OnCreateThemeCommand, () => ActiveDocumentIsScript);
             ApplyThemeToScriptCommand = new RelayCommand(OnApplyThemeToScriptCommand, () => ActiveDocumentIsScript);
@@ -136,7 +133,6 @@ namespace Filtration.ViewModels
         public RelayCommand NewScriptCommand { get; private set; }
         public RelayCommand CloseCommand { get; private set; }
         public RelayCommand OpenAboutWindowCommand { get; private set; }
-        public RelayCommand OpenSettingsWindowCommand { get; private set; }
         public RelayCommand ReplaceColorsCommand { get; private set; }
         public RelayCommand CreateThemeCommand { get; private set; }
         public RelayCommand ApplyThemeToScriptCommand { get; private set; }
@@ -155,10 +151,15 @@ namespace Filtration.ViewModels
 
         public RelayCommand<bool> ToggleShowAdvancedCommand { get; private set; }
         public RelayCommand ClearFiltersCommand { get; private set; }
-
+        
         public IAvalonDockWorkspaceViewModel AvalonDockWorkspaceViewModel
         {
             get { return _avalonDockWorkspaceViewModel; }
+        }
+
+        public ISettingsPageViewModel SettingsPageViewModel
+        {
+            get { return _settingsPageViewModel; }
         }
 
         public string WindowTitle
@@ -228,14 +229,6 @@ namespace Filtration.ViewModels
             var aboutWindow = new AboutWindow();
             aboutWindow.ShowDialog();
         }
-
-        private void OnOpenSettingsWindowCommand()
-        {
-            var settingsWindow = new SettingsWindow {DataContext = _settingsWindowViewModel};
-            _settingsWindowViewModel.OnRequestClose += (s, e) => settingsWindow.Close();
-            settingsWindow.ShowDialog();
-        }
-
         private void OnOpenScriptCommand()
         {
             var openFileDialog = new OpenFileDialog

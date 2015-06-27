@@ -57,8 +57,8 @@ namespace Filtration.WindsorInstallers
                     .LifeStyle.Singleton);
 
             container.Register(
-                Component.For<ISettingsWindowViewModel>()
-                    .ImplementedBy<SettingsWindowViewModel>()
+                Component.For<ISettingsPageViewModel>()
+                    .ImplementedBy<SettingsPageViewModel>()
                     .LifeStyle.Transient);
             
             container.Register(

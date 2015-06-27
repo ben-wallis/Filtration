@@ -6,21 +6,30 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:fluent="clr-namespace:Fluent;assembly=Fluent"
         xmlns:viewModels="clr-namespace:Filtration.ViewModels"
-        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:viewsAvalonDock="clr-namespace:Filtration.Views.AvalonDock"
         xmlns:converters="clr-namespace:Filtration.Converters"
+        xmlns:views="clr-namespace:Filtration.Views"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
         Title="{Binding WindowTitle}" Height="768" Width="1100" BorderThickness="1" BorderBrush="Black" Icon="{StaticResource MenuPasteIcon}">
     <fluent:RibbonWindow.Resources>
         <converters:BooleanVisibilityConverterCopy x:Key="BooleanVisibilityConverterCopy" />
     </fluent:RibbonWindow.Resources>
-    <DockPanel>
+    <DockPanel x:Name="RootDockPanel">
         <fluent:Ribbon DockPanel.Dock="Top">
             <fluent:Ribbon.Menu>
                 <fluent:Backstage>
                     <fluent:BackstageTabControl>
-                        <fluent:BackstageTabItem Header="Filtration" />
+                        <fluent:BackstageTabItem Header="Filtration" Content="{StaticResource SettingsIcon}">
+                            <fluent:BackstageTabItem.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                    <TextBlock Margin="20">One day there will be something here! Maybe recent documents or something? For now here's a picture of Doge:</TextBlock>
+                                    <Image Source="/Filtration;component/Resources/Images/doge.jpg" Margin="20" Width="300" Height="300" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </fluent:BackstageTabItem.ContentTemplate>
+                        </fluent:BackstageTabItem>
                         <fluent:Button Header="New Script" Command="{Binding NewScriptCommand}" Icon="{StaticResource NewIcon}" />
                         <fluent:Button Header="Open Script" Command="{Binding OpenScriptCommand}" Icon="{StaticResource OpenIcon}" />
                         <fluent:Button Header="Open Theme" Command="{Binding OpenThemeCommand}" Icon="{StaticResource OpenIcon}" />
@@ -28,19 +37,25 @@
                         <fluent:Button Header="Save As" Command="{Binding SaveAsCommand}" Icon="{StaticResource SaveIcon}" />
                         <fluent:Button Header="Close" Command="{Binding CloseCommand}" />
                         <fluent:SeparatorTabItem />
-                        <fluent:Button Header="Settings" Command="{Binding OpenSettingsWindowCommand}" Icon="{StaticResource SettingsIcon}" />
+                        <fluent:BackstageTabItem Header="Settings" Content="{StaticResource SettingsIcon}">
+                            <fluent:BackstageTabItem.ContentTemplate>
+                                <DataTemplate>
+                                    <views:SettingsPageView DataContext="{Binding ElementName=RootDockPanel, Path=DataContext.SettingsPageViewModel}" />
+                                </DataTemplate>
+                            </fluent:BackstageTabItem.ContentTemplate>
+                        </fluent:BackstageTabItem>
                         <fluent:SeparatorTabItem />
                         <fluent:Button Header="About Filtration" Icon="{StaticResource AboutIcon}" Command="{Binding OpenAboutWindowCommand}" VerticalAlignment="Bottom" />
                     </fluent:BackstageTabControl>
                 </fluent:Backstage>
-            </fluent:Ribbon.Menu>            <fluent:Ribbon.ContextualGroups>                <fluent:RibbonContextualTabGroup Header="Script Tools"                                                 Background="ForestGreen"                                                 BorderBrush="ForestGreen"                                                 x:Name="ScriptToolsGroup"                                                   Visibility="{Binding ActiveDocumentIsScript, Converter={StaticResource BooleanVisibilityConverterCopy}, ConverterParameter={x:Static Visibility.Hidden}, Mode=OneWay}" />            </fluent:Ribbon.ContextualGroups>
-            <fluent:RibbonTabItem Header="View">
-                <fluent:RibbonGroupBox Header="Tools">
-                    <fluent:ToggleButton Header="Section Browser" SizeDefinition="Middle" Icon="{StaticResource AddSectionIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.SectionBrowserViewModel.IsVisible}" />
-                    <fluent:ToggleButton Header="Block Group Browser" SizeDefinition="Middle" Icon="{StaticResource BlockGroupBrowserIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.BlockGroupBrowserViewModel.IsVisible}" />
-                    <fluent:ToggleButton Header="Block Output Preview" SizeDefinition="Middle" Icon="{StaticResource BlockOutputPreviewIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.BlockOutputPreviewViewModel.IsVisible}" />
-                </fluent:RibbonGroupBox>
-            </fluent:RibbonTabItem>
+            </fluent:Ribbon.Menu>
+            <fluent:Ribbon.ContextualGroups>
+                <fluent:RibbonContextualTabGroup Header="Script Tools"
+                                                 Background="ForestGreen"
+                                                 BorderBrush="ForestGreen"
+                                                 x:Name="ScriptToolsGroup" 
+                                                  Visibility="{Binding ActiveDocumentIsScript, Converter={StaticResource BooleanVisibilityConverterCopy}, ConverterParameter={x:Static Visibility.Hidden}, Mode=OneWay}" />
+            </fluent:Ribbon.ContextualGroups>
             <fluent:RibbonTabItem Header="Script Tools" Group="{Binding ElementName=ScriptToolsGroup}" >
                 <fluent:RibbonGroupBox Header="Clipboard">
                     <fluent:Button Header="Copy Block" Command="{Binding CopyBlockCommand}" Icon="{StaticResource CopyIcon}" LargeIcon="{StaticResource CopyIcon}">
@@ -50,10 +65,14 @@
                     <fluent:Button Header="Paste Style" Command="{Binding PasteBlockStyleCommand}" Icon="{StaticResource PasteStyleIcon}" LargeIcon="{StaticResource PasteIcon}" SizeDefinition="Middle" />
                     <fluent:Button Header="Copy Script" Command="{Binding CopyScriptCommand}" Icon="{StaticResource CopyIcon}" LargeIcon="{StaticResource PasteIcon}" SizeDefinition="Middle" />
                 </fluent:RibbonGroupBox>
-                <fluent:RibbonGroupBox Header="Block Shizzle">
+                <fluent:RibbonGroupBox Header="Blocks">
                     <fluent:Button Header="Add Block" Command="{Binding AddBlockCommand}" SizeDefinition="Middle" Icon="{StaticResource AddBlockIcon}" />
                     <fluent:Button Header="Add Section" Command="{Binding AddSectionCommand}" SizeDefinition="Middle" Icon="{StaticResource AddSectionIcon}" />
                     <fluent:Button Header="Delete Block" Command="{Binding DeleteBlockCommand}"  SizeDefinition="Middle" Icon="{StaticResource DeleteIcon}" />
+                    <fluent:Button Header="Move To Top" Command="{Binding MoveBlockToTopCommand}" SizeDefinition="Middle" Icon="{StaticResource MoveToTopIcon}" />
+                    <fluent:Button Header="Move Up" Command="{Binding MoveBlockUpCommand}"  SizeDefinition="Middle" Icon="{StaticResource MoveUpIcon}" />
+                    <fluent:Button Header="Move Down" Command="{Binding MoveBlockDownCommand}" SizeDefinition="Middle" Icon="{StaticResource MoveDownIcon}" />
+                    <fluent:Button Header="Move To Bottom" Command="{Binding MoveBlockToBottomCommand}"  SizeDefinition="Middle" Icon="{StaticResource MoveToBottomIcon}" />
                 </fluent:RibbonGroupBox>
                 <fluent:RibbonGroupBox Header="Expand / Collapse">
                     <fluent:Button Header="Expand All" Command="{Binding ExpandAllBlocksCommand}" SizeDefinition="Middle" Icon="{StaticResource ExpandIcon}" />
@@ -63,16 +82,17 @@
                     <fluent:ToggleButton Command="{Binding ToggleShowAdvancedCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" Header="Show Advanced Blocks" SizeDefinition="Middle" Icon="{StaticResource ShowAdvancedIcon}" IsChecked="{Binding ShowAdvancedStatus, Mode=OneWay}" />
                     <fluent:Button Header="Clear All Filters" Command="{Binding ClearFiltersCommand}" SizeDefinition="Middle" Icon="{StaticResource ClearFilterIcon}" />
                 </fluent:RibbonGroupBox>
-                <fluent:RibbonGroupBox Header="Block Movement">
-                    <fluent:Button Header="Move To Top" Command="{Binding MoveBlockToTopCommand}" SizeDefinition="Middle" Icon="{StaticResource MoveToTopIcon}" />
-                    <fluent:Button Header="Move Up" Command="{Binding MoveBlockUpCommand}"  SizeDefinition="Middle" Icon="{StaticResource MoveUpIcon}" />
-                    <fluent:Button Header="Move Down" Command="{Binding MoveBlockDownCommand}" SizeDefinition="Middle" Icon="{StaticResource MoveDownIcon}" />
-                    <fluent:Button Header="Move To Bottom" Command="{Binding MoveBlockToBottomCommand}"  SizeDefinition="Middle" Icon="{StaticResource MoveToBottomIcon}" />
-                </fluent:RibbonGroupBox>
                 <fluent:RibbonGroupBox Header="Themes">
                     <fluent:Button Header="Apply Theme" Command="{Binding ApplyThemeToScriptCommand}" Icon="{StaticResource ThemeIcon}" LargeIcon="{StaticResource ThemeIcon}" />
                     <fluent:Button Header="Create Theme" Command="{Binding CreateThemeCommand}" Icon="{StaticResource ThemeIcon}" LargeIcon="{StaticResource ThemeIcon}" />
                     <fluent:Button Header="Replace Colours" Command="{Binding ReplaceColorsCommand}" Icon="{StaticResource ReplaceColorsIcon}" LargeIcon="{StaticResource ReplaceColorsIcon}" />
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+            <fluent:RibbonTabItem Header="View">
+                <fluent:RibbonGroupBox Header="Tools">
+                    <fluent:ToggleButton Header="Section Browser" SizeDefinition="Middle" Icon="{StaticResource AddSectionIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.SectionBrowserViewModel.IsVisible}" />
+                    <fluent:ToggleButton Header="Block Group Browser" SizeDefinition="Middle" Icon="{StaticResource BlockGroupBrowserIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.BlockGroupBrowserViewModel.IsVisible}" />
+                    <fluent:ToggleButton Header="Block Output Preview" SizeDefinition="Middle" Icon="{StaticResource BlockOutputPreviewIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.BlockOutputPreviewViewModel.IsVisible}" />
                 </fluent:RibbonGroupBox>
             </fluent:RibbonTabItem>
         </fluent:Ribbon>
