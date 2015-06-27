@@ -30,7 +30,8 @@ namespace Filtration.ViewModels
         {
             throw new System.NotImplementedException();
         }
-        
+
+
         private static void OnOpenScriptCommand()
         {
             Messenger.Default.Send(new NotificationMessage("OpenScript"));

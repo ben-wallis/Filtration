@@ -70,7 +70,8 @@ namespace Filtration.Translators
             }
 
             script.ThemeComponents = _themeComponentListBuilder.GetComponents();
-
+            _blockGroupHierarchyBuilder.Cleanup();
+            _themeComponentListBuilder.Cleanup();
             return script;
         }
 

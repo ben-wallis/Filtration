@@ -8,6 +8,7 @@ namespace Filtration.Translators
     internal interface IBlockGroupHierarchyBuilder
     {
         void Initialise(ItemFilterBlockGroup rootBlockGroup);
+        void Cleanup();
         ItemFilterBlockGroup IntegrateStringListIntoBlockGroupHierarchy(IEnumerable<string> groupStrings);
     }
 
@@ -18,6 +19,11 @@ namespace Filtration.Translators
         public void Initialise(ItemFilterBlockGroup rootBlockGroup)
         {
             _rootBlockGroup = rootBlockGroup;
+        }
+
+        public void Cleanup()
+        {
+            _rootBlockGroup = null;
         }
 
         public ItemFilterBlockGroup IntegrateStringListIntoBlockGroupHierarchy(IEnumerable<string> groupStrings)

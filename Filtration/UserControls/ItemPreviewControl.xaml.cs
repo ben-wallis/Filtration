@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media;
 
 namespace Filtration.UserControls
@@ -10,6 +11,7 @@ namespace Filtration.UserControls
             InitializeComponent();
             // ReSharper disable once PossibleNullReferenceException
             (Content as FrameworkElement).DataContext = this;
+            
         }
 
         public static readonly DependencyProperty TextColorProperty = DependencyProperty.Register(
@@ -35,9 +37,9 @@ namespace Filtration.UserControls
 
         public static readonly DependencyProperty BlockFontSizeProperty = DependencyProperty.Register(
             "BlockFontSize",
-            typeof(int),
+            typeof(double),
             typeof(ItemPreviewControl),
-            new FrameworkPropertyMetadata()
+            new FrameworkPropertyMetadata((double)19)
         );
 
         public Color TextColor
@@ -58,9 +60,12 @@ namespace Filtration.UserControls
             set { SetValue(BorderColorProperty, value); }
         }
 
-        public int BlockFontSize
+        public double BlockFontSize
         {
-            get { return (int)GetValue(BlockFontSizeProperty); }
+            get
+            {
+                return (double)GetValue(BlockFontSizeProperty);
+            }
             set { SetValue(BlockFontSizeProperty, value); }
         }
     }

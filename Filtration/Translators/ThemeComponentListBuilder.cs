@@ -12,6 +12,7 @@ namespace Filtration.Translators
         void Initialise();
         ThemeComponent AddComponent(ThemeComponentType componentType, string componentName, Color componentColor);
         List<ThemeComponent> GetComponents();
+        void Cleanup();
     }
 
     internal class ThemeComponentListBuilder : IThemeComponentListBuilder
@@ -27,7 +28,12 @@ namespace Filtration.Translators
         {
             _themeComponents = new List<ThemeComponent>();
         }
-        
+
+        public void Cleanup()
+        {
+            _themeComponents = null;
+        }
+
         public ThemeComponent AddComponent(ThemeComponentType componentType, string componentName, Color componentColor)
         {
             if (ComponentExists(componentType, componentName))

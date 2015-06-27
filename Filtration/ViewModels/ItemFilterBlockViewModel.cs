@@ -275,10 +275,16 @@ namespace Filtration.ViewModels
             get { return Block.HasBlockItemOfType<FontSizeBlockItem>(); }
         }
 
-        public int DisplayFontSize
+        public double DisplayFontSize
         {
             // Dividing by 1.8 roughly scales in-game font sizes down to WPF sizes
-            get { return HasFontSize ? (int)(BlockItems.OfType<FontSizeBlockItem>().First().Value / 1.8) : 19; }
+            get
+            {
+                var fontSize = HasFontSize ? (BlockItems.OfType<FontSizeBlockItem>().First().Value / 1.8) : 19;
+                
+                return fontSize;
+
+            }
         }
 
         public bool HasSound

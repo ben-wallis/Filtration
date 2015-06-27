@@ -145,6 +145,10 @@ namespace Filtration.ViewModels
             }
 
             _openDocuments.Remove(document);
+            if (_activeDocument == document)
+            {
+                _activeDocument = null;
+            }
         }
 
         public void SwitchActiveDocument(IDocument document)

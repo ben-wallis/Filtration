@@ -98,8 +98,6 @@ namespace Filtration.ViewModels
                 {
                     case "ActiveDocumentChanged":
                     {
-                        _activeDocument = _avalonDockWorkspaceViewModel.ActiveDocument;
-                        
                         CopyScriptCommand.RaiseCanExecuteChanged();
                         SaveCommand.RaiseCanExecuteChanged();
                         SaveAsCommand.RaiseCanExecuteChanged();
@@ -178,7 +176,7 @@ namespace Filtration.ViewModels
             get
             {
                 {
-                    var isScript = _activeDocument is ItemFilterScriptViewModel;
+                    var isScript = AvalonDockWorkspaceViewModel.ActiveDocument is ItemFilterScriptViewModel;
                     return isScript;
                 }
             }
@@ -191,12 +189,12 @@ namespace Filtration.ViewModels
 
         public bool ActiveDocumentIsTheme
         {
-            get { { return _activeDocument is ThemeViewModel; } }
+            get { { return AvalonDockWorkspaceViewModel.ActiveDocument is ThemeViewModel; } }
         }
 
         private bool ActiveDocumentIsEditable()
         {
-            return _activeDocument is IEditableDocument;
+            return AvalonDockWorkspaceViewModel.ActiveDocument is IEditableDocument;
         }
 
         public bool ShowAdvancedStatus
