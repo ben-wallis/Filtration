@@ -32,7 +32,8 @@ namespace Filtration.ViewModels
         private ItemFilterScriptViewModel _parentScriptViewModel;
 
         private bool _displaySettingsPopupOpen;
-        
+        private bool _isExpanded;
+
         public ItemFilterBlockViewModel(IStaticDataService staticDataService, IReplaceColorsViewModel replaceColorsViewModel)
         {
             _staticDataService = staticDataService;
@@ -98,7 +99,16 @@ namespace Filtration.ViewModels
         public ItemFilterBlock Block { get; private set; }
 
         public bool IsDirty { get; set; }
-        public bool IsExpanded { get; set; }
+
+        public bool IsExpanded
+        {
+            get { return _isExpanded; }
+            set
+            {
+                _isExpanded = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public ObservableCollection<IItemFilterBlockItem> BlockItems
         {

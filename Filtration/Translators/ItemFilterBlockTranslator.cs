@@ -302,6 +302,15 @@ namespace Filtration.Translators
 
         public void ReplaceColorBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems , string inputString)
         {
+            // Reverse iterate to remove existing IAudioVisualBlockItems
+            for (var idx = blockItems.Count - 1; idx >= 0; idx--)
+            {
+                if (blockItems[idx] is IAudioVisualBlockItem)
+                {
+                    blockItems.RemoveAt(idx);
+                }
+            }
+
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
                 var matches = Regex.Match(line, @"(\w+)");
@@ -310,22 +319,24 @@ namespace Filtration.Translators
                 {
                     case "SetTextColor":
                     {
-                        ReplaceColorBlockItem<TextColorBlockItem>(blockItems, line);
+                        blockItems.Add(GetColorBlockItemFromString<TextColorBlockItem>(line));
                         break;
                     }
                     case "SetBackgroundColor":
                     {
-                        ReplaceColorBlockItem<BackgroundColorBlockItem>(blockItems, line);
+                        blockItems.Add(GetColorBlockItemFromString<BackgroundColorBlockItem>(line));
                         break;
                     }
                     case "SetBorderColor":
                     {
-                        ReplaceColorBlockItem<BorderColorBlockItem>(blockItems, line);
+                        blockItems.Add(GetColorBlockItemFromString<BorderColorBlockItem>(line));
                         break;
                     }
                     case "SetFontSize":
                     {
-                        ReplaceFontSizeBlockItem(blockItems, line);
+                        var match = Regex.Match(line, @"\s+(\d+)");
+                        if (!match.Success) break;
+                        blockItems.Add(new FontSizeBlockItem(Convert.ToInt16(match.Value)));
                         break;
                     }
                 } 

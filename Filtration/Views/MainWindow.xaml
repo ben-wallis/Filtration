@@ -12,6 +12,10 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
         Title="{Binding WindowTitle}" Height="768" Width="1100" BorderThickness="1" BorderBrush="Black" IsIconVisible="True" >
+    <fluent:RibbonWindow.InputBindings>
+        <KeyBinding Command="{Binding SaveCommand}" Modifiers="Control" Key="S" />
+        <KeyBinding Command="{Binding OpenScriptCommand}" Modifiers="Control" Key="O" />
+    </fluent:RibbonWindow.InputBindings>
     <fluent:RibbonWindow.Resources>
         <converters:BooleanVisibilityConverterCopy x:Key="BooleanVisibilityConverterCopy" />
     </fluent:RibbonWindow.Resources>

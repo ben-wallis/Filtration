@@ -117,7 +117,7 @@
                                        Height="15" Width="15"
                                        Margin="0,0,3,0"
                                        Visibility="{Binding HasSound, Converter={StaticResource BooleanVisibilityConverter}}" />
-                                <ToggleButton Margin="0,2,8,2"
+                                <ToggleButton Margin="0,2,2,2"
                                               Style="{StaticResource ChromelessToggleButton}"
                                               x:Name="ItemPreviewButton"
                                               IsChecked="{Binding DisplaySettingsPopupOpen, Mode=OneWayToSource}"

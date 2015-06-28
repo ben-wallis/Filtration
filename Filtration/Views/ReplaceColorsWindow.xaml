@@ -8,9 +8,9 @@
         xmlns:userControls="clr-namespace:Filtration.UserControls"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:ReplaceColorsViewModel}"
-        Title="Replace Script Colors" Height="230" Width="500"
+        Title="Replace Script Colors" Height="245" Width="515"
         BorderThickness="1" BorderBrush="Black"
-        Loaded="ReplaceColorsWindow_OnLoaded">
+        Loaded="ReplaceColorsWindow_OnLoaded" ResizeMode="CanMinimize">
     <!--ShowMaxRestoreButton="False"-->
     <Window.Resources>
         <ResourceDictionary>

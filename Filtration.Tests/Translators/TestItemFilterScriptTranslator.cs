@@ -265,7 +265,28 @@ namespace Filtration.Tests.Translators
             Assert.AreEqual(4, block.BlockItems.Count);
             var baseTypeItem = block.BlockItems.OfType<BaseTypeBlockItem>().First();
             Assert.AreEqual(2, baseTypeItem.Items.Count);
+        }
 
+        [Test]
+        public void TranslateStringToItemFilterScript_OneLineDescriptionNoBlockDescriptionAddsDescriptionToScript()
+        {
+            // Arrange
+            var testInputScript = "# Script edited with Filtration - https://github.com/ben-wallis/Filtration" +
+                                  Environment.NewLine +
+                                  "Show" + Environment.NewLine +
+                                  "BaseType \"Maelström Staff\"" + Environment.NewLine + Environment.NewLine;
+            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object,
+                _testUtility.MockThemeComponentListBuilder.Object);
+            var translator = new ItemFilterScriptTranslator(blockTranslator,
+                _testUtility.MockBlockGroupHierarchyBuilder.Object, _testUtility.MockThemeComponentListBuilder.Object);
+
+            // Act
+            var result = translator.TranslateStringToItemFilterScript(testInputScript);
+
+            // Assert
+            Assert.AreEqual("Script edited with Filtration - https://github.com/ben-wallis/Filtration", result.Description);
+            var firstBlock = result.ItemFilterBlocks.First();
+            Assert.IsNullOrEmpty(firstBlock.Description);
         }
 
         private class ItemFilterScriptTranslatorTestUtility

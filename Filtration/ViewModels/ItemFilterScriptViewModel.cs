@@ -308,6 +308,11 @@ namespace Filtration.ViewModels
                 Script.FilePath = "Untitled.filter";
             }
 
+            if (ItemFilterBlockViewModels.Count > 0)
+            {
+                SelectedBlockViewModel = ItemFilterBlockViewModels.First();
+            }
+
             Title = Filename;
             ContentId = "testcontentid";
         }
@@ -645,6 +650,7 @@ namespace Filtration.ViewModels
             }
 
             SelectedBlockViewModel = vm;
+            vm.IsExpanded = true;
             IsDirty = true;
         }
 

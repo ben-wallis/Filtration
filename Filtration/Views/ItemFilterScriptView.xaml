@@ -22,11 +22,11 @@
                 <ResourceDictionary>
                     <!-- ReSharper disable once Xaml.RedundantResource -->
                     <DataTemplate x:Key="ItemFilterBlockTemplate">
-                        <views:ItemFilterBlockView Margin="0,2,0,2" />
+                        <views:ItemFilterBlockView Margin="1" />
                     </DataTemplate>
                     <!-- ReSharper disable once Xaml.RedundantResource -->
                     <DataTemplate x:Key="ItemFilterSectionTemplate">
-                        <views:ItemFilterSectionView Margin="0,2,0,2" />
+                        <views:ItemFilterSectionView Margin="1" />
                     </DataTemplate>
                     <views:BlockTemplateSelector x:Key="BlockTemplateSelector" />
                 </ResourceDictionary>
@@ -51,10 +51,9 @@
                 </Expander>
             </StackPanel>
         </Border>
-        <Border Grid.Row="1" BorderThickness="1" BorderBrush="DarkGray" Margin="5,5,5,5" Padding="2">
+        <Border Grid.Row="1" BorderThickness="1" BorderBrush="DarkGray" Margin="5,5,5,5">
             <DockPanel LastChildFill="True">
                 <userControls:AutoScrollingListBox ItemsSource="{Binding ItemFilterBlockViewModels}"
-                                                   Margin="5,5,5,5"
                                                    Padding="5"
                                                    HorizontalContentAlignment="Stretch"
                                                    BorderThickness="0"
@@ -66,18 +65,23 @@
                     <ListBox.InputBindings>
                         <KeyBinding Key="Delete" Command="{Binding DeleteBlockCommand}" />
                     </ListBox.InputBindings>
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="BorderThickness" Value="1"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
                     <ListBox.Resources>
                         <Style TargetType="ListBoxItem">
-                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                            <!--<Setter Property="FocusVisualStyle" Value="{x:Null}" />-->
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border Name="Border" Padding="2" SnapsToDevicePixels="true">
+                                            <ContentPresenter />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="true">
+                                                <Setter TargetName="Border" Property="Background" Value="#A9BDD8"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </ListBox.Resources>
                 </userControls:AutoScrollingListBox>

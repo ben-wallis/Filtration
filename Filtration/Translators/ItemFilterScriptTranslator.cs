@@ -90,7 +90,9 @@ namespace Filtration.Translators
                 {
                     // If the line previous to the Show or Hide line is a comment then we should include that in the block
                     // as it represents the block description.
-                    blockBoundaries.AddLast(previousLine.StartsWith("#") && !previousLine.StartsWith("# Section:") ? currentLine - 2 : currentLine - 1);
+                    // currentLine > 2 caters for an edge case where the script description is a single line and the first
+                    // block has no description. This prevents the script description from being assigned to the first block's description.
+                    blockBoundaries.AddLast(previousLine.StartsWith("#") && !previousLine.StartsWith("# Section:") && currentLine > 2 ? currentLine - 2 : currentLine - 1);
                 }
                 previousLine = line;
             }

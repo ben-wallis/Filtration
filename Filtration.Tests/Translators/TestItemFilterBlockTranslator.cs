@@ -1346,6 +1346,7 @@ namespace Filtration.Tests.Translators
             Assert.AreEqual(new Color { R = 240, G = 200, B = 150, A = 255}, textColorBlockItem.Color);
         }
 
+        [Ignore("Not currently possible - will not be necessary once commanding (to enable undo history) is implemented anyway")]
         [Test]
         public void ReplaceColorBlockItemsFromString_MalformedLine_DoesNothing()
         {
@@ -1409,8 +1410,9 @@ namespace Filtration.Tests.Translators
                                   "SetBackgroundColor 0 0 0 # Rarest Currency Background" + Environment.NewLine +
                                   "SetBorderColor 255 255 255 # Rarest Currency Border";
 
+
             var testInputBlockItems = new ObservableCollection<IItemFilterBlockItem>();
-            
+
             // Act
             _testUtility.Translator.ReplaceColorBlockItemsFromString(testInputBlockItems, testInputString);
 
@@ -1426,6 +1428,36 @@ namespace Filtration.Tests.Translators
             var borderColorBlockItem = testInputBlockItems.First(b => b is BorderColorBlockItem) as BorderColorBlockItem;
             Assert.IsNotNull(borderColorBlockItem);
             Assert.AreEqual(new Color { A = 255, R = 255, G = 255, B = 255 }, borderColorBlockItem.Color);
+        }
+
+        [Test]
+        public void ReplaceColorBlockItemsFromString_MultipleLines_SomeExistingBlockItems()
+        {
+            // Arrange
+            var testInputString = "SetTextColor 240 200 150 # Rarest Currency" + Environment.NewLine +
+                                  "SetBackgroundColor 0 0 0 # Rarest Currency Background";
+
+            var testInputBlockItems = new ObservableCollection<IItemFilterBlockItem>();
+            var testInputTextColorBlockItem = new TextColorBlockItem(Colors.Red);
+            var testInputBackgroundColorBlockItem = new BackgroundColorBlockItem(Colors.Blue);
+            var testInpuBorderColorBlockItem = new BorderColorBlockItem(Colors.Yellow);
+            testInputBlockItems.Add(testInputTextColorBlockItem);
+            testInputBlockItems.Add(testInputBackgroundColorBlockItem);
+            testInputBlockItems.Add(testInpuBorderColorBlockItem);
+
+            // Act
+            _testUtility.Translator.ReplaceColorBlockItemsFromString(testInputBlockItems, testInputString);
+
+            // Assert
+            var textColorBlockItem = testInputBlockItems.First(b => b is TextColorBlockItem) as TextColorBlockItem;
+            Assert.IsNotNull(textColorBlockItem);
+            Assert.AreEqual(new Color { A = 255, R = 240, G = 200, B = 150 }, textColorBlockItem.Color);
+
+            var backgroundColorBlockItem = testInputBlockItems.First(b => b is BackgroundColorBlockItem) as BackgroundColorBlockItem;
+            Assert.IsNotNull(backgroundColorBlockItem);
+            Assert.AreEqual(new Color { A = 255, R = 0, G = 0, B = 0 }, backgroundColorBlockItem.Color);
+
+            Assert.AreEqual(0, testInputBlockItems.Count(b => b is BorderColorBlockItem));
         }
 
         private class ItemFilterBlockTranslatorTestUtility
