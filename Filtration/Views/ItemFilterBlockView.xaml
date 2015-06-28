@@ -79,7 +79,14 @@
                             </Grid.ColumnDefinitions>
                             <!-- BlockItems Summary Panel -->
                             <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
-                                <ItemsControl ItemsSource="{Binding SummaryBlockItems}">
+                                <StackPanel.Resources>
+                                    <CollectionViewSource Source="{Binding SummaryBlockItems}" x:Key="SummaryBlockItemsCollectionViewSource">
+                                        <CollectionViewSource.SortDescriptions>
+                                            <componentModel:SortDescription PropertyName="SortOrder"/>
+                                        </CollectionViewSource.SortDescriptions>
+                                    </CollectionViewSource>
+                                </StackPanel.Resources>
+                                <ItemsControl ItemsSource="{Binding Source={StaticResource SummaryBlockItemsCollectionViewSource}}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <WrapPanel />
@@ -189,7 +196,7 @@
                                                 <EventTrigger.Actions>
                                                     <BeginStoryboard>
                                                         <Storyboard>
-                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:2" />
+                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" />
                                                         </Storyboard>
                                                     </BeginStoryboard>
                                                 </EventTrigger.Actions>

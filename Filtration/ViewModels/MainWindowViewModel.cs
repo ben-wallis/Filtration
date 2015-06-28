@@ -1,7 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using Filtration.ObjectModel.ThemeEditor;
@@ -89,6 +92,12 @@ namespace Filtration.ViewModels
                 SetItemFilterScriptDirectory();
             }
 
+            var icon = new BitmapImage();
+            icon.BeginInit();
+            icon.UriSource = new Uri("pack://application:,,,/Filtration;component/Resources/Icons/filtration_icon.png");
+            icon.EndInit();
+            Icon = icon;
+
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
                 switch (message.Notification)
@@ -151,7 +160,10 @@ namespace Filtration.ViewModels
 
         public RelayCommand<bool> ToggleShowAdvancedCommand { get; private set; }
         public RelayCommand ClearFiltersCommand { get; private set; }
-        
+
+
+        public ImageSource Icon { get; private set; }
+
         public IAvalonDockWorkspaceViewModel AvalonDockWorkspaceViewModel
         {
             get { return _avalonDockWorkspaceViewModel; }

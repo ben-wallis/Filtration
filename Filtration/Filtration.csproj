@@ -377,6 +377,7 @@
     <Resource Include="Resources\Icons\ReplaceColors.ico" />
     <Resource Include="Resources\Icons\Theme.ico" />
     <Resource Include="Resources\Images\doge.jpg" />
+    <Resource Include="Resources\Icons\filtration_icon.png" />
     <Content Include="Resources\ItemBaseTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -28,4 +28,5 @@
     <Image Source="/Filtration;component/Resources/Icons/Copy.ico" x:Key="CopyIcon" x:Shared="False" />
     <Image Source="/Filtration;component/Resources/Icons/Paste.ico" x:Key="PasteIcon" x:Shared="False" />
     <Image Source="/Filtration;component/Resources/Icons/PasteStyle.ico" x:Key="PasteStyleIcon" x:Shared="False" />
+    <Image Source="/Filtration;component/Resources/Icons/filtration_icon.png" x:Key="FiltrationIcon" x:Shared="False" />
 </ResourceDictionary>

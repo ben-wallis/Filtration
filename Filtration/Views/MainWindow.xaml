@@ -11,7 +11,7 @@
         xmlns:views="clr-namespace:Filtration.Views"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
-        Title="{Binding WindowTitle}" Height="768" Width="1100" BorderThickness="1" BorderBrush="Black" Icon="{StaticResource MenuPasteIcon}">
+        Title="{Binding WindowTitle}" Height="768" Width="1100" BorderThickness="1" BorderBrush="Black" IsIconVisible="True" >
     <fluent:RibbonWindow.Resources>
         <converters:BooleanVisibilityConverterCopy x:Key="BooleanVisibilityConverterCopy" />
     </fluent:RibbonWindow.Resources>
