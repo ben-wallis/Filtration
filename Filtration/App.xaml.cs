@@ -7,7 +7,9 @@ using Castle.MicroKernel.ModelBuilder.Inspectors;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Filtration.ObjectModel;
+using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Properties;
+using Filtration.ThemeEditor.ViewModels;
 using Filtration.ViewModels;
 using Filtration.Views;
 
@@ -49,7 +51,11 @@ namespace Filtration
                         opts => opts.MapFrom(from => from))
                 .ForMember(dest => dest.IsExpanded, 
                         opts => opts.UseValue(false));
-            
+
+            Mapper.CreateMap<Theme, IThemeViewModel>().ConstructUsingServiceLocator();
+            Mapper.CreateMap<ThemeComponent, ThemeComponentViewModel>().ReverseMap();
+            Mapper.CreateMap<IThemeViewModel, Theme>();
+
             Mapper.AssertConfigurationIsValid();
 
             var mainWindow = _container.Resolve<IMainWindow>();

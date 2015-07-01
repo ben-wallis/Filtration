@@ -28,8 +28,6 @@ namespace Filtration.ThemeEditor.Providers
 
         public IThemeViewModel NewThemeForScript(ItemFilterScript script)
         {
-            Mapper.CreateMap<ThemeComponent, ThemeComponentViewModel>();
-
             var themeComponentViewModels = Mapper.Map<ObservableCollection<ThemeComponentViewModel>>(script.ThemeComponents);
             var themeViewModel = _themeViewModelFactory.Create();
             themeViewModel.Initialise(themeComponentViewModels, true);
@@ -40,9 +38,6 @@ namespace Filtration.ThemeEditor.Providers
 
         public IThemeViewModel LoadThemeFromFile(string filePath)
         {
-            Mapper.CreateMap<Theme, IThemeViewModel>().ConstructUsingServiceLocator();
-            Mapper.CreateMap<ThemeComponent, ThemeComponentViewModel>();
-
             var model = _themePersistenceService.LoadTheme(filePath);
             var viewModel = Mapper.Map<IThemeViewModel>(model);
             viewModel.FilePath = filePath;
@@ -56,9 +51,6 @@ namespace Filtration.ThemeEditor.Providers
 
         public void SaveTheme(IThemeViewModel themeViewModel, string filePath)
         {
-            Mapper.CreateMap<IThemeViewModel, Theme>();
-            Mapper.CreateMap<ThemeComponentViewModel, ThemeComponent>();
-
             var theme = Mapper.Map<Theme>(themeViewModel);
             _themePersistenceService.SaveTheme(theme, filePath);
         }
