@@ -1,11 +1,14 @@
-﻿using System.Linq;
+﻿using System.IO.Compression;
+using System.Linq;
 using System.Windows;
 using AutoMapper;
 using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.ModelBuilder.Inspectors;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using Filtration.ObjectModel;
 using Filtration.Properties;
+using Filtration.ViewModels;
 using Filtration.Views;
 
 namespace Filtration
@@ -27,13 +30,35 @@ namespace Filtration
 
             _container.AddFacility<TypedFactoryFacility>();
             _container.Install(FromAssembly.InThisApplication());
-
+            
             Mapper.Configuration.ConstructServicesUsing(_container.Resolve);
+
+            Mapper.CreateMap<ItemFilterBlockGroup, ItemFilterBlockGroupViewModel>()
+                .ForMember(destination => destination.ChildGroups, options => options.ResolveUsing(
+                    delegate(ResolutionResult resolutionResult)
+                    {
+                        var context = resolutionResult.Context;
+                        var showAdvanced = (bool) context.Options.Items["showAdvanced"];
+                        var group = (ItemFilterBlockGroup) context.SourceValue;
+                        if (showAdvanced)
+                            return group.ChildGroups;
+                        else
+                            return group.ChildGroups.Where(c => c.Advanced == false);
+                    }))
+                .ForMember(dest => dest.SourceBlockGroup,
+                        opts => opts.MapFrom(from => from))
+                .ForMember(dest => dest.IsExpanded, 
+                        opts => opts.UseValue(false));
             
             Mapper.AssertConfigurationIsValid();
 
             var mainWindow = _container.Resolve<IMainWindow>();
             mainWindow.Show();
+        }
+
+        public void TestTest()
+        {
+            
         }
 
         protected override void OnExit(ExitEventArgs e)

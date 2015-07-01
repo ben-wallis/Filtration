@@ -24,9 +24,9 @@
                              AllowMixedOrientation="True"
                              DocumentsSource="{Binding OpenDocuments}"
                              ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}" >
-            <!--<xcad:DockingManager.Theme>
+            <xcad:DockingManager.Theme>
                 <xcad:Vs2013LightTheme />
-            </xcad:DockingManager.Theme>-->
+            </xcad:DockingManager.Theme>
             <xcad:DockingManager.LayoutItemTemplateSelector>
                 <viewsAvalonDock:PanesTemplateSelector>
                     <viewsAvalonDock:PanesTemplateSelector.ItemFilterScriptTemplate>
@@ -95,7 +95,6 @@
                     <xcad:LayoutAnchorablePane Name="SectionBrowserPane" DockWidth="150" />
                     <xcad:LayoutPanel Orientation="Vertical">
                         <xcad:LayoutDocumentPane />
-                        
                     </xcad:LayoutPanel>
                     <xcad:LayoutAnchorablePaneGroup DockWidth="200" Orientation="Vertical">
                         <xcad:LayoutAnchorablePane Name="BlockGroupBrowserPane" />

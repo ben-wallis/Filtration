@@ -24,7 +24,6 @@
             <Button Height="20" Content="{StaticResource ExpandIcon}" ToolTip="Expand All (Not Implemented)" Name="ExpandAllButton" />
             <Button Height="20" Content="{StaticResource CollapseIcon}" ToolTip="Collapse All (Not Implemented)" Name="CollapseAllButton" />
         </ToolBar>
-        
         <TreeView Grid.Row="1" ItemsSource="{Binding BlockGroupViewModels}" Name="TreeView">
             <i:Interaction.Behaviors>
                 <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding SelectedBlockGroupViewModel, Mode=OneWayToSource}" />
@@ -33,7 +32,7 @@
                 <HierarchicalDataTemplate DataType="{x:Type viewModels:ItemFilterBlockGroupViewModel}" ItemsSource="{Binding ChildGroups}">
                     <WrapPanel>
                             <CheckBox IsThreeState="True" IsChecked="{Binding IsChecked}" Click="BlockGroupCheckBox_Clicked" />
-                            <TextBlock Text="{Binding GroupName}" Foreground="{Binding Advanced, Converter={StaticResource BlockGroupAdvancedColorConverter}}" />
+                            <TextBlock Text="{Binding GroupName}" VerticalAlignment="Center" Foreground="{Binding Advanced, Converter={StaticResource BlockGroupAdvancedColorConverter}}" />
                     </WrapPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>

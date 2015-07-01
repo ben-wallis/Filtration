@@ -7,16 +7,13 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Fluent;component/Themes/windows8/silver.xaml" />
+                <ResourceDictionary Source="Views/Styles/Colours.xaml" />
+                <ResourceDictionary Source="Views/Styles/CheckBox.xaml" />
+                <ResourceDictionary Source="Views/Styles/ListBoxItem.xaml" />
+                <ResourceDictionary Source="Views/Styles/TreeViewItem.xaml" />
                 <ResourceDictionary Source="Views/CrossButton.xaml" />
                 <ResourceDictionary Source="Views/IconsDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
-
-
-<!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Steel.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />-->

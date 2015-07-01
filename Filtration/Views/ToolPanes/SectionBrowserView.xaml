@@ -16,6 +16,9 @@
                              SelectedItem="{Binding SelectedSectionBlockViewModel}"
                              x:Name="SectionBrowserListBox"
                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"><!--SelectionChanged="SectionBrowserListBox_OnSelectionChanged"-->
+            <ListBox.Resources>
+              
+            </ListBox.Resources>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Block.Description, Converter={StaticResource HashSignRemovalConverter}}" ToolTip="{Binding Block.Description}" />
