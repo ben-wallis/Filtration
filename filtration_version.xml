@@ -1,10 +1,36 @@
 <UpdateData>
 	<CurrentVersion>0.5</CurrentVersion>
 	<ReleaseDate>2015-07-01</ReleaseDate>
-	<ReleaseNotes>Testing multiline release notes!
-There's lots of new stuff in Filtration 0.5
-Including:
-* Blah!
-* More Blah!
-* Cheese!</ReleaseNotes>
+	<ReleaseNotes>♦ UI overhaul including Ribbon toolbar implementation.
+♦ Added Theme Support 
+♦ Added Block Output Preview window
+♦ Reworked Item Previews to reflect font size accurately
+♦ Fixed Block Group Browser behavior for Advanced Blocks. Advanced Blocks are now also hidden in the block editor by default.
+
+Detailed Release Notes
+
+♦ Theme Support - You can now create themes for any script that supports them (see the Theme Support wiki page for more details). This allows you to create and share themes for existing filters. The UI for the Theme Editor in this release is only preliminary and will be redesigned in a future release.
+
+♦ Added Block Output Preview window - This allows you to see the text output of the selected block (not visible by default, can be enabled on the View toolbar).
+♦ Reworked Item Previews to reflect font size accurately - font sizes are more or less (within a few pixels) the same size as they are in-game now.
+♦ Added key bindings for Copy Block (Ctrl+C), Paste Block (Ctrl+V), Save Script (Ctrl+S) and Open Script (Ctrl+O).
+♦ Added support for Copy/Pasting of block styles. You can now copy and paste styles between blocks, either using the toolbar buttons or the shortcuts Ctrl+Shift+C (Copy Style) and Ctrl+Shift+V (Paste Style).
+♦ Fixed Block Group Browser behavior for Advanced Blocks. Advanced Blocks are now also hidden in the block editor by default.
+♦ Settings are now persisted in a settings file.
+♦ Added setting to change from single to double spacing between blocks in saved scripts.
+♦ Expand/Collapse All buttons - you can now collapse/expand all blocks in a script (this is kinda laggy in large scripts though).
+♦ Block items are now consistently sorted in the block editor, and a fadein animation has been added to make it clear where new blocks are inserted.
+♦ You can now double click block headers to expand/collapse them.
+♦ The text box for sections no longer spans the entire width of the editor, so you can more easily select the block.
+♦ Sections are now added above the currently selected block rather than above.
+♦ Fixed a memory leak when closing scripts.
+♦ Fixed styling on block editor so the selected block is permanently visible.
+♦ When a block is added it is now expanded by default.
+
+Known Bugs in this release:
+
+♦  When you interact with the items within the Section Browser or the Block Group Browser it takes multiple clicks to activate the central block browser panel. This will be fixed in the next version (once I've actually figured out why it's doing it, heh).
+♦  The popup box for editing colours when you click the Item Preview button is glitchy - when you rapidly click the up/down buttons it expands/collapses the block behind it. This popup will probably be removed in a future version and reworked.
+♦  The Expand/Collapse All buttons in the Block Group Browser are currently non-functional.
+</ReleaseNotes>
 </UpdateData>
