@@ -2,13 +2,17 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
+using Filtration.Models;
 using Filtration.ObjectModel.ThemeEditor;
+using Filtration.Properties;
 using Filtration.Repositories;
+using Filtration.Services;
 using Filtration.ThemeEditor.Providers;
 using Filtration.ThemeEditor.Services;
 using Filtration.ThemeEditor.ViewModels;
@@ -36,6 +40,8 @@ namespace Filtration.ViewModels
         private readonly ISettingsPageViewModel _settingsPageViewModel;
         private readonly IThemeProvider _themeProvider;
         private readonly IThemeService _themeService;
+        private readonly IUpdateCheckService _updateCheckService;
+        private readonly IUpdateAvailableViewModel _updateAvailableViewModel;
 
         public MainWindowViewModel(IItemFilterScriptRepository itemFilterScriptRepository,
                                    IItemFilterScriptTranslator itemFilterScriptTranslator,
@@ -43,7 +49,9 @@ namespace Filtration.ViewModels
                                    IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
                                    ISettingsPageViewModel settingsPageViewModel,
                                    IThemeProvider themeProvider,
-                                   IThemeService themeService)
+                                   IThemeService themeService,
+                                   IUpdateCheckService updateCheckService,
+                                   IUpdateAvailableViewModel updateAvailableViewModel)
         {
             _itemFilterScriptRepository = itemFilterScriptRepository;
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
@@ -52,6 +60,8 @@ namespace Filtration.ViewModels
             _settingsPageViewModel = settingsPageViewModel;
             _themeProvider = themeProvider;
             _themeService = themeService;
+            _updateCheckService = updateCheckService;
+            _updateAvailableViewModel = updateAvailableViewModel;
 
             NewScriptCommand = new RelayCommand(OnNewScriptCommand);
             CopyScriptCommand = new RelayCommand(OnCopyScriptCommand, () => ActiveDocumentIsScript);
@@ -128,6 +138,7 @@ namespace Filtration.ViewModels
                     }
                 }
             });
+            CheckForUpdates();
         }
 
         public RelayCommand OpenScriptCommand { get; private set; }
@@ -161,6 +172,37 @@ namespace Filtration.ViewModels
         public RelayCommand<bool> ToggleShowAdvancedCommand { get; private set; }
         public RelayCommand ClearFiltersCommand { get; private set; }
 
+
+        public async void CheckForUpdates()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var assemblyVersion = FileVersionInfo.GetVersionInfo(assembly.Location);
+            var currentVersion = Convert.ToDecimal(assemblyVersion.FileMajorPart + "." + assemblyVersion.FileMinorPart);
+
+            var result = await _updateCheckService.GetUpdateData();
+
+            try
+            {
+                if (result.CurrentVersion > currentVersion)
+                {
+                    if (Settings.Default.SuppressUpdates == false ||
+                        Settings.Default.SuppressUpdatesUpToVersion < result.CurrentVersion)
+                    {
+                        Settings.Default.SuppressUpdates = false;
+                        Settings.Default.Save();
+                        var updateAvailableView = new UpdateAvailableView {DataContext = _updateAvailableViewModel};
+                        _updateAvailableViewModel.Initialise(result, currentVersion);
+                        _updateAvailableViewModel.OnRequestClose += (s, e) => updateAvailableView.Close();
+                        updateAvailableView.ShowDialog();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // We don't care if the update check fails, because it could fail for multiple reasons 
+                // including the user blocking Filtration in their firewall.
+            }
+        }
 
         public ImageSource Icon { get; private set; }
 

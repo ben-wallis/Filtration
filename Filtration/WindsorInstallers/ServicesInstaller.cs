@@ -24,6 +24,16 @@ namespace Filtration.WindsorInstallers
                 Component.For<IBlockGroupMapper>()
                     .ImplementedBy<BlockGroupMapper>()
                     .LifeStyle.Singleton);
+
+            container.Register(
+                Component.For<IHTTPService>()
+                    .ImplementedBy<HTTPService>()
+                    .LifeStyle.Singleton);
+
+            container.Register(
+                Component.For<IUpdateCheckService>()
+                    .ImplementedBy<UpdateCheckService>()
+                    .LifeStyle.Singleton);
         }
     }
 }

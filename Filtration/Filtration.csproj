@@ -139,10 +139,13 @@
     <Compile Include="Converters\TreeViewMarginConverter.cs" />
     <Compile Include="Extensions\EnumerationExtension.cs" />
     <Compile Include="Extensions\HyperlinkExtensions.cs" />
+    <Compile Include="Models\UpdateData.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repositories\ItemFilterScriptRepository.cs" />
+    <Compile Include="Services\HTTPService.cs" />
     <Compile Include="Services\ItemFilterPersistenceService.cs" />
     <Compile Include="Services\StaticDataService.cs" />
+    <Compile Include="Services\UpdateCheckService.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Translators\BlockGroupHierarchyBuilder.cs" />
     <Compile Include="Translators\ItemFilterBlockTranslator.cs" />
@@ -172,6 +175,7 @@
     <Compile Include="ViewModels\ToolPanes\SectionBrowserViewModel.cs" />
     <Compile Include="ViewModels\StartPageViewModel.cs" />
     <Compile Include="ViewModels\ToolPanes\ToolViewModel.cs" />
+    <Compile Include="ViewModels\UpdateAvailableViewModel.cs" />
     <Compile Include="Views\AttachedProperties\SelectingItemAttachedProperty.cs" />
     <Compile Include="Views\AvalonDock\AvalonDockWorkspaceView.xaml.cs">
       <DependentUpon>AvalonDockWorkspaceView.xaml</DependentUpon>
@@ -222,6 +226,9 @@
     </Compile>
     <Compile Include="Views\StartPageView.xaml.cs">
       <DependentUpon>StartPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpdateAvailableView.xaml.cs">
+      <DependentUpon>UpdateAvailableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindsorInstallers\ModelsInstaller.cs" />
     <Compile Include="WindsorInstallers\RepositoriesInstaller.cs" />
@@ -330,6 +337,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UpdateAvailableView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -397,7 +408,6 @@
     <Resource Include="Resources\Icons\PasteStyle.ico" />
     <Resource Include="Resources\Icons\ReplaceColors.ico" />
     <Resource Include="Resources\Icons\Theme.ico" />
-    <Resource Include="Resources\Images\doge.jpg" />
     <Resource Include="Resources\Icons\filtration_icon.png" />
     <Content Include="Resources\ItemBaseTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

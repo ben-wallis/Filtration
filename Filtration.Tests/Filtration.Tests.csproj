@@ -48,8 +48,10 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\TestItemFilterScriptRepository.cs" />
+    <Compile Include="Services\TestHTTPService.cs" />
     <Compile Include="Services\TestItemFilterPersistenceService.cs" />
     <Compile Include="Services\TestStaticDataService.cs" />
+    <Compile Include="Services\TestUpdateService.cs" />
     <Compile Include="Translators\TestBlockGroupHierarchyBuilder.cs" />
     <Compile Include="Translators\TestItemFilterBlockTranslator.cs" />
     <Compile Include="Translators\TestItemFilterScriptTranslator.cs" />

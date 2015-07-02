@@ -25,11 +25,15 @@
                         <RowDefinition Height="5" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="0">Default Filter Directory:</TextBlock>
                     <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding DefaultFilterDirectory}" Width="250" />
-                    <TextBlock Grid.Row="2" Grid.Column="0">Add blank line between blocks when saving</TextBlock>
-                    <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding ExtraLineBetweenBlocks}" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">Add blank line between blocks when saving</TextBlock>
+                    <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding ExtraLineBetweenBlocks}"  />
+                    <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">Suppress update notifications for current version</TextBlock>
+                    <CheckBox Grid.Row="4" Grid.Column="2" IsChecked="{Binding SuppressUpdateNotifications}"  />
                 </Grid>
                 <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
                     <StackPanel.Resources>

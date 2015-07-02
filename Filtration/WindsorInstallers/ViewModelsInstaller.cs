@@ -60,7 +60,12 @@ namespace Filtration.WindsorInstallers
                 Component.For<ISettingsPageViewModel>()
                     .ImplementedBy<SettingsPageViewModel>()
                     .LifeStyle.Transient);
-            
+
+            container.Register(
+                Component.For<IUpdateAvailableViewModel>()
+                    .ImplementedBy<UpdateAvailableViewModel>()
+                    .LifeStyle.Transient);
+
             container.Register(
                 Component.For<IItemFilterBlockViewModelFactory>().AsFactory());
 

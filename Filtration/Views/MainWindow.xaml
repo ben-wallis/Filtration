@@ -28,8 +28,7 @@
                             <fluent:BackstageTabItem.ContentTemplate>
                                 <DataTemplate>
                                     <StackPanel>
-                                    <TextBlock Margin="20">One day there will be something here! Maybe recent documents or something? For now here's a picture of Doge:</TextBlock>
-                                    <Image Source="/Filtration;component/Resources/Images/doge.jpg" Margin="20" Width="300" Height="300" />
+                                    <TextBlock Margin="20">Recent Documents will go here in a future release.</TextBlock>
                                     </StackPanel>
                                 </DataTemplate>
                             </fluent:BackstageTabItem.ContentTemplate>

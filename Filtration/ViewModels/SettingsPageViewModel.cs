@@ -22,11 +22,13 @@ namespace Filtration.ViewModels
 
             DefaultFilterDirectory = Settings.Default.DefaultFilterDirectory;
             ExtraLineBetweenBlocks = Settings.Default.ExtraLineBetweenBlocks;
+            SuppressUpdateNotifications = Settings.Default.SuppressUpdates;
         }
         public RelayCommand SaveCommand { get; private set; }
 
         public string DefaultFilterDirectory { get; set; }
         public bool ExtraLineBetweenBlocks { get; set; }
+        public bool SuppressUpdateNotifications { get; set; }
 
         private void OnSaveCommand()
         {
@@ -35,6 +37,7 @@ namespace Filtration.ViewModels
                 _itemFilterPersistenceService.SetItemFilterScriptDirectory(DefaultFilterDirectory);
 
                 Settings.Default.ExtraLineBetweenBlocks = ExtraLineBetweenBlocks;
+                Settings.Default.SuppressUpdates = SuppressUpdateNotifications;
             }
             catch (DirectoryNotFoundException)
             {

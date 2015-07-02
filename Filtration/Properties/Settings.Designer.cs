@@ -46,5 +46,29 @@ namespace Filtration.Properties {
                 this["ExtraLineBetweenBlocks"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal SuppressUpdatesUpToVersion {
+            get {
+                return ((decimal)(this["SuppressUpdatesUpToVersion"]));
+            }
+            set {
+                this["SuppressUpdatesUpToVersion"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SuppressUpdates {
+            get {
+                return ((bool)(this["SuppressUpdates"]));
+            }
+            set {
+                this["SuppressUpdates"] = value;
+            }
+        }
     }
 }
