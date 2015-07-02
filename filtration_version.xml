@@ -1,7 +1,7 @@
 <UpdateData>
 	<CurrentVersion>0.4</CurrentVersion>
-	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.3</DownloadUrl>
-	<ReleaseDate>2015-07-01</ReleaseDate>
+	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.4</DownloadUrl>
+	<ReleaseDate>2015-07-02</ReleaseDate>
 	<ReleaseNotes>♦ UI overhaul including Ribbon toolbar implementation.
 ♦ Added Theme Support 
 ♦ Added Block Output Preview window
