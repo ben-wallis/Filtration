@@ -16,7 +16,7 @@ Filtration requires .NET Framework 4.5.1 installed.
 * Full support for all item filter attributes
 * Visual preview of colour settings
 * Copy & paste filter blocks between scripts
-* Section navigation via the Section Browser
+* The Theme Editor allows you to create themes for scripts that support them, allowing you to easily change the colours of item filter scripts.
 * The Replace Colors tool allows you to quickly replace all instances of particular color combinations throughout a script
 * The Block Group Browser allows users of your scripts to easily toggle Show/Hide for groups of blocks.
 
@@ -26,10 +26,13 @@ If you'd like to make your script fully compatible with Filtration, please take 
 ## Screenshots
 
 ##### Main Window
-<img src="http://i.imgur.com/d9ACtbt.png" />
+<img src="http://i.imgur.com/s2lNHCm.png" />
 
 ##### Block Editor
-<img src="http://i.imgur.com/JqK2mAg.png" />
+<img src="http://i.imgur.com/BqWGxs7.png" />
+
+##### Theme Editor
+<img src="http://i.imgur.com/R2w7Hf2.png" />
 
 ##### Block Color Editor
 <img src="http://i.imgur.com/nlBGiG4.png" />
