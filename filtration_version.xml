@@ -1,5 +1,10 @@
-<update_data>
-	<current_version></current_version>
-	<release_date></release_date>
-	<release_notes>![CDATA[Patch notes go here]]</release_notes>
-</update_data>
+<UpdateData>
+	<CurrentVersion>0.5</CurrentVersion>
+	<ReleaseDate>2015-07-01</ReleaseDate>
+	<ReleaseNotes>Testing multiline release notes!
+There's lots of new stuff in Filtration 0.5
+Including:
+* Blah!
+* More Blah!
+* Cheese!</ReleaseNotes>
+</UpdateData>
