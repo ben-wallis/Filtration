@@ -1,6 +1,8 @@
-﻿using System.IO.Compression;
+﻿using System;
+using System.IO.Compression;
 using System.Linq;
 using System.Windows;
+using System.Windows.Threading;
 using AutoMapper;
 using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.ModelBuilder.Inspectors;
@@ -57,14 +59,23 @@ namespace Filtration
             Mapper.CreateMap<IThemeViewModel, Theme>();
 
             Mapper.AssertConfigurationIsValid();
+            DispatcherUnhandledException += OnDispatcherUnhandledException;
 
             var mainWindow = _container.Resolve<IMainWindow>();
             mainWindow.Show();
         }
 
-        public void TestTest()
+        public void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            
+            var exception = e.Exception.Message + Environment.NewLine + e.Exception.StackTrace;
+            var innerException = e.Exception.InnerException != null
+                ? e.Exception.InnerException.Message + Environment.NewLine +
+                  e.Exception.InnerException.StackTrace
+                : string.Empty;
+
+            MessageBox.Show(
+                exception + Environment.NewLine + innerException,
+                "Unhandled Exception", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         protected override void OnExit(ExitEventArgs e)

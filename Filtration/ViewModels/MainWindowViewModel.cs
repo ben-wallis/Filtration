@@ -139,6 +139,7 @@ namespace Filtration.ViewModels
                 }
             });
             CheckForUpdates();
+            throw new Exception("Test of dispatcher exception handler");
         }
 
         public RelayCommand OpenScriptCommand { get; private set; }
