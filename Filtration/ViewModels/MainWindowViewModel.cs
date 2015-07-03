@@ -3,13 +3,11 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
-using Filtration.Models;
 using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Properties;
 using Filtration.Repositories;
@@ -21,6 +19,7 @@ using Filtration.Translators;
 using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
+using NLog;
 using Clipboard = System.Windows.Clipboard;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
@@ -34,6 +33,8 @@ namespace Filtration.ViewModels
 
     internal class MainWindowViewModel : FiltrationViewModelBase, IMainWindowViewModel
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
         private readonly IItemFilterScriptRepository _itemFilterScriptRepository;
         private readonly IItemFilterScriptTranslator _itemFilterScriptTranslator;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
@@ -198,8 +199,12 @@ namespace Filtration.ViewModels
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                if (_logger.IsDebugEnabled)
+                {
+                    _logger.Debug(e);
+                }
                 // We don't care if the update check fails, because it could fail for multiple reasons 
                 // including the user blocking Filtration in their firewall.
             }
@@ -302,6 +307,10 @@ namespace Filtration.ViewModels
             }
             catch(IOException e)
             {
+                if (_logger.IsErrorEnabled)
+                {
+                    _logger.Error(e);
+                }
                 MessageBox.Show(@"Error loading filter script - " + e.Message, @"Script Load Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -328,6 +337,10 @@ namespace Filtration.ViewModels
             }
             catch (IOException e)
             {
+                if (_logger.IsErrorEnabled)
+                {
+                    _logger.Error(e);
+                }
                 MessageBox.Show(@"Error loading filter theme - " + e.Message, @"Theme Load Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -353,6 +366,10 @@ namespace Filtration.ViewModels
             }
             catch (IOException e)
             {
+                if (_logger.IsErrorEnabled)
+                {
+                    _logger.Error(e);
+                }
                 MessageBox.Show(@"Error loading filter theme - " + e.Message, @"Theme Load Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);

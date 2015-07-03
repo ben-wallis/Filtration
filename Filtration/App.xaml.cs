@@ -14,12 +14,14 @@ using Filtration.Properties;
 using Filtration.ThemeEditor.ViewModels;
 using Filtration.ViewModels;
 using Filtration.Views;
+using NLog;
 
 namespace Filtration
 {
     public partial class App
     {
         private IWindsorContainer _container;
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
@@ -67,6 +69,8 @@ namespace Filtration
 
         public void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
+            _logger.Fatal(e.Exception);
+
             var exception = e.Exception.Message + Environment.NewLine + e.Exception.StackTrace;
             var innerException = e.Exception.InnerException != null
                 ? e.Exception.InnerException.Message + Environment.NewLine +

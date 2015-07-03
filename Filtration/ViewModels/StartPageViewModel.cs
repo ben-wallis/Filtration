@@ -1,6 +1,5 @@
 ﻿using Filtration.Common.ViewModels;
 using Filtration.Interface;
-using Filtration.ViewModels.ToolPanes;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 
@@ -30,7 +29,6 @@ namespace Filtration.ViewModels
         {
             throw new System.NotImplementedException();
         }
-
 
         private static void OnOpenScriptCommand()
         {

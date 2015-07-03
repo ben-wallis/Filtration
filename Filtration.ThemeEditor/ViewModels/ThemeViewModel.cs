@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using Filtration.ThemeEditor.Providers;
+using NLog;
 using MessageBox = System.Windows.MessageBox;
 
 namespace Filtration.ThemeEditor.ViewModels
@@ -23,6 +24,8 @@ namespace Filtration.ThemeEditor.ViewModels
 
     public class ThemeViewModel : PaneViewModel, IThemeViewModel
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
         private readonly IThemeProvider _themeProvider;
         private bool _filenameIsFake;
         private string _filePath;
@@ -85,6 +88,11 @@ namespace Filtration.ThemeEditor.ViewModels
             }
             catch (Exception e)
             {
+                if (_logger.IsErrorEnabled)
+                {
+                    _logger.Error(e);
+                }
+
                 MessageBox.Show(@"Error saving filter theme - " + e.Message, @"Save Error", MessageBoxButton.OK,
                    MessageBoxImage.Error);
             }
@@ -103,19 +111,24 @@ namespace Filtration.ThemeEditor.ViewModels
             if (result != DialogResult.OK) return;
 
             var previousFilePath = FilePath;
-            //try
-            //{
+            try
+            {
                 FilePath = saveDialog.FileName;
                 _themeProvider.SaveTheme(this, FilePath);
                 _filenameIsFake = false;
                 //RemoveDirtyFlag();
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageBox.Show(@"Error saving theme file - " + e.Message, @"Save Error", MessageBoxButton.OK,
-            //        MessageBoxImage.Error);
-            //    FilePath = previousFilePath;
-            //}
+            }
+            catch (Exception e)
+            {
+                if (_logger.IsErrorEnabled)
+                {
+                    _logger.Error(e);
+                }
+
+                MessageBox.Show(@"Error saving theme file - " + e.Message, @"Save Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                FilePath = previousFilePath;
+            }
         }
 
         public void Close()

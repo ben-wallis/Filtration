@@ -28,15 +28,7 @@ namespace Filtration.Repositories
 
         public IItemFilterScriptViewModel LoadScriptFromFile(string path)
         {
-            ItemFilterScript loadedScript;
-            try
-            {
-                loadedScript = _itemFilterPersistenceService.LoadItemFilterScript(path);
-            }
-            catch (Exception e)
-            {
-                throw new IOException("Error loading filter script - " + e.Message);
-            }
+            var loadedScript = _itemFilterPersistenceService.LoadItemFilterScript(path);
 
             var newViewModel = _itemFilterScriptViewModelFactory.Create();
             newViewModel.Initialise(loadedScript, false);

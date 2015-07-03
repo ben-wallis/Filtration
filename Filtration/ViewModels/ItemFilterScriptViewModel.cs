@@ -16,6 +16,7 @@ using Filtration.Services;
 using Filtration.Translators;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
+using NLog;
 using Clipboard = System.Windows.Clipboard;
 using MessageBox = System.Windows.MessageBox;
 
@@ -63,6 +64,8 @@ namespace Filtration.ViewModels
 
     internal class ItemFilterScriptViewModel : PaneViewModel, IItemFilterScriptViewModel
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
         private readonly IItemFilterBlockViewModelFactory _itemFilterBlockViewModelFactory;
         private readonly IItemFilterBlockTranslator _blockTranslator;
         private readonly IAvalonDockWorkspaceViewModel _avalonDockWorkspaceViewModel;
@@ -314,7 +317,7 @@ namespace Filtration.ViewModels
             }
 
             Title = Filename;
-            ContentId = "testcontentid";
+            ContentId = "ScriptContentId";
         }
 
         public void Save()
@@ -334,6 +337,11 @@ namespace Filtration.ViewModels
             }
             catch (Exception e)
             {
+                if (_logger.IsErrorEnabled)
+                {
+                    _logger.Error(e);
+                }
+
                 MessageBox.Show(@"Error saving filter file - " + e.Message, @"Save Error", MessageBoxButton.OK,
                    MessageBoxImage.Error);
             }
@@ -365,6 +373,11 @@ namespace Filtration.ViewModels
             }
             catch (Exception e)
             {
+                if (_logger.IsErrorEnabled)
+                {
+                    _logger.Error(e);
+                }
+
                 MessageBox.Show(@"Error saving filter file - " + e.Message, @"Save Error", MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 Script.FilePath = previousFilePath;
