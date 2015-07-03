@@ -23,6 +23,7 @@ Decoy Totem
 Desecrate
 Determination
 Detonate Dead
+Detonate Mines
 Devouring Totem
 Discharge
 Discipline

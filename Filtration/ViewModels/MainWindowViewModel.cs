@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -139,7 +140,6 @@ namespace Filtration.ViewModels
                 }
             });
             CheckForUpdates();
-            throw new Exception("Test of dispatcher exception handler");
         }
 
         public RelayCommand OpenScriptCommand { get; private set; }
@@ -178,7 +178,7 @@ namespace Filtration.ViewModels
         {
             var assembly = Assembly.GetExecutingAssembly();
             var assemblyVersion = FileVersionInfo.GetVersionInfo(assembly.Location);
-            var currentVersion = Convert.ToDecimal(assemblyVersion.FileMajorPart + "." + assemblyVersion.FileMinorPart);
+            var currentVersion = Convert.ToDecimal(assemblyVersion.FileMajorPart + CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator + assemblyVersion.FileMinorPart);
 
             var result = await _updateCheckService.GetUpdateData();
 
