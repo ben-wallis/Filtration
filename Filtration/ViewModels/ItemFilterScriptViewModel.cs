@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using Castle.Core.Internal;
+using Filtration.Common.Services;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using Filtration.ObjectModel;
@@ -18,7 +19,6 @@ using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using NLog;
 using Clipboard = System.Windows.Clipboard;
-using MessageBox = System.Windows.MessageBox;
 
 namespace Filtration.ViewModels
 {
@@ -70,6 +70,7 @@ namespace Filtration.ViewModels
         private readonly IItemFilterBlockTranslator _blockTranslator;
         private readonly IAvalonDockWorkspaceViewModel _avalonDockWorkspaceViewModel;
         private readonly IItemFilterPersistenceService _persistenceService;
+        private readonly IMessageBoxService _messageBoxService;
 
         private bool _isDirty;
         private IItemFilterBlockViewModel _selectedBlockViewModel;
@@ -81,13 +82,15 @@ namespace Filtration.ViewModels
         public ItemFilterScriptViewModel(IItemFilterBlockViewModelFactory itemFilterBlockViewModelFactory,
                                          IItemFilterBlockTranslator blockTranslator,
                                          IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
-                                         IItemFilterPersistenceService persistenceService)
+                                         IItemFilterPersistenceService persistenceService,
+                                         IMessageBoxService messageBoxService)
         {
             _itemFilterBlockViewModelFactory = itemFilterBlockViewModelFactory;
             _blockTranslator = blockTranslator;
             _avalonDockWorkspaceViewModel = avalonDockWorkspaceViewModel;
             _avalonDockWorkspaceViewModel.ActiveDocumentChanged += OnActiveDocumentChanged;
             _persistenceService = persistenceService;
+            _messageBoxService = messageBoxService;
             _itemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModel>();
             
             ToggleShowAdvancedCommand = new RelayCommand<bool>(OnToggleShowAdvancedCommand);
@@ -342,8 +345,8 @@ namespace Filtration.ViewModels
                     _logger.Error(e);
                 }
 
-                MessageBox.Show(@"Error saving filter file - " + e.Message, @"Save Error", MessageBoxButton.OK,
-                   MessageBoxImage.Error);
+                _messageBoxService.Show("Save Error", "Error saving filter file - " + e.Message, MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 
@@ -378,7 +381,7 @@ namespace Filtration.ViewModels
                     _logger.Error(e);
                 }
 
-                MessageBox.Show(@"Error saving filter file - " + e.Message, @"Save Error", MessageBoxButton.OK,
+                _messageBoxService.Show("Save Error", "Error saving filter file - " + e.Message, MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 Script.FilePath = previousFilePath;
             }
@@ -421,7 +424,8 @@ namespace Filtration.ViewModels
 
             var messageText = "The following script validation errors occurred:" + Environment.NewLine + failures;
 
-            MessageBox.Show(messageText, "Script Validation Failure", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            _messageBoxService.Show("Script Validation Failure", messageText, MessageBoxButton.OK,
+                MessageBoxImage.Exclamation);
             return false;
         }
 
@@ -438,8 +442,9 @@ namespace Filtration.ViewModels
             }
             else
             {
-                var result = MessageBox.Show(@"Want to save your changes to this script?",
-                    @"Filtration", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                var result = _messageBoxService.Show("Filtration",
+                    "Want to save your changes to this script?", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
@@ -538,6 +543,7 @@ namespace Filtration.ViewModels
                 var clipboardText = Clipboard.GetText();
                 if (clipboardText.IsNullOrEmpty()) return;
 
+                _blockTranslator.InitialiseForExistingScript(Script);
                 var translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(clipboardText);
                 if (translatedBlock == null) return;
 
@@ -562,8 +568,10 @@ namespace Filtration.ViewModels
             catch (Exception e)
             {
                 _logger.Error(e);
-                MessageBox.Show(e.Message + Environment.NewLine + e.StackTrace + Environment.NewLine +
-                                e.InnerException.Message + Environment.NewLine + e.InnerException.StackTrace, "Paste Error", MessageBoxButton.OK);
+                _messageBoxService.Show("Paste Error",
+                    e.Message + Environment.NewLine + e.StackTrace + Environment.NewLine +
+                    e.InnerException.Message + Environment.NewLine + e.InnerException.StackTrace, MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 
@@ -717,9 +725,10 @@ namespace Filtration.ViewModels
 
         public void DeleteBlock(IItemFilterBlockViewModel targetBlockViewModel)
         {
-            var result = MessageBox.Show("Are you sure you wish to delete this block?", "Delete Confirmation",
-                MessageBoxButton.YesNo, MessageBoxImage.Question);
-
+            var result = _messageBoxService.Show("Delete Confirmation", "Are you sure you wish to delete this block?",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            
             if (result == MessageBoxResult.Yes)
             {
                 Script.ItemFilterBlocks.Remove(targetBlockViewModel.Block);

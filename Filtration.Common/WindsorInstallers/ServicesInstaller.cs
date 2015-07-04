@@ -13,6 +13,11 @@ namespace Filtration.Common.WindsorInstallers
                 Component.For<IFileSystemService>()
                     .ImplementedBy<FileSystemService>()
                     .LifeStyle.Singleton);
+
+            container.Register(
+                Component.For<IMessageBoxService>()
+                    .ImplementedBy<MessageBoxService>()
+                    .LifeStyle.Singleton);
         }
     }
 }

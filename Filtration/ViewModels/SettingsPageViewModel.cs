@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
+using Filtration.Common.Services;
 using Filtration.Common.ViewModels;
 using Filtration.Properties;
 using Filtration.Services;
@@ -14,10 +15,12 @@ namespace Filtration.ViewModels
     internal class SettingsPageViewModel : FiltrationViewModelBase, ISettingsPageViewModel
     {
         private readonly IItemFilterPersistenceService _itemFilterPersistenceService;
+        private readonly IMessageBoxService _messageBoxService;
 
-        public SettingsPageViewModel(IItemFilterPersistenceService itemFilterPersistenceService)
+        public SettingsPageViewModel(IItemFilterPersistenceService itemFilterPersistenceService, IMessageBoxService messageBoxService)
         {
             _itemFilterPersistenceService = itemFilterPersistenceService;
+            _messageBoxService = messageBoxService;
             SaveCommand = new RelayCommand(OnSaveCommand);
 
             DefaultFilterDirectory = Settings.Default.DefaultFilterDirectory;
@@ -41,7 +44,7 @@ namespace Filtration.ViewModels
             }
             catch (DirectoryNotFoundException)
             {
-                MessageBox.Show("The entered Default Filter Directory is invalid or does not exist.", "Error",
+                _messageBoxService.Show("Error", "The entered Default Filter Directory is invalid or does not exist.",
                     MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }

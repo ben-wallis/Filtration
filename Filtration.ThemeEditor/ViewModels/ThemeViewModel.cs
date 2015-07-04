@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
+using Filtration.Common.Services;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using Filtration.ThemeEditor.Providers;
@@ -27,12 +28,15 @@ namespace Filtration.ThemeEditor.ViewModels
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         private readonly IThemeProvider _themeProvider;
+        private readonly IMessageBoxService _messageBoxService;
         private bool _filenameIsFake;
         private string _filePath;
 
-        public ThemeViewModel(IThemeProvider themeProvider)
+        public ThemeViewModel(IThemeProvider themeProvider,
+                              IMessageBoxService messageBoxService)
         {
             _themeProvider = themeProvider;
+            _messageBoxService = messageBoxService;
 
             Components = new ObservableCollection<ThemeComponentViewModel>();
 
@@ -93,8 +97,7 @@ namespace Filtration.ThemeEditor.ViewModels
                     _logger.Error(e);
                 }
 
-                MessageBox.Show(@"Error saving filter theme - " + e.Message, @"Save Error", MessageBoxButton.OK,
-                   MessageBoxImage.Error);
+                _messageBoxService.Show("Save Error", "Error saving filter theme - " + e.Message, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -125,7 +128,7 @@ namespace Filtration.ThemeEditor.ViewModels
                     _logger.Error(e);
                 }
 
-                MessageBox.Show(@"Error saving theme file - " + e.Message, @"Save Error", MessageBoxButton.OK,
+                _messageBoxService.Show("Save Error", "Error saving theme file - " + e.Message, MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 FilePath = previousFilePath;
             }

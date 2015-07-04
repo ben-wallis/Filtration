@@ -111,12 +111,18 @@
 
                             <!-- Item Preview Box -->
                             <WrapPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
-                                <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"
-                                       Height="15" Width="15"
-                                       Margin="0,0,3,0"
-                                       Visibility="{Binding HasSound, Converter={StaticResource BooleanVisibilityConverter}}" />
+                             <Button Command="{Binding PlaySoundCommand}"
+                                        Width="25"
+                                        Height="25"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        Margin="0,0,3,0"
+                                        Visibility="{Binding HasSound, Converter={StaticResource BooleanVisibilityConverter}}"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        ToolTip="Click to preview drop sound">
+                                    <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                </Button>
                                 <ToggleButton Margin="0,2,2,2"
                                               Style="{StaticResource ChromelessToggleButton}"
                                               x:Name="ItemPreviewButton"

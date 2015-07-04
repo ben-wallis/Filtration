@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using Filtration.Common.Services;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
@@ -16,6 +17,13 @@ namespace Filtration.ThemeEditor.Services
 
     public class ThemeService : IThemeService
     {
+        private readonly IMessageBoxService _messageBoxService;
+
+        public ThemeService(IMessageBoxService messageBoxService)
+        {
+            _messageBoxService = messageBoxService;
+        }
+
         public void ApplyThemeToScript(Theme theme, ItemFilterScript script)
         {
             var mismatchedComponents = false;
@@ -58,9 +66,9 @@ namespace Filtration.ThemeEditor.Services
 
             if (mismatchedComponents)
             {
-                MessageBox.Show(
+                _messageBoxService.Show("Possible Theme Mismatch",
                     "Not all theme components had matches - are you sure this theme is designed for this script?",
-                    "Possible Theme Mismatch", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
     }

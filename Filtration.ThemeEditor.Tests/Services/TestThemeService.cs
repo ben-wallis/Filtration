@@ -1,9 +1,11 @@
 ﻿using System.Windows.Media;
+using Filtration.Common.Services;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.ThemeEditor;
 using Filtration.ThemeEditor.Services;
+using Moq;
 using NUnit.Framework;
 
 namespace Filtration.ThemeEditor.Tests.Services
@@ -27,8 +29,9 @@ namespace Filtration.ThemeEditor.Tests.Services
             var testInputThemeComponent = new ThemeComponent(ThemeComponentType.TextColor, "Test Component 1", testInputThemeComponentColor);
             testInputTheme.Components.Add(testInputThemeComponent);
             testInputBlockItem.ThemeComponent = testInputThemeComponent;
+            var mockMessageBoxService = new Mock<IMessageBoxService>();
 
-            var service = new ThemeService();
+            var service = new ThemeService(mockMessageBoxService.Object);
 
             // Act
             service.ApplyThemeToScript(testInputTheme, testInputScript);
@@ -54,8 +57,10 @@ namespace Filtration.ThemeEditor.Tests.Services
             var testInputBlockItemThemeComponent = new ThemeComponent(ThemeComponentType.TextColor, "Different Component", testInputThemeComponentColor);
             testInputTheme.Components.Add(testInputThemeComponent);
             testInputBlockItem.ThemeComponent = testInputBlockItemThemeComponent;
+            
+            var mockMessageBoxService = new Mock<IMessageBoxService>();
 
-            var service = new ThemeService();
+            var service = new ThemeService(mockMessageBoxService.Object);
 
             // Act
             service.ApplyThemeToScript(testInputTheme, testInputScript);

@@ -16,6 +16,7 @@ namespace Filtration.Translators
 {
     internal interface IItemFilterBlockTranslator
     {
+        void InitialiseForExistingScript(ItemFilterScript script);
         ItemFilterBlock TranslateStringToItemFilterBlock(string inputString);
         string TranslateItemFilterBlockToString(ItemFilterBlock block);
         void ReplaceColorBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString);
@@ -32,6 +33,12 @@ namespace Filtration.Translators
         {
             _blockGroupHierarchyBuilder = blockGroupHierarchyBuilder;
             _themeComponentListBuilder = themeComponentListBuilder;
+        }
+
+        public void InitialiseForExistingScript(ItemFilterScript script)
+        {
+            _themeComponentListBuilder.Initialise(script.ThemeComponents);
+            _blockGroupHierarchyBuilder.Initialise(script.ItemFilterBlockGroups.First());
         }
 
         // This method converts a string into a ItemFilterBlock. This is used for pasting ItemFilterBlocks 

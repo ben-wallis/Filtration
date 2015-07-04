@@ -55,6 +55,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Filtration.Common\Filtration.Common.csproj">
+      <Project>{8cb44f28-2956-4c2a-9314-72727262edd4}</Project>
+      <Name>Filtration.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Filtration.ObjectModel\Filtration.ObjectModel.csproj">
       <Project>{4aac3beb-1dc1-483e-9d11-0e9334e80227}</Project>
       <Name>Filtration.ObjectModel</Name>
