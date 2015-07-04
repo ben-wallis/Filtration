@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="Filtration.UserControls.BlockItemControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:userControls="clr-namespace:Filtration.UserControls"
+             xmlns:blockItemBaseTypes="clr-namespace:Filtration.ObjectModel.BlockItemBaseTypes;assembly=Filtration.ObjectModel"
+             xmlns:blockItemTypes="clr-namespace:Filtration.ObjectModel.BlockItemTypes;assembly=Filtration.ObjectModel"
+             xmlns:extensions="clr-namespace:Filtration.Extensions"
+             xmlns:enums="clr-namespace:Filtration.ObjectModel.Enums;assembly=Filtration.ObjectModel"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=userControls:BlockItemControl}"
+             d:DesignHeight="200" d:DesignWidth="150">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <Style TargetType="{x:Type Border}" x:Key="BlockItemBorder">
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="BorderBrush" Value="Black" />
+                        <Setter Property="CornerRadius" Value="3" />
+                        <Setter Property="Margin" Value="0,0,5,5" />
+                    </Style>
+                </ResourceDictionary>
+                <ResourceDictionary Source="../Views/SharedResourcesDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border Style="{StaticResource BlockItemBorder}" Width="142">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Background="PowderBlue" CornerRadius="3,3,0,0">
+                <Grid Margin="3,0,3,0">
+                    <TextBlock Text="{Binding BlockItem.DisplayHeading}" Grid.Row="0" VerticalAlignment="Center" Foreground="Navy" />
+                    <userControls:CrossButton Grid.Row="0" Height="12" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding RemoveItemCommand}" CommandParameter="{Binding BlockItem}" Visibility="{Binding RemoveEnabled}"/>
+                </Grid>
+            </Border>
+            <ContentControl Grid.Row="1" Content="{Binding BlockItem}">
+                <ContentControl.Resources>
+                    <!-- Action Template -->
+                    <DataTemplate  DataType="{x:Type blockItemBaseTypes:ActionBlockItem}">
+                        <WrapPanel VerticalAlignment="Center" Margin="5,5,5,5">
+                            <RadioButton IsChecked="{Binding Action, Converter={StaticResource BooleanToBlockActionConverter}}" Margin="0,0,10,0">Show</RadioButton>
+                            <RadioButton IsChecked="{Binding Action, Converter={StaticResource BooleanToBlockActionInverseConverter}}">Hide</RadioButton>
+                        </WrapPanel>
+                    </DataTemplate>
+                    
+                    <!-- NumericFilterPredicate Template -->
+                    <DataTemplate DataType="{x:Type blockItemBaseTypes:NumericFilterPredicateBlockItem}">
+                        <userControls:NumericFilterPredicateControl Margin="5,5,5,5" NumericFilterPredicate="{Binding FilterPredicate}" Minimum="{Binding Minimum, Mode=OneTime}" Maximum="{Binding Maximum, Mode=OneTime}" />
+                    </DataTemplate>
+                    
+                    <!-- Rarity Template -->
+                    <DataTemplate DataType="{x:Type blockItemTypes:RarityBlockItem}">
+                        <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+                            <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:FilterPredicateOperator}}}"
+                                                              DisplayMemberPath="Description"
+                                                              SelectedValue="{Binding FilterPredicate.PredicateOperator}"
+                                                              SelectedValuePath="Value" Width="50" Margin="0,0,6,0"  />
+                            <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:ItemRarity}}}"
+                                                              DisplayMemberPath="Description"
+                                                              SelectedValue="{Binding FilterPredicate.PredicateOperand, Converter={StaticResource IntToItemRarityConverter}}"
+                                                              SelectedValuePath="Value" />
+                        </StackPanel>
+                    </DataTemplate>
+
+                    <!-- Class Template -->
+                    <DataTemplate DataType="{x:Type blockItemTypes:ClassBlockItem}">
+                        <userControls:EditableListBoxControl Margin="5,5,5,5" ItemsSource="{Binding Items}" AutoCompleteItemsSource="{Binding ElementName=TopLevelGrid, Path=DataContext.AutoCompleteItemClasses}" />
+                    </DataTemplate>
+                    
+                    <!-- Base Type Template -->
+                    <DataTemplate DataType="{x:Type blockItemTypes:BaseTypeBlockItem}">
+                        <userControls:EditableListBoxControl Margin="5,5,5,5" ItemsSource="{Binding Items}" AutoCompleteItemsSource="{Binding ElementName=TopLevelGrid, Path=DataContext.AutoCompleteItemBaseTypes}" />
+                    </DataTemplate>
+                    
+                    <!-- Socket Groups Template -->
+                    <DataTemplate DataType="{x:Type blockItemTypes:SocketGroupBlockItem}">
+                        <userControls:EditableListBoxControl Margin="5,5,5,5" ItemsSource="{Binding Items}" />
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
+        </Grid>
+    </Border>
+</UserControl>

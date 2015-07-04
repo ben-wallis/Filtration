@@ -137,6 +137,7 @@
     <Compile Include="Converters\BooleanToBlockActionInverseConverter.cs" />
     <Compile Include="Converters\BooleanToBlockActionConverter.cs" />
     <Compile Include="Converters\BooleanVisibilityConverterCopy.cs" />
+    <Compile Include="Converters\BlockItemToRemoveEnabledVisibilityConverter.cs" />
     <Compile Include="Converters\ColorToSolidColorBrushConverter.cs" />
     <Compile Include="Converters\HashSignRemovalConverter.cs" />
     <Compile Include="Converters\ItemRarityConverter.cs" />
@@ -158,6 +159,9 @@
     <Compile Include="Translators\ItemFilterScriptTranslator.cs" />
     <Compile Include="Translators\ThemeComponentListBuilder.cs" />
     <Compile Include="UserControls\AutoScrollingListBox.cs" />
+    <Compile Include="UserControls\BlockItemControl.xaml.cs">
+      <DependentUpon>BlockItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\CrossButton.cs" />
     <Compile Include="UserControls\EditableListBoxControl.xaml.cs">
       <DependentUpon>EditableListBoxControl.xaml</DependentUpon>
@@ -192,6 +196,10 @@
     <Compile Include="Views\SettingsPageView.xaml.cs">
       <DependentUpon>SettingsPageView.xaml</DependentUpon>
     </Compile>
+    <Page Include="UserControls\BlockItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Styles\ListBoxItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

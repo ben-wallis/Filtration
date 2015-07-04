@@ -7,10 +7,7 @@
              xmlns:userControls="clr-namespace:Filtration.UserControls"
              xmlns:views="clr-namespace:Filtration.Views"
              xmlns:converters="clr-namespace:Filtration.Converters"
-             xmlns:extensions="clr-namespace:Filtration.Extensions"
              xmlns:blockItemBaseTypes="clr-namespace:Filtration.ObjectModel.BlockItemBaseTypes;assembly=Filtration.ObjectModel"
-             xmlns:blockItemTypes="clr-namespace:Filtration.ObjectModel.BlockItemTypes;assembly=Filtration.ObjectModel"
-             xmlns:enums="clr-namespace:Filtration.ObjectModel.Enums;assembly=Filtration.ObjectModel"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewModels:ItemFilterBlockViewModel}"
@@ -22,7 +19,6 @@
                 <ResourceDictionary>
                     <views:BindingProxy x:Key="proxy" Data="{Binding}" />
                     <converters:BlockGroupAdvancedFillColorConverter x:Key="BlockGroupAdvancedFillColorConverter" />
-                    
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -210,121 +206,11 @@
                                         </Style.Triggers>
                                     </Style>
                                 </ItemsControl.ItemContainerStyle>
-                                <ItemsControl.Resources>
-                                    <Style TargetType="{x:Type Border}" x:Key="BlockItemBorder">
-                                        <Setter Property="BorderThickness" Value="1" />
-                                        <Setter Property="BorderBrush" Value="Black" />
-                                        <Setter Property="CornerRadius" Value="3" />
-                                        <Setter Property="Width" Value="142" />
-                                        <Setter Property="Margin" Value="0,0,5,5" />
-                                    </Style>
-                                    <DataTemplate DataType="{x:Type blockItemBaseTypes:ActionBlockItem}">
-                                        <Border Style="{StaticResource BlockItemBorder}">
-                                            <WrapPanel VerticalAlignment="Center" Margin="5,5,5,5">
-                                                <RadioButton IsChecked="{Binding Action, Converter={StaticResource BooleanToBlockActionConverter}}" Margin="0,0,10,0">Show</RadioButton>
-                                                <RadioButton IsChecked="{Binding Action, Converter={StaticResource BooleanToBlockActionInverseConverter}}">Hide</RadioButton>
-                                            </WrapPanel>
-                                        </Border>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <userControls:BlockItemControl BlockItem="{Binding}" RemoveItemCommand="{Binding ElementName=TopLevelGrid, Path=DataContext.RemoveFilterBlockItemCommand}" RemoveEnabled="{Binding Path=., Converter={StaticResource BlockItemToRemoveEnabledVisibilityConverter}}" />
                                     </DataTemplate>
-                                    <DataTemplate DataType="{x:Type blockItemBaseTypes:NumericFilterPredicateBlockItem}">
-                                        <Border Style="{StaticResource BlockItemBorder}">
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition />
-                                                    <RowDefinition />
-                                                </Grid.RowDefinitions>
-                                                <Border Background="PowderBlue" CornerRadius="3,3,0,0">
-                                                    <Grid Margin="3,0,3,0">
-                                                        <TextBlock Text="{Binding DisplayHeading}" Grid.Row="0" VerticalAlignment="Center" Foreground="Navy" />
-                                                        <userControls:CrossButton Grid.Row="0" Height="12" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding ElementName=TopLevelGrid, Path=DataContext.RemoveFilterBlockItemCommand}" CommandParameter="{Binding}"/>
-                                                    </Grid>
-                                                </Border>
-                                                <userControls:NumericFilterPredicateControl Grid.Row="1" Grid.Column="0" Margin="5,5,5,5" NumericFilterPredicate="{Binding FilterPredicate}" Minimum="{Binding Minimum, Mode=OneTime}" Maximum="{Binding Maximum, Mode=OneTime}" />
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                    <DataTemplate DataType="{x:Type blockItemTypes:RarityBlockItem}">
-                                        <Border Style="{StaticResource BlockItemBorder}">
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition />
-                                                    <RowDefinition Height="Auto" />
-                                                </Grid.RowDefinitions>
-                                                <Border Background="PowderBlue" CornerRadius="3,3,0,0">
-                                                    <Grid Margin="3,0,3,0">
-                                                        <TextBlock Text="{Binding DisplayHeading}" Grid.Row="0" VerticalAlignment="Center" Foreground="Navy" />
-                                                        <userControls:CrossButton Grid.Row="0" Height="12" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding ElementName=TopLevelGrid, Path=DataContext.RemoveFilterBlockItemCommand}" CommandParameter="{Binding}"/>
-                                                    </Grid>
-                                                </Border>
-                                                <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5,5,5,5">
-                                                    <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:FilterPredicateOperator}}}"
-                                                              DisplayMemberPath="Description"
-                                                              SelectedValue="{Binding FilterPredicate.PredicateOperator}"
-                                                              SelectedValuePath="Value" Width="50" Margin="0,0,6,0"  />
-                                                    <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:ItemRarity}}}"
-                                                              DisplayMemberPath="Description"
-                                                              SelectedValue="{Binding FilterPredicate.PredicateOperand, Converter={StaticResource IntToItemRarityConverter}}"
-                                                              SelectedValuePath="Value" />
-                                                </StackPanel>
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                    <!-- TODO: Sort out these messy duplicated data templates -->
-                                    <DataTemplate DataType="{x:Type blockItemTypes:ClassBlockItem}">
-                                        <Border Style="{StaticResource BlockItemBorder}">
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition />
-                                                    <RowDefinition Height="Auto" />
-                                                </Grid.RowDefinitions>
-                                                <Border Background="PowderBlue" CornerRadius="3,3,0,0">
-                                                    <Grid Margin="3,0,3,0">
-                                                        <TextBlock Text="{Binding DisplayHeading}" Grid.Row="0" VerticalAlignment="Center" Foreground="Navy" />
-                                                        <userControls:CrossButton Grid.Row="0" Height="12" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding ElementName=TopLevelGrid, Path=DataContext.RemoveFilterBlockItemCommand}" CommandParameter="{Binding}"/>
-                                                    </Grid>
-                                                </Border>
-                                                <userControls:EditableListBoxControl Grid.Row="1" Grid.Column="0" Margin="5,5,5,5" ItemsSource="{Binding Items}" AutoCompleteItemsSource="{Binding ElementName=TopLevelGrid, Path=DataContext.AutoCompleteItemClasses}" />
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                    <DataTemplate DataType="{x:Type blockItemTypes:BaseTypeBlockItem}">
-                                        <Border Style="{StaticResource BlockItemBorder}">
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition />
-                                                    <RowDefinition Height="Auto" />
-                                                </Grid.RowDefinitions>
-                                                <Border Background="PowderBlue" CornerRadius="3,3,0,0">
-                                                    <Grid Margin="3,0,3,0">
-                                                        <TextBlock Text="{Binding DisplayHeading}" Grid.Row="0" VerticalAlignment="Center" Foreground="Navy" />
-                                                        <userControls:CrossButton Grid.Row="0" Height="12" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding ElementName=TopLevelGrid, Path=DataContext.RemoveFilterBlockItemCommand}" CommandParameter="{Binding}"/>
-                                                    </Grid>
-                                                </Border>
-                                                <userControls:EditableListBoxControl Grid.Row="1" Grid.Column="0" Margin="5,5,5,5" ItemsSource="{Binding Items}" AutoCompleteItemsSource="{Binding ElementName=TopLevelGrid, Path=DataContext.AutoCompleteItemBaseTypes}" />
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                    <DataTemplate DataType="{x:Type blockItemTypes:SocketGroupBlockItem}">
-                                        <Border Style="{StaticResource BlockItemBorder}">
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition />
-                                                    <RowDefinition Height="Auto" />
-                                                </Grid.RowDefinitions>
-                                                <Border Background="PowderBlue" CornerRadius="3,3,0,0">
-                                                    <Grid Margin="3,0,3,0">
-                                                        <TextBlock Text="{Binding DisplayHeading}" Grid.Row="0" VerticalAlignment="Center" Foreground="Navy" />
-                                                        <userControls:CrossButton Grid.Row="0" Height="12" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding ElementName=TopLevelGrid, Path=DataContext.RemoveFilterBlockItemCommand}" CommandParameter="{Binding}"/>
-                                                    </Grid>
-                                                </Border>
-                                                <userControls:EditableListBoxControl Grid.Row="1" Grid.Column="0" Margin="5,5,5,5" ItemsSource="{Binding Items}" />
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                    <DataTemplate DataType="{x:Type blockItemBaseTypes:ColorBlockItem}" />
-                                    <DataTemplate DataType="{x:Type blockItemTypes:SoundBlockItem}" />
-                                    <DataTemplate DataType="{x:Type blockItemTypes:FontSizeBlockItem}" />
-                                </ItemsControl.Resources>
+                                </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </WrapPanel>
                         <Grid Grid.Row="2" Margin="0,5,0,5">

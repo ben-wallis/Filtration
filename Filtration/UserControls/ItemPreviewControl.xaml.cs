@@ -11,7 +11,6 @@ namespace Filtration.UserControls
             InitializeComponent();
             // ReSharper disable once PossibleNullReferenceException
             (Content as FrameworkElement).DataContext = this;
-            
         }
 
         public static readonly DependencyProperty TextColorProperty = DependencyProperty.Register(
