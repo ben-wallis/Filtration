@@ -33,6 +33,7 @@ namespace Filtration.ViewModels
 
         private bool _displaySettingsPopupOpen;
         private bool _isExpanded;
+        private bool _audioVisualBlockItemsGridVisible;
 
         public ItemFilterBlockViewModel(IStaticDataService staticDataService, IReplaceColorsViewModel replaceColorsViewModel)
         {
@@ -55,7 +56,7 @@ namespace Filtration.ViewModels
             ToggleBlockActionCommand = new RelayCommand(OnToggleBlockActionCommand);
             AddAudioVisualBlockItemCommand = new RelayCommand<Type>(OnAddAudioVisualBlockItemCommand);
             RemoveFilterBlockItemCommand = new RelayCommand<IItemFilterBlockItem>(OnRemoveFilterBlockItemCommand);
-            RemoveAudioVisualBlockItemCommand = new RelayCommand<IItemFilterBlockItem>(OnRemoveAudioVisualBlockItemCommand);
+            SwitchBlockItemsViewCommand = new RelayCommand(OnSwitchBlockItemsViewCommand);
             PlaySoundCommand = new RelayCommand(OnPlaySoundCommand, () => HasSound);
         }
 
@@ -93,8 +94,8 @@ namespace Filtration.ViewModels
         public RelayCommand<Type> AddFilterBlockItemCommand { get; private set; }
         public RelayCommand<Type> AddAudioVisualBlockItemCommand { get; private set; }
         public RelayCommand<IItemFilterBlockItem> RemoveFilterBlockItemCommand { get; private set; }
-        public RelayCommand<IItemFilterBlockItem> RemoveAudioVisualBlockItemCommand { get; private set; }
         public RelayCommand PlaySoundCommand { get; private set; }
+        public RelayCommand SwitchBlockItemsViewCommand { get; private set; }
 
         public ItemFilterBlock Block { get; private set; }
 
@@ -120,6 +121,11 @@ namespace Filtration.ViewModels
             get { return Block.BlockItems.Where(b => !(b is IAudioVisualBlockItem)); }
         }
 
+        public IEnumerable<IItemFilterBlockItem> RegularBlockItems
+        {
+            get { return Block.BlockItems.Where(b => !(b is IAudioVisualBlockItem)); }
+        }
+
         public IEnumerable<IItemFilterBlockItem> AudioVisualBlockItems
         {
             get { return Block.BlockItems.Where(b => b is IAudioVisualBlockItem); }
@@ -130,6 +136,20 @@ namespace Filtration.ViewModels
             get
             {
                 return Block.BlockGroup != null && Block.BlockGroup.Advanced;
+            }
+        }
+
+        public bool AudioVisualBlockItemsGridVisible
+        {
+            get { return _audioVisualBlockItemsGridVisible; }
+            set
+            {
+                _audioVisualBlockItemsGridVisible = value;
+                RaisePropertyChanged();
+                if (value && IsExpanded == false)
+                {
+                    IsExpanded = true;
+                }
             }
         }
 
@@ -152,25 +172,6 @@ namespace Filtration.ViewModels
         {
             get { return _staticDataService.ItemBaseTypes; }
         } 
-
-        public List<int> SoundsAvailable
-        {
-            get
-            {
-                return new List<int>
-                {
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9
-                };
-            }
-        }
 
         public List<Type> BlockItemTypesAvailable
         {
@@ -293,13 +294,17 @@ namespace Filtration.ViewModels
                 var fontSize = HasFontSize ? (BlockItems.OfType<FontSizeBlockItem>().First().Value / 1.8) : 19;
                 
                 return fontSize;
-
             }
         }
 
         public bool HasSound
         {
             get { return Block.HasBlockItemOfType<SoundBlockItem>(); }
+        }
+
+        private void OnSwitchBlockItemsViewCommand()
+        {
+            AudioVisualBlockItemsGridVisible = !AudioVisualBlockItemsGridVisible;
         }
 
         private void OnToggleBlockActionCommand()
@@ -323,6 +328,13 @@ namespace Filtration.ViewModels
         private void OnRemoveFilterBlockItemCommand(IItemFilterBlockItem blockItem)
         {
             BlockItems.Remove(blockItem);
+
+            if (blockItem is IAudioVisualBlockItem)
+            {
+                blockItem.PropertyChanged -= OnAudioVisualBlockItemChanged;
+                OnAudioVisualBlockItemChanged(this, EventArgs.Empty);
+            }
+
             IsDirty = true;
         }
 
@@ -333,15 +345,7 @@ namespace Filtration.ViewModels
 
             newBlockItem.PropertyChanged += OnAudioVisualBlockItemChanged;
             BlockItems.Add(newBlockItem);
-            OnAudioVisualBlockItemChanged(null, null);
-            IsDirty = true;
-        }
-
-        private void OnRemoveAudioVisualBlockItemCommand(IItemFilterBlockItem blockItem)
-        {
-            blockItem.PropertyChanged -= OnAudioVisualBlockItemChanged;
-            BlockItems.Remove(blockItem);
-            OnAudioVisualBlockItemChanged(null, null);
+            OnAudioVisualBlockItemChanged(this, EventArgs.Empty);
             IsDirty = true;
         }
 
@@ -437,6 +441,7 @@ namespace Filtration.ViewModels
 
         private void OnBlockItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            RaisePropertyChanged("RegularBlockItems");
             RaisePropertyChanged("SummaryBlockItems");
             RaisePropertyChanged("AudioVisualBlockItems");
         }

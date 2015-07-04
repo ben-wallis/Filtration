@@ -1,10 +1,14 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Filtration.Annotations;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
+using Xceed.Wpf.Toolkit;
 
 namespace Filtration.UserControls
 {
@@ -68,6 +72,25 @@ namespace Filtration.UserControls
             set
             {
                 SetValue(RemoveEnabledProperty, value);
+            }
+        }
+
+
+        public ObservableCollection<ColorItem> AvailableColors
+        {
+            get
+            {
+                {
+                    return PathOfExileColors.DefaultColors;
+                }
+            }
+        }
+
+        public List<int> SoundsAvailable
+        {
+            get
+            {
+                return new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             }
         }
         

@@ -39,6 +39,7 @@
             <converters:BooleanToBlockActionInverseConverter x:Key="BooleanToBlockActionInverseConverter" />
             <converters:BlockItemTypeToStringConverter x:Key="BlockItemTypeToStringConverter" />
             <converters:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
+            <converters:InverseBooleanVisibilityConverter x:Key="InverseBooleanVisibilityConverter" />
             <converters:BlockItemToRemoveEnabledVisibilityConverter x:Key="BlockItemToRemoveEnabledVisibilityConverter" />
         </ResourceDictionary>
         <ResourceDictionary Source="ExpanderStyle.xaml" />

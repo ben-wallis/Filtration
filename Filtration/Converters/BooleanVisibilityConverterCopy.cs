@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace Filtration.Converters
 {
-    internal class BooleanVisibilityConverterCopy : IValueConverter
+    internal class BooleanVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

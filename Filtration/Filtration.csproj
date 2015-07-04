@@ -136,12 +136,13 @@
     <Compile Include="Converters\BooleanInverterConverter.cs" />
     <Compile Include="Converters\BooleanToBlockActionInverseConverter.cs" />
     <Compile Include="Converters\BooleanToBlockActionConverter.cs" />
+    <Compile Include="Converters\BooleanVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanVisibilityConverterCopy.cs" />
     <Compile Include="Converters\BlockItemToRemoveEnabledVisibilityConverter.cs" />
     <Compile Include="Converters\ColorToSolidColorBrushConverter.cs" />
     <Compile Include="Converters\HashSignRemovalConverter.cs" />
     <Compile Include="Converters\ItemRarityConverter.cs" />
-    <Compile Include="Converters\BooleanVisibilityConverter.cs" />
+    <Compile Include="Converters\InverseBooleanVisibilityConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Converters\TreeViewMarginConverter.cs" />
     <Compile Include="Extensions\EnumerationExtension.cs" />
@@ -208,9 +209,6 @@
       <DependentUpon>BlockGroupBrowserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BlockTemplateSelector.cs" />
-    <Compile Include="Views\ItemFilterBlockDisplaySettingsView.xaml.cs">
-      <DependentUpon>ItemFilterBlockDisplaySettingsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ItemFilterScriptView.xaml.cs">
       <DependentUpon>ItemFilterScriptView.xaml</DependentUpon>
     </Compile>
@@ -295,10 +293,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\IconsDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ItemFilterBlockDisplaySettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
