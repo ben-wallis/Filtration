@@ -9,7 +9,8 @@ namespace Filtration.Models
         private string _releaseNotes;
 
         public string DownloadUrl { get; set; }
-        public decimal CurrentVersion { get; set; }
+        public int LatestVersionMajorPart { get; set; }
+        public int LatestVersionMinorPart { get; set; }
         public DateTime ReleaseDate { get; set; }
 
         public string ReleaseNotes

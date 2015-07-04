@@ -50,12 +50,12 @@ namespace Filtration.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public decimal SuppressUpdatesUpToVersion {
+        public int SuppressUpdatesUpToVersionMajorPart {
             get {
-                return ((decimal)(this["SuppressUpdatesUpToVersion"]));
+                return ((int)(this["SuppressUpdatesUpToVersionMajorPart"]));
             }
             set {
-                this["SuppressUpdatesUpToVersion"] = value;
+                this["SuppressUpdatesUpToVersionMajorPart"] = value;
             }
         }
         
@@ -68,6 +68,18 @@ namespace Filtration.Properties {
             }
             set {
                 this["SuppressUpdates"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SuppressUpdatesUpToVersionMinorPart {
+            get {
+                return ((int)(this["SuppressUpdatesUpToVersionMinorPart"]));
+            }
+            set {
+                this["SuppressUpdatesUpToVersionMinorPart"] = value;
             }
         }
     }

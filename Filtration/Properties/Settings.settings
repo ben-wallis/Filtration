@@ -8,11 +8,14 @@
     <Setting Name="ExtraLineBetweenBlocks" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="SuppressUpdatesUpToVersion" Type="System.Decimal" Scope="User">
+    <Setting Name="SuppressUpdatesUpToVersionMajorPart" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="SuppressUpdates" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SuppressUpdatesUpToVersionMinorPart" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
+using Filtration.Models;
 using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Properties;
 using Filtration.Repositories;
@@ -177,23 +178,23 @@ namespace Filtration.ViewModels
 
         public async void CheckForUpdates()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var assemblyVersion = FileVersionInfo.GetVersionInfo(assembly.Location);
-            var currentVersion = Convert.ToDecimal(assemblyVersion.FileMajorPart + CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator + assemblyVersion.FileMinorPart);
+            var assemblyVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
 
             var result = await _updateCheckService.GetUpdateData();
 
             try
             {
-                if (result.CurrentVersion > currentVersion)
+                if (result.LatestVersionMajorPart >= assemblyVersion.FileMajorPart &&
+                    result.LatestVersionMinorPart > assemblyVersion.FileMinorPart)
                 {
                     if (Settings.Default.SuppressUpdates == false ||
-                        Settings.Default.SuppressUpdatesUpToVersion < result.CurrentVersion)
+                        LatestVersionIsNewerThanSuppressedVersion(result))
                     {
                         Settings.Default.SuppressUpdates = false;
                         Settings.Default.Save();
                         var updateAvailableView = new UpdateAvailableView {DataContext = _updateAvailableViewModel};
-                        _updateAvailableViewModel.Initialise(result, currentVersion);
+                        _updateAvailableViewModel.Initialise(result, assemblyVersion.FileMajorPart,
+                            assemblyVersion.FileMinorPart);
                         _updateAvailableViewModel.OnRequestClose += (s, e) => updateAvailableView.Close();
                         updateAvailableView.ShowDialog();
                     }
@@ -208,6 +209,13 @@ namespace Filtration.ViewModels
                 // We don't care if the update check fails, because it could fail for multiple reasons 
                 // including the user blocking Filtration in their firewall.
             }
+        }
+
+        private bool LatestVersionIsNewerThanSuppressedVersion(UpdateData updateData)
+        {
+            return Settings.Default.SuppressUpdatesUpToVersionMajorPart < updateData.LatestVersionMajorPart ||
+                   (Settings.Default.SuppressUpdatesUpToVersionMajorPart <= updateData.LatestVersionMajorPart &&
+                    Settings.Default.SuppressUpdatesUpToVersionMinorPart < updateData.LatestVersionMinorPart);
         }
 
         public ImageSource Icon { get; private set; }

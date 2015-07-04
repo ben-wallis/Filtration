@@ -9,6 +9,7 @@ namespace Filtration.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            return (bool) value ? Visibility.Visible : Visibility.Hidden;
             if (value is bool && targetType == typeof (Visibility))
             {
                 var val = (bool) value;

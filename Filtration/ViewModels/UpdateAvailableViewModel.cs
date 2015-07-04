@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Filtration.Models;
 using Filtration.Properties;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -14,9 +9,9 @@ namespace Filtration.ViewModels
     internal interface IUpdateAvailableViewModel
     {
         event EventHandler OnRequestClose;
-        void Initialise(UpdateData updateData, decimal currentVersion);
-        decimal CurrentVersion { get; }
-        decimal NewVersion { get; }
+        void Initialise(UpdateData updateData, int currentVersionMajorPart, int currentVersionMinorPart);
+        string CurrentVersion { get; }
+        string NewVersion { get; }
         string ReleaseNotes { get; }
         DateTime ReleaseDate { get; }
     }
@@ -24,7 +19,8 @@ namespace Filtration.ViewModels
     internal class UpdateAvailableViewModel : IUpdateAvailableViewModel
     {
         private UpdateData _updateData;
-        private decimal _currentVersion;
+        private int _currentVersionMajorPart;
+        private int _currentVersionMinorPart;
 
         public UpdateAvailableViewModel()
         {
@@ -39,20 +35,21 @@ namespace Filtration.ViewModels
         public RelayCommand AskLaterCommand { get; private set; }
         public RelayCommand DownloadCommand { get; private set; }
 
-        public void Initialise(UpdateData updateData, decimal currentVersion)
+        public void Initialise(UpdateData updateData, int currentVersionMajorPart, int currentVersionMinorPart)
         {
-            _currentVersion = currentVersion;
+            _currentVersionMajorPart = currentVersionMajorPart;
+            _currentVersionMinorPart = currentVersionMinorPart;
             _updateData = updateData;
         }
 
-        public decimal CurrentVersion
+        public string CurrentVersion
         {
-            get { return _currentVersion; }
+            get { return _currentVersionMajorPart + "." + _currentVersionMinorPart; }
         }
 
-        public decimal NewVersion
+        public string NewVersion
         {
-            get { return _updateData.CurrentVersion; }
+            get { return _updateData.LatestVersionMajorPart + "." + _updateData.LatestVersionMinorPart; }
         }
 
         public string ReleaseNotes
@@ -73,7 +70,8 @@ namespace Filtration.ViewModels
         private void OnNeverAskAgainCommand()
         {
             Settings.Default.SuppressUpdates = true;
-            Settings.Default.SuppressUpdatesUpToVersion = _updateData.CurrentVersion;
+            Settings.Default.SuppressUpdatesUpToVersionMajorPart = _updateData.LatestVersionMajorPart;
+            Settings.Default.SuppressUpdatesUpToVersionMinorPart = _updateData.LatestVersionMinorPart;
             Settings.Default.Save();
             CloseWindow();
         }

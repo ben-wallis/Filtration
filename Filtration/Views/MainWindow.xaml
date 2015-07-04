@@ -57,9 +57,9 @@
                                                  Background="ForestGreen"
                                                  BorderBrush="ForestGreen"
                                                  x:Name="ScriptToolsGroup" 
-                                                  Visibility="{Binding ActiveDocumentIsScript, Converter={StaticResource BooleanVisibilityConverterCopy}, ConverterParameter={x:Static Visibility.Hidden}, Mode=OneWay}" />
+                                                 Visibility="{Binding ActiveDocumentIsScript, Converter={StaticResource BooleanVisibilityConverterCopy}, Mode=OneWay}" />
             </fluent:Ribbon.ContextualGroups>
-            <fluent:RibbonTabItem Header="Script Tools" ><!--Group="{Binding ElementName=ScriptToolsGroup}"-->
+            <fluent:RibbonTabItem Header="Script Tools" Group="{Binding ElementName=ScriptToolsGroup}">
                 <fluent:RibbonGroupBox Header="Clipboard">
                     <fluent:Button Header="Copy Block" Command="{Binding CopyBlockCommand}" Icon="{StaticResource CopyIcon}" LargeIcon="{StaticResource CopyIcon}">
                     </fluent:Button>

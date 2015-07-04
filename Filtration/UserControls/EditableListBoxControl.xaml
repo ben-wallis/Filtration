@@ -41,7 +41,7 @@
                 <KeyBinding Key="Delete" Command="{Binding Path=DeleteItemCommand}" CommandParameter="{Binding ElementName=ControlListBox, Path=SelectedValue}" />
             </ListBox.InputBindings>
         </ListBox>
-        <toolkit:AutoCompleteBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding AutoCompleteItemsSource}" FilterMode="Contains" Text="{Binding AddItemText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ></toolkit:AutoCompleteBox>
+        <toolkit:AutoCompleteBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding AutoCompleteItemsSource}" FilterMode="Contains" Text="{Binding AddItemText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
         <Button Grid.Row="1" Grid.Column="1" Command="{Binding AddItemCommand}" IsDefault="True">Add</Button>
     </Grid>
 </UserControl>

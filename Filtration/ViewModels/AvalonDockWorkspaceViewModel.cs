@@ -107,7 +107,6 @@ namespace Filtration.ViewModels
         }
 
         private List<IToolViewModel> _tools;
-        private FiltrationViewModelBase _activeContent;
 
         public IEnumerable<IToolViewModel> Tools
         {

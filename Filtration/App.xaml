@@ -11,8 +11,25 @@
                 <ResourceDictionary Source="Views/Styles/CheckBox.xaml" />
                 <ResourceDictionary Source="Views/Styles/ListBoxItem.xaml" />
                 <ResourceDictionary Source="Views/Styles/TreeViewItem.xaml" />
+
+
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Sizes.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.RadioButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Scrollbars.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.TextBox.xaml" />
+
                 <ResourceDictionary Source="Views/CrossButton.xaml" />
                 <ResourceDictionary Source="Views/IconsDictionary.xaml" />
+
+                <ResourceDictionary>
+                    <Style TargetType="ComboBox" BasedOn="{StaticResource MetroComboBox}" />
+                    <Style TargetType="ComboBoxItem" BasedOn="{StaticResource MetroComboBoxItem}" />
+                    <Style TargetType="ScrollBar" BasedOn="{StaticResource MetroScrollBar}" />
+                    <Style TargetType="TextBox" BasedOn="{StaticResource MetroTextBox}" />
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
