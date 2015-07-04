@@ -20,7 +20,7 @@
     <Grid>
         <!-- ReSharper disable once InconsistentNaming -->
         <xcad:DockingManager x:Name="dockManager"
-                             AnchorablesSource="{Binding Tools}"
+                             AnchorablesSource="{Binding Tools}" 
                              AllowMixedOrientation="True"
                              DocumentsSource="{Binding OpenDocuments}"
                              ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}" >

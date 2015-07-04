@@ -25,6 +25,8 @@ namespace Filtration
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            DispatcherUnhandledException += OnDispatcherUnhandledException;
+
             _container = new WindsorContainer();
 
             var propInjector = _container.Kernel.ComponentModelBuilder
@@ -61,7 +63,6 @@ namespace Filtration
             Mapper.CreateMap<IThemeViewModel, Theme>();
 
             Mapper.AssertConfigurationIsValid();
-            DispatcherUnhandledException += OnDispatcherUnhandledException;
 
             var mainWindow = _container.Resolve<IMainWindow>();
             mainWindow.Show();

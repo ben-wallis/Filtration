@@ -63,6 +63,8 @@ namespace Filtration.ViewModels
             get { return _activeDocument; }
             set
             {
+                if (value == _activeDocument) return;
+
                 _activeDocument = value;
                 RaisePropertyChanged();
 
@@ -105,6 +107,7 @@ namespace Filtration.ViewModels
         }
 
         private List<IToolViewModel> _tools;
+        private FiltrationViewModelBase _activeContent;
 
         public IEnumerable<IToolViewModel> Tools
         {
