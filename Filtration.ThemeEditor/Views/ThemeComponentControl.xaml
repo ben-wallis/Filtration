@@ -19,7 +19,7 @@
             <RowDefinition Height="25" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding ComponentType, Converter={StaticResource ThemeComponentTypeToStringConverter}}" Foreground="Red" FontSize="10" />
-        <TextBlock Grid.Row="1" Grid.Column="0"  Text="{Binding ComponentName}" />
+        <TextBlock Grid.Row="1" Grid.Column="0"  Text="{Binding ComponentName}" ToolTip="{Binding ComponentName}" />
         <xctk:ColorPicker Grid.Row="2" Grid.Column="0" SelectedColor="{Binding Color}" />
     </Grid>
 </UserControl>
