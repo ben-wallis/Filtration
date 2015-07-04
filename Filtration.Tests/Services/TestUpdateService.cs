@@ -18,7 +18,8 @@ namespace Filtration.Tests.Services
         {
             // Arrange
             var testInputData = @"<UpdateData>
-	                                <CurrentVersion>0.2</CurrentVersion>
+	                                <LatestVersionMajorPart>1</LatestVersionMajorPart>
+                                    <LatestVersionMinorPart>3</LatestVersionMinorPart>
 	                                <ReleaseDate>2015-07-01</ReleaseDate>
                                     <DownloadUrl>http://www.google.com</DownloadUrl>
 	                                <ReleaseNotes>* Release notes line 1
@@ -28,7 +29,8 @@ namespace Filtration.Tests.Services
 
             var expectedResult = new UpdateData
             {
-                CurrentVersion = 0.2m,
+                LatestVersionMajorPart = 1,
+                LatestVersionMinorPart = 3,
                 DownloadUrl = "http://www.google.com",
                 ReleaseDate = new DateTime(2015, 7, 1),
                 ReleaseNotes = @"* Release notes line 1
@@ -43,7 +45,8 @@ namespace Filtration.Tests.Services
             var result = service.DeserializeUpdateData(testInputData);
 
             // Assert
-            Assert.AreEqual(expectedResult.CurrentVersion, result.CurrentVersion);
+            Assert.AreEqual(expectedResult.LatestVersionMajorPart, result.LatestVersionMajorPart);
+            Assert.AreEqual(expectedResult.LatestVersionMinorPart, result.LatestVersionMinorPart);
             Assert.AreEqual(expectedResult.DownloadUrl, result.DownloadUrl);
             Assert.AreEqual(expectedResult.ReleaseDate, result.ReleaseDate);
             Assert.AreEqual(expectedResult.ReleaseNotes, result.ReleaseNotes);

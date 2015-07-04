@@ -293,14 +293,17 @@ namespace Filtration.Translators
                 {
                     throw new Exception("Parsing error - unknown theme component type");
                 }
-
-                blockItem.ThemeComponent = _themeComponentListBuilder.AddComponent(componentType, componentName, blockItem.Color);
+                if (_themeComponentListBuilder.IsInitialised)
+                {
+                    blockItem.ThemeComponent = _themeComponentListBuilder.AddComponent(componentType, componentName,
+                        blockItem.Color);
+                }
             }
 
             return blockItem;
         }
 
-        public void ReplaceColorBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems , string inputString)
+        public void ReplaceColorBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString)
         {
             // Reverse iterate to remove existing IAudioVisualBlockItems
             for (var idx = blockItems.Count - 1; idx >= 0; idx--)
@@ -342,26 +345,7 @@ namespace Filtration.Translators
                 } 
             }
         }
-
-        private void ReplaceColorBlockItem<T>(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString) where T : ColorBlockItem
-        {
-            var newBlockItem = GetColorBlockItemFromString<T>(inputString);
-            var existingBlockItem = blockItems.OfType<T>().FirstOrDefault();
-            blockItems.Remove(existingBlockItem);
-            blockItems.Add(newBlockItem);
-        }
-
-        private void ReplaceFontSizeBlockItem(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString)
-        {
-            var match = Regex.Match(inputString, @"\s+(\d+)");
-            if (!match.Success) return;
-
-            var newBlockItem = new FontSizeBlockItem(Convert.ToInt16(match.Value));
-            var existingBlockItem = blockItems.OfType<FontSizeBlockItem>().FirstOrDefault();
-            blockItems.Remove(existingBlockItem);
-            blockItems.Add(newBlockItem);
-        }
-
+        
         private void AddBlockGroupToBlock(ItemFilterBlock block, string inputString)
         {
             var blockGroupStart = inputString.IndexOf("#", StringComparison.Ordinal);

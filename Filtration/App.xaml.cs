@@ -71,7 +71,6 @@ namespace Filtration
         public void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             _logger.Fatal(e.Exception);
-
             var exception = e.Exception.Message + Environment.NewLine + e.Exception.StackTrace;
             var innerException = e.Exception.InnerException != null
                 ? e.Exception.InnerException.Message + Environment.NewLine +

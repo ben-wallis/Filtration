@@ -533,29 +533,38 @@ namespace Filtration.ViewModels
 
         public void PasteBlock(IItemFilterBlockViewModel targetBlockViewModel)
         {
-            var clipboardText = Clipboard.GetText();
-            if (clipboardText.IsNullOrEmpty()) return;
-            
-            var translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(clipboardText);
-            if (translatedBlock == null) return;
-
-            var vm = _itemFilterBlockViewModelFactory.Create();
-            vm.Initialise(translatedBlock, this);
-
-            if (ItemFilterBlockViewModels.Count > 0)
+            try
             {
-                Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModel.Block) + 1, translatedBlock);
-                ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModel) + 1, vm);
+                var clipboardText = Clipboard.GetText();
+                if (clipboardText.IsNullOrEmpty()) return;
+
+                var translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(clipboardText);
+                if (translatedBlock == null) return;
+
+                var vm = _itemFilterBlockViewModelFactory.Create();
+                vm.Initialise(translatedBlock, this);
+
+                if (ItemFilterBlockViewModels.Count > 0)
+                {
+                    Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModel.Block) + 1,
+                        translatedBlock);
+                    ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModel) + 1, vm);
+                }
+                else
+                {
+                    Script.ItemFilterBlocks.Add(translatedBlock);
+                    ItemFilterBlockViewModels.Add(vm);
+                }
+
+                SelectedBlockViewModel = vm;
+                IsDirty = true;
             }
-            else
+            catch (Exception e)
             {
-                Script.ItemFilterBlocks.Add(translatedBlock);
-                ItemFilterBlockViewModels.Add(vm);
+                _logger.Error(e);
+                MessageBox.Show(e.Message + Environment.NewLine + e.StackTrace + Environment.NewLine +
+                                e.InnerException.Message + Environment.NewLine + e.InnerException.StackTrace, "Paste Error", MessageBoxButton.OK);
             }
-
-            SelectedBlockViewModel = vm;
-            IsDirty = true;
-
         }
 
         private void OnMoveBlockToTopCommand()

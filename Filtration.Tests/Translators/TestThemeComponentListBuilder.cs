@@ -20,6 +20,7 @@ namespace Filtration.Tests.Translators
             var testInputColor = new Color();
 
             var builder = new ThemeComponentListBuilder();
+            builder.Initialise();
 
             // Act
             var firstResult = builder.AddComponent(testInputTargetType, testInputComponentName, testInputColor);
@@ -27,6 +28,33 @@ namespace Filtration.Tests.Translators
 
             // Assert
             Assert.AreSame(firstResult, secondResult);
+        }
+        
+        [Test]
+        public void IsInitialised_NotInitialised_ReturnsFalse()
+        {
+            // Arrange
+            var builder = new ThemeComponentListBuilder();
+
+            // Act
+            var result = builder.IsInitialised;
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void IsInitialised_Initialised_ReturnsTrue()
+        {
+            // Arrange
+            var builder = new ThemeComponentListBuilder();
+            builder.Initialise();
+
+            // Act
+            var result = builder.IsInitialised;
+
+            // Assert
+            Assert.IsTrue(result);
         }
     }
 }

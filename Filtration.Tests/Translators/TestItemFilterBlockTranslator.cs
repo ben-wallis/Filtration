@@ -506,6 +506,7 @@ namespace Filtration.Tests.Translators
                 t =>
                     t.AddComponent(ThemeComponentType.TextColor, "Rare Item Text",
                         new Color {A = 255, R = 255, G = 20, B = 100})).Returns(testComponent).Verifiable();
+            _testUtility.MockThemeComponentListBuilder.SetupGet(t => t.IsInitialised).Returns(true);
 
             // Act
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString);
@@ -1460,6 +1461,23 @@ namespace Filtration.Tests.Translators
             Assert.AreEqual(0, testInputBlockItems.Count(b => b is BorderColorBlockItem));
         }
 
+        [Test]
+        public void ReplaceColorBlockItemsFromString_ThemeComponentBuilderNotInitialised_DoesNotCallAddComponent()
+        {
+            // Arrange
+            var testInputString = "SetTextColor 240 200 150 # Rarest Currency";
+
+            var testInputBlockItems = new ObservableCollection<IItemFilterBlockItem>();
+            var testInputBlockItem = new TextColorBlockItem(Colors.Red);
+            testInputBlockItems.Add(testInputBlockItem);
+            _testUtility.MockThemeComponentListBuilder.Setup(t => t.AddComponent(It.IsAny<ThemeComponentType>(), It.IsAny<string>(), It.IsAny<Color>())).Verifiable();
+
+            // Act
+            _testUtility.Translator.ReplaceColorBlockItemsFromString(testInputBlockItems, testInputString);
+
+            // Assert
+            _testUtility.MockThemeComponentListBuilder.Verify(t => t.AddComponent(It.IsAny<ThemeComponentType>(), It.IsAny<string>(), It.IsAny<Color>()), Times.Never);
+        }
         private class ItemFilterBlockTranslatorTestUtility
         {
             public ItemFilterBlockTranslatorTestUtility()

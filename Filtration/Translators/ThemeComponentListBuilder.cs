@@ -10,6 +10,8 @@ namespace Filtration.Translators
     internal interface IThemeComponentListBuilder
     {
         void Initialise();
+        void Initialise(List<ThemeComponent> themeComponents);
+        bool IsInitialised { get; }
         ThemeComponent AddComponent(ThemeComponentType componentType, string componentName, Color componentColor);
         List<ThemeComponent> GetComponents();
         void Cleanup();
@@ -21,12 +23,24 @@ namespace Filtration.Translators
 
         public ThemeComponentListBuilder()
         {
-            _themeComponents = new List<ThemeComponent>();
+        }
+
+        public bool IsInitialised
+        {
+            get
+            {
+                return _themeComponents != null;
+            }
         }
 
         public void Initialise()
         {
             _themeComponents = new List<ThemeComponent>();
+        }
+
+        public void Initialise(List<ThemeComponent> themeComponents)
+        {
+            _themeComponents = themeComponents;
         }
 
         public void Cleanup()
