@@ -41,6 +41,7 @@
             <converters:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
             <converters:InverseBooleanVisibilityConverter x:Key="InverseBooleanVisibilityConverter" />
             <converters:BlockItemToRemoveEnabledVisibilityConverter x:Key="BlockItemToRemoveEnabledVisibilityConverter" />
+            <converters:AvailableThemeComponentsConverter x:Key="AvailableThemeComponentsConverter" />
         </ResourceDictionary>
         <ResourceDictionary Source="ExpanderStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>

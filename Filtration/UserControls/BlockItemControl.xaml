@@ -86,7 +86,19 @@
                     
                     <!-- Color Template -->
                     <DataTemplate DataType="{x:Type blockItemBaseTypes:ColorBlockItem}">
-                        <xctk:ColorPicker SelectedColor="{Binding Color}" AvailableColors="{Binding ElementName=BlockItemContentControl, Path=DataContext.AvailableColors }" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors"/>
+                        <StackPanel>
+                            <xctk:ColorPicker SelectedColor="{Binding Color}" AvailableColors="{Binding ElementName=BlockItemContentControl, Path=DataContext.AvailableColors }" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors"/>
+                            <userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}"
+                                                                         
+                                                                         Margin="0,2,0,2">
+                                <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                                    <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
+                                        <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
+                                        <Binding Path="." />                                                                    
+                                    </MultiBinding>
+                                </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                            </userControls:ThemeComponentSelectionControl>
+                        </StackPanel>
                     </DataTemplate>
 
                     <!-- Font Size Template -->

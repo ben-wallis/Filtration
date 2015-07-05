@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Media;
 using Filtration.Annotations;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
@@ -19,7 +20,11 @@ namespace Filtration.UserControls
             InitializeComponent();
             // ReSharper disable once PossibleNullReferenceException
             (Content as FrameworkElement).DataContext = this;
+
+            SetBlockColorCommand = new RelayCommand(OnSetBlockColorCommmand);
         }
+
+        public RelayCommand SetBlockColorCommand { get; private set; }
 
         public static readonly DependencyProperty BlockItemProperty = DependencyProperty.Register(
             "BlockItem",
@@ -92,6 +97,14 @@ namespace Filtration.UserControls
             {
                 return new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             }
+        }
+
+        private void OnSetBlockColorCommmand()
+        {
+            var blockItem = BlockItem as ColorBlockItem;
+            if (blockItem == null || blockItem.ThemeComponent == null) return;
+
+            blockItem.Color = blockItem.ThemeComponent.Color;
         }
         
         public event PropertyChangedEventHandler PropertyChanged;

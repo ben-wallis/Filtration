@@ -1347,6 +1347,28 @@ namespace Filtration.Tests.Translators
             Assert.AreEqual(new Color { R = 240, G = 200, B = 150, A = 255}, textColorBlockItem.Color);
         }
 
+
+
+        [Test]
+        public void ReplaceColorBlockItemsFromString_SingleLine_ReplacesColorBlockBugTest()
+        {
+            // Arrange
+            var testInputString = "SetBackgroundColor 70 0 0 255";
+
+            var testInputBlockItems = new ObservableCollection<IItemFilterBlockItem>();
+            var testInputBlockItem = new BackgroundColorBlockItem(new Color { R = 70, G = 0, B = 1, A = 255});
+            testInputBlockItems.Add(testInputBlockItem);
+
+            // Act
+            _testUtility.Translator.ReplaceColorBlockItemsFromString(testInputBlockItems, testInputString);
+
+            // Assert
+            var backgroundColorBlockItem = testInputBlockItems.First(b => b is BackgroundColorBlockItem) as BackgroundColorBlockItem;
+            Assert.IsNotNull(backgroundColorBlockItem);
+            Assert.AreNotSame(testInputBlockItem, backgroundColorBlockItem);
+            Assert.AreEqual(new Color { R = 70, G = 0, B = 0, A = 255 }, backgroundColorBlockItem.Color);
+        }
+
         [Ignore("Not currently possible - will not be necessary once commanding (to enable undo history) is implemented anyway")]
         [Test]
         public void ReplaceColorBlockItemsFromString_MalformedLine_DoesNothing()

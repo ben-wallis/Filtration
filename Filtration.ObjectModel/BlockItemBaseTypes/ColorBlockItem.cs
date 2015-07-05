@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.ComponentModel;
+using System.Windows.Media;
 using Filtration.ObjectModel.ThemeEditor;
 
 namespace Filtration.ObjectModel.BlockItemBaseTypes
@@ -6,6 +7,7 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
     public abstract class ColorBlockItem : BlockItemBase, IAudioVisualBlockItem
     {
         private Color _color;
+        private ThemeComponent _themeComponent;
 
         protected ColorBlockItem()
         {
@@ -31,7 +33,15 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
             get { return string.Empty; }
         }
 
-        public ThemeComponent ThemeComponent { get; set; }
+        public ThemeComponent ThemeComponent
+        {
+            get { return _themeComponent; }
+            set
+            {
+                _themeComponent = value;
+                OnPropertyChanged();
+            }
+        }
 
         public override Color SummaryBackgroundColor { get { return Colors.Transparent; } }
         public override Color SummaryTextColor { get { return Colors.Transparent; } }

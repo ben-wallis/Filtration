@@ -129,6 +129,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\ActiveDocumentConverter.cs" />
+    <Compile Include="Converters\AvailableThemeComponentsConverter.cs" />
     <Compile Include="Converters\BlockGroupAdvancedFillConverter.cs" />
     <Compile Include="Converters\BlockGroupAdvancedColorConverter.cs" />
     <Compile Include="Converters\BlockGroupVisibilityConverter.cs" />
@@ -170,6 +171,9 @@
     <Compile Include="UserControls\ItemPreviewControl.xaml.cs">
       <DependentUpon>ItemPreviewControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ThemeComponentSelectionControl.xaml.cs">
+      <DependentUpon>ThemeComponentSelectionControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\AutoMapperHelpers.cs" />
     <Compile Include="Utilities\BlockGroupMapper.cs" />
     <Compile Include="Utilities\LineReader.cs" />
@@ -198,6 +202,10 @@
       <DependentUpon>SettingsPageView.xaml</DependentUpon>
     </Compile>
     <Page Include="UserControls\BlockItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ThemeComponentSelectionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -372,6 +380,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="LICENSE.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
