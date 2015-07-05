@@ -1,8 +1,13 @@
 <UpdateData>
-	<CurrentVersion>0.5</CurrentVersion>
-	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.5</DownloadUrl>
-	<ReleaseDate>2015-07-02</ReleaseDate>
-	<ReleaseNotes>♦ Fixed a bug causing Filtration to crash on startup in countries that use a comma as a decimal separator.
-♦ Fixed an issue with the Apply button not being visible in the Replace Colours window.
-♦ Added application-level exception handling.</ReleaseNotes>
+	<CurrentVersion>0.6</CurrentVersion>
+	<LatestVersionMajorPart>0</LatestVersionMajorPart>
+	<LatestVersionMinorPart>6</LatestVersionMinorPart>
+	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.6</DownloadUrl>
+	<ReleaseDate>2015-07-05</ReleaseDate>
+	<ReleaseNotes>♦ Fixed bug causing multiple clicks to be required to select blocks after clicking a tool pane.
+♦ Tidied up control styles
+♦ Added logging - a Filtration*.log file will be generated in the install directory upon a fatal crash.
+♦ Moved the block appearance/sound settings from the old popup to a duplicate of the existing block items screen. Still accessed via clicking the block item preview.
+♦ Fixed several crashes related to copy and pasting (thanks to AndCub for the help testing that fix).
+♦ Added grouping to the Theme Editor</ReleaseNotes>
 </UpdateData>
