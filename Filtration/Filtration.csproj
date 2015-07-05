@@ -159,7 +159,6 @@
     <Compile Include="Translators\BlockGroupHierarchyBuilder.cs" />
     <Compile Include="Translators\ItemFilterBlockTranslator.cs" />
     <Compile Include="Translators\ItemFilterScriptTranslator.cs" />
-    <Compile Include="Translators\ThemeComponentListBuilder.cs" />
     <Compile Include="UserControls\AutoScrollingListBox.cs" />
     <Compile Include="UserControls\BlockItemControl.xaml.cs">
       <DependentUpon>BlockItemControl.xaml</DependentUpon>

@@ -543,8 +543,7 @@ namespace Filtration.ViewModels
                 var clipboardText = Clipboard.GetText();
                 if (clipboardText.IsNullOrEmpty()) return;
 
-                _blockTranslator.InitialiseForExistingScript(Script);
-                var translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(clipboardText);
+                var translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(clipboardText, Script.ThemeComponents);
                 if (translatedBlock == null) return;
 
                 var vm = _itemFilterBlockViewModelFactory.Create();

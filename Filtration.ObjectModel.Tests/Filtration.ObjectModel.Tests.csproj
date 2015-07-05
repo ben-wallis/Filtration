@@ -50,6 +50,7 @@
     <Compile Include="TestItemFilterBlock.cs" />
     <Compile Include="TestItemFilterBlockGroup.cs" />
     <Compile Include="TestItemFilterScript.cs" />
+    <Compile Include="ThemeEditor\TestThemeComponentCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Filtration.ObjectModel\Filtration.ObjectModel.csproj">
@@ -60,6 +61,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

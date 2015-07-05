@@ -16,13 +16,13 @@ namespace Filtration.ObjectModel
             {
                 new ItemFilterBlockGroup("Root", null)
             };
-            ThemeComponents = new List<ThemeComponent>();
+            ThemeComponents = new ThemeComponentCollection { IsMasterCollection = true};
         }
 
         public ObservableCollection<ItemFilterBlock> ItemFilterBlocks { get; private set; }
         public ObservableCollection<ItemFilterBlockGroup> ItemFilterBlockGroups { get; private set; }
 
-        public List<ThemeComponent> ThemeComponents { get; set; } 
+        public ThemeComponentCollection ThemeComponents { get; set; } 
 
         public string FilePath { get; set; }
         public string Description { get; set; }

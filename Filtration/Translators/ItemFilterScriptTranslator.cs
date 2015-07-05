@@ -20,15 +20,12 @@ namespace Filtration.Translators
     {
         private readonly IItemFilterBlockTranslator _blockTranslator;
         private readonly IBlockGroupHierarchyBuilder _blockGroupHierarchyBuilder;
-        private readonly IThemeComponentListBuilder _themeComponentListBuilder;
 
         public ItemFilterScriptTranslator(IItemFilterBlockTranslator blockTranslator,
-                                          IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder,
-                                          IThemeComponentListBuilder themeComponentListBuilder)
+                                          IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder)
         {
             _blockTranslator = blockTranslator;
             _blockGroupHierarchyBuilder = blockGroupHierarchyBuilder;
-            _themeComponentListBuilder = themeComponentListBuilder;
         }
 
         public ItemFilterScript TranslateStringToItemFilterScript(string inputString)
@@ -55,8 +52,6 @@ namespace Filtration.Translators
                 script.Description = script.Description.TrimEnd('\n').TrimEnd('\r');
             }
 
-            _themeComponentListBuilder.Initialise();
-
             // Extract each block from between boundaries and translate it into a ItemFilterBlock object
             // and add that object to the ItemFilterBlocks list 
             for (var boundary = conditionBoundaries.First; boundary != null; boundary = boundary.Next)
@@ -66,12 +61,10 @@ namespace Filtration.Translators
                 var block = new string[end - begin];
                 Array.Copy(lines, begin, block, 0, end - begin);
                 var blockString = string.Join("\r\n", block);
-                script.ItemFilterBlocks.Add(_blockTranslator.TranslateStringToItemFilterBlock(blockString));
+                script.ItemFilterBlocks.Add(_blockTranslator.TranslateStringToItemFilterBlock(blockString, script.ThemeComponents));
             }
 
-            script.ThemeComponents = _themeComponentListBuilder.GetComponents();
             _blockGroupHierarchyBuilder.Cleanup();
-            _themeComponentListBuilder.Cleanup();
             return script;
         }
 

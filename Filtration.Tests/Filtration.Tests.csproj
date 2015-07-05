@@ -55,7 +55,6 @@
     <Compile Include="Translators\TestBlockGroupHierarchyBuilder.cs" />
     <Compile Include="Translators\TestItemFilterBlockTranslator.cs" />
     <Compile Include="Translators\TestItemFilterScriptTranslator.cs" />
-    <Compile Include="Translators\TestThemeComponentListBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

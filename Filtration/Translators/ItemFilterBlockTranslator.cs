@@ -10,14 +10,15 @@ using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.Extensions;
+using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Utilities;
 
 namespace Filtration.Translators
 {
     internal interface IItemFilterBlockTranslator
     {
-        void InitialiseForExistingScript(ItemFilterScript script);
-        ItemFilterBlock TranslateStringToItemFilterBlock(string inputString);
+        ItemFilterBlock TranslateStringToItemFilterBlock(string inputString,
+            ThemeComponentCollection masterComponentCollection);
         string TranslateItemFilterBlockToString(ItemFilterBlock block);
         void ReplaceColorBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString);
     }
@@ -25,26 +26,20 @@ namespace Filtration.Translators
     internal class ItemFilterBlockTranslator : IItemFilterBlockTranslator
     {
         private readonly IBlockGroupHierarchyBuilder _blockGroupHierarchyBuilder;
-        private readonly IThemeComponentListBuilder _themeComponentListBuilder;
         private const string Indent = "    ";
         private readonly string _newLine = Environment.NewLine + Indent;
+        private ThemeComponentCollection _masterComponentCollection;
 
-        public ItemFilterBlockTranslator(IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder, IThemeComponentListBuilder themeComponentListBuilder)
+        public ItemFilterBlockTranslator(IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder)
         {
             _blockGroupHierarchyBuilder = blockGroupHierarchyBuilder;
-            _themeComponentListBuilder = themeComponentListBuilder;
-        }
-
-        public void InitialiseForExistingScript(ItemFilterScript script)
-        {
-            _themeComponentListBuilder.Initialise(script.ThemeComponents);
-            _blockGroupHierarchyBuilder.Initialise(script.ItemFilterBlockGroups.First());
         }
 
         // This method converts a string into a ItemFilterBlock. This is used for pasting ItemFilterBlocks 
         // and reading ItemFilterScripts from a file.
-        public ItemFilterBlock TranslateStringToItemFilterBlock(string inputString)
+        public ItemFilterBlock TranslateStringToItemFilterBlock(string inputString, ThemeComponentCollection masterComponentCollection)
         {
+            _masterComponentCollection = masterComponentCollection;
             var block = new ItemFilterBlock();
             var showHideFound = false;
             foreach (var line in new LineReader(() => new StringReader(inputString)))
@@ -300,9 +295,9 @@ namespace Filtration.Translators
                 {
                     throw new Exception("Parsing error - unknown theme component type");
                 }
-                if (_themeComponentListBuilder.IsInitialised)
+                if (_masterComponentCollection != null)
                 {
-                    blockItem.ThemeComponent = _themeComponentListBuilder.AddComponent(componentType, componentName,
+                    blockItem.ThemeComponent = _masterComponentCollection.AddComponent(componentType, componentName,
                         blockItem.Color);
                 }
             }

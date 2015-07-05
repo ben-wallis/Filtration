@@ -15,7 +15,7 @@ namespace Filtration.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var themeComponentsList = values[0] as List<ThemeComponent>;
+            var themeComponentsList = values[0] as ThemeComponentCollection;
             if (themeComponentsList == null || themeComponentsList.Count == 0) return null;
 
             var blockItem = values[1] as ColorBlockItem;

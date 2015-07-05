@@ -83,6 +83,7 @@
     <Compile Include="ReplaceColorsParameterSet.cs" />
     <Compile Include="ThemeEditor\Theme.cs" />
     <Compile Include="ThemeEditor\ThemeComponent.cs" />
+    <Compile Include="ThemeEditor\ThemeComponentCollection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
