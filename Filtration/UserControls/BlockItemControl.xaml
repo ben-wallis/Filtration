@@ -87,7 +87,7 @@
                     <!-- Color Template -->
                     <DataTemplate DataType="{x:Type blockItemBaseTypes:ColorBlockItem}">
                         <StackPanel>
-                            <xctk:ColorPicker SelectedColor="{Binding Color}" AvailableColors="{Binding ElementName=BlockItemContentControl, Path=DataContext.AvailableColors }" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors"/>
+                            <xctk:ColorPicker  SelectedColor="{Binding Color}" AvailableColors="{Binding ElementName=BlockItemContentControl, Path=DataContext.AvailableColors }" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors"/>
                             <userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}"
                                                                          
                                                                          Margin="0,2,0,2">
