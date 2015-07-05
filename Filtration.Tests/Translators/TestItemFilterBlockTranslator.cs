@@ -1347,8 +1347,6 @@ namespace Filtration.Tests.Translators
             Assert.AreEqual(new Color { R = 240, G = 200, B = 150, A = 255}, textColorBlockItem.Color);
         }
 
-
-
         [Test]
         public void ReplaceColorBlockItemsFromString_SingleLine_ReplacesColorBlockBugTest()
         {

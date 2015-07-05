@@ -25,7 +25,7 @@ namespace Filtration
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            //DispatcherUnhandledException += OnDispatcherUnhandledException;
+            DispatcherUnhandledException += OnDispatcherUnhandledException;
 
             _container = new WindsorContainer();
 

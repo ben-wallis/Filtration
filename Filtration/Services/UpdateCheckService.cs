@@ -13,8 +13,7 @@ namespace Filtration.Services
     internal class UpdateCheckService : IUpdateCheckService
     {
         private readonly IHTTPService _httpService;
-        //private const string UpdateDataUrl = "http://ben-wallis.github.io/Filtration/filtration_version.xml";
-        private const string UpdateDataUrl = "http://xvar.net/filtration_version.xml";
+        private const string UpdateDataUrl = "http://ben-wallis.github.io/Filtration/filtration_version.xml";
 
         public UpdateCheckService(IHTTPService httpService)
         {
