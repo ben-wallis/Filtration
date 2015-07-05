@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:viewModels="clr-namespace:Filtration.ThemeEditor.ViewModels"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:converters="clr-namespace:Filtration.ThemeEditor.Converters"
+             xmlns:themeEditor="clr-namespace:Filtration.ObjectModel.ThemeEditor;assembly=Filtration.ObjectModel"
+             xmlns:views="clr-namespace:Filtration.ThemeEditor.Views"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=viewModels:ThemeComponentViewModel}"
+             d:DataContext="{d:DesignInstance Type=themeEditor:ThemeComponent}"
              d:DesignHeight="40" d:DesignWidth="200">
     <UserControl.Resources>
         <converters:ThemeComponentTypeToStringConverter x:Key="ThemeComponentTypeToStringConverter" />
@@ -18,8 +19,30 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="25" />
         </Grid.RowDefinitions>
+        <Grid.Resources>
+            <DataTemplate x:Key="EditableComponentNameTemplate">
+                <TextBox Text="{Binding ComponentName}" />
+            </DataTemplate>
+            <DataTemplate x:Key="ViewOnlyComponentNameTemplate">
+                <TextBlock Text="{Binding ComponentName}" ToolTip="{Binding ComponentName}" />
+            </DataTemplate>
+        </Grid.Resources>
         <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding ComponentType, Converter={StaticResource ThemeComponentTypeToStringConverter}}" Foreground="Red" FontSize="10" />
-        <TextBlock Grid.Row="1" Grid.Column="0"  Text="{Binding ComponentName}" ToolTip="{Binding ComponentName}" />
+        <ContentControl Grid.Row="1" Grid.Column="0" Content="{Binding}">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=DataContext.EditEnabled, RelativeSource={RelativeSource AncestorType={x:Type views:ThemeEditorView}}}" Value="true">
+                            <Setter Property="ContentTemplate" Value="{StaticResource EditableComponentNameTemplate}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=DataContext.EditEnabled, RelativeSource={RelativeSource AncestorType={x:Type views:ThemeEditorView}}}" Value="false">
+                            <Setter Property="ContentTemplate" Value="{StaticResource ViewOnlyComponentNameTemplate}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
+        
         <xctk:ColorPicker Grid.Row="2" Grid.Column="0" SelectedColor="{Binding Color}" />
     </Grid>
 </UserControl>

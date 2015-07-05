@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
+using Filtration.ThemeEditor.ViewModels;
 using Filtration.ViewModels.ToolPanes;
 using GalaSoft.MvvmLight.Messaging;
 
@@ -14,6 +15,7 @@ namespace Filtration.ViewModels
         IDocument ActiveDocument { get; set; }
         ReadOnlyObservableCollection<IDocument> OpenDocuments { get; }
         IItemFilterScriptViewModel ActiveScriptViewModel { get; }
+        IThemeEditorViewModel ActiveThemeViewModel { get; }
         ISectionBrowserViewModel SectionBrowserViewModel { get; }
         IBlockGroupBrowserViewModel BlockGroupBrowserViewModel { get; }
         IBlockOutputPreviewViewModel BlockOutputPreviewViewModel { get; }
@@ -30,6 +32,7 @@ namespace Filtration.ViewModels
 
         private IDocument _activeDocument;
         private IItemFilterScriptViewModel _activeScriptViewModel;
+        private IThemeEditorViewModel _activeThemeViewModel;
         private readonly ObservableCollection<IDocument> _openDocuments;
         private readonly ReadOnlyObservableCollection<IDocument> _readOnlyOpenDocuments;
 
@@ -72,9 +75,14 @@ namespace Filtration.ViewModels
                 {
                     _activeScriptViewModel = (IItemFilterScriptViewModel) value;
                 }
+                else if (value.IsTheme)
+                {
+                    _activeThemeViewModel = (IThemeEditorViewModel) value;
+                }
                 else
                 {
                     _activeScriptViewModel = null;
+                    _activeThemeViewModel = null;
                 }
 
                 if (ActiveDocumentChanged != null)
@@ -89,6 +97,11 @@ namespace Filtration.ViewModels
         public IItemFilterScriptViewModel ActiveScriptViewModel
         {
             get { return _activeScriptViewModel; }
+        }
+
+        public IThemeEditorViewModel ActiveThemeViewModel
+        {
+            get { return _activeThemeViewModel; }
         }
 
         public IBlockGroupBrowserViewModel BlockGroupBrowserViewModel
@@ -107,6 +120,7 @@ namespace Filtration.ViewModels
         }
 
         private List<IToolViewModel> _tools;
+        
 
         public IEnumerable<IToolViewModel> Tools
         {
@@ -126,6 +140,10 @@ namespace Filtration.ViewModels
             if (document.IsScript)
             {
                 _activeScriptViewModel = (IItemFilterScriptViewModel) document;
+            }
+            else if (document.IsTheme)
+            {
+                _activeThemeViewModel = (IThemeEditorViewModel) document;
             }
 
             _openDocuments.Add(document);

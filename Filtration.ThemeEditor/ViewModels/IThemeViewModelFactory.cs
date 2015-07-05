@@ -2,7 +2,7 @@
 {
     public interface IThemeViewModelFactory
     {
-        IThemeViewModel Create();
-        void Release(IThemeViewModel themeViewModel);
+        IThemeEditorViewModel Create();
+        void Release(IThemeEditorViewModel themeEditorViewModel);
     }
 }

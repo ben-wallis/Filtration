@@ -10,6 +10,7 @@ using Filtration.Common.Services;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using Filtration.Models;
+using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Properties;
 using Filtration.Repositories;
@@ -95,8 +96,18 @@ namespace Filtration.ViewModels
 
             OpenAboutWindowCommand = new RelayCommand(OnOpenAboutWindowCommand);
             ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, () => ActiveDocumentIsScript);
+            
             CreateThemeCommand = new RelayCommand(OnCreateThemeCommand, () => ActiveDocumentIsScript);
             ApplyThemeToScriptCommand = new RelayCommand(OnApplyThemeToScriptCommand, () => ActiveDocumentIsScript);
+            EditMasterThemeCommand = new RelayCommand(OnEditMasterThemeCommand, () => ActiveDocumentIsScript);
+
+            AddTextColorThemeComponentCommand = new RelayCommand(OnAddTextColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
+            AddBackgroundColorThemeComponentCommand = new RelayCommand(OnAddBackgroundColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
+            AddBorderColorThemeComponentCommand = new RelayCommand(OnAddBorderColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
+            DeleteThemeComponentCommand = new RelayCommand(OnDeleteThemeComponentCommand,
+                () =>
+                    ActiveDocumentIsTheme && ActiveDocumentIsTheme &&
+                    _avalonDockWorkspaceViewModel.ActiveThemeViewModel.SelectedThemeComponent != null);
 
             ExpandAllBlocksCommand = new RelayCommand(OnExpandAllBlocksCommand, () => ActiveDocumentIsScript);
             CollapseAllBlocksCommand = new RelayCommand(OnCollapseAllBlocksCommand, () => ActiveDocumentIsScript);
@@ -129,6 +140,7 @@ namespace Filtration.ViewModels
                         PasteCommand.RaiseCanExecuteChanged();
                         ReplaceColorsCommand.RaiseCanExecuteChanged();
                         ApplyThemeToScriptCommand.RaiseCanExecuteChanged();
+                        EditMasterThemeCommand.RaiseCanExecuteChanged();
                         CreateThemeCommand.RaiseCanExecuteChanged();
                         RaisePropertyChanged("ShowAdvancedStatus");
                         break;
@@ -161,9 +173,16 @@ namespace Filtration.ViewModels
         public RelayCommand CloseCommand { get; private set; }
         public RelayCommand OpenAboutWindowCommand { get; private set; }
         public RelayCommand ReplaceColorsCommand { get; private set; }
+
+        public RelayCommand EditMasterThemeCommand { get; private set; }
         public RelayCommand CreateThemeCommand { get; private set; }
         public RelayCommand ApplyThemeToScriptCommand { get; private set; }
-        
+
+        public RelayCommand AddTextColorThemeComponentCommand { get; private set; }
+        public RelayCommand AddBackgroundColorThemeComponentCommand { get; private set; }
+        public RelayCommand AddBorderColorThemeComponentCommand { get; private set; }
+        public RelayCommand DeleteThemeComponentCommand { get; private set; }
+
         public RelayCommand AddBlockCommand { get; private set; }
         public RelayCommand AddSectionCommand { get; private set; }
         public RelayCommand DeleteBlockCommand { get; private set; }
@@ -262,7 +281,12 @@ namespace Filtration.ViewModels
 
         public bool ActiveDocumentIsTheme
         {
-            get { { return AvalonDockWorkspaceViewModel.ActiveDocument is ThemeViewModel; } }
+            get { return AvalonDockWorkspaceViewModel.ActiveDocument is ThemeEditorViewModel; }
+        }
+
+        public bool ActiveThemeIsEditable
+        {
+            get { return AvalonDockWorkspaceViewModel.ActiveThemeViewModel.EditEnabled; }
         }
 
         private bool ActiveDocumentIsEditable()
@@ -283,16 +307,23 @@ namespace Filtration.ViewModels
             var themeViewModel = _themeProvider.NewThemeForScript(AvalonDockWorkspaceViewModel.ActiveScriptViewModel.Script);
             OpenTheme(themeViewModel);
         }
-        
-        private void OpenTheme(IThemeViewModel themeViewModel)
+
+        private void OnEditMasterThemeCommand()
         {
-            if (AvalonDockWorkspaceViewModel.OpenDocuments.Contains(themeViewModel))
+            var themeViewModel =
+                _themeProvider.MasterThemeForScript(AvalonDockWorkspaceViewModel.ActiveScriptViewModel.Script);
+            OpenTheme(themeViewModel);
+        }
+        
+        private void OpenTheme(IThemeEditorViewModel themeEditorViewModel)
+        {
+            if (AvalonDockWorkspaceViewModel.OpenDocuments.Contains(themeEditorViewModel))
             {
-                AvalonDockWorkspaceViewModel.SwitchActiveDocument(themeViewModel);
+                AvalonDockWorkspaceViewModel.SwitchActiveDocument(themeEditorViewModel);
             }
             else
             {
-                AvalonDockWorkspaceViewModel.AddDocument(themeViewModel);
+                AvalonDockWorkspaceViewModel.AddDocument(themeEditorViewModel);
             }
         }
 
@@ -341,7 +372,7 @@ namespace Filtration.ViewModels
                 return;
             }
 
-            IThemeViewModel loadedViewModel;
+            IThemeEditorViewModel loadedViewModel;
 
             try
             {
@@ -535,6 +566,27 @@ namespace Filtration.ViewModels
         private void OnClearFiltersCommand()
         {
             _avalonDockWorkspaceViewModel.ActiveScriptViewModel.ClearFilterCommand.Execute(null);
+        }
+
+        private void OnAddTextColorThemeComponentCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveThemeViewModel.AddThemeComponentCommand.Execute(ThemeComponentType.TextColor);
+        }
+
+        private void OnAddBackgroundColorThemeComponentCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveThemeViewModel.AddThemeComponentCommand.Execute(ThemeComponentType.BackgroundColor);
+        }
+
+        private void OnAddBorderColorThemeComponentCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveThemeViewModel.AddThemeComponentCommand.Execute(ThemeComponentType.BorderColor);
+        }
+
+        private void OnDeleteThemeComponentCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveThemeViewModel.DeleteThemeComponentCommand.Execute(
+                _avalonDockWorkspaceViewModel.ActiveThemeViewModel.SelectedThemeComponent);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using AutoMapper;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.ThemeEditor;
@@ -9,10 +11,11 @@ namespace Filtration.ThemeEditor.Providers
 {
     public interface IThemeProvider
     {
-        IThemeViewModel NewThemeForScript(ItemFilterScript script);
-        IThemeViewModel LoadThemeFromFile(string filePath);
+        IThemeEditorViewModel NewThemeForScript(ItemFilterScript script);
+        IThemeEditorViewModel MasterThemeForScript(ItemFilterScript script);
+        IThemeEditorViewModel LoadThemeFromFile(string filePath);
         Theme LoadThemeModelFromFile(string filePath);
-        void SaveTheme(IThemeViewModel themeViewModel, string filePath);
+        void SaveTheme(IThemeEditorViewModel themeEditorViewModel, string filePath);
     }
 
     internal class ThemeProvider : IThemeProvider
@@ -26,20 +29,35 @@ namespace Filtration.ThemeEditor.Providers
             _themePersistenceService = themePersistenceService;
         }
 
-        public IThemeViewModel NewThemeForScript(ItemFilterScript script)
+        public IThemeEditorViewModel NewThemeForScript(ItemFilterScript script)
         {
-            var themeComponentViewModels = Mapper.Map<ObservableCollection<ThemeComponentViewModel>>(script.ThemeComponents);
+            var themeComponentCollection = script.ThemeComponents.Aggregate(new ThemeComponentCollection(),
+                (c, component) =>
+                {
+                    c.Add(new ThemeComponent(component.ComponentType, component.ComponentName, component.Color));
+                    return c;
+                });
+                
             var themeViewModel = _themeViewModelFactory.Create();
-            themeViewModel.Initialise(themeComponentViewModels, true);
+            themeViewModel.Initialise(themeComponentCollection, true);
             themeViewModel.FilePath = "Untitled.filtertheme";
 
             return themeViewModel;
         }
 
-        public IThemeViewModel LoadThemeFromFile(string filePath)
+        public IThemeEditorViewModel MasterThemeForScript(ItemFilterScript script)
+        {
+            var themeViewModel = _themeViewModelFactory.Create();
+            themeViewModel.Initialise(script.ThemeComponents, true);
+            themeViewModel.FilePath = "<Master Theme> " + Path.GetFileName(script.FilePath);
+
+            return themeViewModel;
+        }
+
+        public IThemeEditorViewModel LoadThemeFromFile(string filePath)
         {
             var model = _themePersistenceService.LoadTheme(filePath);
-            var viewModel = Mapper.Map<IThemeViewModel>(model);
+            var viewModel = Mapper.Map<IThemeEditorViewModel>(model);
             viewModel.FilePath = filePath;
             return viewModel;
         }
@@ -49,9 +67,9 @@ namespace Filtration.ThemeEditor.Providers
             return _themePersistenceService.LoadTheme(filePath);
         }
 
-        public void SaveTheme(IThemeViewModel themeViewModel, string filePath)
+        public void SaveTheme(IThemeEditorViewModel themeEditorViewModel, string filePath)
         {
-            var theme = Mapper.Map<Theme>(themeViewModel);
+            var theme = Mapper.Map<Theme>(themeEditorViewModel);
             _themePersistenceService.SaveTheme(theme, filePath);
         }
     }

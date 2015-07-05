@@ -11,8 +11,8 @@ namespace Filtration.ThemeEditor.WindsorInstallers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component.For<IThemeViewModel>()
-                    .ImplementedBy<ThemeViewModel>()
+                Component.For<IThemeEditorViewModel>()
+                    .ImplementedBy<ThemeEditorViewModel>()
                     .LifeStyle.Transient);
 
             container.Register(

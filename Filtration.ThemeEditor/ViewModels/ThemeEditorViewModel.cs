@@ -1,29 +1,36 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Filtration.Common.Services;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
+using Filtration.ObjectModel.Enums;
+using Filtration.ObjectModel.ThemeEditor;
 using Filtration.ThemeEditor.Providers;
+using GalaSoft.MvvmLight.CommandWpf;
 using NLog;
-using MessageBox = System.Windows.MessageBox;
 
 namespace Filtration.ThemeEditor.ViewModels
 {
-    public interface IThemeViewModel : IEditableDocument
+    public interface IThemeEditorViewModel : IEditableDocument
     {
-        void Initialise(ObservableCollection<ThemeComponentViewModel> themeComponentViewModels, bool newTheme);
+        RelayCommand<ThemeComponentType> AddThemeComponentCommand { get; }
+        RelayCommand<ThemeComponent> DeleteThemeComponentCommand { get; }
+
+        void Initialise(ThemeComponentCollection themeComponentCollection, bool newTheme);
+        bool EditEnabled { get; }
         string Title { get; }
         string FilePath { get; set; }
         string Filename { get; }
         string Name { get; set; }
-        ObservableCollection<ThemeComponentViewModel> Components { get; set; }
+        ThemeComponentCollection Components { get; set; }
+        ThemeComponent SelectedThemeComponent { get; }
     }
 
-    public class ThemeViewModel : PaneViewModel, IThemeViewModel
+    public class ThemeEditorViewModel : PaneViewModel, IThemeEditorViewModel
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -31,15 +38,17 @@ namespace Filtration.ThemeEditor.ViewModels
         private readonly IMessageBoxService _messageBoxService;
         private bool _filenameIsFake;
         private string _filePath;
+        private ThemeComponent _selectedThemeComponent;
 
-        public ThemeViewModel(IThemeProvider themeProvider,
+        public ThemeEditorViewModel(IThemeProvider themeProvider,
                               IMessageBoxService messageBoxService)
         {
             _themeProvider = themeProvider;
             _messageBoxService = messageBoxService;
 
-            Components = new ObservableCollection<ThemeComponentViewModel>();
-
+            AddThemeComponentCommand = new RelayCommand<ThemeComponentType>(OnAddThemeComponentCommand, t => EditEnabled);
+            DeleteThemeComponentCommand = new RelayCommand<ThemeComponent>(OnDeleteThemeComponentCommand,
+                t => EditEnabled && SelectedThemeComponent != null);
 
             var icon = new BitmapImage();
             icon.BeginInit();
@@ -48,9 +57,17 @@ namespace Filtration.ThemeEditor.ViewModels
             IconSource = icon;
         }
 
-        public void Initialise(ObservableCollection<ThemeComponentViewModel> themeComponentViewModels, bool newTheme)
+        public RelayCommand<ThemeComponentType> AddThemeComponentCommand { get; private set; }
+        public RelayCommand<ThemeComponent> DeleteThemeComponentCommand { get; private set; }
+
+        public bool EditEnabled
         {
-            Components = themeComponentViewModels;
+            get { return Components.IsMasterCollection; }
+        }
+
+        public void Initialise(ThemeComponentCollection themeComponentCollection, bool newTheme)
+        {
+            Components = themeComponentCollection;
             _filenameIsFake = newTheme;
         }
 
@@ -70,12 +87,22 @@ namespace Filtration.ThemeEditor.ViewModels
 
         public string Filename
         {
-            get { return Path.GetFileName(FilePath); }
+            get { return _filenameIsFake ? FilePath : Path.GetFileName(FilePath); }
         }
 
         public string Name { get; set; }
 
-        public ObservableCollection<ThemeComponentViewModel> Components { get; set; }
+        public ThemeComponentCollection Components { get; set; }
+
+        public ThemeComponent SelectedThemeComponent
+        {
+            get { return _selectedThemeComponent; }
+            set
+            {
+                _selectedThemeComponent = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public void Save()
         {
@@ -137,6 +164,20 @@ namespace Filtration.ThemeEditor.ViewModels
         public void Close()
         {
             throw new NotImplementedException();
+        }
+
+        private void OnAddThemeComponentCommand(ThemeComponentType themeComponentType)
+        {
+            Components.Add(new ThemeComponent(themeComponentType, "Untitled Component",
+                new Color {A = 255, R = 255, G = 255, B = 255}));
+        }
+
+        private void OnDeleteThemeComponentCommand(ThemeComponent themeComponent)
+        {
+            if (themeComponent == null) return;
+
+            themeComponent.TerminateComponent();
+            Components.Remove(themeComponent);
         }
     }
 }

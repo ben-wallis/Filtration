@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using System;
 using System.Windows.Media;
 using Filtration.ObjectModel.ThemeEditor;
 
@@ -38,6 +38,19 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
             get { return _themeComponent; }
             set
             {
+                if (_themeComponent == value){ return;}
+
+                if (_themeComponent != null)
+                {
+                    _themeComponent.ThemeComponentUpdated -= OnThemeComponentUpdated;
+                    _themeComponent.ThemeComponentDeleted -= OnThemeComponentDeleted;
+                }
+                if (value != null)
+                {
+                    value.ThemeComponentUpdated += OnThemeComponentUpdated;
+                    value.ThemeComponentDeleted += OnThemeComponentDeleted;
+                }
+                
                 _themeComponent = value;
                 OnPropertyChanged();
             }
@@ -54,6 +67,16 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
                 _color = value;
                 OnPropertyChanged();
             }
+        }
+
+        private void OnThemeComponentUpdated(object sender, EventArgs e)
+        {
+            Color = ((ThemeComponent) sender).Color;
+        }
+
+        private void OnThemeComponentDeleted(object sender, EventArgs e)
+        {
+            ThemeComponent = null;
         }
     }
 }

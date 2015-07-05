@@ -101,12 +101,12 @@
     <Compile Include="Services\ThemeService.cs" />
     <Compile Include="ViewModels\IThemeViewModelFactory.cs" />
     <Compile Include="ViewModels\ThemeComponentViewModel.cs" />
-    <Compile Include="ViewModels\ThemeViewModel.cs" />
+    <Compile Include="ViewModels\ThemeEditorViewModel.cs" />
     <Compile Include="Views\ThemeComponentControl.xaml.cs">
       <DependentUpon>ThemeComponentControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ThemeControl.xaml.cs">
-      <DependentUpon>ThemeControl.xaml</DependentUpon>
+    <Compile Include="Views\ThemeEditorView.xaml.cs">
+      <DependentUpon>ThemeEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindsorInstallers\ProvidersInstaller.cs" />
     <Compile Include="WindsorInstallers\ServicesInstaller.cs" />
@@ -132,7 +132,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ThemeControl.xaml">
+    <Page Include="Views\ThemeEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

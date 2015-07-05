@@ -58,9 +58,9 @@ namespace Filtration
                 .ForMember(dest => dest.IsExpanded, 
                         opts => opts.UseValue(false));
 
-            Mapper.CreateMap<Theme, IThemeViewModel>().ConstructUsingServiceLocator();
+            Mapper.CreateMap<Theme, IThemeEditorViewModel>().ConstructUsingServiceLocator();
             Mapper.CreateMap<ThemeComponent, ThemeComponentViewModel>().ReverseMap();
-            Mapper.CreateMap<IThemeViewModel, Theme>();
+            Mapper.CreateMap<IThemeEditorViewModel, Theme>();
 
             Mapper.AssertConfigurationIsValid();
 

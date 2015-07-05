@@ -5,7 +5,7 @@ using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel.ThemeEditor
 {
-    public class ThemeComponentCollection : Collection<ThemeComponent>
+    public class ThemeComponentCollection : ObservableCollection<ThemeComponent>
     {
         public bool IsMasterCollection { get; set; }
 

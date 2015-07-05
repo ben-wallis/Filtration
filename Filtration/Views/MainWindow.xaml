@@ -58,6 +58,11 @@
                                                  BorderBrush="ForestGreen"
                                                  x:Name="ScriptToolsGroup" 
                                                  Visibility="{Binding ActiveDocumentIsScript, Converter={StaticResource BooleanVisibilityConverterCopy}, Mode=OneWay}" />
+                <fluent:RibbonContextualTabGroup Header="Theme Tools"
+                                                 Background="DodgerBlue"
+                                                 BorderBrush="DodgerBlue"
+                                                 x:Name="ThemeToolsGroup" 
+                                                 Visibility="{Binding ActiveDocumentIsTheme, Converter={StaticResource BooleanVisibilityConverterCopy}, Mode=OneWay}" />
             </fluent:Ribbon.ContextualGroups>
             <fluent:RibbonTabItem Header="Script Tools" Group="{Binding ElementName=ScriptToolsGroup}">
                 <fluent:RibbonGroupBox Header="Clipboard">
@@ -86,9 +91,20 @@
                     <fluent:Button Header="Clear All Filters" Command="{Binding ClearFiltersCommand}" SizeDefinition="Middle" Icon="{StaticResource ClearFilterIcon}" />
                 </fluent:RibbonGroupBox>
                 <fluent:RibbonGroupBox Header="Themes">
+                    <fluent:Button Header="Edit Master Theme" Command="{Binding EditMasterThemeCommand}" Icon="{StaticResource ThemeIcon}" LargeIcon="{StaticResource ThemeIcon}" />
                     <fluent:Button Header="Apply Theme" Command="{Binding ApplyThemeToScriptCommand}" Icon="{StaticResource ThemeIcon}" LargeIcon="{StaticResource ThemeIcon}" />
                     <fluent:Button Header="Create Theme" Command="{Binding CreateThemeCommand}" Icon="{StaticResource ThemeIcon}" LargeIcon="{StaticResource ThemeIcon}" />
                     <fluent:Button Header="Replace Colours" Command="{Binding ReplaceColorsCommand}" Icon="{StaticResource ReplaceColorsIcon}" LargeIcon="{StaticResource ReplaceColorsIcon}" />
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+            <fluent:RibbonTabItem Header="Theme Tools" Group="{Binding ElementName=ThemeToolsGroup}">
+                <fluent:RibbonGroupBox Header="Add Components">
+                    <fluent:Button SizeDefinition="Middle" Header="Add Text Color" Command="{Binding AddTextColorThemeComponentCommand}" />
+                    <fluent:Button SizeDefinition="Middle" Header="Add Background Color" Command="{Binding AddBackgroundColorThemeComponentCommand}" />
+                    <fluent:Button SizeDefinition="Middle" Header="Add Border Color" Command="{Binding AddBorderColorThemeComponentCommand}" />
+                </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Header="Delete">
+                    <fluent:Button Header="Delete Theme Component" Command="{Binding DeleteThemeComponentCommand}" />
                 </fluent:RibbonGroupBox>
             </fluent:RibbonTabItem>
             <fluent:RibbonTabItem Header="View">
@@ -104,3 +120,4 @@
         </Grid>
     </DockPanel>
 </fluent:RibbonWindow>
+ 

@@ -56,7 +56,7 @@
                     </viewsAvalonDock:PanesTemplateSelector.StartPageTemplate>
                     <viewsAvalonDock:PanesTemplateSelector.ThemeTemplate>
                         <DataTemplate>
-                            <themeEditorViews:ThemeControl DataContext="{Binding}" />
+                            <themeEditorViews:ThemeEditorView DataContext="{Binding}" />
                         </DataTemplate>
                     </viewsAvalonDock:PanesTemplateSelector.ThemeTemplate>
                 </viewsAvalonDock:PanesTemplateSelector>

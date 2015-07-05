@@ -25,7 +25,7 @@ namespace Filtration.Views.AvalonDock
                 return ItemFilterScriptTemplate;
             }
 
-            if (item is IThemeViewModel)
+            if (item is IThemeEditorViewModel)
             {
                 return ThemeTemplate;
             }
