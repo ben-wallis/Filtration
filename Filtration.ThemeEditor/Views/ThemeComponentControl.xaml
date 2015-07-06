@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:converters="clr-namespace:Filtration.ThemeEditor.Converters"
+             xmlns:commonConverters="clr-namespace:Filtration.Common.Converters;assembly=Filtration.Common"
              xmlns:themeEditor="clr-namespace:Filtration.ObjectModel.ThemeEditor;assembly=Filtration.ObjectModel"
              xmlns:views="clr-namespace:Filtration.ThemeEditor.Views"
              mc:Ignorable="d" 
@@ -12,6 +13,7 @@
              d:DesignHeight="40" d:DesignWidth="200">
     <UserControl.Resources>
         <converters:ThemeComponentTypeToStringConverter x:Key="ThemeComponentTypeToStringConverter" />
+        <commonConverters:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
     </UserControl.Resources>
     <Grid Width="200">
         <Grid.RowDefinitions>
@@ -19,6 +21,10 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="25" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
         <Grid.Resources>
             <DataTemplate x:Key="EditableComponentNameTemplate">
                 <TextBox Text="{Binding ComponentName}" />
@@ -27,8 +33,23 @@
                 <TextBlock Text="{Binding ComponentName}" ToolTip="{Binding ComponentName}" />
             </DataTemplate>
         </Grid.Resources>
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding ComponentType, Converter={StaticResource ThemeComponentTypeToStringConverter}}" Foreground="Red" FontSize="10" />
-        <ContentControl Grid.Row="1" Grid.Column="0" Content="{Binding}">
+        <TextBlock Grid.Row="0"
+                   Grid.Column="1"
+                   Text="{Binding UsageCount, StringFormat='Usages: {0}'}"
+                   FontSize="10"
+                   Visibility="{Binding Path=DataContext.EditEnabled, RelativeSource={RelativeSource AncestorType={x:Type views:ThemeEditorView}}, Converter={StaticResource BooleanVisibilityConverter}}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding UsageCount}" Value="0">
+                            <Setter Property="Foreground" Value="Red" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Foreground" Value="SteelBlue"></Setter>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Content="{Binding}">
             <ContentControl.Style>
                 <Style TargetType="ContentControl">
                     <Style.Triggers>
@@ -43,6 +64,6 @@
             </ContentControl.Style>
         </ContentControl>
         
-        <xctk:ColorPicker Grid.Row="2" Grid.Column="0" SelectedColor="{Binding Color}" />
+        <xctk:ColorPicker Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"  SelectedColor="{Binding Color}" />
     </Grid>
 </UserControl>

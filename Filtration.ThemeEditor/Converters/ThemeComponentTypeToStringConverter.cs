@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.Extensions;
 
@@ -17,6 +16,22 @@ namespace Filtration.ThemeEditor.Converters
             
             }
             var type = (ThemeComponentType) value;
+
+            switch (type.GetAttributeDescription())
+            {
+                case "TextColor":
+                {
+                    return "Text";
+                }
+                case "BorderColor":
+                {
+                    return "Border";
+                }
+                case "BackgroundColor":
+                {
+                    return "Background";
+                }
+            }
 
             return type.GetAttributeDescription();
 

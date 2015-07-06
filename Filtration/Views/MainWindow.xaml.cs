@@ -1,4 +1,5 @@
-﻿using Filtration.ViewModels;
+﻿using System.Windows;
+using Filtration.ViewModels;
 
 namespace Filtration.Views
 {
@@ -13,6 +14,22 @@ namespace Filtration.Views
         {
             InitializeComponent();
             DataContext = mainWindowViewModel;
+        }
+
+        private void ScriptToolsGroup_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (ScriptToolsGroup.IsVisible)
+            {
+                RibbonRoot.SelectedTabItem = ScriptToolsTabItem;
+            }
+        }
+
+        private void ThemeToolsGroup_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (ThemeToolsGroup.IsVisible)
+            {
+                RibbonRoot.SelectedTabItem = ThemeToolsTabItem;
+            }
         }
     }
 }

@@ -11,12 +11,9 @@ namespace Filtration.ObjectModel.ThemeEditor
     public class ThemeComponent : INotifyPropertyChanged
     {
         private Color _color;
-
-        public ThemeComponent()
-        {
-            
-        }
-
+        private EventHandler _themeComponentUpdatedEventHandler;
+        private readonly object _eventLock = new object();
+        
         public ThemeComponent(ThemeComponentType componentType, string componentName, Color componentColor)
         {
             if (componentName == null || componentColor == null)
@@ -29,7 +26,28 @@ namespace Filtration.ObjectModel.ThemeEditor
             ComponentName = componentName;
         }
 
-        public event EventHandler ThemeComponentUpdated;
+        // By implementing a custom event accessor here we can keep the UsageCount up to date.
+        public event EventHandler ThemeComponentUpdated
+        {
+            add
+            {
+                lock (_eventLock)
+                {
+                    _themeComponentUpdatedEventHandler += value;
+                    OnPropertyChanged("UsageCount");
+                }
+            }
+            remove
+            {
+                lock (_eventLock)
+                {
+                    // ReSharper disable once DelegateSubtraction
+                    _themeComponentUpdatedEventHandler -= value;
+                    OnPropertyChanged("UsageCount");
+                }
+            }
+        }
+
         public event EventHandler ThemeComponentDeleted;
 
         public string ComponentName { get; set; }
@@ -42,10 +60,23 @@ namespace Filtration.ObjectModel.ThemeEditor
             {
                 _color = value;
                 OnPropertyChanged();
-                if (ThemeComponentUpdated != null)
+                if (_themeComponentUpdatedEventHandler != null)
                 {
-                    ThemeComponentUpdated.Invoke(this, EventArgs.Empty);
+                    _themeComponentUpdatedEventHandler.Invoke(this, EventArgs.Empty);
                 }
+            }
+        }
+
+        public int UsageCount
+        {
+            get
+            {
+                if (_themeComponentUpdatedEventHandler == null)
+                {
+                    return 0;
+                }
+
+                return _themeComponentUpdatedEventHandler.GetInvocationList().Length;
             }
         }
 

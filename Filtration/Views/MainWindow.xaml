@@ -7,8 +7,8 @@
         xmlns:fluent="clr-namespace:Fluent;assembly=Fluent"
         xmlns:viewModels="clr-namespace:Filtration.ViewModels"
         xmlns:viewsAvalonDock="clr-namespace:Filtration.Views.AvalonDock"
-        xmlns:converters="clr-namespace:Filtration.Converters"
         xmlns:views="clr-namespace:Filtration.Views"
+        xmlns:commonConverters="clr-namespace:Filtration.Common.Converters;assembly=Filtration.Common"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
         Title="{Binding WindowTitle}" Height="768" Width="1100" BorderThickness="1" BorderBrush="Black" IsIconVisible="True" >
@@ -17,10 +17,10 @@
         <KeyBinding Command="{Binding OpenScriptCommand}" Modifiers="Control" Key="O" />
     </fluent:RibbonWindow.InputBindings>
     <fluent:RibbonWindow.Resources>
-        <converters:BooleanVisibilityConverterCopy x:Key="BooleanVisibilityConverterCopy" />
+        <commonConverters:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
     </fluent:RibbonWindow.Resources>
     <DockPanel x:Name="RootDockPanel">
-        <fluent:Ribbon DockPanel.Dock="Top">
+        <fluent:Ribbon DockPanel.Dock="Top" x:Name="RibbonRoot">
             <fluent:Ribbon.Menu>
                 <fluent:Backstage>
                     <fluent:BackstageTabControl>
@@ -53,21 +53,29 @@
                 </fluent:Backstage>
             </fluent:Ribbon.Menu>
             <fluent:Ribbon.ContextualGroups>
-                <fluent:RibbonContextualTabGroup Header="Script Tools"
+                <fluent:RibbonContextualTabGroup Header="Script"
                                                  Background="ForestGreen"
                                                  BorderBrush="ForestGreen"
-                                                 x:Name="ScriptToolsGroup" 
-                                                 Visibility="{Binding ActiveDocumentIsScript, Converter={StaticResource BooleanVisibilityConverterCopy}, Mode=OneWay}" />
-                <fluent:RibbonContextualTabGroup Header="Theme Tools"
+                                                 x:Name="ScriptToolsGroup"
+                                                 IsVisibleChanged="ScriptToolsGroup_OnIsVisibleChanged"  
+                                                 Visibility="{Binding ActiveDocumentIsScript, Converter={StaticResource BooleanVisibilityConverter}, Mode=OneWay}" />
+                <fluent:RibbonContextualTabGroup Header="Theme"
                                                  Background="DodgerBlue"
                                                  BorderBrush="DodgerBlue"
                                                  x:Name="ThemeToolsGroup" 
-                                                 Visibility="{Binding ActiveDocumentIsTheme, Converter={StaticResource BooleanVisibilityConverterCopy}, Mode=OneWay}" />
+                                                 IsVisibleChanged="ThemeToolsGroup_OnIsVisibleChanged"
+                                                 Visibility="{Binding ActiveDocumentIsTheme, Converter={StaticResource BooleanVisibilityConverter}, Mode=OneWay}" />
             </fluent:Ribbon.ContextualGroups>
-            <fluent:RibbonTabItem Header="Script Tools" Group="{Binding ElementName=ScriptToolsGroup}">
+            <fluent:RibbonTabItem Header="View">
+                <fluent:RibbonGroupBox Header="Tools">
+                    <fluent:ToggleButton Header="Section Browser" Width="150" SizeDefinition="Middle" Icon="{StaticResource AddSectionIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.SectionBrowserViewModel.IsVisible}" />
+                    <fluent:ToggleButton Header="Block Group Browser" Width="150" SizeDefinition="Middle" Icon="{StaticResource BlockGroupBrowserIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.BlockGroupBrowserViewModel.IsVisible}" />
+                    <fluent:ToggleButton Header="Block Output Preview" Width="150" SizeDefinition="Middle" Icon="{StaticResource BlockOutputPreviewIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.BlockOutputPreviewViewModel.IsVisible}" />
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+            <fluent:RibbonTabItem x:Name="ScriptToolsTabItem" Header="Script Tools" Group="{Binding ElementName=ScriptToolsGroup}" Visibility="{Binding ActiveDocumentIsScript, Converter={StaticResource BooleanVisibilityConverter}, Mode=OneWay}" >
                 <fluent:RibbonGroupBox Header="Clipboard">
-                    <fluent:Button Header="Copy Block" Command="{Binding CopyBlockCommand}" Icon="{StaticResource CopyIcon}" LargeIcon="{StaticResource CopyIcon}">
-                    </fluent:Button>
+                    <fluent:Button Header="Copy Block" Command="{Binding CopyBlockCommand}" Icon="{StaticResource CopyIcon}" LargeIcon="{StaticResource CopyIcon}"/>
                     <fluent:Button Header="Paste Block" Command="{Binding PasteCommand}" Icon="{StaticResource PasteIcon}" LargeIcon="{StaticResource PasteIcon}" />
                     <fluent:Button Header="Copy Style" Command="{Binding CopyBlockStyleCommand}" Icon="{StaticResource CopyIcon}" LargeIcon="{StaticResource CopyIcon}" SizeDefinition="Middle" />
                     <fluent:Button Header="Paste Style" Command="{Binding PasteBlockStyleCommand}" Icon="{StaticResource PasteStyleIcon}" LargeIcon="{StaticResource PasteIcon}" SizeDefinition="Middle" />
@@ -97,7 +105,7 @@
                     <fluent:Button Header="Replace Colours" Command="{Binding ReplaceColorsCommand}" Icon="{StaticResource ReplaceColorsIcon}" LargeIcon="{StaticResource ReplaceColorsIcon}" />
                 </fluent:RibbonGroupBox>
             </fluent:RibbonTabItem>
-            <fluent:RibbonTabItem Header="Theme Tools" Group="{Binding ElementName=ThemeToolsGroup}">
+            <fluent:RibbonTabItem x:Name="ThemeToolsTabItem" Header="Theme Tools" Group="{Binding ElementName=ThemeToolsGroup}" Visibility="{Binding ActiveDocumentIsTheme, Converter={StaticResource BooleanVisibilityConverter}, Mode=OneWay}">
                 <fluent:RibbonGroupBox Header="Add Components">
                     <fluent:Button SizeDefinition="Middle" Header="Add Text Color" Command="{Binding AddTextColorThemeComponentCommand}" />
                     <fluent:Button SizeDefinition="Middle" Header="Add Background Color" Command="{Binding AddBackgroundColorThemeComponentCommand}" />
@@ -105,13 +113,6 @@
                 </fluent:RibbonGroupBox>
                 <fluent:RibbonGroupBox Header="Delete">
                     <fluent:Button Header="Delete Theme Component" Command="{Binding DeleteThemeComponentCommand}" />
-                </fluent:RibbonGroupBox>
-            </fluent:RibbonTabItem>
-            <fluent:RibbonTabItem Header="View">
-                <fluent:RibbonGroupBox Header="Tools">
-                    <fluent:ToggleButton Header="Section Browser" Width="150" SizeDefinition="Middle" Icon="{StaticResource AddSectionIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.SectionBrowserViewModel.IsVisible}" />
-                    <fluent:ToggleButton Header="Block Group Browser" Width="150" SizeDefinition="Middle" Icon="{StaticResource BlockGroupBrowserIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.BlockGroupBrowserViewModel.IsVisible}" />
-                    <fluent:ToggleButton Header="Block Output Preview" Width="150" SizeDefinition="Middle" Icon="{StaticResource BlockOutputPreviewIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.BlockOutputPreviewViewModel.IsVisible}" />
                 </fluent:RibbonGroupBox>
             </fluent:RibbonTabItem>
         </fluent:Ribbon>

@@ -13,6 +13,8 @@ using Filtration.Common.Services;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using Filtration.ObjectModel;
+using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Services;
 using Filtration.Translators;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -326,6 +328,7 @@ namespace Filtration.ViewModels
         public void Save()
         {
             if (!ValidateScript()) return;
+            if (!CheckForUnusedThemeComponents()) return;
 
             if (_filenameIsFake)
             {
@@ -353,6 +356,7 @@ namespace Filtration.ViewModels
         public void SaveAs()
         {
             if (!ValidateScript()) return;
+            if (!CheckForUnusedThemeComponents()) return;
 
             var saveDialog = new SaveFileDialog
             {
@@ -385,6 +389,27 @@ namespace Filtration.ViewModels
                     MessageBoxImage.Error);
                 Script.FilePath = previousFilePath;
             }
+        }
+
+        private bool CheckForUnusedThemeComponents()
+        {
+            var unusedThemeComponents =
+                Script.ThemeComponents.Where(
+                    t =>
+                        Script.ItemFilterBlocks.Count(
+                            b => b.BlockItems.OfType<ColorBlockItem>().Count(i => i.ThemeComponent == t) > 0) == 0).ToList();
+
+            if (unusedThemeComponents.Count <= 0) return true;
+
+            var themeComponents = unusedThemeComponents.Aggregate(string.Empty,
+                (current, themeComponent) => current + (themeComponent.ComponentName + Environment.NewLine));
+
+            var ignoreUnusedThemeComponents = _messageBoxService.Show("Unused Theme Components",
+                "The following theme components are unused, they will be lost when this script is reopened. Save anyway?" +
+                Environment.NewLine + Environment.NewLine + themeComponents, MessageBoxButton.YesNo,
+                MessageBoxImage.Exclamation);
+
+            return ignoreUnusedThemeComponents != MessageBoxResult.No;
         }
 
         private void OnActiveDocumentChanged(object sender, EventArgs e)

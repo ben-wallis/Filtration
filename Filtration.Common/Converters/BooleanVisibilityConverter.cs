@@ -3,9 +3,9 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Filtration.Converters
+namespace Filtration.Common.Converters
 {
-    internal class BooleanVisibilityConverter : IValueConverter
+    public class BooleanVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
