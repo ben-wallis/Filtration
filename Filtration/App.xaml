@@ -1,10 +1,13 @@
 <Application x:Class="Filtration.App" 
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:Filtration.Converters"
              Startup="Application_Startup">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Filtration.Common;component/Styles/SharedResourcesDictionary.xaml" />
+                
                 <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Fluent;component/Themes/windows8/silver.xaml" />
                 <ResourceDictionary Source="Views/Styles/Colours.xaml" />
@@ -24,12 +27,21 @@
 
                 <ResourceDictionary Source="Views/CrossButton.xaml" />
                 <ResourceDictionary Source="Views/IconsDictionary.xaml" />
+                <ResourceDictionary Source="Views/ExpanderStyle.xaml" />
 
                 <ResourceDictionary>
                     <Style TargetType="ComboBox" BasedOn="{StaticResource MetroComboBox}" />
                     <Style TargetType="ComboBoxItem" BasedOn="{StaticResource MetroComboBoxItem}" />
                     <Style TargetType="ScrollBar" BasedOn="{StaticResource MetroScrollBar}" />
                     <Style TargetType="TextBox" BasedOn="{StaticResource MetroTextBox}" />
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <converters:BlockItemToRemoveEnabledVisibilityConverter x:Key="BlockItemToRemoveEnabledVisibilityConverter" />
+                    <converters:IntToItemRarityConverter x:Key="IntToItemRarityConverter" />
+                    <converters:BooleanToBlockActionConverter x:Key="BooleanToBlockActionConverter" />
+                    <converters:BlockItemTypeToStringConverter x:Key="BlockItemTypeToStringConverter" />
+                    <converters:BooleanToBlockActionInverseConverter x:Key="BooleanToBlockActionInverseConverter" />
+                    <converters:AvailableThemeComponentsConverter x:Key="AvailableThemeComponentsConverter" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

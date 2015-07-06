@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Filtration.Converters
+namespace Filtration.Common.Converters
 {
     internal class InverseBooleanVisibilityConverter : IValueConverter
     {

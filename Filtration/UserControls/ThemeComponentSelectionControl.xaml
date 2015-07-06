@@ -11,8 +11,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="..\Views\SharedResourcesDictionary.xaml" />
-                <ResourceDictionary></ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/Filtration.Common;component/Styles/SharedResourcesDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

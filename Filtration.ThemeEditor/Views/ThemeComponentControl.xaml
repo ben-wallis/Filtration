@@ -4,15 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:converters="clr-namespace:Filtration.ThemeEditor.Converters"
              xmlns:commonConverters="clr-namespace:Filtration.Common.Converters;assembly=Filtration.Common"
              xmlns:themeEditor="clr-namespace:Filtration.ObjectModel.ThemeEditor;assembly=Filtration.ObjectModel"
              xmlns:views="clr-namespace:Filtration.ThemeEditor.Views"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=themeEditor:ThemeComponent}"
-             d:DesignHeight="40" d:DesignWidth="200">
+             d:DesignHeight="100" d:DesignWidth="200">
     <UserControl.Resources>
-        <converters:ThemeComponentTypeToStringConverter x:Key="ThemeComponentTypeToStringConverter" />
         <commonConverters:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
     </UserControl.Resources>
     <Grid Width="200">
@@ -53,17 +51,17 @@
             <ContentControl.Style>
                 <Style TargetType="ContentControl">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=DataContext.EditEnabled, RelativeSource={RelativeSource AncestorType={x:Type views:ThemeEditorView}}}" Value="true">
+                        <DataTrigger Binding="{Binding Path=DataContext.IsMasterTheme, RelativeSource={RelativeSource AncestorType={x:Type views:ThemeEditorView}}}" Value="true">
                             <Setter Property="ContentTemplate" Value="{StaticResource EditableComponentNameTemplate}" />
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Path=DataContext.EditEnabled, RelativeSource={RelativeSource AncestorType={x:Type views:ThemeEditorView}}}" Value="false">
+                        <DataTrigger Binding="{Binding Path=DataContext.IsMasterTheme, RelativeSource={RelativeSource AncestorType={x:Type views:ThemeEditorView}}}" Value="false">
                             <Setter Property="ContentTemplate" Value="{StaticResource ViewOnlyComponentNameTemplate}" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </ContentControl.Style>
         </ContentControl>
-        
+
         <xctk:ColorPicker Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"  SelectedColor="{Binding Color}" />
     </Grid>
 </UserControl>

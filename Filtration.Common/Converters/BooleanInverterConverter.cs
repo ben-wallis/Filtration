@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Filtration.Converters
+namespace Filtration.Common.Converters
 {
     internal class BoolInverterConverter : IValueConverter
     {

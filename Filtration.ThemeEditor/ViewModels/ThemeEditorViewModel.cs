@@ -7,10 +7,13 @@ using System.Windows.Media.Imaging;
 using Filtration.Common.Services;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
+using Filtration.ObjectModel;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.ThemeEditor;
+using Filtration.ThemeEditor.Messages;
 using Filtration.ThemeEditor.Providers;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
 using NLog;
 
 namespace Filtration.ThemeEditor.ViewModels
@@ -19,9 +22,12 @@ namespace Filtration.ThemeEditor.ViewModels
     {
         RelayCommand<ThemeComponentType> AddThemeComponentCommand { get; }
         RelayCommand<ThemeComponent> DeleteThemeComponentCommand { get; }
+        RelayCommand CloseCommand { get; }
 
-        void Initialise(ThemeComponentCollection themeComponentCollection, bool newTheme);
-        bool EditEnabled { get; }
+        void InitialiseForNewTheme(ThemeComponentCollection themeComponentCollection);
+        void InitialiseForMasterTheme(ItemFilterScript script);
+        bool IsMasterTheme { get; }
+        ItemFilterScript IsMasterThemeForScript { get; }
         string Title { get; }
         string FilePath { get; set; }
         string Filename { get; }
@@ -46,29 +52,42 @@ namespace Filtration.ThemeEditor.ViewModels
             _themeProvider = themeProvider;
             _messageBoxService = messageBoxService;
 
-            AddThemeComponentCommand = new RelayCommand<ThemeComponentType>(OnAddThemeComponentCommand, t => EditEnabled);
+            AddThemeComponentCommand = new RelayCommand<ThemeComponentType>(OnAddThemeComponentCommand, t => IsMasterTheme);
             DeleteThemeComponentCommand = new RelayCommand<ThemeComponent>(OnDeleteThemeComponentCommand,
-                t => EditEnabled && SelectedThemeComponent != null);
+                t => IsMasterTheme && SelectedThemeComponent != null);
+            CloseCommand = new RelayCommand(OnCloseCommand);
 
             var icon = new BitmapImage();
             icon.BeginInit();
             icon.UriSource = new Uri("pack://application:,,,/Filtration;component/Resources/Icons/Theme.ico");
             icon.EndInit();
             IconSource = icon;
+            
         }
 
         public RelayCommand<ThemeComponentType> AddThemeComponentCommand { get; private set; }
         public RelayCommand<ThemeComponent> DeleteThemeComponentCommand { get; private set; }
+        public RelayCommand CloseCommand { get; private set; }
 
-        public bool EditEnabled
+        public bool IsMasterTheme
         {
             get { return Components.IsMasterCollection; }
         }
 
-        public void Initialise(ThemeComponentCollection themeComponentCollection, bool newTheme)
+        public ItemFilterScript IsMasterThemeForScript { get; private set; }
+
+        public void InitialiseForNewTheme(ThemeComponentCollection themeComponentCollection)
         {
             Components = themeComponentCollection;
-            _filenameIsFake = newTheme;
+            _filenameIsFake = true;
+        }
+
+        public void InitialiseForMasterTheme(ItemFilterScript script)
+        {
+            Components = script.ThemeComponents;
+            IsMasterThemeForScript = script;
+            _filenameIsFake = true;
+
         }
 
         public bool IsScript { get { return false; } }
@@ -106,6 +125,8 @@ namespace Filtration.ThemeEditor.ViewModels
 
         public void Save()
         {
+            if (IsMasterTheme) return;
+
             if (_filenameIsFake)
             {
                 SaveAs();
@@ -130,6 +151,8 @@ namespace Filtration.ThemeEditor.ViewModels
 
         public void SaveAs()
         {
+            if (IsMasterTheme) return;
+
             var saveDialog = new SaveFileDialog
             {
                 DefaultExt = ".filter",
@@ -161,11 +184,16 @@ namespace Filtration.ThemeEditor.ViewModels
             }
         }
 
-        public void Close()
+        public void OnCloseCommand()
         {
-            throw new NotImplementedException();
+            Close();
         }
 
+        public void Close()
+        {
+            Messenger.Default.Send(new ThemeClosedMessage { ClosedViewModel = this });
+        }
+        
         private void OnAddThemeComponentCommand(ThemeComponentType themeComponentType)
         {
             Components.Add(new ThemeComponent(themeComponentType, "Untitled Component",

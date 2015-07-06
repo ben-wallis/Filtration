@@ -39,7 +39,7 @@ namespace Filtration.ThemeEditor.Providers
                 });
                 
             var themeViewModel = _themeViewModelFactory.Create();
-            themeViewModel.Initialise(themeComponentCollection, true);
+            themeViewModel.InitialiseForNewTheme(themeComponentCollection);
             themeViewModel.FilePath = "Untitled.filtertheme";
 
             return themeViewModel;
@@ -48,7 +48,7 @@ namespace Filtration.ThemeEditor.Providers
         public IThemeEditorViewModel MasterThemeForScript(ItemFilterScript script)
         {
             var themeViewModel = _themeViewModelFactory.Create();
-            themeViewModel.Initialise(script.ThemeComponents, true);
+            themeViewModel.InitialiseForMasterTheme(script);
             themeViewModel.FilePath = "<Master Theme> " + Path.GetFileName(script.FilePath);
 
             return themeViewModel;

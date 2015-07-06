@@ -19,17 +19,17 @@ namespace Filtration.ThemeEditor.Converters
 
             switch (type.GetAttributeDescription())
             {
-                case "TextColor":
+                case "Text":
                 {
-                    return "Text";
+                    return "Text Color Theme Components";
                 }
-                case "BorderColor":
+                case "Border":
                 {
-                    return "Border";
+                    return "Border Color Theme Components";
                 }
-                case "BackgroundColor":
+                case "Background":
                 {
-                    return "Background";
+                    return "Background Color Theme Components";
                 }
             }
 

@@ -6,24 +6,33 @@
              xmlns:viewModels="clr-namespace:Filtration.ThemeEditor.ViewModels"
              xmlns:views="clr-namespace:Filtration.ThemeEditor.Views"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:converters="clr-namespace:Filtration.ThemeEditor.Converters"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewModels:ThemeEditorViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <CollectionViewSource Source="{Binding Components}" x:Key="ComponentsViewSource">
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="ComponentType" />
-            </CollectionViewSource.GroupDescriptions>
-            <CollectionViewSource.SortDescriptions>
-                <componentModel:SortDescription PropertyName="ComponentType" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <CollectionViewSource Source="{Binding Components}" x:Key="ComponentsViewSource">
+                        <CollectionViewSource.GroupDescriptions>
+                            <PropertyGroupDescription PropertyName="ComponentType" />
+                        </CollectionViewSource.GroupDescriptions>
+                        <CollectionViewSource.SortDescriptions>
+                            <componentModel:SortDescription PropertyName="ComponentType" />
+                        </CollectionViewSource.SortDescriptions>
+                    </CollectionViewSource>
+                    <converters:ThemeComponentTypeToStringConverter x:Key="ThemeComponentTypeToStringConverter" />
+                </ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/Filtration.Common;component/Styles/SharedResourcesDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <Grid Margin="10">
         <ScrollViewer HorizontalScrollBarVisibility="Disabled">
             <ListView ItemsSource="{Binding Source={StaticResource ComponentsViewSource}}"
                       SelectedItem="{Binding SelectedThemeComponent}"
-                      Margin="10"
+                      Margin="5"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.Resources>
                     <Style TargetType="ListViewItem">
@@ -53,7 +62,7 @@
                     <GroupStyle>
                         <GroupStyle.HeaderTemplate>
                             <DataTemplate>
-                                <TextBlock FontWeight="Bold" FontSize="15" Text="{Binding Path=Name}"/>
+                                <TextBlock FontWeight="Bold" FontSize="15" Text="{Binding Path=Name, Converter={StaticResource ThemeComponentTypeToStringConverter}}"/>
                             </DataTemplate>
                         </GroupStyle.HeaderTemplate>
                     </GroupStyle>

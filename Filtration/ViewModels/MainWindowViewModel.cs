@@ -15,6 +15,7 @@ using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Properties;
 using Filtration.Repositories;
 using Filtration.Services;
+using Filtration.ThemeEditor.Messages;
 using Filtration.ThemeEditor.Providers;
 using Filtration.ThemeEditor.Services;
 using Filtration.ThemeEditor.ViewModels;
@@ -127,6 +128,12 @@ namespace Filtration.ViewModels
             icon.UriSource = new Uri("pack://application:,,,/Filtration;component/Resources/Icons/filtration_icon.png");
             icon.EndInit();
             Icon = icon;
+
+            Messenger.Default.Register<ThemeClosedMessage>(this, message =>
+            {
+                if (message.ClosedViewModel == null) return;
+                AvalonDockWorkspaceViewModel.CloseDocument(message.ClosedViewModel);
+            });
 
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
@@ -294,24 +301,14 @@ namespace Filtration.ViewModels
             }
         }
 
-        //public bool ActiveDocumentIsScript
-        //{
-        //    get { return AvalonDockWorkspaceViewModel.ActiveDocument is ItemFilterScriptViewModel; }
-        //}
-
         public bool ActiveScriptHasSelectedBlock
         {
             get { return AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel != null; }
         }
-
-        //public bool ActiveDocumentIsTheme
-        //{
-        //    get { return AvalonDockWorkspaceViewModel.ActiveDocument is ThemeEditorViewModel; }
-        //}
-
+        
         public bool ActiveThemeIsEditable
         {
-            get { return AvalonDockWorkspaceViewModel.ActiveThemeViewModel.EditEnabled; }
+            get { return AvalonDockWorkspaceViewModel.ActiveThemeViewModel.IsMasterTheme; }
         }
 
         private bool ActiveDocumentIsEditable()
@@ -335,9 +332,19 @@ namespace Filtration.ViewModels
 
         private void OnEditMasterThemeCommand()
         {
-            var themeViewModel =
-                _themeProvider.MasterThemeForScript(AvalonDockWorkspaceViewModel.ActiveScriptViewModel.Script);
-            OpenTheme(themeViewModel);
+            var openMasterThemForScript =
+                AvalonDockWorkspaceViewModel.OpenMasterThemeForScript(AvalonDockWorkspaceViewModel.ActiveScriptViewModel);
+
+            if (openMasterThemForScript != null)
+            {
+                AvalonDockWorkspaceViewModel.SwitchActiveDocument(openMasterThemForScript);
+            }
+            else
+            {
+                var themeViewModel =
+                    _themeProvider.MasterThemeForScript(AvalonDockWorkspaceViewModel.ActiveScriptViewModel.Script);
+                OpenTheme(themeViewModel);
+            }
         }
         
         private void OpenTheme(IThemeEditorViewModel themeEditorViewModel)

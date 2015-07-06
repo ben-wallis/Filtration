@@ -13,21 +13,6 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=userControls:BlockItemControl}"
              d:DesignHeight="200" d:DesignWidth="150">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary>
-                    <Style TargetType="{x:Type Border}" x:Key="BlockItemBorder">
-                        <Setter Property="BorderThickness" Value="1" />
-                        <Setter Property="BorderBrush" Value="Black" />
-                        <Setter Property="CornerRadius" Value="3" />
-                        <Setter Property="Margin" Value="0,0,5,5" />
-                    </Style>
-                </ResourceDictionary>
-                <ResourceDictionary Source="../Views/SharedResourcesDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <Border Style="{StaticResource BlockItemBorder}" Width="142">
         <Grid>
             <Grid.RowDefinitions>

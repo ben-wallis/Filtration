@@ -11,14 +11,6 @@
         Title="Replace Script Colors" Height="280" Width="540"
         BorderThickness="1" BorderBrush="Black"
         Loaded="ReplaceColorsWindow_OnLoaded" ResizeMode="CanMinimize">
-    <!--ShowMaxRestoreButton="False"-->
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="SharedResourcesDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>

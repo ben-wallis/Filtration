@@ -7,9 +7,6 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=userControls:ItemPreviewControl}"
              d:DesignHeight="35" d:DesignWidth="170">
-    <UserControl.Resources>
-        <ResourceDictionary Source="../Views/SharedResourcesDictionary.xaml" />
-    </UserControl.Resources>
     <Border BorderBrush="Black" BorderThickness="1">
         <Grid Width="166" Height="39">
             <Image Source="pack://application:,,,/resources/groundtile.png" Stretch="Fill" />

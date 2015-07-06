@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\ThemeComponentTypeToStringConverter.cs" />
+    <Compile Include="Messages\ThemeClosedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ThemeProvider.cs" />
     <Compile Include="Services\ThemePersistenceService.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using Filtration.ThemeEditor.ViewModels;
@@ -22,6 +23,7 @@ namespace Filtration.ViewModels
         void AddDocument(IDocument document);
         void CloseDocument(IDocument document);
         void SwitchActiveDocument(IDocument document);
+        IThemeEditorViewModel OpenMasterThemeForScript(IItemFilterScriptViewModel scriptViewModel);
     }
 
     internal class AvalonDockWorkspaceViewModel : FiltrationViewModelBase, IAvalonDockWorkspaceViewModel
@@ -179,6 +181,20 @@ namespace Filtration.ViewModels
             }
             
             ActiveDocument = document;
+        }
+
+        public IThemeEditorViewModel OpenMasterThemeForScript(IItemFilterScriptViewModel scriptViewModel)
+        {
+            var existingMasterThemeViewModelCount =
+                OpenDocuments.OfType<IThemeEditorViewModel>()
+                    .Count(c => c.IsMasterThemeForScript == scriptViewModel.Script);
+            if (existingMasterThemeViewModelCount > 0)
+            {
+                return OpenDocuments.OfType<IThemeEditorViewModel>()
+                    .First(c => c.IsMasterThemeForScript == scriptViewModel.Script);
+            }
+
+            return null;
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace Filtration.Converters
+namespace Filtration.Common.Converters
 {
     public class ColorToSolidColorBrushConverter : IValueConverter
     {

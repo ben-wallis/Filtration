@@ -14,7 +14,6 @@ using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
-using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Services;
 using Filtration.Translators;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -493,6 +492,13 @@ namespace Filtration.ViewModels
         
         private void CloseScript()
         {
+            var openMasterThemForScript =
+                _avalonDockWorkspaceViewModel.OpenMasterThemeForScript(this);
+            if (openMasterThemForScript != null)
+            {
+                _avalonDockWorkspaceViewModel.CloseDocument(openMasterThemForScript);
+            }
+
             _avalonDockWorkspaceViewModel.ActiveDocumentChanged -= OnActiveDocumentChanged;
             _avalonDockWorkspaceViewModel.CloseDocument(this);
         }
