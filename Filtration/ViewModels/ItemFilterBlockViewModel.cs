@@ -21,6 +21,7 @@ namespace Filtration.ViewModels
         bool IsDirty { get; set; }
         bool IsExpanded { get; set; }
         ItemFilterBlock Block { get; }
+        bool BlockEnabled { get; set; }
         void RefreshBlockPreview();
     }
 
@@ -206,6 +207,20 @@ namespace Filtration.ViewModels
                     typeof (FontSizeBlockItem),
                     typeof (SoundBlockItem)
                 };
+            }
+        }
+
+        public bool BlockEnabled
+        {
+            get { return Block.Enabled; }
+            set
+            {
+                if (Block.Enabled != value)
+                {
+                    Block.Enabled = value;
+                    IsDirty = true;
+                    RaisePropertyChanged();
+                }
             }
         }
 

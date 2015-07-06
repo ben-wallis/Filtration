@@ -38,9 +38,13 @@ namespace Filtration.ViewModels
         void Initialise(ItemFilterScript itemFilterScript, bool newScript);
         void RemoveDirtyFlag();
         void SetDirtyFlag();
+        bool HasSelectedEnabledBlock();
+        bool HasSelectedDisabledBlock();
 
         RelayCommand AddBlockCommand { get; }
         RelayCommand AddSectionCommand { get; }
+        RelayCommand DisableBlockCommand { get; }
+        RelayCommand EnableBlockCommand { get; }
         RelayCommand DeleteBlockCommand { get; }
         RelayCommand MoveBlockUpCommand { get; }
         RelayCommand MoveBlockDownCommand { get; }
@@ -104,6 +108,8 @@ namespace Filtration.ViewModels
             MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand, () => SelectedBlockViewModel != null);
             AddBlockCommand = new RelayCommand(OnAddBlockCommand);
             AddSectionCommand = new RelayCommand(OnAddSectionCommand, () => SelectedBlockViewModel != null);
+            DisableBlockCommand = new RelayCommand(OnDisableBlockCommand, HasSelectedEnabledBlock);
+            EnableBlockCommand = new RelayCommand(OnEnableBlockCommand, HasSelectedDisabledBlock);
             CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => SelectedBlockViewModel != null);
             CopyBlockStyleCommand = new RelayCommand(OnCopyBlockStyleCommand, () => SelectedBlockViewModel != null);
             PasteBlockCommand = new RelayCommand(OnPasteBlockCommand, () => SelectedBlockViewModel != null);
@@ -128,6 +134,8 @@ namespace Filtration.ViewModels
         public RelayCommand MoveBlockToBottomCommand { get; private set; }
         public RelayCommand AddBlockCommand { get; private set; }
         public RelayCommand AddSectionCommand { get; private set; }
+        public RelayCommand EnableBlockCommand { get; private set; }
+        public RelayCommand DisableBlockCommand { get; private set; }
         public RelayCommand CopyBlockCommand { get; private set; }
         public RelayCommand CopyBlockStyleCommand { get; private set; }
         public RelayCommand PasteBlockCommand { get; private set; }
@@ -213,6 +221,21 @@ namespace Filtration.ViewModels
                 RaisePropertyChanged();
                 RaisePropertyChanged("ItemFilterBlockViewModels");
             }
+        }
+
+        public bool HasSelectedBlock()
+        {
+            return SelectedBlockViewModel != null;
+        }
+
+        public bool HasSelectedEnabledBlock()
+        {
+            return HasSelectedBlock() && !(SelectedBlockViewModel.Block is ItemFilterSection) && SelectedBlockViewModel.BlockEnabled;
+        }
+
+        public bool HasSelectedDisabledBlock()
+        {
+            return HasSelectedBlock() && !(SelectedBlockViewModel.Block is ItemFilterSection) && !SelectedBlockViewModel.BlockEnabled;
         }
 
         public IItemFilterBlockViewModel SelectedBlockViewModel
@@ -766,6 +789,26 @@ namespace Filtration.ViewModels
                 IsDirty = true;
             }
             SelectedBlockViewModel = null;
+        }
+
+        private void OnDisableBlockCommand()
+        {
+            DisableBlock(SelectedBlockViewModel);
+        }
+
+        private void DisableBlock(IItemFilterBlockViewModel targetBlockViewModel)
+        {
+            targetBlockViewModel.BlockEnabled = false;
+        }
+
+        private void OnEnableBlockCommand()
+        {
+            EnableBlock(SelectedBlockViewModel);
+        }
+
+        private void EnableBlock(IItemFilterBlockViewModel targetBlockViewModel)
+        {
+            targetBlockViewModel.BlockEnabled = true;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Documents;
 using Castle.Core.Internal;
 using Filtration.ObjectModel;
 using Filtration.Properties;
@@ -28,12 +29,63 @@ namespace Filtration.Translators
             _blockGroupHierarchyBuilder = blockGroupHierarchyBuilder;
         }
 
+        public string PreprocessDisabledBlocks(string inputString)
+        {
+            bool inDisabledBlock = false;
+
+            var lines = Regex.Split(inputString, "\r\n|\r|\n").ToList();
+            var linesToRemove = new List<int>();
+
+            for (var i = 0; i < lines.Count; i++)
+            {
+                if (lines[i].StartsWith("#Disabled Block Start"))
+                {
+                    inDisabledBlock = true;
+                    linesToRemove.Add(i);
+                    continue;
+                }
+                if (inDisabledBlock)
+                {
+                    if (lines[i].StartsWith("#Disabled Block End"))
+                    {
+                        inDisabledBlock = false;
+                        linesToRemove.Add(i);
+                        continue;
+                    }
+
+                    lines[i] = lines[i].TrimStart('#');
+                    var spaceOrEndOfLinePos = lines[i].IndexOf(" ", StringComparison.Ordinal) > 0 ? lines[i].IndexOf(" ", StringComparison.Ordinal) : lines[i].Length;
+                    var lineOption = lines[i].Substring(0, spaceOrEndOfLinePos);
+                    if (lineOption == "Show")
+                    {
+                        lines[i] = lines[i].Replace("Show", "ShowDisabled");
+                    }
+                    else if (lineOption == "Hide")
+                    {
+                        lines[i] = lines[i].Replace("Hide", "HideDisabled");
+                    }
+                }
+            }
+
+            for (var i = linesToRemove.Count - 1; i >= 0; i--)
+            {
+                lines.RemoveAt(linesToRemove[i]);
+            }
+
+            return lines.Aggregate((c, n) => c + Environment.NewLine + n);
+        }
+
         public ItemFilterScript TranslateStringToItemFilterScript(string inputString)
         {
             var script = new ItemFilterScript();
             _blockGroupHierarchyBuilder.Initialise(script.ItemFilterBlockGroups.First());
 
             inputString = inputString.Replace("\t", "");
+            if (inputString.Contains("#Disabled Block Start"))
+            {
+                inputString = PreprocessDisabledBlocks(inputString);
+            }
+
             var conditionBoundaries = IdentifyBlockBoundaries(inputString);
 
             var lines = Regex.Split(inputString, "\r\n|\r|\n");
@@ -85,7 +137,10 @@ namespace Filtration.Translators
                     // as it represents the block description.
                     // currentLine > 2 caters for an edge case where the script description is a single line and the first
                     // block has no description. This prevents the script description from being assigned to the first block's description.
-                    blockBoundaries.AddLast(previousLine.StartsWith("#") && !previousLine.StartsWith("# Section:") && currentLine > 2 ? currentLine - 2 : currentLine - 1);
+                    blockBoundaries.AddLast(previousLine.StartsWith("#") && !previousLine.StartsWith("# Section:") &&
+                                            currentLine > 2
+                        ? currentLine - 2
+                        : currentLine - 1);
                 }
                 previousLine = line;
             }

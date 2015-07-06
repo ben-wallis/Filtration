@@ -96,7 +96,10 @@ namespace Filtration.ViewModels
             AddBlockCommand = new RelayCommand(OnAddBlockCommand, () => _activeDocumentIsScript);
             AddSectionCommand = new RelayCommand(OnAddSectionCommand, () => _activeDocumentIsScript);
             DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => _activeDocumentIsScript && ActiveScriptHasSelectedBlock);
-
+            DisableBlockCommand = new RelayCommand(OnDisableBlockCommand,
+                () => _activeDocumentIsScript && ActiveScriptHasSelectedEnabledBlock);
+            EnableBlockCommand = new RelayCommand(OnEnableBlockCommand,
+                () => _activeDocumentIsScript && ActiveScriptHasSelectedDisabledBlock);
             OpenAboutWindowCommand = new RelayCommand(OnOpenAboutWindowCommand);
             ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, () => _activeDocumentIsScript);
 
@@ -198,6 +201,8 @@ namespace Filtration.ViewModels
         public RelayCommand AddBlockCommand { get; private set; }
         public RelayCommand AddSectionCommand { get; private set; }
         public RelayCommand DeleteBlockCommand { get; private set; }
+        public RelayCommand DisableBlockCommand { get; private set; }
+        public RelayCommand EnableBlockCommand { get; private set; }
 
         public RelayCommand MoveBlockUpCommand { get; private set; }
         public RelayCommand MoveBlockDownCommand { get; private set; }
@@ -304,6 +309,16 @@ namespace Filtration.ViewModels
         public bool ActiveScriptHasSelectedBlock
         {
             get { return AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel != null; }
+        }
+
+        public bool ActiveScriptHasSelectedEnabledBlock
+        {
+            get { return AvalonDockWorkspaceViewModel.ActiveScriptViewModel.HasSelectedEnabledBlock(); }
+        }
+
+        public bool ActiveScriptHasSelectedDisabledBlock
+        {
+            get { return AvalonDockWorkspaceViewModel.ActiveScriptViewModel.HasSelectedDisabledBlock(); }
         }
         
         public bool ActiveThemeIsEditable
@@ -578,6 +593,16 @@ namespace Filtration.ViewModels
         private void OnDeleteBlockCommand()
         {
             _avalonDockWorkspaceViewModel.ActiveScriptViewModel.DeleteBlockCommand.Execute(null);
+        }
+
+        private void OnDisableBlockCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.DisableBlockCommand.Execute(null);
+        }
+
+        private void OnEnableBlockCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.EnableBlockCommand.Execute(null);
         }
 
         private void OnExpandAllBlocksCommand()

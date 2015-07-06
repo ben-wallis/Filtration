@@ -41,6 +41,11 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="TopLevelGrid">
+        <Grid x:Name="DisabledBlockOverlay" IsHitTestVisible="False" Panel.ZIndex="1000" Visibility="{Binding BlockEnabled, Converter={StaticResource InverseBooleanVisibilityConverter}}">
+            <Grid.Background>
+                <SolidColorBrush Color="Gray" Opacity=".5" />
+            </Grid.Background>
+        </Grid>
         <Border BorderThickness="1" BorderBrush="SlateGray" CornerRadius="2" Background="White">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -62,8 +67,8 @@
                     <Expander.ContextMenu>
                         <ContextMenu>
                             <ContextMenu.Items>
-                                <MenuItem Header="Copy" Command="{Binding CopyBlockCommand}" Icon="{StaticResource CopyIcon}" />
-                                <MenuItem Header="Paste" Command="{Binding PasteBlockCommand}" Icon="{StaticResource PasteIcon}" />
+                                <MenuItem Header="Copy Block" Command="{Binding CopyBlockCommand}" Icon="{StaticResource CopyIcon}" />
+                                <MenuItem Header="Paste Block" Command="{Binding PasteBlockCommand}" Icon="{StaticResource PasteIcon}" />
                                 <Separator />
                                 <MenuItem Header="Block Style">
                                     <MenuItem Header="Copy Block Style" Command="{Binding CopyBlockStyleCommand}" Icon="{StaticResource CopyIcon}" />
@@ -88,6 +93,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <!-- BlockItems Summary Panel -->
@@ -121,9 +127,9 @@
                                     </ItemsControl.Resources>
                                 </ItemsControl>
                             </StackPanel>
-
+                           
                             <!-- Item Preview Box -->
-                            <WrapPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
+                            <WrapPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
                              <Button Command="{Binding PlaySoundCommand}"
                                         Width="25"
                                         Height="25"
@@ -160,6 +166,10 @@
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
                             <TextBlock Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
                                 <Hyperlink Command="{Binding SwitchBlockItemsViewCommand}">
                                     Switch to Appearance Block Items
@@ -167,7 +177,7 @@
                             </TextBlock>
                         
                             <!-- Add Block Item Links -->
-                            <ItemsControl ItemsSource="{Binding BlockItemTypesAvailable}" Grid.Row="0" Margin="0,0,0,10">
+                            <ItemsControl Grid.Column="0" ItemsSource="{Binding BlockItemTypesAvailable}" Grid.Row="0" Margin="0,0,0,10">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel></WrapPanel>
@@ -183,9 +193,35 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                        
+
+                            <!-- Enable/Disable Block Button -->
+                            <ToggleButton Grid.Row="0"
+                                          Grid.Column="1"
+                                          Style="{StaticResource ChromelessToggleButton}" 
+                                          IsChecked="{Binding BlockEnabled}"
+                                          Margin="0,0,5,0"
+                                          ToolTip="Enable/Disable Block"
+                                          Cursor="Hand"
+                                          Width="25"
+                                          Height="25">
+                                <Image RenderOptions.BitmapScalingMode="HighQuality">
+                                    <Image.Style>
+                                        <Style TargetType="{x:Type Image}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding BlockEnabled}" Value="true">
+                                                    <Setter Property="Source" Value="/Filtration;component/Resources/Icons/standby_enabled_icon.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding BlockEnabled}" Value="false">
+                                                    <Setter Property="Source" Value="/Filtration;component/Resources/Icons/standby_disabled_icon.png"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                            </ToggleButton>
+                            
                             <!-- Block Items -->
-                            <WrapPanel Grid.Row="1" MaxHeight="200">
+                            <WrapPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" MaxHeight="200">
                                 <WrapPanel.Resources>
                                     <CollectionViewSource Source="{Binding RegularBlockItems}" x:Key="BlockItemsCollectionViewSource">
                                         <CollectionViewSource.SortDescriptions>

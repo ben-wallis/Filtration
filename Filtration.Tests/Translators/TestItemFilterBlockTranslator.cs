@@ -26,6 +26,36 @@ namespace Filtration.Tests.Translators
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlock_NotDisabled_SetsBlockEnabledTrue()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    ItemLevel >= 55";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+
+            // Assert
+            Assert.AreEqual(true, result.Enabled);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_DisabledBlock_SetsBlockEnabledFalse()
+        {
+            // Arrange
+            var inputString = "HideDisabled" + Environment.NewLine +
+                              "    ItemLevel >= 55";
+            
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+
+            // Assert
+            Assert.AreEqual(2, result.BlockItems.Count);
+            Assert.AreEqual(BlockAction.Hide, result.Action);
+            Assert.AreEqual(false, result.Enabled);
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_NoDescriptionComment_ReturnsCorrectObject()
         {
             // Arrange
@@ -1256,6 +1286,26 @@ namespace Filtration.Tests.Translators
             var expectedResult = "# Section: " + TestInputSectionText;
 
             _testUtility.TestBlock = new ItemFilterSection { Description = TestInputSectionText };
+
+            // Act
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void TranslateItemFilterBlockToString_DisabledBlock_ReturnsCorrectString()
+        {
+            // Arrange
+            var expectedResult = "#Disabled Block Start" + Environment.NewLine +
+                                 "#Show" + Environment.NewLine +
+                                 "#    Width = 4" + Environment.NewLine +
+                                 "#Disabled Block End";
+                                 
+
+            _testUtility.TestBlock.Enabled = false;
+            _testUtility.TestBlock.BlockItems.Add(new WidthBlockItem(FilterPredicateOperator.Equal, 4));
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);

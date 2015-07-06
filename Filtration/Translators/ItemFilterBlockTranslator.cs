@@ -28,6 +28,7 @@ namespace Filtration.Translators
         private readonly IBlockGroupHierarchyBuilder _blockGroupHierarchyBuilder;
         private const string Indent = "    ";
         private readonly string _newLine = Environment.NewLine + Indent;
+        private readonly string _disabledNewLine = Environment.NewLine + "#" + Indent;
         private ThemeComponentCollection _masterComponentCollection;
 
         public ItemFilterBlockTranslator(IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder)
@@ -42,6 +43,7 @@ namespace Filtration.Translators
             _masterComponentCollection = masterComponentCollection;
             var block = new ItemFilterBlock();
             var showHideFound = false;
+
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
 
@@ -62,6 +64,7 @@ namespace Filtration.Translators
 
                 var adjustedLine = line.Replace("#", " # ");
                 var trimmedLine = adjustedLine.TrimStart(' ');
+
                 var spaceOrEndOfLinePos = trimmedLine.IndexOf(" ", StringComparison.Ordinal) > 0 ? trimmedLine.IndexOf(" ", StringComparison.Ordinal) : trimmedLine.Length;
 
                 var lineOption = trimmedLine.Substring(0, spaceOrEndOfLinePos);
@@ -70,11 +73,25 @@ namespace Filtration.Translators
                     case "Show":
                         showHideFound = true;
                         block.Action = BlockAction.Show;
+                        block.Enabled = true;
                         AddBlockGroupToBlock(block, trimmedLine);
                         break;
                     case "Hide":
                         showHideFound = true;
                         block.Action = BlockAction.Hide;
+                        block.Enabled = true;
+                        AddBlockGroupToBlock(block, trimmedLine);
+                        break;
+                    case "ShowDisabled":
+                        showHideFound = true;
+                        block.Action = BlockAction.Show;
+                        block.Enabled = false;
+                        AddBlockGroupToBlock(block, trimmedLine);
+                        break;
+                    case "HideDisabled":
+                        showHideFound = true;
+                        block.Action = BlockAction.Hide;
+                        block.Enabled = false;
                         AddBlockGroupToBlock(block, trimmedLine);
                         break;
                     case "ItemLevel":
@@ -399,12 +416,17 @@ namespace Filtration.Translators
 
             var outputString = string.Empty;
 
+            if (!block.Enabled)
+            {
+                outputString += "#Disabled Block Start" + Environment.NewLine;
+            }
+
             if (!string.IsNullOrEmpty(block.Description))
             {
                 outputString += "# " + block.Description + Environment.NewLine;
             }
 
-            outputString += block.Action.GetAttributeDescription();
+            outputString += (!block.Enabled ? "#" : string.Empty) + block.Action.GetAttributeDescription();
 
             if (block.BlockGroup != null)
             {
@@ -416,8 +438,13 @@ namespace Filtration.Translators
             {
                 if (blockItem.OutputText != string.Empty)
                 {
-                    outputString += _newLine + blockItem.OutputText;
+                    outputString += (!block.Enabled ? _disabledNewLine : _newLine) + blockItem.OutputText;
                 }
+            }
+
+            if (!block.Enabled)
+            {
+                outputString += Environment.NewLine +  "#Disabled Block End";
             }
             
             return outputString;

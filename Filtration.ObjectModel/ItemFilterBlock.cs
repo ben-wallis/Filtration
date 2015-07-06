@@ -13,8 +13,10 @@ namespace Filtration.ObjectModel
         public ItemFilterBlock()
         {
             BlockItems = new ObservableCollection<IItemFilterBlockItem> {new ActionBlockItem(BlockAction.Show)};
+            Enabled = true;
         }
-        
+
+        public bool Enabled { get; set; }
         public string Description { get; set; }
 
         public ItemFilterBlockGroup BlockGroup

@@ -85,6 +85,8 @@
                     <fluent:Button Header="Move Up" Command="{Binding MoveBlockUpCommand}"  SizeDefinition="Middle" Icon="{StaticResource MoveUpIcon}" />
                     <fluent:Button Header="Move Down" Command="{Binding MoveBlockDownCommand}" SizeDefinition="Middle" Icon="{StaticResource MoveDownIcon}" />
                     <fluent:Button Header="Move To Bottom" Command="{Binding MoveBlockToBottomCommand}"  SizeDefinition="Middle" Icon="{StaticResource MoveToBottomIcon}" />
+                    <fluent:Button Header="Enable Block" Command="{Binding EnableBlockCommand}"  SizeDefinition="Middle" Icon="{StaticResource StandbyEnabledIcon}" />
+                    <fluent:Button Header="Disable Block" Command="{Binding DisableBlockCommand}"  SizeDefinition="Middle" Icon="{StaticResource StandbyDisabledIcon}" />
                 </fluent:RibbonGroupBox>
                 <fluent:RibbonGroupBox Header="Expand / Collapse">
                     <fluent:Button Header="Expand All" Command="{Binding ExpandAllBlocksCommand}" SizeDefinition="Middle" Icon="{StaticResource ExpandIcon}" />

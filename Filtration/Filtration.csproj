@@ -429,6 +429,8 @@
     <Resource Include="Resources\Icons\filtration_icon.png" />
     <Resource Include="Resources\Icons\Add.ico" />
     <Resource Include="Resources\Icons\ThemeComponentDelete.ico" />
+    <Resource Include="Resources\Icons\standby_disabled_icon.png" />
+    <Resource Include="Resources\Icons\standby_enabled_icon.png" />
     <Content Include="Resources\ItemBaseTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -253,6 +253,79 @@ namespace Filtration.Tests.Translators
             Assert.IsNullOrEmpty(firstBlock.Description);
         }
 
+        [Test]
+        public void TranslateStringToItemFilterScript_DisabledBlock_ReturnsCorrectBlockCount()
+        {
+            // Arrange
+            var testInputScript = "Show" + Environment.NewLine +
+                                  "    ItemLevel > 2" + Environment.NewLine +
+                                  "    SetTextColor 255 40 0" + Environment.NewLine +
+                                  Environment.NewLine +
+                                  "#Disabled Block Start" + Environment.NewLine +
+                                  "#Show" + Environment.NewLine +
+                                  "#    ItemLevel > 2" + Environment.NewLine +
+                                  "#    SetTextColor 255 215 0" + Environment.NewLine +
+                                  "#    SetBorderColor 255 105 180" + Environment.NewLine +
+                                  "#    SetFontSize 32" + Environment.NewLine +
+                                  "#Disabled Block End" + Environment.NewLine +
+                                  Environment.NewLine +
+                                  "Show" + Environment.NewLine +
+                                  "   ItemLevel > 20" + Environment.NewLine +
+                                  "    SetTextColor 255 255 0";
+
+
+            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
+            var translator = new ItemFilterScriptTranslator(blockTranslator,
+                _testUtility.MockBlockGroupHierarchyBuilder.Object);
+
+            // Act
+            var result = translator.TranslateStringToItemFilterScript(testInputScript);
+
+            // Assert
+            Assert.AreEqual(3, result.ItemFilterBlocks.Count);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterScript_DisabledBlock_ReturnsCorrectBlocks()
+        {
+            // Arrange
+            var testInputScript = "Show" + Environment.NewLine +
+                                  "    ItemLevel > 2" + Environment.NewLine +
+                                  "    SetTextColor 255 40 0" + Environment.NewLine +
+                                  Environment.NewLine +
+                                  "#Disabled Block Start" + Environment.NewLine +
+                                  "#Show" + Environment.NewLine +
+                                  "#    ItemLevel > 2" + Environment.NewLine +
+                                  "#    SetTextColor 255 215 0" + Environment.NewLine +
+                                  "#    SetBorderColor 255 105 180" + Environment.NewLine +
+                                  "#    SetFontSize 32" + Environment.NewLine +
+                                  "#Disabled Block End" + Environment.NewLine +
+                                  Environment.NewLine +
+                                  "Show" + Environment.NewLine +
+                                  "   ItemLevel > 20" + Environment.NewLine +
+                                  "    SetTextColor 255 255 0";
+
+
+            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
+            var translator = new ItemFilterScriptTranslator(blockTranslator,
+                _testUtility.MockBlockGroupHierarchyBuilder.Object);
+
+            // Act
+            var result = translator.TranslateStringToItemFilterScript(testInputScript);
+
+            // Assert
+            Assert.AreEqual(3, result.ItemFilterBlocks.Count);
+
+            var firstBlock = result.ItemFilterBlocks.First();
+            var secondBlock = result.ItemFilterBlocks.Skip(1).First();
+            var thirdBlock = result.ItemFilterBlocks.Skip(2).First();
+
+            Assert.AreEqual(3, firstBlock.BlockItems.Count);
+            Assert.AreEqual(5, secondBlock.BlockItems.Count);
+            Assert.AreEqual(3, thirdBlock.BlockItems.Count);
+            
+        }
+
         private class ItemFilterScriptTranslatorTestUtility
         {
             public ItemFilterScriptTranslatorTestUtility()
