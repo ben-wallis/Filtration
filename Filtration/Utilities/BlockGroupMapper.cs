@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net.Mime;
 using AutoMapper;
 using Filtration.ObjectModel;
 using Filtration.ViewModels;

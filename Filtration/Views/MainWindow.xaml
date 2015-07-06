@@ -8,7 +8,6 @@
         xmlns:viewModels="clr-namespace:Filtration.ViewModels"
         xmlns:viewsAvalonDock="clr-namespace:Filtration.Views.AvalonDock"
         xmlns:views="clr-namespace:Filtration.Views"
-        xmlns:commonConverters="clr-namespace:Filtration.Common.Converters;assembly=Filtration.Common"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
         Title="{Binding WindowTitle}" Height="768" Width="1100" BorderThickness="1" BorderBrush="Black" IsIconVisible="True" >
@@ -16,9 +15,6 @@
         <KeyBinding Command="{Binding SaveCommand}" Modifiers="Control" Key="S" />
         <KeyBinding Command="{Binding OpenScriptCommand}" Modifiers="Control" Key="O" />
     </fluent:RibbonWindow.InputBindings>
-    <fluent:RibbonWindow.Resources>
-        <commonConverters:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
-    </fluent:RibbonWindow.Resources>
     <DockPanel x:Name="RootDockPanel">
         <fluent:Ribbon DockPanel.Dock="Top" x:Name="RibbonRoot">
             <fluent:Ribbon.Menu>

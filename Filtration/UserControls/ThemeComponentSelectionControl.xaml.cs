@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Filtration.Annotations;
-using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.ThemeEditor;
 using GalaSoft.MvvmLight.CommandWpf;
 
