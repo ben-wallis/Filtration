@@ -26,19 +26,10 @@ If you'd like to make your script fully compatible with Filtration, please take 
 ## Screenshots
 
 ##### Main Window
-<img src="http://i.imgur.com/s2lNHCm.png" />
-
-##### Block Editor
-<img src="http://i.imgur.com/BqWGxs7.png" />
+<img src="http://i.imgur.com/eAsMoSo.png" />
 
 ##### Theme Editor
-<img src="http://i.imgur.com/R2w7Hf2.png" />
-
-##### Block Color Editor
-<img src="http://i.imgur.com/nlBGiG4.png" />
-
-##### Replace Colors Tool
-<img src="http://i.imgur.com/oY1q6hq.png" />
+<img src="http://i.imgur.com/FJWJknO.png" />
 
 ## Contact
 
