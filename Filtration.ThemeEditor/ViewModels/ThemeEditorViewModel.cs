@@ -169,6 +169,7 @@ namespace Filtration.ThemeEditor.ViewModels
                 FilePath = saveDialog.FileName;
                 _themeProvider.SaveTheme(this, FilePath);
                 _filenameIsFake = false;
+                Title = Filename;
                 //RemoveDirtyFlag();
             }
             catch (Exception e)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
+using System.Xml.Serialization;
 using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel.ThemeEditor
@@ -17,6 +18,8 @@ namespace Filtration.ObjectModel.ThemeEditor
         }
 
         public string Name { get; set; }
+
+        [XmlIgnore]
         public string FilePath { get; set; }
 
         public ThemeComponentCollection Components

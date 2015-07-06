@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
+using System.Xml.Serialization;
 using Filtration.ObjectModel.Annotations;
 using Filtration.ObjectModel.Enums;
 
@@ -13,7 +14,12 @@ namespace Filtration.ObjectModel.ThemeEditor
         private Color _color;
         private EventHandler _themeComponentUpdatedEventHandler;
         private readonly object _eventLock = new object();
-        
+
+        public ThemeComponent()
+        {
+            
+        }
+
         public ThemeComponent(ThemeComponentType componentType, string componentName, Color componentColor)
         {
             if (componentName == null || componentColor == null)
@@ -51,7 +57,7 @@ namespace Filtration.ObjectModel.ThemeEditor
         public event EventHandler ThemeComponentDeleted;
 
         public string ComponentName { get; set; }
-        public ThemeComponentType ComponentType{ get; private set; }
+        public ThemeComponentType ComponentType{ get; set; }
 
         public Color Color
         {

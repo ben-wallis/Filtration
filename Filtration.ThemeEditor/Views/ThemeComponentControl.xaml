@@ -19,10 +19,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="25" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
         <Grid.Resources>
             <DataTemplate x:Key="EditableComponentNameTemplate">
                 <TextBox Text="{Binding ComponentName}" />
@@ -31,23 +27,25 @@
                 <TextBlock Text="{Binding ComponentName}" ToolTip="{Binding ComponentName}" />
             </DataTemplate>
         </Grid.Resources>
-        <TextBlock Grid.Row="0"
-                   Grid.Column="1"
-                   Text="{Binding UsageCount, StringFormat='Usages: {0}'}"
-                   FontSize="10"
-                   Visibility="{Binding Path=DataContext.EditEnabled, RelativeSource={RelativeSource AncestorType={x:Type views:ThemeEditorView}}, Converter={StaticResource BooleanVisibilityConverter}}">
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding UsageCount}" Value="0">
-                            <Setter Property="Foreground" Value="Red" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                    <Setter Property="Foreground" Value="SteelBlue"></Setter>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
-        <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Content="{Binding}">
+        <DockPanel LastChildFill="True">
+            <TextBlock DockPanel.Dock="Left"
+                       Text="{Binding UsageCount, StringFormat='Usages: {0}'}"
+                       FontSize="10"
+                       HorizontalAlignment="Right"
+                       Visibility="{Binding Path=DataContext.EditEnabled, RelativeSource={RelativeSource AncestorType={x:Type views:ThemeEditorView}}, Converter={StaticResource BooleanVisibilityConverter}}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding UsageCount}" Value="0">
+                                <Setter Property="Foreground" Value="Red" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Foreground" Value="SteelBlue" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </DockPanel>
+        <ContentControl Grid.Row="1" Content="{Binding}">
             <ContentControl.Style>
                 <Style TargetType="ContentControl">
                     <Style.Triggers>
@@ -62,6 +60,6 @@
             </ContentControl.Style>
         </ContentControl>
 
-        <xctk:ColorPicker Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"  SelectedColor="{Binding Color}" />
+        <xctk:ColorPicker Grid.Row="2" SelectedColor="{Binding Color}" />
     </Grid>
 </UserControl>

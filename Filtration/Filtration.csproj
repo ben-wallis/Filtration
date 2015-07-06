@@ -427,6 +427,8 @@
     <Resource Include="Resources\Icons\ReplaceColors.ico" />
     <Resource Include="Resources\Icons\Theme.ico" />
     <Resource Include="Resources\Icons\filtration_icon.png" />
+    <Resource Include="Resources\Icons\Add.ico" />
+    <Resource Include="Resources\Icons\ThemeComponentDelete.ico" />
     <Content Include="Resources\ItemBaseTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

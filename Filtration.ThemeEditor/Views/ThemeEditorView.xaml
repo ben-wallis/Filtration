@@ -40,7 +40,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListViewItem">
-                                    <Border Name="Border" Padding="2" SnapsToDevicePixels="true">
+                                    <Border Name="Border" BorderBrush="Black" Background="White"  BorderThickness="1" CornerRadius="3" Margin="2" SnapsToDevicePixels="true">
                                         <ContentPresenter />
                                     </Border>
                                     <ControlTemplate.Triggers>
@@ -62,7 +62,7 @@
                     <GroupStyle>
                         <GroupStyle.HeaderTemplate>
                             <DataTemplate>
-                                <TextBlock FontWeight="Bold" FontSize="15" Text="{Binding Path=Name, Converter={StaticResource ThemeComponentTypeToStringConverter}}"/>
+                                <TextBlock Margin="7,5,0,0" FontWeight="Bold" FontSize="15" Text="{Binding Path=Name, Converter={StaticResource ThemeComponentTypeToStringConverter}}"/>
                             </DataTemplate>
                         </GroupStyle.HeaderTemplate>
                     </GroupStyle>
