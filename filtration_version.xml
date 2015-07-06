@@ -1,13 +1,13 @@
 <UpdateData>
-	<CurrentVersion>0.6</CurrentVersion>
+	<CurrentVersion>0.7</CurrentVersion>
 	<LatestVersionMajorPart>0</LatestVersionMajorPart>
-	<LatestVersionMinorPart>6</LatestVersionMinorPart>
-	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.6</DownloadUrl>
-	<ReleaseDate>2015-07-05</ReleaseDate>
-	<ReleaseNotes>♦ Fixed bug causing multiple clicks to be required to select blocks after clicking a tool pane.
-♦ Tidied up control styles
-♦ Added logging - a Filtration*.log file will be generated in the install directory upon a fatal crash.
-♦ Moved the block appearance/sound settings from the old popup to a duplicate of the existing block items screen. Still accessed via clicking the block item preview.
-♦ Fixed several crashes related to copy and pasting (thanks to AndCub for the help testing that fix).
-♦ Added grouping to the Theme Editor</ReleaseNotes>
+	<LatestVersionMinorPart>7</LatestVersionMinorPart>
+	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.7</DownloadUrl>
+	<ReleaseDate>2015-07-06</ReleaseDate>
+	<ReleaseNotes>♦ Completed the Theme Editor implementation - themes and theme components can now be fully controlled from within Filtration (see the Themes wiki page for more info).
+♦ Added support for Disabled Blocks (see the Notes for Script Creators wiki page for more info)
+♦ Removed the popup for colour/font/sound block items, these are now in a toggleable pane in the same location as the other block items.
+♦ Fixed the ribbon context groups - including a fixing a bug that caused the toolbar to disappear when Filtration was maximised.
+♦ The speaker icon for blocks with a Play Alert Sound block item is now clickable.
+♦ Added Divination Cards to Classes and Base Types lookup lists. Jewels still not added.</ReleaseNotes>
 </UpdateData>
