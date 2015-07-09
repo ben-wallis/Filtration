@@ -32,6 +32,7 @@ namespace Filtration.Translators
         public string PreprocessDisabledBlocks(string inputString)
         {
             bool inDisabledBlock = false;
+            var showHideFound = false;
 
             var lines = Regex.Split(inputString, "\r\n|\r|\n").ToList();
             var linesToRemove = new List<int>();
@@ -49,6 +50,7 @@ namespace Filtration.Translators
                     if (lines[i].StartsWith("#Disabled Block End"))
                     {
                         inDisabledBlock = false;
+                        showHideFound = false;
                         linesToRemove.Add(i);
                         continue;
                     }
@@ -56,13 +58,24 @@ namespace Filtration.Translators
                     lines[i] = lines[i].TrimStart('#');
                     var spaceOrEndOfLinePos = lines[i].IndexOf(" ", StringComparison.Ordinal) > 0 ? lines[i].IndexOf(" ", StringComparison.Ordinal) : lines[i].Length;
                     var lineOption = lines[i].Substring(0, spaceOrEndOfLinePos);
+
+                    // If we haven't found a Show or Hide line yet, then this is probably the block comment.
+                    // Put its # back on and skip to the next line.
+                    if (lineOption != "Show" && lineOption != "Hide" && showHideFound == false)
+                    {
+                        lines[i] = "#" + lines[i];
+                        continue;
+                    }
+
                     if (lineOption == "Show")
                     {
                         lines[i] = lines[i].Replace("Show", "ShowDisabled");
+                        showHideFound = true;
                     }
                     else if (lineOption == "Hide")
                     {
                         lines[i] = lines[i].Replace("Hide", "HideDisabled");
+                        showHideFound = true;
                     }
                 }
             }

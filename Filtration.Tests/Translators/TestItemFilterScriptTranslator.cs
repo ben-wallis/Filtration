@@ -323,7 +323,34 @@ namespace Filtration.Tests.Translators
             Assert.AreEqual(3, firstBlock.BlockItems.Count);
             Assert.AreEqual(5, secondBlock.BlockItems.Count);
             Assert.AreEqual(3, thirdBlock.BlockItems.Count);
-            
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterScript_DisabledBlock_BlockDescriptionNotLost()
+        {
+            // Arrange
+            var testInputScript = "Show" + Environment.NewLine +
+                                  "    ItemLevel > 2" + Environment.NewLine +
+                                  "    SetTextColor 255 40 0" + Environment.NewLine +
+                                  Environment.NewLine +
+                                  "#Disabled Block Start" + Environment.NewLine +
+                                  "# This is a disabled block" + Environment.NewLine +
+                                  "#Show" + Environment.NewLine +
+                                  "#    ItemLevel > 2" + Environment.NewLine +
+                                  "#Disabled Block End";
+
+
+            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
+            var translator = new ItemFilterScriptTranslator(blockTranslator,
+                _testUtility.MockBlockGroupHierarchyBuilder.Object);
+
+            // Act
+            var result = translator.TranslateStringToItemFilterScript(testInputScript);
+
+            // Assert
+            Assert.AreEqual(2, result.ItemFilterBlocks.Count);
+            var secondBlock = result.ItemFilterBlocks.Skip(1).First();
+            Assert.AreEqual("This is a disabled block", secondBlock.Description);
         }
 
         private class ItemFilterScriptTranslatorTestUtility
