@@ -1,6 +1,7 @@
 ﻿using System;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.Extensions;
+using Filtration.ObjectModel.LootExplosionStudio;
 
 namespace Filtration.ObjectModel.BlockItemBaseTypes
 {
@@ -46,6 +47,46 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
         {
             OnPropertyChanged("FilterPredicate");
             OnPropertyChanged("SummaryText");
+        }
+
+
+
+        public abstract int GetLootItemProperty(LootItem lootItem);
+
+        public virtual bool MatchesLootItem(LootItem lootItem)
+        {
+            var lootItemProperty = GetLootItemProperty(lootItem);
+            var predicateOperand = FilterPredicate.PredicateOperand;
+
+            switch (FilterPredicate.PredicateOperator)
+            {
+                case FilterPredicateOperator.Equal:
+                {
+                    return lootItemProperty == predicateOperand;
+                }
+                case FilterPredicateOperator.GreaterThan:
+                {
+                    return lootItemProperty > predicateOperand;
+                }
+                case FilterPredicateOperator.GreaterThanOrEqual:
+                {
+                    return lootItemProperty >= predicateOperand;
+                }
+                case FilterPredicateOperator.LessThan:
+                {
+                    return lootItemProperty < predicateOperand;
+                }
+                case FilterPredicateOperator.LessThanOrEqual:
+                {
+                    return lootItemProperty <= predicateOperand;
+                }
+                case FilterPredicateOperator.NotEqual:
+                {
+                    return lootItemProperty != predicateOperand;
+                }
+                default:
+                    return false;
+            }
         }
     }
 }

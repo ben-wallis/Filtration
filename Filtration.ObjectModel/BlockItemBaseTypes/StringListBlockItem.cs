@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using Filtration.ObjectModel.LootExplosionStudio;
 
 namespace Filtration.ObjectModel.BlockItemBaseTypes
 {
@@ -35,6 +36,13 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
         {
             OnPropertyChanged("Items");
             OnPropertyChanged("SummaryText");
+        }
+
+        public abstract string GetLootItemProperty(LootItem lootItem);
+
+        public virtual bool MatchesLootItem(LootItem lootItem)
+        {
+            return Items.Any(i => i == GetLootItemProperty(lootItem));
         }
     }
 }

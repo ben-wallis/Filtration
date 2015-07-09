@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockItemBaseTypes\ActionBlockItem.cs" />
-    <Compile Include="BlockItemBaseTypes\BlockItembase.cs" />
+    <Compile Include="BlockItemBaseTypes\BlockItemBase.cs" />
     <Compile Include="BlockItemBaseTypes\ColorBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\DualIntegerBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\IntegerBlockItem.cs" />
@@ -77,6 +77,10 @@
     <Compile Include="ItemFilterBlockGroup.cs" />
     <Compile Include="ItemFilterScript.cs" />
     <Compile Include="ItemFilterSection.cs" />
+    <Compile Include="LootExplosionStudio\DefaultLootItemAppearanceConstants.cs" />
+    <Compile Include="LootExplosionStudio\LootItem.cs" />
+    <Compile Include="LootExplosionStudio\LootItemCollection.cs" />
+    <Compile Include="LootExplosionStudio\SocketGroup.cs" />
     <Compile Include="NumericFilterPredicate.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filtration.Common", "Filtra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filtration.Common.Tests", "Filtration.Common.Tests\Filtration.Common.Tests.csproj", "{1E42A658-45C4-4DD9-83C5-2A10728DBDFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filtration.LootExplosionStudio", "Filtration.LootExplosionStudio\Filtration.LootExplosionStudio.csproj", "{C8009B11-14D0-4421-94F0-9EF4603CB363}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filtration.LootExplosionStudio.Tests", "Filtration.LootExplosionStudio.Tests\Filtration.LootExplosionStudio.Tests.csproj", "{56D0887E-B10D-4F9C-A88E-09CF8E8E06E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,14 @@ Global
 		{1E42A658-45C4-4DD9-83C5-2A10728DBDFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E42A658-45C4-4DD9-83C5-2A10728DBDFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E42A658-45C4-4DD9-83C5-2A10728DBDFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8009B11-14D0-4421-94F0-9EF4603CB363}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8009B11-14D0-4421-94F0-9EF4603CB363}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8009B11-14D0-4421-94F0-9EF4603CB363}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8009B11-14D0-4421-94F0-9EF4603CB363}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56D0887E-B10D-4F9C-A88E-09CF8E8E06E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56D0887E-B10D-4F9C-A88E-09CF8E8E06E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56D0887E-B10D-4F9C-A88E-09CF8E8E06E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56D0887E-B10D-4F9C-A88E-09CF8E8E06E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,6 +2,7 @@
 using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.Extensions;
+using Filtration.ObjectModel.LootExplosionStudio;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
@@ -84,6 +85,11 @@ namespace Filtration.ObjectModel.BlockItemTypes
             {
                 return (int)ItemRarity.Unique;
             }
+        }
+
+        public override int GetLootItemProperty(LootItem lootItem)
+        {
+            return (int)lootItem.Rarity;
         }
     }
 }

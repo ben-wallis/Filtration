@@ -1,6 +1,7 @@
 ﻿using System.Windows.Media;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.Extensions;
+using Filtration.ObjectModel.LootExplosionStudio;
 
 namespace Filtration.ObjectModel.BlockItemBaseTypes
 {

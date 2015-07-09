@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows.Media;
 using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.LootExplosionStudio;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
@@ -49,6 +50,11 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override int SortOrder
         {
             get { return 10; }
+        }
+
+        public override string GetLootItemProperty(LootItem lootItem)
+        {
+            return lootItem.Class;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Media;
+using Filtration.ObjectModel.LootExplosionStudio;
 
 namespace Filtration.ObjectModel.BlockItemBaseTypes
 {

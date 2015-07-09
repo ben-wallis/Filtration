@@ -1,6 +1,7 @@
 ﻿using System.Windows.Media;
 using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.Enums;
+using Filtration.ObjectModel.LootExplosionStudio;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
@@ -66,6 +67,11 @@ namespace Filtration.ObjectModel.BlockItemTypes
             {
                 return 100;
             }
+        }
+
+        public override int GetLootItemProperty(LootItem lootItem)
+        {
+            return lootItem.ItemLevel;
         }
     }
 }

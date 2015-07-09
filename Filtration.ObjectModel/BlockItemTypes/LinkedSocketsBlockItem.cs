@@ -1,6 +1,8 @@
-﻿using System.Windows.Media;
+﻿using System.Linq;
+using System.Windows.Media;
 using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.Enums;
+using Filtration.ObjectModel.LootExplosionStudio;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
@@ -67,6 +69,11 @@ namespace Filtration.ObjectModel.BlockItemTypes
             {
                 return 6;
             }
+        }
+
+        public override int GetLootItemProperty(LootItem lootItem)
+        {
+            return lootItem.SocketGroups.Where(c => c.Sockets.Count > 1).Sum(socketGroup => socketGroup.Sockets.Count);
         }
     }
 }

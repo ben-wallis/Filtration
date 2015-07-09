@@ -46,6 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlockItemBaseTypes\TestBaseTypeBlockItem.cs" />
+    <Compile Include="BlockItemBaseTypes\TestClassBlockItem.cs" />
+    <Compile Include="BlockItemBaseTypes\TestItemLevelBlockItem.cs" />
+    <Compile Include="BlockItemBaseTypes\TestSocketGroupBlockItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestItemFilterBlock.cs" />
     <Compile Include="TestItemFilterBlockGroup.cs" />
