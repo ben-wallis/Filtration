@@ -1,13 +1,12 @@
 <UpdateData>
-	<CurrentVersion>0.7</CurrentVersion>
+	<CurrentVersion>0.8</CurrentVersion>
 	<LatestVersionMajorPart>0</LatestVersionMajorPart>
-	<LatestVersionMinorPart>7</LatestVersionMinorPart>
-	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.7</DownloadUrl>
-	<ReleaseDate>2015-07-06</ReleaseDate>
-	<ReleaseNotes>♦ Completed the Theme Editor implementation - themes and theme components can now be fully controlled from within Filtration (see the Themes wiki page for more info).
-♦ Added support for Disabled Blocks (see the Notes for Script Creators wiki page for more info)
-♦ Removed the popup for colour/font/sound block items, these are now in a toggleable pane in the same location as the other block items.
-♦ Fixed the ribbon context groups - including a fixing a bug that caused the toolbar to disappear when Filtration was maximised.
-♦ The speaker icon for blocks with a Play Alert Sound block item is now clickable.
-♦ Added Divination Cards to Classes and Base Types lookup lists. Jewels still not added.</ReleaseNotes>
+	<LatestVersionMinorPart>8</LatestVersionMinorPart>
+	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.8</DownloadUrl>
+	<ReleaseDate>2015-07-10</ReleaseDate>
+	<ReleaseNotes>♦ Happy Awakening Release Day!
+♦ Added Jewel to Item Class auto-complete (Individual Jewel Base Types will be added in a future release - you can still manually enter these however)
+♦ Fixed a crash when opening a script after Filtration is opened via File association. Please note that Filtration does not currently support opening scripts via file association (it will open but not open the script).
+♦ Fixed a bug that caused Disabled Blocks with a Block Group to not be loaded.
+♦ Fixed a memory leak causing scripts to not be released from memory after they're closed.</ReleaseNotes>
 </UpdateData>
