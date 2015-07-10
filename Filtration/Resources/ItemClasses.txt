@@ -35,3 +35,4 @@ Map Fragments
 Hideout Doodads
 Microtransactions
 Divination Card
+Jewel
