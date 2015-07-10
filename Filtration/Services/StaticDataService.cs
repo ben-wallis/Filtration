@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using Filtration.Common.Services;
 using Filtration.Utilities;
 
@@ -28,10 +30,10 @@ namespace Filtration.Services
 
         private void PopulateStaticData()
         {
-            var itemBaseTypes = _fileSystemService.ReadFileAsString("Resources\\ItemBaseTypes.txt");
+            var itemBaseTypes = _fileSystemService.ReadFileAsString(AppDomain.CurrentDomain.BaseDirectory + "\\Resources\\ItemBaseTypes.txt");
             ItemBaseTypes = new LineReader(() => new StringReader(itemBaseTypes)).ToList();
 
-            var itemClasses = _fileSystemService.ReadFileAsString("Resources\\ItemClasses.txt");
+            var itemClasses = _fileSystemService.ReadFileAsString(AppDomain.CurrentDomain.BaseDirectory + "\\Resources\\ItemClasses.txt");
             ItemClasses = new LineReader(() => new StringReader(itemClasses)).ToList();
         }
     }
