@@ -49,8 +49,6 @@ namespace Filtration.ViewModels
         private readonly IUpdateCheckService _updateCheckService;
         private readonly IUpdateAvailableViewModel _updateAvailableViewModel;
         private readonly IMessageBoxService _messageBoxService;
-        private bool _activeDocumentIsScript;
-        private bool _activeDocumentIsTheme;
 
         public MainWindowViewModel(IItemFilterScriptRepository itemFilterScriptRepository,
                                    IItemFilterScriptTranslator itemFilterScriptTranslator,
@@ -75,51 +73,51 @@ namespace Filtration.ViewModels
             _messageBoxService = messageBoxService;
 
             NewScriptCommand = new RelayCommand(OnNewScriptCommand);
-            CopyScriptCommand = new RelayCommand(OnCopyScriptCommand, () => _activeDocumentIsScript);
+            CopyScriptCommand = new RelayCommand(OnCopyScriptCommand, () => ActiveDocumentIsScript);
             OpenScriptCommand = new RelayCommand(OnOpenScriptCommand);
             OpenThemeCommand = new RelayCommand(OnOpenThemeCommand);
 
             SaveCommand = new RelayCommand(OnSaveDocumentCommand, ActiveDocumentIsEditable);
             SaveAsCommand = new RelayCommand(OnSaveAsCommand, ActiveDocumentIsEditable);
-            CloseCommand = new RelayCommand(OnCloseDocumentCommand, () => AvalonDockWorkspaceViewModel.ActiveDocument != null);
+            CloseCommand = new RelayCommand(OnCloseDocumentCommand, ActiveDocumentIsEditable);
 
-            CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => _activeDocumentIsScript && ActiveScriptHasSelectedBlock);
-            CopyBlockStyleCommand = new RelayCommand(OnCopyBlockStyleCommand, () => _activeDocumentIsScript && ActiveScriptHasSelectedBlock);
-            PasteCommand = new RelayCommand(OnPasteCommand, () => _activeDocumentIsScript && ActiveScriptHasSelectedBlock);
-            PasteBlockStyleCommand = new RelayCommand(OnPasteBlockStyleCommand, () => _activeDocumentIsScript && ActiveScriptHasSelectedBlock);
+            CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
+            CopyBlockStyleCommand = new RelayCommand(OnCopyBlockStyleCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
+            PasteCommand = new RelayCommand(OnPasteCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
+            PasteBlockStyleCommand = new RelayCommand(OnPasteBlockStyleCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
 
-            MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand, () => _activeDocumentIsScript && ActiveScriptHasSelectedBlock);
-            MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand, () => _activeDocumentIsScript && ActiveScriptHasSelectedBlock);
-            MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand, () => _activeDocumentIsScript && ActiveScriptHasSelectedBlock);
-            MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand, () => _activeDocumentIsScript && ActiveScriptHasSelectedBlock);
+            MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
+            MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
+            MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
+            MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
 
-            AddBlockCommand = new RelayCommand(OnAddBlockCommand, () => _activeDocumentIsScript);
-            AddSectionCommand = new RelayCommand(OnAddSectionCommand, () => _activeDocumentIsScript);
-            DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => _activeDocumentIsScript && ActiveScriptHasSelectedBlock);
+            AddBlockCommand = new RelayCommand(OnAddBlockCommand, () => ActiveDocumentIsScript);
+            AddSectionCommand = new RelayCommand(OnAddSectionCommand, () => ActiveDocumentIsScript);
+            DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
             DisableBlockCommand = new RelayCommand(OnDisableBlockCommand,
-                () => _activeDocumentIsScript && ActiveScriptHasSelectedEnabledBlock);
+                () => ActiveDocumentIsScript && ActiveScriptHasSelectedEnabledBlock);
             EnableBlockCommand = new RelayCommand(OnEnableBlockCommand,
-                () => _activeDocumentIsScript && ActiveScriptHasSelectedDisabledBlock);
+                () => ActiveDocumentIsScript && ActiveScriptHasSelectedDisabledBlock);
             OpenAboutWindowCommand = new RelayCommand(OnOpenAboutWindowCommand);
-            ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, () => _activeDocumentIsScript);
+            ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, () => ActiveDocumentIsScript);
 
-            CreateThemeCommand = new RelayCommand(OnCreateThemeCommand, () => _activeDocumentIsScript);
-            ApplyThemeToScriptCommand = new RelayCommand(OnApplyThemeToScriptCommand, () => _activeDocumentIsScript);
-            EditMasterThemeCommand = new RelayCommand(OnEditMasterThemeCommand, () => _activeDocumentIsScript);
+            CreateThemeCommand = new RelayCommand(OnCreateThemeCommand, () => ActiveDocumentIsScript);
+            ApplyThemeToScriptCommand = new RelayCommand(OnApplyThemeToScriptCommand, () => ActiveDocumentIsScript);
+            EditMasterThemeCommand = new RelayCommand(OnEditMasterThemeCommand, () => ActiveDocumentIsScript);
 
-            AddTextColorThemeComponentCommand = new RelayCommand(OnAddTextColorThemeComponentCommand, () => _activeDocumentIsTheme && ActiveThemeIsEditable);
-            AddBackgroundColorThemeComponentCommand = new RelayCommand(OnAddBackgroundColorThemeComponentCommand, () => _activeDocumentIsTheme && ActiveThemeIsEditable);
-            AddBorderColorThemeComponentCommand = new RelayCommand(OnAddBorderColorThemeComponentCommand, () => _activeDocumentIsTheme && ActiveThemeIsEditable);
+            AddTextColorThemeComponentCommand = new RelayCommand(OnAddTextColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
+            AddBackgroundColorThemeComponentCommand = new RelayCommand(OnAddBackgroundColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
+            AddBorderColorThemeComponentCommand = new RelayCommand(OnAddBorderColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             DeleteThemeComponentCommand = new RelayCommand(OnDeleteThemeComponentCommand,
                 () =>
-                    ActiveDocumentIsTheme && _activeDocumentIsTheme &&
+                    ActiveDocumentIsTheme && ActiveDocumentIsTheme &&
                     _avalonDockWorkspaceViewModel.ActiveThemeViewModel.SelectedThemeComponent != null);
 
-            ExpandAllBlocksCommand = new RelayCommand(OnExpandAllBlocksCommand, () => _activeDocumentIsScript);
-            CollapseAllBlocksCommand = new RelayCommand(OnCollapseAllBlocksCommand, () => _activeDocumentIsScript);
+            ExpandAllBlocksCommand = new RelayCommand(OnExpandAllBlocksCommand, () => ActiveDocumentIsScript);
+            CollapseAllBlocksCommand = new RelayCommand(OnCollapseAllBlocksCommand, () => ActiveDocumentIsScript);
 
-            ToggleShowAdvancedCommand = new RelayCommand<bool>(OnToggleShowAdvancedCommand, s => _activeDocumentIsScript);
-            ClearFiltersCommand = new RelayCommand(OnClearFiltersCommand, () => _activeDocumentIsScript);
+            ToggleShowAdvancedCommand = new RelayCommand<bool>(OnToggleShowAdvancedCommand, s => ActiveDocumentIsScript);
+            ClearFiltersCommand = new RelayCommand(OnClearFiltersCommand, () => ActiveDocumentIsScript);
 
             if (string.IsNullOrEmpty(_itemFilterScriptRepository.GetItemFilterScriptDirectory()))
             {
@@ -154,7 +152,8 @@ namespace Filtration.ViewModels
                         ApplyThemeToScriptCommand.RaiseCanExecuteChanged();
                         EditMasterThemeCommand.RaiseCanExecuteChanged();
                         CreateThemeCommand.RaiseCanExecuteChanged();
-                        SetActiveDocumentStatusProperties();
+                        RaisePropertyChanged("ActiveDocumentIsScript");
+                        RaisePropertyChanged("ActiveDocumentIsTheme");
                         RaisePropertyChanged("ShowAdvancedStatus");
                         break;
                     }
@@ -171,8 +170,6 @@ namespace Filtration.ViewModels
                 }
             });
             CheckForUpdates();
-            ActiveDocumentIsScript = false;
-            ActiveDocumentIsTheme = false;
         }
 
         public RelayCommand OpenScriptCommand { get; private set; }
@@ -280,30 +277,14 @@ namespace Filtration.ViewModels
             }
         }
 
-        private void SetActiveDocumentStatusProperties()
-        {
-            ActiveDocumentIsScript = AvalonDockWorkspaceViewModel.ActiveDocument is ItemFilterScriptViewModel;
-            ActiveDocumentIsTheme = AvalonDockWorkspaceViewModel.ActiveDocument is ThemeEditorViewModel;
-        }
-
         public bool ActiveDocumentIsScript
         {
-            get { return _activeDocumentIsScript; }
-            private set
-            {
-                _activeDocumentIsScript = value;
-                RaisePropertyChanged();
-            }
+            get { return _avalonDockWorkspaceViewModel.ActiveDocument != null && _avalonDockWorkspaceViewModel.ActiveDocument.IsScript; }
         }
 
         public bool ActiveDocumentIsTheme
         {
-            get { return _activeDocumentIsTheme; }
-            private set
-            {
-                _activeDocumentIsTheme = value;
-                RaisePropertyChanged();
-            }
+            get { return _avalonDockWorkspaceViewModel.ActiveDocument!= null && _avalonDockWorkspaceViewModel.ActiveDocument.IsTheme; }
         }
 
         public bool ActiveScriptHasSelectedBlock

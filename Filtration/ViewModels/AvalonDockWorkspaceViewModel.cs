@@ -171,6 +171,19 @@ namespace Filtration.ViewModels
             {
                 _activeDocument = null;
             }
+
+
+            // TODO: Replace _activeScriptViewModel and _activeThemeViewModel with a better solution.
+
+            if (document.IsScript && _activeScriptViewModel == (IItemFilterScriptViewModel) document)
+            {
+                _activeScriptViewModel = null;
+            }
+
+            if (document.IsTheme && _activeThemeViewModel == (IThemeEditorViewModel)document)
+            {
+                _activeThemeViewModel = null;
+            }
         }
 
         public void SwitchActiveDocument(IDocument document)
