@@ -353,6 +353,39 @@ namespace Filtration.Tests.Translators
             Assert.AreEqual("This is a disabled block", secondBlock.Description);
         }
 
+        [Test]
+        public void TranslateStringToItemFilterScript_DisabledBlockWithBlockGroup_ReturnsCorrectBlock()
+        {
+            // Arrange
+            var testInputScript = "Show" + Environment.NewLine +
+                                  "    ItemLevel > 2" + Environment.NewLine +
+                                  "    SetTextColor 255 40 0" + Environment.NewLine +
+                                  Environment.NewLine +
+                                  "#Disabled Block Start" + Environment.NewLine +
+                                  "# This is a disabled block" + Environment.NewLine +
+                                  "#Show#My Block Group" + Environment.NewLine +
+                                  "#    ItemLevel > 2" + Environment.NewLine +
+                                  "#Disabled Block End";
+
+
+            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
+            _testUtility.MockBlockGroupHierarchyBuilder.Setup(
+                b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>()))
+                .Returns(new ItemFilterBlockGroup("My Block Group", null));
+
+            var translator = new ItemFilterScriptTranslator(blockTranslator,
+                _testUtility.MockBlockGroupHierarchyBuilder.Object);
+
+            // Act
+            var result = translator.TranslateStringToItemFilterScript(testInputScript);
+
+            // Assert
+            Assert.AreEqual(2, result.ItemFilterBlocks.Count);
+            var secondBlock = result.ItemFilterBlocks.Skip(1).First();
+            Assert.AreEqual("This is a disabled block", secondBlock.Description);
+            Assert.AreEqual("My Block Group", secondBlock.BlockGroup.GroupName);
+        }
+
         private class ItemFilterScriptTranslatorTestUtility
         {
             public ItemFilterScriptTranslatorTestUtility()

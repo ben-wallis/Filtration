@@ -56,6 +56,7 @@ namespace Filtration.Translators
                     }
 
                     lines[i] = lines[i].TrimStart('#');
+                    lines[i] = lines[i].Replace("#", " # ");
                     var spaceOrEndOfLinePos = lines[i].IndexOf(" ", StringComparison.Ordinal) > 0 ? lines[i].IndexOf(" ", StringComparison.Ordinal) : lines[i].Length;
                     var lineOption = lines[i].Substring(0, spaceOrEndOfLinePos);
 
