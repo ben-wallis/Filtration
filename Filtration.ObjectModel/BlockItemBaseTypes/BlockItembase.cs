@@ -2,7 +2,6 @@
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using Filtration.ObjectModel.Annotations;
-using Filtration.ObjectModel.LootExplosionStudio;
 
 namespace Filtration.ObjectModel.BlockItemBaseTypes
 {
