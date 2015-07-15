@@ -17,7 +17,7 @@ using NLog;
 
 namespace Filtration
 {
-    public partial class App
+    public partial class App : Application 
     {
         private IWindsorContainer _container;
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();

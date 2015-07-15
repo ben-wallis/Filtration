@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.ComponentModel;
+using System.Windows;
+using Filtration.Annotations;
 using Filtration.ViewModels;
 
 namespace Filtration.Views
@@ -10,8 +13,11 @@ namespace Filtration.Views
 
     internal partial class MainWindow : IMainWindow
     {
+        private IMainWindowViewModel _mainWindowViewModel;
+
         public MainWindow(IMainWindowViewModel mainWindowViewModel)
         {
+            _mainWindowViewModel = mainWindowViewModel;
             InitializeComponent();
             DataContext = mainWindowViewModel;
         }
@@ -29,6 +35,16 @@ namespace Filtration.Views
             if (ThemeToolsGroup.IsVisible)
             {
                 RibbonRoot.SelectedTabItem = ThemeToolsTabItem;
+            }
+        }
+
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            var allDocumentsClosed = _mainWindowViewModel.CloseAllDocuments();
+
+            if (!allDocumentsClosed)
+            {
+                e.Cancel = true;
             }
         }
     }

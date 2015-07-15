@@ -490,7 +490,7 @@ namespace Filtration.ViewModels
             else
             {
                 var result = _messageBoxService.Show("Filtration",
-                    "Want to save your changes to this script?", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                    "Save script \"" + Filename + "\"?", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
                 switch (result)
                 {

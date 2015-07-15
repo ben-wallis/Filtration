@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Forms;
@@ -33,6 +34,7 @@ namespace Filtration.ViewModels
     {
         RelayCommand OpenScriptCommand { get; }
         RelayCommand NewScriptCommand { get; }
+        bool CloseAllDocuments();
     }
 
     internal class MainWindowViewModel : FiltrationViewModelBase, IMainWindowViewModel
@@ -625,6 +627,23 @@ namespace Filtration.ViewModels
         {
             _avalonDockWorkspaceViewModel.ActiveThemeViewModel.DeleteThemeComponentCommand.Execute(
                 _avalonDockWorkspaceViewModel.ActiveThemeViewModel.SelectedThemeComponent);
+        }
+
+        public bool CloseAllDocuments()
+        {
+            var openDocuments = _avalonDockWorkspaceViewModel.OpenDocuments.OfType<IEditableDocument>().ToList();
+            
+            foreach (var document in openDocuments)
+            {
+                var docCount = _avalonDockWorkspaceViewModel.OpenDocuments.OfType<IEditableDocument>().Count();
+                document.Close();
+                if (_avalonDockWorkspaceViewModel.OpenDocuments.OfType<IEditableDocument>().Count() == docCount)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
