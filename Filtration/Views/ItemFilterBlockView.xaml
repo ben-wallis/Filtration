@@ -271,7 +271,9 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-
+                            
+                            <TextBlock Grid.Row="1" FontStyle="Italic" Visibility="{Binding HasAudioVisualBlockItems, Converter={StaticResource InverseBooleanVisibilityConverter}}">To change the appearance of this block, add a Text, Background or Border Block Item above.</TextBlock>
+                            
                             <!-- Block Items -->
                             <WrapPanel Grid.Row="1" MaxHeight="200">
                                 <WrapPanel.Resources>

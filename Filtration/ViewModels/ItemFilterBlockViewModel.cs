@@ -317,6 +317,12 @@ namespace Filtration.ViewModels
             get { return Block.HasBlockItemOfType<SoundBlockItem>(); }
         }
 
+
+        public bool HasAudioVisualBlockItems
+        {
+            get { return AudioVisualBlockItems.Any(); }
+        }
+
         private void OnSwitchBlockItemsViewCommand()
         {
             AudioVisualBlockItemsGridVisible = !AudioVisualBlockItemsGridVisible;
@@ -459,6 +465,7 @@ namespace Filtration.ViewModels
             RaisePropertyChanged("RegularBlockItems");
             RaisePropertyChanged("SummaryBlockItems");
             RaisePropertyChanged("AudioVisualBlockItems");
+            RaisePropertyChanged("HasAudioVisualBlockItems");
         }
     }
 }
