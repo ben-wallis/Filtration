@@ -25,7 +25,6 @@ Boots
 Body Armours
 Helmets
 Shields
-Stackable Currency
 Quest Items
 Sceptres
 Utility Flasks
