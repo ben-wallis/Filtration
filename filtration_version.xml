@@ -1,12 +1,12 @@
 <UpdateData>
-	<CurrentVersion>0.8</CurrentVersion>
+	<CurrentVersion>0.9</CurrentVersion>
 	<LatestVersionMajorPart>0</LatestVersionMajorPart>
-	<LatestVersionMinorPart>8</LatestVersionMinorPart>
-	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.8</DownloadUrl>
-	<ReleaseDate>2015-07-10</ReleaseDate>
-	<ReleaseNotes>♦ Happy Awakening Release Day!
-♦ Added Jewel to Item Class auto-complete (Individual Jewel Base Types will be added in a future release - you can still manually enter these however)
-♦ Fixed a crash when opening a script after Filtration is opened via File association. Please note that Filtration does not currently support opening scripts via file association (it will open but not open the script).
-♦ Fixed a bug that caused Disabled Blocks with a Block Group to not be loaded.
-♦ Fixed a memory leak causing scripts to not be released from memory after they're closed.</ReleaseNotes>
+	<LatestVersionMinorPart>9</LatestVersionMinorPart>
+	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.9</DownloadUrl>
+	<ReleaseDate>2015-07-15</ReleaseDate>
+	<ReleaseNotes>♦ Fixed a crash when Filtration is blocked by a firewall or other connection issue from checking for updates
+♦ Fixed "Usages: 0" being visible in the Theme Editor when editing a non-master theme
+♦ Switched the encoding of saved scripts to UTF-8 to fix an issue with items such as "Maelström Staff" not saving correctly (sorry it took this long to get it fixed, DracoArgentum :P)
+♦ Added a save check on close to prevent accidental loss of unsaved scripts.
+♦ Removed Stackable Currency and Thrusting One Hand Swords from Item Classes lookup data.</ReleaseNotes>
 </UpdateData>
