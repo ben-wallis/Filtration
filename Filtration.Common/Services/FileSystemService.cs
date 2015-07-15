@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace Filtration.Common.Services
 {
@@ -20,7 +21,7 @@ namespace Filtration.Common.Services
 
         public void WriteFileFromString(string filePath, string inputString)
         {
-            File.WriteAllText(filePath, inputString);
+            File.WriteAllText(filePath, inputString, Encoding.UTF8);
         }
 
         public bool DirectoryExists(string directoryPath)
