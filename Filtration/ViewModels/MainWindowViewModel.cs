@@ -110,7 +110,7 @@ namespace Filtration.ViewModels
             AddBorderColorThemeComponentCommand = new RelayCommand(OnAddBorderColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             DeleteThemeComponentCommand = new RelayCommand(OnDeleteThemeComponentCommand,
                 () =>
-                    ActiveDocumentIsTheme && ActiveDocumentIsTheme &&
+                    ActiveDocumentIsTheme && ActiveThemeIsEditable &&
                     _avalonDockWorkspaceViewModel.ActiveThemeViewModel.SelectedThemeComponent != null);
 
             ExpandAllBlocksCommand = new RelayCommand(OnExpandAllBlocksCommand, () => ActiveDocumentIsScript);
