@@ -216,11 +216,11 @@ namespace Filtration.ViewModels
         public async void CheckForUpdates()
         {
             var assemblyVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
-
-            var result = await _updateCheckService.GetUpdateData();
-
+            
             try
             {
+                var result = await _updateCheckService.GetUpdateData();
+
                 if (result.LatestVersionMajorPart >= assemblyVersion.FileMajorPart &&
                     result.LatestVersionMinorPart > assemblyVersion.FileMinorPart)
                 {
