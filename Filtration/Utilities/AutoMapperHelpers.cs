@@ -17,7 +17,8 @@ namespace Filtration.Utilities
                 if (viewModel.ChildGroups.All(g => g.IsChecked == true))
                 {
                     viewModel.IsChecked = true;
-                } else if (viewModel.ChildGroups.Any(g => g.IsChecked == true))
+                }
+                else if (viewModel.ChildGroups.Any(g => g.IsChecked == true || g.IsChecked == null))
                 {
                     viewModel.IsChecked = null;
                 }
