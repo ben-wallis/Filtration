@@ -244,7 +244,6 @@
     <Compile Include="Views\UpdateAvailableView.xaml.cs">
       <DependentUpon>UpdateAvailableView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindsorInstallers\ModelsInstaller.cs" />
     <Compile Include="WindsorInstallers\RepositoriesInstaller.cs" />
     <Compile Include="WindsorInstallers\ServicesInstaller.cs" />
     <Compile Include="WindsorInstallers\TranslatorsInstaller.cs" />

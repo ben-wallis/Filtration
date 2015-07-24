@@ -75,6 +75,7 @@ namespace Filtration.ViewModels
         private readonly IItemFilterPersistenceService _persistenceService;
         private readonly IMessageBoxService _messageBoxService;
         private readonly IClipboardService _clipboardService;
+        private readonly IBlockGroupHierarchyBuilder _blockGroupHierarchyBuilder;
 
         private bool _isDirty;
         private IItemFilterBlockViewModel _selectedBlockViewModel;
@@ -88,7 +89,8 @@ namespace Filtration.ViewModels
                                          IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
                                          IItemFilterPersistenceService persistenceService,
                                          IMessageBoxService messageBoxService,
-                                         IClipboardService clipboardService)
+                                         IClipboardService clipboardService,
+                                         IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder)
         {
             _itemFilterBlockViewModelFactory = itemFilterBlockViewModelFactory;
             _blockTranslator = blockTranslator;
@@ -97,6 +99,7 @@ namespace Filtration.ViewModels
             _persistenceService = persistenceService;
             _messageBoxService = messageBoxService;
             _clipboardService = clipboardService;
+            _blockGroupHierarchyBuilder = blockGroupHierarchyBuilder;
             _itemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModel>();
             
             ToggleShowAdvancedCommand = new RelayCommand<bool>(OnToggleShowAdvancedCommand);
@@ -613,6 +616,7 @@ namespace Filtration.ViewModels
             {
                 var clipboardText = _clipboardService.GetClipboardText();
                 if (string.IsNullOrEmpty(clipboardText)) return;
+                _blockGroupHierarchyBuilder.Initialise(Script.ItemFilterBlockGroups.First());
 
                 var translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(clipboardText, Script.ThemeComponents);
                 if (translatedBlock == null) return;
@@ -638,9 +642,12 @@ namespace Filtration.ViewModels
             catch (Exception e)
             {
                 _logger.Error(e);
+                var innerException = e.InnerException != null
+                    ? e.InnerException.Message
+                    : string.Empty;
+
                 _messageBoxService.Show("Paste Error",
-                    e.Message + Environment.NewLine + e.StackTrace + Environment.NewLine +
-                    e.InnerException.Message + Environment.NewLine + e.InnerException.StackTrace, MessageBoxButton.OK,
+                    e.Message + Environment.NewLine + innerException, MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
         }
