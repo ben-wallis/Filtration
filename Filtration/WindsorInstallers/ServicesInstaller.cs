@@ -34,6 +34,11 @@ namespace Filtration.WindsorInstallers
                 Component.For<IUpdateCheckService>()
                     .ImplementedBy<UpdateCheckService>()
                     .LifeStyle.Singleton);
+
+            container.Register(
+                Component.For<IClipboardService>()
+                    .ImplementedBy<ClipboardService>()
+                    .LifeStyle.Singleton);
         }
     }
 }

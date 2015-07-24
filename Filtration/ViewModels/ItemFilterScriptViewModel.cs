@@ -8,7 +8,6 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
-using Castle.Core.Internal;
 using Filtration.Common.Services;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
@@ -19,7 +18,6 @@ using Filtration.Translators;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using NLog;
-using Clipboard = System.Windows.Clipboard;
 
 namespace Filtration.ViewModels
 {
@@ -76,6 +74,7 @@ namespace Filtration.ViewModels
         private readonly IAvalonDockWorkspaceViewModel _avalonDockWorkspaceViewModel;
         private readonly IItemFilterPersistenceService _persistenceService;
         private readonly IMessageBoxService _messageBoxService;
+        private readonly IClipboardService _clipboardService;
 
         private bool _isDirty;
         private IItemFilterBlockViewModel _selectedBlockViewModel;
@@ -88,7 +87,8 @@ namespace Filtration.ViewModels
                                          IItemFilterBlockTranslator blockTranslator,
                                          IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
                                          IItemFilterPersistenceService persistenceService,
-                                         IMessageBoxService messageBoxService)
+                                         IMessageBoxService messageBoxService,
+                                         IClipboardService clipboardService)
         {
             _itemFilterBlockViewModelFactory = itemFilterBlockViewModelFactory;
             _blockTranslator = blockTranslator;
@@ -96,6 +96,7 @@ namespace Filtration.ViewModels
             _avalonDockWorkspaceViewModel.ActiveDocumentChanged += OnActiveDocumentChanged;
             _persistenceService = persistenceService;
             _messageBoxService = messageBoxService;
+            _clipboardService = clipboardService;
             _itemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModel>();
             
             ToggleShowAdvancedCommand = new RelayCommand<bool>(OnToggleShowAdvancedCommand);
@@ -544,7 +545,16 @@ namespace Filtration.ViewModels
 
         public void CopyBlock(IItemFilterBlockViewModel targetBlockViewModel)
         {
-            Clipboard.SetText(_blockTranslator.TranslateItemFilterBlockToString(SelectedBlockViewModel.Block));
+            try
+            {
+                _clipboardService.SetClipboardText(
+                    _blockTranslator.TranslateItemFilterBlockToString(SelectedBlockViewModel.Block));
+            }
+            catch
+            {
+                _messageBoxService.Show("Clipboard Error", "Failed to access the clipboard, copy command not completed.",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void OnCopyBlockStyleCommand()
@@ -564,8 +574,15 @@ namespace Filtration.ViewModels
                 }
                 outputText += blockItem.OutputText;
             }
-
-            Clipboard.SetText(outputText);
+            try
+            {
+                _clipboardService.SetClipboardText(outputText);
+            }
+            catch
+            {
+                _messageBoxService.Show("Clipboard Error", "Failed to access the clipboard, copy command not completed.",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void OnPasteBlockStyleCommand()
@@ -575,7 +592,7 @@ namespace Filtration.ViewModels
 
         public void PasteBlockStyle(IItemFilterBlockViewModel targetBlockViewModel)
         {
-            var clipboardText = Clipboard.GetText();
+            var clipboardText = _clipboardService.GetClipboardText();
             if (string.IsNullOrEmpty(clipboardText))
             {
                 return;
@@ -594,8 +611,8 @@ namespace Filtration.ViewModels
         {
             try
             {
-                var clipboardText = Clipboard.GetText();
-                if (clipboardText.IsNullOrEmpty()) return;
+                var clipboardText = _clipboardService.GetClipboardText();
+                if (string.IsNullOrEmpty(clipboardText)) return;
 
                 var translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(clipboardText, Script.ThemeComponents);
                 if (translatedBlock == null) return;
