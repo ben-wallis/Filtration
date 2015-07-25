@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.ThemeEditor;
@@ -13,9 +14,9 @@ namespace Filtration.ThemeEditor.Providers
     {
         IThemeEditorViewModel NewThemeForScript(ItemFilterScript script);
         IThemeEditorViewModel MasterThemeForScript(ItemFilterScript script);
-        IThemeEditorViewModel LoadThemeFromFile(string filePath);
-        Theme LoadThemeModelFromFile(string filePath);
-        void SaveTheme(IThemeEditorViewModel themeEditorViewModel, string filePath);
+        Task<IThemeEditorViewModel> LoadThemeFromFile(string filePath);
+        Task<Theme> LoadThemeModelFromFile(string filePath);
+        Task SaveThemeAsync(IThemeEditorViewModel themeEditorViewModel, string filePath);
     }
 
     internal class ThemeProvider : IThemeProvider
@@ -54,23 +55,26 @@ namespace Filtration.ThemeEditor.Providers
             return themeViewModel;
         }
 
-        public IThemeEditorViewModel LoadThemeFromFile(string filePath)
+        public async Task<IThemeEditorViewModel> LoadThemeFromFile(string filePath)
         {
-            var model = _themePersistenceService.LoadTheme(filePath);
+            var model = await _themePersistenceService.LoadThemeAsync(filePath);
             var viewModel = Mapper.Map<IThemeEditorViewModel>(model);
             viewModel.FilePath = filePath;
             return viewModel;
         }
 
-        public Theme LoadThemeModelFromFile(string filePath)
+        public async Task<Theme> LoadThemeModelFromFile(string filePath)
         {
-            return _themePersistenceService.LoadTheme(filePath);
+            return await _themePersistenceService.LoadThemeAsync(filePath);
         }
 
-        public void SaveTheme(IThemeEditorViewModel themeEditorViewModel, string filePath)
+        public async Task SaveThemeAsync(IThemeEditorViewModel themeEditorViewModel, string filePath)
         {
-            var theme = Mapper.Map<Theme>(themeEditorViewModel);
-            _themePersistenceService.SaveTheme(theme, filePath);
+            await Task.Run(() =>
+            {
+                var theme = Mapper.Map<Theme>(themeEditorViewModel);
+                _themePersistenceService.SaveThemeAsync(theme, filePath);
+            });
         }
     }
 }

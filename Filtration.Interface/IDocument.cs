@@ -1,9 +1,11 @@
-﻿namespace Filtration.Interface
+﻿using System.Threading.Tasks;
+
+namespace Filtration.Interface
 {
     public interface IDocument
     {
         bool IsScript { get; }
         bool IsTheme { get; }
-        void Close();
+        Task Close();
     }
 }

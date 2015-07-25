@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
@@ -55,7 +56,7 @@ namespace Filtration.ThemeEditor.ViewModels
             AddThemeComponentCommand = new RelayCommand<ThemeComponentType>(OnAddThemeComponentCommand, t => IsMasterTheme);
             DeleteThemeComponentCommand = new RelayCommand<ThemeComponent>(OnDeleteThemeComponentCommand,
                 t => IsMasterTheme && SelectedThemeComponent != null);
-            CloseCommand = new RelayCommand(OnCloseCommand);
+            CloseCommand = new RelayCommand(async () => await OnCloseCommand());
 
             var icon = new BitmapImage();
             icon.BeginInit();
@@ -123,19 +124,19 @@ namespace Filtration.ThemeEditor.ViewModels
             }
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
             if (IsMasterTheme) return;
 
             if (_filenameIsFake)
             {
-                SaveAs();
+                await SaveAsAsync();
                 return;
             }
 
             try
             {
-                _themeProvider.SaveTheme(this, FilePath);
+                await _themeProvider.SaveThemeAsync(this, FilePath);
                 //RemoveDirtyFlag();
             }
             catch (Exception e)
@@ -149,7 +150,7 @@ namespace Filtration.ThemeEditor.ViewModels
             }
         }
 
-        public void SaveAs()
+        public async Task SaveAsAsync()
         {
             if (IsMasterTheme) return;
 
@@ -167,7 +168,7 @@ namespace Filtration.ThemeEditor.ViewModels
             try
             {
                 FilePath = saveDialog.FileName;
-                _themeProvider.SaveTheme(this, FilePath);
+                await _themeProvider.SaveThemeAsync(this, FilePath);
                 _filenameIsFake = false;
                 Title = Filename;
                 //RemoveDirtyFlag();
@@ -185,14 +186,16 @@ namespace Filtration.ThemeEditor.ViewModels
             }
         }
 
-        public void OnCloseCommand()
+        public async Task OnCloseCommand()
         {
-            Close();
+            await Close();
         }
 
-        public void Close()
+#pragma warning disable 1998
+        public async Task Close()
+#pragma warning restore 1998
         {
-            Messenger.Default.Send(new ThemeClosedMessage { ClosedViewModel = this });
+           Messenger.Default.Send(new ThemeClosedMessage {ClosedViewModel = this});
         }
         
         private void OnAddThemeComponentCommand(ThemeComponentType themeComponentType)

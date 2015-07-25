@@ -28,7 +28,7 @@ namespace Filtration.Tests.Services
             var service = new ItemFilterPersistenceService(mockFileSystemService.Object, mockItemFilterScriptTranslator.Object);
 
             // Act
-            var script = service.LoadItemFilterScript(TestInputPath);
+            var script = service.LoadItemFilterScriptAsync(TestInputPath);
 
             // Assert
             mockFileSystemService.Verify();
@@ -53,7 +53,7 @@ namespace Filtration.Tests.Services
             var service = new ItemFilterPersistenceService(mockFileSystemService.Object, mockItemFilterScriptTranslator.Object);
 
             // Act
-            service.SaveItemFilterScript(testScript);
+            service.SaveItemFilterScriptAsync(testScript);
 
             // Assert
             mockFileSystemService.Verify();

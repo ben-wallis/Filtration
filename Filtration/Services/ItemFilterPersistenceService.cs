@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using Filtration.Common.Services;
 using Filtration.ObjectModel;
 using Filtration.Properties;
@@ -10,8 +11,8 @@ namespace Filtration.Services
     {
         void SetItemFilterScriptDirectory(string path);
         string ItemFilterScriptDirectory { get; }
-        ItemFilterScript LoadItemFilterScript(string filePath);
-        void SaveItemFilterScript(ItemFilterScript script);
+        Task<ItemFilterScript> LoadItemFilterScriptAsync(string filePath);
+        Task SaveItemFilterScriptAsync(ItemFilterScript script);
         string DefaultPathOfExileDirectory();
     }
 
@@ -58,20 +59,30 @@ namespace Filtration.Services
             Settings.Default.DefaultFilterDirectory = path;
         }
 
-        public ItemFilterScript LoadItemFilterScript(string filePath)
+        public async Task<ItemFilterScript> LoadItemFilterScriptAsync(string filePath)
         {
-            var script = 
-                _itemFilterScriptTranslator.TranslateStringToItemFilterScript(
+            ItemFilterScript loadedScript = null;
+            await Task.Run(() =>
+            {
+                loadedScript = _itemFilterScriptTranslator.TranslateStringToItemFilterScript(
                     _fileSystemService.ReadFileAsString(filePath));
+            });
 
-            script.FilePath = filePath;
-            return script;
+            if (loadedScript != null)
+            {
+                loadedScript.FilePath = filePath;
+            }
+        
+            return loadedScript;
         }
 
-        public void SaveItemFilterScript(ItemFilterScript script)
+        public async Task SaveItemFilterScriptAsync(ItemFilterScript script)
         {
-            _fileSystemService.WriteFileFromString(script.FilePath,
-                _itemFilterScriptTranslator.TranslateItemFilterScriptToString(script));
+            await Task.Run(() =>
+            {
+                _fileSystemService.WriteFileFromString(script.FilePath,
+                    _itemFilterScriptTranslator.TranslateItemFilterScriptToString(script));
+            });
         }
     }
 }

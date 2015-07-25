@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace Filtration.ViewModels.ToolPanes
 {
@@ -23,6 +24,18 @@ namespace Filtration.ViewModels.ToolPanes
             icon.UriSource = new Uri("pack://application:,,,/Filtration;component/Resources/Icons/add_section_icon.png");
             icon.EndInit();
             IconSource = icon;
+
+            Messenger.Default.Register<NotificationMessage>(this, message =>
+            {
+                switch (message.Notification)
+                {
+                    case "SectionsChanged":
+                    {
+                        OnActiveDocumentChanged(this, EventArgs.Empty);
+                        break;
+                    }
+                }
+            });
         }
 
         public const string ToolContentId = "SectionBrowserTool";

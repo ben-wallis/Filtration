@@ -10,9 +10,10 @@
              xmlns:converters="clr-namespace:Filtration.Converters"
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:themeEditorViews="clr-namespace:Filtration.ThemeEditor.Views;assembly=Filtration.ThemeEditor"
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance d:Type=viewModels:AvalonDockWorkspaceViewModel}"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="700">
     <UserControl.Resources>
         <xcad:BoolToVisibilityConverter x:Key="AvalonBoolToVisibilityConverter" />
         <converters:ActiveDocumentConverter x:Key="ActiveDocumentConverter" />

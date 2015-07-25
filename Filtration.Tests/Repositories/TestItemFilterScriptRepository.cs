@@ -18,7 +18,7 @@ namespace Filtration.Tests.Repositories
             
 
             var mockPersistenceService = new Mock<IItemFilterPersistenceService>();
-            mockPersistenceService.Setup(p => p.LoadItemFilterScript(testInputPath)).Verifiable();
+            mockPersistenceService.Setup(p => p.LoadItemFilterScriptAsync(testInputPath)).Verifiable();
             
             var mockItemFilterScriptViewModel = new Mock<IItemFilterScriptViewModel>();
             
@@ -28,7 +28,7 @@ namespace Filtration.Tests.Repositories
             var repository = new ItemFilterScriptRepository(mockPersistenceService.Object, mockItemFilterScriptViewModelFactory.Object);
 
             // Act
-            var result = repository.LoadScriptFromFile(testInputPath);
+            var result = repository.LoadScriptFromFileAsync(testInputPath);
 
             // Assert
             mockPersistenceService.Verify();
@@ -42,7 +42,7 @@ namespace Filtration.Tests.Repositories
             var testInputPath = "C:\\TestPath.filter";
 
             var mockPersistenceService = new Mock<IItemFilterPersistenceService>();
-            mockPersistenceService.Setup(p => p.LoadItemFilterScript(testInputPath)).Throws<IOException>();
+            mockPersistenceService.Setup(p => p.LoadItemFilterScriptAsync(testInputPath)).Throws<IOException>();
 
             var mockItemFilterScriptViewModelFactory = new Mock<IItemFilterScriptViewModelFactory>();
 
@@ -51,7 +51,7 @@ namespace Filtration.Tests.Repositories
             // Act
             
             // Assert
-            Assert.Throws<IOException>(() => repository.LoadScriptFromFile(testInputPath));
+            Assert.Throws<IOException>(() => repository.LoadScriptFromFileAsync(testInputPath));
         }
 
         [Test]

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Filtration.ObjectModel.ThemeEditor;
 
@@ -6,35 +7,42 @@ namespace Filtration.ThemeEditor.Services
 {
     internal interface IThemePersistenceService
     {
-        Theme LoadTheme(string filePath);
-        void SaveTheme(Theme theme, string filePath);
+        Task<Theme> LoadThemeAsync(string filePath);
+        Task SaveThemeAsync(Theme theme, string filePath);
     }
 
     internal class ThemePersistenceService : IThemePersistenceService
     {
-        public Theme LoadTheme(string filePath)
+        public async Task<Theme> LoadThemeAsync(string filePath)
         {
-            var xmlSerializer = new XmlSerializer(typeof(Theme));
+            Theme loadedTheme = null;
 
-            Theme loadedTheme;
-
-            using (Stream reader = new FileStream(filePath, FileMode.Open))
+            await Task.Run(() =>
             {
-                loadedTheme = (Theme)xmlSerializer.Deserialize(reader);
-            }
-            
-            loadedTheme.FilePath = filePath;
+                var xmlSerializer = new XmlSerializer(typeof (Theme));
+
+                using (Stream reader = new FileStream(filePath, FileMode.Open))
+                {
+                    loadedTheme = (Theme) xmlSerializer.Deserialize(reader);
+                }
+
+                loadedTheme.FilePath = filePath;
+            });
+
             return loadedTheme;
         }
 
-        public void SaveTheme(Theme theme, string filePath)
+        public async Task SaveThemeAsync(Theme theme, string filePath)
         {
-            var xmlSerializer = new XmlSerializer(typeof(Theme));
-
-            using (Stream writer = new FileStream(filePath, FileMode.Create))
+            await Task.Run(() =>
             {
-                xmlSerializer.Serialize(writer, theme);
-            }
+                var xmlSerializer = new XmlSerializer(typeof (Theme));
+
+                using (Stream writer = new FileStream(filePath, FileMode.Create))
+                {
+                    xmlSerializer.Serialize(writer, theme);
+                }
+            });
         }
     }
 }

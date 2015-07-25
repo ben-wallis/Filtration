@@ -1,7 +1,6 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
-using Filtration.Annotations;
 using Filtration.ViewModels;
 
 namespace Filtration.Views
@@ -13,7 +12,7 @@ namespace Filtration.Views
 
     internal partial class MainWindow : IMainWindow
     {
-        private IMainWindowViewModel _mainWindowViewModel;
+        private readonly IMainWindowViewModel _mainWindowViewModel;
 
         public MainWindow(IMainWindowViewModel mainWindowViewModel)
         {
@@ -40,11 +39,11 @@ namespace Filtration.Views
 
         private void MainWindow_OnClosing(object sender, CancelEventArgs e)
         {
-            var allDocumentsClosed = _mainWindowViewModel.CloseAllDocuments();
-
+            var allDocumentsClosed = _mainWindowViewModel.CloseAllDocuments().Result;
             if (!allDocumentsClosed)
             {
                 e.Cancel = true;
+
             }
         }
     }

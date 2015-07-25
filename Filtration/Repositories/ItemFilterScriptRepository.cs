@@ -1,4 +1,5 @@
-﻿using Filtration.ObjectModel;
+﻿using System.Threading.Tasks;
+using Filtration.ObjectModel;
 using Filtration.Services;
 using Filtration.ViewModels;
 
@@ -6,7 +7,7 @@ namespace Filtration.Repositories
 {
     internal interface IItemFilterScriptRepository
     {
-        IItemFilterScriptViewModel LoadScriptFromFile(string path);
+        Task<IItemFilterScriptViewModel> LoadScriptFromFileAsync(string path);
         IItemFilterScriptViewModel NewScript();
         string GetItemFilterScriptDirectory();
         void SetItemFilterScriptDirectory(string path);
@@ -24,9 +25,9 @@ namespace Filtration.Repositories
             _itemFilterScriptViewModelFactory = itemFilterScriptViewModelFactory;
         }
 
-        public IItemFilterScriptViewModel LoadScriptFromFile(string path)
+        public async Task<IItemFilterScriptViewModel> LoadScriptFromFileAsync(string path)
         {
-            var loadedScript = _itemFilterPersistenceService.LoadItemFilterScript(path);
+            var loadedScript = await _itemFilterPersistenceService.LoadItemFilterScriptAsync(path);
 
             var newViewModel = _itemFilterScriptViewModelFactory.Create();
             newViewModel.Initialise(loadedScript, false);

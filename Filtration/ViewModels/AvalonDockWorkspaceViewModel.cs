@@ -39,9 +39,9 @@ namespace Filtration.ViewModels
         private readonly ReadOnlyObservableCollection<IDocument> _readOnlyOpenDocuments;
 
         public AvalonDockWorkspaceViewModel(ISectionBrowserViewModel sectionBrowserViewModel,
-                                            IBlockGroupBrowserViewModel blockGroupBrowserViewModel,
-                                            IStartPageViewModel startPageViewModel,
-                                            IBlockOutputPreviewViewModel blockOutputPreviewViewModel)
+            IBlockGroupBrowserViewModel blockGroupBrowserViewModel,
+            IStartPageViewModel startPageViewModel,
+            IBlockOutputPreviewViewModel blockOutputPreviewViewModel)
         {
             _sectionBrowserViewModel = sectionBrowserViewModel;
             _blockGroupBrowserViewModel = blockGroupBrowserViewModel;
@@ -122,7 +122,6 @@ namespace Filtration.ViewModels
         }
 
         private List<IToolViewModel> _tools;
-        
 
         public IEnumerable<IToolViewModel> Tools
         {

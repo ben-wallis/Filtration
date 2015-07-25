@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Forms;
@@ -104,7 +105,7 @@ namespace Filtration.ViewModels
             
             ToggleShowAdvancedCommand = new RelayCommand<bool>(OnToggleShowAdvancedCommand);
             ClearFilterCommand = new RelayCommand(OnClearFilterCommand, () => BlockFilterPredicate != null);
-            CloseCommand = new RelayCommand(OnCloseCommand);
+            CloseCommand = new RelayCommand(async () => await OnCloseCommand());
             DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => SelectedBlockViewModel != null);
             MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand, () => SelectedBlockViewModel != null);
             MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand, () => SelectedBlockViewModel != null);
@@ -351,20 +352,21 @@ namespace Filtration.ViewModels
             ContentId = "ScriptContentId";
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
             if (!ValidateScript()) return;
             if (!CheckForUnusedThemeComponents()) return;
 
             if (_filenameIsFake)
             {
-                SaveAs();
+                await SaveAsAsync();
                 return;
             }
 
+            Messenger.Default.Send(new NotificationMessage("ShowLoadingBanner"));
             try
             {
-                _persistenceService.SaveItemFilterScript(Script);
+                await _persistenceService.SaveItemFilterScriptAsync(Script);
                 RemoveDirtyFlag();
             }
             catch (Exception e)
@@ -377,9 +379,15 @@ namespace Filtration.ViewModels
                 _messageBoxService.Show("Save Error", "Error saving filter file - " + e.Message, MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
+            finally
+            {
+                Messenger.Default.Send(new NotificationMessage("HideLoadingBanner"));
+            }
+
+            return;
         }
 
-        public void SaveAs()
+        public async Task SaveAsAsync()
         {
             if (!ValidateScript()) return;
             if (!CheckForUnusedThemeComponents()) return;
@@ -394,12 +402,14 @@ namespace Filtration.ViewModels
             var result = saveDialog.ShowDialog();
 
             if (result != DialogResult.OK) return;
+            
+            Messenger.Default.Send(new NotificationMessage("ShowLoadingBanner"));
 
             var previousFilePath = Script.FilePath;
             try
             {
                 Script.FilePath = saveDialog.FileName;
-                _persistenceService.SaveItemFilterScript(Script);
+                await _persistenceService.SaveItemFilterScriptAsync(Script);
                 _filenameIsFake = false;
                 Title = Filename;
                 RemoveDirtyFlag();
@@ -414,6 +424,10 @@ namespace Filtration.ViewModels
                 _messageBoxService.Show("Save Error", "Error saving filter file - " + e.Message, MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 Script.FilePath = previousFilePath;
+            }
+            finally
+            {
+                Messenger.Default.Send(new NotificationMessage("HideLoadingBanner"));
             }
         }
 
@@ -480,12 +494,12 @@ namespace Filtration.ViewModels
             return false;
         }
 
-        private void OnCloseCommand()
+        private async Task OnCloseCommand()
         {
-            Close();
+            await Close();
         }
         
-        public void Close()
+        public async Task Close()
         {
             if (!IsDirty)
             {
@@ -499,20 +513,20 @@ namespace Filtration.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        {
-                            Save();
-                            CloseScript();
-                            break;
-                        }
+                    {
+                        await SaveAsync();
+                        CloseScript();
+                        break;
+                    }
                     case MessageBoxResult.No:
-                        {
-                            CloseScript();
-                            break;
-                        }
+                    {
+                        CloseScript();
+                        break;
+                    }
                     case MessageBoxResult.Cancel:
-                        {
-                            return;
-                        }
+                    {
+                        return;
+                    }
                 }
             }
         }
@@ -777,6 +791,7 @@ namespace Filtration.ViewModels
             IsDirty = true;
             SelectedBlockViewModel = vm;
             RaisePropertyChanged("ItemFilterSectionViewModels");
+            Messenger.Default.Send(new NotificationMessage("SectionsChanged"));
         }
 
         private void OnExpandAllBlocksCommand()
@@ -808,9 +823,17 @@ namespace Filtration.ViewModels
             
             if (result == MessageBoxResult.Yes)
             {
+                var isSection = targetBlockViewModel.Block is ItemFilterSection;
+
                 Script.ItemFilterBlocks.Remove(targetBlockViewModel.Block);
                 ItemFilterBlockViewModels.Remove(targetBlockViewModel);
                 IsDirty = true;
+
+                if (isSection)
+                {
+                    Messenger.Default.Send(new NotificationMessage("SectionsChanged"));
+                }
+
             }
             SelectedBlockViewModel = null;
         }

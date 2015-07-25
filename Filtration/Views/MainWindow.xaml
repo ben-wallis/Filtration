@@ -8,6 +8,7 @@
         xmlns:viewModels="clr-namespace:Filtration.ViewModels"
         xmlns:viewsAvalonDock="clr-namespace:Filtration.Views.AvalonDock"
         xmlns:views="clr-namespace:Filtration.Views"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
         Title="{Binding WindowTitle}" Height="762" Width="1126" IsIconVisible="True"
@@ -18,7 +19,7 @@
         <KeyBinding Command="{Binding NewScriptCommand}" Modifiers="Control" Key="N" />
     </fluent:RibbonWindow.InputBindings>
     <DockPanel x:Name="RootDockPanel">
-        <fluent:Ribbon DockPanel.Dock="Top" x:Name="RibbonRoot">
+        <fluent:Ribbon DockPanel.Dock="Top" x:Name="RibbonRoot" IsEnabled="{Binding ShowLoadingBanner, Converter={StaticResource BoolInverterConverter}}">
             <fluent:Ribbon.Menu>
                 <fluent:Backstage>
                     <fluent:BackstageTabControl>
@@ -118,6 +119,30 @@
         </fluent:Ribbon>
         <Grid>
             <viewsAvalonDock:AvalonDockWorkspaceView DataContext="{Binding AvalonDockWorkspaceViewModel}" />
+            <Grid ZIndex="9999" Visibility="{Binding ShowLoadingBanner, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}">
+
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity="0.5" />
+                </Grid.Background>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="*" />
+                        <ColumnDefinition  Width="Auto" />
+                        <ColumnDefinition  Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="1" Background="White" Padding="20">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="DemiBold">Working...</TextBlock>
+                            <Image gif:ImageBehavior.AnimatedSource="/Filtration;component/Resources/loading_spinner.gif" Height="32"  Margin="10,0,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
         </Grid>
     </DockPanel>
 </fluent:RibbonWindow>

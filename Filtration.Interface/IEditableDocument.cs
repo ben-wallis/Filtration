@@ -1,9 +1,11 @@
-﻿namespace Filtration.Interface
+﻿using System.Threading.Tasks;
+
+namespace Filtration.Interface
 {
     public interface IEditableDocument : IDocument
     {
         bool IsDirty { get; }
-        void Save();
-        void SaveAs();
+        Task SaveAsync();
+        Task SaveAsAsync();
     }
 }

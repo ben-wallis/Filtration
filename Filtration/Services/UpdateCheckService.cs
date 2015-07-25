@@ -7,7 +7,7 @@ namespace Filtration.Services
 {
     internal interface IUpdateCheckService
     {
-        Task<UpdateData> GetUpdateData();
+        Task<UpdateData> GetUpdateDataAsync();
     }
 
     internal class UpdateCheckService : IUpdateCheckService
@@ -20,7 +20,7 @@ namespace Filtration.Services
             _httpService = httpService;
         }
 
-        public async Task<UpdateData> GetUpdateData()
+        public async Task<UpdateData> GetUpdateDataAsync()
         {
             var updateXml = await _httpService.GetContentAsync(UpdateDataUrl);
             return (DeserializeUpdateData(updateXml));

@@ -1,4 +1,5 @@
-﻿using Filtration.Common.ViewModels;
+﻿using System.Threading.Tasks;
+using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
@@ -25,7 +26,7 @@ namespace Filtration.ViewModels
         public bool IsScript { get { return false; } }
         public bool IsTheme { get { return false; } }
 
-        public void Close()
+        public Task Close()
         {
             throw new System.NotImplementedException();
         }
