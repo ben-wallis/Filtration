@@ -15,6 +15,7 @@
     <fluent:RibbonWindow.InputBindings>
         <KeyBinding Command="{Binding SaveCommand}" Modifiers="Control" Key="S" />
         <KeyBinding Command="{Binding OpenScriptCommand}" Modifiers="Control" Key="O" />
+        <KeyBinding Command="{Binding NewScriptCommand}" Modifiers="Control" Key="N" />
     </fluent:RibbonWindow.InputBindings>
     <DockPanel x:Name="RootDockPanel">
         <fluent:Ribbon DockPanel.Dock="Top" x:Name="RibbonRoot">
@@ -30,10 +31,10 @@
                                 </DataTemplate>
                             </fluent:BackstageTabItem.ContentTemplate>
                         </fluent:BackstageTabItem>
-                        <fluent:Button Header="New Script" Command="{Binding NewScriptCommand}" Icon="{StaticResource NewIcon}" />
-                        <fluent:Button Header="Open Script" Command="{Binding OpenScriptCommand}" Icon="{StaticResource OpenIcon}" />
+                        <fluent:Button Header="New Script" Command="{Binding NewScriptCommand}" Icon="{StaticResource NewIcon}" ToolTip="New Script (Ctrl+N)" />
+                        <fluent:Button Header="Open Script" Command="{Binding OpenScriptCommand}" Icon="{StaticResource OpenIcon}" ToolTip="Open Script (Ctrl+O)" />
                         <fluent:Button Header="Open Theme" Command="{Binding OpenThemeCommand}" Icon="{StaticResource OpenIcon}" />
-                        <fluent:Button Header="Save" Command="{Binding SaveCommand}" Icon="{StaticResource SaveIcon}" />
+                        <fluent:Button Header="Save" Command="{Binding SaveCommand}" Icon="{StaticResource SaveIcon}" ToolTip="Save (Ctrl+S)" />
                         <fluent:Button Header="Save As" Command="{Binding SaveAsCommand}" Icon="{StaticResource SaveIcon}" />
                         <fluent:Button Header="Close" Command="{Binding CloseCommand}" />
                         <fluent:SeparatorTabItem />
@@ -72,10 +73,10 @@
             </fluent:RibbonTabItem>
             <fluent:RibbonTabItem x:Name="ScriptToolsTabItem" Header="Script Tools" Group="{Binding ElementName=ScriptToolsGroup}" Visibility="{Binding ActiveDocumentIsScript, Converter={StaticResource BooleanVisibilityConverter}, Mode=OneWay}" >
                 <fluent:RibbonGroupBox Header="Clipboard">
-                    <fluent:Button Header="Copy Block" Command="{Binding CopyBlockCommand}" Icon="{StaticResource CopyIcon}" LargeIcon="{StaticResource CopyIcon}"/>
-                    <fluent:Button Header="Paste Block" Command="{Binding PasteCommand}" Icon="{StaticResource PasteIcon}" LargeIcon="{StaticResource PasteIcon}" />
-                    <fluent:Button Header="Copy Style" Command="{Binding CopyBlockStyleCommand}" Icon="{StaticResource CopyIcon}" LargeIcon="{StaticResource CopyIcon}" SizeDefinition="Middle" />
-                    <fluent:Button Header="Paste Style" Command="{Binding PasteBlockStyleCommand}" Icon="{StaticResource PasteStyleIcon}" LargeIcon="{StaticResource PasteIcon}" SizeDefinition="Middle" />
+                    <fluent:Button Header="Copy Block" Command="{Binding CopyBlockCommand}" Icon="{StaticResource CopyIcon}" LargeIcon="{StaticResource CopyIcon}" ToolTip="Copy Block (Ctrl+C)"/>
+                    <fluent:Button Header="Paste Block" Command="{Binding PasteCommand}" Icon="{StaticResource PasteIcon}" LargeIcon="{StaticResource PasteIcon}" ToolTip="Paste Block (Ctrl+V)"/>
+                    <fluent:Button Header="Copy Style" Command="{Binding CopyBlockStyleCommand}" Icon="{StaticResource CopyIcon}" LargeIcon="{StaticResource CopyIcon}" SizeDefinition="Middle" ToolTip="Copy Style (Ctrl+Shift+C)" />
+                    <fluent:Button Header="Paste Style" Command="{Binding PasteBlockStyleCommand}" Icon="{StaticResource PasteStyleIcon}" LargeIcon="{StaticResource PasteIcon}" SizeDefinition="Middle" ToolTip="Paste Style (Ctrl+Shift+V)" />
                     <fluent:Button Header="Copy Script" Command="{Binding CopyScriptCommand}" Icon="{StaticResource CopyIcon}" LargeIcon="{StaticResource PasteIcon}" SizeDefinition="Middle" />
                 </fluent:RibbonGroupBox>
                 <fluent:RibbonGroupBox Header="Blocks">
