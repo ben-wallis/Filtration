@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using Filtration.ViewModels;
@@ -39,11 +41,34 @@ namespace Filtration.Views
 
         private void MainWindow_OnClosing(object sender, CancelEventArgs e)
         {
-            var allDocumentsClosed = _mainWindowViewModel.CloseAllDocuments().Result;
+            var allDocumentsClosed = _mainWindowViewModel.CloseAllDocumentsAsync().Result;
             if (!allDocumentsClosed)
             {
                 e.Cancel = true;
 
+            }
+        }
+
+        private async void MainWindow_OnDrop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
+
+            var filenames = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var droppedFilterFiles = new List<string>();
+
+            foreach (var filename in filenames)
+            {
+                var extension = Path.GetExtension(filename);
+                if (extension != null &&
+                    (extension.ToUpperInvariant() == ".FILTER" || extension.ToUpperInvariant() == ".FILTERTHEME"))
+                {
+                    droppedFilterFiles.Add(filename);
+                }
+            }
+
+            if (droppedFilterFiles.Count > 0)
+            {
+                await _mainWindowViewModel.OpenDroppedFilesAsync(droppedFilterFiles);
             }
         }
     }

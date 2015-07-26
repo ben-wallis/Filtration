@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Filtration.Common.Services;
@@ -26,7 +28,6 @@ using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using NLog;
-using Clipboard = System.Windows.Clipboard;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace Filtration.ViewModels
@@ -35,7 +36,8 @@ namespace Filtration.ViewModels
     {
         RelayCommand OpenScriptCommand { get; }
         RelayCommand NewScriptCommand { get; }
-        Task<bool> CloseAllDocuments();
+        Task<bool> CloseAllDocumentsAsync();
+        Task OpenDroppedFilesAsync(List<string> filenames);
     }
 
     internal class MainWindowViewModel : FiltrationViewModelBase, IMainWindowViewModel
@@ -52,6 +54,7 @@ namespace Filtration.ViewModels
         private readonly IUpdateCheckService _updateCheckService;
         private readonly IUpdateAvailableViewModel _updateAvailableViewModel;
         private readonly IMessageBoxService _messageBoxService;
+        private readonly IClipboardService _clipboardService;
         private bool _showLoadingBanner;
 
         public MainWindowViewModel(IItemFilterScriptRepository itemFilterScriptRepository,
@@ -63,7 +66,8 @@ namespace Filtration.ViewModels
                                    IThemeService themeService,
                                    IUpdateCheckService updateCheckService,
                                    IUpdateAvailableViewModel updateAvailableViewModel,
-                                   IMessageBoxService messageBoxService)
+                                   IMessageBoxService messageBoxService,
+                                   IClipboardService clipboardService)
         {
             _itemFilterScriptRepository = itemFilterScriptRepository;
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
@@ -75,14 +79,15 @@ namespace Filtration.ViewModels
             _updateCheckService = updateCheckService;
             _updateAvailableViewModel = updateAvailableViewModel;
             _messageBoxService = messageBoxService;
+            _clipboardService = clipboardService;
 
             NewScriptCommand = new RelayCommand(OnNewScriptCommand);
             CopyScriptCommand = new RelayCommand(OnCopyScriptCommand, () => ActiveDocumentIsScript);
             OpenScriptCommand = new RelayCommand(async () => await OnOpenScriptCommand());
-            OpenThemeCommand = new RelayCommand(async () => await OnOpenThemeCommand());
+            OpenThemeCommand = new RelayCommand(async () => await OnOpenThemeCommandAsync());
 
-            SaveCommand = new RelayCommand(async () => await OnSaveDocumentCommand(), ActiveDocumentIsEditable);
-            SaveAsCommand = new RelayCommand(async () => await OnSaveAsCommand(), ActiveDocumentIsEditable);
+            SaveCommand = new RelayCommand(async () => await OnSaveDocumentCommandAsync(), ActiveDocumentIsEditable);
+            SaveAsCommand = new RelayCommand(async () => await OnSaveAsCommandAsync(), ActiveDocumentIsEditable);
             CloseCommand = new RelayCommand(OnCloseDocumentCommand, ActiveDocumentIsEditable);
 
             CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
@@ -106,7 +111,7 @@ namespace Filtration.ViewModels
             ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, () => ActiveDocumentIsScript);
 
             CreateThemeCommand = new RelayCommand(OnCreateThemeCommand, () => ActiveDocumentIsScript);
-            ApplyThemeToScriptCommand = new RelayCommand(async () => await OnApplyThemeToScriptCommand(), () => ActiveDocumentIsScript);
+            ApplyThemeToScriptCommand = new RelayCommand(async () => await OnApplyThemeToScriptCommandAsync(), () => ActiveDocumentIsScript);
             EditMasterThemeCommand = new RelayCommand(OnEditMasterThemeCommand, () => ActiveDocumentIsScript);
 
             AddTextColorThemeComponentCommand = new RelayCommand(OnAddTextColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
@@ -185,7 +190,11 @@ namespace Filtration.ViewModels
                     }
                 }
             });
-            CheckForUpdates();
+
+            Task.Run(async () =>
+            {
+                await CheckForUpdatesAsync();
+            }).Wait();
         }
 
         public RelayCommand OpenScriptCommand { get; private set; }
@@ -229,7 +238,7 @@ namespace Filtration.ViewModels
         public RelayCommand ClearFiltersCommand { get; private set; }
 
 
-        public async void CheckForUpdates()
+        public async Task CheckForUpdatesAsync()
         {
             var assemblyVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
             
@@ -346,6 +355,29 @@ namespace Filtration.ViewModels
             }
         }
 
+        public async Task OpenDroppedFilesAsync(List<string> filenames)
+        {
+            foreach (var filename in filenames)
+            {
+                var extension = Path.GetExtension(filename);
+                if (extension == null) continue;
+
+                switch (extension.ToUpperInvariant())
+                {
+                    case ".FILTER":
+                    {
+                        await LoadScriptAsync(filename);
+                        break;
+                    }
+                    case ".FILTERTHEME":
+                    {
+                        await LoadThemeAsync(filename);
+                        break;
+                    }
+                }
+            }
+        }
+
         private void OnCreateThemeCommand()
         {
             var themeViewModel = _themeProvider.NewThemeForScript(AvalonDockWorkspaceViewModel.ActiveScriptViewModel.Script);
@@ -389,22 +421,26 @@ namespace Filtration.ViewModels
 
         private async Task OnOpenScriptCommand()
         {
-            var openFileDialog = new OpenFileDialog
+            var filePath = ShowOpenScriptDialog();
+
+            if (string.IsNullOrEmpty(filePath))
             {
-                Filter = "Filter Files (*.filter)|*.filter|All Files (*.*)|*.*",
-                InitialDirectory = _itemFilterScriptRepository.GetItemFilterScriptDirectory()
-            };
+                return;
+            }
 
-            if (openFileDialog.ShowDialog() != true) return;
+            await LoadScriptAsync(filePath);
+        }
 
+        private async Task LoadScriptAsync(string scriptFilename)
+        {
             IItemFilterScriptViewModel loadedViewModel;
 
             Messenger.Default.Send(new NotificationMessage("ShowLoadingBanner"));
             try
             {
-                loadedViewModel = await _itemFilterScriptRepository.LoadScriptFromFileAsync(openFileDialog.FileName);
+                loadedViewModel = await _itemFilterScriptRepository.LoadScriptFromFileAsync(scriptFilename);
             }
-            catch(IOException e)
+            catch (IOException e)
             {
                 Messenger.Default.Send(new NotificationMessage("HideLoadingBanner"));
                 if (_logger.IsErrorEnabled)
@@ -421,20 +457,24 @@ namespace Filtration.ViewModels
             _avalonDockWorkspaceViewModel.AddDocument(loadedViewModel);
         }
 
-        private async Task OnOpenThemeCommand()
+        private async Task OnOpenThemeCommandAsync()
         {
-
             var filePath = ShowOpenThemeDialog();
             if (string.IsNullOrEmpty(filePath))
             {
                 return;
             }
 
+            await LoadThemeAsync(filePath);
+        }
+
+        private async Task LoadThemeAsync(string themeFilename)
+        {
             IThemeEditorViewModel loadedViewModel;
 
             try
             {
-                loadedViewModel = await _themeProvider.LoadThemeFromFile(filePath);
+                loadedViewModel = await _themeProvider.LoadThemeFromFile(themeFilename);
             }
             catch (IOException e)
             {
@@ -447,11 +487,11 @@ namespace Filtration.ViewModels
                     MessageBoxImage.Error);
                 return;
             }
-            
+
             _avalonDockWorkspaceViewModel.AddDocument(loadedViewModel);
         }
 
-        private async Task OnApplyThemeToScriptCommand()
+        private async Task OnApplyThemeToScriptCommandAsync()
         {
             var filePath = ShowOpenThemeDialog();
             if (string.IsNullOrEmpty(filePath))
@@ -489,6 +529,16 @@ namespace Filtration.ViewModels
             AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SetDirtyFlag();
         }
 
+        private string ShowOpenScriptDialog()
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "Filter Files (*.filter)|*.filter|All Files (*.*)|*.*",
+                InitialDirectory = _itemFilterScriptRepository.GetItemFilterScriptDirectory()
+            };
+
+            return openFileDialog.ShowDialog() != true ? string.Empty : openFileDialog.FileName;
+        }
 
         private string ShowOpenThemeDialog()
         {
@@ -500,8 +550,6 @@ namespace Filtration.ViewModels
 
             return openFileDialog.ShowDialog() != true ? string.Empty : openFileDialog.FileName;
         }
-
-
 
         private void SetItemFilterScriptDirectory()
         {
@@ -518,12 +566,12 @@ namespace Filtration.ViewModels
             }
         }
 
-        private async Task OnSaveDocumentCommand()
+        private async Task OnSaveDocumentCommandAsync()
         {
             await ((IEditableDocument)_avalonDockWorkspaceViewModel.ActiveDocument).SaveAsync();
         }
 
-        private async Task OnSaveAsCommand()
+        private async Task OnSaveAsCommandAsync()
         {
             await ((IEditableDocument)_avalonDockWorkspaceViewModel.ActiveDocument).SaveAsAsync();
         }
@@ -537,7 +585,18 @@ namespace Filtration.ViewModels
 
         private void OnCopyScriptCommand()
         {
-            Clipboard.SetText(_itemFilterScriptTranslator.TranslateItemFilterScriptToString(_avalonDockWorkspaceViewModel.ActiveScriptViewModel.Script));
+            try
+            {
+
+                _clipboardService.SetClipboardText(
+                    _itemFilterScriptTranslator.TranslateItemFilterScriptToString(
+                        _avalonDockWorkspaceViewModel.ActiveScriptViewModel.Script));
+            }
+            catch
+            {
+                _messageBoxService.Show("Clipboard Error", "Failed to access the clipboard, copy command not completed.",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void OnCopyBlockCommand()
@@ -657,7 +716,7 @@ namespace Filtration.ViewModels
                 _avalonDockWorkspaceViewModel.ActiveThemeViewModel.SelectedThemeComponent);
         }
 
-        public async Task<bool> CloseAllDocuments()
+        public async Task<bool> CloseAllDocumentsAsync()
         {
             var openDocuments = _avalonDockWorkspaceViewModel.OpenDocuments.OfType<IEditableDocument>().ToList();
             

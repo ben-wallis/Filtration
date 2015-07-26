@@ -12,7 +12,7 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
         Title="{Binding WindowTitle}" Height="762" Width="1126" IsIconVisible="True"
-        Closing="MainWindow_OnClosing">
+        Closing="MainWindow_OnClosing" Drop="MainWindow_OnDrop" AllowDrop="True">
     <fluent:RibbonWindow.InputBindings>
         <KeyBinding Command="{Binding SaveCommand}" Modifiers="Control" Key="S" />
         <KeyBinding Command="{Binding OpenScriptCommand}" Modifiers="Control" Key="O" />
