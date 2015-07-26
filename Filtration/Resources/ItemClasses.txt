@@ -8,6 +8,7 @@ Claws
 Daggers
 Wands
 One Hand Swords
+Thrusting One Hand Swords
 One Hand Axes
 One Hand Maces
 Bows
