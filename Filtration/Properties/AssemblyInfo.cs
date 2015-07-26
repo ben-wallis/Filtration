@@ -7,7 +7,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Filtration")]
-[assembly: AssemblyDescription("An item filter script manager for Path of Exile")]
+[assembly: AssemblyDescription("An item filter script editor for Path of Exile")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("XVar Industries Inc.")]
 [assembly: AssemblyProduct("Filtration")]
@@ -50,7 +50,7 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.9.*")]
+[assembly: AssemblyVersion("0.10.*")]
 
 [assembly: InternalsVisibleTo("Filtration.Tests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
