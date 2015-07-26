@@ -1069,31 +1069,54 @@ Sage Wand
 Serpent Wand
 Spiraled Wand
 Tornado Wand
-Emperor's Luck
+Abandoned Wealth
 The Avenger
-The Brittle Emperor
-Hope
 The Battle Born
+Birth of the Three
+The Brittle Emperor
 The Carrion Crow
 The Cataclysm
+The Celestial Justicar
+The Chains that Bind
+Chaotic Disposition
+Coveted Possession
 The Dark Mage
+The Doctor
 The Drunken Aristocrat
+Emperor's Luck
+The Explorer
+The Feast
+The Fiend
+The Gambler
+The Gemcutter
+Gemcutter's Promise
 The Gladiator
+The Hermit
 The Hoarder
+Hope
 The Hunger
+Humility
+The Incantation
+The Inventor
+Jack in the Box
+The King's Heart
+Lantador's Lost Love
+The Lover
+Lucky Connections
 The Metalsmith's Gift
+The Pact
 The Poet
+The Queen
+Rain of Chaos
 The Road to Power
+The Scarred Meadow
 The Scholar
 The Summoner
-Vinia's Token
-Three Faces in the Dark
-The Hermit
-Lantador's Lost Love
-Birth of the Three
-The Lover
-Chaotic Disposition
-Eternal Sword
 The Sun
-The Gemcutter
+Three Faces in the Dark
+Time-Lost Relic
+The Union
+Vinia's Token
 The Warden
+The Watcher
+The Wind
