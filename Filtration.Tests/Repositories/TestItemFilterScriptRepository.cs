@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
+using Filtration.ObjectModel;
 using Filtration.Repositories;
 using Filtration.Services;
 using Filtration.ViewModels;
@@ -11,14 +13,14 @@ namespace Filtration.Tests.Repositories
     public class TestItemFilterScriptRepository
     {
         [Test]
-        public void LoadScriptFromFile_CallsPersistenceServiceUsingPathAndReturnsViewModel()
+        public async Task LoadScriptFromFile_CallsPersistenceServiceUsingPathAndReturnsViewModel()
         {
             // Arrange
             var testInputPath = "C:\\TestPath.filter";
             
 
             var mockPersistenceService = new Mock<IItemFilterPersistenceService>();
-            mockPersistenceService.Setup(p => p.LoadItemFilterScriptAsync(testInputPath)).Verifiable();
+            mockPersistenceService.Setup(p => p.LoadItemFilterScriptAsync(testInputPath)).ReturnsAsync(new ItemFilterScript()).Verifiable();
             
             var mockItemFilterScriptViewModel = new Mock<IItemFilterScriptViewModel>();
             
@@ -28,7 +30,7 @@ namespace Filtration.Tests.Repositories
             var repository = new ItemFilterScriptRepository(mockPersistenceService.Object, mockItemFilterScriptViewModelFactory.Object);
 
             // Act
-            var result = repository.LoadScriptFromFileAsync(testInputPath);
+            var result = await repository.LoadScriptFromFileAsync(testInputPath);
 
             // Assert
             mockPersistenceService.Verify();
@@ -36,7 +38,7 @@ namespace Filtration.Tests.Repositories
         }
 
         [Test]
-        public void LoadScriptFromFile_PersistenceServiceThrows_ThrowsIOException()
+        public async Task LoadScriptFromFile_PersistenceServiceThrows_ThrowsIOException()
         {
             // Arrange
             var testInputPath = "C:\\TestPath.filter";
@@ -51,7 +53,7 @@ namespace Filtration.Tests.Repositories
             // Act
             
             // Assert
-            Assert.Throws<IOException>(() => repository.LoadScriptFromFileAsync(testInputPath));
+            Assert.Throws<IOException>(async () => await repository.LoadScriptFromFileAsync(testInputPath));
         }
 
         [Test]

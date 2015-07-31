@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using Filtration.Common.Services;
 using Filtration.ObjectModel;
 using Filtration.Services;
@@ -12,7 +13,7 @@ namespace Filtration.Tests.Services
     public class TestItemFilterPersistenceService
     {
         [Test]
-        public void LoadItemFilterScript_CallsTranslatorAndFileSystemService()
+        public async Task LoadItemFilterScript_CallsTranslatorAndFileSystemService()
         {
             // Arrange
             const string TestInputPath = "C:\\Test Path\\Script.Filter";
@@ -28,7 +29,7 @@ namespace Filtration.Tests.Services
             var service = new ItemFilterPersistenceService(mockFileSystemService.Object, mockItemFilterScriptTranslator.Object);
 
             // Act
-            var script = service.LoadItemFilterScriptAsync(TestInputPath);
+            var script = await service.LoadItemFilterScriptAsync(TestInputPath);
 
             // Assert
             mockFileSystemService.Verify();
@@ -37,7 +38,7 @@ namespace Filtration.Tests.Services
         }
 
         [Test]
-        public void SaveItemFilterScript_CallsTranslatorAndFileSystemService()
+        public async Task SaveItemFilterScript_CallsTranslatorAndFileSystemService()
         {
             // Arrange
             var testFilePath = "C:\\Test\\File.txt";
@@ -53,7 +54,7 @@ namespace Filtration.Tests.Services
             var service = new ItemFilterPersistenceService(mockFileSystemService.Object, mockItemFilterScriptTranslator.Object);
 
             // Act
-            service.SaveItemFilterScriptAsync(testScript);
+            await service.SaveItemFilterScriptAsync(testScript);
 
             // Assert
             mockFileSystemService.Verify();
