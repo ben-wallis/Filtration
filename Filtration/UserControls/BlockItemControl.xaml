@@ -100,7 +100,7 @@
                                 <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Button>
                             <ComboBox ItemsSource="{Binding ElementName=BlockItemContentControl, Path=DataContext.SoundsAvailable}" SelectedValue="{Binding Value}" Style="{StaticResource MetroComboBox}" />
-                            <xctk:ShortUpDown Value="{Binding Path=SecondValue}" Minimum="1" Maximum="100" HorizontalAlignment="Right" ToolTip="Volume"/>
+                            <xctk:ShortUpDown Value="{Binding Path=SecondValue}" Minimum="1" Maximum="300" HorizontalAlignment="Right" ToolTip="Volume"/>
                         </WrapPanel>
                     </DataTemplate>
                 </ContentControl.Resources>
