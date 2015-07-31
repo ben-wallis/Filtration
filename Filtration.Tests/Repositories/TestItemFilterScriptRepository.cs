@@ -38,7 +38,7 @@ namespace Filtration.Tests.Repositories
         }
 
         [Test]
-        public async Task LoadScriptFromFile_PersistenceServiceThrows_ThrowsIOException()
+        public void LoadScriptFromFile_PersistenceServiceThrows_ThrowsIOException()
         {
             // Arrange
             var testInputPath = "C:\\TestPath.filter";
