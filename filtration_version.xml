@@ -1,12 +1,9 @@
 <UpdateData>
-	<CurrentVersion>0.9</CurrentVersion>
+	<CurrentVersion>0.11</CurrentVersion>
 	<LatestVersionMajorPart>0</LatestVersionMajorPart>
-	<LatestVersionMinorPart>9</LatestVersionMinorPart>
-	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.9</DownloadUrl>
-	<ReleaseDate>2015-07-15</ReleaseDate>
-	<ReleaseNotes>♦ Fixed a crash when Filtration is blocked by a firewall or other connection issue from checking for updates
-♦ Fixed "Usages: 0" being visible in the Theme Editor when editing a non-master theme
-♦ Switched the encoding of saved scripts to UTF-8 to fix an issue with items such as "Maelström Staff" not saving correctly (sorry it took this long to get it fixed, DracoArgentum :P)
-♦ Added a save check on close to prevent accidental loss of unsaved scripts.
-♦ Removed Stackable Currency and Thrusting One Hand Swords from Item Classes lookup data.</ReleaseNotes>
+	<LatestVersionMinorPart>11</LatestVersionMinorPart>
+	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.11</DownloadUrl>
+	<ReleaseDate>2015-07-31</ReleaseDate>
+	<ReleaseNotes>♦ Changed maximum PlayAlertSound volume from 100 to 300 as per latest patch
+♦ Please note that this is the first auto-updated release since 0.9 and includes the async saving and loading changes from 0.10 which was not auto-updated in order to get feedback on stability (given the lack of complaints I'm going to assume everything's all good!). Check out the following URL for the 0.10 patch notes: https://github.com/ben-wallis/Filtration/releases/tag/0.10</ReleaseNotes>
 </UpdateData>
