@@ -1,7 +1,7 @@
 <UpdateData>
-	<CurrentVersion>0.11</CurrentVersion>
+	<CurrentVersion>0.9</CurrentVersion>
 	<LatestVersionMajorPart>0</LatestVersionMajorPart>
-	<LatestVersionMinorPart>11</LatestVersionMinorPart>
+	<LatestVersionMinorPart>9</LatestVersionMinorPart>
 	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.11</DownloadUrl>
 	<ReleaseDate>2015-07-31</ReleaseDate>
 	<ReleaseNotes>♦ Changed maximum PlayAlertSound volume from 100 to 300 as per latest patch
