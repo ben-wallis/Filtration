@@ -4,12 +4,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Filtration.Common.Services;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
@@ -191,10 +193,7 @@ namespace Filtration.ViewModels
                 }
             });
 
-            Task.Run(async () =>
-            {
-                await CheckForUpdatesAsync();
-            }).Wait();
+            CheckForUpdates();
         }
 
         public RelayCommand OpenScriptCommand { get; private set; }
@@ -238,13 +237,13 @@ namespace Filtration.ViewModels
         public RelayCommand ClearFiltersCommand { get; private set; }
 
 
-        public async Task CheckForUpdatesAsync()
+        public void CheckForUpdates()
         {
             var assemblyVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
             
             try
             {
-                var result = await _updateCheckService.GetUpdateDataAsync();
+                var result = _updateCheckService.GetUpdateData();
 
                 if (result.LatestVersionMajorPart >= assemblyVersion.FileMajorPart &&
                     result.LatestVersionMinorPart > assemblyVersion.FileMinorPart)

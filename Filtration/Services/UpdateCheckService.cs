@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Filtration.Models;
 
@@ -7,7 +6,7 @@ namespace Filtration.Services
 {
     internal interface IUpdateCheckService
     {
-        Task<UpdateData> GetUpdateDataAsync();
+        UpdateData GetUpdateData();
     }
 
     internal class UpdateCheckService : IUpdateCheckService
@@ -20,9 +19,9 @@ namespace Filtration.Services
             _httpService = httpService;
         }
 
-        public async Task<UpdateData> GetUpdateDataAsync()
+        public UpdateData GetUpdateData()
         {
-            var updateXml = await _httpService.GetContentAsync(UpdateDataUrl);
+            var updateXml = _httpService.GetContent(UpdateDataUrl);
             return (DeserializeUpdateData(updateXml));
         }
 

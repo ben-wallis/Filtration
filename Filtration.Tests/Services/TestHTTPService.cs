@@ -8,13 +8,13 @@ namespace Filtration.Tests.Services
     public class TestHTTPService
     {
         [Test]
-        public async void GetContent_FetchesDataFromUrl()
+        public void GetContent_FetchesDataFromUrl()
         {
             // Arrange
             var service = new HTTPService();
 
             // Act
-            var result = await service.GetContentAsync("http://ben-wallis.github.io/Filtration/filtration_version.xml");
+            var result = service.GetContent("http://ben-wallis.github.io/Filtration/filtration_version.xml");
 
             // Assert
             Assert.IsNotNull(result);
