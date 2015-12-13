@@ -1,9 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Filtration.ObjectModel;
 using Filtration.Repositories;
 using Filtration.Services;
 using Filtration.ViewModels;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 
@@ -51,9 +53,10 @@ namespace Filtration.Tests.Repositories
             var repository = new ItemFilterScriptRepository(mockPersistenceService.Object, mockItemFilterScriptViewModelFactory.Object);
 
             // Act
-            
+            Func<Task<IItemFilterScriptViewModel>> result = async () => await repository.LoadScriptFromFileAsync(testInputPath);
+
             // Assert
-            Assert.Throws<IOException>(async () => await repository.LoadScriptFromFileAsync(testInputPath));
+            result.ShouldThrow<IOException>();
         }
 
         [Test]
