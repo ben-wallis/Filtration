@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
-using System.Xml.Serialization;
 using Filtration.ObjectModel.Annotations;
 using Filtration.ObjectModel.Enums;
 
@@ -66,10 +65,7 @@ namespace Filtration.ObjectModel.ThemeEditor
             {
                 _color = value;
                 OnPropertyChanged();
-                if (_themeComponentUpdatedEventHandler != null)
-                {
-                    _themeComponentUpdatedEventHandler.Invoke(this, EventArgs.Empty);
-                }
+                _themeComponentUpdatedEventHandler?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -88,10 +84,7 @@ namespace Filtration.ObjectModel.ThemeEditor
 
         public void TerminateComponent()
         {
-            if (ThemeComponentDeleted != null)
-            {
-                ThemeComponentDeleted.Invoke(this, EventArgs.Empty);
-            }
+            ThemeComponentDeleted?.Invoke(this, EventArgs.Empty);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -100,7 +93,7 @@ namespace Filtration.ObjectModel.ThemeEditor
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

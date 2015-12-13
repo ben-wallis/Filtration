@@ -15,14 +15,11 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
             Value = value;
         }
 
-        public override string OutputText
-        {
-            get { return PrefixText + " " + Value; }
-        }
+        public override string OutputText => PrefixText + " " + Value;
 
-        public override string SummaryText { get { return string.Empty; } }
-        public override Color SummaryBackgroundColor { get { return Colors.Transparent; } }
-        public override Color SummaryTextColor { get { return Colors.Transparent; } }
+        public override string SummaryText => string.Empty;
+        public override Color SummaryBackgroundColor => Colors.Transparent;
+        public override Color SummaryTextColor => Colors.Transparent;
 
         public abstract int Minimum { get; }
         public abstract int Maximum { get; }

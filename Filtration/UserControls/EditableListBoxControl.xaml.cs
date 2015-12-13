@@ -94,9 +94,8 @@ namespace Filtration.UserControls
             DependencyPropertyChangedEventArgs e)
         {
             var control = source as EditableListBoxControl;
-            if (control == null) return;
 
-            control.OnPropertyChanged("ItemsSource");
+            control?.OnPropertyChanged(nameof(ItemsSource));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -105,7 +104,7 @@ namespace Filtration.UserControls
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Filtration.ObjectModel.Tests
         public void ToString_ReturnsFullBlockHierarchy()
         {
             // Arrange
-            const string ExpectedResult = "Child 1 Block Group - Child 2 Block Group";
+            const string expectedResult = "Child 1 Block Group - Child 2 Block Group";
 
             var rootBlockGroup = new ItemFilterBlockGroup("Root Block Group", null);
             var child1BlockGroup = new ItemFilterBlockGroup("Child 1 Block Group", rootBlockGroup);
@@ -19,14 +19,14 @@ namespace Filtration.ObjectModel.Tests
             var result = child2BlockGroup.ToString();
 
             // Assert
-            Assert.AreEqual(ExpectedResult, result);
+            Assert.AreEqual(expectedResult, result);
         }
         
         [Test]
         public void ToString_AddsTildeForAdvancedBlock()
         {
             // Arrange
-            const string ExpectedResult = "~Child 1 Block Group - Child 2 Block Group";
+            const string expectedResult = "~Child 1 Block Group - Child 2 Block Group";
 
             var rootBlockGroup = new ItemFilterBlockGroup("Root Block Group", null);
             var child1BlockGroup = new ItemFilterBlockGroup("Child 1 Block Group", rootBlockGroup, true);
@@ -36,7 +36,7 @@ namespace Filtration.ObjectModel.Tests
             var result = child2BlockGroup.ToString();
 
             // Assert
-            Assert.AreEqual(ExpectedResult, result);
+            Assert.AreEqual(expectedResult, result);
         }
     }
 }

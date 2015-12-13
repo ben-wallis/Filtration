@@ -4,7 +4,7 @@ using Xceed.Wpf.Toolkit;
 
 namespace Filtration.Views
 {
-    static internal class PathOfExileColors
+    internal static class PathOfExileColors
     {
         static PathOfExileColors()
         {

@@ -15,58 +15,14 @@ namespace Filtration.ObjectModel.BlockItemTypes
         {
         }
 
-        public override string PrefixText
-        {
-            get { return "Sockets"; }
-        }
-
-        public override int MaximumAllowed
-        {
-            get { return 2; }
-        }
-
-        public override string DisplayHeading
-        {
-            get
-            {
-                return "Sockets";
-            }
-        }
-
-        public override string SummaryText
-        {
-            get { return "Sockets " + FilterPredicate; }
-        }
-
-        public override Color SummaryBackgroundColor
-        {
-            get { return Colors.LightGray; }
-        }
-
-        public override Color SummaryTextColor
-        {
-            get { return Colors.Black; }
-        }
-
-        public override int SortOrder
-        {
-            get { return 5; }
-        }
-
-        public override int Minimum
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
-        public override int Maximum
-        {
-            get
-            {
-                return 6;
-            }
-        }
+        public override string PrefixText => "Sockets";
+        public override int MaximumAllowed => 2;
+        public override string DisplayHeading => "Sockets";
+        public override string SummaryText => "Sockets " + FilterPredicate;
+        public override Color SummaryBackgroundColor => Colors.LightGray;
+        public override Color SummaryTextColor => Colors.Black;
+        public override int SortOrder => 5;
+        public override int Minimum => 0;
+        public override int Maximum => 6;
     }
 }

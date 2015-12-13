@@ -65,7 +65,7 @@ namespace Filtration.ViewModels
         {
             if (itemFilterBlock == null || parentScriptViewModel == null)
             {
-                throw new ArgumentNullException("itemFilterBlock");
+                throw new ArgumentNullException(nameof(itemFilterBlock));
             }
 
             _parentScriptViewModel = parentScriptViewModel;
@@ -112,10 +112,7 @@ namespace Filtration.ViewModels
             }
         }
 
-        public ObservableCollection<IItemFilterBlockItem> BlockItems
-        {
-            get { return Block.BlockItems; }
-        }
+        public ObservableCollection<IItemFilterBlockItem> BlockItems => Block.BlockItems;
 
         public IEnumerable<IItemFilterBlockItem> SummaryBlockItems
         {
@@ -132,13 +129,7 @@ namespace Filtration.ViewModels
             get { return Block.BlockItems.Where(b => b is IAudioVisualBlockItem); }
         }
 
-        public bool AdvancedBlockGroup
-        {
-            get
-            {
-                return Block.BlockGroup != null && Block.BlockGroup.Advanced;
-            }
-        }
+        public bool AdvancedBlockGroup => Block.BlockGroup != null && Block.BlockGroup.Advanced;
 
         public bool AudioVisualBlockItemsGridVisible
         {
@@ -164,51 +155,33 @@ namespace Filtration.ViewModels
             }
         }
 
-        public IEnumerable<string> AutoCompleteItemClasses
-        {
-            get { return _staticDataService.ItemClasses; }
-        }
+        public IEnumerable<string> AutoCompleteItemClasses => _staticDataService.ItemClasses;
 
-        public IEnumerable<string> AutoCompleteItemBaseTypes
-        {
-            get { return _staticDataService.ItemBaseTypes; }
-        } 
+        public IEnumerable<string> AutoCompleteItemBaseTypes => _staticDataService.ItemBaseTypes;
 
-        public List<Type> BlockItemTypesAvailable
+        public List<Type> BlockItemTypesAvailable => new List<Type>
         {
-            get
-            {
-                return new List<Type>
-                {
-                    typeof (ItemLevelBlockItem),
-                    typeof (DropLevelBlockItem),
-                    typeof (QualityBlockItem),
-                    typeof (RarityBlockItem),
-                    typeof (SocketsBlockItem),
-                    typeof (LinkedSocketsBlockItem),
-                    typeof (WidthBlockItem),
-                    typeof (HeightBlockItem),
-                    typeof (SocketGroupBlockItem),
-                    typeof (ClassBlockItem),
-                    typeof (BaseTypeBlockItem)
-                };
-            }
-        }
+            typeof (ItemLevelBlockItem),
+            typeof (DropLevelBlockItem),
+            typeof (QualityBlockItem),
+            typeof (RarityBlockItem),
+            typeof (SocketsBlockItem),
+            typeof (LinkedSocketsBlockItem),
+            typeof (WidthBlockItem),
+            typeof (HeightBlockItem),
+            typeof (SocketGroupBlockItem),
+            typeof (ClassBlockItem),
+            typeof (BaseTypeBlockItem)
+        };
 
-        public List<Type> AudioVisualBlockItemTypesAvailable
+        public List<Type> AudioVisualBlockItemTypesAvailable => new List<Type>
         {
-            get
-            {
-                return new List<Type>
-                {
-                    typeof (TextColorBlockItem),
-                    typeof (BackgroundColorBlockItem),
-                    typeof (BorderColorBlockItem),
-                    typeof (FontSizeBlockItem),
-                    typeof (SoundBlockItem)
-                };
-            }
-        }
+            typeof (TextColorBlockItem),
+            typeof (BackgroundColorBlockItem),
+            typeof (BorderColorBlockItem),
+            typeof (FontSizeBlockItem),
+            typeof (SoundBlockItem)
+        };
 
         public bool BlockEnabled
         {
@@ -241,87 +214,43 @@ namespace Filtration.ViewModels
             }
         }
 
-        public ObservableCollection<ColorItem> AvailableColors
-        {
-            get
-            {
-                {
-                    return PathOfExileColors.DefaultColors;
-                }
-            }
-        }
+        public ObservableCollection<ColorItem> AvailableColors => PathOfExileColors.DefaultColors;
 
-        public bool HasTextColor
-        {
-            get { return Block.HasBlockItemOfType<TextColorBlockItem>(); }
-        }
+        public bool HasTextColor => Block.HasBlockItemOfType<TextColorBlockItem>();
 
-        public Color DisplayTextColor
-        {
-            get
-            {
-                return HasTextColor
-                    ? BlockItems.OfType<TextColorBlockItem>().First().Color
-                    : new Color { A = 255, R = 200, G = 200, B = 200 };
-            }
-        }
+        public Color DisplayTextColor => HasTextColor
+            ? BlockItems.OfType<TextColorBlockItem>().First().Color
+            : new Color {A = 255, R = 200, G = 200, B = 200};
 
-        public bool HasBackgroundColor
-        {
-            get { return Block.HasBlockItemOfType<BackgroundColorBlockItem>(); }
-        }
+        public bool HasBackgroundColor => Block.HasBlockItemOfType<BackgroundColorBlockItem>();
 
-        public Color DisplayBackgroundColor
-        {
-            get
-            {
-                return HasBackgroundColor
-                    ? BlockItems.OfType<BackgroundColorBlockItem>().First().Color
-                    : new Color { A = 255, R = 0, G = 0, B = 0 };
-            }
-        }
+        public Color DisplayBackgroundColor => HasBackgroundColor
+            ? BlockItems.OfType<BackgroundColorBlockItem>().First().Color
+            : new Color { A = 255, R = 0, G = 0, B = 0 };
 
-        public bool HasBorderColor
-        {
-            get { return Block.HasBlockItemOfType<BorderColorBlockItem>(); }
-        }
+        public bool HasBorderColor => Block.HasBlockItemOfType<BorderColorBlockItem>();
 
-        public Color DisplayBorderColor
-        {
-            get
-            {
-                return HasBorderColor
-                    ? BlockItems.OfType<BorderColorBlockItem>().First().Color
-                    : new Color { A = 255, R = 0, G = 0, B = 0 };
-            }
-        }
+        public Color DisplayBorderColor => HasBorderColor
+            ? BlockItems.OfType<BorderColorBlockItem>().First().Color
+            : new Color { A = 255, R = 0, G = 0, B = 0 };
 
-        public bool HasFontSize
-        {
-            get { return Block.HasBlockItemOfType<FontSizeBlockItem>(); }
-        }
+        public bool HasFontSize => Block.HasBlockItemOfType<FontSizeBlockItem>();
 
         public double DisplayFontSize
         {
             // Dividing by 1.8 roughly scales in-game font sizes down to WPF sizes
             get
             {
-                var fontSize = HasFontSize ? (BlockItems.OfType<FontSizeBlockItem>().First().Value / 1.8) : 19;
+                var fontSize = HasFontSize ? BlockItems.OfType<FontSizeBlockItem>().First().Value / 1.8 : 19;
                 
                 return fontSize;
             }
         }
 
-        public bool HasSound
-        {
-            get { return Block.HasBlockItemOfType<SoundBlockItem>(); }
-        }
+        public bool HasSound => Block.HasBlockItemOfType<SoundBlockItem>();
 
 
-        public bool HasAudioVisualBlockItems
-        {
-            get { return AudioVisualBlockItems.Any(); }
-        }
+        public bool HasAudioVisualBlockItems => AudioVisualBlockItems.Any();
 
         private void OnSwitchBlockItemsViewCommand()
         {
@@ -331,10 +260,7 @@ namespace Filtration.ViewModels
         private void OnToggleBlockActionCommand()
         {
             var actionBlock = Block.BlockItems.OfType<ActionBlockItem>().First();
-            if (actionBlock != null)
-            {
-                actionBlock.ToggleAction();
-            }
+            actionBlock?.ToggleAction();
         }
 
         private void OnAddFilterBlockItemCommand(Type blockItemType)

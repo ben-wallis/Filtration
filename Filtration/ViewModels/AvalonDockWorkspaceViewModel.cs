@@ -36,7 +36,6 @@ namespace Filtration.ViewModels
         private IItemFilterScriptViewModel _activeScriptViewModel;
         private IThemeEditorViewModel _activeThemeViewModel;
         private readonly ObservableCollection<IDocument> _openDocuments;
-        private readonly ReadOnlyObservableCollection<IDocument> _readOnlyOpenDocuments;
 
         public AvalonDockWorkspaceViewModel(ISectionBrowserViewModel sectionBrowserViewModel,
             IBlockGroupBrowserViewModel blockGroupBrowserViewModel,
@@ -52,16 +51,13 @@ namespace Filtration.ViewModels
             _blockOutputPreviewViewModel.Initialise(this);
 
             _openDocuments = new ObservableCollection<IDocument> {startPageViewModel};
-            _readOnlyOpenDocuments = new ReadOnlyObservableCollection<IDocument>(_openDocuments);
+            OpenDocuments = new ReadOnlyObservableCollection<IDocument>(_openDocuments);
             ActiveDocument = startPageViewModel;
         }
 
         public event EventHandler ActiveDocumentChanged;
 
-        public ReadOnlyObservableCollection<IDocument> OpenDocuments
-        {
-            get { return _readOnlyOpenDocuments; }
-        }
+        public ReadOnlyObservableCollection<IDocument> OpenDocuments { get; }
 
         public IDocument ActiveDocument
         {
@@ -87,54 +83,26 @@ namespace Filtration.ViewModels
                     _activeThemeViewModel = null;
                 }
 
-                if (ActiveDocumentChanged != null)
-                {
-                    ActiveDocumentChanged(this, EventArgs.Empty);
-                }
+                ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
 
                 Messenger.Default.Send(new NotificationMessage("ActiveDocumentChanged"));
             }
         }
 
-        public IItemFilterScriptViewModel ActiveScriptViewModel
-        {
-            get { return _activeScriptViewModel; }
-        }
-
-        public IThemeEditorViewModel ActiveThemeViewModel
-        {
-            get { return _activeThemeViewModel; }
-        }
-
-        public IBlockGroupBrowserViewModel BlockGroupBrowserViewModel
-        {
-            get { return _blockGroupBrowserViewModel; }
-        }
-
-        public IBlockOutputPreviewViewModel BlockOutputPreviewViewModel
-        {
-            get { return _blockOutputPreviewViewModel; }
-        }
-
-        public ISectionBrowserViewModel SectionBrowserViewModel
-        {
-            get { return _sectionBrowserViewModel; }
-        }
+        public IItemFilterScriptViewModel ActiveScriptViewModel => _activeScriptViewModel;
+        public IThemeEditorViewModel ActiveThemeViewModel => _activeThemeViewModel;
+        public IBlockGroupBrowserViewModel BlockGroupBrowserViewModel => _blockGroupBrowserViewModel;
+        public IBlockOutputPreviewViewModel BlockOutputPreviewViewModel => _blockOutputPreviewViewModel;
+        public ISectionBrowserViewModel SectionBrowserViewModel => _sectionBrowserViewModel;
 
         private List<IToolViewModel> _tools;
 
-        public IEnumerable<IToolViewModel> Tools
+        public IEnumerable<IToolViewModel> Tools => _tools ?? (_tools = new List<IToolViewModel>
         {
-            get
-            {
-                return _tools ?? (_tools = new List<IToolViewModel>
-                {
-                    _sectionBrowserViewModel,
-                    _blockGroupBrowserViewModel,
-                    _blockOutputPreviewViewModel
-                });
-            }
-        }
+            _sectionBrowserViewModel,
+            _blockGroupBrowserViewModel,
+            _blockOutputPreviewViewModel
+        });
 
         public void AddDocument(IDocument document)
         {

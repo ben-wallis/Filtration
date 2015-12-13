@@ -12,7 +12,7 @@ namespace Filtration.Extensions
 
         public EnumerationExtension(Type enumType)
         {
-            if (enumType == null) throw new ArgumentNullException("enumType");
+            if (enumType == null) throw new ArgumentNullException(nameof(enumType));
 
             EnumType = enumType;
         }

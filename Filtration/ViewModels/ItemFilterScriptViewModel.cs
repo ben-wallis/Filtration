@@ -68,7 +68,7 @@ namespace Filtration.ViewModels
 
     internal class ItemFilterScriptViewModel : PaneViewModel, IItemFilterScriptViewModel
     {
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly IItemFilterBlockViewModelFactory _itemFilterBlockViewModelFactory;
         private readonly IItemFilterBlockTranslator _blockTranslator;
@@ -129,24 +129,24 @@ namespace Filtration.ViewModels
             IconSource = icon;
         }
 
-        public RelayCommand<bool> ToggleShowAdvancedCommand { get; private set; }
-        public RelayCommand ClearFilterCommand { get; private set; }
-        public RelayCommand CloseCommand { get; private set; }
-        public RelayCommand DeleteBlockCommand { get; private set; }
-        public RelayCommand MoveBlockToTopCommand { get; private set; }
-        public RelayCommand MoveBlockUpCommand { get; private set; }
-        public RelayCommand MoveBlockDownCommand { get; private set; }
-        public RelayCommand MoveBlockToBottomCommand { get; private set; }
-        public RelayCommand AddBlockCommand { get; private set; }
-        public RelayCommand AddSectionCommand { get; private set; }
-        public RelayCommand EnableBlockCommand { get; private set; }
-        public RelayCommand DisableBlockCommand { get; private set; }
-        public RelayCommand CopyBlockCommand { get; private set; }
-        public RelayCommand CopyBlockStyleCommand { get; private set; }
-        public RelayCommand PasteBlockCommand { get; private set; }
-        public RelayCommand PasteBlockStyleCommand { get; private set; }
-        public RelayCommand ExpandAllBlocksCommand { get; private set; }
-        public RelayCommand CollapseAllBlocksCommand { get; private set; }
+        public RelayCommand<bool> ToggleShowAdvancedCommand { get; }
+        public RelayCommand ClearFilterCommand { get; }
+        public RelayCommand CloseCommand { get; }
+        public RelayCommand DeleteBlockCommand { get; }
+        public RelayCommand MoveBlockToTopCommand { get; }
+        public RelayCommand MoveBlockUpCommand { get; }
+        public RelayCommand MoveBlockDownCommand { get; }
+        public RelayCommand MoveBlockToBottomCommand { get; }
+        public RelayCommand AddBlockCommand { get; }
+        public RelayCommand AddSectionCommand { get; }
+        public RelayCommand EnableBlockCommand { get; }
+        public RelayCommand DisableBlockCommand { get; }
+        public RelayCommand CopyBlockCommand { get; }
+        public RelayCommand CopyBlockStyleCommand { get; }
+        public RelayCommand PasteBlockCommand { get; }
+        public RelayCommand PasteBlockStyleCommand { get; }
+        public RelayCommand ExpandAllBlocksCommand { get; }
+        public RelayCommand CollapseAllBlocksCommand { get; }
 
         public ObservableCollection<IItemFilterBlockViewModel> ItemFilterBlockViewModels
         {
@@ -203,8 +203,8 @@ namespace Filtration.ViewModels
             get { return ItemFilterBlockViewModels.Where(b => b.Block.GetType() == typeof (ItemFilterSection)); }
         }
 
-        public bool IsScript { get { return true; } }
-        public bool IsTheme { get { return false; } }
+        public bool IsScript => true;
+        public bool IsTheme => false;
 
         public string Description
         {
@@ -306,20 +306,11 @@ namespace Filtration.ViewModels
             RaisePropertyChanged("DisplayName");
         }
 
-        public string DisplayName
-        {
-            get { return !string.IsNullOrEmpty(Filename) ? Filename : Description; }
-        }
+        public string DisplayName => !string.IsNullOrEmpty(Filename) ? Filename : Description;
 
-        public string Filename
-        {
-            get { return Path.GetFileName(Script.FilePath); }
-        }
+        public string Filename => Path.GetFileName(Script.FilePath);
 
-        public string Filepath
-        {
-            get { return Script.FilePath; }
-        }
+        public string Filepath => Script.FilePath;
 
         private bool _filenameIsFake;
         private bool _showAdvanced;
@@ -371,9 +362,9 @@ namespace Filtration.ViewModels
             }
             catch (Exception e)
             {
-                if (_logger.IsErrorEnabled)
+                if (Logger.IsErrorEnabled)
                 {
-                    _logger.Error(e);
+                    Logger.Error(e);
                 }
 
                 _messageBoxService.Show("Save Error", "Error saving filter file - " + e.Message, MessageBoxButton.OK,
@@ -383,8 +374,6 @@ namespace Filtration.ViewModels
             {
                 Messenger.Default.Send(new NotificationMessage("HideLoadingBanner"));
             }
-
-            return;
         }
 
         public async Task SaveAsAsync()
@@ -416,9 +405,9 @@ namespace Filtration.ViewModels
             }
             catch (Exception e)
             {
-                if (_logger.IsErrorEnabled)
+                if (Logger.IsErrorEnabled)
                 {
-                    _logger.Error(e);
+                    Logger.Error(e);
                 }
 
                 _messageBoxService.Show("Save Error", "Error saving filter file - " + e.Message, MessageBoxButton.OK,
@@ -442,7 +431,7 @@ namespace Filtration.ViewModels
             if (unusedThemeComponents.Count <= 0) return true;
 
             var themeComponents = unusedThemeComponents.Aggregate(string.Empty,
-                (current, themeComponent) => current + (themeComponent.ComponentName + Environment.NewLine));
+                (current, themeComponent) => current + themeComponent.ComponentName + Environment.NewLine);
 
             var ignoreUnusedThemeComponents = _messageBoxService.Show("Unused Theme Components",
                 "The following theme components are unused, they will be lost when this script is reopened. Save anyway?" +
@@ -655,10 +644,8 @@ namespace Filtration.ViewModels
             }
             catch (Exception e)
             {
-                _logger.Error(e);
-                var innerException = e.InnerException != null
-                    ? e.InnerException.Message
-                    : string.Empty;
+                Logger.Error(e);
+                var innerException = e.InnerException?.Message ?? string.Empty;
 
                 _messageBoxService.Show("Paste Error",
                     e.Message + Environment.NewLine + innerException, MessageBoxButton.OK,

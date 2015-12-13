@@ -1,5 +1,4 @@
 ﻿using System.Windows.Media;
-using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.ThemeEditor;
 using NUnit.Framework;
@@ -16,12 +15,12 @@ namespace Filtration.ThemeEditor.Tests.Models
             var theme = new Theme();
 
             var testInputComponentTargetType = ThemeComponentType.TextColor;
-            const string TestInputComponentName = "test";
+            const string testInputComponentName = "test";
 
-            theme.AddComponent(testInputComponentTargetType, TestInputComponentName, new Color());
+            theme.AddComponent(testInputComponentTargetType, testInputComponentName, new Color());
             
             // Act
-            var result = theme.ComponentExists(testInputComponentTargetType, TestInputComponentName);
+            var result = theme.ComponentExists(testInputComponentTargetType, testInputComponentName);
 
             // Assert
             Assert.AreEqual(true, result);
@@ -34,8 +33,8 @@ namespace Filtration.ThemeEditor.Tests.Models
             var theme = new Theme();
 
             var testInputComponentTargetType = ThemeComponentType.TextColor;
-            const string TestInputComponentName = "test";
-            theme.AddComponent(testInputComponentTargetType, TestInputComponentName, new Color());
+            const string testInputComponentName = "test";
+            theme.AddComponent(testInputComponentTargetType, testInputComponentName, new Color());
 
             // Act
             var result = theme.ComponentExists(testInputComponentTargetType, "blah");
@@ -51,12 +50,12 @@ namespace Filtration.ThemeEditor.Tests.Models
             var theme = new Theme();
 
             var testInputComponentTargetType = ThemeComponentType.TextColor;
-            const string TestInputComponentName = "test";
+            const string testInputComponentName = "test";
 
-            theme.AddComponent(testInputComponentTargetType, TestInputComponentName, new Color());
+            theme.AddComponent(testInputComponentTargetType, testInputComponentName, new Color());
 
             // Act
-            var result = theme.ComponentExists(ThemeComponentType.BorderColor, TestInputComponentName);
+            var result = theme.ComponentExists(ThemeComponentType.BorderColor, testInputComponentName);
 
             // Assert
             Assert.AreEqual(false, result);

@@ -9,12 +9,12 @@ namespace Filtration.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (ItemRarity) ((int) value);
+            return (ItemRarity) (int) value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (int) ((ItemRarity) value);
+            return (int) (ItemRarity) value;
         }
     }
 }

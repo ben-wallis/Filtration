@@ -22,10 +22,7 @@ namespace Filtration.Views.Behaviors
         private static void OnSelectedItemChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var item = e.NewValue as TreeViewItem;
-            if (item != null)
-            {
-                item.SetValue(TreeViewItem.IsSelectedProperty, true);
-            }
+            item?.SetValue(TreeViewItem.IsSelectedProperty, true);
         }
 
         #endregion

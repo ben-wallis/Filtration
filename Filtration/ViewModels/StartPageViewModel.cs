@@ -23,8 +23,8 @@ namespace Filtration.ViewModels
         public RelayCommand OpenScriptCommand { get; private set; }
         public RelayCommand NewScriptCommand { get; private set; }
 
-        public bool IsScript { get { return false; } }
-        public bool IsTheme { get { return false; } }
+        public bool IsScript => false;
+        public bool IsTheme => false;
 
         public Task Close()
         {

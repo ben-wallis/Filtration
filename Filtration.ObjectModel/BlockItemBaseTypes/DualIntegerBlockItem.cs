@@ -17,14 +17,11 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
             SecondValue = secondValue;
         }
 
-        public override string OutputText
-        {
-            get { return PrefixText + " " + Value + " " + SecondValue; }
-        }
-        
-        public override string SummaryText { get { return string.Empty; } }
-        public override Color SummaryBackgroundColor { get { return Colors.Transparent; } }
-        public override Color SummaryTextColor { get { return Colors.Transparent; } }
+        public override string OutputText => PrefixText + " " + Value + " " + SecondValue;
+
+        public override string SummaryText => string.Empty;
+        public override Color SummaryBackgroundColor => Colors.Transparent;
+        public override Color SummaryTextColor => Colors.Transparent;
 
         public int Value
         {

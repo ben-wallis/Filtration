@@ -19,8 +19,8 @@ namespace Filtration.ObjectModel
             ThemeComponents = new ThemeComponentCollection { IsMasterCollection = true};
         }
 
-        public ObservableCollection<ItemFilterBlock> ItemFilterBlocks { get; private set; }
-        public ObservableCollection<ItemFilterBlockGroup> ItemFilterBlockGroups { get; private set; }
+        public ObservableCollection<ItemFilterBlock> ItemFilterBlocks { get; }
+        public ObservableCollection<ItemFilterBlockGroup> ItemFilterBlockGroups { get; }
 
         public ThemeComponentCollection ThemeComponents { get; set; } 
 

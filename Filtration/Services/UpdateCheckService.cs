@@ -12,7 +12,7 @@ namespace Filtration.Services
     internal class UpdateCheckService : IUpdateCheckService
     {
         private readonly IHTTPService _httpService;
-        private const string UpdateDataUrl = "http://ben-wallis.github.io/Filtration/filtration_version.xml";
+        private const string _updateDataUrl = "http://ben-wallis.github.io/Filtration/filtration_version.xml";
 
         public UpdateCheckService(IHTTPService httpService)
         {
@@ -21,8 +21,8 @@ namespace Filtration.Services
 
         public UpdateData GetUpdateData()
         {
-            var updateXml = _httpService.GetContent(UpdateDataUrl);
-            return (DeserializeUpdateData(updateXml));
+            var updateXml = _httpService.GetContent(_updateDataUrl);
+            return DeserializeUpdateData(updateXml);
         }
 
         public UpdateData DeserializeUpdateData(string updateDataString)

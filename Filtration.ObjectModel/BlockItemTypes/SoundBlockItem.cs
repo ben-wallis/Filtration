@@ -14,27 +14,9 @@ namespace Filtration.ObjectModel.BlockItemTypes
         {
         }
 
-        public override string PrefixText
-        {
-            get { return "PlayAlertSound"; }
-        }
-
-        public override int MaximumAllowed
-        {
-            get { return 1; }
-        }
-
-        public override string DisplayHeading
-        {
-            get
-            {
-                return "Play Alert Sound";
-            }
-        }
-
-        public override int SortOrder
-        {
-            get { return 16; }
-        }
+        public override string PrefixText => "PlayAlertSound";
+        public override int MaximumAllowed => 1;
+        public override string DisplayHeading => "Play Alert Sound";
+        public override int SortOrder => 16;
     }
 }

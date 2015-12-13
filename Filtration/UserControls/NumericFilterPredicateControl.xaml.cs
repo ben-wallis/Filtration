@@ -50,8 +50,8 @@ namespace Filtration.UserControls
             {
                 SetValue(NumericFilterPredicateProperty, value);
                 OnPropertyChanged();
-                OnPropertyChanged("FilterPredicateOperator");
-                OnPropertyChanged("FilterPredicateOperand");
+                OnPropertyChanged(nameof(FilterPredicateOperator));
+                OnPropertyChanged(nameof(FilterPredicateOperand));
             }
         }
 
@@ -117,8 +117,8 @@ namespace Filtration.UserControls
             var control = source as NumericFilterPredicateControl;
             if (control == null) return;
 
-            control.OnPropertyChanged("FilterPredicateOperator");
-            control.OnPropertyChanged("FilterPredicateOperand");
+            control.OnPropertyChanged(nameof(FilterPredicateOperator));
+            control.OnPropertyChanged(nameof(FilterPredicateOperand));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -127,7 +127,7 @@ namespace Filtration.UserControls
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -4,14 +4,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using Filtration.Common.Services;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
@@ -44,13 +41,12 @@ namespace Filtration.ViewModels
 
     internal class MainWindowViewModel : FiltrationViewModelBase, IMainWindowViewModel
     {
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly IItemFilterScriptRepository _itemFilterScriptRepository;
         private readonly IItemFilterScriptTranslator _itemFilterScriptTranslator;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
         private readonly IAvalonDockWorkspaceViewModel _avalonDockWorkspaceViewModel;
-        private readonly ISettingsPageViewModel _settingsPageViewModel;
         private readonly IThemeProvider _themeProvider;
         private readonly IThemeService _themeService;
         private readonly IUpdateCheckService _updateCheckService;
@@ -75,7 +71,7 @@ namespace Filtration.ViewModels
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
             _replaceColorsViewModel = replaceColorsViewModel;
             _avalonDockWorkspaceViewModel = avalonDockWorkspaceViewModel;
-            _settingsPageViewModel = settingsPageViewModel;
+            SettingsPageViewModel = settingsPageViewModel;
             _themeProvider = themeProvider;
             _themeService = themeService;
             _updateCheckService = updateCheckService;
@@ -196,45 +192,45 @@ namespace Filtration.ViewModels
             CheckForUpdates();
         }
 
-        public RelayCommand OpenScriptCommand { get; private set; }
-        public RelayCommand OpenThemeCommand { get; private set; }
-        public RelayCommand SaveCommand { get; private set; }
-        public RelayCommand SaveAsCommand { get; private set; }
-        public RelayCommand CopyBlockCommand { get; private set; }
-        public RelayCommand CopyBlockStyleCommand { get; private set; }
-        public RelayCommand PasteCommand { get; private set; }
-        public RelayCommand PasteBlockStyleCommand { get; private set; }
-        public RelayCommand CopyScriptCommand { get; private set; }
-        public RelayCommand NewScriptCommand { get; private set; }
-        public RelayCommand CloseCommand { get; private set; }
-        public RelayCommand OpenAboutWindowCommand { get; private set; }
-        public RelayCommand ReplaceColorsCommand { get; private set; }
+        public RelayCommand OpenScriptCommand { get; }
+        public RelayCommand OpenThemeCommand { get; }
+        public RelayCommand SaveCommand { get; }
+        public RelayCommand SaveAsCommand { get; }
+        public RelayCommand CopyBlockCommand { get; }
+        public RelayCommand CopyBlockStyleCommand { get; }
+        public RelayCommand PasteCommand { get; }
+        public RelayCommand PasteBlockStyleCommand { get; }
+        public RelayCommand CopyScriptCommand { get; }
+        public RelayCommand NewScriptCommand { get; }
+        public RelayCommand CloseCommand { get; }
+        public RelayCommand OpenAboutWindowCommand { get; }
+        public RelayCommand ReplaceColorsCommand { get; }
 
-        public RelayCommand EditMasterThemeCommand { get; private set; }
-        public RelayCommand CreateThemeCommand { get; private set; }
-        public RelayCommand ApplyThemeToScriptCommand { get; private set; }
+        public RelayCommand EditMasterThemeCommand { get; }
+        public RelayCommand CreateThemeCommand { get; }
+        public RelayCommand ApplyThemeToScriptCommand { get; }
 
-        public RelayCommand AddTextColorThemeComponentCommand { get; private set; }
-        public RelayCommand AddBackgroundColorThemeComponentCommand { get; private set; }
-        public RelayCommand AddBorderColorThemeComponentCommand { get; private set; }
-        public RelayCommand DeleteThemeComponentCommand { get; private set; }
+        public RelayCommand AddTextColorThemeComponentCommand { get; }
+        public RelayCommand AddBackgroundColorThemeComponentCommand { get; }
+        public RelayCommand AddBorderColorThemeComponentCommand { get; }
+        public RelayCommand DeleteThemeComponentCommand { get; }
 
-        public RelayCommand AddBlockCommand { get; private set; }
-        public RelayCommand AddSectionCommand { get; private set; }
-        public RelayCommand DeleteBlockCommand { get; private set; }
-        public RelayCommand DisableBlockCommand { get; private set; }
-        public RelayCommand EnableBlockCommand { get; private set; }
+        public RelayCommand AddBlockCommand { get; }
+        public RelayCommand AddSectionCommand { get; }
+        public RelayCommand DeleteBlockCommand { get; }
+        public RelayCommand DisableBlockCommand { get; }
+        public RelayCommand EnableBlockCommand { get; }
 
-        public RelayCommand MoveBlockUpCommand { get; private set; }
-        public RelayCommand MoveBlockDownCommand { get; private set; }
-        public RelayCommand MoveBlockToTopCommand { get; private set; }
-        public RelayCommand MoveBlockToBottomCommand { get; private set; }
+        public RelayCommand MoveBlockUpCommand { get; }
+        public RelayCommand MoveBlockDownCommand { get; }
+        public RelayCommand MoveBlockToTopCommand { get; }
+        public RelayCommand MoveBlockToBottomCommand { get; }
 
-        public RelayCommand ExpandAllBlocksCommand { get; private set; }
-        public RelayCommand CollapseAllBlocksCommand { get; private set; }
+        public RelayCommand ExpandAllBlocksCommand { get; }
+        public RelayCommand CollapseAllBlocksCommand { get; }
 
-        public RelayCommand<bool> ToggleShowAdvancedCommand { get; private set; }
-        public RelayCommand ClearFiltersCommand { get; private set; }
+        public RelayCommand<bool> ToggleShowAdvancedCommand { get; }
+        public RelayCommand ClearFiltersCommand { get; }
 
 
         public void CheckForUpdates()
@@ -263,9 +259,9 @@ namespace Filtration.ViewModels
             }
             catch (Exception e)
             {
-                if (_logger.IsDebugEnabled)
+                if (Logger.IsDebugEnabled)
                 {
-                    _logger.Debug(e);
+                    Logger.Debug(e);
                 }
                 // We don't care if the update check fails, because it could fail for multiple reasons 
                 // including the user blocking Filtration in their firewall.
@@ -281,15 +277,9 @@ namespace Filtration.ViewModels
 
         public ImageSource Icon { get; private set; }
 
-        public IAvalonDockWorkspaceViewModel AvalonDockWorkspaceViewModel
-        {
-            get { return _avalonDockWorkspaceViewModel; }
-        }
+        public IAvalonDockWorkspaceViewModel AvalonDockWorkspaceViewModel => _avalonDockWorkspaceViewModel;
 
-        public ISettingsPageViewModel SettingsPageViewModel
-        {
-            get { return _settingsPageViewModel; }
-        }
+        public ISettingsPageViewModel SettingsPageViewModel { get; }
 
         public string WindowTitle
         {
@@ -311,48 +301,24 @@ namespace Filtration.ViewModels
             }
         }
 
-        public bool ActiveDocumentIsScript
-        {
-            get { return _avalonDockWorkspaceViewModel.ActiveDocument != null && _avalonDockWorkspaceViewModel.ActiveDocument.IsScript; }
-        }
+        public bool ActiveDocumentIsScript => _avalonDockWorkspaceViewModel.ActiveDocument != null && _avalonDockWorkspaceViewModel.ActiveDocument.IsScript;
 
-        public bool ActiveDocumentIsTheme
-        {
-            get { return _avalonDockWorkspaceViewModel.ActiveDocument!= null && _avalonDockWorkspaceViewModel.ActiveDocument.IsTheme; }
-        }
+        public bool ActiveDocumentIsTheme => _avalonDockWorkspaceViewModel.ActiveDocument!= null && _avalonDockWorkspaceViewModel.ActiveDocument.IsTheme;
 
-        public bool ActiveScriptHasSelectedBlock
-        {
-            get { return AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel != null; }
-        }
+        public bool ActiveScriptHasSelectedBlock => AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel != null;
 
-        public bool ActiveScriptHasSelectedEnabledBlock
-        {
-            get { return AvalonDockWorkspaceViewModel.ActiveScriptViewModel.HasSelectedEnabledBlock(); }
-        }
+        public bool ActiveScriptHasSelectedEnabledBlock => AvalonDockWorkspaceViewModel.ActiveScriptViewModel.HasSelectedEnabledBlock();
 
-        public bool ActiveScriptHasSelectedDisabledBlock
-        {
-            get { return AvalonDockWorkspaceViewModel.ActiveScriptViewModel.HasSelectedDisabledBlock(); }
-        }
-        
-        public bool ActiveThemeIsEditable
-        {
-            get { return AvalonDockWorkspaceViewModel.ActiveThemeViewModel.IsMasterTheme; }
-        }
+        public bool ActiveScriptHasSelectedDisabledBlock => AvalonDockWorkspaceViewModel.ActiveScriptViewModel.HasSelectedDisabledBlock();
+
+        public bool ActiveThemeIsEditable => AvalonDockWorkspaceViewModel.ActiveThemeViewModel.IsMasterTheme;
 
         private bool ActiveDocumentIsEditable()
         {
             return AvalonDockWorkspaceViewModel.ActiveDocument is IEditableDocument;
         }
 
-        public bool ShowAdvancedStatus
-        {
-            get
-            {
-                return ActiveDocumentIsScript && _avalonDockWorkspaceViewModel.ActiveScriptViewModel.ShowAdvanced;
-            }
-        }
+        public bool ShowAdvancedStatus => ActiveDocumentIsScript && _avalonDockWorkspaceViewModel.ActiveScriptViewModel.ShowAdvanced;
 
         public async Task OpenDroppedFilesAsync(List<string> filenames)
         {
@@ -442,9 +408,9 @@ namespace Filtration.ViewModels
             catch (IOException e)
             {
                 Messenger.Default.Send(new NotificationMessage("HideLoadingBanner"));
-                if (_logger.IsErrorEnabled)
+                if (Logger.IsErrorEnabled)
                 {
-                    _logger.Error(e);
+                    Logger.Error(e);
                 }
                 _messageBoxService.Show("Script Load Error", "Error loading filter script - " + e.Message,
                     MessageBoxButton.OK,
@@ -477,9 +443,9 @@ namespace Filtration.ViewModels
             }
             catch (IOException e)
             {
-                if (_logger.IsErrorEnabled)
+                if (Logger.IsErrorEnabled)
                 {
-                    _logger.Error(e);
+                    Logger.Error(e);
                 }
                 _messageBoxService.Show("Theme Load Error", "Error loading filter theme - " + e.Message,
                     MessageBoxButton.OK,
@@ -506,9 +472,9 @@ namespace Filtration.ViewModels
             }
             catch (IOException e)
             {
-                if (_logger.IsErrorEnabled)
+                if (Logger.IsErrorEnabled)
                 {
-                    _logger.Error(e);
+                    Logger.Error(e);
                 }
                 _messageBoxService.Show("Theme Load Error", "Error loading filter theme - " + e.Message,
                     MessageBoxButton.OK,

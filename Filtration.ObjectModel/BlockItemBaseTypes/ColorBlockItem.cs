@@ -18,20 +18,11 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
             Color = color;
         }
 
-        public override string OutputText
-        {
-            get
-            {
-                return PrefixText + " " + +Color.R + " " + Color.G + " "
-                       + Color.B + (Color.A < 255 ? " " + Color.A : string.Empty) +
-                       (ThemeComponent != null ? " # " + ThemeComponent.ComponentName : string.Empty);
-            }
-        }
+        public override string OutputText => PrefixText + " " + +Color.R + " " + Color.G + " "
+                                             + Color.B + (Color.A < 255 ? " " + Color.A : string.Empty) +
+                                             (ThemeComponent != null ? " # " + ThemeComponent.ComponentName : string.Empty);
 
-        public override string SummaryText
-        {
-            get { return string.Empty; }
-        }
+        public override string SummaryText => string.Empty;
 
         public ThemeComponent ThemeComponent
         {
@@ -56,8 +47,8 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
             }
         }
 
-        public override Color SummaryBackgroundColor { get { return Colors.Transparent; } }
-        public override Color SummaryTextColor { get { return Colors.Transparent; } }
+        public override Color SummaryBackgroundColor => Colors.Transparent;
+        public override Color SummaryTextColor => Colors.Transparent;
 
         public Color Color
         {

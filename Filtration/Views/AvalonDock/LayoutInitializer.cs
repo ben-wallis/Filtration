@@ -12,8 +12,7 @@ namespace Filtration.Views.AvalonDock
             //just for test provide a new anchorablepane 
             //if the pane is floating let the manager go ahead
             LayoutAnchorablePane destPane = destinationContainer as LayoutAnchorablePane;
-            if (destinationContainer != null &&
-                destinationContainer.FindParent<LayoutFloatingWindow>() != null)
+            if (destinationContainer?.FindParent<LayoutFloatingWindow>() != null)
                 return false;
 
             if (anchorableToShow.Content is SectionBrowserViewModel)

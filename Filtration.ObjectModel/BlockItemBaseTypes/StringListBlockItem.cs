@@ -21,8 +21,7 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
                 if (enumerable.Count > 0)
                 {
                     return PrefixText + " " +
-                           string.Format("\"{0}\"",
-                               string.Join("\" \"", enumerable.ToArray()));
+                           $"\"{string.Join("\" \"", enumerable.ToArray())}\"";
                 }
 
                 return string.Empty;

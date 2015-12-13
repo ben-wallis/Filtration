@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
 using System.Xml.Serialization;
@@ -22,10 +21,7 @@ namespace Filtration.ObjectModel.ThemeEditor
         [XmlIgnore]
         public string FilePath { get; set; }
 
-        public ThemeComponentCollection Components
-        {
-            get { return _components; }
-        }
+        public ThemeComponentCollection Components => _components;
 
         public bool ComponentExists(ThemeComponentType componentType, string componentName)
         {

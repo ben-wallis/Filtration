@@ -122,7 +122,7 @@ namespace Filtration.Translators
             for (var boundary = conditionBoundaries.First; boundary != null; boundary = boundary.Next)
             {
                 var begin = boundary.Value;
-                var end = boundary.Next != null ? boundary.Next.Value : lines.Length;
+                var end = boundary.Next?.Value ?? lines.Length;
                 var block = new string[end - begin];
                 Array.Copy(lines, begin, block, 0, end - begin);
                 var blockString = string.Join("\r\n", block);

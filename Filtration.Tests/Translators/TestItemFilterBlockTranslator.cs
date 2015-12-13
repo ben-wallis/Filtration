@@ -600,15 +600,15 @@ namespace Filtration.Tests.Translators
         public void TranslateStringToItemFilterBlock_SectionComment_ReturnsItemFilterSectionObjectWithCorrectDescription()
         {
             // Arrange
-            const string TestInputSectionDescription = "Wonderful items that you definitely won't want to miss!";
-            var inputString = "# Section: " + TestInputSectionDescription;
+            const string testInputSectionDescription = "Wonderful items that you definitely won't want to miss!";
+            var inputString = "# Section: " + testInputSectionDescription;
 
             // Act
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
 
             // Assert
             Assert.IsInstanceOf<ItemFilterSection>(result);
-            Assert.AreEqual(TestInputSectionDescription, result.Description);
+            Assert.AreEqual(testInputSectionDescription, result.Description);
         }
         
         [Test]
@@ -1282,10 +1282,10 @@ namespace Filtration.Tests.Translators
         public void TranslateItemFilterBlockToString_Section_ReturnsCorrectString()
         {
             // Arrange
-            const string TestInputSectionText = "Ermagerd it's a section!";
-            var expectedResult = "# Section: " + TestInputSectionText;
+            const string testInputSectionText = "Ermagerd it's a section!";
+            var expectedResult = "# Section: " + testInputSectionText;
 
-            _testUtility.TestBlock = new ItemFilterSection { Description = TestInputSectionText };
+            _testUtility.TestBlock = new ItemFilterSection { Description = testInputSectionText };
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
@@ -1559,8 +1559,8 @@ namespace Filtration.Tests.Translators
             }
 
             public ItemFilterBlock TestBlock { get; set; }
-            public Mock<IBlockGroupHierarchyBuilder> MockBlockGroupHierarchyBuilder { get; private set; }
-            public ItemFilterBlockTranslator Translator { get; private set; }
+            public Mock<IBlockGroupHierarchyBuilder> MockBlockGroupHierarchyBuilder { get; }
+            public ItemFilterBlockTranslator Translator { get; }
         }
     }
 }

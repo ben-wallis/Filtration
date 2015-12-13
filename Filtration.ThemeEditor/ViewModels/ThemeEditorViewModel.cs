@@ -39,7 +39,7 @@ namespace Filtration.ThemeEditor.ViewModels
 
     public class ThemeEditorViewModel : PaneViewModel, IThemeEditorViewModel
     {
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly IThemeProvider _themeProvider;
         private readonly IMessageBoxService _messageBoxService;
@@ -66,14 +66,11 @@ namespace Filtration.ThemeEditor.ViewModels
             
         }
 
-        public RelayCommand<ThemeComponentType> AddThemeComponentCommand { get; private set; }
-        public RelayCommand<ThemeComponent> DeleteThemeComponentCommand { get; private set; }
-        public RelayCommand CloseCommand { get; private set; }
+        public RelayCommand<ThemeComponentType> AddThemeComponentCommand { get; }
+        public RelayCommand<ThemeComponent> DeleteThemeComponentCommand { get; }
+        public RelayCommand CloseCommand { get; }
 
-        public bool IsMasterTheme
-        {
-            get { return Components.IsMasterCollection; }
-        }
+        public bool IsMasterTheme => Components.IsMasterCollection;
 
         public ItemFilterScript IsMasterThemeForScript { get; private set; }
 
@@ -91,8 +88,8 @@ namespace Filtration.ThemeEditor.ViewModels
 
         }
 
-        public bool IsScript { get { return false; } }
-        public bool IsTheme { get { return true; } }
+        public bool IsScript => false;
+        public bool IsTheme => true;
         public bool IsDirty { get; private set; }
 
         public string FilePath
@@ -105,10 +102,7 @@ namespace Filtration.ThemeEditor.ViewModels
             }
         }
 
-        public string Filename
-        {
-            get { return _filenameIsFake ? FilePath : Path.GetFileName(FilePath); }
-        }
+        public string Filename => _filenameIsFake ? FilePath : Path.GetFileName(FilePath);
 
         public string Name { get; set; }
 
@@ -141,9 +135,9 @@ namespace Filtration.ThemeEditor.ViewModels
             }
             catch (Exception e)
             {
-                if (_logger.IsErrorEnabled)
+                if (Logger.IsErrorEnabled)
                 {
-                    _logger.Error(e);
+                    Logger.Error(e);
                 }
 
                 _messageBoxService.Show("Save Error", "Error saving filter theme - " + e.Message, MessageBoxButton.OK, MessageBoxImage.Error);
@@ -175,9 +169,9 @@ namespace Filtration.ThemeEditor.ViewModels
             }
             catch (Exception e)
             {
-                if (_logger.IsErrorEnabled)
+                if (Logger.IsErrorEnabled)
                 {
-                    _logger.Error(e);
+                    Logger.Error(e);
                 }
 
                 _messageBoxService.Show("Save Error", "Error saving theme file - " + e.Message, MessageBoxButton.OK,

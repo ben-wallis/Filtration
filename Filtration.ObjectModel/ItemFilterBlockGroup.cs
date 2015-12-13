@@ -17,10 +17,10 @@ namespace Filtration.ObjectModel
 
         public event EventHandler BlockGroupStatusChanged;
 
-        public string GroupName { get; private set; }
-        public ItemFilterBlockGroup ParentGroup { get; private set; }
-        public List<ItemFilterBlockGroup> ChildGroups { get; private set; }
-        public bool Advanced { get; private set; }
+        public string GroupName { get; }
+        public ItemFilterBlockGroup ParentGroup { get; }
+        public List<ItemFilterBlockGroup> ChildGroups { get; }
+        public bool Advanced { get; }
 
         public bool IsChecked
         {
@@ -32,10 +32,7 @@ namespace Filtration.ObjectModel
                     _isChecked = value;
                     // Raise an event to let blocks that have this block group assigned that
                     // they might need to change their Action due to the block group status changing.
-                    if (BlockGroupStatusChanged != null)
-                    {
-                        BlockGroupStatusChanged.Invoke(null, null);
-                    }
+                    BlockGroupStatusChanged?.Invoke(null, null);
                 }
             }
         }

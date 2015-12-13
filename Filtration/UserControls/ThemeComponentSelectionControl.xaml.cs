@@ -67,14 +67,11 @@ namespace Filtration.UserControls
             {
                 _showThemeComponentComboBox = value;
                 OnPropertyChanged();
-                OnPropertyChanged("HasThemeComponent");
+                OnPropertyChanged(nameof(HasThemeComponent));
             }
         }
 
-        public bool HasThemeComponent
-        {
-            get { return ThemeComponent != null; }
-        }
+        public bool HasThemeComponent => ThemeComponent != null;
 
         private void OnAddThemeComponentCommand()
         {
@@ -93,7 +90,7 @@ namespace Filtration.UserControls
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

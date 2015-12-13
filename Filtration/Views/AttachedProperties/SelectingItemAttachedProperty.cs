@@ -25,7 +25,7 @@ namespace Filtration.Views.AttachedProperties
         static void OnSelectingItemChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var listBox = sender as ListBox;
-            if (listBox == null || listBox.SelectedItem == null)
+            if (listBox?.SelectedItem == null)
             {
                 return;
             }

@@ -16,7 +16,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <views:BindingProxy x:Key="proxy" Data="{Binding}" />
+                    <views:BindingProxy x:Key="Proxy" Data="{Binding}" />
                     <converters:BlockGroupAdvancedFillColorConverter x:Key="BlockGroupAdvancedFillColorConverter" />
                     <Style TargetType="{x:Type ContentPresenter}" x:Key="BlockItemFadeInStyle">
                         <Setter Property="LayoutTransform">
@@ -74,18 +74,18 @@
                                     <MenuItem Header="Copy Block Style" Command="{Binding CopyBlockStyleCommand}" Icon="{StaticResource CopyIcon}" />
                                     <MenuItem Header="Paste Block Style" Command="{Binding PasteBlockStyleCommand}" Icon="{StaticResource PasteIcon}" />
                                 </MenuItem>
-                                <MenuItem Header="Add Block" Command="{Binding Data.AddBlockCommand, Source={StaticResource proxy}}" Icon="{StaticResource AddBlockIcon}" />
-                                <MenuItem Header="Add Section" Command="{Binding Data.AddSectionCommand, Source={StaticResource proxy}}" Icon="{StaticResource AddSectionIcon}">
+                                <MenuItem Header="Add Block" Command="{Binding Data.AddBlockCommand, Source={StaticResource Proxy}}" Icon="{StaticResource AddBlockIcon}" />
+                                <MenuItem Header="Add Section" Command="{Binding Data.AddSectionCommand, Source={StaticResource Proxy}}" Icon="{StaticResource AddSectionIcon}">
                                 </MenuItem>
                                 <Separator />
-                                <MenuItem Header="Delete Block" Command="{Binding Data.DeleteBlockCommand, Source={StaticResource proxy}}" Icon="{StaticResource DeleteIcon}" />
+                                <MenuItem Header="Delete Block" Command="{Binding Data.DeleteBlockCommand, Source={StaticResource Proxy}}" Icon="{StaticResource DeleteIcon}" />
                                 <Separator />
-                                <MenuItem Header="Move Block To Top" Command="{Binding Data.MoveBlockToTopCommand, Source={StaticResource proxy}}" Icon="{StaticResource MoveToTopIcon}" />
-                                <MenuItem Header="Move Block Up" Command="{Binding Data.MoveBlockUpCommand, Source={StaticResource proxy}}" Icon="{StaticResource MoveUpIcon}" />
-                                <MenuItem Header="Move Block Down" Command="{Binding Data.MoveBlockDownCommand, Source={StaticResource proxy}}" Icon="{StaticResource MoveDownIcon}" />
-                                <MenuItem Header="Move Block To Bottom" Command="{Binding Data.MoveBlockToBottomCommand, Source={StaticResource proxy}}" Icon="{StaticResource MoveToBottomIcon}" />
+                                <MenuItem Header="Move Block To Top" Command="{Binding Data.MoveBlockToTopCommand, Source={StaticResource Proxy}}" Icon="{StaticResource MoveToTopIcon}" />
+                                <MenuItem Header="Move Block Up" Command="{Binding Data.MoveBlockUpCommand, Source={StaticResource Proxy}}" Icon="{StaticResource MoveUpIcon}" />
+                                <MenuItem Header="Move Block Down" Command="{Binding Data.MoveBlockDownCommand, Source={StaticResource Proxy}}" Icon="{StaticResource MoveDownIcon}" />
+                                <MenuItem Header="Move Block To Bottom" Command="{Binding Data.MoveBlockToBottomCommand, Source={StaticResource Proxy}}" Icon="{StaticResource MoveToBottomIcon}" />
                                 <Separator />
-                                <MenuItem Header="Replace Colors" Command="{Binding Data.ReplaceColorsCommand, Source={StaticResource proxy}}" Icon="{StaticResource ReplaceColorsIcon}" />
+                                <MenuItem Header="Replace Colors" Command="{Binding Data.ReplaceColorsCommand, Source={StaticResource Proxy}}" Icon="{StaticResource ReplaceColorsIcon}" />
                             </ContextMenu.Items>
                         </ContextMenu>
                     </Expander.ContextMenu>

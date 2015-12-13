@@ -15,58 +15,14 @@ namespace Filtration.ObjectModel.BlockItemTypes
         {
         }
 
-        public override string PrefixText
-        {
-            get { return "DropLevel"; }
-        }
-
-        public override int MaximumAllowed
-        {
-            get { return 2; }
-        }
-
-        public override string DisplayHeading
-        {
-            get
-            {
-                return "Drop Level";
-            }
-        }
-
-        public override string SummaryText
-        {
-            get { return "Drop Level " + FilterPredicate; }
-        }
-
-        public override Color SummaryBackgroundColor
-        {
-            get { return Colors.DodgerBlue; }
-        }
-
-        public override Color SummaryTextColor
-        {
-            get { return Colors.White; }
-        }
-
-        public override int SortOrder
-        {
-            get { return 2; }
-        }
-
-        public override int Minimum
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
-        public override int Maximum
-        {
-            get
-            {
-                return 100;
-            }
-        }
+        public override string PrefixText => "DropLevel";
+        public override int MaximumAllowed => 2;
+        public override string DisplayHeading => "Drop Level";
+        public override string SummaryText => "Drop Level " + FilterPredicate;
+        public override Color SummaryBackgroundColor => Colors.DodgerBlue;
+        public override Color SummaryTextColor => Colors.White;
+        public override int SortOrder => 2;
+        public override int Minimum => 0;
+        public override int Maximum => 100;
     }
 }

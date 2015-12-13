@@ -26,9 +26,9 @@ namespace Filtration.Translators
     internal class ItemFilterBlockTranslator : IItemFilterBlockTranslator
     {
         private readonly IBlockGroupHierarchyBuilder _blockGroupHierarchyBuilder;
-        private const string Indent = "    ";
-        private readonly string _newLine = Environment.NewLine + Indent;
-        private readonly string _disabledNewLine = Environment.NewLine + "#" + Indent;
+        private const string _indent = "    ";
+        private readonly string _newLine = Environment.NewLine + _indent;
+        private readonly string _disabledNewLine = Environment.NewLine + "#" + _indent;
         private ThemeComponentCollection _masterComponentCollection;
 
         public ItemFilterBlockTranslator(IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder)
@@ -118,7 +118,7 @@ namespace Filtration.Translators
                             blockItemValue.FilterPredicate.PredicateOperator =
                                 EnumHelper.GetEnumValueFromDescription<FilterPredicateOperator>(string.IsNullOrEmpty(result.Groups[1].Value) ? "=" : result.Groups[1].Value);
                             blockItemValue.FilterPredicate.PredicateOperand =
-                                (int)(EnumHelper.GetEnumValueFromDescription<ItemRarity>(result.Groups[2].Value));
+                                (int)EnumHelper.GetEnumValueFromDescription<ItemRarity>(result.Groups[2].Value);
                         }
                         block.BlockItems.Add(blockItemValue);
                         break;

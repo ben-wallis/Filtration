@@ -59,11 +59,11 @@ namespace Filtration.ObjectModel
             }
         }
 
-        public ObservableCollection<IItemFilterBlockItem> BlockItems { get; private set; }
+        public ObservableCollection<IItemFilterBlockItem> BlockItems { get; }
 
         public int BlockCount(Type type)
         {
-            return BlockItems != null ? BlockItems.Count(b => b.GetType() == type) : 0;
+            return BlockItems?.Count(b => b.GetType() == type) ?? 0;
         }
 
         public bool AddBlockItemAllowed(Type type)

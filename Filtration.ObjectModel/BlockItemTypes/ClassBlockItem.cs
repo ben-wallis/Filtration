@@ -6,14 +6,9 @@ namespace Filtration.ObjectModel.BlockItemTypes
 {
     public class ClassBlockItem : StringListBlockItem
     {
-        public override string PrefixText { get { return "Class"; } }
-
-        public override int MaximumAllowed
-        {
-            get { return 1; }
-        }
-
-        public override string DisplayHeading { get { return "Class"; } }
+        public override string PrefixText => "Class";
+        public override int MaximumAllowed => 1;
+        public override string DisplayHeading => "Class";
 
         public override string SummaryText
         {
@@ -36,19 +31,8 @@ namespace Filtration.ObjectModel.BlockItemTypes
             }
         }
 
-        public override Color SummaryBackgroundColor
-        {
-            get { return Colors.MediumSeaGreen; }
-        }
-
-        public override Color SummaryTextColor
-        {
-            get { return Colors.White; }
-        }
-
-        public override int SortOrder
-        {
-            get { return 10; }
-        }
+        public override Color SummaryBackgroundColor => Colors.MediumSeaGreen;
+        public override Color SummaryTextColor => Colors.White;
+        public override int SortOrder => 10;
     }
 }

@@ -20,14 +20,8 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
             FilterPredicate.PropertyChanged += OnFilterPredicateChanged;
         }
 
-        public override string OutputText
-        {
-            get
-            {
-                return PrefixText + " " + FilterPredicate.PredicateOperator.GetAttributeDescription() +
-                       " " + FilterPredicate.PredicateOperand;
-            }
-        }
+        public override string OutputText => PrefixText + " " + FilterPredicate.PredicateOperator.GetAttributeDescription() +
+                                             " " + FilterPredicate.PredicateOperand;
 
         public abstract int Minimum { get; }
         public abstract int Maximum { get; }

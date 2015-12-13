@@ -6,20 +6,9 @@ namespace Filtration.ObjectModel.BlockItemTypes
 {
     public class BaseTypeBlockItem : StringListBlockItem
     {
-        public override string PrefixText { get { return "BaseType"; } }
-
-        public override int MaximumAllowed
-        {
-            get { return 1; }
-        }
-
-        public override string DisplayHeading
-        {
-            get
-            {
-                return "Base Type";
-            }
-        }
+        public override string PrefixText => "BaseType";
+        public override int MaximumAllowed => 1;
+        public override string DisplayHeading => "Base Type";
 
         public override string SummaryText
         {
@@ -42,19 +31,8 @@ namespace Filtration.ObjectModel.BlockItemTypes
             }
         }
 
-        public override Color SummaryBackgroundColor
-        {
-            get { return Colors.MediumTurquoise; }
-        }
-
-        public override Color SummaryTextColor
-        {
-            get { return Colors.Black; }
-        }
-
-        public override int SortOrder
-        {
-            get { return 11; }
-        }
+        public override Color SummaryBackgroundColor => Colors.MediumTurquoise;
+        public override Color SummaryTextColor => Colors.Black;
+        public override int SortOrder => 11;
     }
 }

@@ -13,27 +13,9 @@ namespace Filtration.ObjectModel.BlockItemTypes
         {
         }
 
-        public override string PrefixText
-        {
-            get { return "SetTextColor"; }
-        }
-
-        public override int MaximumAllowed
-        {
-            get { return 1; }
-        }
-
-        public override string DisplayHeading
-        {
-            get
-            {
-                return "Text Color";
-            }
-        }
-
-        public override int SortOrder
-        {
-            get { return 12; }
-        }
+        public override string PrefixText => "SetTextColor";
+        public override int MaximumAllowed => 1;
+        public override string DisplayHeading => "Text Color";
+        public override int SortOrder => 12;
     }
 }

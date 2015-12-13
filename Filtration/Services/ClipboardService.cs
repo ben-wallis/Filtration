@@ -13,7 +13,7 @@ namespace Filtration.Services
 
     internal class ClipboardService : IClipboardService
     {
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public void SetClipboardText(string inputText)
         {
@@ -26,7 +26,7 @@ namespace Filtration.Services
                 }
                 catch (Exception e)
                 {
-                    _logger.Error(e);
+                    Logger.Error(e);
                 }
 
                 Thread.Sleep(10);

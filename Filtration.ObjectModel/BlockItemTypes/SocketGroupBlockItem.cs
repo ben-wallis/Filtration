@@ -6,24 +6,9 @@ namespace Filtration.ObjectModel.BlockItemTypes
 {
     public class SocketGroupBlockItem : StringListBlockItem
     {
-        public override string PrefixText
-        {
-            get { return "SocketGroup"; }
-        }
-
-        public override int MaximumAllowed
-        {
-            get { return 1; }
-        }
-
-        public override string DisplayHeading
-        {
-            get
-            {
-                return "Socket Group";
-            }
-        }
-
+        public override string PrefixText => "SocketGroup";
+        public override int MaximumAllowed => 1;
+        public override string DisplayHeading => "Socket Group";
         public override string SummaryText
         {
             get
@@ -32,20 +17,8 @@ namespace Filtration.ObjectModel.BlockItemTypes
                 return "Socket Group " + summaryItemText.TrimStart(' ');
             }
         }
-
-        public override Color SummaryBackgroundColor
-        {
-            get { return Colors.GhostWhite; }
-        }
-
-        public override Color SummaryTextColor
-        {
-            get { return Colors.Black; }
-        }
-
-        public override int SortOrder
-        {
-            get { return 9; }
-        }
+        public override Color SummaryBackgroundColor => Colors.GhostWhite;
+        public override Color SummaryTextColor => Colors.Black;
+        public override int SortOrder => 9;
     }
 }

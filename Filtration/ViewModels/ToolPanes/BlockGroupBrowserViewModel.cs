@@ -69,7 +69,7 @@ namespace Filtration.ViewModels.ToolPanes
             }
         }
 
-        public RelayCommand FilterToSelectedBlockGroupCommand { get; private set; }
+        public RelayCommand FilterToSelectedBlockGroupCommand { get; }
         
         public ObservableCollection<ItemFilterBlockGroupViewModel> BlockGroupViewModels
         {

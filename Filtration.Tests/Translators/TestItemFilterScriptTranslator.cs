@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
@@ -91,11 +90,11 @@ namespace Filtration.Tests.Translators
             var testBlock = new ItemFilterBlock();
             testBlock.BlockItems.Add(new ItemLevelBlockItem(FilterPredicateOperator.Equal, 5));
 
-            const string BlockOutput = "Test Script Output";
+            const string blockOutput = "Test Script Output";
 
             testScript.ItemFilterBlocks.Add(testBlock);
 
-            _testUtility.MockItemFilterBlockTranslator.Setup(t => t.TranslateItemFilterBlockToString(testBlock)).Returns(BlockOutput).Verifiable();
+            _testUtility.MockItemFilterBlockTranslator.Setup(t => t.TranslateItemFilterBlockToString(testBlock)).Returns(blockOutput).Verifiable();
 
 
             // Act
@@ -400,9 +399,9 @@ namespace Filtration.Tests.Translators
                 ScriptTranslator = new ItemFilterScriptTranslator(MockItemFilterBlockTranslator.Object, MockBlockGroupHierarchyBuilder.Object);
             }
 
-            public ItemFilterScriptTranslator ScriptTranslator { get; private set; }
-            public Mock<IItemFilterBlockTranslator> MockItemFilterBlockTranslator { get; private set; }
-            public Mock<IBlockGroupHierarchyBuilder> MockBlockGroupHierarchyBuilder { get; private set; }
+            public ItemFilterScriptTranslator ScriptTranslator { get; }
+            public Mock<IItemFilterBlockTranslator> MockItemFilterBlockTranslator { get; }
+            public Mock<IBlockGroupHierarchyBuilder> MockBlockGroupHierarchyBuilder { get; }
         }
     }
 }

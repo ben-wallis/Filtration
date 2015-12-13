@@ -42,25 +42,13 @@ namespace Filtration.ViewModels
             _updateData = updateData;
         }
 
-        public string CurrentVersion
-        {
-            get { return _currentVersionMajorPart + "." + _currentVersionMinorPart; }
-        }
+        public string CurrentVersion => _currentVersionMajorPart + "." + _currentVersionMinorPart;
 
-        public string NewVersion
-        {
-            get { return _updateData.LatestVersionMajorPart + "." + _updateData.LatestVersionMinorPart; }
-        }
+        public string NewVersion => _updateData.LatestVersionMajorPart + "." + _updateData.LatestVersionMinorPart;
 
-        public string ReleaseNotes
-        {
-            get { return _updateData.ReleaseNotes; }
-        }
+        public string ReleaseNotes => _updateData.ReleaseNotes;
 
-        public DateTime ReleaseDate
-        {
-            get { return _updateData.ReleaseDate; }
-        }
+        public DateTime ReleaseDate => _updateData.ReleaseDate;
 
         private void OnDownloadCommand()
         {
@@ -83,10 +71,7 @@ namespace Filtration.ViewModels
 
         private void CloseWindow()
         {
-            if (OnRequestClose != null)
-            {
-                OnRequestClose(this, new EventArgs());
-            }
+            OnRequestClose?.Invoke(this, new EventArgs());
         }
     }
 

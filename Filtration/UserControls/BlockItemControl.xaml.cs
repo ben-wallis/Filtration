@@ -80,28 +80,14 @@ namespace Filtration.UserControls
         }
 
 
-        public ObservableCollection<ColorItem> AvailableColors
-        {
-            get
-            {
-                {
-                    return PathOfExileColors.DefaultColors;
-                }
-            }
-        }
+        public ObservableCollection<ColorItem> AvailableColors => PathOfExileColors.DefaultColors;
 
-        public List<int> SoundsAvailable
-        {
-            get
-            {
-                return new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            }
-        }
+        public List<int> SoundsAvailable => new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
         private void OnSetBlockColorCommmand()
         {
             var blockItem = BlockItem as ColorBlockItem;
-            if (blockItem == null || blockItem.ThemeComponent == null) return;
+            if (blockItem?.ThemeComponent == null) return;
 
             blockItem.Color = blockItem.ThemeComponent.Color;
         }
@@ -112,7 +98,7 @@ namespace Filtration.UserControls
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

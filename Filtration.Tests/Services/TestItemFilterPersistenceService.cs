@@ -16,20 +16,20 @@ namespace Filtration.Tests.Services
         public async Task LoadItemFilterScript_CallsTranslatorAndFileSystemService()
         {
             // Arrange
-            const string TestInputPath = "C:\\Test Path\\Script.Filter";
-            const string TestScriptString = "This is a test item filter script";
+            const string testInputPath = "C:\\Test Path\\Script.Filter";
+            const string testScriptString = "This is a test item filter script";
             var testItemFilterScript = new ItemFilterScript();
 
             var mockFileSystemService = new Mock<IFileSystemService>();
-            mockFileSystemService.Setup(s => s.ReadFileAsString(TestInputPath)).Returns(TestScriptString).Verifiable();
+            mockFileSystemService.Setup(s => s.ReadFileAsString(testInputPath)).Returns(testScriptString).Verifiable();
 
             var mockItemFilterScriptTranslator = new Mock<IItemFilterScriptTranslator>();
-            mockItemFilterScriptTranslator.Setup(t => t.TranslateStringToItemFilterScript(TestScriptString)).Returns(testItemFilterScript).Verifiable();
+            mockItemFilterScriptTranslator.Setup(t => t.TranslateStringToItemFilterScript(testScriptString)).Returns(testItemFilterScript).Verifiable();
 
             var service = new ItemFilterPersistenceService(mockFileSystemService.Object, mockItemFilterScriptTranslator.Object);
 
             // Act
-            var script = await service.LoadItemFilterScriptAsync(TestInputPath);
+            var script = await service.LoadItemFilterScriptAsync(testInputPath);
 
             // Assert
             mockFileSystemService.Verify();
@@ -65,12 +65,12 @@ namespace Filtration.Tests.Services
         public void DefaultPathOfExileDirectoryExists_CallsFileSystemServiceWithCorrectString()
         {
             // Arrange
-            const string TestUserProfilePath = "C:\\Users\\TestUser";
+            const string testUserProfilePath = "C:\\Users\\TestUser";
 
 
             var mockFileSystemService = new Mock<IFileSystemService>();
-            mockFileSystemService.Setup(f => f.GetUserProfilePath()).Returns(TestUserProfilePath).Verifiable();
-            mockFileSystemService.Setup(f => f.DirectoryExists(TestUserProfilePath + "\\Documents\\My Games\\Path of Exile")).Returns(true).Verifiable();
+            mockFileSystemService.Setup(f => f.GetUserProfilePath()).Returns(testUserProfilePath).Verifiable();
+            mockFileSystemService.Setup(f => f.DirectoryExists(testUserProfilePath + "\\Documents\\My Games\\Path of Exile")).Returns(true).Verifiable();
 
             var mockItemFilterScriptTranslator = new Mock<IItemFilterScriptTranslator>();
 

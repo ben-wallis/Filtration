@@ -34,12 +34,12 @@ namespace Filtration.ViewModels.ToolPanes
                 {
                     case "SelectedBlockChanged":
                     {
-                        OnSelectedBlockChanged(null, null);
+                        OnSelectedBlockChanged(this, EventArgs.Empty);
                         break;
                     }
                     case "ActiveDocumentChanged":
                     {
-                        OnSelectedBlockChanged(null, null);
+                        OnSelectedBlockChanged(this, EventArgs.Empty);
                         break;
                     }
                 }
@@ -66,8 +66,7 @@ namespace Filtration.ViewModels.ToolPanes
 
         private void OnSelectedBlockChanged(object sender, EventArgs e)
         {
-            if (AvalonDockWorkspaceViewModel.ActiveScriptViewModel == null ||
-                AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel == null)
+            if (AvalonDockWorkspaceViewModel.ActiveScriptViewModel?.SelectedBlockViewModel == null)
             {
                 PreviewText = string.Empty;
                 return;
