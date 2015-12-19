@@ -88,12 +88,7 @@ namespace Filtration.ObjectModel
                 return false;
             }
 
-            if (startingBlockGroup.ParentGroup != null)
-            {
-                return HasBlockGroupInParentHierarchy(targetBlockGroup, startingBlockGroup.ParentGroup);
-            }
-
-            return false;
+            return startingBlockGroup.ParentGroup != null && HasBlockGroupInParentHierarchy(targetBlockGroup, startingBlockGroup.ParentGroup);
         }
         
         private void OnBlockGroupStatusChanged(object sender, EventArgs e)

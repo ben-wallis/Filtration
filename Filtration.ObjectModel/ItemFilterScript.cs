@@ -7,7 +7,19 @@ using Filtration.ObjectModel.ThemeEditor;
 
 namespace Filtration.ObjectModel
 {
-    public class ItemFilterScript
+    public interface IItemFilterScript
+    {
+        ObservableCollection<ItemFilterBlock> ItemFilterBlocks { get; }
+        ObservableCollection<ItemFilterBlockGroup> ItemFilterBlockGroups { get; }
+        ThemeComponentCollection ThemeComponents { get; set; }
+        string FilePath { get; set; }
+        string Description { get; set; }
+        DateTime DateModified { get; set; }
+        List<string> Validate();
+        void ReplaceColors(ReplaceColorsParameterSet replaceColorsParameterSet);
+    }
+
+    public class ItemFilterScript : IItemFilterScript
     {
         public ItemFilterScript()
         {

@@ -346,7 +346,7 @@ namespace Filtration.Tests.Translators
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
-                              "    LinkedSockets != 1";
+                              "    LinkedSockets > 1";
 
             // Act
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
@@ -356,7 +356,7 @@ namespace Filtration.Tests.Translators
             Assert.AreEqual(1, result.BlockItems.Count(b => b is LinkedSocketsBlockItem));
             var blockItem = result.BlockItems.OfType<LinkedSocketsBlockItem>().First();
             Assert.AreEqual(1, blockItem.FilterPredicate.PredicateOperand);
-            Assert.AreEqual(FilterPredicateOperator.NotEqual, blockItem.FilterPredicate.PredicateOperator);
+            Assert.AreEqual(FilterPredicateOperator.GreaterThan, blockItem.FilterPredicate.PredicateOperator);
         }
 
         [Test]
@@ -364,7 +364,7 @@ namespace Filtration.Tests.Translators
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
-                              "    Width != 1";
+                              "    Width = 1";
 
             // Act
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
@@ -374,7 +374,7 @@ namespace Filtration.Tests.Translators
             Assert.AreEqual(1, result.BlockItems.Count(b => b is WidthBlockItem));
             var blockItem = result.BlockItems.OfType<WidthBlockItem>().First();
             Assert.AreEqual(1, blockItem.FilterPredicate.PredicateOperand);
-            Assert.AreEqual(FilterPredicateOperator.NotEqual, blockItem.FilterPredicate.PredicateOperator);
+            Assert.AreEqual(FilterPredicateOperator.Equal, blockItem.FilterPredicate.PredicateOperator);
         }
 
         [Test]
@@ -628,7 +628,7 @@ namespace Filtration.Tests.Translators
                               "    JunkLine Let's ignore this one!" + Environment.NewLine +
                               "    #Quality Commented out quality line" + Environment.NewLine +
                               "    Sockets >= 3" + Environment.NewLine +
-                              "    LinkedSockets != 2" + Environment.NewLine +
+                              "    LinkedSockets = 2" + Environment.NewLine +
                               "    SocketGroup RGBB RGBWW" + Environment.NewLine +
                               "    SetTextColor 50 100 3 200" + Environment.NewLine +
                               "    SetBackgroundColor 255 100 5" + Environment.NewLine +
@@ -673,7 +673,7 @@ namespace Filtration.Tests.Translators
             Assert.AreEqual(3, socketsblockItem.FilterPredicate.PredicateOperand);
 
             var linkedSocketsblockItem = result.BlockItems.OfType<LinkedSocketsBlockItem>().First();
-            Assert.AreEqual(FilterPredicateOperator.NotEqual, linkedSocketsblockItem.FilterPredicate.PredicateOperator);
+            Assert.AreEqual(FilterPredicateOperator.Equal, linkedSocketsblockItem.FilterPredicate.PredicateOperator);
             Assert.AreEqual(2, linkedSocketsblockItem.FilterPredicate.PredicateOperand);
 
             var socketGroupblockItem = result.BlockItems.OfType<SocketGroupBlockItem>().First();
@@ -1076,9 +1076,9 @@ namespace Filtration.Tests.Translators
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
-                                 "    LinkedSockets != 3";
+                                 "    LinkedSockets = 3";
 
-            _testUtility.TestBlock.BlockItems.Add(new LinkedSocketsBlockItem(FilterPredicateOperator.NotEqual, 3));
+            _testUtility.TestBlock.BlockItems.Add(new LinkedSocketsBlockItem(FilterPredicateOperator.Equal, 3));
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
@@ -1321,7 +1321,7 @@ namespace Filtration.Tests.Translators
             var expectedResult = "Show" + Environment.NewLine +
                                  "    ItemLevel > 70" + Environment.NewLine +
                                  "    ItemLevel <= 85" + Environment.NewLine +
-                                 "    DropLevel != 56" + Environment.NewLine +
+                                 "    DropLevel > 56" + Environment.NewLine +
                                  "    Quality > 2" + Environment.NewLine +
                                  "    Rarity = Unique" + Environment.NewLine +
                                  "    Sockets <= 6" + Environment.NewLine +
@@ -1341,7 +1341,7 @@ namespace Filtration.Tests.Translators
             _testUtility.TestBlock.BlockItems.Add(new ActionBlockItem(BlockAction.Show));
             _testUtility.TestBlock.BlockItems.Add(new ItemLevelBlockItem(FilterPredicateOperator.GreaterThan, 70));
             _testUtility.TestBlock.BlockItems.Add(new ItemLevelBlockItem(FilterPredicateOperator.LessThanOrEqual, 85));
-            _testUtility.TestBlock.BlockItems.Add(new DropLevelBlockItem(FilterPredicateOperator.NotEqual, 56));
+            _testUtility.TestBlock.BlockItems.Add(new DropLevelBlockItem(FilterPredicateOperator.GreaterThan, 56));
             _testUtility.TestBlock.BlockItems.Add(new QualityBlockItem(FilterPredicateOperator.GreaterThan, 2));
             _testUtility.TestBlock.BlockItems.Add(new RarityBlockItem(FilterPredicateOperator.Equal, (int)ItemRarity.Unique));
             var classItemblockItem = new ClassBlockItem();

@@ -254,7 +254,7 @@ namespace Filtration.Translators
 
         private static void SetNumericFilterPredicateFromString(NumericFilterPredicate predicate, string inputString)
         {
-            var result = Regex.Match(inputString, @"^\w+\s+([><!=]{0,2})\s*(\d{0,3})$");
+            var result = Regex.Match(inputString, @"^\w+\s+([><=]{0,2})\s*(\d{0,3})$");
             if (result.Groups.Count != 3) return;
 
             predicate.PredicateOperator =
