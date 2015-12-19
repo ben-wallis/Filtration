@@ -172,6 +172,7 @@
       <DependentUpon>BlockItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CrossButton.cs" />
+    <Compile Include="UserControls\DesignTime\DesignTimeEditableListBoxControl.cs" />
     <Compile Include="UserControls\EditableListBoxControl.xaml.cs">
       <DependentUpon>EditableListBoxControl.xaml</DependentUpon>
     </Compile>

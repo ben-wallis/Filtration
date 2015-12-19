@@ -5,10 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
              xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+             xmlns:designTime="clr-namespace:Filtration.UserControls.DesignTime"
              mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance Type=userControls:EditableListBoxControl}">
+             d:DataContext="{d:DesignInstance Type=designTime:DesignTimeEditableListBoxControl, IsDesignTimeCreatable=True}">
 
-    <Grid VerticalAlignment="Top">
+    <Grid VerticalAlignment="Top" Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -21,8 +22,11 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     ItemsSource="{Binding ItemsSource}"
+                    SelectedItem="{Binding SelectedItem}"
                     BorderThickness="1"
                     Height="120"
+                    HorizontalContentAlignment="Stretch"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     VerticalAlignment="Stretch" SelectionMode="Single" x:Name="ControlListBox" BorderBrush="#CCCCCC">
             <ListBox.Resources>
                 <Style TargetType="ListBoxItem">
@@ -37,6 +41,31 @@
                     </Style.Resources>
                 </Style>
             </ListBox.Resources>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.Resources>
+                            <Style TargetType="Grid" x:Key="MouseoverStyle">
+                                <Setter Property="Visibility" Value="Hidden" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}},Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding}" ToolTip="{Binding}" />
+                        <Grid Grid.Column="1" Style="{StaticResource MouseoverStyle}">
+                            <userControls:CrossButton Height="12" Command="{Binding ElementName=LayoutRoot, Path=DataContext.DeleteItemCommand}" CommandParameter="{Binding}" />
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
             <ListBox.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding Path=DeleteItemCommand}" CommandParameter="{Binding ElementName=ControlListBox, Path=SelectedValue}" />
             </ListBox.InputBindings>

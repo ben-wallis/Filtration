@@ -2,14 +2,22 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Filtration.Annotations;
 using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Filtration.UserControls
 {
-    public partial class EditableListBoxControl : INotifyPropertyChanged
+    public interface IEditableListBoxControl
+    {
+        RelayCommand AddItemCommand { get; }
+        RelayCommand<string> DeleteItemCommand { get; }
+        IEnumerable<string> AutoCompleteItemsSource { get; set; }
+        ICollection<string> ItemsSource { get; set; }
+        string AddItemText { get; set; }
+    }
+
+    public partial class EditableListBoxControl : INotifyPropertyChanged, IEditableListBoxControl
     {
         private string _addItemText;
 
@@ -23,21 +31,14 @@ namespace Filtration.UserControls
             DeleteItemCommand = new RelayCommand<string>(OnDeleteItemCommand);
         }
 
-        public RelayCommand AddItemCommand { get; private set; }
-        public RelayCommand<string> DeleteItemCommand { get; private set; }
+        public RelayCommand AddItemCommand { get; }
+        public RelayCommand<string> DeleteItemCommand { get; }
 
         public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
             "ItemsSource",
             typeof (ICollection<string>),
             typeof (EditableListBoxControl),
             new FrameworkPropertyMetadata(OnItemsSourcePropertyChanged)
-        );
-
-        public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(
-            "Label",
-            typeof (string),
-            typeof (EditableListBoxControl),
-            new FrameworkPropertyMetadata()
         );
 
         public static readonly DependencyProperty AutoCompleteItemsSourceProperty = DependencyProperty.Register(
@@ -57,12 +58,6 @@ namespace Filtration.UserControls
         {
             get { return (ICollection<string>)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
-        }
-
-        public string Label
-        {
-            get { return (string)GetValue(LabelProperty); }
-            set { SetValue(LabelProperty, value); }
         }
 
         public string AddItemText
@@ -100,6 +95,14 @@ namespace Filtration.UserControls
             control?.OnPropertyChanged(nameof(ItemsSource));
         }
 
+        private void AutoCompleteBox_OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                AddItemCommand.Execute(null);
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -107,14 +110,6 @@ namespace Filtration.UserControls
         {
             var handler = PropertyChanged;
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void AutoCompleteBox_OnPreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                AddItemCommand.Execute(null);
-            }
         }
     }
 }
