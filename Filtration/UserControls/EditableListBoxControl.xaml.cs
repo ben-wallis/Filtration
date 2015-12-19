@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using Filtration.Annotations;
 using GalaSoft.MvvmLight.CommandWpf;
 
@@ -105,6 +107,14 @@ namespace Filtration.UserControls
         {
             var handler = PropertyChanged;
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void AutoCompleteBox_OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                AddItemCommand.Execute(null);
+            }
         }
     }
 }
