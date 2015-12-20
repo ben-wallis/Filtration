@@ -82,6 +82,8 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReplaceColorsParameterSet.cs" />
+    <Compile Include="Socket.cs" />
+    <Compile Include="SocketGroup.cs" />
     <Compile Include="ThemeEditor\Theme.cs" />
     <Compile Include="ThemeEditor\ThemeComponent.cs" />
     <Compile Include="ThemeEditor\ThemeComponentCollection.cs" />

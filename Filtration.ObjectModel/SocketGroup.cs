@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Filtration.ItemFilterPreview.Model
+namespace Filtration.ObjectModel
 {
     public class SocketGroup : List<Socket>
     {

@@ -58,8 +58,6 @@
     </ApplicationDefinition>
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\ItemCollection.cs" />
-    <Compile Include="Model\Socket.cs" />
-    <Compile Include="Model\SocketGroup.cs" />
     <Compile Include="Services\ItemBlockItemMatcher.cs" />
     <Compile Include="Services\ItemFilterProcessor.cs" />
     <Compile Include="UserControls\ItemSocketsControl.xaml.cs">

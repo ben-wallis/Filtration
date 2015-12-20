@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Filtration.ObjectModel.Annotations;
 using Filtration.ObjectModel.Enums;
@@ -39,6 +40,37 @@ namespace Filtration.ObjectModel
             {
                 _predicateOperand = value; 
                 OnPropertyChanged();
+            }
+        }
+
+        public bool CompareUsing(int target)
+        {
+            switch (PredicateOperator)
+            {
+                case FilterPredicateOperator.Equal:
+                    {
+                        return target == PredicateOperand;
+                    }
+                case FilterPredicateOperator.GreaterThan:
+                    {
+                        return target > PredicateOperand;
+                    }
+                case FilterPredicateOperator.GreaterThanOrEqual:
+                    {
+                        return target >= PredicateOperand;
+                    }
+                case FilterPredicateOperator.LessThan:
+                    {
+                        return target < PredicateOperand;
+                    }
+                case FilterPredicateOperator.LessThanOrEqual:
+                    {
+                        return target <= PredicateOperand;
+                    }
+                default:
+                    {
+                        return false;
+                    }
             }
         }
 

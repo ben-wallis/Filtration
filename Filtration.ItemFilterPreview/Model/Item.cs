@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Filtration.ObjectModel;
 using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ItemFilterPreview.Model
@@ -18,6 +19,7 @@ namespace Filtration.ItemFilterPreview.Model
         ItemRarity ItemRarity { get; set; }
         int Sockets { get; }
         int LinkedSockets { get; }
+        IEnumerable<SocketGroup> LinkedSocketGroups { get; }
     }
 
     public class Item : IItem
@@ -28,6 +30,11 @@ namespace Filtration.ItemFilterPreview.Model
         {
            
         }
+
+        public IEnumerable<SocketGroup> LinkedSocketGroups
+        {
+            get { return SocketGroups.Where(s => s.Linked); }
+        } 
 
         public List<SocketGroup> SocketGroups
         {
