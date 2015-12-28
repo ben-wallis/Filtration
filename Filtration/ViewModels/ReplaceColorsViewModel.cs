@@ -12,7 +12,7 @@ namespace Filtration.ViewModels
 {
     internal interface IReplaceColorsViewModel
     {
-        void Initialise(ItemFilterScript itemFilterScript, ItemFilterBlock initialiseFromBlock);
+        void Initialise(ItemFilterScript itemFilterScript, IItemFilterBlock initialiseFromBlock);
         void Initialise(ItemFilterScript itemFilterScript);
     }
 
@@ -28,7 +28,7 @@ namespace Filtration.ViewModels
 
         public RelayCommand ReplaceColorsCommand { get; private set; }
 
-        public void Initialise(ItemFilterScript itemFilterScript, ItemFilterBlock initialiseFromBlock)
+        public void Initialise(ItemFilterScript itemFilterScript, IItemFilterBlock initialiseFromBlock)
         {
             _replaceColorsParameterSet = new ReplaceColorsParameterSet();
 

@@ -64,7 +64,7 @@ namespace Filtration.Tests.Translators
             Assert.AreEqual(expectedDescription, script.Description);
         }
 
-        [Ignore("Integration Test")]
+        [Ignore("Integration Test / need to fix file reading for NUnit 3.x")]
         [Test]
         public void TranslateStringToItemFilterScript_ThioleItemFilterTest()
         {

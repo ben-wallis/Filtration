@@ -8,7 +8,6 @@ namespace Filtration.ItemFilterPreview.Model
 {
     public interface IItem
     {
-        List<SocketGroup> SocketGroups { get; set; }
         string ItemClass { get; set; }
         string BaseType { get; set; }
         int DropLevel { get; set; }
@@ -20,16 +19,23 @@ namespace Filtration.ItemFilterPreview.Model
         int Sockets { get; }
         int LinkedSockets { get; }
         IEnumerable<SocketGroup> LinkedSocketGroups { get; }
+        List<SocketGroup> SocketGroups { get; set; }
     }
 
     public class Item : IItem
     {
         private List<SocketGroup> _socketGroups;
-
-        public Item(List<SocketGroup> socketGroups)
-        {
-           
-        }
+        
+        public string ItemClass { get; set; }
+        public string BaseType { get; set; }
+        public int DropLevel { get; set; }
+        public int ItemLevel { get; set; }
+        public int Height { get; set; }
+        public int Width { get; set; }
+        public int Quality { get; set; }
+        public ItemRarity ItemRarity { get; set; }
+        public int Sockets { get; private set; }
+        public int LinkedSockets { get; private set; }
 
         public IEnumerable<SocketGroup> LinkedSocketGroups
         {
@@ -66,16 +72,5 @@ namespace Filtration.ItemFilterPreview.Model
                 LinkedSockets = value.Where(s => s.Linked).Max(s => s.Count);
             }
         }
-
-        public string ItemClass { get; set; }
-        public string BaseType { get; set; }
-        public int DropLevel { get; set; }
-        public int ItemLevel { get; set; }
-        public int Height { get; set; }
-        public int Width { get; set; }
-        public int Quality { get; set; }
-        public ItemRarity ItemRarity { get; set; }
-        public int Sockets { get; private set; }
-        public int LinkedSockets { get; private set; }
     }
 }

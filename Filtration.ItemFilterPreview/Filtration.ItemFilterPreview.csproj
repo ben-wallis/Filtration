@@ -58,7 +58,7 @@
     </ApplicationDefinition>
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\ItemCollection.cs" />
-    <Compile Include="Services\ItemBlockItemMatcher.cs" />
+    <Compile Include="Services\BlockItemMatcher.cs" />
     <Compile Include="Services\ItemFilterProcessor.cs" />
     <Compile Include="UserControls\ItemSocketsControl.xaml.cs">
       <DependentUpon>ItemSocketsControl.xaml</DependentUpon>

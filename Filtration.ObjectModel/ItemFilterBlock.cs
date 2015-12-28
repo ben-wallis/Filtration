@@ -6,7 +6,20 @@ using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel
 {
-    public class ItemFilterBlock
+    public interface IItemFilterBlock
+    {
+        bool Enabled { get; set; }
+        string Description { get; set; }
+        ItemFilterBlockGroup BlockGroup { get; set; }
+        BlockAction Action { get; set; }
+        ObservableCollection<IItemFilterBlockItem> BlockItems { get; }
+        int BlockCount(Type type);
+        bool AddBlockItemAllowed(Type type);
+        bool HasBlockItemOfType<T>();
+        bool HasBlockGroupInParentHierarchy(ItemFilterBlockGroup targetBlockGroup, ItemFilterBlockGroup startingBlockGroup);
+    }
+
+    public class ItemFilterBlock : IItemFilterBlock
     {
         private ItemFilterBlockGroup _blockGroup;
 

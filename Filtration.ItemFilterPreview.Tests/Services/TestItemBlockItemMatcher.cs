@@ -26,11 +26,104 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             _testUtility = new ItemBlockItemMatcherTestUtility();
         }
 
+        [Test]
+        public void ItemBlockMatch_EmptyShowBlock_ReturnsTrue()
+        {
+            //Arrange
+            var testInputItem = Mock.Of<IItem>();
+            var testInputBlock = new ItemFilterBlock();
+
+            //Act
+            var result = _testUtility.BlockItemMatcher.ItemBlockMatch(testInputBlock, testInputItem);
+
+            //Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void ItemBlockMatch_SingleBlockItem_Matches_ReturnsTrue()
+        {
+            //Arrange
+            var testBaseType = "Test Base Type";
+            var testInputItem = Mock.Of<IItem>(i => i.BaseType == testBaseType);
+            var testInputBlock = new ItemFilterBlock();
+            var baseTypeBlockItem = new BaseTypeBlockItem();
+            baseTypeBlockItem.Items.Add(testBaseType);
+            testInputBlock.BlockItems.Add(baseTypeBlockItem);
+
+            //Act
+            var result = _testUtility.BlockItemMatcher.ItemBlockMatch(testInputBlock, testInputItem);
+
+            //Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void ItemBlockMatch_SingleBlockItem_DoesNotMatche_ReturnsFalse()
+        {
+            //Arrange
+            var testInputItem = Mock.Of<IItem>(i => i.BaseType == "Base Type 1");
+            var testInputBlock = new ItemFilterBlock();
+            var baseTypeBlockItem = new BaseTypeBlockItem();
+            baseTypeBlockItem.Items.Add("Base Type 2");
+            testInputBlock.BlockItems.Add(baseTypeBlockItem);
+
+            //Act
+            var result = _testUtility.BlockItemMatcher.ItemBlockMatch(testInputBlock, testInputItem);
+
+            //Assert
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void ItemBlockMatch_MultipleBlockItems_Matches_ReturnsTrue()
+        {
+            //Arrange
+            var testInputItem = Mock.Of<IItem>(i => i.BaseType == "Base Type 1" && i.Height == 4 && i.Width == 2);
+            var testInputBlock = new ItemFilterBlock();
+            var baseTypeBlockItem = new BaseTypeBlockItem();
+            baseTypeBlockItem.Items.Add("Base Type 1");
+            var heightBlockItem = new HeightBlockItem(FilterPredicateOperator.Equal, 4);
+            var widthBlockItem = new WidthBlockItem(FilterPredicateOperator.Equal, 2);
+
+            testInputBlock.BlockItems.Add(baseTypeBlockItem);
+            testInputBlock.BlockItems.Add(heightBlockItem);
+            testInputBlock.BlockItems.Add(widthBlockItem);
+
+            //Act
+            var result = _testUtility.BlockItemMatcher.ItemBlockMatch(testInputBlock, testInputItem);
+
+            //Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void ItemBlockMatch_MultipleBlockItems_DoesNotMatch_ReturnsFalse()
+        {
+            //Arrange
+            var testInputItem = Mock.Of<IItem>(i => i.BaseType == "Base Type 1" && i.Height == 4 && i.Width == 2);
+            var testInputBlock = new ItemFilterBlock();
+            var baseTypeBlockItem = new BaseTypeBlockItem();
+            baseTypeBlockItem.Items.Add("Base Type d");
+            var heightBlockItem = new HeightBlockItem(FilterPredicateOperator.Equal, 3);
+            var widthBlockItem = new WidthBlockItem(FilterPredicateOperator.Equal, 2);
+
+            testInputBlock.BlockItems.Add(baseTypeBlockItem);
+            testInputBlock.BlockItems.Add(heightBlockItem);
+            testInputBlock.BlockItems.Add(widthBlockItem);
+
+            //Act
+            var result = _testUtility.BlockItemMatcher.ItemBlockMatch(testInputBlock, testInputItem);
+
+            //Assert
+            Assert.IsFalse(result);
+        }
+
         [TestCase("Test Base Type", true)]
         [TestCase("Test Bas", true)]
         [TestCase("T", true)]
         [TestCase("Base Type", false)]
-        public void BaseTypeBlockItemMatch_SingleBlockItemValue_ReturnsTrue(string testInputBaseType, bool expectedResult)
+        public void ItemBlockItemMatch_BaseTypeBlockItem_SingleBlockItemValue_ReturnsTrue(string testInputBaseType, bool expectedResult)
         {
             //Arrange
             var testInputItem = Mock.Of<IItem>(i => i.BaseType == "Test Base Type");
@@ -38,7 +131,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             testInputBaseTypeBlockItem.Items.Add(testInputBaseType);
 
             //Act
-            var result = _testUtility.ItemBlockItemMatcher.BaseTypeBlockItemMatch(testInputBaseTypeBlockItem, testInputItem);
+            var result = _testUtility.BlockItemMatcher.ItemBlockItemMatch(testInputBaseTypeBlockItem, testInputItem);
 
             //Assert
             Assert.AreEqual(expectedResult, result);
@@ -48,7 +141,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
         [TestCase("Test Bas", true)]
         [TestCase("T", true)]
         [TestCase("Base Type", false)]
-        public void BaseTypeBlockItemMatch_MultipleBlockItemValues_ReturnsCorrectResult(string testInputBaseType, bool expectedResult)
+        public void ItemBlockItemMatch_BaseTypeBlockItem_MultipleBlockItemValues_ReturnsCorrectResult(string testInputBaseType, bool expectedResult)
         {
             //Arrange
             var testInputItem = Mock.Of<IItem>(i => i.BaseType == "Test Base Type");
@@ -58,7 +151,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             testInputBlockItem.Items.Add("Blah");
 
             //Act
-            var result = _testUtility.ItemBlockItemMatcher.BaseTypeBlockItemMatch(testInputBlockItem, testInputItem);
+            var result = _testUtility.BlockItemMatcher.ItemBlockItemMatch(testInputBlockItem, testInputItem);
 
             //Assert
             Assert.AreEqual(expectedResult, result);
@@ -68,7 +161,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
         [TestCase("Test It", true)]
         [TestCase("T", true)]
         [TestCase("Item Class", false)]
-        public void ItemClassBlockItemMatch_SingleBlockItemValue_ReturnsCorrectResult(string testInputBlockItemItemClass, bool expectedResult)
+        public void ItemBlockItemMatch_ClassBlockItem_SingleBlockItemValue_ReturnsCorrectResult(string testInputBlockItemItemClass, bool expectedResult)
         {
             //Arrange
             var testInputItem = Mock.Of<IItem>(i => i.ItemClass == "Test Item Class");
@@ -76,7 +169,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             testInputBlockItem.Items.Add(testInputBlockItemItemClass);
 
             //Act
-            var result = _testUtility.ItemBlockItemMatcher.ClassBlockItemMatch(testInputBlockItem, testInputItem);
+            var result = _testUtility.BlockItemMatcher.ItemBlockItemMatch(testInputBlockItem, testInputItem);
 
             //Assert
             Assert.AreEqual(expectedResult, result);
@@ -98,14 +191,14 @@ namespace Filtration.ItemFilterPreview.Tests.Services
         [TestCase(FilterPredicateOperator.LessThanOrEqual, 50, true)]
         [TestCase(FilterPredicateOperator.LessThanOrEqual, 51, true)]
         [TestCase(-1, 51, false)]
-        public void DropLevelBlockItemMatch_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemDropLevel, bool expectedResult)
+        public void ItemBlockItemMatch_DropLevelBlockItem_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemDropLevel, bool expectedResult)
         {
             //Arrange
             var testInputItem = Mock.Of<IItem>(i => i.DropLevel == 50);
             var testInputBlockItem = new DropLevelBlockItem(testInputFilterPredicateOperator, testInputBlockItemDropLevel);
 
             //Act
-            var result = _testUtility.ItemBlockItemMatcher.DropLevelBlockItemMatch(testInputBlockItem, testInputItem);
+            var result = _testUtility.BlockItemMatcher.ItemBlockItemMatch(testInputBlockItem, testInputItem);
             
             //Assert
             Assert.AreEqual(expectedResult, result);
@@ -127,14 +220,14 @@ namespace Filtration.ItemFilterPreview.Tests.Services
         [TestCase(FilterPredicateOperator.LessThanOrEqual, 2, true)]
         [TestCase(FilterPredicateOperator.LessThanOrEqual, 3, true)]
         [TestCase(-1, 3, false)]
-        public void HeightBlockItemMatch_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemHeight, bool expectedResult)
+        public void ItemBlockItemMatch_HeightBlockItem_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemHeight, bool expectedResult)
         {
             //Arrange
             var testInputItem = Mock.Of<IItem>(i => i.Height == 2);
             var testInputBlockItem = new HeightBlockItem(testInputFilterPredicateOperator, testInputBlockItemHeight);
 
             //Act
-            var result = _testUtility.ItemBlockItemMatcher.HeightBlockItemMatch(testInputBlockItem, testInputItem);
+            var result = _testUtility.BlockItemMatcher.ItemBlockItemMatch(testInputBlockItem, testInputItem);
 
             //Assert
             Assert.AreEqual(expectedResult, result);
@@ -156,14 +249,14 @@ namespace Filtration.ItemFilterPreview.Tests.Services
         [TestCase(FilterPredicateOperator.LessThanOrEqual, 50, true)]
         [TestCase(FilterPredicateOperator.LessThanOrEqual, 51, true)]
         [TestCase(-1, 51, false)]
-        public void ItemLevelBlockItemMatch_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemItemLevel, bool expectedResult)
+        public void ItemBlockItemMatch_ItemLevelBlockItem_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemItemLevel, bool expectedResult)
         {
             //Arrange
             var testInputItem = Mock.Of<IItem>(i => i.ItemLevel == 50);
             var testInputBlockItem = new ItemLevelBlockItem(testInputFilterPredicateOperator, testInputBlockItemItemLevel);
 
             //Act
-            var result = _testUtility.ItemBlockItemMatcher.ItemLevelBlockItemMatch(testInputBlockItem, testInputItem);
+            var result = _testUtility.BlockItemMatcher.ItemBlockItemMatch(testInputBlockItem, testInputItem);
 
             //Assert
             Assert.AreEqual(expectedResult, result);
@@ -185,14 +278,14 @@ namespace Filtration.ItemFilterPreview.Tests.Services
         [TestCase(FilterPredicateOperator.LessThanOrEqual, 3, true)]
         [TestCase(FilterPredicateOperator.LessThanOrEqual, 4, true)]
         [TestCase(-1, 3, false)]
-        public void LinkedSocketsBlockItemMatch_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemLinkedSockets, bool expectedResult)
+        public void ItemBlockItemMatch_LinkedSocketsBlockItem_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemLinkedSockets, bool expectedResult)
         {
             //Arrange
             var testInputItem = Mock.Of<IItem>(i => i.LinkedSockets == 3);
             var testInputBlockItem = new LinkedSocketsBlockItem(testInputFilterPredicateOperator, testInputBlockItemLinkedSockets);
 
             //Act
-            var result = _testUtility.ItemBlockItemMatcher.LinkedSocketsBlockItemMatch(testInputBlockItem, testInputItem);
+            var result = _testUtility.BlockItemMatcher.ItemBlockItemMatch(testInputBlockItem, testInputItem);
 
             //Assert
             Assert.AreEqual(expectedResult, result);
@@ -214,14 +307,14 @@ namespace Filtration.ItemFilterPreview.Tests.Services
         [TestCase(FilterPredicateOperator.LessThanOrEqual, 12, true)]
         [TestCase(FilterPredicateOperator.LessThanOrEqual, 13, true)]
         [TestCase(-1, 13, false)]
-        public void QualityBlockItemMatch_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemQuality, bool expectedResult)
+        public void ItemBlockItemMatch_QualityBlockItem_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemQuality, bool expectedResult)
         {
             //Arrange
             var testInputItem = Mock.Of<IItem>(i => i.Quality == 12);
             var testInputBlockItem = new QualityBlockItem(testInputFilterPredicateOperator, testInputBlockItemQuality);
 
             //Act
-            var result = _testUtility.ItemBlockItemMatcher.QualityBlockItemMatch(testInputBlockItem, testInputItem);
+            var result = _testUtility.BlockItemMatcher.ItemBlockItemMatch(testInputBlockItem, testInputItem);
 
             //Assert
             Assert.AreEqual(expectedResult, result);
@@ -243,14 +336,14 @@ namespace Filtration.ItemFilterPreview.Tests.Services
         [TestCase(FilterPredicateOperator.LessThanOrEqual, ItemRarity.Magic, true)]
         [TestCase(FilterPredicateOperator.LessThanOrEqual, ItemRarity.Rare, true)]
         [TestCase(-1, 13, false)]
-        public void RarityBlockItemMatch_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemRarity, bool expectedResult)
+        public void ItemBlockItemMatch_RarityBlockItem_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemRarity, bool expectedResult)
         {
             //Arrange
             var testInputItem = Mock.Of<IItem>(i => i.ItemRarity == ItemRarity.Magic);
             var testInputBlockItem = new RarityBlockItem(testInputFilterPredicateOperator, testInputBlockItemRarity);
 
             //Act
-            var result = _testUtility.ItemBlockItemMatcher.RarityBlockItemMatch(testInputBlockItem, testInputItem);
+            var result = _testUtility.BlockItemMatcher.ItemBlockItemMatch(testInputBlockItem, testInputItem);
 
             //Assert
             Assert.AreEqual(expectedResult, result);
@@ -272,14 +365,14 @@ namespace Filtration.ItemFilterPreview.Tests.Services
         [TestCase(FilterPredicateOperator.LessThanOrEqual, 3, true)]
         [TestCase(FilterPredicateOperator.LessThanOrEqual, 4, true)]
         [TestCase(-1, 3, false)]
-        public void SocketsBlockItemMatch_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemSockets, bool expectedResult)
+        public void ItemBlockItemMatch_SocketsBlockItem_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemSockets, bool expectedResult)
         {
             //Arrange
             var testInputItem = Mock.Of<IItem>(i => i.Sockets == 3);
             var testInputBlockItem = new SocketsBlockItem(testInputFilterPredicateOperator, testInputBlockItemSockets);
 
             //Act
-            var result = _testUtility.ItemBlockItemMatcher.SocketsBlockItemMatch(testInputBlockItem, testInputItem);
+            var result = _testUtility.BlockItemMatcher.ItemBlockItemMatch(testInputBlockItem, testInputItem);
 
             //Assert
             Assert.AreEqual(expectedResult, result);
@@ -301,21 +394,21 @@ namespace Filtration.ItemFilterPreview.Tests.Services
         [TestCase(FilterPredicateOperator.LessThanOrEqual, 2, true)]
         [TestCase(FilterPredicateOperator.LessThanOrEqual, 3, true)]
         [TestCase(-1, 3, false)]
-        public void WidthBlockItemMatch_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemWidth, bool expectedResult)
+        public void ItemBlockItemMatch_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemWidth, bool expectedResult)
         {
             //Arrange
             var testInputItem = Mock.Of<IItem>(i => i.Width == 2);
             var testInputBlockItem = new WidthBlockItem(testInputFilterPredicateOperator, testInputBlockItemWidth);
 
             //Act
-            var result = _testUtility.ItemBlockItemMatcher.WidthBlockItemMatch(testInputBlockItem, testInputItem);
+            var result = _testUtility.BlockItemMatcher.ItemBlockItemMatch(testInputBlockItem, testInputItem);
 
             //Assert
             Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
-        public void SocketGroupBlockItemMatch_SingleItemSocketGroup_SingleBlockItemSocketGroup_Match_ReturnsCorrectResult()
+        public void ItemBlockItemMatch_SocketGroupBlockItem_SingleItemSocketGroup_SingleBlockItemSocketGroup_Match_ReturnsCorrectResult()
         {
             //Arrange
             var testInputBlockItem = new SocketGroupBlockItem();
@@ -332,14 +425,14 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             });
 
             //Act
-            var result = _testUtility.ItemBlockItemMatcher.SocketGroupBlockItemMatch(testInputBlockItem, testInputItem);
+            var result = _testUtility.BlockItemMatcher.ItemBlockItemMatch(testInputBlockItem, testInputItem);
 
             //Assert
             Assert.IsTrue(result);
         }
 
         [Test]
-        public void SocketGroupBlockItemMatch_SingleItemSocketGroup_SingleBlockItemSocketGroup_NoMatch_ReturnsCorrectResult()
+        public void ItemBlockItemMatch_SocketGroupBlockItem_SingleItemSocketGroup_SingleBlockItemSocketGroup_NoMatch_ReturnsCorrectResult()
         {
             //Arrange
             var testInputBlockItem = new SocketGroupBlockItem();
@@ -355,14 +448,14 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             });
 
             //Act
-            var result = _testUtility.ItemBlockItemMatcher.SocketGroupBlockItemMatch(testInputBlockItem, testInputItem);
+            var result = _testUtility.BlockItemMatcher.ItemBlockItemMatch(testInputBlockItem, testInputItem);
 
             //Assert
             Assert.IsFalse(result);
         }
 
         [Test]
-        public void SocketGroupBlockItemMatch_MultipleItemSocketGroup_SingleBlockItemSocketGroup_NoMatch_ReturnsCorrectResult()
+        public void ItemBlockItemMatch_SocketGroupBlockItem_MultipleItemSocketGroup_SingleBlockItemSocketGroup_NoMatch_ReturnsCorrectResult()
         {
             //Arrange
             var testInputBlockItem = new SocketGroupBlockItem();
@@ -384,14 +477,14 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             });
 
             //Act
-            var result = _testUtility.ItemBlockItemMatcher.SocketGroupBlockItemMatch(testInputBlockItem, testInputItem);
+            var result = _testUtility.BlockItemMatcher.ItemBlockItemMatch(testInputBlockItem, testInputItem);
 
             //Assert
             Assert.IsFalse(result);
         }
 
         [Test]
-        public void SocketGroupBlockItemMatch_MultipleItemSocketGroup_SingleBlockItemSocketGroup_Match_ReturnsCorrectResult()
+        public void ItemBlockItemMatch_SocketGroupBlockItem_MultipleItemSocketGroup_SingleBlockItemSocketGroup_Match_ReturnsCorrectResult()
         {
             //Arrange
             var testInputBlockItem = new SocketGroupBlockItem();
@@ -413,12 +506,11 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             });
 
             //Act
-            var result = _testUtility.ItemBlockItemMatcher.SocketGroupBlockItemMatch(testInputBlockItem, testInputItem);
+            var result = _testUtility.BlockItemMatcher.ItemBlockItemMatch(testInputBlockItem, testInputItem);
 
             //Assert
             Assert.IsTrue(result);
         }
-
 
         private class ItemBlockItemMatcherTestUtility
         {
@@ -427,10 +519,10 @@ namespace Filtration.ItemFilterPreview.Tests.Services
                 // Mock setups
 
                 // Class under-test instantiation
-                ItemBlockItemMatcher = new ItemBlockItemMatcher();
+                BlockItemMatcher = new BlockItemMatcher();
             }
 
-            public ItemBlockItemMatcher ItemBlockItemMatcher { get; private set; }
+            public BlockItemMatcher BlockItemMatcher { get; }
         }
     }
 }

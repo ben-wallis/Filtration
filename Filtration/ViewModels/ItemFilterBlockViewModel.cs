@@ -17,10 +17,10 @@ namespace Filtration.ViewModels
 {
     internal interface IItemFilterBlockViewModel
     {
-        void Initialise(ItemFilterBlock itemFilterBlock, ItemFilterScriptViewModel parentScriptViewModel);
+        void Initialise(IItemFilterBlock itemFilterBlock, ItemFilterScriptViewModel parentScriptViewModel);
         bool IsDirty { get; set; }
         bool IsExpanded { get; set; }
-        ItemFilterBlock Block { get; }
+        IItemFilterBlock Block { get; }
         bool BlockEnabled { get; set; }
         void RefreshBlockPreview();
     }
@@ -61,7 +61,7 @@ namespace Filtration.ViewModels
             PlaySoundCommand = new RelayCommand(OnPlaySoundCommand, () => HasSound);
         }
 
-        public void Initialise(ItemFilterBlock itemFilterBlock, ItemFilterScriptViewModel parentScriptViewModel)
+        public void Initialise(IItemFilterBlock itemFilterBlock, ItemFilterScriptViewModel parentScriptViewModel)
         {
             if (itemFilterBlock == null || parentScriptViewModel == null)
             {
@@ -98,7 +98,7 @@ namespace Filtration.ViewModels
         public RelayCommand PlaySoundCommand { get; private set; }
         public RelayCommand SwitchBlockItemsViewCommand { get; private set; }
 
-        public ItemFilterBlock Block { get; private set; }
+        public IItemFilterBlock Block { get; private set; }
 
         public bool IsDirty { get; set; }
 

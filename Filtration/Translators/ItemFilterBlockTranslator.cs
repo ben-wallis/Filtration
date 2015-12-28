@@ -17,9 +17,9 @@ namespace Filtration.Translators
 {
     internal interface IItemFilterBlockTranslator
     {
-        ItemFilterBlock TranslateStringToItemFilterBlock(string inputString,
+        IItemFilterBlock TranslateStringToItemFilterBlock(string inputString,
             ThemeComponentCollection masterComponentCollection);
-        string TranslateItemFilterBlockToString(ItemFilterBlock block);
+        string TranslateItemFilterBlockToString(IItemFilterBlock block);
         void ReplaceColorBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString);
     }
 
@@ -38,7 +38,7 @@ namespace Filtration.Translators
 
         // This method converts a string into a ItemFilterBlock. This is used for pasting ItemFilterBlocks 
         // and reading ItemFilterScripts from a file.
-        public ItemFilterBlock TranslateStringToItemFilterBlock(string inputString, ThemeComponentCollection masterComponentCollection)
+        public IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, ThemeComponentCollection masterComponentCollection)
         {
             _masterComponentCollection = masterComponentCollection;
             var block = new ItemFilterBlock();
@@ -234,7 +234,7 @@ namespace Filtration.Translators
             return block;
         }
 
-        private static void RemoveExistingBlockItemsOfType<T>(ItemFilterBlock block)
+        private static void RemoveExistingBlockItemsOfType<T>(IItemFilterBlock block)
         {
             var existingBlockItemCount = block.BlockItems.Count(b => b.GetType() == typeof(T));
             if (existingBlockItemCount > 0)
@@ -244,7 +244,7 @@ namespace Filtration.Translators
             }
         }
 
-        private static void AddNumericFilterPredicateItemToBlockItems<T>(ItemFilterBlock block, string inputString) where T : NumericFilterPredicateBlockItem
+        private static void AddNumericFilterPredicateItemToBlockItems<T>(IItemFilterBlock block, string inputString) where T : NumericFilterPredicateBlockItem
         {
             var blockItem = Activator.CreateInstance<T>();
             
@@ -262,7 +262,7 @@ namespace Filtration.Translators
             predicate.PredicateOperand = Convert.ToInt16(result.Groups[2].Value);
         }
 
-        private static void AddStringListItemToBlockItems<T>(ItemFilterBlock block, string inputString) where T : StringListBlockItem
+        private static void AddStringListItemToBlockItems<T>(IItemFilterBlock block, string inputString) where T : StringListBlockItem
         {
             var blockItem = Activator.CreateInstance<T>();
             PopulateListFromString(blockItem.Items, inputString.Substring(inputString.IndexOf(" ", StringComparison.Ordinal) + 1).Trim());
@@ -280,7 +280,7 @@ namespace Filtration.Translators
             }
         }
 
-        private void AddColorItemToBlockItems<T>(ItemFilterBlock block, string inputString) where T : ColorBlockItem
+        private void AddColorItemToBlockItems<T>(IItemFilterBlock block, string inputString) where T : ColorBlockItem
         {
             block.BlockItems.Add(GetColorBlockItemFromString<T>(inputString));
         }
@@ -365,7 +365,7 @@ namespace Filtration.Translators
             }
         }
         
-        private void AddBlockGroupToBlock(ItemFilterBlock block, string inputString)
+        private void AddBlockGroupToBlock(IItemFilterBlock block, string inputString)
         {
             var blockGroupStart = inputString.IndexOf("#", StringComparison.Ordinal);
             if (blockGroupStart <= 0) return;
@@ -407,7 +407,7 @@ namespace Filtration.Translators
 
         // This method converts an ItemFilterBlock object into a string. This is used for copying a ItemFilterBlock
         // to the clipboard, and when saving a ItemFilterScript.
-        public string TranslateItemFilterBlockToString(ItemFilterBlock block)
+        public string TranslateItemFilterBlockToString(IItemFilterBlock block)
         {
             if (block.GetType() == typeof (ItemFilterSection))
             {

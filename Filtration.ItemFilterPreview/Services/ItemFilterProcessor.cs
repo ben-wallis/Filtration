@@ -1,34 +1,38 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using Filtration.ItemFilterPreview.Model;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
-using Filtration.ObjectModel.BlockItemTypes;
-using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ItemFilterPreview.Services
 {
-    public class ItemFilterProcessor
+    internal class ItemFilterProcessor
     {
-        private IItemFilterScript _itemFilterScript;
+        private readonly IBlockItemMatcher _blockItemMatcher;
 
-        public ItemFilterProcessor()
+        internal ItemFilterProcessor(IBlockItemMatcher blockItemMatcher)
         {
-            
+            _blockItemMatcher = blockItemMatcher;
         }
 
-        public void LoadItemFilterScript(IItemFilterScript itemFilterScript)
+        public IReadOnlyDictionary<IItem, IItemFilterBlock> ProcessItemsAgainstItemFilterScript(IItemFilterScript itemFilterScript, IEnumerable<IItem> items)
         {
-            _itemFilterScript = itemFilterScript;
-        }
+            var matchedItemBlockPairs = new Dictionary<IItem, IItemFilterBlock>();
 
-        public void ItemIsVisible(IItem item)
-        {
-            foreach (var block in _itemFilterScript.ItemFilterBlocks)
+            var sw = Stopwatch.StartNew();
+            foreach (var item in items)
             {
-                
-            }
-        }
+                sw.Restart();
 
-        
+                var matchedBlock = itemFilterScript.ItemFilterBlocks.FirstOrDefault(block => _blockItemMatcher.ItemBlockMatch(block, item));
+                matchedItemBlockPairs.Add(item, matchedBlock);
+
+                Debug.WriteLine("Processed Item in {0}ms", sw.ElapsedMilliseconds);
+            }
+            sw.Stop();
+
+            return matchedItemBlockPairs;
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace Filtration.ObjectModel
 {
     public interface IItemFilterScript
     {
-        ObservableCollection<ItemFilterBlock> ItemFilterBlocks { get; }
+        ObservableCollection<IItemFilterBlock> ItemFilterBlocks { get; }
         ObservableCollection<ItemFilterBlockGroup> ItemFilterBlockGroups { get; }
         ThemeComponentCollection ThemeComponents { get; set; }
         string FilePath { get; set; }
@@ -23,7 +23,7 @@ namespace Filtration.ObjectModel
     {
         public ItemFilterScript()
         {
-            ItemFilterBlocks = new ObservableCollection<ItemFilterBlock>();
+            ItemFilterBlocks = new ObservableCollection<IItemFilterBlock>();
             ItemFilterBlockGroups = new ObservableCollection<ItemFilterBlockGroup>
             {
                 new ItemFilterBlockGroup("Root", null)
@@ -31,7 +31,7 @@ namespace Filtration.ObjectModel
             ThemeComponents = new ThemeComponentCollection { IsMasterCollection = true};
         }
 
-        public ObservableCollection<ItemFilterBlock> ItemFilterBlocks { get; }
+        public ObservableCollection<IItemFilterBlock> ItemFilterBlocks { get; }
         public ObservableCollection<ItemFilterBlockGroup> ItemFilterBlockGroups { get; }
 
         public ThemeComponentCollection ThemeComponents { get; set; } 
@@ -76,7 +76,7 @@ namespace Filtration.ObjectModel
             }
         }
 
-        private bool BlockIsColorReplacementCandidate(ReplaceColorsParameterSet replaceColorsParameterSet, ItemFilterBlock block)
+        private bool BlockIsColorReplacementCandidate(ReplaceColorsParameterSet replaceColorsParameterSet, IItemFilterBlock block)
         {
             var textColorItem = block.HasBlockItemOfType<TextColorBlockItem>()
                 ? block.BlockItems.OfType<TextColorBlockItem>().First()
