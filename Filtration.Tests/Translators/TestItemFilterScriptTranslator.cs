@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
@@ -10,6 +11,7 @@ using Filtration.Properties;
 using Filtration.Translators;
 using Moq;
 using NUnit.Framework;
+using Resources = Filtration.Tests.Properties.Resources;
 
 namespace Filtration.Tests.Translators
 {
@@ -25,12 +27,11 @@ namespace Filtration.Tests.Translators
             Settings.Default.Reset();
         }
 
-        [Ignore("Need to fix file reading in NUnit 3.x")]
         [Test]
         public void TranslateStringToItemFilterScript_ReturnsScriptWithCorrectNumberOfBlocks()
         {
             // Arrange
-            var testInput = File.ReadAllText(@"Resources/testscript.txt");
+            var testInput = Resources.testscript;
 
             _testUtility.MockItemFilterBlockTranslator.Setup(t => t.TranslateStringToItemFilterBlock(It.IsAny<string>(), It.IsAny<ThemeComponentCollection>())).Verifiable();
 
@@ -42,12 +43,11 @@ namespace Filtration.Tests.Translators
             _testUtility.MockItemFilterBlockTranslator.Verify();
         }
 
-        [Ignore("Need to fix file reading in NUnit 3.x")]
         [Test]
         public void TranslateStringToItemFilterScript_ReturnsScriptWithDescriptionCorrectlySet()
         {
             // Arrange
-            var testInput = File.ReadAllText(@"Resources/testscript.txt");
+            var testInput = Resources.testscript;
             var expectedDescription =   "Item Filter Script created by Filtration v0.1 - www.github.com/XVar/filtration" + Environment.NewLine +
                                         "Begin Script Description" + Environment.NewLine +
                                         "This is a test script" + Environment.NewLine +
@@ -64,19 +64,18 @@ namespace Filtration.Tests.Translators
             Assert.AreEqual(expectedDescription, script.Description);
         }
 
-        [Ignore("Integration Test / need to fix file reading for NUnit 3.x")]
         [Test]
         public void TranslateStringToItemFilterScript_ThioleItemFilterTest()
         {
             // Arrange
-            var testInput = File.ReadAllText(@"Resources/ThioleItemFilter.txt");
+            var testInput = Resources.ThioleItemFilter;
 
             var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
-            var translator = new ItemFilterScriptTranslator(blockTranslator,
-                _testUtility.MockBlockGroupHierarchyBuilder.Object);
+            var translator = new ItemFilterScriptTranslator(blockTranslator, _testUtility.MockBlockGroupHierarchyBuilder.Object);
 
             // Act
             translator.TranslateStringToItemFilterScript(testInput);
+
             // Assert
             // Not crashing out when loading a huge script means this integration test has passed!
         }

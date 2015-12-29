@@ -3,11 +3,15 @@ using System.Diagnostics;
 using System.Linq;
 using Filtration.ItemFilterPreview.Model;
 using Filtration.ObjectModel;
-using Filtration.ObjectModel.BlockItemBaseTypes;
 
 namespace Filtration.ItemFilterPreview.Services
 {
-    internal class ItemFilterProcessor
+    internal interface IItemFilterProcessor
+    {
+        IReadOnlyDictionary<IItem, IItemFilterBlock> ProcessItemsAgainstItemFilterScript(IItemFilterScript itemFilterScript, IEnumerable<IItem> items);
+    }
+
+    internal class ItemFilterProcessor : IItemFilterProcessor
     {
         private readonly IBlockItemMatcher _blockItemMatcher;
 
@@ -18,6 +22,8 @@ namespace Filtration.ItemFilterPreview.Services
 
         public IReadOnlyDictionary<IItem, IItemFilterBlock> ProcessItemsAgainstItemFilterScript(IItemFilterScript itemFilterScript, IEnumerable<IItem> items)
         {
+            var overallsw = Stopwatch.StartNew();
+
             var matchedItemBlockPairs = new Dictionary<IItem, IItemFilterBlock>();
 
             var sw = Stopwatch.StartNew();
@@ -25,13 +31,18 @@ namespace Filtration.ItemFilterPreview.Services
             {
                 sw.Restart();
 
-                var matchedBlock = itemFilterScript.ItemFilterBlocks.FirstOrDefault(block => _blockItemMatcher.ItemBlockMatch(block, item));
+                var matchedBlock = itemFilterScript.ItemFilterBlocks
+                    .Where(b => !(b is ItemFilterSection))
+                    .FirstOrDefault(block => _blockItemMatcher.ItemBlockMatch(block, item));
+
                 matchedItemBlockPairs.Add(item, matchedBlock);
 
                 Debug.WriteLine("Processed Item in {0}ms", sw.ElapsedMilliseconds);
             }
             sw.Stop();
 
+            overallsw.Stop();
+            Debug.WriteLine("Total processing time: {0}ms", overallsw.ElapsedMilliseconds);
             return matchedItemBlockPairs;
         }
     }

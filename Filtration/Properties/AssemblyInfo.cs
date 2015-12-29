@@ -53,4 +53,5 @@ using System.Windows;
 [assembly: AssemblyVersion("0.11.*")]
 
 [assembly: InternalsVisibleTo("Filtration.Tests")]
+[assembly: InternalsVisibleTo("Filtration.ItemFilterPreview.Tests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

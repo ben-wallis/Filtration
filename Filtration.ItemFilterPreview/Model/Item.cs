@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.Enums;
 
@@ -54,8 +55,8 @@ namespace Filtration.ItemFilterPreview.Model
                 }
 
                 var evenSocketCount = socketCount % 2 == 0;
-                var maxSocketGroups = evenSocketCount ? socketCount / 2 : socketCount - 1;
-                var maxLinkedSocketGroups = evenSocketCount ? maxSocketGroups : maxSocketGroups - 1;
+                var maxSocketGroups = Math.Max(1, evenSocketCount ? socketCount / 2 : socketCount - 1);
+                var maxLinkedSocketGroups = Math.Max(1, evenSocketCount ? maxSocketGroups : maxSocketGroups - 1);
 
                 if (value.Count > maxSocketGroups)
                 {
@@ -69,7 +70,10 @@ namespace Filtration.ItemFilterPreview.Model
 
                 _socketGroups = value;
                 Sockets = socketCount;
-                LinkedSockets = value.Where(s => s.Linked).Max(s => s.Count);
+
+                var linkedSocketGroups = value.Where(s => s.Linked).ToList();
+                LinkedSockets = linkedSocketGroups.Any() ? linkedSocketGroups.Max(s => s.Count) : 0;
+                
             }
         }
     }

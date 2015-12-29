@@ -1,10 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Resources;
+using System.Runtime.Versioning;
 using Filtration.ItemFilterPreview.Model;
 using Filtration.ItemFilterPreview.Services;
+using Filtration.ItemFilterPreview.Tests.Properties;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
+using Filtration.Translators;
 using Moq;
 using NUnit.Framework;
 
@@ -25,17 +31,204 @@ namespace Filtration.ItemFilterPreview.Tests.Services
         public void ProcessItemsAgainstItemFilterScript_Matches_ReturnsTrue()
         {
             //Arrange
-            var testInputItem = Mock.Of<IItem>(i => i.ItemClass == "Test Class");
-            var testInputBlockItem = new ActionBlockItem(BlockAction.Show);
-            var testInputBlock = Mock.Of<IItemFilterBlock>(b => b.Action == BlockAction.Show && 
-                                                           b.BlockItems == new ObservableCollection<IItemFilterBlockItem> {testInputBlockItem});
+            var testInputItem = Mock.Of<IItem>();
+            var testInputBlock = Mock.Of<IItemFilterBlock>();
             var testInputScript = Mock.Of<IItemFilterScript>(s => s.ItemFilterBlocks == new ObservableCollection<IItemFilterBlock> {testInputBlock});
+
+            _testUtility.MockBlockItemMatcher
+                .Setup(b => b.ItemBlockMatch(testInputBlock, testInputItem))
+                .Returns(true)
+                .Verifiable();
 
             //Act
             var result = _testUtility.ItemFilterProcessor.ProcessItemsAgainstItemFilterScript(testInputScript, new List<IItem> { testInputItem });
 
             //Assert
+            _testUtility.MockBlockItemMatcher.Verify();
             Assert.AreEqual(testInputBlock, result[testInputItem]);
+        }
+
+        [Test]
+        public void ProcessItemsAgainstItemFilterScript_DoesNotMatch_ReturnsFalse()
+        {
+            //Arrange
+            var testInputItem = Mock.Of<IItem>();
+            var testInputBlock = Mock.Of<IItemFilterBlock>();
+            var testInputScript = Mock.Of<IItemFilterScript>(s => s.ItemFilterBlocks == new ObservableCollection<IItemFilterBlock> { testInputBlock });
+
+            _testUtility.MockBlockItemMatcher
+                .Setup(b => b.ItemBlockMatch(testInputBlock, testInputItem))
+                .Returns(false)
+                .Verifiable();
+
+            //Act
+            var result = _testUtility.ItemFilterProcessor.ProcessItemsAgainstItemFilterScript(testInputScript, new List<IItem> { testInputItem });
+
+            //Assert
+            _testUtility.MockBlockItemMatcher.Verify();
+            Assert.AreEqual(null, result[testInputItem]);
+        }
+
+        [Test]
+        public void ProcessItemsAgainstItemFilterScript_IntegrationTest()
+        {
+            //Arrange
+            var testInputScriptFile = Resources.MuldiniFilterScript;
+            var blockGroupHierarchyBuilder = new BlockGroupHierarchyBuilder();
+            var scriptTranslator = new ItemFilterScriptTranslator(new ItemFilterBlockTranslator(blockGroupHierarchyBuilder), blockGroupHierarchyBuilder);
+            var script = scriptTranslator.TranslateStringToItemFilterScript(testInputScriptFile);
+
+            var testInputItem = new Item
+            {
+                BaseType = "BlahdeBlah",
+                ItemClass = "Wands",
+                ItemRarity = ItemRarity.Magic,
+                ItemLevel = 9,
+                DropLevel = 9,
+                Height = 3,
+                Width = 1,
+                SocketGroups = new List<SocketGroup> {new SocketGroup(new List<Socket> {new Socket(SocketColor.Red)}, false)}
+            };
+
+            var itemFilterProcessor = new ItemFilterProcessor(new BlockItemMatcher());
+
+            //Act
+            var result = itemFilterProcessor.ProcessItemsAgainstItemFilterScript(script, new List<IItem> { testInputItem });
+
+            //Assert
+            Assert.AreEqual("Wands", result.Values.First().BlockItems.OfType<ClassBlockItem>().First().Items.First());
+        }
+
+        [Test]
+        public void ProcessItemsAgainstItemFilterScript_IntegrationTest_10Items()
+        {
+            //Arrange
+            var testInputScriptFile = Resources.MuldiniFilterScript;
+            var blockGroupHierarchyBuilder = new BlockGroupHierarchyBuilder();
+            var scriptTranslator = new ItemFilterScriptTranslator(new ItemFilterBlockTranslator(blockGroupHierarchyBuilder), blockGroupHierarchyBuilder);
+            var script = scriptTranslator.TranslateStringToItemFilterScript(testInputScriptFile);
+
+            var testInputItems = new List<IItem>
+            {
+                new Item
+                {
+                    BaseType = "BlahdeBlah",
+                    ItemClass = "Wands",
+                    ItemRarity = ItemRarity.Magic,
+                    ItemLevel = 9,
+                    DropLevel = 9,
+                    Height = 3,
+                    Width = 1,
+                    SocketGroups = new List<SocketGroup> {new SocketGroup(new List<Socket> {new Socket(SocketColor.Red)}, false)}
+                },
+                new Item
+                {
+                    BaseType = "BlahdeBlah",
+                    ItemClass = "Wands",
+                    ItemRarity = ItemRarity.Magic,
+                    ItemLevel = 9,
+                    DropLevel = 9,
+                    Height = 3,
+                    Width = 1,
+                    SocketGroups = new List<SocketGroup> {new SocketGroup(new List<Socket> {new Socket(SocketColor.Red)}, false)}
+                },
+                new Item
+                {
+                    BaseType = "BlahdeBlah",
+                    ItemClass = "Wands",
+                    ItemRarity = ItemRarity.Magic,
+                    ItemLevel = 9,
+                    DropLevel = 9,
+                    Height = 3,
+                    Width = 1,
+                    SocketGroups = new List<SocketGroup> {new SocketGroup(new List<Socket> {new Socket(SocketColor.Red)}, false)}
+                },
+                new Item
+                {
+                    BaseType = "BlahdeBlah",
+                    ItemClass = "Wands",
+                    ItemRarity = ItemRarity.Magic,
+                    ItemLevel = 9,
+                    DropLevel = 9,
+                    Height = 3,
+                    Width = 1,
+                    SocketGroups = new List<SocketGroup> {new SocketGroup(new List<Socket> {new Socket(SocketColor.Red)}, false)}
+                },
+                new Item
+                {
+                    BaseType = "BlahdeBlah",
+                    ItemClass = "Wands",
+                    ItemRarity = ItemRarity.Magic,
+                    ItemLevel = 9,
+                    DropLevel = 9,
+                    Height = 3,
+                    Width = 1,
+                    SocketGroups = new List<SocketGroup> {new SocketGroup(new List<Socket> {new Socket(SocketColor.Red)}, false)}
+                },
+                new Item
+                {
+                    BaseType = "BlahdeBlah",
+                    ItemClass = "Wands",
+                    ItemRarity = ItemRarity.Magic,
+                    ItemLevel = 9,
+                    DropLevel = 9,
+                    Height = 3,
+                    Width = 1,
+                    SocketGroups = new List<SocketGroup> {new SocketGroup(new List<Socket> {new Socket(SocketColor.Red)}, false)}
+                },
+                new Item
+                {
+                    BaseType = "BlahdeBlah",
+                    ItemClass = "Wands",
+                    ItemRarity = ItemRarity.Magic,
+                    ItemLevel = 9,
+                    DropLevel = 9,
+                    Height = 3,
+                    Width = 1,
+                    SocketGroups = new List<SocketGroup> {new SocketGroup(new List<Socket> {new Socket(SocketColor.Red)}, false)}
+                },
+                new Item
+                {
+                    BaseType = "BlahdeBlah",
+                    ItemClass = "Wands",
+                    ItemRarity = ItemRarity.Magic,
+                    ItemLevel = 9,
+                    DropLevel = 9,
+                    Height = 3,
+                    Width = 1,
+                    SocketGroups = new List<SocketGroup> {new SocketGroup(new List<Socket> {new Socket(SocketColor.Red)}, false)}
+                },
+                new Item
+                {
+                    BaseType = "BlahdeBlah",
+                    ItemClass = "Wands",
+                    ItemRarity = ItemRarity.Magic,
+                    ItemLevel = 9,
+                    DropLevel = 9,
+                    Height = 3,
+                    Width = 1,
+                    SocketGroups = new List<SocketGroup> {new SocketGroup(new List<Socket> {new Socket(SocketColor.Red)}, false)}
+                },
+                new Item
+                {
+                    BaseType = "BlahdeBlah",
+                    ItemClass = "Wands",
+                    ItemRarity = ItemRarity.Magic,
+                    ItemLevel = 9,
+                    DropLevel = 9,
+                    Height = 3,
+                    Width = 1,
+                    SocketGroups = new List<SocketGroup> {new SocketGroup(new List<Socket> {new Socket(SocketColor.Red)}, false)}
+                }
+            };
+
+            var itemFilterProcessor = new ItemFilterProcessor(new BlockItemMatcher());
+
+            //Act
+            var result = itemFilterProcessor.ProcessItemsAgainstItemFilterScript(script, testInputItems);
+
+            //Assert
+            Assert.AreEqual("Wands", result.Values.First().BlockItems.OfType<ClassBlockItem>().First().Items.First());
         }
 
         private class ItemFilterProcessorTestUtility

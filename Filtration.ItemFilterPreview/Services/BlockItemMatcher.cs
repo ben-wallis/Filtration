@@ -17,9 +17,11 @@ namespace Filtration.ItemFilterPreview.Services
         public bool ItemBlockMatch(IItemFilterBlock block, IItem item)
         {
 
-            return block.BlockItems
+            var match =  block.BlockItems
                 .Where(blockItem => !(blockItem is IAudioVisualBlockItem) && !(blockItem is ActionBlockItem))
                 .All(blockItem => ItemBlockItemMatch(blockItem, item));
+
+            return match;
         }
 
         public bool ItemBlockItemMatch(IItemFilterBlockItem blockItem, IItem item)
