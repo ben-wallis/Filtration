@@ -12,6 +12,7 @@ namespace Filtration.ItemFilterPreview.Model
 {
     public interface IItem
     {
+        string Description { get; set; }
         string ItemClass { get; set; }
         string BaseType { get; set; }
         int DropLevel { get; set; }
@@ -32,6 +33,7 @@ namespace Filtration.ItemFilterPreview.Model
     {
         private List<SocketGroup> _socketGroups;
         
+        public string Description { get; set; }
         public string ItemClass { get; set; }
         public string BaseType { get; set; }
         public int DropLevel { get; set; }
@@ -58,9 +60,9 @@ namespace Filtration.ItemFilterPreview.Model
             set
             {
                 var socketCount = value.Sum(s => s.Count);
-                if (socketCount < 1 || socketCount > 6)
+                if (socketCount < 0 || socketCount > 6)
                 {
-                    throw new InvalidOperationException("An item must have between 1 and 6 sockets");
+                    throw new InvalidOperationException("An item must have between 0 and 6 sockets");
                 }
 
                 var evenSocketCount = socketCount % 2 == 0;
@@ -86,6 +88,23 @@ namespace Filtration.ItemFilterPreview.Model
             }
         }
 
-        public Color DefaultTextColor => ItemRarity.DefaultRarityTextColor();
+        public Color DefaultTextColor
+        {
+            get
+            {
+                if (ItemClass.Contains("Gems"))
+                {
+                    return PathOfExileNamedColors.Colors[PathOfExileNamedColor.GemItem];
+                }
+                if (ItemClass.Contains("Quest"))
+                {
+                    return PathOfExileNamedColors.Colors[PathOfExileNamedColor.QuestItem];
+                }
+
+                return ItemRarity != ItemRarity.NotSet ? ItemRarity.DefaultRarityTextColor() : PathOfExileNamedColors.Colors[PathOfExileNamedColor.WhiteItem];
+            }
+        }
+
+    
     }
 }

@@ -1,7 +1,10 @@
-﻿using System.Windows.Media;
+﻿using System.Data;
+using System.Linq;
+using System.Windows.Media;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
+using Filtration.ObjectModel.Extensions;
 
 namespace Filtration.ItemFilterPreview.Model
 {
@@ -13,6 +16,7 @@ namespace Filtration.ItemFilterPreview.Model
         Color BackgroundColor { get; }
         Color BorderColor { get; }
         Color TextColor { get; }
+        double FontSize { get; }
     }
 
     public class FilteredItem : IFilteredItem
@@ -21,25 +25,35 @@ namespace Filtration.ItemFilterPreview.Model
         {
             Item = item;
             ItemFilterBlock = itemFilterBlock;
+
+            BlockAction = itemFilterBlock?.Action ?? BlockAction.Show;
+            BackgroundColor = itemFilterBlock?.DisplayBackgroundColor ?? new Color { A = 255, R = 0, G = 0, B = 0 };
+            BorderColor = itemFilterBlock?.DisplayBorderColor ?? new Color {A = 255, R = 0, G = 0, B = 0};
+            FontSize = (itemFilterBlock?.DisplayFontSize ?? 34) / 1.8;
+
+            SetTextColor();
         }
+
+        private void SetTextColor()
+        {
+            if (ItemFilterBlock == null)
+            {
+                TextColor = Item.DefaultTextColor;
+                return;
+            }
+
+            var textColorBlockItem = ItemFilterBlock.BlockItems.OfType<TextColorBlockItem>().FirstOrDefault();
+            TextColor = textColorBlockItem?.Color ?? Item.DefaultTextColor;
+        }
+
 
         public IItem Item { get; private set; }
         public IItemFilterBlock ItemFilterBlock { get; private set; }
 
-        public BlockAction BlockAction => ItemFilterBlock?.Action ?? BlockAction.Show;
-        public Color BackgroundColor => ItemFilterBlock.HasBlockItemOfType<BackgroundColorBlockItem>() ? ItemFilterBlock.DisplayBackgroundColor : new Color { A = 255, R = 0, G = 0, B = 0 };
-        public Color BorderColor => ItemFilterBlock.HasBlockItemOfType<BorderColorBlockItem>() ? ItemFilterBlock.DisplayBorderColor : new Color { A = 255, R = 0, G = 0, B = 0 };
-        public Color TextColor
-        {
-            get
-            {
-                if (ItemFilterBlock.HasBlockItemOfType<TextColorBlockItem>())
-                {
-                    return ItemFilterBlock.DisplayTextColor;
-                }
-
-                return Item.DefaultTextColor;
-            }
-        }
+        public BlockAction BlockAction { get; private set; }
+        public Color BackgroundColor { get; private set; }
+        public Color TextColor { get; private set; }
+        public Color BorderColor { get; private set; }
+        public double FontSize { get; private set; }
     }
 }

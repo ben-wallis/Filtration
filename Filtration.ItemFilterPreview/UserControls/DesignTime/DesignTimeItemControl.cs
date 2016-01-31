@@ -1,12 +1,17 @@
 ﻿using System.Windows.Media;
+using Filtration.ItemFilterPreview.Model;
+using Moq;
 
 namespace Filtration.ItemFilterPreview.UserControls.DesignTime
 {
     public class DesignTimeItemControl
     {
-        public Color BackgroundColor => Colors.Bisque;
-        public Color TextColor => Colors.Maroon;
-        public Color BorderColor => Colors.CornflowerBlue;
-        public int FontSize => 15;
+        public IFilteredItem FilteredItem
+        {
+            get
+            {
+                return Mock.Of<IFilteredItem>(f => f.BackgroundColor == Colors.Bisque && f.TextColor == Colors.Maroon && f.BorderColor == Colors.CornflowerBlue && f.FontSize == 15);
+            }
+        }
     }
 }

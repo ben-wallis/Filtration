@@ -133,6 +133,19 @@ namespace Filtration.ObjectModel
                     return textColorBlockItem.Color;
                 }
 
+                var itemClassBlockItem = BlockItems.OfType<ClassBlockItem>().FirstOrDefault();
+                if (itemClassBlockItem != null)
+                {
+                    if (itemClassBlockItem.Items.All(i => i.Contains("Gems")))
+                    {
+                        return PathOfExileNamedColors.Colors[PathOfExileNamedColor.GemItem];
+                    }
+                    if (itemClassBlockItem.Items.All(i => i.Contains("Quest")))
+                    {
+                        return PathOfExileNamedColors.Colors[PathOfExileNamedColor.QuestItem];
+                    }
+                }
+                
                 var rarityBlockItem = BlockItems.OfType<RarityBlockItem>().FirstOrDefault();
                 return rarityBlockItem != null
                     ? ((ItemRarity) rarityBlockItem.FilterPredicate.PredicateOperand).DefaultRarityTextColor()

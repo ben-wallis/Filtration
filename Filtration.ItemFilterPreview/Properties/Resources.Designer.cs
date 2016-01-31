@@ -59,5 +59,42 @@ namespace Filtration.ItemFilterPreview.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ###############################################################################
+        ///################ Path of Exile Item Filter - Script by Muldini ################
+        ///###############################################################################
+        ///############ http://www.pathofexile.com/forum/view-thread/1259059 #############
+        ///
+        ///
+        ///
+        ///
+        ///###############################################################################
+        ///### Overview ##################################################################
+        ///################## [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string muldini {
+            get {
+                return ResourceManager.GetString("muldini", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #---------------------------------------------------------------------------------------------------------------
+        ///# NeverSink&apos;s Indepth Loot Filter
+        ///# VERSION 3.0 - Full
+        ///#---------------------------------------------------------------------------------------------------------------
+        ///#
+        ///# You can always find the latest version here:
+        ///#	http://pastebin.com/Af00CbhA
+        ///# Forum discussion thread. You can post question and feedback here:
+        ///#	http://www.pathofexile.com/forum/view-thread/1246208/page/1
+        ///# Please use [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string neversinkfilter {
+            get {
+                return ResourceManager.GetString("neversinkfilter", resourceCulture);
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace Filtration.ItemFilterPreview
 
             _container.AddFacility<TypedFactoryFacility>();
             _container.Install(FromAssembly.InThisApplication());
+            _container.Install(FromAssembly.Named("Filtration.Parser"));
 
             var mainWindow = _container.Resolve<IMainWindow>();
             mainWindow.Show();

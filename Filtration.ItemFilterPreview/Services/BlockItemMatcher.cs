@@ -71,7 +71,7 @@ namespace Filtration.ItemFilterPreview.Services
 
         private static bool ClassBlockItemMatch(ClassBlockItem classBlockItem, IItem item)
         {
-            return classBlockItem.Items.Any(c => item.ItemClass.StartsWith(c));
+            return classBlockItem.Items.Any(c => item.ItemClass.Contains(c));
         }
 
         private static bool DropLevelBlockItemMatch(DropLevelBlockItem dropLevelBlockItem, IItem item)

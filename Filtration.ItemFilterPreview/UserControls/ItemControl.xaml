@@ -9,10 +9,10 @@
              d:DataContext="{d:DesignInstance Type=designTime:DesignTimeItemControl, IsDesignTimeCreatable=True}"
              d:DesignHeight="35" d:DesignWidth="170">
     <UserControl.Resources>
-        <converters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
-        <Style x:Key="PathOfExileFont">
-            <Setter Property="TextElement.FontFamily" Value="pack://application:,,,/resources/#Fontin SmallCaps" />
+        <Style x:Key="PathOfExileFont" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="pack://application:,,,/resources/#Fontin SmallCaps" />
         </Style>
+        <converters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter"/>
     </UserControl.Resources>
         <Grid>
             <Grid.RowDefinitions>
@@ -25,16 +25,13 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Border Grid.Row="1" Grid.Column="1" Margin="3" Padding="4,0,4,0" BorderThickness="1">
+            <Border Grid.Row="1" Grid.Column="1" Margin="3" Padding="4,0,4,0" BorderThickness="1" BorderBrush="{Binding FilteredItem.BorderColor, Converter={StaticResource ColorToSolidColorBrushConverter}}">
                 <Border.Background>
-                    <SolidColorBrush Color="{Binding BackgroundColor}" />
+                    <SolidColorBrush Color="{Binding FilteredItem.BackgroundColor}" />
                 </Border.Background>
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="{Binding BorderColor}" />
-                </Border.BorderBrush>
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Item Preview" Style="{StaticResource PathOfExileFont}" FontSize="{Binding FontSize}">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding FilteredItem.Item.Description}" Style="{StaticResource PathOfExileFont}" FontSize="{Binding FilteredItem.FontSize}">
                     <TextBlock.Foreground>
-                        <SolidColorBrush Color="{Binding TextColor}" />
+                        <SolidColorBrush Color="{Binding FilteredItem.TextColor}" />
                     </TextBlock.Foreground>
                 </TextBlock>
             </Border>

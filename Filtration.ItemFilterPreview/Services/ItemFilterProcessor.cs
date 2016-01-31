@@ -15,7 +15,7 @@ namespace Filtration.ItemFilterPreview.Services
     {
         private readonly IBlockItemMatcher _blockItemMatcher;
 
-        internal ItemFilterProcessor(IBlockItemMatcher blockItemMatcher)
+        public ItemFilterProcessor(IBlockItemMatcher blockItemMatcher)
         {
             _blockItemMatcher = blockItemMatcher;
         }
