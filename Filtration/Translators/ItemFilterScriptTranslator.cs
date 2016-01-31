@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Castle.Core.Internal;
+using Filtration.Common.Utilities;
 using Filtration.ObjectModel;
 using Filtration.Properties;
-using Filtration.Utilities;
 
 namespace Filtration.Translators
 {
@@ -112,7 +111,7 @@ namespace Filtration.Translators
                 }    
             }
 
-            if (!script.Description.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(script.Description))
             {
                 script.Description = script.Description.TrimEnd('\n').TrimEnd('\r');
             }

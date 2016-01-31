@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using Filtration.Common.Services;
+using Filtration.Common.Utilities;
 using Filtration.Utilities;
 
 namespace Filtration.Services

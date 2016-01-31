@@ -3,8 +3,14 @@ using System.Collections.Generic;
 
 namespace Filtration.ObjectModel
 {
+    [Serializable]
     public class SocketGroup : List<Socket>
     {
+        private SocketGroup()
+        {
+            
+        }
+
         public SocketGroup(List<Socket> sockets, bool linked)
         {
             if (sockets.Count < 1 || sockets.Count > 6)

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Media;
 using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
+using Filtration.ObjectModel.Extensions;
 
 namespace Filtration.ObjectModel
 {
@@ -13,6 +16,10 @@ namespace Filtration.ObjectModel
         ItemFilterBlockGroup BlockGroup { get; set; }
         BlockAction Action { get; set; }
         ObservableCollection<IItemFilterBlockItem> BlockItems { get; }
+        Color DisplayBackgroundColor { get; }
+        Color DisplayTextColor { get; }
+        Color DisplayBorderColor { get; }
+        double DisplayFontSize { get; }
         int BlockCount(Type type);
         bool AddBlockItemAllowed(Type type);
         bool HasBlockItemOfType<T>();
@@ -113,6 +120,50 @@ namespace Filtration.ObjectModel
             else if (BlockGroup.IsChecked && Action == BlockAction.Hide)
             {
                 Action = BlockAction.Show;
+            }
+        }
+
+        public Color DisplayTextColor
+        {
+            get
+            {
+                var textColorBlockItem = BlockItems.OfType<TextColorBlockItem>().FirstOrDefault();
+                if (textColorBlockItem != null)
+                {
+                    return textColorBlockItem.Color;
+                }
+
+                var rarityBlockItem = BlockItems.OfType<RarityBlockItem>().FirstOrDefault();
+                return rarityBlockItem != null
+                    ? ((ItemRarity) rarityBlockItem.FilterPredicate.PredicateOperand).DefaultRarityTextColor()
+                    : PathOfExileNamedColors.Colors[PathOfExileNamedColor.WhiteItem];
+            }
+        }
+
+        public Color DisplayBackgroundColor
+        {
+            get
+            {
+                var backgroundColorBlockItem = BlockItems.OfType<BackgroundColorBlockItem>().FirstOrDefault();
+                return backgroundColorBlockItem?.Color ?? new Color { A = 255, R = 0, G = 0, B = 0 };
+            }
+        }
+
+        public Color DisplayBorderColor
+        {
+            get
+            {
+                var borderColorBlockItem = BlockItems.OfType<BorderColorBlockItem>().FirstOrDefault();
+                return borderColorBlockItem?.Color ?? new Color { A = 255, R = 0, G = 0, B = 0 };
+            }
+        }
+
+        public double DisplayFontSize
+        {
+            get
+            {
+                var fontSizeBlockItem = BlockItems.OfType<FontSizeBlockItem>().FirstOrDefault();
+                return fontSizeBlockItem?.Value ?? 34;
             }
         }
     }

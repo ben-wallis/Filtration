@@ -5,13 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
+using Filtration.Common.Utilities;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.Extensions;
 using Filtration.ObjectModel.ThemeEditor;
-using Filtration.Utilities;
 
 namespace Filtration.Translators
 {

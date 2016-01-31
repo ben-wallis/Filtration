@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Filtration.Utilities
+namespace Filtration.Common.Utilities
 {
 
     public sealed class LineReader : IEnumerable<string>

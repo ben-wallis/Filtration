@@ -216,40 +216,13 @@ namespace Filtration.ViewModels
 
         public ObservableCollection<ColorItem> AvailableColors => PathOfExileColors.DefaultColors;
 
-        public bool HasTextColor => Block.HasBlockItemOfType<TextColorBlockItem>();
-
-        public Color DisplayTextColor => HasTextColor
-            ? BlockItems.OfType<TextColorBlockItem>().First().Color
-            : new Color {A = 255, R = 200, G = 200, B = 200};
-
-        public bool HasBackgroundColor => Block.HasBlockItemOfType<BackgroundColorBlockItem>();
-
-        public Color DisplayBackgroundColor => HasBackgroundColor
-            ? BlockItems.OfType<BackgroundColorBlockItem>().First().Color
-            : new Color { A = 255, R = 0, G = 0, B = 0 };
-
-        public bool HasBorderColor => Block.HasBlockItemOfType<BorderColorBlockItem>();
-
-        public Color DisplayBorderColor => HasBorderColor
-            ? BlockItems.OfType<BorderColorBlockItem>().First().Color
-            : new Color { A = 255, R = 0, G = 0, B = 0 };
-
-        public bool HasFontSize => Block.HasBlockItemOfType<FontSizeBlockItem>();
-
-        public double DisplayFontSize
-        {
-            // Dividing by 1.8 roughly scales in-game font sizes down to WPF sizes
-            get
-            {
-                var fontSize = HasFontSize ? BlockItems.OfType<FontSizeBlockItem>().First().Value / 1.8 : 19;
-                
-                return fontSize;
-            }
-        }
-
+        public Color DisplayTextColor => Block.DisplayTextColor;
+        public Color DisplayBackgroundColor => Block.DisplayBackgroundColor;
+        public Color DisplayBorderColor => Block.DisplayBorderColor;
+        public double DisplayFontSize => Block.DisplayFontSize/1.8;
+        
         public bool HasSound => Block.HasBlockItemOfType<SoundBlockItem>();
-
-
+        
         public bool HasAudioVisualBlockItems => AudioVisualBlockItems.Any();
 
         private void OnSwitchBlockItemsViewCommand()

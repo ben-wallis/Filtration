@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Resources;
-using System.Runtime.Versioning;
 using Filtration.ItemFilterPreview.Model;
 using Filtration.ItemFilterPreview.Services;
 using Filtration.ItemFilterPreview.Tests.Properties;
 using Filtration.ObjectModel;
-using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
 using Filtration.Translators;
@@ -45,11 +42,11 @@ namespace Filtration.ItemFilterPreview.Tests.Services
 
             //Assert
             _testUtility.MockBlockItemMatcher.Verify();
-            Assert.AreEqual(testInputBlock, result[testInputItem]);
+            Assert.AreEqual(testInputBlock, result.First(r => r.ItemFilterBlock == testInputBlock).ItemFilterBlock);
         }
 
         [Test]
-        public void ProcessItemsAgainstItemFilterScript_DoesNotMatch_ReturnsFalse()
+        public void ProcessItemsAgainstItemFilterScript_DoesNotMatch_ResultHasNullItemFilterBlock()
         {
             //Arrange
             var testInputItem = Mock.Of<IItem>();
@@ -66,7 +63,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
 
             //Assert
             _testUtility.MockBlockItemMatcher.Verify();
-            Assert.AreEqual(null, result[testInputItem]);
+            Assert.AreEqual(null, result.First(r => r.Item == testInputItem).ItemFilterBlock);
         }
 
         [Test]
@@ -96,7 +93,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             var result = itemFilterProcessor.ProcessItemsAgainstItemFilterScript(script, new List<IItem> { testInputItem });
 
             //Assert
-            Assert.AreEqual("Wands", result.Values.First().BlockItems.OfType<ClassBlockItem>().First().Items.First());
+            Assert.AreEqual("Wands", result.First().ItemFilterBlock.BlockItems.OfType<ClassBlockItem>().First().Items.First());
         }
 
         [Test]
@@ -228,7 +225,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             var result = itemFilterProcessor.ProcessItemsAgainstItemFilterScript(script, testInputItems);
 
             //Assert
-            Assert.AreEqual("Wands", result.Values.First().BlockItems.OfType<ClassBlockItem>().First().Items.First());
+            Assert.AreEqual("Wands", result.First().ItemFilterBlock.BlockItems.OfType<ClassBlockItem>().First().Items.First());
         }
 
         private class ItemFilterProcessorTestUtility

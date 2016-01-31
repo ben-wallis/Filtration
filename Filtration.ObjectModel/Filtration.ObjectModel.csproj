@@ -72,6 +72,7 @@
     <Compile Include="Enums\SocketColor.cs" />
     <Compile Include="Enums\ThemeComponentType.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
+    <Compile Include="Extensions\ItemRarityExtensions.cs" />
     <Compile Include="IAudioVisualBlockItem.cs" />
     <Compile Include="IItemFilterBlockItem.cs" />
     <Compile Include="ItemFilterBlock.cs" />
@@ -79,6 +80,8 @@
     <Compile Include="ItemFilterScript.cs" />
     <Compile Include="ItemFilterSection.cs" />
     <Compile Include="NumericFilterPredicate.cs" />
+    <Compile Include="PathOfExileNamedColors.cs" />
+    <Compile Include="Enums\PathOfExileNamedColor.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReplaceColorsParameterSet.cs" />

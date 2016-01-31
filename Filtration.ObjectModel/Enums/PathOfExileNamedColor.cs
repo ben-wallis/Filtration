@@ -1,0 +1,36 @@
+﻿namespace Filtration.ObjectModel.Enums
+{
+    public enum PathOfExileNamedColor
+    {
+        Default,
+        ValueDefault,
+        Pink,
+        DodgerBlue,
+        Fire,
+        Cold,
+        Lightning,
+        Chaos,
+        Augmented,
+        Crafted,
+        Unmet,
+        UniqueItem,
+        RareItem,
+        MagicItem,
+        WhiteItem,
+        GemItem,
+        CurrencyItem,
+        QuestItem,
+        NemesisMod,
+        NemesisModOutline,
+        Title,
+        Corrupted,
+        Favour,
+        SupporterPackNewItem,
+        SupporterPackItem,
+        BloodlineMod,
+        BloodlineModOutline,
+        TormentMod,
+        TormentModOutline,
+        CantTradeorModify
+    }
+}

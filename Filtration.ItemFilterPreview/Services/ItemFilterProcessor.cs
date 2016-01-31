@@ -8,7 +8,7 @@ namespace Filtration.ItemFilterPreview.Services
 {
     internal interface IItemFilterProcessor
     {
-        IReadOnlyDictionary<IItem, IItemFilterBlock> ProcessItemsAgainstItemFilterScript(IItemFilterScript itemFilterScript, IEnumerable<IItem> items);
+        List<IFilteredItem> ProcessItemsAgainstItemFilterScript(IItemFilterScript itemFilterScript, IEnumerable<IItem> items);
     }
 
     internal class ItemFilterProcessor : IItemFilterProcessor
@@ -20,11 +20,11 @@ namespace Filtration.ItemFilterPreview.Services
             _blockItemMatcher = blockItemMatcher;
         }
 
-        public IReadOnlyDictionary<IItem, IItemFilterBlock> ProcessItemsAgainstItemFilterScript(IItemFilterScript itemFilterScript, IEnumerable<IItem> items)
+        public List<IFilteredItem> ProcessItemsAgainstItemFilterScript(IItemFilterScript itemFilterScript, IEnumerable<IItem> items)
         {
             var overallsw = Stopwatch.StartNew();
-
-            var matchedItemBlockPairs = new Dictionary<IItem, IItemFilterBlock>();
+            
+            var filteredItems = new List<IFilteredItem>();
 
             var sw = Stopwatch.StartNew();
             foreach (var item in items)
@@ -32,10 +32,10 @@ namespace Filtration.ItemFilterPreview.Services
                 sw.Restart();
 
                 var matchedBlock = itemFilterScript.ItemFilterBlocks
-                    .Where(b => !(b is ItemFilterSection))
-                    .FirstOrDefault(block => _blockItemMatcher.ItemBlockMatch(block, item));
+                                    .Where(b => !(b is ItemFilterSection))
+                                    .FirstOrDefault(block => _blockItemMatcher.ItemBlockMatch(block, item));
 
-                matchedItemBlockPairs.Add(item, matchedBlock);
+                filteredItems.Add(new FilteredItem(item, matchedBlock));
 
                 Debug.WriteLine("Processed Item in {0}ms", sw.ElapsedMilliseconds);
             }
@@ -43,7 +43,7 @@ namespace Filtration.ItemFilterPreview.Services
 
             overallsw.Stop();
             Debug.WriteLine("Total processing time: {0}ms", overallsw.ElapsedMilliseconds);
-            return matchedItemBlockPairs;
+            return filteredItems;
         }
     }
 }

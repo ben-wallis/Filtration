@@ -79,6 +79,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FileSystemService.cs" />
     <Compile Include="Services\MessageBoxService.cs" />
+    <Compile Include="Utilities\LineReader.cs" />
     <Compile Include="ViewModels\FiltrationViewModelBase.cs" />
     <Compile Include="ViewModels\PaneViewModel.cs" />
     <Compile Include="WindsorInstallers\ServicesInstaller.cs" />

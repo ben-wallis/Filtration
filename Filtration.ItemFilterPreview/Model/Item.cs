@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Media;
+using System.Xml.Serialization;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.Enums;
+using Filtration.ObjectModel.Extensions;
 
 namespace Filtration.ItemFilterPreview.Model
 {
@@ -21,8 +24,10 @@ namespace Filtration.ItemFilterPreview.Model
         int LinkedSockets { get; }
         IEnumerable<SocketGroup> LinkedSocketGroups { get; }
         List<SocketGroup> SocketGroups { get; set; }
+        Color DefaultTextColor { get; }
     }
 
+    [Serializable]
     public class Item : IItem
     {
         private List<SocketGroup> _socketGroups;
@@ -35,9 +40,13 @@ namespace Filtration.ItemFilterPreview.Model
         public int Width { get; set; }
         public int Quality { get; set; }
         public ItemRarity ItemRarity { get; set; }
+
+        [XmlIgnore]
         public int Sockets { get; private set; }
+        [XmlIgnore]
         public int LinkedSockets { get; private set; }
 
+        [XmlIgnore]
         public IEnumerable<SocketGroup> LinkedSocketGroups
         {
             get { return SocketGroups.Where(s => s.Linked); }
@@ -76,5 +85,7 @@ namespace Filtration.ItemFilterPreview.Model
                 
             }
         }
+
+        public Color DefaultTextColor => ItemRarity.DefaultRarityTextColor();
     }
 }

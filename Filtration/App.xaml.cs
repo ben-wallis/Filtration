@@ -28,6 +28,7 @@ namespace Filtration
 
             _container = new WindsorContainer();
 
+            // Disable property injection
             var propInjector = _container.Kernel.ComponentModelBuilder
                 .Contributors
                 .OfType<PropertiesDependenciesModelInspector>()

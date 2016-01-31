@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Filtration.ItemFilterPreview
+namespace Filtration.ItemFilterPreview.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for LootExplosionView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LootExplosionView : UserControl
     {
-        public MainWindow()
+        public LootExplosionView()
         {
             InitializeComponent();
         }
