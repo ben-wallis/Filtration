@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.ThemeEditor;
+using Filtration.Parser.Interface.Services;
+using Filtration.Parser.Services;
+using Filtration.Parser.Tests.Properties;
 using Filtration.Properties;
-using Filtration.Translators;
 using Moq;
 using NUnit.Framework;
-using Resources = Filtration.Tests.Properties.Resources;
 
-namespace Filtration.Tests.Translators
+namespace Filtration.Parser.Tests.Services
 {
     [TestFixture]
     public class TestItemFilterScriptTranslator
@@ -48,6 +47,7 @@ namespace Filtration.Tests.Translators
         {
             // Arrange
             var testInput = Resources.testscript;
+
             var expectedDescription =   "Item Filter Script created by Filtration v0.1 - www.github.com/XVar/filtration" + Environment.NewLine +
                                         "Begin Script Description" + Environment.NewLine +
                                         "This is a test script" + Environment.NewLine +

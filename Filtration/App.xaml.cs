@@ -1,10 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
 using AutoMapper;
 using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.ModelBuilder.Inspectors;
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Filtration.ObjectModel;
@@ -35,10 +38,12 @@ namespace Filtration
                 .Single();
 
             _container.Kernel.ComponentModelBuilder.RemoveContributor(propInjector);
-
+            
             _container.AddFacility<TypedFactoryFacility>();
             _container.Install(FromAssembly.InThisApplication());
-            
+            _container.Install(FromAssembly.Named("Filtration.Parser")); // Not directly referenced so manually call its installers
+
+
             Mapper.Configuration.ConstructServicesUsing(_container.Resolve);
 
             Mapper.CreateMap<ItemFilterBlockGroup, ItemFilterBlockGroupViewModel>()
@@ -68,7 +73,7 @@ namespace Filtration
             mainWindow.Show();
         }
 
-        public void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        private static void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             Logger.Fatal(e.Exception);
             var exception = e.Exception.Message + Environment.NewLine + e.Exception.StackTrace;

@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Filtration.Common.Services;
 using Filtration.ObjectModel;
+using Filtration.Parser.Interface.Services;
 using Filtration.Services;
-using Filtration.Translators;
 using Moq;
 using NUnit.Framework;
 

@@ -5,16 +5,11 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Filtration.Common.Utilities;
 using Filtration.ObjectModel;
+using Filtration.Parser.Interface.Services;
 using Filtration.Properties;
 
-namespace Filtration.Translators
+namespace Filtration.Parser.Services
 {
-    internal interface IItemFilterScriptTranslator
-    {
-        ItemFilterScript TranslateStringToItemFilterScript(string inputString);
-        string TranslateItemFilterScriptToString(ItemFilterScript script);
-    }
-
     internal class ItemFilterScriptTranslator : IItemFilterScriptTranslator
     {
         private readonly IItemFilterBlockTranslator _blockTranslator;

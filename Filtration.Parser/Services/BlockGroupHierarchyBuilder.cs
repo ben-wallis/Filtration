@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Filtration.ObjectModel;
+using Filtration.Parser.Interface.Services;
 
-namespace Filtration.Translators
+namespace Filtration.Parser.Services
 {
-    internal interface IBlockGroupHierarchyBuilder
-    {
-        void Initialise(ItemFilterBlockGroup rootBlockGroup);
-        void Cleanup();
-        ItemFilterBlockGroup IntegrateStringListIntoBlockGroupHierarchy(IEnumerable<string> groupStrings);
-    }
-
     internal class BlockGroupHierarchyBuilder : IBlockGroupHierarchyBuilder
     {
         private ItemFilterBlockGroup _rootBlockGroup;

@@ -7,7 +7,7 @@ using Filtration.ItemFilterPreview.Tests.Properties;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
-using Filtration.Translators;
+using Filtration.Parser.Services;
 using Moq;
 using NUnit.Framework;
 

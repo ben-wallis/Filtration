@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Media.Imaging;
-using Filtration.Translators;
+using Filtration.Parser.Interface.Services;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace Filtration.ViewModels.ToolPanes

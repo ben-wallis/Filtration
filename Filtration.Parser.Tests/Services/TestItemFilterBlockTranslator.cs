@@ -8,11 +8,12 @@ using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.ThemeEditor;
-using Filtration.Translators;
+using Filtration.Parser.Interface.Services;
+using Filtration.Parser.Services;
 using Moq;
 using NUnit.Framework;
 
-namespace Filtration.Tests.Translators
+namespace Filtration.Parser.Tests.Services
 {
     [TestFixture]
     public class TestItemFilterBlockTranslator

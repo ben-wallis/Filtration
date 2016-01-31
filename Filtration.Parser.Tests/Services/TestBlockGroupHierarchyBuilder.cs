@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Filtration.ObjectModel;
-using Filtration.Translators;
+using Filtration.Parser.Services;
 using NUnit.Framework;
 
-namespace Filtration.Tests.Translators
+namespace Filtration.Parser.Tests.Services
 {
     [TestFixture]
     public class TestBlockGroupHierarchyBuilder

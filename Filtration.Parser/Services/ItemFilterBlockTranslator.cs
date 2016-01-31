@@ -12,17 +12,10 @@ using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.Extensions;
 using Filtration.ObjectModel.ThemeEditor;
+using Filtration.Parser.Interface.Services;
 
-namespace Filtration.Translators
+namespace Filtration.Parser.Services
 {
-    internal interface IItemFilterBlockTranslator
-    {
-        IItemFilterBlock TranslateStringToItemFilterBlock(string inputString,
-            ThemeComponentCollection masterComponentCollection);
-        string TranslateItemFilterBlockToString(IItemFilterBlock block);
-        void ReplaceColorBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString);
-    }
-
     internal class ItemFilterBlockTranslator : IItemFilterBlockTranslator
     {
         private readonly IBlockGroupHierarchyBuilder _blockGroupHierarchyBuilder;
