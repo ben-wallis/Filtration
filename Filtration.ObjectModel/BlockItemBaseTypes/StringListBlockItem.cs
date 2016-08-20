@@ -30,10 +30,13 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
 
         public ObservableCollection<string> Items { get; protected set; }
 
+        public override bool IsDirty { get; protected set; }
+
         private void OnItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            OnPropertyChanged("Items");
-            OnPropertyChanged("SummaryText");
+            IsDirty = true;
+            OnPropertyChanged(nameof(Items));
+            OnPropertyChanged(nameof(SummaryText));
         }
     }
 }

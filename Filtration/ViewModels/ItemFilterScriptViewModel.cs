@@ -324,6 +324,7 @@ namespace Filtration.ViewModels
             {
                 var vm = _itemFilterBlockViewModelFactory.Create();
                 vm.Initialise(block, this);
+                vm.BlockBecameDirty += OnBlockBecameDirty;
                 ItemFilterBlockViewModels.Add(vm);
             }
            
@@ -639,6 +640,8 @@ namespace Filtration.ViewModels
                     ItemFilterBlockViewModels.Add(vm);
                 }
 
+                vm.BlockBecameDirty += OnBlockBecameDirty;
+
                 SelectedBlockViewModel = vm;
                 IsDirty = true;
             }
@@ -757,9 +760,15 @@ namespace Filtration.ViewModels
                 ItemFilterBlockViewModels.Add(vm);
             }
 
+            vm.BlockBecameDirty += OnBlockBecameDirty;
             SelectedBlockViewModel = vm;
             vm.IsExpanded = true;
             IsDirty = true;
+        }
+
+        private void OnBlockBecameDirty(object sender, EventArgs e)
+        {
+            SetDirtyFlag();
         }
 
         private void OnAddSectionCommand()
@@ -815,6 +824,8 @@ namespace Filtration.ViewModels
                 Script.ItemFilterBlocks.Remove(targetBlockViewModel.Block);
                 ItemFilterBlockViewModels.Remove(targetBlockViewModel);
                 IsDirty = true;
+
+                targetBlockViewModel.BlockBecameDirty -= OnBlockBecameDirty;
 
                 if (isSection)
                 {

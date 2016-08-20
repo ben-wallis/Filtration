@@ -23,12 +23,15 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
         public override Color SummaryBackgroundColor => Colors.Transparent;
         public override Color SummaryTextColor => Colors.Transparent;
 
+        public override bool IsDirty { get; protected set; }
+
         public int Value
         {
             get { return _value; }
             set
             {
                 _value = value;
+                IsDirty = true;
                 OnPropertyChanged();
             }
         }
@@ -39,6 +42,7 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
             set
             {
                 _secondValue = value;
+                IsDirty = true;
                 OnPropertyChanged();
             }
         }

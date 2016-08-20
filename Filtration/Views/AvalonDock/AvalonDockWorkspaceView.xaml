@@ -26,6 +26,7 @@
                              DocumentsSource="{Binding OpenDocuments}"
                              ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}" >
             <xcad:DockingManager.Theme>
+                
                 <xcad:Vs2013LightTheme />
             </xcad:DockingManager.Theme>
             <xcad:DockingManager.LayoutItemTemplateSelector>

@@ -18,6 +18,7 @@ namespace Filtration.ViewModels
 {
     internal interface IItemFilterBlockViewModel
     {
+        event EventHandler BlockBecameDirty;
         void Initialise(IItemFilterBlock itemFilterBlock, ItemFilterScriptViewModel parentScriptViewModel);
         bool IsDirty { get; set; }
         bool IsExpanded { get; set; }
@@ -36,6 +37,7 @@ namespace Filtration.ViewModels
         private bool _displaySettingsPopupOpen;
         private bool _isExpanded;
         private bool _audioVisualBlockItemsGridVisible;
+        private bool _isDirty;
 
         public ItemFilterBlockViewModel(IStaticDataService staticDataService, IReplaceColorsViewModel replaceColorsViewModel)
         {
@@ -56,11 +58,12 @@ namespace Filtration.ViewModels
             ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand);
             AddFilterBlockItemCommand = new RelayCommand<Type>(OnAddFilterBlockItemCommand);
             ToggleBlockActionCommand = new RelayCommand(OnToggleBlockActionCommand);
-            AddAudioVisualBlockItemCommand = new RelayCommand<Type>(OnAddAudioVisualBlockItemCommand);
             RemoveFilterBlockItemCommand = new RelayCommand<IItemFilterBlockItem>(OnRemoveFilterBlockItemCommand);
             SwitchBlockItemsViewCommand = new RelayCommand(OnSwitchBlockItemsViewCommand);
             PlaySoundCommand = new RelayCommand(OnPlaySoundCommand, () => HasSound);
         }
+
+        public event EventHandler BlockBecameDirty;
 
         public void Initialise(IItemFilterBlock itemFilterBlock, ItemFilterScriptViewModel parentScriptViewModel)
         {
@@ -74,9 +77,9 @@ namespace Filtration.ViewModels
             Block = itemFilterBlock;
             itemFilterBlock.BlockItems.CollectionChanged += OnBlockItemsCollectionChanged;
 
-            foreach (var blockItem in itemFilterBlock.BlockItems.OfType<IAudioVisualBlockItem>())
+            foreach (var blockItem in itemFilterBlock.BlockItems)
             {
-                blockItem.PropertyChanged += OnAudioVisualBlockItemChanged;
+                blockItem.PropertyChanged += OnBlockItemChanged;
             }
         }
 
@@ -101,7 +104,19 @@ namespace Filtration.ViewModels
 
         public IItemFilterBlock Block { get; private set; }
 
-        public bool IsDirty { get; set; }
+        public bool IsDirty
+        {
+            get { return _isDirty; }
+            set
+            {
+                if (value != _isDirty)
+                {
+                    _isDirty = value;
+                    RaisePropertyChanged();
+                    BlockBecameDirty?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
 
         public bool IsExpanded
         {
@@ -241,34 +256,36 @@ namespace Filtration.ViewModels
         {
             if (!AddBlockItemAllowed(blockItemType)) return;
             var newBlockItem = (IItemFilterBlockItem) Activator.CreateInstance(blockItemType);
-        
+
+            newBlockItem.PropertyChanged += OnBlockItemChanged;
             BlockItems.Add(newBlockItem);
+            OnBlockItemChanged(this, EventArgs.Empty);
             IsDirty = true;
         }
 
         private void OnRemoveFilterBlockItemCommand(IItemFilterBlockItem blockItem)
         {
             BlockItems.Remove(blockItem);
+            blockItem.PropertyChanged -= OnBlockItemChanged;
 
             if (blockItem is IAudioVisualBlockItem)
             {
-                blockItem.PropertyChanged -= OnAudioVisualBlockItemChanged;
-                OnAudioVisualBlockItemChanged(this, EventArgs.Empty);
+                OnBlockItemChanged(this, EventArgs.Empty);
             }
 
             IsDirty = true;
         }
 
-        private void OnAddAudioVisualBlockItemCommand(Type blockItemType)
-        {
-            if (!AddBlockItemAllowed(blockItemType)) return;
-            var newBlockItem = (IItemFilterBlockItem) Activator.CreateInstance(blockItemType);
+        //private void OnAddAudioVisualBlockItemCommand(Type blockItemType)
+        //{
+        //    if (!AddBlockItemAllowed(blockItemType)) return;
+        //    var newBlockItem = (IItemFilterBlockItem) Activator.CreateInstance(blockItemType);
 
-            newBlockItem.PropertyChanged += OnAudioVisualBlockItemChanged;
-            BlockItems.Add(newBlockItem);
-            OnAudioVisualBlockItemChanged(this, EventArgs.Empty);
-            IsDirty = true;
-        }
+        //    newBlockItem.PropertyChanged += OnBlockItemChanged;
+        //    BlockItems.Add(newBlockItem);
+        //    OnBlockItemChanged(this, EventArgs.Empty);
+        //    IsDirty = true;
+        //}
 
         private void OnCopyBlockCommand()
         {
@@ -346,26 +363,35 @@ namespace Filtration.ViewModels
             _mediaPlayer.Play();
         }
 
-        private void OnAudioVisualBlockItemChanged(object sender, EventArgs e)
+        private void OnBlockItemChanged(object sender, EventArgs e)
         {
-            RefreshBlockPreview();
+            var itemFilterBlockItem = sender as IItemFilterBlockItem;
+            if ( itemFilterBlockItem != null && itemFilterBlockItem.IsDirty)
+            {
+                IsDirty = true;
+            }
+
+            if (sender is IAudioVisualBlockItem)
+            {
+                RefreshBlockPreview();
+            }
         }
 
         public void RefreshBlockPreview()
         {
-            RaisePropertyChanged("DisplayTextColor");
-            RaisePropertyChanged("DisplayBackgroundColor");
-            RaisePropertyChanged("DisplayBorderColor");
-            RaisePropertyChanged("DisplayFontSize");
-            RaisePropertyChanged("HasSound");
+            RaisePropertyChanged(nameof(DisplayTextColor));
+            RaisePropertyChanged(nameof(DisplayBackgroundColor));
+            RaisePropertyChanged(nameof(DisplayBorderColor));
+            RaisePropertyChanged(nameof(DisplayFontSize));
+            RaisePropertyChanged(nameof(HasSound));
         }
 
         private void OnBlockItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            RaisePropertyChanged("RegularBlockItems");
-            RaisePropertyChanged("SummaryBlockItems");
-            RaisePropertyChanged("AudioVisualBlockItems");
-            RaisePropertyChanged("HasAudioVisualBlockItems");
+            RaisePropertyChanged(nameof(RegularBlockItems));
+            RaisePropertyChanged(nameof(SummaryBlockItems));
+            RaisePropertyChanged(nameof(AudioVisualBlockItems));
+            RaisePropertyChanged(nameof(HasAudioVisualBlockItems));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vsm ="clr-namespace:System.Windows;assembly=PresentationFramework">
     <Style TargetType="{x:Type CheckBox}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -70,28 +71,28 @@
                                   Fill="#808080" />
                             </Grid>
                         </BulletDecorator.Bullet>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CheckStates">
-                                <VisualState x:Name="Checked">
+                        <vsm:VisualStateManager.VisualStateGroups>
+                            <vsm:VisualStateGroup x:Name="CheckStates">
+                                <vsm:VisualState x:Name="Checked">
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                              Storyboard.TargetName="CheckMark" Duration="0:0:0.2" To="1" />
                                     </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Unchecked" >
+                                </vsm:VisualState>
+                                <vsm:VisualState x:Name="Unchecked" >
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                              Storyboard.TargetName="CheckMark" Duration="0:0:0.2" To="0" />
                                     </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Indeterminate">
+                                </vsm:VisualState>
+                                <vsm:VisualState x:Name="Indeterminate">
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                              Storyboard.TargetName="InderminateMark" Duration="0:0:0.2" To="1" />
                                     </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
+                                </vsm:VisualState>
+                            </vsm:VisualStateGroup>
+                        </vsm:VisualStateManager.VisualStateGroups>
                         <ContentPresenter Margin="4,0,4,0"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Left"

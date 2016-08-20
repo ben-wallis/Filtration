@@ -26,6 +26,8 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
         public abstract int Minimum { get; }
         public abstract int Maximum { get; }
 
+        public override bool IsDirty { get; protected set; }
+
         public NumericFilterPredicate FilterPredicate
         {
             get { return _filterPredicate; }
@@ -38,8 +40,9 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
 
         private void OnFilterPredicateChanged(object sender, EventArgs e)
         {
-            OnPropertyChanged("FilterPredicate");
-            OnPropertyChanged("SummaryText");
+            IsDirty = true;
+            OnPropertyChanged(nameof(FilterPredicate));
+            OnPropertyChanged(nameof(SummaryText));
         }
     }
 }

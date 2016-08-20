@@ -2,8 +2,7 @@
 
 namespace Filtration.ObjectModel
 {
-    public interface IAudioVisualBlockItem
+    public interface IAudioVisualBlockItem : IItemFilterBlockItem
     {
-        event PropertyChangedEventHandler PropertyChanged;
     }
 }

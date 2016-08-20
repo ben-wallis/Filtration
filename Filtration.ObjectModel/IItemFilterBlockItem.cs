@@ -5,6 +5,8 @@ namespace Filtration.ObjectModel
 {
     public interface IItemFilterBlockItem : INotifyPropertyChanged
     {
+        event PropertyChangedEventHandler PropertyChanged;
+
         string PrefixText { get; }
         string OutputText { get; }
         string DisplayHeading { get; }
@@ -13,5 +15,6 @@ namespace Filtration.ObjectModel
         Color SummaryTextColor { get; }
         int MaximumAllowed { get; }
         int SortOrder { get; }
+        bool IsDirty { get; }
     }
 }

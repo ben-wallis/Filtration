@@ -24,12 +24,15 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
         public abstract int Minimum { get; }
         public abstract int Maximum { get; }
 
+        public override bool IsDirty { get; protected set; }
+
         public int Value
         {
             get { return _value; }
             set
             {
                 _value = value;
+                IsDirty = true;
                 OnPropertyChanged();
             }
         }
