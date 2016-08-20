@@ -4,6 +4,7 @@ using Filtration.Common.Services;
 using Filtration.Common.ViewModels;
 using Filtration.Properties;
 using Filtration.Services;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Filtration.ViewModels
@@ -12,7 +13,7 @@ namespace Filtration.ViewModels
     {
     }
 
-    internal class SettingsPageViewModel : FiltrationViewModelBase, ISettingsPageViewModel
+    internal class SettingsPageViewModel : ViewModelBase, ISettingsPageViewModel
     {
         private readonly IItemFilterPersistenceService _itemFilterPersistenceService;
         private readonly IMessageBoxService _messageBoxService;

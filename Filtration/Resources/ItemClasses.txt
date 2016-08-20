@@ -1,38 +1,43 @@
-﻿Life Flasks
-Mana Flasks
-Hybrid Flasks
-Currency
+﻿Active Skill Gems
 Amulets
-Rings
+Belts
+Body Armours
+Boots
+Bows
 Claws
+Critical Utility Flasks
+Currency
 Daggers
-Wands
-One Hand Swords
-Thrusting One Hand Swords
+Divination Card
+Fishing Rods
+Gloves
+Helmets
+Hybrid Flasks
+Jewel
+Labyrinth Item
+Labyrinth Map Item
+Labyrinth Trinket
+Large Relics
+Life Flasks
+Mana Flasks
+Map Fragments
+Maps
+Medium Relics
 One Hand Axes
 One Hand Maces
-Bows
+One Hand Swords
+Quest Items
+Quivers
+Rings
+Sceptres
+Shields
+Small Relics
+Stackable Currency
 Staves
-Two Hand Swords
+Support Skill Gems
+Thrusting One Hand Swords
 Two Hand Axes
 Two Hand Maces
-Active Skill Gems
-Support Skill Gems
-Quivers
-Belts
-Gloves
-Boots
-Body Armours
-Helmets
-Shields
-Stackable Currency
-Quest Items
-Sceptres
+Two Hand Swords
 Utility Flasks
-Maps
-Fishing Rods
-Map Fragments
-Hideout Doodads
-Microtransactions
-Divination Card
-Jewel
+Wands

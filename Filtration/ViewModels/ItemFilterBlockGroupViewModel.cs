@@ -2,10 +2,11 @@
 using System.Linq;
 using Filtration.Common.ViewModels;
 using Filtration.ObjectModel;
+using GalaSoft.MvvmLight;
 
 namespace Filtration.ViewModels
 {
-    internal class ItemFilterBlockGroupViewModel : FiltrationViewModelBase
+    internal class ItemFilterBlockGroupViewModel : ViewModelBase
     {
         private bool? _isChecked;
         private bool _reentrancyCheck;

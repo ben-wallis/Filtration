@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Filtration.ItemFilterPreview.Model;
 using Filtration.ObjectModel;
 
 namespace Filtration.ItemFilterPreview.Services

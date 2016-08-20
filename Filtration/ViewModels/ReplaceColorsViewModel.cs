@@ -5,6 +5,7 @@ using Filtration.Common.ViewModels;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.Views;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Xceed.Wpf.Toolkit;
 
@@ -16,7 +17,7 @@ namespace Filtration.ViewModels
         void Initialise(ItemFilterScript itemFilterScript);
     }
 
-    internal class ReplaceColorsViewModel : FiltrationViewModelBase, IReplaceColorsViewModel
+    internal class ReplaceColorsViewModel : ViewModelBase, IReplaceColorsViewModel
     {
         private ItemFilterScript _itemFilterScript;
         private ReplaceColorsParameterSet _replaceColorsParameterSet;

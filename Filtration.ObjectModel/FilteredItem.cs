@@ -1,12 +1,9 @@
-﻿using System.Data;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Media;
-using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
-using Filtration.ObjectModel.Extensions;
 
-namespace Filtration.ItemFilterPreview.Model
+namespace Filtration.ObjectModel
 {
     public interface IFilteredItem
     {
@@ -42,7 +39,7 @@ namespace Filtration.ItemFilterPreview.Model
                 return;
             }
 
-            var textColorBlockItem = ItemFilterBlock.BlockItems.OfType<TextColorBlockItem>().FirstOrDefault();
+            var textColorBlockItem = ItemFilterBlock.BlockItems?.OfType<TextColorBlockItem>().FirstOrDefault();
             TextColor = textColorBlockItem?.Color ?? Item.DefaultTextColor;
         }
 

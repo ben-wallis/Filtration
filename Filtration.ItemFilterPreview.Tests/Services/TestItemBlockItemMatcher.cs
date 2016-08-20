@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Filtration.ItemFilterPreview.Model;
 using Filtration.ItemFilterPreview.Services;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemTypes;
@@ -154,7 +153,8 @@ namespace Filtration.ItemFilterPreview.Tests.Services
         [TestCase("Test Item Class", true)]
         [TestCase("Test It", true)]
         [TestCase("T", true)]
-        [TestCase("Item Class", false)]
+        [TestCase("Carrots", false)]
+        [TestCase("Item Class", true)]
         public void ItemBlockItemMatch_ClassBlockItem_SingleBlockItemValue_ReturnsCorrectResult(string testInputBlockItemItemClass, bool expectedResult)
         {
             //Arrange
@@ -362,7 +362,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
         public void ItemBlockItemMatch_SocketsBlockItem_ReturnsCorrectResult(FilterPredicateOperator testInputFilterPredicateOperator, int testInputBlockItemSockets, bool expectedResult)
         {
             //Arrange
-            var testInputItem = Mock.Of<IItem>(i => i.Sockets == 3);
+            var testInputItem = Mock.Of<IItem>(i => i.SocketCount == 3);
             var testInputBlockItem = new SocketsBlockItem(testInputFilterPredicateOperator, testInputBlockItemSockets);
 
             //Act

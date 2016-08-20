@@ -24,6 +24,7 @@ using Filtration.ThemeEditor.Providers;
 using Filtration.ThemeEditor.Services;
 using Filtration.ThemeEditor.ViewModels;
 using Filtration.Views;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using NLog;
@@ -39,7 +40,7 @@ namespace Filtration.ViewModels
         Task OpenDroppedFilesAsync(List<string> filenames);
     }
 
-    internal class MainWindowViewModel : FiltrationViewModelBase, IMainWindowViewModel
+    internal class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 

@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Filtration.ItemFilterPreview.Model;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
@@ -106,7 +105,7 @@ namespace Filtration.ItemFilterPreview.Services
 
         private static bool SocketsBlockItemMatch(SocketsBlockItem socketsBlockItem, IItem item)
         {
-            return NumericFilterPredicateBlockItemMatch(socketsBlockItem, item.Sockets);
+            return NumericFilterPredicateBlockItemMatch(socketsBlockItem, item.SocketCount);
         }
 
         private static bool WidthBlockItemMatch(WidthBlockItem widthBlockItem, IItem item)

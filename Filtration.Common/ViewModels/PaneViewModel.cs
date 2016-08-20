@@ -1,8 +1,9 @@
 ﻿using System.Windows.Media;
+using GalaSoft.MvvmLight;
 
 namespace Filtration.Common.ViewModels
 {
-    public class PaneViewModel : FiltrationViewModelBase
+    public class PaneViewModel : ViewModelBase
     {
         private string _title;
         public string Title

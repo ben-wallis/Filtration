@@ -6,6 +6,7 @@ using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using Filtration.ThemeEditor.ViewModels;
 using Filtration.ViewModels.ToolPanes;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace Filtration.ViewModels
@@ -26,7 +27,7 @@ namespace Filtration.ViewModels
         IThemeEditorViewModel OpenMasterThemeForScript(IItemFilterScriptViewModel scriptViewModel);
     }
 
-    internal class AvalonDockWorkspaceViewModel : FiltrationViewModelBase, IAvalonDockWorkspaceViewModel
+    internal class AvalonDockWorkspaceViewModel : ViewModelBase, IAvalonDockWorkspaceViewModel
     {
         private readonly ISectionBrowserViewModel _sectionBrowserViewModel;
         private readonly IBlockGroupBrowserViewModel _blockGroupBrowserViewModel;

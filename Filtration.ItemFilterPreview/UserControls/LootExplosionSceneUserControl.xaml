@@ -4,14 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Filtration.ItemFilterPreview.UserControls"
-             xmlns:model="clr-namespace:Filtration.ItemFilterPreview.Model"
+             xmlns:model="clr-namespace:Filtration.ObjectModel;assembly=Filtration.ObjectModel"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" d:DataContext="{d:DesignInstance local:LootExplosionSceneUserControl}">
     <Grid Background="DimGray">
-        <ItemsControl ItemsSource="{Binding FilteredItems}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button Grid.Row="0" Click="ButtonBase_OnClick">Test Canvas</Button>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding FilteredItems}" x:Name="FilteredItemsControl" Height="800">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel />
+                    <Canvas />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>

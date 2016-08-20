@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -73,12 +74,15 @@
     <Compile Include="Enums\ThemeComponentType.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
     <Compile Include="Extensions\ItemRarityExtensions.cs" />
+    <Compile Include="FilteredItem.cs" />
     <Compile Include="IAudioVisualBlockItem.cs" />
     <Compile Include="IItemFilterBlockItem.cs" />
+    <Compile Include="Item.cs" />
     <Compile Include="ItemFilterBlock.cs" />
     <Compile Include="ItemFilterBlockGroup.cs" />
     <Compile Include="ItemFilterScript.cs" />
     <Compile Include="ItemFilterSection.cs" />
+    <Compile Include="ItemSet.cs" />
     <Compile Include="NumericFilterPredicate.cs" />
     <Compile Include="PathOfExileNamedColors.cs" />
     <Compile Include="Enums\PathOfExileNamedColor.cs" />

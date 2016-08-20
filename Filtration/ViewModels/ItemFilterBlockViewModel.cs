@@ -10,6 +10,7 @@ using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.Services;
 using Filtration.Views;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Xceed.Wpf.Toolkit;
 
@@ -25,7 +26,7 @@ namespace Filtration.ViewModels
         void RefreshBlockPreview();
     }
 
-    internal class ItemFilterBlockViewModel : FiltrationViewModelBase, IItemFilterBlockViewModel
+    internal class ItemFilterBlockViewModel : ViewModelBase, IItemFilterBlockViewModel
     {
         private readonly IStaticDataService _staticDataService;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;

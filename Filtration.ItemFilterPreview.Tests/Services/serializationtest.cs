@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using Filtration.ItemFilterPreview.Model;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.Enums;
 using NUnit.Framework;

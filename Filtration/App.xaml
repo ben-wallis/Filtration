@@ -9,8 +9,8 @@
                 <ResourceDictionary Source="pack://application:,,,/Filtration.Common;component/Styles/SharedResourcesDictionary.xaml" />
                 
                 <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml" />
-                <!--<ResourceDictionary Source="pack://application:,,,/Fluent;component/Themes/windows8/silver.xaml" />-->
-                <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Office2013/Generic.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Fluent;component/Themes/windows8/silver.xaml" />
+                <!--<ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Office2013/Generic.xaml" />-->
                 <ResourceDictionary Source="Views/Styles/Colours.xaml" />
                 <ResourceDictionary Source="Views/Styles/CheckBox.xaml" />
                 <ResourceDictionary Source="Views/Styles/ListBoxItem.xaml" />

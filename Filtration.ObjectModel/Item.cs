@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows.Media;
-using System.Xml.Serialization;
-using Filtration.ObjectModel;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.Extensions;
 
-namespace Filtration.ItemFilterPreview.Model
+namespace Filtration.ObjectModel
 {
     public interface IItem
     {
@@ -21,39 +20,60 @@ namespace Filtration.ItemFilterPreview.Model
         int Width { get; set; }
         int Quality { get; set; }
         ItemRarity ItemRarity { get; set; }
-        int Sockets { get; }
+        int SocketCount { get; }
         int LinkedSockets { get; }
         IEnumerable<SocketGroup> LinkedSocketGroups { get; }
         List<SocketGroup> SocketGroups { get; set; }
         Color DefaultTextColor { get; }
     }
 
-    [Serializable]
+    [Table("Item")]
     public class Item : IItem
     {
         private List<SocketGroup> _socketGroups;
-        
+
+        public long Id { get; set; }
+
+        [Required]
+        [StringLength(100)]
         public string Description { get; set; }
-        public string ItemClass { get; set; }
+
+        [Required]
+        [StringLength(100)]
         public string BaseType { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string ItemClass { get; set; }
+
         public int DropLevel { get; set; }
+
         public int ItemLevel { get; set; }
+
         public int Height { get; set; }
+
         public int Width { get; set; }
+
         public int Quality { get; set; }
+        
         public ItemRarity ItemRarity { get; set; }
 
-        [XmlIgnore]
-        public int Sockets { get; private set; }
-        [XmlIgnore]
+        [StringLength(20)]
+        public string Sockets { get; set; }
+
+        public long ItemSetId { get; set; }
+
+        public virtual ItemSet ItemSet { get; set; }
+
+        public int SocketCount { get; private set; }
         public int LinkedSockets { get; private set; }
 
-        [XmlIgnore]
         public IEnumerable<SocketGroup> LinkedSocketGroups
         {
             get { return SocketGroups.Where(s => s.Linked); }
         } 
 
+        [NotMapped]
         public List<SocketGroup> SocketGroups
         {
             get { return _socketGroups; }
@@ -80,7 +100,7 @@ namespace Filtration.ItemFilterPreview.Model
                 }
 
                 _socketGroups = value;
-                Sockets = socketCount;
+                SocketCount = socketCount;
 
                 var linkedSocketGroups = value.Where(s => s.Linked).ToList();
                 LinkedSockets = linkedSocketGroups.Any() ? linkedSocketGroups.Max(s => s.Count) : 0;

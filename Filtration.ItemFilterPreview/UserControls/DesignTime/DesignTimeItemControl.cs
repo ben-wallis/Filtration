@@ -1,5 +1,5 @@
 ﻿using System.Windows.Media;
-using Filtration.ItemFilterPreview.Model;
+using Filtration.ObjectModel;
 using Moq;
 
 namespace Filtration.ItemFilterPreview.UserControls.DesignTime
