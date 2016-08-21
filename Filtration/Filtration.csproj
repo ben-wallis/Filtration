@@ -447,10 +447,10 @@
     <Resource Include="Resources\Icons\ThemeComponentDelete.ico" />
     <Resource Include="Resources\Icons\standby_disabled_icon.png" />
     <Resource Include="Resources\Icons\standby_enabled_icon.png" />
-    <Content Include="Resources\ItemBaseTypes.txt">
+    <Content Include="Resources\ItemBaseTypesx.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\ItemClasses.txt">
+    <Content Include="Resources\ItemClassesx.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

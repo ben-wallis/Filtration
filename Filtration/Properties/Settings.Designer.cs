@@ -82,5 +82,35 @@ namespace Filtration.Properties {
                 this["SuppressUpdatesUpToVersionMinorPart"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2016-01-01")]
+        public global::System.DateTime StaticDataLastUpdated {
+            get {
+                return ((global::System.DateTime)(this["StaticDataLastUpdated"]));
+            }
+            set {
+                this["StaticDataLastUpdated"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://ben-wallis.github.io/Filtration/ItemBaseTypes.txt")]
+        public string ItemBaseTypesStaticDataUrl {
+            get {
+                return ((string)(this["ItemBaseTypesStaticDataUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://ben-wallis.github.io/Filtration/ItemClasses.txt")]
+        public string ItemClassesStaticDataUrl {
+            get {
+                return ((string)(this["ItemClassesStaticDataUrl"]));
+            }
+        }
     }
 }

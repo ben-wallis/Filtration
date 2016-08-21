@@ -31,10 +31,13 @@ namespace Filtration.Services
 
         private void PopulateStaticData()
         {
-            var itemBaseTypes = _fileSystemService.ReadFileAsString(AppDomain.CurrentDomain.BaseDirectory + "\\Resources\\ItemBaseTypes.txt");
+            var itemBaseTypesPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Filtration\ItemBaseTypes.txt";
+            var itemClassesPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Filtration\ItemClasses.txt";
+
+            var itemBaseTypes = _fileSystemService.ReadFileAsString(itemBaseTypesPath);
             ItemBaseTypes = new LineReader(() => new StringReader(itemBaseTypes)).ToList();
 
-            var itemClasses = _fileSystemService.ReadFileAsString(AppDomain.CurrentDomain.BaseDirectory + "\\Resources\\ItemClasses.txt");
+            var itemClasses = _fileSystemService.ReadFileAsString(itemClassesPath);
             ItemClasses = new LineReader(() => new StringReader(itemClasses)).ToList();
         }
     }

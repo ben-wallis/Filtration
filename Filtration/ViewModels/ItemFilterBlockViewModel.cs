@@ -97,7 +97,6 @@ namespace Filtration.ViewModels
         public RelayCommand ToggleBlockActionCommand { get; private set; }
         public RelayCommand ReplaceColorsCommand { get; private set; }
         public RelayCommand<Type> AddFilterBlockItemCommand { get; private set; }
-        public RelayCommand<Type> AddAudioVisualBlockItemCommand { get; private set; }
         public RelayCommand<IItemFilterBlockItem> RemoveFilterBlockItemCommand { get; private set; }
         public RelayCommand PlaySoundCommand { get; private set; }
         public RelayCommand SwitchBlockItemsViewCommand { get; private set; }
@@ -275,17 +274,6 @@ namespace Filtration.ViewModels
 
             IsDirty = true;
         }
-
-        //private void OnAddAudioVisualBlockItemCommand(Type blockItemType)
-        //{
-        //    if (!AddBlockItemAllowed(blockItemType)) return;
-        //    var newBlockItem = (IItemFilterBlockItem) Activator.CreateInstance(blockItemType);
-
-        //    newBlockItem.PropertyChanged += OnBlockItemChanged;
-        //    BlockItems.Add(newBlockItem);
-        //    OnBlockItemChanged(this, EventArgs.Empty);
-        //    IsDirty = true;
-        //}
 
         private void OnCopyBlockCommand()
         {

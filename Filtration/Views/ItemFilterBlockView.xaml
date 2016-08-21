@@ -264,7 +264,7 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Margin="0,0,3,0">
-                                            <Hyperlink Command="{Binding ElementName=TopLevelGrid, Path=DataContext.AddAudioVisualBlockItemCommand}" CommandParameter="{Binding}">
+                                            <Hyperlink Command="{Binding ElementName=TopLevelGrid, Path=DataContext.AddBlockCommand}" CommandParameter="{Binding}">
                                                 <TextBlock>+</TextBlock><TextBlock Text="{Binding Path=., Converter={StaticResource BlockItemTypeToStringConverter}}" />
                                             </Hyperlink>
                                         </TextBlock>

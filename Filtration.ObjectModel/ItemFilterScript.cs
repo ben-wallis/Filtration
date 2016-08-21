@@ -51,7 +51,7 @@ namespace Filtration.ObjectModel
 
             return validationErrors;
         }
-
+        
         public void ReplaceColors(ReplaceColorsParameterSet replaceColorsParameterSet)
         {
             foreach (

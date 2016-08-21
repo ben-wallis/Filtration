@@ -9,7 +9,7 @@ namespace Filtration.ViewModels
     internal interface IUpdateAvailableViewModel
     {
         event EventHandler OnRequestClose;
-        void Initialise(UpdateData updateData, int currentVersionMajorPart, int currentVersionMinorPart);
+        void Initialise(UpdateData updateData);
         string CurrentVersion { get; }
         string NewVersion { get; }
         string ReleaseNotes { get; }
@@ -35,10 +35,10 @@ namespace Filtration.ViewModels
         public RelayCommand AskLaterCommand { get; private set; }
         public RelayCommand DownloadCommand { get; private set; }
 
-        public void Initialise(UpdateData updateData, int currentVersionMajorPart, int currentVersionMinorPart)
+        public void Initialise(UpdateData updateData)
         {
-            _currentVersionMajorPart = currentVersionMajorPart;
-            _currentVersionMinorPart = currentVersionMinorPart;
+            _currentVersionMajorPart = updateData.CurrentVersionMajorPart;
+            _currentVersionMinorPart = updateData.CurrentVersionMinorPart;
             _updateData = updateData;
         }
 

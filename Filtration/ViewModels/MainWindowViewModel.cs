@@ -233,53 +233,22 @@ namespace Filtration.ViewModels
         public RelayCommand<bool> ToggleShowAdvancedCommand { get; }
         public RelayCommand ClearFiltersCommand { get; }
 
-
-        public void CheckForUpdates()
+        private void CheckForUpdates()
         {
-            var assemblyVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
-            
-            try
-            {
-                var result = _updateCheckService.GetUpdateData();
+            var updateData = _updateCheckService.CheckForUpdates();
 
-                if (result.LatestVersionMajorPart >= assemblyVersion.FileMajorPart &&
-                    result.LatestVersionMinorPart > assemblyVersion.FileMinorPart)
-                {
-                    if (Settings.Default.SuppressUpdates == false ||
-                        LatestVersionIsNewerThanSuppressedVersion(result))
-                    {
-                        Settings.Default.SuppressUpdates = false;
-                        Settings.Default.Save();
-                        var updateAvailableView = new UpdateAvailableView {DataContext = _updateAvailableViewModel};
-                        _updateAvailableViewModel.Initialise(result, assemblyVersion.FileMajorPart,
-                            assemblyVersion.FileMinorPart);
-                        _updateAvailableViewModel.OnRequestClose += (s, e) => updateAvailableView.Close();
-                        updateAvailableView.ShowDialog();
-                    }
-                }
-            }
-            catch (Exception e)
+            if (updateData != null && updateData.UpdateAvailable)
             {
-                if (Logger.IsDebugEnabled)
-                {
-                    Logger.Debug(e);
-                }
-                // We don't care if the update check fails, because it could fail for multiple reasons 
-                // including the user blocking Filtration in their firewall.
+                var updateAvailableView = new UpdateAvailableView { DataContext = _updateAvailableViewModel };
+                _updateAvailableViewModel.Initialise(updateData);
+                _updateAvailableViewModel.OnRequestClose += (s, e) => updateAvailableView.Close();
+                updateAvailableView.ShowDialog();
             }
         }
-
-        private bool LatestVersionIsNewerThanSuppressedVersion(UpdateData updateData)
-        {
-            return Settings.Default.SuppressUpdatesUpToVersionMajorPart < updateData.LatestVersionMajorPart ||
-                   (Settings.Default.SuppressUpdatesUpToVersionMajorPart <= updateData.LatestVersionMajorPart &&
-                    Settings.Default.SuppressUpdatesUpToVersionMinorPart < updateData.LatestVersionMinorPart);
-        }
-
+        
         public ImageSource Icon { get; private set; }
 
         public IAvalonDockWorkspaceViewModel AvalonDockWorkspaceViewModel => _avalonDockWorkspaceViewModel;
-
         public ISettingsPageViewModel SettingsPageViewModel { get; }
 
         public string WindowTitle

@@ -672,7 +672,7 @@ namespace Filtration.ViewModels
                 Script.ItemFilterBlocks.Insert(0, block);
                 ItemFilterBlockViewModels.Move(currentIndex, 0);
                 IsDirty = true;
-                RaisePropertyChanged("ItemFilterSectionViewModels");
+                RaisePropertyChanged(nameof(ItemFilterSectionViewModels));
             }
         }
 
@@ -693,7 +693,7 @@ namespace Filtration.ViewModels
                 Script.ItemFilterBlocks.Insert(blockPos - 1, block);
                 ItemFilterBlockViewModels.Move(currentIndex, currentIndex - 1);
                 IsDirty = true;
-                RaisePropertyChanged("ItemFilterSectionViewModels");
+                RaisePropertyChanged(nameof(ItemFilterSectionViewModels));
             }
         }
 
@@ -714,7 +714,7 @@ namespace Filtration.ViewModels
                 Script.ItemFilterBlocks.Insert(blockPos + 1, block);
                 ItemFilterBlockViewModels.Move(currentIndex, currentIndex + 1);
                 IsDirty = true;
-                RaisePropertyChanged("ItemFilterSectionViewModels");
+                RaisePropertyChanged(nameof(ItemFilterSectionViewModels));
             }
         }
 
@@ -734,7 +734,7 @@ namespace Filtration.ViewModels
                 Script.ItemFilterBlocks.Add(block);
                 ItemFilterBlockViewModels.Move(currentIndex, ItemFilterBlockViewModels.Count - 1);
                 IsDirty = true;
-                RaisePropertyChanged("ItemFilterSectionViewModels");
+                RaisePropertyChanged(nameof(ItemFilterSectionViewModels));
             }
         }
 
@@ -786,7 +786,7 @@ namespace Filtration.ViewModels
             ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModel), vm);
             IsDirty = true;
             SelectedBlockViewModel = vm;
-            RaisePropertyChanged("ItemFilterSectionViewModels");
+            RaisePropertyChanged(nameof(ItemFilterSectionViewModels));
             Messenger.Default.Send(new NotificationMessage("SectionsChanged"));
         }
 
