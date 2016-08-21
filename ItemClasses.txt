@@ -1,0 +1,43 @@
+﻿Active Skill Gems
+Amulets
+Belts
+Body Armours
+Boots
+Bows
+Claws
+Critical Utility Flasks
+Currency
+Daggers
+Divination Card
+Fishing Rods
+Gloves
+Helmets
+Hybrid Flasks
+Jewel
+Labyrinth Item
+Labyrinth Map Item
+Labyrinth Trinket
+Large Relics
+Life Flasks
+Mana Flasks
+Map Fragments
+Maps
+Medium Relics
+One Hand Axes
+One Hand Maces
+One Hand Swords
+Quest Items
+Quivers
+Rings
+Sceptres
+Shields
+Small Relics
+Stackable Currency
+Staves
+Support Skill Gems
+Thrusting One Hand Swords
+Two Hand Axes
+Two Hand Maces
+Two Hand Swords
+Utility Flasks
+Wands
