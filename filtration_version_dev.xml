@@ -4,7 +4,7 @@
 	<LatestVersionMinorPart>11</LatestVersionMinorPart>
 	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.11</DownloadUrl>
 	<ReleaseDate>2015-07-31</ReleaseDate>
-	<StaticDataUpdatedDate>2016-08-22</StaticDataUpdatedDate>
+	<StaticDataUpdatedDate>2016-08-21</StaticDataUpdatedDate>
 	<ReleaseNotes>♦ Changed maximum PlayAlertSound volume from 100 to 300 as per latest patch
 ♦ The update check on startup was broken in 0.10 - this has now been fixed.
 ♦ Please note that this is the first auto-updated release since 0.9 and includes the async saving and loading changes from 0.10 which was not auto-updated in order to get feedback on stability (given the lack of complaints I'm going to assume everything's all good!). Check out the following URL for the 0.10 patch notes: https://github.com/ben-wallis/Filtration/releases/tag/0.10</ReleaseNotes>
