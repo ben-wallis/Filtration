@@ -12,8 +12,8 @@
              xmlns:views="clr-namespace:Filtration.Views"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=userControls:BlockItemControl}"
-             d:DesignHeight="200" d:DesignWidth="150">
-    <Border Style="{StaticResource BlockItemBorder}" Width="142">
+             d:DesignHeight="200" d:DesignWidth="160">
+    <Border Style="{StaticResource BlockItemBorder}" Width="150">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
