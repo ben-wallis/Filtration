@@ -1,12 +1,10 @@
-﻿A Mother's Parting Gift
-Abandoned Cavern Map
+A Mother's Parting Gift
 Abandoned Cavern Map
 Abandoned Wealth
 Abyss Map
 Abyssal Axe
 Abyssal Cry
 Abyssal Sceptre
-Academy Map
 Academy Map
 Added Chaos Damage Support
 Added Cold Damage Support
@@ -47,23 +45,18 @@ Antique Rapier
 Apex Rapier
 Aquamarine Flask
 Arachnid Nest Map
-Arachnid Nest Map
 Arc
-Arcade Map
 Arcade Map
 Arcanist Gloves
 Arcanist Slippers
 Archon Kite Shield
 Arctic Armour
-Arctic Armour
 Arctic Breath
 Arena Map
 Arena Plate
 Arid Lake Map
-Arid Lake Map
 Arming Axe
 Armourer's Scrap
-Arsenal Map
 Arsenal Map
 Ashscale Talisman
 Assassin Bow
@@ -77,11 +70,6 @@ Audacity
 Auric Mace
 Aventail Helmet
 Avian Slippers
-Avian Twins Talisman
-Avian Twins Talisman
-Avian Twins Talisman
-Avian Twins Talisman
-Avian Twins Talisman
 Avian Twins Talisman
 Awl
 Backstab
@@ -103,7 +91,6 @@ Battle Hammer
 Battle Lamellar
 Battle Plate
 Battle Sword
-Bazaar Map
 Bazaar Map
 Bear Trap
 Behemoth Mace
@@ -133,7 +120,6 @@ Bloodlust Support
 Blunt Arrow Quiver
 Boarding Axe
 Bog Map
-Bog Map
 Bone Armour
 Bone Bow
 Bone Circlet
@@ -141,23 +127,8 @@ Bone Offering
 Bone Spirit Shield
 Bonespire Talisman
 Book of Reform
-Book of Reform
-Book of Reform
-Book of Reform
 Book of Regression
 Book of Regrets
-Book of Regrets
-Book of Skill
-Book of Skill
-Book of Skill
-Book of Skill
-Book of Skill
-Book of Skill
-Book of Skill
-Book of Skill
-Book of Skill
-Book of Skill
-Book of Skill
 Book of Skill
 Boot Blade
 Boot Knife
@@ -190,7 +161,6 @@ Butcher Sword
 Cabalist Regalia
 Callous Mask
 Canyon Map
-Canyon Map
 Cardinal Round Shield
 Carnal Armour
 Carnal Boots
@@ -206,13 +176,10 @@ Cast on Melee Kill Support
 Cast when Damage Taken Support
 Cast when Stunned Support
 Catacomb Map
-Catacomb Map
 Cat's Paw
 Caustic Arrow
 Cedar Tower Shield
 Cells Map
-Cells Map
-Cemetery Map
 Cemetery Map
 Ceremonial Axe
 Ceremonial Kite Shield
@@ -257,7 +224,6 @@ Cold Penetration Support
 Cold Snap
 Cold to Fire Support
 Colonnade Map
-Colonnade Map
 Colossal Hybrid Flask
 Colossal Life Flask
 Colossal Mana Flask
@@ -278,7 +244,6 @@ Conjurer Gloves
 Conjurer's Vestment
 Conquest Chainmail
 Conservatory Map
-Conservatory Map
 Contagion
 Controlled Destruction Support
 Conversion Trap
@@ -298,11 +263,8 @@ Corrugated Buckler
 Corsair Sword
 Courtesan Sword
 Courtyard Map
-Courtyard Map
-Coves Map
 Coves Map
 Coveted Possession
-Crematorium Map
 Crematorium Map
 Crescent Staff
 Crested Tower Shield
@@ -318,7 +280,6 @@ Crusader Helmet
 Crusader Plate
 Crypt Armour
 Crypt Map
-Crypt Map
 Crystal Sceptre
 Crystal Wand
 Cube Of Absorption
@@ -331,7 +292,6 @@ Cutthroat's Garb
 Cyclone
 Dagger Axe
 Damage Infusion
-Dark Forest Map
 Dark Forest Map
 Darkwood Sceptre
 Deadhand Talisman
@@ -388,13 +348,9 @@ Driftwood Sceptre
 Driftwood Spiked Shield
 Driftwood Wand
 Dry Peninsula Map
-Dry Peninsula Map
-Dry Woods Map
 Dry Woods Map
 Dual Strike
 Dunes Map
-Dunes Map
-Dungeon Map
 Dungeon Map
 Dusk Blade
 Dying Anguish
@@ -518,7 +474,6 @@ Gemstone Sword
 General's Brigandine
 Generosity Support
 Ghetto Map
-Ghetto Map
 Giant Life Flask
 Giant Mana Flask
 Gift of the Gemling Queen
@@ -555,14 +510,10 @@ Golden Mantle
 Golden Mask
 Golden Obi
 Golden Page
-Golden Page
-Golden Page
-Golden Page
 Golden Plate
 Golden Wreath
 Goliath Gauntlets
 Goliath Greaves
-Gorge Map
 Gorge Map
 Gouger
 Grace
@@ -573,7 +524,6 @@ Granite Flask
 Grappler
 Grave Knowledge
 Graveyard Map
-Graveyard Map
 Great Crown
 Great Helmet
 Great Mallet
@@ -583,7 +533,6 @@ Greater Mana Flask
 Greater Multiple Projectiles Support
 Greatwolf Talisman
 Grinning Fetish
-Grotto Map
 Grotto Map
 Ground Slam
 Grove Bow
@@ -698,7 +647,6 @@ Jeweller's Orb
 Jingling Spirit Shield
 Judgement Staff
 Jungle Valley Map
-Jungle Valley Map
 Kaom's Greaves
 Kaom's Plate
 Karui Axe
@@ -810,8 +758,6 @@ Mirrored Spiked Shield
 Molten Shell
 Molten Strike
 Monkey Paw Talisman
-Monkey Paw Talisman
-Monkey Paw Talisman
 Monkey Twins Talisman
 Moon Staff
 Moonstone Ring
@@ -822,19 +768,15 @@ Mortal Ignorance
 Mortal Rage
 Mosaic Kite Shield
 Mountain Ledge Map
-Mountain Ledge Map
-Mud Geyser Map
 Mud Geyser Map
 Multiple Traps Support
 Multistrike Support
 Murder Boots
 Murder Mitts
 Museum Map
-Museum Map
 Nailed Fist
 Necromancer Circlet
 Necromancer Silks
-Necropolis Map
 Necropolis Map
 New Shock Nova
 NewPunishment
@@ -867,21 +809,17 @@ Orb of Scouring
 Orb of Storms
 Orb of Transmutation
 Orchard Map
-Orchard Map
 Ornate Mace
 Ornate Ringmail
 Ornate Spiked Shield
 Ornate Sword
 Overgrown Ruin Map
-Overgrown Ruin Map
-Overgrown Shrine Map
 Overgrown Shrine Map
 Padded Jacket
 Padded Vest
 Pagan Wand
 Painted Buckler
 Painted Tower Shield
-Palace Map
 Palace Map
 Paua Amulet
 Paua Ring
@@ -893,10 +831,8 @@ Petrified Club
 Phantasmagoria Map
 Phantom Mace
 Phase Run
-Phase Run
 Physical Projectile Attack Damage Support
 Physical to Lightning Support
-Pier Map
 Pier Map
 Pierce Support
 Pig-Faced Bascinet
@@ -907,7 +843,6 @@ Pit Map
 Plague Mask
 Plank Kite Shield
 Plate Vest
-Plateau Map
 Plateau Map
 Plated Gauntlets
 Plated Greaves
@@ -928,7 +863,6 @@ Power Charge On Critical Support
 Power Siphon
 Praetor Crown
 Precinct Map
-Precinct Map
 Prehistoric Claw
 Pride Before the Fall
 Primal Skull Talisman
@@ -939,7 +873,6 @@ Prismatic Jewel
 Prismatic Ring
 Profane Wand
 Projectile Weakness
-Promenade Map
 Promenade Map
 Prong Dagger
 Prophecy
@@ -982,7 +915,6 @@ Recurve Bow
 Reduced Mana Support
 Redwood Spiked Shield
 Reef Map
-Reef Map
 Reflex Bow
 Regal Orb
 Regicide Mask
@@ -991,7 +923,6 @@ Reinforced Kite Shield
 Reinforced Tower Shield
 Rejuvenation Totem
 Remote Mine Support
-Residence Map
 Residence Map
 Return Projectiles Support
 Ribbon Spool
@@ -1074,10 +1005,8 @@ Serpentine Staff
 Serpentscale Boots
 Serpentscale Gauntlets
 Serrated Arrow Quiver
-Serrated Arrow Quiver
 Serrated Foil
 Sewer Keys
-Sewer Map
 Sewer Map
 Shabby Jerkin
 Shackled Boots
@@ -1095,14 +1024,11 @@ Sharktooth Arrow Quiver
 Sharktooth Claw
 Shield Charge
 Shipyard Map
-Shipyard Map
 Shock Nova
 Shockwave Totem
 Shore Map
-Shore Map
 Short Bow
 Shrapnel Shot
-Shrine Map
 Shrine Map
 Siege Axe
 Siege Ballista
@@ -1152,8 +1078,6 @@ Spectral Throw
 Spell Echo Support
 Spell Totem Support
 Spider Forest Map
-Spider Forest Map
-Spider Lair Map
 Spider Lair Map
 Spidersilk Robe
 Spiked Bundle
@@ -1172,7 +1096,6 @@ Splintered Tower Shield
 Split Arrow
 Split Projectiles Support
 Splitnewt Talisman
-Springs Map
 Springs Map
 Stacked Deck
 Stag Sceptre
@@ -1193,7 +1116,6 @@ Stiletto
 Stone Axe
 Stone Hammer
 Storm Call
-Strand Map
 Strand Map
 Strapped Boots
 Strapped Leather
@@ -1221,10 +1143,8 @@ Teak Round Shield
 Tempered Foil
 Tempest Shield
 Temple Map
-Temple Map
 Temporal Chains
 Tenderizer
-Terrace Map
 Terrace Map
 Terror Claw
 Terror Maul
@@ -1338,7 +1258,6 @@ The Wolf's Shadow
 The Wrath
 Thicket Bow
 Thicket Map
-Thicket Map
 Thief's Garb
 Thorium Spirit Shield
 Thorn Rapier
@@ -1365,7 +1284,6 @@ Tornado Shot
 Tornado Wand
 Torture Cage
 Torture Chamber Map
-Torture Chamber Map
 Totemic Maul
 Touch of God
 Tower Key
@@ -1385,8 +1303,6 @@ Tricorne
 Trisula
 Triumphant Lamellar
 Tropical Island Map
-Tropical Island Map
-Tunnel Map
 Tunnel Map
 Turn the Other Cheek
 Turquoise Amulet
@@ -1396,12 +1312,8 @@ Twin Claw
 Two-Handed Sword
 Two-Point Arrow Quiver
 Two-Stone Ring
-Two-Stone Ring
-Two-Stone Ring
 Tyrant's Sekhem
 Underground River Map
-Underground River Map
-Underground Sea Map
 Underground Sea Map
 Undying Flesh Talisman
 Unset Ring
@@ -1440,7 +1352,6 @@ Vaal Molten Shell
 Vaal Orb
 Vaal Power Siphon
 Vaal Pyramid Map
-Vaal Pyramid Map
 Vaal Rain of Arrows
 Vaal Rapier
 Vaal Reave
@@ -1454,7 +1365,6 @@ Vaal Storm Call
 Vaal Summon Skeletons
 Vaal Sweep
 Vaal Temple Map
-Vaal Temple Map
 Variscite Blade
 Varnished Coat
 Velvet Gloves
@@ -1463,7 +1373,6 @@ Vengeance
 Vial Of Power
 Vigilant Strike
 Vile Staff
-Villa Map
 Villa Map
 Village Ruin Map
 Vine Circlet
@@ -1490,7 +1399,6 @@ War Plate
 War Sword
 Warlord's Mark
 Waste Pool Map
-Waste Pool Map
 Wasteland Map
 Waterways Map
 Waxed Garb
@@ -1498,7 +1406,6 @@ Wealth and Power
 Weapon Elemental Damage Support
 Wereclaw Talisman
 Whalebone Rapier
-Wharf Map
 Wharf Map
 Whirling Blades
 Widowsilk Robe
