@@ -359,10 +359,10 @@ namespace Filtration.ViewModels
                 IsDirty = true;
             }
 
-            if (sender is IAudioVisualBlockItem)
-            {
-                RefreshBlockPreview();
-            }
+            //if (sender is IAudioVisualBlockItem)
+            //{
+            RefreshBlockPreview();
+            //}
         }
 
         public void RefreshBlockPreview()
