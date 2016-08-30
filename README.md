@@ -3,9 +3,9 @@
 Filtration is an editor for Path of Exile item filter scripts.
 
 ## Current Release (Released 2016-08-30)
-<b>Installer (7.44mb)</b> <a href="https://github.com/ben-wallis/Filtration/releases/download/0.12/filtration_0.12_setup.exe">filtration_0.12_setup.exe</a>
+<b>Installer (7.44mb)</b> <a href="https://github.com/ben-wallis/Filtration/releases/download/0.13/filtration_0.13_setup.exe">filtration_0.13_setup.exe</a>
 
-<b>Zip File (9.75mb)</b> <a href="https://github.com/ben-wallis/Filtration/releases/download/0.12/filtration_0.12.zip">filtration_0.12.zip</a>
+<b>Zip File (9.75mb)</b> <a href="https://github.com/ben-wallis/Filtration/releases/download/0.13/filtration_0.13.zip">filtration_0.13.zip</a>
 
 ## System Requirements
 Filtration requires .NET Framework 4.6.1 installed.
