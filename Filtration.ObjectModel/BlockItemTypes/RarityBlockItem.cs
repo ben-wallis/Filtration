@@ -15,7 +15,12 @@ namespace Filtration.ObjectModel.BlockItemTypes
             : base(predicateOperator, predicateOperand)
         {
         }
-        
+
+        public RarityBlockItem(FilterPredicateOperator predicateOperator, ItemRarity predicateOperand)
+    : base(predicateOperator, (int)predicateOperand)
+        {
+        }
+
         public override string PrefixText => "Rarity";
         public override string OutputText => PrefixText + " " + FilterPredicate.PredicateOperator
             .GetAttributeDescription() + " " + ((ItemRarity) FilterPredicate.PredicateOperand).GetAttributeDescription();
