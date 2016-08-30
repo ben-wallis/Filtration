@@ -34,10 +34,28 @@ namespace Filtration.Services
             var itemBaseTypesPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Filtration\ItemBaseTypes.txt";
             var itemClassesPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Filtration\ItemClasses.txt";
 
-            var itemBaseTypes = _fileSystemService.ReadFileAsString(itemBaseTypesPath);
+            string itemBaseTypes;
+            try
+            {
+                itemBaseTypes = _fileSystemService.ReadFileAsString(itemBaseTypesPath);
+            }
+            catch (Exception)
+            {
+                itemBaseTypes = string.Empty;
+            }
+
             ItemBaseTypes = new LineReader(() => new StringReader(itemBaseTypes)).ToList();
 
-            var itemClasses = _fileSystemService.ReadFileAsString(itemClassesPath);
+            string itemClasses;
+            try
+            {
+                itemClasses = _fileSystemService.ReadFileAsString(itemClassesPath);
+            }
+            catch (Exception)
+            {
+                itemClasses = string.Empty;
+            }
+           
             ItemClasses = new LineReader(() => new StringReader(itemClasses)).ToList();
         }
     }
