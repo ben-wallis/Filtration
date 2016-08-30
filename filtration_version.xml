@@ -1,8 +1,8 @@
 <UpdateData>
-	<CurrentVersion>0.12</CurrentVersion>
+	<CurrentVersion>0.11</CurrentVersion>
 	<LatestVersionMajorPart>0</LatestVersionMajorPart>
-	<LatestVersionMinorPart>12</LatestVersionMinorPart>
-	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.12</DownloadUrl>
+	<LatestVersionMinorPart>11</LatestVersionMinorPart>
+	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.11</DownloadUrl>
 	<ReleaseDate>2016-08-30</ReleaseDate>
 	<StaticDataUpdatedDate>2016-08-21</StaticDataUpdatedDate>
 	<ReleaseNotes>♦ The Item Base Types and Item Classes static data files will now auto-update without requiring a new release of Filtration.
