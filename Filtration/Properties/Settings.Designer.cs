@@ -112,5 +112,14 @@ namespace Filtration.Properties {
                 return ((string)(this["ItemClassesStaticDataUrl"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://ben-wallis.github.io/Filtration/filtration_version.xml")]
+        public string UpdateDataUrl {
+            get {
+                return ((string)(this["UpdateDataUrl"]));
+            }
+        }
     }
 }

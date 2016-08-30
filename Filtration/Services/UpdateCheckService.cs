@@ -6,7 +6,6 @@ using System.Windows;
 using System.Xml.Serialization;
 using Filtration.Models;
 using Filtration.Properties;
-using Filtration.Views;
 using NLog;
 
 namespace Filtration.Services
@@ -21,8 +20,7 @@ namespace Filtration.Services
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly IHTTPService _httpService;
-        private const string _updateDataUrl = "http://ben-wallis.github.io/Filtration/filtration_version_dev.xml";
-
+        
         public UpdateCheckService(IHTTPService httpService)
         {
             _httpService = httpService;
@@ -97,7 +95,7 @@ namespace Filtration.Services
 
         private UpdateData GetUpdateData()
         {
-            var updateXml = _httpService.GetContent(_updateDataUrl);
+            var updateXml = _httpService.GetContent(Settings.Default.UpdateDataUrl);
             return DeserializeUpdateData(updateXml);
         }
 

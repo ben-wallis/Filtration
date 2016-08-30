@@ -26,5 +26,8 @@
     <Setting Name="ItemClassesStaticDataUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://ben-wallis.github.io/Filtration/ItemClasses.txt</Value>
     </Setting>
+    <Setting Name="UpdateDataUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://ben-wallis.github.io/Filtration/filtration_version.xml</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
