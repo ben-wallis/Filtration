@@ -56,7 +56,7 @@ namespace Filtration.Parser.Services
                 }
 
                 var adjustedLine = line.Replace("#", " # ");
-                var trimmedLine = adjustedLine.TrimStart(' ');
+                var trimmedLine = adjustedLine.TrimStart(' ').TrimEnd(' ');
 
                 var spaceOrEndOfLinePos = trimmedLine.IndexOf(" ", StringComparison.Ordinal) > 0 ? trimmedLine.IndexOf(" ", StringComparison.Ordinal) : trimmedLine.Length;
 
@@ -104,6 +104,8 @@ namespace Filtration.Parser.Services
                     }
                     case "Rarity":
                     {
+                        RemoveExistingBlockItemsOfType<RarityBlockItem>(block);
+
                         var blockItemValue = new RarityBlockItem();
                         var result = Regex.Match(trimmedLine, @"^\w+\s+([><!=]{0,2})\s*(\w+)$");
                         if (result.Groups.Count == 3)
@@ -113,6 +115,7 @@ namespace Filtration.Parser.Services
                             blockItemValue.FilterPredicate.PredicateOperand =
                                 (int)EnumHelper.GetEnumValueFromDescription<ItemRarity>(result.Groups[2].Value);
                         }
+
                         block.BlockItems.Add(blockItemValue);
                         break;
                     }

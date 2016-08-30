@@ -835,7 +835,104 @@ namespace Filtration.Parser.Tests.Services
             Assert.AreEqual(20, blockItem.Color.G);
             Assert.AreEqual(100, blockItem.Color.B);
         }
-        
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_MultipleRarityItems_OnlyLastOneUsed()
+        {
+            // Arrange
+            var inputString = @"#8#" + Environment.NewLine +
+                                 "Hide" + Environment.NewLine +
+                                 "Rarity Magic" + Environment.NewLine +
+                                 "DropLevel >= 67" + Environment.NewLine +
+                                 "BaseType \"Sorcerer Boots\"" + Environment.NewLine +
+                                 "Rarity Rare" + Environment.NewLine +
+                                 "SetFontSize 26" + Environment.NewLine +
+                                 "SetBackgroundColor 0 20 0";
+
+
+            _testUtility.TestBlock.Enabled = false;
+            _testUtility.TestBlock.BlockItems.Add(new WidthBlockItem(FilterPredicateOperator.Equal, 4));
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is RarityBlockItem));
+            var blockItem = result.BlockItems.OfType<RarityBlockItem>().First();
+            Assert.AreEqual(ItemRarity.Rare, (ItemRarity)blockItem.FilterPredicate.PredicateOperand);
+        }
+
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_SpecificTest_1()
+        {
+            // Arrange
+            var inputString = @"Show" + Environment.NewLine +
+                              "DropLevel >= 67" + Environment.NewLine +
+                              "Rarity Rare" + Environment.NewLine +
+                              "   ItemLevel >= 75 " + Environment.NewLine +
+                              "	SetBorderColor 250 40 210" + Environment.NewLine +
+                              "BaseType \"Sorcerer Boots\" \"Titan Greaves\" \"Slink Boots\" \"Murder Boots\"" + Environment.NewLine +
+                              "SetBackgroundColor 0 20 0  ##TOP BASE FOR LEVEL###    " + Environment.NewLine +
+                              "SetFontSize 28";
+
+
+            _testUtility.TestBlock.Enabled = false;
+            _testUtility.TestBlock.BlockItems.Add(new WidthBlockItem(FilterPredicateOperator.Equal, 4));
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is ActionBlockItem));
+            var actionBlockItem = result.BlockItems.OfType<ActionBlockItem>().First();
+            Assert.AreEqual(BlockAction.Show, actionBlockItem.Action);
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is DropLevelBlockItem));
+            var droplevelBlockItem = result.BlockItems.OfType<DropLevelBlockItem>().First();
+            Assert.AreEqual(67, droplevelBlockItem.FilterPredicate.PredicateOperand);
+            Assert.AreEqual(FilterPredicateOperator.GreaterThanOrEqual, droplevelBlockItem.FilterPredicate.PredicateOperator);
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is RarityBlockItem));
+            var rarityBlockItem = result.BlockItems.OfType<RarityBlockItem>().First();
+            Assert.AreEqual(ItemRarity.Rare, (ItemRarity)rarityBlockItem.FilterPredicate.PredicateOperand);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_SpecificTest_2()
+        {
+            // Arrange
+            var inputString = @"#8#" + Environment.NewLine +
+                              "Hide " + Environment.NewLine +
+                              "Rarity Magic " + Environment.NewLine +
+                              "DropLevel >= 67" + Environment.NewLine +
+                              "BaseType \"Sorcerer Boots\"" + Environment.NewLine +
+                              "Rarity Magic " + Environment.NewLine +
+                              "SetFontSize 26" + Environment.NewLine +
+                              "SetBackgroundColor 0 20 0\"";
+
+
+            _testUtility.TestBlock.Enabled = false;
+            _testUtility.TestBlock.BlockItems.Add(new WidthBlockItem(FilterPredicateOperator.Equal, 4));
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is ActionBlockItem));
+            var actionBlockItem = result.BlockItems.OfType<ActionBlockItem>().First();
+            Assert.AreEqual(BlockAction.Hide, actionBlockItem.Action);
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is DropLevelBlockItem));
+            var droplevelBlockItem = result.BlockItems.OfType<DropLevelBlockItem>().First();
+            Assert.AreEqual(67, droplevelBlockItem.FilterPredicate.PredicateOperand);
+            Assert.AreEqual(FilterPredicateOperator.GreaterThanOrEqual, droplevelBlockItem.FilterPredicate.PredicateOperator);
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is RarityBlockItem));
+            var rarityBlockItem = result.BlockItems.OfType<RarityBlockItem>().First();
+            Assert.AreEqual(ItemRarity.Magic, (ItemRarity)rarityBlockItem.FilterPredicate.PredicateOperand);
+        }
+
         [Test]
         public void TranslateItemFilterBlockToString_NothingPopulated_ReturnsCorrectString()
         {
