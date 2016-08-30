@@ -1,10 +1,15 @@
 <UpdateData>
-	<CurrentVersion>0.11</CurrentVersion>
+	<CurrentVersion>0.12</CurrentVersion>
 	<LatestVersionMajorPart>0</LatestVersionMajorPart>
-	<LatestVersionMinorPart>11</LatestVersionMinorPart>
-	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.11</DownloadUrl>
-	<ReleaseDate>2015-07-31</ReleaseDate>
-	<ReleaseNotes>♦ Changed maximum PlayAlertSound volume from 100 to 300 as per latest patch
-♦ The update check on startup was broken in 0.10 - this has now been fixed.
-♦ Please note that this is the first auto-updated release since 0.9 and includes the async saving and loading changes from 0.10 which was not auto-updated in order to get feedback on stability (given the lack of complaints I'm going to assume everything's all good!). Check out the following URL for the 0.10 patch notes: https://github.com/ben-wallis/Filtration/releases/tag/0.10</ReleaseNotes>
+	<LatestVersionMinorPart>12</LatestVersionMinorPart>
+	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.12</DownloadUrl>
+	<ReleaseDate>2016-08-30</ReleaseDate>
+	<StaticDataUpdatedDate>2016-08-21</StaticDataUpdatedDate>
+	<ReleaseNotes>♦ The Item Base Types and Item Classes static data files will now auto-update without requiring a new release of Filtration.
+♦ Fixed #26 - Improved "do you want to save changes" detection - now just editing a block item will mark a file as having changes made rather than that flag only being set when you add or remove an entire block.
+♦ Implemented #22 - Improved UI for "list" block items such as Base Types and Classes, it is now possible to remove items from lists by clicking the X that appears on hover rather than only being able to use the Delete key on the keyboard.
+♦ Fixed #20 - "Switch to Regular block items" link does not work if there are no Appearance conditions active
+♦ Removed != operator (it doesn't exist in game) as per #17
+♦ Fixed the black border that sometimes appears when running Filtration on Windows 10
+♦ Retargeted to .NET Framework 4.6.1 - Windows 10 has built in support, previous versions of Windows will require .NET Framework 4.6.1 manually installing, available here: https://www.microsoft.com/en-gb/download/details.aspx?id=49981</ReleaseNotes>
 </UpdateData>
