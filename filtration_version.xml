@@ -4,7 +4,7 @@
 	<LatestVersionMinorPart>13</LatestVersionMinorPart>
 	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.13</DownloadUrl>
 	<ReleaseDate>2016-08-30</ReleaseDate>
-	<StaticDataUpdatedDate>2016-08-21</StaticDataUpdatedDate>
+	<StaticDataUpdatedDate>2016-09-01</StaticDataUpdatedDate>
 	<ReleaseNotes>♦ 0.13 Hotfix - Fixed #28 - Add appearance block item links firing wrong command
 ♦ The Item Base Types and Item Classes static data files will now auto-update without requiring a new release of Filtration.
 ♦ Fixed #26 - Improved "do you want to save changes" detection - now just editing a block item will mark a file as having changes made rather than that flag only being set when you add or remove an entire block.
