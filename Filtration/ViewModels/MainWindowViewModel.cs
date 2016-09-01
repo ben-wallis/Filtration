@@ -10,13 +10,10 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Filtration.Common.Services;
-using Filtration.Common.ViewModels;
 using Filtration.Interface;
-using Filtration.Models;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Parser.Interface.Services;
-using Filtration.Properties;
 using Filtration.Repositories;
 using Filtration.Services;
 using Filtration.ThemeEditor.Messages;
@@ -50,8 +47,6 @@ namespace Filtration.ViewModels
         private readonly IAvalonDockWorkspaceViewModel _avalonDockWorkspaceViewModel;
         private readonly IThemeProvider _themeProvider;
         private readonly IThemeService _themeService;
-        private readonly IUpdateCheckService _updateCheckService;
-        private readonly IUpdateAvailableViewModel _updateAvailableViewModel;
         private readonly IMessageBoxService _messageBoxService;
         private readonly IClipboardService _clipboardService;
         private bool _showLoadingBanner;
@@ -63,8 +58,6 @@ namespace Filtration.ViewModels
                                    ISettingsPageViewModel settingsPageViewModel,
                                    IThemeProvider themeProvider,
                                    IThemeService themeService,
-                                   IUpdateCheckService updateCheckService,
-                                   IUpdateAvailableViewModel updateAvailableViewModel,
                                    IMessageBoxService messageBoxService,
                                    IClipboardService clipboardService)
         {
@@ -75,8 +68,6 @@ namespace Filtration.ViewModels
             SettingsPageViewModel = settingsPageViewModel;
             _themeProvider = themeProvider;
             _themeService = themeService;
-            _updateCheckService = updateCheckService;
-            _updateAvailableViewModel = updateAvailableViewModel;
             _messageBoxService = messageBoxService;
             _clipboardService = clipboardService;
 
@@ -102,10 +93,8 @@ namespace Filtration.ViewModels
             AddBlockCommand = new RelayCommand(OnAddBlockCommand, () => ActiveDocumentIsScript);
             AddSectionCommand = new RelayCommand(OnAddSectionCommand, () => ActiveDocumentIsScript);
             DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
-            DisableBlockCommand = new RelayCommand(OnDisableBlockCommand,
-                () => ActiveDocumentIsScript && ActiveScriptHasSelectedEnabledBlock);
-            EnableBlockCommand = new RelayCommand(OnEnableBlockCommand,
-                () => ActiveDocumentIsScript && ActiveScriptHasSelectedDisabledBlock);
+            DisableBlockCommand = new RelayCommand(OnDisableBlockCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedEnabledBlock);
+            EnableBlockCommand = new RelayCommand(OnEnableBlockCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedDisabledBlock);
             OpenAboutWindowCommand = new RelayCommand(OnOpenAboutWindowCommand);
             ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, () => ActiveDocumentIsScript);
 
@@ -116,10 +105,7 @@ namespace Filtration.ViewModels
             AddTextColorThemeComponentCommand = new RelayCommand(OnAddTextColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             AddBackgroundColorThemeComponentCommand = new RelayCommand(OnAddBackgroundColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             AddBorderColorThemeComponentCommand = new RelayCommand(OnAddBorderColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
-            DeleteThemeComponentCommand = new RelayCommand(OnDeleteThemeComponentCommand,
-                () =>
-                    ActiveDocumentIsTheme && ActiveThemeIsEditable &&
-                    _avalonDockWorkspaceViewModel.ActiveThemeViewModel.SelectedThemeComponent != null);
+            DeleteThemeComponentCommand = new RelayCommand(OnDeleteThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable && _avalonDockWorkspaceViewModel.ActiveThemeViewModel.SelectedThemeComponent != null);
 
             ExpandAllBlocksCommand = new RelayCommand(OnExpandAllBlocksCommand, () => ActiveDocumentIsScript);
             CollapseAllBlocksCommand = new RelayCommand(OnCollapseAllBlocksCommand, () => ActiveDocumentIsScript);
@@ -189,8 +175,6 @@ namespace Filtration.ViewModels
                     }
                 }
             });
-
-            CheckForUpdates();
         }
 
         public RelayCommand OpenScriptCommand { get; }
@@ -232,19 +216,6 @@ namespace Filtration.ViewModels
 
         public RelayCommand<bool> ToggleShowAdvancedCommand { get; }
         public RelayCommand ClearFiltersCommand { get; }
-
-        private void CheckForUpdates()
-        {
-            var updateData = _updateCheckService.CheckForUpdates();
-
-            if (updateData != null && updateData.UpdateAvailable)
-            {
-                var updateAvailableView = new UpdateAvailableView { DataContext = _updateAvailableViewModel };
-                _updateAvailableViewModel.Initialise(updateData);
-                _updateAvailableViewModel.OnRequestClose += (s, e) => updateAvailableView.Close();
-                updateAvailableView.ShowDialog();
-            }
-        }
         
         public ImageSource Icon { get; private set; }
 

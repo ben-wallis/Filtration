@@ -6,13 +6,15 @@ using System.Windows;
 using System.Xml.Serialization;
 using Filtration.Models;
 using Filtration.Properties;
+using Filtration.ViewModels;
+using Filtration.Views;
 using NLog;
 
 namespace Filtration.Services
 {
     internal interface IUpdateCheckService
     {
-        UpdateData CheckForUpdates();
+        void CheckForUpdates();
     }
 
     internal class UpdateCheckService : IUpdateCheckService
@@ -20,13 +22,16 @@ namespace Filtration.Services
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly IHTTPService _httpService;
-        
-        public UpdateCheckService(IHTTPService httpService)
+        private readonly IUpdateAvailableViewModel _updateAvailableViewModel;
+
+        public UpdateCheckService(IHTTPService httpService,
+                                  IUpdateAvailableViewModel updateAvailableViewModel)
         {
             _httpService = httpService;
+            _updateAvailableViewModel = updateAvailableViewModel;
         }
 
-        public UpdateData CheckForUpdates()
+        public void CheckForUpdates()
         {
             var assemblyVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
 
@@ -45,7 +50,6 @@ namespace Filtration.Services
                         Settings.Default.Save();
 
                         updateData.UpdateAvailable = true;
-                        return updateData;
                     }
                 }
 
@@ -72,9 +76,14 @@ namespace Filtration.Services
                         }
                     }
                 }
-
-                updateData.UpdateAvailable = false;
-                return updateData;
+                
+                if (updateData.UpdateAvailable)
+                {
+                    var updateAvailableView = new UpdateAvailableView { DataContext = _updateAvailableViewModel };
+                    _updateAvailableViewModel.Initialise(updateData);
+                    _updateAvailableViewModel.OnRequestClose += (s, e) => updateAvailableView.Close();
+                    updateAvailableView.ShowDialog();
+                }
             }
             catch (Exception e)
             {
@@ -82,8 +91,6 @@ namespace Filtration.Services
                 // We don't care if the update check fails, because it could fail for multiple reasons 
                 // including the user blocking Filtration in their firewall.
             }
-
-            return null;
         }
         
         private static bool LatestVersionIsNewerThanSuppressedVersion(UpdateData updateData)

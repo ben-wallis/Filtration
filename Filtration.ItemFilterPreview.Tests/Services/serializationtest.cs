@@ -12,6 +12,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
 {
     class serializationtest
     {
+        [Ignore("")]
         [Test]
         public void test_serialization()
         {

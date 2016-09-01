@@ -1,18 +1,16 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
 using AutoMapper;
 using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.ModelBuilder.Inspectors;
-using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Properties;
+using Filtration.Services;
 using Filtration.ThemeEditor.ViewModels;
 using Filtration.ViewModels;
 using Filtration.Views;
@@ -71,8 +69,11 @@ namespace Filtration
 
             var mainWindow = _container.Resolve<IMainWindow>();
             mainWindow.Show();
-        }
 
+            var updateCheckService = _container.Resolve<IUpdateCheckService>();
+            updateCheckService.CheckForUpdates();
+        }
+        
         private static void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             Logger.Fatal(e.Exception);
