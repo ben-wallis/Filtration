@@ -1472,7 +1472,7 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
-        public void ReplaceColorBlockItemsFromString_SingleLine_ReplacesColorBlock()
+        public void ReplaceAudioVisualBlockItemsFromString_SingleLine_ReplacesColorBlock()
         {
             // Arrange
             var testInputString = "SetTextColor 240 200 150 # Rarest Currency";
@@ -1482,7 +1482,7 @@ namespace Filtration.Parser.Tests.Services
             testInputBlockItems.Add(testInputBlockItem);
 
             // Act
-            _testUtility.Translator.ReplaceColorBlockItemsFromString(testInputBlockItems, testInputString);
+            _testUtility.Translator.ReplaceAudioVisualBlockItemsFromString(testInputBlockItems, testInputString);
             
             // Assert
             var textColorBlockItem = testInputBlockItems.First(b => b is TextColorBlockItem) as TextColorBlockItem;
@@ -1492,7 +1492,28 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
-        public void ReplaceColorBlockItemsFromString_SingleLine_ReplacesColorBlockBugTest()
+        public void ReplaceAudioVisualBlockItemsFromString_SingleLine_ReplacesSoundBlockItem()
+        {
+            // Arrange
+            var testInputString = "PlayAlertSound 7 280";
+
+            var testInputBlockItems = new ObservableCollection<IItemFilterBlockItem>();
+            var testInputBlockItem = new SoundBlockItem(12,30);
+            testInputBlockItems.Add(testInputBlockItem);
+
+            // Act
+            _testUtility.Translator.ReplaceAudioVisualBlockItemsFromString(testInputBlockItems, testInputString);
+
+            // Assert
+            var soundBlockItem = testInputBlockItems.First(b => b is SoundBlockItem) as SoundBlockItem;
+            Assert.IsNotNull(soundBlockItem);
+            Assert.AreNotSame(testInputBlockItem, soundBlockItem);
+            Assert.AreEqual(7, soundBlockItem.Value);
+            Assert.AreEqual(280, soundBlockItem.SecondValue);
+        }
+
+        [Test]
+        public void ReplaceAudioVisualBlockItemsFromString_SingleLine_ReplacesColorBlockBugTest()
         {
             // Arrange
             var testInputString = "SetBackgroundColor 70 0 0 255";
@@ -1502,7 +1523,7 @@ namespace Filtration.Parser.Tests.Services
             testInputBlockItems.Add(testInputBlockItem);
 
             // Act
-            _testUtility.Translator.ReplaceColorBlockItemsFromString(testInputBlockItems, testInputString);
+            _testUtility.Translator.ReplaceAudioVisualBlockItemsFromString(testInputBlockItems, testInputString);
 
             // Assert
             var backgroundColorBlockItem = testInputBlockItems.First(b => b is BackgroundColorBlockItem) as BackgroundColorBlockItem;
@@ -1513,7 +1534,7 @@ namespace Filtration.Parser.Tests.Services
 
         [Ignore("Not currently possible - will not be necessary once commanding (to enable undo history) is implemented anyway")]
         [Test]
-        public void ReplaceColorBlockItemsFromString_MalformedLine_DoesNothing()
+        public void ReplaceAudioVisualBlockItemsFromString_MalformedLine_DoesNothing()
         {
             // Arrange
             var testInputString = "SetTextCsaolor 240 200 150 # Rarest Currency";
@@ -1523,7 +1544,7 @@ namespace Filtration.Parser.Tests.Services
             testInputBlockItems.Add(testInputBlockItem);
 
             // Act
-            _testUtility.Translator.ReplaceColorBlockItemsFromString(testInputBlockItems, testInputString);
+            _testUtility.Translator.ReplaceAudioVisualBlockItemsFromString(testInputBlockItems, testInputString);
 
             // Assert
             var textColorBlockItem = testInputBlockItems.First(b => b is TextColorBlockItem) as TextColorBlockItem;
@@ -1532,23 +1553,27 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
-        public void ReplaceColorBlockItemsFromString_MultipleLines_ExistingBlockItems()
+        public void ReplaceAudioVisualBlockItemsFromString_MultipleLines_ExistingBlockItems()
         {
             // Arrange
             var testInputString = "SetTextColor 240 200 150 # Rarest Currency" + Environment.NewLine +
                                   "SetBackgroundColor 0 0 0 # Rarest Currency Background" + Environment.NewLine +
-                                  "SetBorderColor 255 255 255 # Rarest Currency Border";
+                                  "SetBorderColor 255 255 255 # Rarest Currency Border" + Environment.NewLine + 
+                                  "PlayAlertSound 7 280";
 
             var testInputBlockItems = new ObservableCollection<IItemFilterBlockItem>();
             var testInputTextColorBlockItem = new TextColorBlockItem(Colors.Red);
             var testInputBackgroundColorBlockItem = new BackgroundColorBlockItem(Colors.Blue);
-            var testInpuBorderColorBlockItem = new BorderColorBlockItem(Colors.Yellow);
+            var testInputBorderColorBlockItem = new BorderColorBlockItem(Colors.Yellow);
+            var testInputSoundBlockItem = new SoundBlockItem(1, 1);
+
             testInputBlockItems.Add(testInputTextColorBlockItem);
             testInputBlockItems.Add(testInputBackgroundColorBlockItem);
-            testInputBlockItems.Add(testInpuBorderColorBlockItem);
+            testInputBlockItems.Add(testInputBorderColorBlockItem);
+            testInputBlockItems.Add(testInputSoundBlockItem);
 
             // Act
-            _testUtility.Translator.ReplaceColorBlockItemsFromString(testInputBlockItems, testInputString);
+            _testUtility.Translator.ReplaceAudioVisualBlockItemsFromString(testInputBlockItems, testInputString);
 
             // Assert
             var textColorBlockItem = testInputBlockItems.First(b => b is TextColorBlockItem) as TextColorBlockItem;
@@ -1563,23 +1588,29 @@ namespace Filtration.Parser.Tests.Services
 
             var borderColorBlockItem = testInputBlockItems.First(b => b is BorderColorBlockItem) as BorderColorBlockItem;
             Assert.IsNotNull(borderColorBlockItem);
-            Assert.AreNotSame(testInpuBorderColorBlockItem, borderColorBlockItem);
+            Assert.AreNotSame(testInputBorderColorBlockItem, borderColorBlockItem);
             Assert.AreEqual(new Color { A = 255, R = 255, G = 255, B = 255 }, borderColorBlockItem.Color);
+
+            var soundBlockItem = testInputBlockItems.First(b => b is SoundBlockItem) as SoundBlockItem;
+            Assert.IsNotNull(soundBlockItem);
+            Assert.AreNotSame(testInputSoundBlockItem, soundBlockItem);
+            Assert.AreEqual(7, soundBlockItem.Value);
+            Assert.AreEqual(280, soundBlockItem.SecondValue);
         }
 
         [Test]
-        public void ReplaceColorBlockItemsFromString_MultipleLines_NoExistingBlockItems()
+        public void ReplaceAudioVisualBlockItemsFromString_MultipleLines_NoExistingBlockItems()
         {
             // Arrange
             var testInputString = "SetTextColor 240 200 150 # Rarest Currency" + Environment.NewLine +
                                   "SetBackgroundColor 0 0 0 # Rarest Currency Background" + Environment.NewLine +
-                                  "SetBorderColor 255 255 255 # Rarest Currency Border";
-
-
+                                  "SetBorderColor 255 255 255 # Rarest Currency Border" + Environment.NewLine + 
+                                  "PlayAlertSound 7 280";
+            
             var testInputBlockItems = new ObservableCollection<IItemFilterBlockItem>();
 
             // Act
-            _testUtility.Translator.ReplaceColorBlockItemsFromString(testInputBlockItems, testInputString);
+            _testUtility.Translator.ReplaceAudioVisualBlockItemsFromString(testInputBlockItems, testInputString);
 
             // Assert
             var textColorBlockItem = testInputBlockItems.First(b => b is TextColorBlockItem) as TextColorBlockItem;
@@ -1593,10 +1624,15 @@ namespace Filtration.Parser.Tests.Services
             var borderColorBlockItem = testInputBlockItems.First(b => b is BorderColorBlockItem) as BorderColorBlockItem;
             Assert.IsNotNull(borderColorBlockItem);
             Assert.AreEqual(new Color { A = 255, R = 255, G = 255, B = 255 }, borderColorBlockItem.Color);
+
+            var soundBlockItem = testInputBlockItems.First(b => b is SoundBlockItem) as SoundBlockItem;
+            Assert.IsNotNull(soundBlockItem);
+            Assert.AreEqual(7, soundBlockItem.Value);
+            Assert.AreEqual(280, soundBlockItem.SecondValue);
         }
 
         [Test]
-        public void ReplaceColorBlockItemsFromString_MultipleLines_SomeExistingBlockItems()
+        public void ReplaceAudioVisualBlockItemsFromString_MultipleLines_SomeExistingBlockItems()
         {
             // Arrange
             var testInputString = "SetTextColor 240 200 150 # Rarest Currency" + Environment.NewLine +
@@ -1611,7 +1647,7 @@ namespace Filtration.Parser.Tests.Services
             testInputBlockItems.Add(testInpuBorderColorBlockItem);
 
             // Act
-            _testUtility.Translator.ReplaceColorBlockItemsFromString(testInputBlockItems, testInputString);
+            _testUtility.Translator.ReplaceAudioVisualBlockItemsFromString(testInputBlockItems, testInputString);
 
             // Assert
             var textColorBlockItem = testInputBlockItems.First(b => b is TextColorBlockItem) as TextColorBlockItem;
@@ -1627,7 +1663,7 @@ namespace Filtration.Parser.Tests.Services
 
         [Ignore("ThemeComponentBuilder deprecated")]
         [Test]
-        public void ReplaceColorBlockItemsFromString_ThemeComponentBuilderNotInitialised_DoesNotCallAddComponent()
+        public void ReplaceAudioVisualBlockItemsFromString_ThemeComponentBuilderNotInitialised_DoesNotCallAddComponent()
         {
             // Arrange
             var testInputString = "SetTextColor 240 200 150 # Rarest Currency";
@@ -1637,7 +1673,7 @@ namespace Filtration.Parser.Tests.Services
             testInputBlockItems.Add(testInputBlockItem);
 
             // Act
-            _testUtility.Translator.ReplaceColorBlockItemsFromString(testInputBlockItems, testInputString);
+            _testUtility.Translator.ReplaceAudioVisualBlockItemsFromString(testInputBlockItems, testInputString);
 
             // Assert
             

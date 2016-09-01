@@ -318,7 +318,7 @@ namespace Filtration.Parser.Services
             return blockItem;
         }
 
-        public void ReplaceColorBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString)
+        public void ReplaceAudioVisualBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString)
         {
             // Reverse iterate to remove existing IAudioVisualBlockItems
             for (var idx = blockItems.Count - 1; idx >= 0; idx--)
@@ -335,6 +335,13 @@ namespace Filtration.Parser.Services
                 
                 switch (matches.Value)
                 {
+                    case "PlayAlertSound":
+                    {
+                        var match = Regex.Match(line, @"\s+(\d+) (\d+)");
+                        if (!match.Success) break;
+                        blockItems.Add(new SoundBlockItem(Convert.ToInt16(match.Groups[1].Value), Convert.ToInt16(match.Groups[2].Value)));
+                        break;
+                    }
                     case "SetTextColor":
                     {
                         blockItems.Add(GetColorBlockItemFromString<TextColorBlockItem>(line));

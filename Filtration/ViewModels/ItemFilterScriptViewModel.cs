@@ -605,7 +605,7 @@ namespace Filtration.ViewModels
                 return;
             }
 
-            _blockTranslator.ReplaceColorBlockItemsFromString(targetBlockViewModel.Block.BlockItems, clipboardText);
+            _blockTranslator.ReplaceAudioVisualBlockItemsFromString(targetBlockViewModel.Block.BlockItems, clipboardText);
             targetBlockViewModel.RefreshBlockPreview();
         }
 

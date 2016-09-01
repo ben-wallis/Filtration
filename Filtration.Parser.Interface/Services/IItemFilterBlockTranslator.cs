@@ -9,6 +9,6 @@ namespace Filtration.Parser.Interface.Services
         IItemFilterBlock TranslateStringToItemFilterBlock(string inputString,
             ThemeComponentCollection masterComponentCollection);
         string TranslateItemFilterBlockToString(IItemFilterBlock block);
-        void ReplaceColorBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString);
+        void ReplaceAudioVisualBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString);
     }
 }
