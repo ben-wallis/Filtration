@@ -16,6 +16,24 @@
         </Style>
     </UserControl.Resources>
     <Grid>
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <ContextMenu.Items>
+                    <MenuItem Header="Copy Block" Command="{Binding CopyBlockCommand}" Icon="{StaticResource CopyIcon}" />
+                    <MenuItem Header="Paste Block" Command="{Binding PasteBlockCommand}" Icon="{StaticResource PasteIcon}" />
+                    <Separator />
+                    <MenuItem Header="Add Block" Command="{Binding AddBlockCommand}" Icon="{StaticResource AddBlockIcon}" />
+                    <MenuItem Header="Add Section" Command="{Binding AddSectionCommand}" Icon="{StaticResource AddSectionIcon}" />
+                    <Separator />
+                    <MenuItem Header="Delete Section" Command="{Binding DeleteBlockCommand}" Icon="{StaticResource DeleteIcon}" />
+                    <Separator />
+                    <MenuItem Header="Move Section To Top" Command="{Binding MoveBlockToTopCommand}" Icon="{StaticResource MoveToTopIcon}" />
+                    <MenuItem Header="Move Section Up" Command="{Binding MoveBlockUpCommand}" Icon="{StaticResource MoveUpIcon}" />
+                    <MenuItem Header="Move Section Down" Command="{Binding MoveBlockDownCommand}" Icon="{StaticResource MoveDownIcon}" />
+                    <MenuItem Header="Move Section To Bottom" Command="{Binding MoveBlockToBottomCommand}" Icon="{StaticResource MoveToBottomIcon}" />
+                </ContextMenu.Items>
+            </ContextMenu>
+        </Grid.ContextMenu>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />

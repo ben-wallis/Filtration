@@ -75,8 +75,7 @@
                                     <MenuItem Header="Paste Block Style" Command="{Binding PasteBlockStyleCommand}" Icon="{StaticResource PasteIcon}" />
                                 </MenuItem>
                                 <MenuItem Header="Add Block" Command="{Binding Data.AddBlockCommand, Source={StaticResource Proxy}}" Icon="{StaticResource AddBlockIcon}" />
-                                <MenuItem Header="Add Section" Command="{Binding Data.AddSectionCommand, Source={StaticResource Proxy}}" Icon="{StaticResource AddSectionIcon}">
-                                </MenuItem>
+                                <MenuItem Header="Add Section" Command="{Binding Data.AddSectionCommand, Source={StaticResource Proxy}}" Icon="{StaticResource AddSectionIcon}" />
                                 <Separator />
                                 <MenuItem Header="Delete Block" Command="{Binding Data.DeleteBlockCommand, Source={StaticResource Proxy}}" Icon="{StaticResource DeleteIcon}" />
                                 <Separator />
