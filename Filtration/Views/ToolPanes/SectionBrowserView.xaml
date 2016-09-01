@@ -21,7 +21,7 @@
             </ListBox.Resources>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Block.Description, Converter={StaticResource HashSignRemovalConverter}}" ToolTip="{Binding Block.Description}" />
+                    <TextBlock Text="{Binding BlockDescription, Converter={StaticResource HashSignRemovalConverter}}" ToolTip="{Binding BlockDescription}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

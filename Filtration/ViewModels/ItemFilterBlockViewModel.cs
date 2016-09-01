@@ -24,6 +24,7 @@ namespace Filtration.ViewModels
         bool IsExpanded { get; set; }
         IItemFilterBlock Block { get; }
         bool BlockEnabled { get; set; }
+        string BlockDescription { get; set; }
         void RefreshBlockPreview();
     }
 
