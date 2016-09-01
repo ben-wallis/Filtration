@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:viewModels="clr-namespace:Filtration.ViewModels"
-        Title="Filtration - New Version Available!" Height="300" Width="500"
+        Title="Filtration - New Version Available!" Height="300" Width="500" Icon="../Resources/filtration.ico"
         mc:Ignorable="d"  
         d:DataContext="{d:DesignInstance Type=viewModels:UpdateAvailableViewModel}">
     <Grid Margin="10">
