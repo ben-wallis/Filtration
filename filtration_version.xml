@@ -1,16 +1,11 @@
 <UpdateData>
-	<CurrentVersion>0.13</CurrentVersion>
+	<CurrentVersion>0.15</CurrentVersion>
 	<LatestVersionMajorPart>0</LatestVersionMajorPart>
-	<LatestVersionMinorPart>13</LatestVersionMinorPart>
-	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.13</DownloadUrl>
-	<ReleaseDate>2016-08-30</ReleaseDate>
+	<LatestVersionMinorPart>15</LatestVersionMinorPart>
+	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.15</DownloadUrl>
+	<ReleaseDate>2016-12-03</ReleaseDate>
 	<StaticDataUpdatedDate>2016-09-01</StaticDataUpdatedDate>
-	<ReleaseNotes>♦ 0.13 Hotfix - Fixed #28 - Add appearance block item links firing wrong command
-♦ The Item Base Types and Item Classes static data files will now auto-update without requiring a new release of Filtration.
-♦ Fixed #26 - Improved "do you want to save changes" detection - now just editing a block item will mark a file as having changes made rather than that flag only being set when you add or remove an entire block.
-♦ Implemented #22 - Improved UI for "list" block items such as Base Types and Classes, it is now possible to remove items from lists by clicking the X that appears on hover rather than only being able to use the Delete key on the keyboard.
-♦ Fixed #20 - "Switch to Regular block items" link does not work if there are no Appearance conditions active
-♦ Removed != operator (it doesn't exist in game) as per #17
-♦ Fixed the black border that sometimes appears when running Filtration on Windows 10
-♦ Retargeted to .NET Framework 4.6.1 - Windows 10 has built in support, previous versions of Windows will require .NET Framework 4.6.1 manually installing, available here: https://www.microsoft.com/en-gb/download/details.aspx?id=49981</ReleaseNotes>
+	<ReleaseNotes>♦ Implemented #41 - Changed block item output order for increased in-game filter performance
+♦ Implemented #34 - Support for Identified block item
+♦ Implemented #42 - Support for Corrupted block item</ReleaseNotes>
 </UpdateData>
