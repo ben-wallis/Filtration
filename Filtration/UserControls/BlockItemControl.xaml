@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
+             xmlns:commonConverters="clr-namespace:Filtration.Common.Converters;assembly=Filtration.Common"
              xmlns:blockItemBaseTypes="clr-namespace:Filtration.ObjectModel.BlockItemBaseTypes;assembly=Filtration.ObjectModel"
              xmlns:blockItemTypes="clr-namespace:Filtration.ObjectModel.BlockItemTypes;assembly=Filtration.ObjectModel"
              xmlns:extensions="clr-namespace:Filtration.Extensions"
@@ -13,6 +14,9 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=userControls:BlockItemControl}"
              d:DesignHeight="200" d:DesignWidth="160">
+    <UserControl.Resources>
+        <commonConverters:BooleanInverterConverter x:Key="BooleanInverterConverter"></commonConverters:BooleanInverterConverter>
+    </UserControl.Resources>
     <Border Style="{StaticResource BlockItemBorder}" Width="150">
         <Grid>
             <Grid.RowDefinitions>
@@ -32,6 +36,14 @@
                         <WrapPanel VerticalAlignment="Center" Margin="5,5,5,5">
                             <RadioButton IsChecked="{Binding Action, Converter={StaticResource BooleanToBlockActionConverter}}" Margin="0,0,10,0">Show</RadioButton>
                             <RadioButton IsChecked="{Binding Action, Converter={StaticResource BooleanToBlockActionInverseConverter}}">Hide</RadioButton>
+                        </WrapPanel>
+                    </DataTemplate>
+
+                    <!-- Boolean Template -->
+                    <DataTemplate  DataType="{x:Type blockItemBaseTypes:BooleanBlockItem}">
+                        <WrapPanel VerticalAlignment="Center" Margin="5,5,5,5">
+                            <RadioButton IsChecked="{Binding BooleanValue}" Margin="0,0,10,0">True</RadioButton>
+                            <RadioButton IsChecked="{Binding BooleanValue, Converter={StaticResource BoolInverterConverter}}">False</RadioButton>
                         </WrapPanel>
                     </DataTemplate>
                     

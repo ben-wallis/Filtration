@@ -38,7 +38,7 @@
                 <Setter Property="Margin" Value="0,0,5,5" />
             </Style>
             <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
-            <converters:BoolInverterConverter x:Key="BoolInverterConverter" />
+            <converters:BooleanInverterConverter x:Key="BoolInverterConverter" />
             <converters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
             <converters:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
             <converters:InverseBooleanVisibilityConverter x:Key="InverseBooleanVisibilityConverter" />

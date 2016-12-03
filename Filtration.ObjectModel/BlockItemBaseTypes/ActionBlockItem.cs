@@ -7,7 +7,6 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
     public sealed class ActionBlockItem : BlockItemBase
     {
         private BlockAction _action;
-        private bool _isDirty;
 
         public ActionBlockItem(BlockAction action)
         {
@@ -24,7 +23,7 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(SummaryText));
                 OnPropertyChanged(nameof(SummaryBackgroundColor));
-                OnPropertyChanged(nameof(SummaryText));
+                OnPropertyChanged(nameof(SummaryTextColor));
             }
         }
 
@@ -43,17 +42,7 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
         public override Color SummaryTextColor => Action == BlockAction.Show ? Colors.Black : Colors.White;
 
         public override int SortOrder => 0;
-
-        public override bool IsDirty
-        {
-            get { return _isDirty; }
-            protected set
-            {
-                _isDirty = value;
-                OnPropertyChanged();
-            }
-        }
-
+        
         public void ToggleAction()
         {
             Action = Action == BlockAction.Show ? BlockAction.Hide : BlockAction.Show;

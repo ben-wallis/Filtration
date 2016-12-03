@@ -39,7 +39,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
 
         public override Color SummaryBackgroundColor => Colors.GhostWhite;
         public override Color SummaryTextColor => Colors.Black;
-        public override int SortOrder => 9;
+        public override int SortOrder => 6;
 
         private SocketColor StringToSocketColor(char socketColorString)
         {

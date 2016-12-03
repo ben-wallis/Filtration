@@ -129,6 +129,16 @@ namespace Filtration.Parser.Services
                         AddStringListItemToBlockItems<BaseTypeBlockItem>(block, trimmedLine);
                         break;
                     }
+                    case "Corrupted":
+                    {
+                        AddBooleanItemToBlockItems<CorruptedBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "Identified":
+                    {
+                        AddBooleanItemToBlockItems<IdentifiedBlockItem>(block, trimmedLine);
+                        break;
+                    }
                     case "Sockets":
                     {
                         AddNumericFilterPredicateItemToBlockItems<SocketsBlockItem>(block, trimmedLine);
@@ -237,6 +247,17 @@ namespace Filtration.Parser.Services
             {
                 var existingBlockItem = block.BlockItems.First(b => b.GetType() == typeof(T));
                 block.BlockItems.Remove(existingBlockItem);
+            }
+        }
+
+        private static void AddBooleanItemToBlockItems<T>(IItemFilterBlock block, string inputString) where T : BooleanBlockItem
+        {
+            var blockItem = Activator.CreateInstance<T>();
+            var splitString = inputString.Split(' ');
+            if (splitString.Length == 2)
+            {
+                blockItem.BooleanValue = splitString[1].Trim().ToLowerInvariant() == "true";
+                block.BlockItems.Add(blockItem);
             }
         }
 

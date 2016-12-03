@@ -234,6 +234,40 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlock_Corrupted_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    Corrupted True";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+
+            // Assert
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is CorruptedBlockItem));
+            var blockItem = result.BlockItems.OfType<CorruptedBlockItem>().First();
+            Assert.IsTrue(blockItem.BooleanValue);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_Identified_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    Identified True";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+
+            // Assert
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is IdentifiedBlockItem));
+            var blockItem = result.BlockItems.OfType<IdentifiedBlockItem>().First();
+            Assert.IsTrue(blockItem.BooleanValue);
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_Quality_ReturnsCorrectObject()
         {
             // Arrange
@@ -624,6 +658,8 @@ namespace Filtration.Parser.Tests.Services
                               "    DropLevel < 70" + Environment.NewLine +
                               "    Quality = 15" + Environment.NewLine +
                               "    Rarity <= Unique" + Environment.NewLine +
+                              "    Identified True" + Environment.NewLine +
+                              "    Corrupted false" + Environment.NewLine +
                               @"    Class ""My Item Class"" AnotherClass ""AndAnotherClass""" + Environment.NewLine +
                               @"    BaseType MyBaseType ""Another BaseType""" + Environment.NewLine +
                               "    JunkLine Let's ignore this one!" + Environment.NewLine +
@@ -645,6 +681,12 @@ namespace Filtration.Parser.Tests.Services
             var itemLevelblockItem = result.BlockItems.OfType<ItemLevelBlockItem>().First();
             Assert.AreEqual(FilterPredicateOperator.GreaterThanOrEqual, itemLevelblockItem.FilterPredicate.PredicateOperator);
             Assert.AreEqual(50, itemLevelblockItem.FilterPredicate.PredicateOperand);
+
+            var corruptedBlockItem = result.BlockItems.OfType<CorruptedBlockItem>().First();
+            Assert.IsFalse(corruptedBlockItem.BooleanValue);
+
+            var identifiedBlockItem = result.BlockItems.OfType<IdentifiedBlockItem>().First();
+            Assert.IsTrue(identifiedBlockItem.BooleanValue);
 
             var dropLevelblockItem = result.BlockItems.OfType<DropLevelBlockItem>().First();
             Assert.AreEqual(FilterPredicateOperator.LessThan, dropLevelblockItem.FilterPredicate.PredicateOperator);
@@ -1019,6 +1061,70 @@ namespace Filtration.Parser.Tests.Services
                                  "    ItemLevel >= 56";
 
             _testUtility.TestBlock.BlockItems.Add(new ItemLevelBlockItem(FilterPredicateOperator.GreaterThanOrEqual, 56));
+
+            // Act
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void TranslateItemFilterBlockToString_IdentifiedTrue_ReturnsCorrectString()
+        {
+            // Arrange
+            var expectedResult = "Show" + Environment.NewLine +
+                                 "    Identified True";
+
+            _testUtility.TestBlock.BlockItems.Add(new IdentifiedBlockItem(true));
+
+            // Act
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void TranslateItemFilterBlockToString_IdentifiedFalse_ReturnsCorrectString()
+        {
+            // Arrange
+            var expectedResult = "Show" + Environment.NewLine +
+                                 "    Identified False";
+
+            _testUtility.TestBlock.BlockItems.Add(new IdentifiedBlockItem(false));
+
+            // Act
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void TranslateItemFilterBlockToString_CorruptedTrue_ReturnsCorrectString()
+        {
+            // Arrange
+            var expectedResult = "Show" + Environment.NewLine +
+                                 "    Corrupted True";
+
+            _testUtility.TestBlock.BlockItems.Add(new CorruptedBlockItem(true));
+
+            // Act
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void TranslateItemFilterBlockToString_CorruptedFalse_ReturnsCorrectString()
+        {
+            // Arrange
+            var expectedResult = "Show" + Environment.NewLine +
+                                 "    Corrupted False";
+
+            _testUtility.TestBlock.BlockItems.Add(new CorruptedBlockItem(false));
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
@@ -1417,25 +1523,30 @@ namespace Filtration.Parser.Tests.Services
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
-                                 "    ItemLevel > 70" + Environment.NewLine +
-                                 "    ItemLevel <= 85" + Environment.NewLine +
-                                 "    DropLevel > 56" + Environment.NewLine +
-                                 "    Quality > 2" + Environment.NewLine +
-                                 "    Rarity = Unique" + Environment.NewLine +
-                                 "    Sockets <= 6" + Environment.NewLine +
+
                                  "    LinkedSockets >= 4" + Environment.NewLine +
-                                 "    Width = 3" + Environment.NewLine +
+                                 "    Sockets <= 6" + Environment.NewLine +
+                                 "    Quality > 2" + Environment.NewLine +
+                                 "    Identified True" + Environment.NewLine +
+                                 "    Corrupted False" + Environment.NewLine +
                                  "    Height <= 6" + Environment.NewLine +
                                  "    Height >= 2" + Environment.NewLine +
+                                 "    Width = 3" + Environment.NewLine +
+                                 "    DropLevel > 56" + Environment.NewLine +
                                  "    Class \"Body Armour\" \"Gloves\" \"Belt\" \"Two Hand Axes\"" + Environment.NewLine +
-                                 "    BaseType \"Greater Life Flask\" \"Simple Robe\" \"Full Wyrmscale\"" +
-                                 Environment.NewLine +
+                                 "    BaseType \"Greater Life Flask\" \"Simple Robe\" \"Full Wyrmscale\"" + Environment.NewLine +
+                                 "    Rarity = Unique" + Environment.NewLine +
+                                 "    ItemLevel > 70" + Environment.NewLine +
+                                 "    ItemLevel <= 85" + Environment.NewLine +
                                  "    SetTextColor 255 89 0 56" + Environment.NewLine +
                                  "    SetBackgroundColor 0 0 0" + Environment.NewLine +
                                  "    SetBorderColor 255 1 254" + Environment.NewLine +
                                  "    SetFontSize 50" + Environment.NewLine +
                                  "    PlayAlertSound 6 90";
 
+            _testUtility.TestBlock.BlockItems.Add(new ActionBlockItem(BlockAction.Show));
+            _testUtility.TestBlock.BlockItems.Add(new IdentifiedBlockItem(true));
+            _testUtility.TestBlock.BlockItems.Add(new CorruptedBlockItem(false));
             _testUtility.TestBlock.BlockItems.Add(new ActionBlockItem(BlockAction.Show));
             _testUtility.TestBlock.BlockItems.Add(new ItemLevelBlockItem(FilterPredicateOperator.GreaterThan, 70));
             _testUtility.TestBlock.BlockItems.Add(new ItemLevelBlockItem(FilterPredicateOperator.LessThanOrEqual, 85));

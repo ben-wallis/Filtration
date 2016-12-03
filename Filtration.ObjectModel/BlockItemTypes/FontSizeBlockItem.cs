@@ -16,7 +16,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string PrefixText => "SetFontSize";
         public override int MaximumAllowed => 1;
         public override string DisplayHeading => "Font Size";
-        public override int SortOrder => 15;
+        public override int SortOrder => 17;
         public override int Minimum => 11;
         public override int Maximum => 45;
     }

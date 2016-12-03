@@ -25,9 +25,7 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
 
         public abstract int Minimum { get; }
         public abstract int Maximum { get; }
-
-        public override bool IsDirty { get; protected set; }
-
+        
         public NumericFilterPredicate FilterPredicate
         {
             get { return _filterPredicate; }

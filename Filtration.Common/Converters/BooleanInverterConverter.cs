@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace Filtration.Common.Converters
 {
-    internal class BoolInverterConverter : IValueConverter
+    public class BooleanInverterConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter,
             CultureInfo culture)

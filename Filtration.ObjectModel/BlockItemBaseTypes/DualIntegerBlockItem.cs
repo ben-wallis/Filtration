@@ -23,8 +23,6 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
         public override Color SummaryBackgroundColor => Colors.Transparent;
         public override Color SummaryTextColor => Colors.Transparent;
 
-        public override bool IsDirty { get; protected set; }
-
         public int Value
         {
             get { return _value; }

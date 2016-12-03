@@ -1,0 +1,13 @@
+﻿Hide # $flask, lvl
+    ItemLevel > 68
+    Quality < 15
+    Class "Life Flask" "Mana Flask" "Hybrid Flask"
+    BaseType "Flask"
+    SetFontSize 20
+
+Show # $flask, lvl
+    ItemLevel >= 35
+    Class "Life Flask" "Mana Flask"
+    BaseType "Flask"
+    BaseType "Small" "Medium" "Large" "Greater" "Grand"
+    SetFontSize 20

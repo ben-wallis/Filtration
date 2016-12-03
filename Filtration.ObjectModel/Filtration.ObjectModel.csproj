@@ -43,7 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockItemBaseTypes\ActionBlockItem.cs" />
-    <Compile Include="BlockItemBaseTypes\BlockItembase.cs" />
+    <Compile Include="BlockItemBaseTypes\BlockItemBase.cs" />
+    <Compile Include="BlockItemBaseTypes\BooleanBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\ColorBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\DualIntegerBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\IntegerBlockItem.cs" />
@@ -53,9 +54,11 @@
     <Compile Include="BlockItemTypes\BaseTypeBlockItem.cs" />
     <Compile Include="BlockItemTypes\BorderColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\ClassBlockItem.cs" />
+    <Compile Include="BlockItemTypes\CorruptedBlockItem.cs" />
     <Compile Include="BlockItemTypes\DropLevelBlockItem.cs" />
     <Compile Include="BlockItemTypes\FontSizeBlockItem.cs" />
     <Compile Include="BlockItemTypes\HeightBlockItem.cs" />
+    <Compile Include="BlockItemTypes\IdentifiedBlockItem.cs" />
     <Compile Include="BlockItemTypes\ItemLevelBlockItem.cs" />
     <Compile Include="BlockItemTypes\LinkedSocketsBlockItem.cs" />
     <Compile Include="BlockItemTypes\QualityBlockItem.cs" />

@@ -187,7 +187,9 @@ namespace Filtration.ViewModels
             typeof (HeightBlockItem),
             typeof (SocketGroupBlockItem),
             typeof (ClassBlockItem),
-            typeof (BaseTypeBlockItem)
+            typeof (BaseTypeBlockItem),
+            typeof (IdentifiedBlockItem),
+            typeof (CorruptedBlockItem)
         };
 
         public List<Type> AudioVisualBlockItemTypesAvailable => new List<Type>

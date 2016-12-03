@@ -30,8 +30,6 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
 
         public ObservableCollection<string> Items { get; protected set; }
 
-        public override bool IsDirty { get; protected set; }
-
         private void OnItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             IsDirty = true;

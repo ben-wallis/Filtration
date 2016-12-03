@@ -24,8 +24,6 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
 
         public override string SummaryText => string.Empty;
 
-        public override bool IsDirty { get; protected set; }
-
         public ThemeComponent ThemeComponent
         {
             get { return _themeComponent; }
