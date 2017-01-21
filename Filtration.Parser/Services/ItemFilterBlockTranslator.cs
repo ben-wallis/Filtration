@@ -396,11 +396,20 @@ namespace Filtration.Parser.Services
 
             var blockGroupText = inputString.Substring(blockGroupStart + 1).TrimStart();
 
-            if (blockGroupText.StartsWith("!"))
+            var blockGroupModeStart = blockGroupText.IndexOf("|", StringComparison.Ordinal);
+            if (blockGroupModeStart >= 0)
             {
-                block.DisableWithGroup = true;
-                blockGroupText = blockGroupText.Substring(1);
-                //block.Description = block.Description + "--DR--";
+                var blockGroupMode = blockGroupText.Substring(blockGroupModeStart + 1).Trim();
+                blockGroupText = blockGroupText.Substring(0, blockGroupModeStart);
+
+                // Compatible with http://filterblast.oversoul.xyz/item-filter-syntax.html#smartblocks
+                // Except that REMOVE is just like COMMENT and DISABLE.
+                if (blockGroupMode.Equals("Comment", StringComparison.OrdinalIgnoreCase) ||
+                        blockGroupMode.Equals("Remove", StringComparison.OrdinalIgnoreCase) ||
+                        blockGroupMode.Equals("Disable", StringComparison.OrdinalIgnoreCase))
+                {
+                    block.DisableWithGroup = true;
+                }
             }
 
             var blockGroups = blockGroupText.Split('-').ToList();
@@ -469,7 +478,11 @@ namespace Filtration.Parser.Services
 
             if (block.BlockGroup != null)
             {
-                outputString += (block.DisableWithGroup ? " #! " : " # ") + block.BlockGroup;
+                outputString += " # " + block.BlockGroup;
+                if (block.DisableWithGroup)
+                {
+                    outputString += " | Disable";
+                }
             }
 
             // ReSharper disable once LoopCanBeConvertedToQuery

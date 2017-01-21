@@ -149,11 +149,6 @@ namespace Filtration.ObjectModel
                 if (BlockGroup.IsChecked != Enabled)
                 {
                     Enabled = BlockGroup.IsChecked;
-                    // DFRICE
-                    Console.WriteLine("TOGGLE! ENABLED=" + (Enabled ? "YES" : "NO"));
-                    // This is a bit hacky. Enabled/Disabled isn't part of BlockItems,
-                    // but we want to piggy back on the Observerable aspect of it.
-                    // Just generate a change event for the Action (Show/Hide) block.
                 }
             }
             else
