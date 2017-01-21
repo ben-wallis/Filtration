@@ -394,12 +394,27 @@ namespace Filtration.Parser.Services
             var blockGroupStart = inputString.IndexOf("#", StringComparison.Ordinal);
             if (blockGroupStart <= 0) return;
 
-            var blockGroupText = inputString.Substring(blockGroupStart + 1);
+            var blockGroupText = inputString.Substring(blockGroupStart + 1).TrimStart();
+
+            if (blockGroupText.StartsWith("!"))
+            {
+                block.DisableWithGroup = true;
+                blockGroupText = blockGroupText.Substring(1);
+                //block.Description = block.Description + "--DR--";
+            }
+
             var blockGroups = blockGroupText.Split('-').ToList();
             if (blockGroups.Count(b => !string.IsNullOrEmpty(b.Trim())) > 0)
             {
                 block.BlockGroup = _blockGroupHierarchyBuilder.IntegrateStringListIntoBlockGroupHierarchy(blockGroups);
-                block.BlockGroup.IsChecked = block.Action == BlockAction.Show;
+                if (block.DisableWithGroup)
+                {
+                    block.BlockGroup.IsChecked = block.Enabled;
+                }
+                else
+                {
+                    block.BlockGroup.IsChecked = block.Action == BlockAction.Show;
+                }
             }
         }
 
@@ -454,7 +469,7 @@ namespace Filtration.Parser.Services
 
             if (block.BlockGroup != null)
             {
-                outputString += " # " + block.BlockGroup;
+                outputString += (block.DisableWithGroup ? " #! " : " # ") + block.BlockGroup;
             }
 
             // ReSharper disable once LoopCanBeConvertedToQuery

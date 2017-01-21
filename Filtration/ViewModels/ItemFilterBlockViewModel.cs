@@ -82,6 +82,12 @@ namespace Filtration.ViewModels
             {
                 blockItem.PropertyChanged += OnBlockItemChanged;
             }
+
+            // ItemFilterBlocks have innate properties themselves to listen to (such as enabled/disabled)
+            if (itemFilterBlock is ItemFilterBlock)
+            {
+                ((ItemFilterBlock)itemFilterBlock).PropertyChanged += OnBlockChanged;
+            }
         }
 
         public RelayCommand CopyBlockCommand { get; private set; }
@@ -204,15 +210,7 @@ namespace Filtration.ViewModels
         public bool BlockEnabled
         {
             get { return Block.Enabled; }
-            set
-            {
-                if (Block.Enabled != value)
-                {
-                    Block.Enabled = value;
-                    IsDirty = true;
-                    RaisePropertyChanged();
-                }
-            }
+            set { Block.Enabled = value;}
         }
 
         public string BlockDescription
@@ -366,6 +364,13 @@ namespace Filtration.ViewModels
             //{
             RefreshBlockPreview();
             //}
+        }
+
+        private void OnBlockChanged(object sender, EventArgs e)
+        {
+            IsDirty = true;
+            RaisePropertyChanged(nameof(BlockEnabled));
+            Console.WriteLine("OnBlockChanged");
         }
 
         public void RefreshBlockPreview()
