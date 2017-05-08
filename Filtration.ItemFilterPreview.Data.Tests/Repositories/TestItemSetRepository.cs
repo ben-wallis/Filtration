@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace Filtration.ItemFilterPreview.Data.Tests.Repositories
 {
+    [Ignore("integration test")]
     [TestFixture]
     public class TestItemSetRepository
     {
