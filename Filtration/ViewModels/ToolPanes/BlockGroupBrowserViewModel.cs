@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Media.Imaging;
-using Filtration.Utilities;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 
@@ -15,13 +15,11 @@ namespace Filtration.ViewModels.ToolPanes
 
     internal class BlockGroupBrowserViewModel : ToolViewModel, IBlockGroupBrowserViewModel
     {
-        private readonly IBlockGroupMapper _blockGroupMapper;
         private ObservableCollection<ItemFilterBlockGroupViewModel> _blockGroupViewModelViewModels;
         private ItemFilterBlockGroupViewModel _selectedBlockGroupViewModel;
 
-        public BlockGroupBrowserViewModel(IBlockGroupMapper blockGroupMapper) : base("Block Group Browser")
+        public BlockGroupBrowserViewModel() : base("Block Group Browser")
         {
-            _blockGroupMapper = blockGroupMapper;
             FilterToSelectedBlockGroupCommand = new RelayCommand(OnFilterToSelectedBlockGroupCommand, () => SelectedBlockGroupViewModel != null);
 
             ContentId = ToolContentId;
@@ -60,7 +58,7 @@ namespace Filtration.ViewModels.ToolPanes
 
         public ItemFilterBlockGroupViewModel SelectedBlockGroupViewModel
         {
-            get { return _selectedBlockGroupViewModel; }
+            get => _selectedBlockGroupViewModel;
             set
             {
                 _selectedBlockGroupViewModel = value;
@@ -73,7 +71,7 @@ namespace Filtration.ViewModels.ToolPanes
         
         public ObservableCollection<ItemFilterBlockGroupViewModel> BlockGroupViewModels
         {
-            get { return _blockGroupViewModelViewModels; }
+            get => _blockGroupViewModelViewModels;
             private set
             {
                 _blockGroupViewModelViewModels = value;
@@ -94,9 +92,11 @@ namespace Filtration.ViewModels.ToolPanes
 
         private ObservableCollection<ItemFilterBlockGroupViewModel> RebuildBlockGroupViewModels(bool showAdvanced)
         {
-            return
-                _blockGroupMapper.MapBlockGroupsToViewModels(
-                    AvalonDockWorkspaceViewModel.ActiveScriptViewModel.Script.ItemFilterBlockGroups, showAdvanced);
+            // This assumes that there will only ever be a single root node.
+            return new ObservableCollection<ItemFilterBlockGroupViewModel>
+            (
+                new ItemFilterBlockGroupViewModel(AvalonDockWorkspaceViewModel.ActiveScriptViewModel.Script.ItemFilterBlockGroups.First(), showAdvanced, null).ChildGroups
+            );
         }
 
         private void OnFilterToSelectedBlockGroupCommand()

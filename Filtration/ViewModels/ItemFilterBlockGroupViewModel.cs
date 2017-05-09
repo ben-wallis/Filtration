@@ -18,6 +18,42 @@ namespace Filtration.ViewModels
             ChildGroups = new ObservableCollection<ItemFilterBlockGroupViewModel>();
         }
 
+        public ItemFilterBlockGroupViewModel(ItemFilterBlockGroup itemFilterBlockGroup, bool showAdvanced, ItemFilterBlockGroupViewModel parent)
+        {
+            GroupName = itemFilterBlockGroup.GroupName;
+            ParentGroup = parent;
+            Advanced = itemFilterBlockGroup.Advanced;
+            SourceBlockGroup = itemFilterBlockGroup;
+            IsChecked = itemFilterBlockGroup.IsChecked;
+
+            ChildGroups = new ObservableCollection<ItemFilterBlockGroupViewModel>();
+            foreach (var childGroup in itemFilterBlockGroup.ChildGroups.Where(c => showAdvanced || !c.Advanced))
+            {
+                ChildGroups.Add(new ItemFilterBlockGroupViewModel(childGroup, showAdvanced, this));
+            }
+
+            if (ChildGroups.Any())
+            {
+                SetIsCheckedBasedOnChildGroups();
+            }
+        }
+
+        private void SetIsCheckedBasedOnChildGroups()
+        {
+            if (ChildGroups.All(g => g.IsChecked == true))
+            {
+                IsChecked = true;
+            }
+            else if (ChildGroups.Any(g => g.IsChecked == true || g.IsChecked == null))
+            {
+                IsChecked = null;
+            }
+            else
+            {
+                IsChecked = false;
+            }
+        }
+
         public string GroupName { get; internal set; }
         public ItemFilterBlockGroupViewModel ParentGroup { get; internal set; }
         public ObservableCollection<ItemFilterBlockGroupViewModel> ChildGroups { get; internal set; }

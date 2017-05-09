@@ -2,7 +2,6 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Filtration.Services;
-using Filtration.Utilities;
 
 namespace Filtration.WindsorInstallers
 {
@@ -18,11 +17,6 @@ namespace Filtration.WindsorInstallers
             container.Register(
                 Component.For<IStaticDataService>()
                     .ImplementedBy<StaticDataService>()
-                    .LifeStyle.Singleton);
-
-            container.Register(
-                Component.For<IBlockGroupMapper>()
-                    .ImplementedBy<BlockGroupMapper>()
                     .LifeStyle.Singleton);
 
             container.Register(
