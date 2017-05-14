@@ -10,6 +10,9 @@ Filtration is an editor for Path of Exile item filter scripts.
 ## System Requirements
 Filtration requires .NET Framework 4.6.1 installed.
 
+## Issue Tracking
+Filtration has moved to JIRA for issue tracking, any feature requests or bugs should be raised here:  https://filtration.atlassian.net/projects/FIL/issues/
+
 ## Features
 
 * Quick and easy editing and creation of item filter scripts - no direct editing of scripts required
