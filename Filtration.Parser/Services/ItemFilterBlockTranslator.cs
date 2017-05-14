@@ -394,12 +394,36 @@ namespace Filtration.Parser.Services
             var blockGroupStart = inputString.IndexOf("#", StringComparison.Ordinal);
             if (blockGroupStart <= 0) return;
 
-            var blockGroupText = inputString.Substring(blockGroupStart + 1);
+            var blockGroupText = inputString.Substring(blockGroupStart + 1).TrimStart();
+
+            var blockGroupModeStart = blockGroupText.IndexOf("|", StringComparison.Ordinal);
+            if (blockGroupModeStart >= 0)
+            {
+                var blockGroupMode = blockGroupText.Substring(blockGroupModeStart + 1).Trim();
+                blockGroupText = blockGroupText.Substring(0, blockGroupModeStart);
+
+                // Compatible with http://filterblast.oversoul.xyz/item-filter-syntax.html#smartblocks
+                // Except that REMOVE is just like COMMENT and DISABLE.
+                if (blockGroupMode.Equals("Comment", StringComparison.OrdinalIgnoreCase) ||
+                        blockGroupMode.Equals("Remove", StringComparison.OrdinalIgnoreCase) ||
+                        blockGroupMode.Equals("Disable", StringComparison.OrdinalIgnoreCase))
+                {
+                    block.DisableWithGroup = true;
+                }
+            }
+
             var blockGroups = blockGroupText.Split('-').ToList();
             if (blockGroups.Count(b => !string.IsNullOrEmpty(b.Trim())) > 0)
             {
                 block.BlockGroup = _blockGroupHierarchyBuilder.IntegrateStringListIntoBlockGroupHierarchy(blockGroups);
-                block.BlockGroup.IsChecked = block.Action == BlockAction.Show;
+                if (block.DisableWithGroup)
+                {
+                    block.BlockGroup.IsChecked = block.Enabled;
+                }
+                else
+                {
+                    block.BlockGroup.IsChecked = block.Action == BlockAction.Show;
+                }
             }
         }
 
@@ -455,6 +479,10 @@ namespace Filtration.Parser.Services
             if (block.BlockGroup != null)
             {
                 outputString += " # " + block.BlockGroup;
+                if (block.DisableWithGroup)
+                {
+                    outputString += " | Disable";
+                }
             }
 
             // ReSharper disable once LoopCanBeConvertedToQuery

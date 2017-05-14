@@ -1,17 +1,23 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Media;
+using Filtration.ObjectModel.Annotations;
 using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.Extensions;
+
 
 namespace Filtration.ObjectModel
 {
     public interface IItemFilterBlock
     {
         bool Enabled { get; set; }
+        // Rather than toggling between Hide/Show when a group is toggled, Disable/Enable
+        bool DisableWithGroup { get; set; }
         string Description { get; set; }
         ItemFilterBlockGroup BlockGroup { get; set; }
         BlockAction Action { get; set; }
@@ -26,18 +32,43 @@ namespace Filtration.ObjectModel
         bool HasBlockGroupInParentHierarchy(ItemFilterBlockGroup targetBlockGroup, ItemFilterBlockGroup startingBlockGroup);
     }
 
-    public class ItemFilterBlock : IItemFilterBlock
+    public class ItemFilterBlock : IItemFilterBlock, INotifyPropertyChanged
     {
+        protected bool _Enabled;
+
         private ItemFilterBlockGroup _blockGroup;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public ItemFilterBlock()
         {
             BlockItems = new ObservableCollection<IItemFilterBlockItem> {new ActionBlockItem(BlockAction.Show)};
-            Enabled = true;
+            DisableWithGroup = false;
+            _Enabled = true;
         }
 
-        public bool Enabled { get; set; }
+        public bool Enabled
+        {
+            get { return _Enabled; }
+            set
+            {
+                if (_Enabled != value)
+                {
+                    _Enabled = value;
+                    OnPropertyChanged(nameof(Enabled));
+                }
+            }
+        }
+            
         public string Description { get; set; }
+        public bool DisableWithGroup { get; set; }
 
         public ItemFilterBlockGroup BlockGroup
         {
@@ -113,13 +144,23 @@ namespace Filtration.ObjectModel
         
         private void OnBlockGroupStatusChanged(object sender, EventArgs e)
         {
-            if (BlockGroup.IsChecked == false && Action == BlockAction.Show)
+            if (DisableWithGroup)
             {
-                Action = BlockAction.Hide;
+                if (BlockGroup.IsChecked != Enabled)
+                {
+                    Enabled = BlockGroup.IsChecked;
+                }
             }
-            else if (BlockGroup.IsChecked && Action == BlockAction.Hide)
+            else
             {
-                Action = BlockAction.Show;
+                if (BlockGroup.IsChecked == false && Action == BlockAction.Show)
+                {
+                    Action = BlockAction.Hide;
+                }
+                else if (BlockGroup.IsChecked && Action == BlockAction.Hide)
+                {
+                    Action = BlockAction.Show;
+                }
             }
         }
 

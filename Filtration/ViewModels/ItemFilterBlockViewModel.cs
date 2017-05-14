@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Media;
-using Filtration.Common.ViewModels;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
@@ -13,7 +12,7 @@ using Filtration.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Xceed.Wpf.Toolkit;
-
+    
 namespace Filtration.ViewModels
 {
     internal interface IItemFilterBlockViewModel
@@ -81,6 +80,12 @@ namespace Filtration.ViewModels
             foreach (var blockItem in itemFilterBlock.BlockItems)
             {
                 blockItem.PropertyChanged += OnBlockItemChanged;
+            }
+
+            // ItemFilterBlocks have innate properties themselves to listen to (such as enabled/disabled)
+            if (itemFilterBlock is ItemFilterBlock)
+            {
+                ((ItemFilterBlock)itemFilterBlock).PropertyChanged += OnBlockChanged;
             }
         }
 
@@ -204,15 +209,7 @@ namespace Filtration.ViewModels
         public bool BlockEnabled
         {
             get { return Block.Enabled; }
-            set
-            {
-                if (Block.Enabled != value)
-                {
-                    Block.Enabled = value;
-                    IsDirty = true;
-                    RaisePropertyChanged();
-                }
-            }
+            set { Block.Enabled = value;}
         }
 
         public string BlockDescription
@@ -366,6 +363,12 @@ namespace Filtration.ViewModels
             //{
             RefreshBlockPreview();
             //}
+        }
+
+        private void OnBlockChanged(object sender, EventArgs e)
+        {
+            IsDirty = true;
+            RaisePropertyChanged(nameof(BlockEnabled));
         }
 
         public void RefreshBlockPreview()
