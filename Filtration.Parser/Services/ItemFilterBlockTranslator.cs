@@ -31,9 +31,9 @@ namespace Filtration.Parser.Services
 
         // This method converts a string into a ItemFilterBlock. This is used for pasting ItemFilterBlocks 
         // and reading ItemFilterScripts from a file.
-        public IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, ThemeComponentCollection masterComponentCollection)
+        public IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScriptSettings itemFilterScriptSettings)
         {
-            _masterComponentCollection = masterComponentCollection;
+            _masterComponentCollection = itemFilterScriptSettings.ThemeComponentCollection;
             var block = new ItemFilterBlock();
             var showHideFound = false;
 
@@ -63,30 +63,45 @@ namespace Filtration.Parser.Services
                 var lineOption = trimmedLine.Substring(0, spaceOrEndOfLinePos);
                 switch (lineOption)
                 {
+
+                    //case "Show":
+                    //    showHideFound = true;
+                    //    block.Action = BlockAction.Show;
+                    //    block.Enabled = true;
+                    //    AddBlockGroupToBlock(block, trimmedLine);
+                    //    break;
+                    //case "Hide":
+                    //    showHideFound = true;
+                    //    block.Action = BlockAction.Hide;
+                    //    block.Enabled = true;
+                    //    AddBlockGroupToBlock(block, trimmedLine);
+                    //    break;
+                    //case "ShowDisabled":
+                    //    showHideFound = true;
+                    //    block.Action = BlockAction.Show;
+                    //    block.Enabled = false;
+                    //    AddBlockGroupToBlock(block, trimmedLine);
+                    //    break;
+                    //case "HideDisabled":
+                    //    showHideFound = true;
+                    //    block.Action = BlockAction.Hide;
+                    //    block.Enabled = false;
+                    //    AddBlockGroupToBlock(block, trimmedLine);
+                    //    break;
                     case "Show":
-                        showHideFound = true;
-                        block.Action = BlockAction.Show;
-                        block.Enabled = true;
-                        AddBlockGroupToBlock(block, trimmedLine);
-                        break;
                     case "Hide":
-                        showHideFound = true;
-                        block.Action = BlockAction.Hide;
-                        block.Enabled = true;
-                        AddBlockGroupToBlock(block, trimmedLine);
-                        break;
                     case "ShowDisabled":
-                        showHideFound = true;
-                        block.Action = BlockAction.Show;
-                        block.Enabled = false;
-                        AddBlockGroupToBlock(block, trimmedLine);
-                        break;
                     case "HideDisabled":
+                    {
                         showHideFound = true;
-                        block.Action = BlockAction.Hide;
-                        block.Enabled = false;
-                        AddBlockGroupToBlock(block, trimmedLine);
+                        block.Action = lineOption.StartsWith("Show") ? BlockAction.Show : BlockAction.Hide;
+                        block.Enabled = !lineOption.EndsWith("Disabled");
+                        if (itemFilterScriptSettings.BlockGroupsEnabled)
+                        {
+                            AddBlockGroupToBlock(block, trimmedLine);
+                        }
                         break;
+                    }
                     case "ItemLevel":
                     {
                         AddNumericFilterPredicateItemToBlockItems<ItemLevelBlockItem>(block, trimmedLine);

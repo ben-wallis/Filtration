@@ -15,6 +15,8 @@ namespace Filtration.ObjectModel
         string FilePath { get; set; }
         string Description { get; set; }
         DateTime DateModified { get; set; }
+        IItemFilterScriptSettings ItemFilterScriptSettings { get; }
+
         List<string> Validate();
         void ReplaceColors(ReplaceColorsParameterSet replaceColorsParameterSet);
     }
@@ -29,12 +31,15 @@ namespace Filtration.ObjectModel
                 new ItemFilterBlockGroup("Root", null)
             };
             ThemeComponents = new ThemeComponentCollection { IsMasterCollection = true};
+            ItemFilterScriptSettings = new ItemFilterScriptSettings(ThemeComponents);
         }
 
         public ObservableCollection<IItemFilterBlock> ItemFilterBlocks { get; }
         public ObservableCollection<ItemFilterBlockGroup> ItemFilterBlockGroups { get; }
 
         public ThemeComponentCollection ThemeComponents { get; set; } 
+
+        public IItemFilterScriptSettings ItemFilterScriptSettings { get; }
 
         public string FilePath { get; set; }
         public string Description { get; set; }

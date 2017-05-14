@@ -22,7 +22,7 @@ namespace Filtration.Parser.Services
             _blockGroupHierarchyBuilder = blockGroupHierarchyBuilder;
         }
 
-        public string PreprocessDisabledBlocks(string inputString)
+        public static string PreprocessDisabledBlocks(string inputString)
         {
             bool inDisabledBlock = false;
             var showHideFound = false;
@@ -120,7 +120,7 @@ namespace Filtration.Parser.Services
                 var block = new string[end - begin];
                 Array.Copy(lines, begin, block, 0, end - begin);
                 var blockString = string.Join("\r\n", block);
-                script.ItemFilterBlocks.Add(_blockTranslator.TranslateStringToItemFilterBlock(blockString, script.ThemeComponents));
+                script.ItemFilterBlocks.Add(_blockTranslator.TranslateStringToItemFilterBlock(blockString, script.ItemFilterScriptSettings));
             }
 
             _blockGroupHierarchyBuilder.Cleanup();
@@ -136,7 +136,7 @@ namespace Filtration.Parser.Services
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
                 currentLine++;
-                var trimmedLine = line.TrimStart(' ').TrimEnd(' ');
+                var trimmedLine = line.Trim(' ');
                 if (trimmedLine.StartsWith("Show") || trimmedLine.StartsWith("Hide") ||
                     trimmedLine.StartsWith("# Section:"))
                 {

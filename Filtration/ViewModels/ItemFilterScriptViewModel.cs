@@ -622,7 +622,7 @@ namespace Filtration.ViewModels
                 if (string.IsNullOrEmpty(clipboardText)) return;
                 _blockGroupHierarchyBuilder.Initialise(Script.ItemFilterBlockGroups.First());
 
-                var translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(clipboardText, Script.ThemeComponents);
+                var translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(clipboardText, Script.ItemFilterScriptSettings);
                 if (translatedBlock == null) return;
 
                 var vm = _itemFilterBlockViewModelFactory.Create();

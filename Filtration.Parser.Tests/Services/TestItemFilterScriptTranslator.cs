@@ -32,14 +32,12 @@ namespace Filtration.Parser.Tests.Services
             // Arrange
             var testInput = Resources.testscript;
 
-            _testUtility.MockItemFilterBlockTranslator.Setup(t => t.TranslateStringToItemFilterBlock(It.IsAny<string>(), It.IsAny<ThemeComponentCollection>())).Verifiable();
-
             // Act
             var script = _testUtility.ScriptTranslator.TranslateStringToItemFilterScript(testInput);
 
             // Assert
             Assert.AreEqual(5, script.ItemFilterBlocks.Count);
-            _testUtility.MockItemFilterBlockTranslator.Verify();
+            _testUtility.MockItemFilterBlockTranslator.Verify(t => t.TranslateStringToItemFilterBlock(It.IsAny<string>(), It.IsAny<IItemFilterScriptSettings>()));
         }
 
         [Test]
@@ -53,9 +51,6 @@ namespace Filtration.Parser.Tests.Services
                                         "This is a test script" + Environment.NewLine +
                                         Environment.NewLine +
                                         "End Script Description";
-
-            var mockItemFilterBlockTranslator = new Mock<IItemFilterBlockTranslator>();
-            mockItemFilterBlockTranslator.Setup(t => t.TranslateStringToItemFilterBlock(It.IsAny<string>(), It.IsAny<ThemeComponentCollection>())).Verifiable();
 
             // Act
             var script = _testUtility.ScriptTranslator.TranslateStringToItemFilterScript(testInput);

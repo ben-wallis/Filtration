@@ -84,6 +84,7 @@
     <Compile Include="ItemFilterBlock.cs" />
     <Compile Include="ItemFilterBlockGroup.cs" />
     <Compile Include="ItemFilterScript.cs" />
+    <Compile Include="ItemFilterScriptSettings.cs" />
     <Compile Include="ItemFilterSection.cs" />
     <Compile Include="ItemSet.cs" />
     <Compile Include="NumericFilterPredicate.cs" />
