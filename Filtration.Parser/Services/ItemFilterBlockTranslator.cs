@@ -56,7 +56,7 @@ namespace Filtration.Parser.Services
                 }
 
                 var adjustedLine = line.Replace("#", " # ");
-                var trimmedLine = adjustedLine.TrimStart(' ').TrimEnd(' ');
+                var trimmedLine = adjustedLine.Trim();
 
                 var spaceOrEndOfLinePos = trimmedLine.IndexOf(" ", StringComparison.Ordinal) > 0 ? trimmedLine.IndexOf(" ", StringComparison.Ordinal) : trimmedLine.Length;
 
@@ -395,7 +395,10 @@ namespace Filtration.Parser.Services
             if (blockGroupStart <= 0) return;
 
             var blockGroupText = inputString.Substring(blockGroupStart + 1);
-            var blockGroups = blockGroupText.Split('-').ToList();
+            var blockGroups = blockGroupText.Split(new[] { " - " }, StringSplitOptions.RemoveEmptyEntries)
+                                            .Select(s => s.Trim())
+                                            .ToList();
+
             if (blockGroups.Count(b => !string.IsNullOrEmpty(b.Trim())) > 0)
             {
                 block.BlockGroup = _blockGroupHierarchyBuilder.IntegrateStringListIntoBlockGroupHierarchy(blockGroups);

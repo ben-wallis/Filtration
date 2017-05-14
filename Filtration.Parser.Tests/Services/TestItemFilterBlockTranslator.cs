@@ -119,7 +119,7 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
-        public void TranslateStringToItemFilterBlock_NoBlockGroupComment_CallsBlockGroupHierarchyBuilder()
+        public void TranslateStringToItemFilterBlock_NoBlockGroupComment_DoesNotCallBlockGroupHierarchyBuilder()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine;
@@ -139,7 +139,6 @@ namespace Filtration.Parser.Tests.Services
             var inputString = "Show    #" + Environment.NewLine;
 
             // Act
-            _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Verifiable();
             _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
 
             // Assert
@@ -154,7 +153,31 @@ namespace Filtration.Parser.Tests.Services
             var testBlockGroup = new ItemFilterBlockGroup("zzzzz", null);
 
             // Act
-            _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Returns(testBlockGroup).Verifiable();
+            _testUtility.MockBlockGroupHierarchyBuilder
+                .Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.Is<IEnumerable<string>>(s => s.Contains("Test Block Group") && s.Contains("Test Sub Block Group") && s.Contains("Test Another Block Group"))))
+                .Returns(testBlockGroup)
+                .Verifiable();
+
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+
+            // Assert
+            Assert.AreEqual(testBlockGroup, result.BlockGroup);
+            _testUtility.MockBlockGroupHierarchyBuilder.Verify();
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_BlockGroupComment_NoSpacingAroundHyphens_SetsBlockItemGroupCorrectly()
+        {
+            // Arrange
+            var inputString = "Show # AAA-BBB-CCC" + Environment.NewLine;
+            var testBlockGroup = new ItemFilterBlockGroup("zzzzz", null);
+
+            // Act
+            _testUtility.MockBlockGroupHierarchyBuilder
+                .Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.Is<IEnumerable<string>>(s => s.Contains("AAA-BBB-CCC"))))
+                .Returns(testBlockGroup)
+                .Verifiable();
+
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
 
             // Assert
