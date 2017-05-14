@@ -15,7 +15,7 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
 
         public BlockAction Action
         {
-            get { return _action; }
+            get => _action;
             set
             {
                 _action = value;
@@ -26,6 +26,8 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
                 OnPropertyChanged(nameof(SummaryTextColor));
             }
         }
+
+        public string Comment { get; set; }
 
         public override string OutputText => Action.GetAttributeDescription();
 

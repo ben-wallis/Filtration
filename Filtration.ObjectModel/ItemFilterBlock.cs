@@ -15,6 +15,7 @@ namespace Filtration.ObjectModel
         string Description { get; set; }
         ItemFilterBlockGroup BlockGroup { get; set; }
         BlockAction Action { get; set; }
+        ActionBlockItem ActionBlockItem { get; }
         ObservableCollection<IItemFilterBlockItem> BlockItems { get; }
         Color DisplayBackgroundColor { get; }
         Color DisplayTextColor { get; }
@@ -32,7 +33,8 @@ namespace Filtration.ObjectModel
 
         public ItemFilterBlock()
         {
-            BlockItems = new ObservableCollection<IItemFilterBlockItem> {new ActionBlockItem(BlockAction.Show)};
+            ActionBlockItem = new ActionBlockItem(BlockAction.Show);
+            BlockItems = new ObservableCollection<IItemFilterBlockItem> {ActionBlockItem};
             Enabled = true;
         }
 
@@ -78,6 +80,8 @@ namespace Filtration.ObjectModel
                 actionBlock.Action = value;
             }
         }
+
+        public ActionBlockItem ActionBlockItem { get; }
 
         public ObservableCollection<IItemFilterBlockItem> BlockItems { get; }
 

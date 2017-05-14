@@ -348,6 +348,7 @@ namespace Filtration.Parser.Tests.Services
             Assert.AreEqual("This is a disabled block", secondBlock.Description);
         }
 
+        // TODO: Reinstate this test
         [Ignore("Ignored until toggling block group parsing can be controlled from the filter script input")]
         [Test]
         public void TranslateStringToItemFilterScript_DisabledBlockWithBlockGroup_ReturnsCorrectBlock()

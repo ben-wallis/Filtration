@@ -27,6 +27,41 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlock_BlockGroupsEnabled_ActionBlockItemCommentIsNull()
+        {
+
+            // Arrange
+            var inputString = "Show # Test - Test2 - Test3" + Environment.NewLine;
+
+            var inputBlockGroup = new ItemFilterBlockGroup("TestBlockGroup", null);
+            _testUtility.MockBlockGroupHierarchyBuilder
+                .Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>()))
+                .Returns(inputBlockGroup);
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScriptSettings>(i => i.BlockGroupsEnabled));
+
+            //Assert
+            Assert.IsTrue(string.IsNullOrEmpty(result.ActionBlockItem.Comment));
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_BlockGroupsDisabled_ActionBlockItemCommentIsSetCorrectly()
+        {
+
+            // Arrange
+            var testInputExpectedComment = " this is a comment that should be preserved";
+
+            var inputString = $"Show #{testInputExpectedComment}" + Environment.NewLine;
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScriptSettings>(i => i.BlockGroupsEnabled == false));
+
+            //Assert
+            Assert.AreEqual(testInputExpectedComment, result.ActionBlockItem.Comment);
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_NotDisabled_SetsBlockEnabledTrue()
         {
             // Arrange
@@ -1036,6 +1071,22 @@ namespace Filtration.Parser.Tests.Services
             var child1BlockGroup = new ItemFilterBlockGroup("Child 1 Block Group", rootBlockGroup);
             var child2BlockGroup = new ItemFilterBlockGroup("Child 2 Block Group", child1BlockGroup);
             _testUtility.TestBlock.BlockGroup = child2BlockGroup;
+
+            // Act
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void TranslateItemFilterBlockToString_HasActionBlockComment_ReturnsCorrectString()
+        {
+            // Arrange
+            var testInputActionBlockComment = "this is a test";
+            var expectedResult = $"Show #{testInputActionBlockComment}";
+
+            _testUtility.TestBlock.BlockItems.OfType<ActionBlockItem>().First().Comment = testInputActionBlockComment;
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);

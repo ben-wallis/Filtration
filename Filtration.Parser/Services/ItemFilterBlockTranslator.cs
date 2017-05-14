@@ -55,39 +55,12 @@ namespace Filtration.Parser.Services
                     continue;
                 }
 
-                var adjustedLine = line.Replace("#", " # ");
-                var trimmedLine = adjustedLine.Trim();
-
+                var trimmedLine = line.Trim();
                 var spaceOrEndOfLinePos = trimmedLine.IndexOf(" ", StringComparison.Ordinal) > 0 ? trimmedLine.IndexOf(" ", StringComparison.Ordinal) : trimmedLine.Length;
 
                 var lineOption = trimmedLine.Substring(0, spaceOrEndOfLinePos);
                 switch (lineOption)
                 {
-
-                    //case "Show":
-                    //    showHideFound = true;
-                    //    block.Action = BlockAction.Show;
-                    //    block.Enabled = true;
-                    //    AddBlockGroupToBlock(block, trimmedLine);
-                    //    break;
-                    //case "Hide":
-                    //    showHideFound = true;
-                    //    block.Action = BlockAction.Hide;
-                    //    block.Enabled = true;
-                    //    AddBlockGroupToBlock(block, trimmedLine);
-                    //    break;
-                    //case "ShowDisabled":
-                    //    showHideFound = true;
-                    //    block.Action = BlockAction.Show;
-                    //    block.Enabled = false;
-                    //    AddBlockGroupToBlock(block, trimmedLine);
-                    //    break;
-                    //case "HideDisabled":
-                    //    showHideFound = true;
-                    //    block.Action = BlockAction.Hide;
-                    //    block.Enabled = false;
-                    //    AddBlockGroupToBlock(block, trimmedLine);
-                    //    break;
                     case "Show":
                     case "Hide":
                     case "ShowDisabled":
@@ -96,9 +69,16 @@ namespace Filtration.Parser.Services
                         showHideFound = true;
                         block.Action = lineOption.StartsWith("Show") ? BlockAction.Show : BlockAction.Hide;
                         block.Enabled = !lineOption.EndsWith("Disabled");
+
+                        // If block groups are enabled for this script, the comment after Show/Hide is parsed as a block
+                        // group hierarchy, if block groups are disabled it is preserved as a simple text comment.
                         if (itemFilterScriptSettings.BlockGroupsEnabled)
                         {
                             AddBlockGroupToBlock(block, trimmedLine);
+                        }
+                        else
+                        {
+                            block.ActionBlockItem.Comment = GetTextAfterFirstComment(trimmedLine);
                         }
                         break;
                     }
@@ -406,10 +386,7 @@ namespace Filtration.Parser.Services
         
         private void AddBlockGroupToBlock(IItemFilterBlock block, string inputString)
         {
-            var blockGroupStart = inputString.IndexOf("#", StringComparison.Ordinal);
-            if (blockGroupStart <= 0) return;
-
-            var blockGroupText = inputString.Substring(blockGroupStart + 1);
+            var blockGroupText = GetTextAfterFirstComment(inputString);
             var blockGroups = blockGroupText.Split(new[] { " - " }, StringSplitOptions.RemoveEmptyEntries)
                                             .Select(s => s.Trim())
                                             .ToList();
@@ -419,6 +396,14 @@ namespace Filtration.Parser.Services
                 block.BlockGroup = _blockGroupHierarchyBuilder.IntegrateStringListIntoBlockGroupHierarchy(blockGroups);
                 block.BlockGroup.IsChecked = block.Action == BlockAction.Show;
             }
+        }
+
+        private static string GetTextAfterFirstComment(string inputString)
+        {
+            var blockGroupStart = inputString.IndexOf("#", StringComparison.Ordinal);
+            if (blockGroupStart <= 0) return string.Empty;
+
+            return inputString.Substring(blockGroupStart + 1);
         }
 
         private static Color GetColorFromString(string inputString)
@@ -473,6 +458,10 @@ namespace Filtration.Parser.Services
             if (block.BlockGroup != null)
             {
                 outputString += " # " + block.BlockGroup;
+            }
+            else if (!string.IsNullOrEmpty(block.ActionBlockItem?.Comment))
+            {
+                outputString += " #" + block.ActionBlockItem.Comment;
             }
 
             // ReSharper disable once LoopCanBeConvertedToQuery
