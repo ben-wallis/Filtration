@@ -74,7 +74,7 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
-        public void TranslateStringToItemFilterBlock_ShowBlock_SetsBlockGroupIsCheckedCorrectly()
+        public void TranslateStringToItemFilterBlock_BlockGroupsEnabled_ShowBlock_SetsBlockGroupIsCheckedCorrectly()
         {
             // Arrange
             var inputString = "Show # TestBlockGroup" + Environment.NewLine;
@@ -82,14 +82,14 @@ namespace Filtration.Parser.Tests.Services
 
             // Act
             _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Returns(inputBlockGroup).Verifiable();
-            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScriptSettings>());
+            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScriptSettings>(i => i.BlockGroupsEnabled));
 
             // Assert
             Assert.AreEqual(true, inputBlockGroup.IsChecked);
         }
 
         [Test]
-        public void TranslateStringToItemFilterBlock_HideBlock_SetsBlockGroupIsCheckedCorrectly()
+        public void TranslateStringToItemFilterBlock_BlockGroupsEnabled_HideBlock_SetsBlockGroupIsCheckedCorrectly()
         {
             // Arrange
             var inputString = "Hide # TestBlockGroup" + Environment.NewLine;
@@ -97,7 +97,7 @@ namespace Filtration.Parser.Tests.Services
 
             // Act
             _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Returns(inputBlockGroup).Verifiable();
-            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScriptSettings>());
+            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScriptSettings>(i => i.BlockGroupsEnabled));
 
             // Assert
             Assert.AreEqual(false, inputBlockGroup.IsChecked);

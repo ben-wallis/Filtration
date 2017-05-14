@@ -348,6 +348,7 @@ namespace Filtration.Parser.Tests.Services
             Assert.AreEqual("This is a disabled block", secondBlock.Description);
         }
 
+        [Ignore("Ignored until toggling block group parsing can be controlled from the filter script input")]
         [Test]
         public void TranslateStringToItemFilterScript_DisabledBlockWithBlockGroup_ReturnsCorrectBlock()
         {
@@ -363,6 +364,7 @@ namespace Filtration.Parser.Tests.Services
                                   "#Disabled Block End";
 
 
+            
             var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
             _testUtility.MockBlockGroupHierarchyBuilder.Setup(
                 b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>()))
