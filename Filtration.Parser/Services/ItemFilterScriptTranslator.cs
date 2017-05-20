@@ -27,6 +27,7 @@ namespace Filtration.Parser.Services
 
     internal enum ItemFilterBlockBoundaryType
     {
+        ScriptDescription,
         ItemFilterBlock,
         CommentBlock
     }
@@ -119,7 +120,7 @@ namespace Filtration.Parser.Services
             var lines = Regex.Split(inputString, "\r\n|\r|\n");
 
             // Process the script header
-            for (var i = 0; i < conditionBoundaries.First.Value.StartLine; i++)
+            for (var i = 0; i < conditionBoundaries.Skip(1).First().StartLine; i++)
             {
                 if (lines[i].StartsWith("#"))
                 {
@@ -136,6 +137,11 @@ namespace Filtration.Parser.Services
             // and add that object to the ItemFilterBlocks list 
             for (var boundary = conditionBoundaries.First; boundary != null; boundary = boundary.Next)
             {
+                if (boundary.Value.BoundaryType == ItemFilterBlockBoundaryType.ScriptDescription)
+                {
+                    continue;
+                }
+
                 var begin = boundary.Value.StartLine;
                 var end = boundary.Next?.Value.StartLine ?? lines.Length;
                 var block = new string[end - begin];
@@ -162,7 +168,7 @@ namespace Filtration.Parser.Services
             var previousLine = string.Empty;
             var currentLine = -1;
             
-            var currentItemFilterBlockBoundary = new ItemFilterBlockBoundary(1, ItemFilterBlockBoundaryType.CommentBlock);
+            var currentItemFilterBlockBoundary = new ItemFilterBlockBoundary(0, ItemFilterBlockBoundaryType.ScriptDescription);
 
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
@@ -177,14 +183,14 @@ namespace Filtration.Parser.Services
 
                 // A line starting with a comment when we're inside a ItemFilterBlock boundary represents the end of that block 
                 // as ItemFilterBlocks cannot have comment lines after the block description
-                if (trimmedLine.StartsWith("#") && currentItemFilterBlockBoundary?.BoundaryType == ItemFilterBlockBoundaryType.ItemFilterBlock)
+                if (trimmedLine.StartsWith("#") && currentItemFilterBlockBoundary.BoundaryType == ItemFilterBlockBoundaryType.ItemFilterBlock)
                 {
                     blockBoundaries.AddLast(currentItemFilterBlockBoundary);
                     currentItemFilterBlockBoundary = new ItemFilterBlockBoundary(currentLine, ItemFilterBlockBoundaryType.CommentBlock);
                 }
                 // A line starting with a comment where the previous line was null represents the start of a new comment (unless we're on the first
                 // line in which case it's not a new comment).
-                else if (trimmedLine.StartsWith("#") && string.IsNullOrWhiteSpace(previousLine) && currentLine > 0)
+                else if (trimmedLine.StartsWith("#") && string.IsNullOrWhiteSpace(previousLine) && currentItemFilterBlockBoundary.BoundaryType != ItemFilterBlockBoundaryType.ScriptDescription)
                 {
                     if (blockBoundaries.Count > 0)
                     {

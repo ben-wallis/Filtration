@@ -233,33 +233,6 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
-        public void TranslateStringToItemFilterScript_SectionDirectlyBeforeBlockWithoutDescription_ReturnsCorrectObject()
-        {
-            // Arrange
-            var testInputScript = "# My Script" + Environment.NewLine +
-                                  Environment.NewLine +
-                                  "# Section: Chance Bases" + Environment.NewLine +
-                                  "Show" + Environment.NewLine +
-                                  "    BaseType \"Lapis Amulet\" \"Amber Amulet\"" + Environment.NewLine +
-                                  "    SetBorderColor 255 0 255" + Environment.NewLine +
-                                  "    SetFontSize 25";
-
-            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
-            var translator = new ItemFilterScriptTranslator(blockTranslator,
-                _testUtility.MockBlockGroupHierarchyBuilder.Object);
-
-            // Act
-            var result = translator.TranslateStringToItemFilterScript(testInputScript);
-
-            // Assert
-            Assert.AreEqual(2, result.ItemFilterBlocks.Count);
-            var block = result.ItemFilterBlocks.OfType<ItemFilterBlock>().First(l => l.GetType() != typeof(ItemFilterSection));
-            Assert.AreEqual(4, block.BlockItems.Count);
-            var baseTypeItem = block.BlockItems.OfType<BaseTypeBlockItem>().First();
-            Assert.AreEqual(2, baseTypeItem.Items.Count);
-        }
-
-        [Test]
         public void TranslateStringToItemFilterScript_OneLineDescriptionNoBlockDescriptionAddsDescriptionToScript()
         {
             // Arrange
