@@ -27,6 +27,19 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlockComment_ReturnsItemFilterBlockCommentWithSpacesNotRemoved()
+        {
+            //Arrange
+            var testInputString = "#  This is a comment\r\n# Line 2 \r\n # Test";
+
+            //Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterCommentBlock(testInputString);
+
+            //Assert
+            Assert.AreEqual("  This is a comment\r\n Line 2 \r\n Test", result.Comment);
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_BlockGroupsEnabled_ActionBlockItemCommentIsNull()
         {
 
@@ -702,21 +715,6 @@ namespace Filtration.Parser.Tests.Services
             var blockItem = result.BlockItems.OfType<SoundBlockItem>().First();
             Assert.AreEqual(2, blockItem.Value);
             Assert.AreEqual(95, blockItem.SecondValue);
-        }
-
-        [Test]
-        public void TranslateStringToItemFilterBlock_SectionComment_ReturnsItemFilterSectionObjectWithCorrectDescription()
-        {
-            // Arrange
-            const string testInputSectionDescription = "Wonderful items that you definitely won't want to miss!";
-            var inputString = "# Section: " + testInputSectionDescription;
-
-            // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScriptSettings>());
-
-            // Assert
-            Assert.IsInstanceOf<ItemFilterSection>(result);
-            Assert.AreEqual(testInputSectionDescription, result.Description);
         }
         
         [Test]
@@ -1563,22 +1561,6 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.TestBlock.BlockItems.Add(new FontSizeBlockItem(3));
             _testUtility.TestBlock.BlockItems.Add(new FontSizeBlockItem(4));
             _testUtility.TestBlock.BlockItems.Add(new FontSizeBlockItem(15));
-
-            // Act
-            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
-
-            // Assert
-            Assert.AreEqual(expectedResult, result);
-        }
-
-        [Test]
-        public void TranslateItemFilterBlockToString_Section_ReturnsCorrectString()
-        {
-            // Arrange
-            const string testInputSectionText = "Ermagerd it's a section!";
-            var expectedResult = "# Section: " + testInputSectionText;
-
-            _testUtility.TestBlock = new ItemFilterSection { Description = testInputSectionText };
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);

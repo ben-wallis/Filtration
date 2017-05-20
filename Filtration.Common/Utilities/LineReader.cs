@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -21,6 +22,7 @@ namespace Filtration.Common.Utilities
         /// the stream into text.
         /// </summary>
         /// <param name="streamSource">Data source</param>
+        [DebuggerStepThrough]
         public LineReader(Func<Stream> streamSource)
             : this(streamSource, Encoding.UTF8)
         {
@@ -33,6 +35,7 @@ namespace Filtration.Common.Utilities
         /// <param name="streamSource">Data source</param>
         /// <param name="encoding">Encoding to use to decode the stream
         /// into text</param>
+        [DebuggerStepThrough]
         public LineReader(Func<Stream> streamSource, Encoding encoding)
             : this(() => new StreamReader(streamSource(), encoding))
         {
@@ -44,6 +47,7 @@ namespace Filtration.Common.Utilities
         /// UTF8 is used to decode the file into text.
         /// </summary>
         /// <param name="filename">File to read from</param>
+        [DebuggerStepThrough]
         public LineReader(string filename)
             : this(filename, Encoding.UTF8)
         {
@@ -56,6 +60,7 @@ namespace Filtration.Common.Utilities
         /// <param name="filename">File to read from</param>
         /// <param name="encoding">Encoding to use to decode the file
         /// into text</param>
+        [DebuggerStepThrough]
         public LineReader(string filename, Encoding encoding)
             : this(() => new StreamReader(filename, encoding))
         {
@@ -66,6 +71,7 @@ namespace Filtration.Common.Utilities
         /// is only called when the enumerator is fetched
         /// </summary>
         /// <param name="dataSource">Data source</param>
+        [DebuggerStepThrough]
         public LineReader(Func<TextReader> dataSource)
         {
             _dataSource = dataSource;
@@ -74,6 +80,7 @@ namespace Filtration.Common.Utilities
         /// <summary>
         /// Enumerates the data source line by line.
         /// </summary>
+        [DebuggerStepThrough]
         public IEnumerator<string> GetEnumerator()
         {
             using (TextReader reader = _dataSource())
@@ -89,6 +96,7 @@ namespace Filtration.Common.Utilities
         /// <summary>
         /// Enumerates the data source line by line.
         /// </summary>
+        [DebuggerStepThrough]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

@@ -320,7 +320,7 @@ namespace Filtration.ViewModels
             ItemFilterBlockViewModels.Clear();
 
             Script = itemFilterScript;
-            foreach (var block in Script.ItemFilterBlocks)
+            foreach (var block in Script.ItemFilterBlocks.OfType<ItemFilterBlock>())
             {
                 var vm = _itemFilterBlockViewModelFactory.Create();
                 vm.Initialise(block, this);
@@ -426,7 +426,7 @@ namespace Filtration.ViewModels
             var unusedThemeComponents =
                 Script.ThemeComponents.Where(
                     t =>
-                        Script.ItemFilterBlocks.Count(
+                        Script.ItemFilterBlocks.OfType<ItemFilterBlock>().Count(
                             b => b.BlockItems.OfType<ColorBlockItem>().Count(i => i.ThemeComponent == t) > 0) == 0).ToList();
 
             if (unusedThemeComponents.Count <= 0) return true;

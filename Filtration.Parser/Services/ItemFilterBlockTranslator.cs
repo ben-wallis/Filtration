@@ -29,6 +29,22 @@ namespace Filtration.Parser.Services
             _blockGroupHierarchyBuilder = blockGroupHierarchyBuilder;
         }
 
+        // Converts a string into an ItemFilterCommentBlock maintaining newlines and spaces but removing # characters
+        public IItemFilterCommentBlock TranslateStringToItemFilterCommentBlock(string inputString)
+        {
+            var itemFilterCommentBlock = new ItemFilterCommentBlock();
+
+            foreach (var line in new LineReader(() => new StringReader(inputString)))
+            {
+                var trimmedLine = line.TrimStart(' ').TrimStart('#');
+                itemFilterCommentBlock.Comment += trimmedLine + Environment.NewLine;
+            }
+
+            itemFilterCommentBlock.Comment = itemFilterCommentBlock.Comment.TrimEnd('\r', '\n');
+
+            return itemFilterCommentBlock;
+        }
+
         // This method converts a string into a ItemFilterBlock. This is used for pasting ItemFilterBlocks 
         // and reading ItemFilterScripts from a file.
         public IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScriptSettings itemFilterScriptSettings)
@@ -39,16 +55,6 @@ namespace Filtration.Parser.Services
 
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
-
-                if (line.StartsWith(@"# Section:"))
-                {
-                    var section = new ItemFilterSection
-                    {
-                        Description = line.Substring(line.IndexOf(":", StringComparison.Ordinal) + 1).Trim()
-                    };
-                    return section;
-                }
-
                 if (line.StartsWith(@"#") && !showHideFound)
                 {
                     block.Description = line.TrimStart('#').TrimStart(' ');
@@ -205,6 +211,7 @@ namespace Filtration.Parser.Services
                         switch (matches.Count)
                         {
                             case 1:
+                            {
                                 if (matches[0].Success)
                                 {
                                     var blockItemValue = new SoundBlockItem
@@ -215,7 +222,9 @@ namespace Filtration.Parser.Services
                                     block.BlockItems.Add(blockItemValue);
                                 }
                                 break;
+                            }
                             case 2:
+                            {
                                 if (matches[0].Success && matches[1].Success)
                                 {
                                     var blockItemValue = new SoundBlockItem
@@ -226,6 +235,7 @@ namespace Filtration.Parser.Services
                                     block.BlockItems.Add(blockItemValue);
                                 }
                                 break;
+                            }
                         }
                         break;
                     }
@@ -436,7 +446,8 @@ namespace Filtration.Parser.Services
         // to the clipboard, and when saving a ItemFilterScript.
         public string TranslateItemFilterBlockToString(IItemFilterBlock block)
         {
-            if (block.GetType() == typeof (ItemFilterSection))
+            // TODO: fix
+            if (block.GetType() == typeof (ItemFilterCommentBlock))
             {
                 return "# Section: " + block.Description;
             }

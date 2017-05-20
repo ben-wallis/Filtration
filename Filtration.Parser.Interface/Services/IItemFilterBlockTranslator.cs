@@ -8,5 +8,6 @@ namespace Filtration.Parser.Interface.Services
         IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScriptSettings itemFilterScriptSettings);
         string TranslateItemFilterBlockToString(IItemFilterBlock block);
         void ReplaceAudioVisualBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString);
+        IItemFilterCommentBlock TranslateStringToItemFilterCommentBlock(string inputString);
     }
 }

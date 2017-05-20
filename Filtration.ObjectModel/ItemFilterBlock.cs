@@ -9,7 +9,7 @@ using Filtration.ObjectModel.Extensions;
 
 namespace Filtration.ObjectModel
 {
-    public interface IItemFilterBlock
+    public interface IItemFilterBlock : IItemFilterBlockBase
     {
         bool Enabled { get; set; }
         string Description { get; set; }
@@ -21,13 +21,32 @@ namespace Filtration.ObjectModel
         Color DisplayTextColor { get; }
         Color DisplayBorderColor { get; }
         double DisplayFontSize { get; }
-        int BlockCount(Type type);
-        bool AddBlockItemAllowed(Type type);
         bool HasBlockItemOfType<T>();
         bool HasBlockGroupInParentHierarchy(ItemFilterBlockGroup targetBlockGroup, ItemFilterBlockGroup startingBlockGroup);
     }
 
-    public class ItemFilterBlock : IItemFilterBlock
+    public interface IItemFilterBlockBase
+    {
+    }
+
+    public class ItemFilterBlockBase : IItemFilterBlockBase
+    {
+        
+    }
+
+    public interface IItemFilterCommentBlock : IItemFilterBlockBase
+    {
+        string Comment { get; set; }
+        bool IsSection { get; set; }
+    }
+
+    public class ItemFilterCommentBlock : ItemFilterBlockBase, IItemFilterCommentBlock
+    {
+        public string Comment { get; set; }
+        public bool IsSection { get; set; }
+    }
+
+    public class ItemFilterBlock : ItemFilterBlockBase, IItemFilterBlock
     {
         private ItemFilterBlockGroup _blockGroup;
 
@@ -43,7 +62,7 @@ namespace Filtration.ObjectModel
 
         public ItemFilterBlockGroup BlockGroup
         {
-            get { return _blockGroup; }
+            get => _blockGroup;
             set
             {
                 var oldBlockGroup = _blockGroup;
@@ -85,15 +104,15 @@ namespace Filtration.ObjectModel
 
         public ObservableCollection<IItemFilterBlockItem> BlockItems { get; }
 
-        public int BlockCount(Type type)
-        {
-            return BlockItems?.Count(b => b.GetType() == type) ?? 0;
-        }
-
         public bool AddBlockItemAllowed(Type type)
         {
+            int BlockCount()
+            {
+                return BlockItems?.Count(b => b.GetType() == type) ?? 0;
+            }
+
             var blockItem = (IItemFilterBlockItem)Activator.CreateInstance(type);
-            return BlockCount(type) < blockItem.MaximumAllowed;
+            return BlockCount() < blockItem.MaximumAllowed;
         }
 
         public bool HasBlockItemOfType<T>()

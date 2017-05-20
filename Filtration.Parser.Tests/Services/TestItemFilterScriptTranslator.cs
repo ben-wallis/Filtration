@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemTypes;
@@ -9,6 +10,7 @@ using Filtration.Parser.Interface.Services;
 using Filtration.Parser.Services;
 using Filtration.Parser.Tests.Properties;
 using Filtration.Properties;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 
@@ -73,6 +75,36 @@ namespace Filtration.Parser.Tests.Services
 
             // Assert
             // Not crashing out when loading a huge script means this integration test has passed!
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterScript_Blah()
+        {
+            // Arrange
+            var testInput = Resources.testscript2;
+
+            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
+            var translator = new ItemFilterScriptTranslator(blockTranslator, _testUtility.MockBlockGroupHierarchyBuilder.Object);
+            
+            // Act
+            var result = translator.TranslateStringToItemFilterScript(testInput);
+
+            // Assert
+            var expectedResult = Mock.Of<IItemFilterScript>(s => s.ItemFilterBlocks == new ObservableCollection<IItemFilterBlockBase>
+            {
+                Mock.Of<IItemFilterBlock>(c => c.Description == "Blockdescription"),
+                Mock.Of<IItemFilterCommentBlock>(c => c.Comment == " commentymccommentface"),
+                Mock.Of<IItemFilterBlock>(),
+                Mock.Of<IItemFilterCommentBlock>(c => c.Comment == "commment\r\nmorecomment\r\nblah"),
+                Mock.Of<IItemFilterCommentBlock>(c => c.Comment == "anothercomment"),
+                Mock.Of<IItemFilterCommentBlock>(c => c.Comment == "notpartofblockdescription    "),
+                Mock.Of<IItemFilterBlock>(c => c.Description == "blockdescription2")
+            } && s.ItemFilterBlockGroups == new ObservableCollection<ItemFilterBlockGroup> { new ItemFilterBlockGroup("Root", null, false) }
+            && s.ThemeComponents == new ThemeComponentCollection() 
+            && s.ItemFilterScriptSettings == new ItemFilterScriptSettings(new ThemeComponentCollection())
+            && s.Description == "Script description\r\nScript description\r\nScript description\r\nScript description");
+
+            result.ShouldBeEquivalentTo(expectedResult);
         }
 
         [Test]
@@ -221,7 +253,7 @@ namespace Filtration.Parser.Tests.Services
 
             // Assert
             Assert.AreEqual(2, result.ItemFilterBlocks.Count);
-            var block = result.ItemFilterBlocks.First(l => l.GetType() != typeof(ItemFilterSection));
+            var block = result.ItemFilterBlocks.OfType<ItemFilterBlock>().First(l => l.GetType() != typeof(ItemFilterSection));
             Assert.AreEqual(4, block.BlockItems.Count);
             var baseTypeItem = block.BlockItems.OfType<BaseTypeBlockItem>().First();
             Assert.AreEqual(2, baseTypeItem.Items.Count);
@@ -244,7 +276,7 @@ namespace Filtration.Parser.Tests.Services
 
             // Assert
             Assert.AreEqual("Script edited with Filtration - https://github.com/ben-wallis/Filtration", result.Description);
-            var firstBlock = result.ItemFilterBlocks.First();
+            var firstBlock = result.ItemFilterBlocks.OfType<ItemFilterBlock>().First();
             Assert.IsNull(firstBlock.Description);
         }
 
@@ -311,9 +343,9 @@ namespace Filtration.Parser.Tests.Services
             // Assert
             Assert.AreEqual(3, result.ItemFilterBlocks.Count);
 
-            var firstBlock = result.ItemFilterBlocks.First();
-            var secondBlock = result.ItemFilterBlocks.Skip(1).First();
-            var thirdBlock = result.ItemFilterBlocks.Skip(2).First();
+            var firstBlock = result.ItemFilterBlocks.OfType<ItemFilterBlock>().First();
+            var secondBlock = result.ItemFilterBlocks.OfType<ItemFilterBlock>().Skip(1).First();
+            var thirdBlock = result.ItemFilterBlocks.OfType<ItemFilterBlock>().Skip(2).First();
 
             Assert.AreEqual(3, firstBlock.BlockItems.Count);
             Assert.AreEqual(5, secondBlock.BlockItems.Count);
@@ -344,7 +376,7 @@ namespace Filtration.Parser.Tests.Services
 
             // Assert
             Assert.AreEqual(2, result.ItemFilterBlocks.Count);
-            var secondBlock = result.ItemFilterBlocks.Skip(1).First();
+            var secondBlock = result.ItemFilterBlocks.OfType<ItemFilterBlock>().Skip(1).First();
             Assert.AreEqual("This is a disabled block", secondBlock.Description);
         }
 
@@ -379,7 +411,7 @@ namespace Filtration.Parser.Tests.Services
 
             // Assert
             Assert.AreEqual(2, result.ItemFilterBlocks.Count);
-            var secondBlock = result.ItemFilterBlocks.Skip(1).First();
+            var secondBlock = result.ItemFilterBlocks.OfType<ItemFilterBlock>().Skip(1).First();
             Assert.AreEqual("This is a disabled block", secondBlock.Description);
             Assert.AreEqual("My Block Group", secondBlock.BlockGroup.GroupName);
         }

@@ -29,7 +29,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             //Arrange
             var testInputItem = Mock.Of<IItem>();
             var testInputBlock = Mock.Of<IItemFilterBlock>();
-            var testInputScript = Mock.Of<IItemFilterScript>(s => s.ItemFilterBlocks == new ObservableCollection<IItemFilterBlock> {testInputBlock});
+            var testInputScript = Mock.Of<IItemFilterScript>(s => s.ItemFilterBlocks == new ObservableCollection<IItemFilterBlockBase> {testInputBlock});
 
             _testUtility.MockBlockItemMatcher
                 .Setup(b => b.ItemBlockMatch(testInputBlock, testInputItem))
@@ -50,7 +50,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             //Arrange
             var testInputItem = Mock.Of<IItem>();
             var testInputBlock = Mock.Of<IItemFilterBlock>();
-            var testInputScript = Mock.Of<IItemFilterScript>(s => s.ItemFilterBlocks == new ObservableCollection<IItemFilterBlock> { testInputBlock });
+            var testInputScript = Mock.Of<IItemFilterScript>(s => s.ItemFilterBlocks == new ObservableCollection<IItemFilterBlockBase> { testInputBlock });
 
             _testUtility.MockBlockItemMatcher
                 .Setup(b => b.ItemBlockMatch(testInputBlock, testInputItem))

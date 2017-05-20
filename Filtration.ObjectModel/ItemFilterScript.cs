@@ -9,7 +9,7 @@ namespace Filtration.ObjectModel
 {
     public interface IItemFilterScript
     {
-        ObservableCollection<IItemFilterBlock> ItemFilterBlocks { get; }
+        ObservableCollection<IItemFilterBlockBase> ItemFilterBlocks { get; }
         ObservableCollection<ItemFilterBlockGroup> ItemFilterBlockGroups { get; }
         ThemeComponentCollection ThemeComponents { get; set; }
         string FilePath { get; set; }
@@ -25,7 +25,7 @@ namespace Filtration.ObjectModel
     {
         public ItemFilterScript()
         {
-            ItemFilterBlocks = new ObservableCollection<IItemFilterBlock>();
+            ItemFilterBlocks = new ObservableCollection<IItemFilterBlockBase>();
             ItemFilterBlockGroups = new ObservableCollection<ItemFilterBlockGroup>
             {
                 new ItemFilterBlockGroup("Root", null)
@@ -34,7 +34,7 @@ namespace Filtration.ObjectModel
             ItemFilterScriptSettings = new ItemFilterScriptSettings(ThemeComponents);
         }
 
-        public ObservableCollection<IItemFilterBlock> ItemFilterBlocks { get; }
+        public ObservableCollection<IItemFilterBlockBase> ItemFilterBlocks { get; }
         public ObservableCollection<ItemFilterBlockGroup> ItemFilterBlockGroups { get; }
 
         public ThemeComponentCollection ThemeComponents { get; set; } 
@@ -59,9 +59,7 @@ namespace Filtration.ObjectModel
         
         public void ReplaceColors(ReplaceColorsParameterSet replaceColorsParameterSet)
         {
-            foreach (
-                var block in
-                    ItemFilterBlocks.Where(b => BlockIsColorReplacementCandidate(replaceColorsParameterSet, b)))
+            foreach (var block in ItemFilterBlocks.OfType<ItemFilterBlock>().Where(b => BlockIsColorReplacementCandidate(replaceColorsParameterSet, b)))
             {
                 if (replaceColorsParameterSet.ReplaceTextColor)
                 {

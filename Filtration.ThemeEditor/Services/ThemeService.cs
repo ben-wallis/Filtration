@@ -44,7 +44,7 @@ namespace Filtration.ThemeEditor.Services
                         break;
                 }
 
-                foreach (var block in script.ItemFilterBlocks)
+                foreach (var block in script.ItemFilterBlocks.OfType<ItemFilterBlock>())
                 {
                     foreach (var blockItem in block.BlockItems.Where(i => i.GetType() == targetType))
                     {
