@@ -15,11 +15,9 @@ using Xceed.Wpf.Toolkit;
 
 namespace Filtration.ViewModels
 {
-    internal interface IItemFilterBlockViewModel
+    internal interface IItemFilterBlockViewModel : IItemFilterBlockViewModelBase
     {
-        event EventHandler BlockBecameDirty;
         void Initialise(IItemFilterBlock itemFilterBlock, ItemFilterScriptViewModel parentScriptViewModel);
-        bool IsDirty { get; set; }
         bool IsExpanded { get; set; }
         IItemFilterBlock Block { get; }
         bool BlockEnabled { get; set; }
@@ -27,7 +25,67 @@ namespace Filtration.ViewModels
         void RefreshBlockPreview();
     }
 
-    internal class ItemFilterBlockViewModel : ViewModelBase, IItemFilterBlockViewModel
+    internal interface IItemFilterBlockViewModelBase
+    {
+        IItemFilterBlockBase BaseBlock { get; }
+        bool IsDirty { get; set; }
+        event EventHandler BlockBecameDirty;
+    }
+
+    internal abstract class ItemFilterBlockViewModelBase : ViewModelBase, IItemFilterBlockViewModelBase
+    {
+        private bool _isDirty;
+
+        protected void Initialise(IItemFilterBlockBase itemfilterBlock)
+        {
+            BaseBlock = itemfilterBlock;
+        }
+
+
+        public event EventHandler BlockBecameDirty;
+
+        public IItemFilterBlockBase BaseBlock { get; protected set; }
+        
+        public bool IsDirty
+        {
+            get => _isDirty;
+            set
+            {
+                if (value != _isDirty)
+                {
+                    _isDirty = value;
+                    RaisePropertyChanged();
+                    BlockBecameDirty?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+    }
+
+    internal interface IItemFilterCommentBlockViewModel : IItemFilterBlockViewModelBase
+    {
+        void Initialise(IItemFilterCommentBlock itemFilterCommentBlock);
+        IItemFilterCommentBlock ItemFilterCommentBlock { get; }
+        string Comment { get; }
+    }
+
+    internal class ItemFilterCommentBlockViewModel : ItemFilterBlockViewModelBase, IItemFilterCommentBlockViewModel
+    {
+        public ItemFilterCommentBlockViewModel()
+        {
+        }
+
+        public void Initialise(IItemFilterCommentBlock itemFilterCommentBlock)
+        {
+            ItemFilterCommentBlock = itemFilterCommentBlock;
+            BaseBlock = itemFilterCommentBlock;
+        }
+
+        public IItemFilterCommentBlock ItemFilterCommentBlock { get; private set; }
+
+        public string Comment => ItemFilterCommentBlock.Comment;
+    }
+
+    internal class ItemFilterBlockViewModel : ItemFilterBlockViewModelBase, IItemFilterBlockViewModel
     {
         private readonly IStaticDataService _staticDataService;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
@@ -37,7 +95,6 @@ namespace Filtration.ViewModels
         private bool _displaySettingsPopupOpen;
         private bool _isExpanded;
         private bool _audioVisualBlockItemsGridVisible;
-        private bool _isDirty;
 
         public ItemFilterBlockViewModel(IStaticDataService staticDataService, IReplaceColorsViewModel replaceColorsViewModel)
         {
@@ -63,8 +120,6 @@ namespace Filtration.ViewModels
             PlaySoundCommand = new RelayCommand(OnPlaySoundCommand, () => HasSound);
         }
 
-        public event EventHandler BlockBecameDirty;
-
         public void Initialise(IItemFilterBlock itemFilterBlock, ItemFilterScriptViewModel parentScriptViewModel)
         {
             if (itemFilterBlock == null || parentScriptViewModel == null)
@@ -75,51 +130,42 @@ namespace Filtration.ViewModels
             _parentScriptViewModel = parentScriptViewModel;
 
             Block = itemFilterBlock;
+
             itemFilterBlock.BlockItems.CollectionChanged += OnBlockItemsCollectionChanged;
 
             foreach (var blockItem in itemFilterBlock.BlockItems)
             {
                 blockItem.PropertyChanged += OnBlockItemChanged;
             }
+
+
+            base.Initialise(itemFilterBlock);
         }
 
-        public RelayCommand CopyBlockCommand { get; private set; }
-        public RelayCommand PasteBlockCommand { get; private set; }
-        public RelayCommand CopyBlockStyleCommand { get; private set; }
-        public RelayCommand PasteBlockStyleCommand { get; private set; }
-        public RelayCommand AddBlockCommand { get; private set; }
-        public RelayCommand AddSectionCommand { get; private set; }
-        public RelayCommand DeleteBlockCommand { get; private set; }
-        public RelayCommand MoveBlockUpCommand { get; private set; }
-        public RelayCommand MoveBlockDownCommand { get; private set; }
-        public RelayCommand MoveBlockToTopCommand { get; private set; }
-        public RelayCommand MoveBlockToBottomCommand { get; private set; }
-        public RelayCommand ToggleBlockActionCommand { get; private set; }
-        public RelayCommand ReplaceColorsCommand { get; private set; }
-        public RelayCommand<Type> AddFilterBlockItemCommand { get; private set; }
-        public RelayCommand<IItemFilterBlockItem> RemoveFilterBlockItemCommand { get; private set; }
-        public RelayCommand PlaySoundCommand { get; private set; }
-        public RelayCommand SwitchBlockItemsViewCommand { get; private set; }
+        public RelayCommand CopyBlockCommand { get; }
+        public RelayCommand PasteBlockCommand { get; }
+        public RelayCommand CopyBlockStyleCommand { get; }
+        public RelayCommand PasteBlockStyleCommand { get; }
+        public RelayCommand AddBlockCommand { get; }
+        public RelayCommand AddSectionCommand { get; }
+        public RelayCommand DeleteBlockCommand { get; }
+        public RelayCommand MoveBlockUpCommand { get; }
+        public RelayCommand MoveBlockDownCommand { get; }
+        public RelayCommand MoveBlockToTopCommand { get; }
+        public RelayCommand MoveBlockToBottomCommand { get; }
+        public RelayCommand ToggleBlockActionCommand { get; }
+        public RelayCommand ReplaceColorsCommand { get; }
+        public RelayCommand<Type> AddFilterBlockItemCommand { get; }
+        public RelayCommand<IItemFilterBlockItem> RemoveFilterBlockItemCommand { get; }
+        public RelayCommand PlaySoundCommand { get; }
+        public RelayCommand SwitchBlockItemsViewCommand { get; }
 
         public IItemFilterBlock Block { get; private set; }
 
-        public bool IsDirty
-        {
-            get { return _isDirty; }
-            set
-            {
-                if (value != _isDirty)
-                {
-                    _isDirty = value;
-                    RaisePropertyChanged();
-                    BlockBecameDirty?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
 
         public bool IsExpanded
         {
-            get { return _isExpanded; }
+            get => _isExpanded;
             set
             {
                 _isExpanded = value;

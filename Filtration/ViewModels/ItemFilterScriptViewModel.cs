@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,9 +26,9 @@ namespace Filtration.ViewModels
     internal interface IItemFilterScriptViewModel : IEditableDocument
     {
         ItemFilterScript Script { get; }
-        IItemFilterBlockViewModel SelectedBlockViewModel { get; set; }
-        IItemFilterBlockViewModel SectionBrowserSelectedBlockViewModel { get; set; }
-        IEnumerable<IItemFilterBlockViewModel> ItemFilterSectionViewModels { get; }
+        IItemFilterBlockViewModelBase SelectedBlockViewModel { get; set; }
+        IItemFilterCommentBlockViewModel CommentBlockBrowserBrowserSelectedBlockViewModel { get; set; }
+        IEnumerable<IItemFilterCommentBlockViewModel> ItemFilterCommentBlockViewModels { get; }
         Predicate<IItemFilterBlockViewModel> BlockFilterPredicate { get; set; }
         
         bool ShowAdvanced { get; }
@@ -58,11 +59,11 @@ namespace Filtration.ViewModels
         RelayCommand<bool> ToggleShowAdvancedCommand { get; }
         RelayCommand ClearFilterCommand { get; }
 
-        void AddSection(IItemFilterBlockViewModel targetBlockViewModel);
-        void AddBlock(IItemFilterBlockViewModel targetBlockViewModel);
-        void CopyBlock(IItemFilterBlockViewModel targetBlockViewModel);
+        void AddSection(IItemFilterBlockViewModelBase targetBlockViewModel);
+        void AddBlock(IItemFilterBlockViewModelBase targetBlockViewModel);
+        void CopyBlock(IItemFilterBlockViewModelBase targetBlockViewModel);
         void CopyBlockStyle(IItemFilterBlockViewModel targetBlockViewModel);
-        void PasteBlock(IItemFilterBlockViewModel targetBlockViewModel);
+        void PasteBlock(IItemFilterBlockViewModelBase targetBlockViewModel);
         void PasteBlockStyle(IItemFilterBlockViewModel targetBlockViewModel);
     }
 
@@ -72,6 +73,7 @@ namespace Filtration.ViewModels
 
         private readonly IItemFilterBlockViewModelFactory _itemFilterBlockViewModelFactory;
         private readonly IItemFilterBlockTranslator _blockTranslator;
+        private readonly IItemFilterCommentBlockViewModelFactory _itemFilterCommentBlockViewModelFactory;
         private readonly IAvalonDockWorkspaceViewModel _avalonDockWorkspaceViewModel;
         private readonly IItemFilterPersistenceService _persistenceService;
         private readonly IMessageBoxService _messageBoxService;
@@ -79,14 +81,15 @@ namespace Filtration.ViewModels
         private readonly IBlockGroupHierarchyBuilder _blockGroupHierarchyBuilder;
 
         private bool _isDirty;
-        private IItemFilterBlockViewModel _selectedBlockViewModel;
-        private IItemFilterBlockViewModel _sectionBrowserSelectedBlockViewModel;
-        private readonly ObservableCollection<IItemFilterBlockViewModel> _itemFilterBlockViewModels;
+        private IItemFilterBlockViewModelBase _selectedBlockViewModel;
+        private IItemFilterCommentBlockViewModel _sectionBrowserSelectedBlockViewModel;
+        private readonly ObservableCollection<IItemFilterBlockViewModelBase> _itemFilterBlockViewModels;
         private ICollectionView _itemFilterBlockViewModelsCollectionView;
         private Predicate<IItemFilterBlockViewModel> _blockFilterPredicate;
 
         public ItemFilterScriptViewModel(IItemFilterBlockViewModelFactory itemFilterBlockViewModelFactory,
                                          IItemFilterBlockTranslator blockTranslator,
+                                         IItemFilterCommentBlockViewModelFactory itemFilterCommentBlockViewModelFactory,
                                          IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
                                          IItemFilterPersistenceService persistenceService,
                                          IMessageBoxService messageBoxService,
@@ -95,14 +98,20 @@ namespace Filtration.ViewModels
         {
             _itemFilterBlockViewModelFactory = itemFilterBlockViewModelFactory;
             _blockTranslator = blockTranslator;
+            _itemFilterCommentBlockViewModelFactory = itemFilterCommentBlockViewModelFactory;
             _avalonDockWorkspaceViewModel = avalonDockWorkspaceViewModel;
             _avalonDockWorkspaceViewModel.ActiveDocumentChanged += OnActiveDocumentChanged;
             _persistenceService = persistenceService;
             _messageBoxService = messageBoxService;
             _clipboardService = clipboardService;
             _blockGroupHierarchyBuilder = blockGroupHierarchyBuilder;
-            _itemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModel>();
-            
+            _itemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModelBase>();
+
+            _avalonDockWorkspaceViewModel.ActiveDocumentChanged += (s, e) =>
+            {
+                RaisePropertyChanged(nameof(IsActiveDocument));
+            };
+
             ToggleShowAdvancedCommand = new RelayCommand<bool>(OnToggleShowAdvancedCommand);
             ClearFilterCommand = new RelayCommand(OnClearFilterCommand, () => BlockFilterPredicate != null);
             CloseCommand = new RelayCommand(async () => await OnCloseCommand());
@@ -148,7 +157,19 @@ namespace Filtration.ViewModels
         public RelayCommand ExpandAllBlocksCommand { get; }
         public RelayCommand CollapseAllBlocksCommand { get; }
 
-        public ObservableCollection<IItemFilterBlockViewModel> ItemFilterBlockViewModels
+        public bool IsActiveDocument
+        {
+            get
+            {
+                var isActiveDocument = _avalonDockWorkspaceViewModel.ActiveScriptViewModel == this;
+                Debug.WriteLine($"IsActiveDocument: {isActiveDocument}");
+
+                return isActiveDocument;
+
+            }
+        }
+
+        public ObservableCollection<IItemFilterBlockViewModelBase> ItemFilterBlockViewModels
         {
             get
             {
@@ -162,6 +183,8 @@ namespace Filtration.ViewModels
 
         private bool BlockFilter(object item)
         {
+            if (!(item is IItemFilterBlockViewModelBase)) return false;
+            if (item is IItemFilterCommentBlockViewModel) return true;
             var blockViewModel = item as IItemFilterBlockViewModel;
 
             if (BlockFilterPredicate != null)
@@ -190,25 +213,22 @@ namespace Filtration.ViewModels
 
         public Predicate<IItemFilterBlockViewModel> BlockFilterPredicate
         {
-            get { return _blockFilterPredicate; }
+            get => _blockFilterPredicate;
             set
             {
                 _blockFilterPredicate = value;
-                RaisePropertyChanged("ItemFilterBlockViewModels");
+                RaisePropertyChanged(nameof(ItemFilterBlockViewModels));
             }
         }
 
-        public IEnumerable<IItemFilterBlockViewModel> ItemFilterSectionViewModels
-        {
-            get { return ItemFilterBlockViewModels.Where(b => b.Block.GetType() == typeof (ItemFilterSection)); }
-        }
+        public IEnumerable<IItemFilterCommentBlockViewModel> ItemFilterCommentBlockViewModels => ItemFilterBlockViewModels.OfType<IItemFilterCommentBlockViewModel>();
 
         public bool IsScript => true;
         public bool IsTheme => false;
 
         public string Description
         {
-            get { return Script.Description; }
+            get => Script.Description;
             set
             {
                 Script.Description = value;
@@ -219,33 +239,39 @@ namespace Filtration.ViewModels
 
         public bool ShowAdvanced
         {
-            get { return _showAdvanced; }
+            get => _showAdvanced;
             private set
             {
                 _showAdvanced = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged("ItemFilterBlockViewModels");
+                RaisePropertyChanged(nameof(ItemFilterBlockViewModels));
             }
-        }
-
-        public bool HasSelectedBlock()
-        {
-            return SelectedBlockViewModel != null;
         }
 
         public bool HasSelectedEnabledBlock()
         {
-            return HasSelectedBlock() && !(SelectedBlockViewModel.Block is ItemFilterSection) && SelectedBlockViewModel.BlockEnabled;
+            var selectedBlockViewModel = SelectedBlockViewModel as IItemFilterBlockViewModel;
+            if (selectedBlockViewModel == null) return false;
+
+            return HasSelectedBlock() && selectedBlockViewModel.BlockEnabled;
         }
 
         public bool HasSelectedDisabledBlock()
         {
-            return HasSelectedBlock() && !(SelectedBlockViewModel.Block is ItemFilterSection) && !SelectedBlockViewModel.BlockEnabled;
+            var selectedBlockViewModel = SelectedBlockViewModel as IItemFilterBlockViewModel;
+            if (selectedBlockViewModel == null) return false;
+
+            return HasSelectedBlock() && !selectedBlockViewModel.BlockEnabled;
         }
 
-        public IItemFilterBlockViewModel SelectedBlockViewModel
+        private bool HasSelectedBlock()
         {
-            get { return _selectedBlockViewModel; }
+            return SelectedBlockViewModel != null;
+        }
+
+        public IItemFilterBlockViewModelBase SelectedBlockViewModel
+        {
+            get => _selectedBlockViewModel;
             set
             {
                 if (value != _selectedBlockViewModel)
@@ -257,9 +283,9 @@ namespace Filtration.ViewModels
             }
         }
 
-        public IItemFilterBlockViewModel SectionBrowserSelectedBlockViewModel
+        public IItemFilterCommentBlockViewModel CommentBlockBrowserBrowserSelectedBlockViewModel
         {
-            get { return _sectionBrowserSelectedBlockViewModel; }
+            get => _sectionBrowserSelectedBlockViewModel;
             set
             {
                 _sectionBrowserSelectedBlockViewModel = value;
@@ -272,7 +298,7 @@ namespace Filtration.ViewModels
 
         public bool IsDirty
         {
-            get { return _isDirty || HasDirtyChildren; }
+            get => _isDirty || HasDirtyChildren;
             set
             {
                 if (_isDirty != value)
@@ -295,15 +321,15 @@ namespace Filtration.ViewModels
         {
             CleanChildren();
             IsDirty = false;
-            RaisePropertyChanged("Filename");
-            RaisePropertyChanged("DisplayName");
+            RaisePropertyChanged(nameof(Filename));
+            RaisePropertyChanged(nameof(DisplayName));
         }
 
         public void SetDirtyFlag()
         {
             IsDirty = true;
-            RaisePropertyChanged("Filename");
-            RaisePropertyChanged("DisplayName");
+            RaisePropertyChanged(nameof(Filename));
+            RaisePropertyChanged(nameof(DisplayName));
         }
 
         public string DisplayName => !string.IsNullOrEmpty(Filename) ? Filename : Description;
@@ -320,14 +346,32 @@ namespace Filtration.ViewModels
             ItemFilterBlockViewModels.Clear();
 
             Script = itemFilterScript;
-            foreach (var block in Script.ItemFilterBlocks.OfType<ItemFilterBlock>())
+
+            foreach (var block in Script.ItemFilterBlocks)
             {
-                var vm = _itemFilterBlockViewModelFactory.Create();
-                vm.Initialise(block, this);
-                vm.BlockBecameDirty += OnBlockBecameDirty;
-                ItemFilterBlockViewModels.Add(vm);
+                var itemFilterBlock = block as IItemFilterBlock;
+                if (itemFilterBlock != null)
+                {
+                    var itemFilterBlockViewModel = _itemFilterBlockViewModelFactory.Create();
+                    itemFilterBlockViewModel.Initialise(itemFilterBlock, this);
+                    itemFilterBlockViewModel.BlockBecameDirty += OnBlockBecameDirty;
+                    ItemFilterBlockViewModels.Add(itemFilterBlockViewModel);
+                    continue;
+                }
+
+                var itemFilterCommentBlock = block as IItemFilterCommentBlock;
+                if (itemFilterCommentBlock == null)
+                {
+                    throw new InvalidOperationException("Unknown item filter block type");
+                }
+
+
+                var itemFilterCommentBlockViewModel = _itemFilterCommentBlockViewModelFactory.Create();
+                itemFilterCommentBlockViewModel.Initialise(itemFilterCommentBlock);
+                itemFilterCommentBlockViewModel.BlockBecameDirty += OnBlockBecameDirty;
+                ItemFilterBlockViewModels.Add(itemFilterCommentBlockViewModel);
             }
-           
+
             _filenameIsFake = newScript;
 
             if (newScript)
@@ -550,12 +594,11 @@ namespace Filtration.ViewModels
             CopyBlock(SelectedBlockViewModel);
         }
 
-        public void CopyBlock(IItemFilterBlockViewModel targetBlockViewModel)
+        public void CopyBlock(IItemFilterBlockViewModelBase targetBlockViewModel)
         {
             try
             {
-                _clipboardService.SetClipboardText(
-                    _blockTranslator.TranslateItemFilterBlockToString(SelectedBlockViewModel.Block));
+                _clipboardService.SetClipboardText(_blockTranslator.TranslateItemFilterBlockBaseToString(SelectedBlockViewModel.BaseBlock));
             }
             catch
             {
@@ -566,7 +609,11 @@ namespace Filtration.ViewModels
 
         private void OnCopyBlockStyleCommand()
         {
-            CopyBlockStyle(SelectedBlockViewModel);
+            var selectedBlockViewModel = SelectedBlockViewModel as IItemFilterBlockViewModel;
+            if (selectedBlockViewModel != null)
+            {
+                CopyBlockStyle(selectedBlockViewModel);
+            }
         }
 
         public void CopyBlockStyle(IItemFilterBlockViewModel targetBlockViewModel)
@@ -594,7 +641,11 @@ namespace Filtration.ViewModels
 
         private void OnPasteBlockStyleCommand()
         {
-            PasteBlockStyle(SelectedBlockViewModel);
+            var selectedBlockViewModel = SelectedBlockViewModel as IItemFilterBlockViewModel;
+            if (selectedBlockViewModel != null)
+            {
+                PasteBlockStyle(selectedBlockViewModel);
+            }
         }
 
         public void PasteBlockStyle(IItemFilterBlockViewModel targetBlockViewModel)
@@ -614,7 +665,7 @@ namespace Filtration.ViewModels
             PasteBlock(SelectedBlockViewModel);
         }
 
-        public void PasteBlock(IItemFilterBlockViewModel targetBlockViewModel)
+        public void PasteBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
             try
             {
@@ -630,9 +681,9 @@ namespace Filtration.ViewModels
 
                 if (ItemFilterBlockViewModels.Count > 0)
                 {
-                    Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModel.Block) + 1,
+                    Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModelBase.BaseBlock) + 1,
                         translatedBlock);
-                    ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModel) + 1, vm);
+                    ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase) + 1, vm);
                 }
                 else
                 {
@@ -661,18 +712,18 @@ namespace Filtration.ViewModels
             MoveBlockToTop(SelectedBlockViewModel);
         }
 
-        public void MoveBlockToTop(IItemFilterBlockViewModel targetBlockViewModel)
+        public void MoveBlockToTop(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
-            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModel);
+            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase);
 
             if (currentIndex > 0)
             {
-                var block = targetBlockViewModel.Block;
+                var block = targetBlockViewModelBase.BaseBlock;
                 Script.ItemFilterBlocks.Remove(block);
                 Script.ItemFilterBlocks.Insert(0, block);
                 ItemFilterBlockViewModels.Move(currentIndex, 0);
                 IsDirty = true;
-                RaisePropertyChanged(nameof(ItemFilterSectionViewModels));
+                RaisePropertyChanged(nameof(ItemFilterCommentBlockViewModels));
             }
         }
 
@@ -681,19 +732,19 @@ namespace Filtration.ViewModels
             MoveBlockUp(SelectedBlockViewModel);
         }
 
-        public void MoveBlockUp(IItemFilterBlockViewModel targetBlockViewModel)
+        public void MoveBlockUp(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
-            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModel);
+            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase);
 
             if (currentIndex > 0)
             {
-                var block = targetBlockViewModel.Block;
+                var block = targetBlockViewModelBase.BaseBlock;
                 var blockPos = Script.ItemFilterBlocks.IndexOf(block);
                 Script.ItemFilterBlocks.RemoveAt(blockPos);
                 Script.ItemFilterBlocks.Insert(blockPos - 1, block);
                 ItemFilterBlockViewModels.Move(currentIndex, currentIndex - 1);
                 IsDirty = true;
-                RaisePropertyChanged(nameof(ItemFilterSectionViewModels));
+                RaisePropertyChanged(nameof(ItemFilterCommentBlockViewModels));
             }
         }
 
@@ -702,19 +753,19 @@ namespace Filtration.ViewModels
             MoveBlockDown(SelectedBlockViewModel);
         }
 
-        public void MoveBlockDown(IItemFilterBlockViewModel targetBlockViewModel)
+        public void MoveBlockDown(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
-            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModel);
+            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase);
 
             if (currentIndex < ItemFilterBlockViewModels.Count - 1)
             {
-                var block = targetBlockViewModel.Block;
+                var block = targetBlockViewModelBase.BaseBlock;
                 var blockPos = Script.ItemFilterBlocks.IndexOf(block);
                 Script.ItemFilterBlocks.RemoveAt(blockPos);
                 Script.ItemFilterBlocks.Insert(blockPos + 1, block);
                 ItemFilterBlockViewModels.Move(currentIndex, currentIndex + 1);
                 IsDirty = true;
-                RaisePropertyChanged(nameof(ItemFilterSectionViewModels));
+                RaisePropertyChanged(nameof(ItemFilterCommentBlockViewModels));
             }
         }
 
@@ -723,18 +774,18 @@ namespace Filtration.ViewModels
             MoveBlockToBottom(SelectedBlockViewModel);
         }
 
-        public void MoveBlockToBottom(IItemFilterBlockViewModel targetBlockViewModel)
+        public void MoveBlockToBottom(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
-            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModel);
+            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase);
 
             if (currentIndex < ItemFilterBlockViewModels.Count - 1)
             {
-                var block = targetBlockViewModel.Block;
+                var block = targetBlockViewModelBase.BaseBlock;
                 Script.ItemFilterBlocks.Remove(block);
                 Script.ItemFilterBlocks.Add(block);
                 ItemFilterBlockViewModels.Move(currentIndex, ItemFilterBlockViewModels.Count - 1);
                 IsDirty = true;
-                RaisePropertyChanged(nameof(ItemFilterSectionViewModels));
+                RaisePropertyChanged(nameof(ItemFilterCommentBlockViewModels));
             }
         }
 
@@ -743,16 +794,16 @@ namespace Filtration.ViewModels
             AddBlock(SelectedBlockViewModel);
         }
 
-        public void AddBlock(IItemFilterBlockViewModel targetBlockViewModel)
+        public void AddBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
             var vm = _itemFilterBlockViewModelFactory.Create();
             var newBlock = new ItemFilterBlock();
             vm.Initialise(newBlock, this);
 
-            if (targetBlockViewModel != null)
+            if (targetBlockViewModelBase != null)
             {
-                Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModel.Block) + 1, newBlock);
-                ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModel) + 1, vm);
+                Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModelBase.BaseBlock) + 1, newBlock);
+                ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase) + 1, vm);
             }
             else
             {
@@ -776,23 +827,23 @@ namespace Filtration.ViewModels
             AddSection(SelectedBlockViewModel);
         }
         
-        public void AddSection(IItemFilterBlockViewModel targetBlockViewModel)
+        public void AddSection(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
-            var vm = _itemFilterBlockViewModelFactory.Create();
-            var newSection = new ItemFilterSection { Description = "New Section" };
-            vm.Initialise(newSection, this);
+            var vm = _itemFilterCommentBlockViewModelFactory.Create();
+            var newSection = new ItemFilterCommentBlock { Comment = "New Comment Block" };
+            vm.Initialise(newSection);
 
-            Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModel.Block), newSection);
-            ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModel), vm);
+            Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModelBase.BaseBlock), newSection);
+            ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase), vm);
             IsDirty = true;
             SelectedBlockViewModel = vm;
-            RaisePropertyChanged(nameof(ItemFilterSectionViewModels));
+            RaisePropertyChanged(nameof(ItemFilterCommentBlockViewModels));
             Messenger.Default.Send(new NotificationMessage("SectionsChanged"));
         }
 
         private void OnExpandAllBlocksCommand()
         {
-            foreach (var blockViewModel in ItemFilterBlockViewModels)
+            foreach (var blockViewModel in ItemFilterBlockViewModels.OfType<IItemFilterBlockViewModel>())
             {
                 blockViewModel.IsExpanded = true;
             }
@@ -800,7 +851,7 @@ namespace Filtration.ViewModels
 
         private void OnCollapseAllBlocksCommand()
         {
-            foreach (var blockViewModel in ItemFilterBlockViewModels)
+            foreach (var blockViewModel in ItemFilterBlockViewModels.OfType<IItemFilterBlockViewModel>())
             {
                 blockViewModel.IsExpanded = false;
             }
@@ -811,7 +862,7 @@ namespace Filtration.ViewModels
             DeleteBlock(SelectedBlockViewModel);
         }
 
-        public void DeleteBlock(IItemFilterBlockViewModel targetBlockViewModel)
+        public void DeleteBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
             var result = _messageBoxService.Show("Delete Confirmation", "Are you sure you wish to delete this block?",
                 MessageBoxButton.YesNo,
@@ -819,13 +870,13 @@ namespace Filtration.ViewModels
             
             if (result == MessageBoxResult.Yes)
             {
-                var isSection = targetBlockViewModel.Block is ItemFilterSection;
+                var isSection = targetBlockViewModelBase.BaseBlock is ItemFilterCommentBlock;
 
-                Script.ItemFilterBlocks.Remove(targetBlockViewModel.Block);
-                ItemFilterBlockViewModels.Remove(targetBlockViewModel);
+                Script.ItemFilterBlocks.Remove(targetBlockViewModelBase.BaseBlock);
+                ItemFilterBlockViewModels.Remove(targetBlockViewModelBase);
                 IsDirty = true;
 
-                targetBlockViewModel.BlockBecameDirty -= OnBlockBecameDirty;
+                targetBlockViewModelBase.BlockBecameDirty -= OnBlockBecameDirty;
 
                 if (isSection)
                 {
@@ -838,22 +889,20 @@ namespace Filtration.ViewModels
 
         private void OnDisableBlockCommand()
         {
-            DisableBlock(SelectedBlockViewModel);
-        }
-
-        private void DisableBlock(IItemFilterBlockViewModel targetBlockViewModel)
-        {
-            targetBlockViewModel.BlockEnabled = false;
+            var selectedBlockViewModel = SelectedBlockViewModel as IItemFilterBlockViewModel;
+            if (selectedBlockViewModel != null)
+            {
+                selectedBlockViewModel.BlockEnabled = false;
+            }
         }
 
         private void OnEnableBlockCommand()
         {
-            EnableBlock(SelectedBlockViewModel);
-        }
-
-        private void EnableBlock(IItemFilterBlockViewModel targetBlockViewModel)
-        {
-            targetBlockViewModel.BlockEnabled = true;
+            var selectedBlockViewModel = SelectedBlockViewModel as IItemFilterBlockViewModel;
+            if (selectedBlockViewModel != null)
+            {
+                selectedBlockViewModel.BlockEnabled = true;
+            }
         }
     }
 }

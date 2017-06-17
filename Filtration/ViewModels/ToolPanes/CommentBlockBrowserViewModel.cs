@@ -5,18 +5,18 @@ using GalaSoft.MvvmLight.Messaging;
 
 namespace Filtration.ViewModels.ToolPanes
 {
-    internal interface ISectionBrowserViewModel : IToolViewModel
+    internal interface ICommentBlockBrowserViewModel : IToolViewModel
     {
         void ClearDown();
         bool IsVisible { get; set; }
     }
 
-    internal class SectionBrowserViewModel : ToolViewModel, ISectionBrowserViewModel
+    internal class CommentBlockBrowserViewModel : ToolViewModel, ICommentBlockBrowserViewModel
     {
-        private IEnumerable<IItemFilterBlockViewModel> _sectionBlockViewModels;
-        private IItemFilterBlockViewModel _selectedSectionBlockViewModel;
+        private IEnumerable<IItemFilterCommentBlockViewModel> _itemFilterCommentBlockViewModels;
+        private IItemFilterCommentBlockViewModel _selectedItemFilterCommentBlockViewModel;
 
-        public SectionBrowserViewModel() : base("Section Browser")
+        public CommentBlockBrowserViewModel() : base("Section Browser")
         {
             ContentId = ToolContentId;
             var icon = new BitmapImage();
@@ -40,25 +40,25 @@ namespace Filtration.ViewModels.ToolPanes
 
         public const string ToolContentId = "SectionBrowserTool";
 
-        public IEnumerable<IItemFilterBlockViewModel> SectionBlockViewModels
+        public IEnumerable<IItemFilterCommentBlockViewModel> ItemFilterCommentBlockViewModels
         {
-            get { return _sectionBlockViewModels; }
+            get => _itemFilterCommentBlockViewModels;
             private set
             {
-                _sectionBlockViewModels = value;
+                _itemFilterCommentBlockViewModels = value;
                 RaisePropertyChanged();
             }
         }
 
-        public IItemFilterBlockViewModel SelectedSectionBlockViewModel
+        public IItemFilterCommentBlockViewModel SelectedItemFilterCommentBlockViewModel
         {
-            get { return _selectedSectionBlockViewModel; }
+            get => _selectedItemFilterCommentBlockViewModel;
             set
             {
-                _selectedSectionBlockViewModel = value;
+                _selectedItemFilterCommentBlockViewModel = value;
                 if (AvalonDockWorkspaceViewModel.ActiveDocument.IsScript)
                 {
-                    AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SectionBrowserSelectedBlockViewModel = value;
+                    AvalonDockWorkspaceViewModel.ActiveScriptViewModel.CommentBlockBrowserBrowserSelectedBlockViewModel = value;
                 }
                 RaisePropertyChanged();
             }
@@ -68,7 +68,7 @@ namespace Filtration.ViewModels.ToolPanes
         {
             if (AvalonDockWorkspaceViewModel.ActiveScriptViewModel != null && AvalonDockWorkspaceViewModel.ActiveDocument.IsScript)
             {
-                SectionBlockViewModels = AvalonDockWorkspaceViewModel.ActiveScriptViewModel.ItemFilterSectionViewModels;
+                ItemFilterCommentBlockViewModels = AvalonDockWorkspaceViewModel.ActiveScriptViewModel.ItemFilterCommentBlockViewModels;
             }
             else
             {
@@ -78,8 +78,8 @@ namespace Filtration.ViewModels.ToolPanes
 
         public void ClearDown()
         {
-            SectionBlockViewModels = null;
-            SelectedSectionBlockViewModel = null;
+            ItemFilterCommentBlockViewModels = null;
+            SelectedItemFilterCommentBlockViewModel = null;
         }
     }
 }

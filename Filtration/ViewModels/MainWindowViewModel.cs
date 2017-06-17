@@ -159,7 +159,7 @@ namespace Filtration.ViewModels
                     case "OpenScript":
                     {
 #pragma warning disable 4014
-                        OnOpenScriptCommand();
+                        Task.Run(OnOpenScriptCommand).GetAwaiter().GetResult();
 #pragma warning restore 4014
                         break;
                     }
@@ -216,7 +216,7 @@ namespace Filtration.ViewModels
 
         public RelayCommand<bool> ToggleShowAdvancedCommand { get; }
         public RelayCommand ClearFiltersCommand { get; }
-        
+
         public ImageSource Icon { get; private set; }
 
         public IAvalonDockWorkspaceViewModel AvalonDockWorkspaceViewModel => _avalonDockWorkspaceViewModel;
@@ -334,7 +334,7 @@ namespace Filtration.ViewModels
                 return;
             }
 
-            await LoadScriptAsync(filePath);
+            await LoadScriptAsync(filePath); // TODO: fix crash
         }
 
         private async Task LoadScriptAsync(string scriptFilename)
@@ -346,20 +346,19 @@ namespace Filtration.ViewModels
             {
                 loadedViewModel = await _itemFilterScriptRepository.LoadScriptFromFileAsync(scriptFilename);
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                Messenger.Default.Send(new NotificationMessage("HideLoadingBanner"));
-                if (Logger.IsErrorEnabled)
-                {
-                    Logger.Error(e);
-                }
+                Logger.Error(e);
                 _messageBoxService.Show("Script Load Error", "Error loading filter script - " + e.Message,
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 return;
             }
+            finally
+            {
+                Messenger.Default.Send(new NotificationMessage("HideLoadingBanner"));
+            }
 
-            Messenger.Default.Send(new NotificationMessage("HideLoadingBanner"));
             _avalonDockWorkspaceViewModel.AddDocument(loadedViewModel);
         }
 
@@ -382,12 +381,9 @@ namespace Filtration.ViewModels
             {
                 loadedViewModel = await _themeProvider.LoadThemeFromFile(themeFilename);
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                if (Logger.IsErrorEnabled)
-                {
-                    Logger.Error(e);
-                }
+                Logger.Error(e);
                 _messageBoxService.Show("Theme Load Error", "Error loading filter theme - " + e.Message,
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);

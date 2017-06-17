@@ -442,16 +442,31 @@ namespace Filtration.Parser.Services
             return new Color();
         }
 
+        public string TranslateItemFilterBlockBaseToString(IItemFilterBlockBase itemFilterBlockBase)
+        {
+            var itemFilterBlock = itemFilterBlockBase as IItemFilterBlock;
+            if (itemFilterBlock != null) return TranslateItemFilterBlockToString(itemFilterBlock);
+
+            var itemFilterCommentBlock = itemFilterBlockBase as IItemFilterCommentBlock;
+            if (itemFilterCommentBlock != null) return TranslateItemFilterCommentBlockToString(itemFilterCommentBlock);
+
+            throw new InvalidOperationException("Unable to translate unknown ItemFilterBlock type");
+        }
+
+        // TODO: Private
+        public string TranslateItemFilterCommentBlockToString(IItemFilterCommentBlock itemFilterCommentBlock)
+        {
+            // TODO: Handle multi-line
+            // TODO: Tests
+            // TODO: # Section: text?
+            return $"#{itemFilterCommentBlock.Comment}";
+        }
+        
         // This method converts an ItemFilterBlock object into a string. This is used for copying a ItemFilterBlock
         // to the clipboard, and when saving a ItemFilterScript.
+        // TODO: Private
         public string TranslateItemFilterBlockToString(IItemFilterBlock block)
         {
-            // TODO: fix
-            if (block.GetType() == typeof (ItemFilterCommentBlock))
-            {
-                return "# Section: " + block.Description;
-            }
-
             var outputString = string.Empty;
 
             if (!block.Enabled)

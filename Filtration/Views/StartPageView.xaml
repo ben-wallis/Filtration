@@ -8,7 +8,7 @@
     <Grid>
         <TextBlock FontStyle="Italic" Margin="5" FontSize="13">
             Welcome to Filtration, to get started either 
-            <Hyperlink Command="{Binding NewScriptCommand}">create a new script</Hyperlink> or <Hyperlink Command="{Binding OpenScriptCommand}">open an existing script</Hyperlink>
+            <Hyperlink Command="{Binding NewScriptCommand}">create a new script</Hyperlink> or <Hyperlink Command="{StaticResource OpenScriptRoutedCommand}">open an existing script</Hyperlink>
         </TextBlock>
     </Grid>
 </UserControl>

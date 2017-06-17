@@ -27,6 +27,11 @@ namespace Filtration.WindsorInstallers
                     .LifeStyle.Transient);
 
             container.Register(
+                Component.For<IItemFilterCommentBlockViewModel>()
+                    .ImplementedBy<ItemFilterCommentBlockViewModel>()
+                    .LifeStyle.Transient);
+
+            container.Register(
                 Component.For<IItemFilterScriptViewModel>()
                     .ImplementedBy<ItemFilterScriptViewModel>()
                     .LifeStyle.Transient);
@@ -42,8 +47,8 @@ namespace Filtration.WindsorInstallers
                     .LifeStyle.Singleton);
 
             container.Register(
-                Component.For<ISectionBrowserViewModel>()
-                    .ImplementedBy<SectionBrowserViewModel>()
+                Component.For<ICommentBlockBrowserViewModel>()
+                    .ImplementedBy<CommentBlockBrowserViewModel>()
                     .LifeStyle.Singleton);
 
             container.Register(
@@ -68,6 +73,9 @@ namespace Filtration.WindsorInstallers
 
             container.Register(
                 Component.For<IItemFilterBlockViewModelFactory>().AsFactory());
+
+            container.Register(
+                Component.For<IItemFilterCommentBlockViewModelFactory>().AsFactory());
 
             container.Register(
                 Component.For<IItemFilterScriptViewModelFactory>().AsFactory());

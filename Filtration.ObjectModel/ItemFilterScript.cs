@@ -81,15 +81,9 @@ namespace Filtration.ObjectModel
 
         private bool BlockIsColorReplacementCandidate(ReplaceColorsParameterSet replaceColorsParameterSet, IItemFilterBlock block)
         {
-            var textColorItem = block.HasBlockItemOfType<TextColorBlockItem>()
-                ? block.BlockItems.OfType<TextColorBlockItem>().First()
-                : null;
-            var backgroundColorItem = block.HasBlockItemOfType<BackgroundColorBlockItem>()
-                ? block.BlockItems.OfType<BackgroundColorBlockItem>().First()
-                : null;
-            var borderColorItem = block.HasBlockItemOfType<BorderColorBlockItem>()
-                ? block.BlockItems.OfType<BorderColorBlockItem>().First()
-                : null;
+            var textColorItem = block.BlockItems.OfType<TextColorBlockItem>().FirstOrDefault();
+            var backgroundColorItem = block.BlockItems.OfType<BackgroundColorBlockItem>().FirstOrDefault();
+            var borderColorItem = block.BlockItems.OfType<BorderColorBlockItem>().FirstOrDefault();
 
             // If we don't have all of the things we want to replace, then we aren't a candidate for replacing those things.
             if ((textColorItem == null && replaceColorsParameterSet.ReplaceTextColor) ||

@@ -37,13 +37,11 @@ namespace Filtration.ObjectModel
     public interface IItemFilterCommentBlock : IItemFilterBlockBase
     {
         string Comment { get; set; }
-        bool IsSection { get; set; }
     }
 
     public class ItemFilterCommentBlock : ItemFilterBlockBase, IItemFilterCommentBlock
     {
         public string Comment { get; set; }
-        public bool IsSection { get; set; }
     }
 
     public class ItemFilterBlock : ItemFilterBlockBase, IItemFilterBlock

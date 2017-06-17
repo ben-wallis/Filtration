@@ -7,6 +7,7 @@
              xmlns:attachedProperties="clr-namespace:Filtration.Views.AttachedProperties"
              xmlns:viewModels="clr-namespace:Filtration.ViewModels"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
+             xmlns:utility="clr-namespace:Filtration.Utility"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewModels:ItemFilterScriptViewModel}"
              d:DesignHeight="300" d:DesignWidth="600">
@@ -16,19 +17,19 @@
         <KeyBinding Command="{Binding CopyBlockStyleCommand}" Modifiers="Shift+Control" Key="C" />
         <KeyBinding Command="{Binding PasteBlockStyleCommand}" Modifiers="Shift+Control" Key="V" />
     </UserControl.InputBindings>
+    <utility:RoutedCommandHandlers.Commands>
+        <utility:RoutedCommandHandler RoutedCommand="{StaticResource MoveBlockUpRoutedCommand}" Command="{Binding MoveBlockUpCommand}" IsActive="{Binding IsActiveDocument}" />
+    </utility:RoutedCommandHandlers.Commands>
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <!-- ReSharper disable once Xaml.RedundantResource -->
-                    <DataTemplate x:Key="ItemFilterBlockTemplate">
+                    <DataTemplate DataType="{x:Type viewModels:ItemFilterBlockViewModel}">
                         <views:ItemFilterBlockView Margin="1" />
                     </DataTemplate>
-                    <!-- ReSharper disable once Xaml.RedundantResource -->
-                    <DataTemplate x:Key="ItemFilterSectionTemplate">
-                        <views:ItemFilterSectionView Margin="1" />
+                    <DataTemplate DataType="{x:Type viewModels:ItemFilterCommentBlockViewModel}">
+                        <views:ItemFilterCommentBlockView Margin="1" />
                     </DataTemplate>
-                    <views:BlockTemplateSelector x:Key="BlockTemplateSelector" />
                 </ResourceDictionary>
                 <ResourceDictionary Source="ExpanderStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -36,14 +37,15 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/> 
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border Grid.Row="0" BorderThickness="1" BorderBrush="DarkGray"  Margin="5,5,5,0">
             <StackPanel Margin="2,2,2,2">
+                <Button Command="{StaticResource MoveBlockUpRoutedCommand}">MOVE BLOCK UP TEST BUTTON</Button>
                 <Expander Style="{StaticResource ExpanderRightAlignStyle}">
                     <Expander.Header>
-                        <TextBlock Text="Script Description" VerticalAlignment="Center" /> 
+                        <TextBlock Text="Script Description" VerticalAlignment="Center" />
                     </Expander.Header>
                     <Grid>
                         <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="5" MaxLines="20" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" />
@@ -59,9 +61,9 @@
                                                    BorderThickness="0"
                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                                    VirtualizingStackPanel.VirtualizationMode="Recycling"
-                                                   ItemTemplateSelector="{StaticResource BlockTemplateSelector}"
-                                                   attachedProperties:SelectingItemAttachedProperty.SelectingItem="{Binding SectionBrowserSelectedBlockViewModel}"
-                                                   SelectedItem="{Binding SelectedBlockViewModel}" x:Name="BlocksListBox">
+                                                   attachedProperties:SelectingItemAttachedProperty.SelectingItem="{Binding CommentBlockBrowserBrowserSelectedBlockViewModel}"
+                                                   SelectedItem="{Binding SelectedBlockViewModel}">
+                    <!--ItemTemplateSelector="{StaticResource BlockTemplateSelector}"-->
                     <ListBox.InputBindings>
                         <KeyBinding Key="Delete" Command="{Binding DeleteBlockCommand}" />
                     </ListBox.InputBindings>

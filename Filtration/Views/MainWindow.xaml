@@ -9,15 +9,20 @@
         xmlns:viewsAvalonDock="clr-namespace:Filtration.Views.AvalonDock"
         xmlns:views="clr-namespace:Filtration.Views"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        xmlns:utility="clr-namespace:Filtration.Utility"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
         Title="{Binding WindowTitle}" Height="762" Width="1126" IsIconVisible="True"
         Closing="MainWindow_OnClosing" Drop="MainWindow_OnDrop" AllowDrop="True">
+
     <fluent:RibbonWindow.InputBindings>
         <KeyBinding Command="{Binding SaveCommand}" Modifiers="Control" Key="S" />
         <KeyBinding Command="{Binding OpenScriptCommand}" Modifiers="Control" Key="O" />
         <KeyBinding Command="{Binding NewScriptCommand}" Modifiers="Control" Key="N" />
     </fluent:RibbonWindow.InputBindings>
+    <utility:RoutedCommandHandlers.Commands>
+        <utility:RoutedCommandHandler RoutedCommand="{StaticResource OpenScriptRoutedCommand}" Command="{Binding OpenScriptCommand}" />
+    </utility:RoutedCommandHandlers.Commands>
     <DockPanel x:Name="RootDockPanel">
         <fluent:Ribbon DockPanel.Dock="Top" x:Name="RibbonRoot" IsEnabled="{Binding ShowLoadingBanner, Converter={StaticResource BoolInverterConverter}}">
             <fluent:Ribbon.Menu>
@@ -67,7 +72,7 @@
             </fluent:Ribbon.ContextualGroups>
             <fluent:RibbonTabItem Header="View">
                 <fluent:RibbonGroupBox Header="Tools">
-                    <fluent:ToggleButton Header="Section Browser" Width="150" Size="Middle" Icon="{StaticResource AddSectionIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.SectionBrowserViewModel.IsVisible}"/>
+                    <fluent:ToggleButton Header="Section Browser" Width="150" Size="Middle" Icon="{StaticResource AddSectionIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.CommentBlockBrowserViewModel.IsVisible}"/>
                     <fluent:ToggleButton Header="Block Group Browser" SizeDefinition="Middle" Icon="{StaticResource BlockGroupBrowserIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.BlockGroupBrowserViewModel.IsVisible}" />
                     <fluent:ToggleButton Header="Block Output Preview" SizeDefinition="Middle" Icon="{StaticResource BlockOutputPreviewIcon}" IsChecked="{Binding AvalonDockWorkspaceViewModel.BlockOutputPreviewViewModel.IsVisible}" />
                 </fluent:RibbonGroupBox>
@@ -146,4 +151,5 @@
         </Grid>
     </DockPanel>
 </fluent:RibbonWindow>
+ 
  

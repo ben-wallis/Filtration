@@ -1,8 +1,8 @@
 ﻿namespace Filtration.Views.ToolPanes
 {
-    public partial class SectionBrowserView
+    public partial class CommentBlockBrowserView
     {
-        public SectionBrowserView()
+        public CommentBlockBrowserView()
         {
             InitializeComponent();
         }

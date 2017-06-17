@@ -15,7 +15,7 @@ namespace Filtration.Views.AvalonDock
             if (destinationContainer?.FindParent<LayoutFloatingWindow>() != null)
                 return false;
 
-            if (anchorableToShow.Content is SectionBrowserViewModel)
+            if (anchorableToShow.Content is CommentBlockBrowserViewModel)
             {
                 var toolsPane = layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == "SectionBrowserPane");
                 if (toolsPane != null)
