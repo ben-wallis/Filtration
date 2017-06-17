@@ -17,9 +17,9 @@
         <KeyBinding Command="{Binding CopyBlockStyleCommand}" Modifiers="Shift+Control" Key="C" />
         <KeyBinding Command="{Binding PasteBlockStyleCommand}" Modifiers="Shift+Control" Key="V" />
     </UserControl.InputBindings>
-    <utility:RoutedCommandHandlers.Commands>
+    <!--<utility:RoutedCommandHandlers.Commands>
         <utility:RoutedCommandHandler RoutedCommand="{StaticResource MoveBlockUpRoutedCommand}" Command="{Binding MoveBlockUpCommand}" IsActive="{Binding IsActiveDocument}" />
-    </utility:RoutedCommandHandlers.Commands>
+    </utility:RoutedCommandHandlers.Commands>-->
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -42,7 +42,6 @@
         </Grid.RowDefinitions>
         <Border Grid.Row="0" BorderThickness="1" BorderBrush="DarkGray"  Margin="5,5,5,0">
             <StackPanel Margin="2,2,2,2">
-                <Button Command="{StaticResource MoveBlockUpRoutedCommand}">MOVE BLOCK UP TEST BUTTON</Button>
                 <Expander Style="{StaticResource ExpanderRightAlignStyle}">
                     <Expander.Header>
                         <TextBlock Text="Script Description" VerticalAlignment="Center" />

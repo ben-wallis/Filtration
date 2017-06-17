@@ -25,7 +25,7 @@ namespace Filtration.ViewModels
 {
     internal interface IItemFilterScriptViewModel : IEditableDocument
     {
-        ItemFilterScript Script { get; }
+        IItemFilterScript Script { get; }
         IItemFilterBlockViewModelBase SelectedBlockViewModel { get; set; }
         IItemFilterCommentBlockViewModel CommentBlockBrowserBrowserSelectedBlockViewModel { get; set; }
         IEnumerable<IItemFilterCommentBlockViewModel> ItemFilterCommentBlockViewModels { get; }
@@ -35,7 +35,7 @@ namespace Filtration.ViewModels
         string Description { get; set; }
         string DisplayName { get; }
         
-        void Initialise(ItemFilterScript itemFilterScript, bool newScript);
+        void Initialise(IItemFilterScript itemFilterScript, bool newScript);
         void RemoveDirtyFlag();
         void SetDirtyFlag();
         bool HasSelectedEnabledBlock();
@@ -294,7 +294,7 @@ namespace Filtration.ViewModels
             }
         }
 
-        public ItemFilterScript Script { get; private set; }
+        public IItemFilterScript Script { get; private set; }
 
         public bool IsDirty
         {
@@ -341,7 +341,7 @@ namespace Filtration.ViewModels
         private bool _filenameIsFake;
         private bool _showAdvanced;
 
-        public void Initialise(ItemFilterScript itemFilterScript, bool newScript)
+        public void Initialise(IItemFilterScript itemFilterScript, bool newScript)
         {
             ItemFilterBlockViewModels.Clear();
 

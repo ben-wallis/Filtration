@@ -5,6 +5,7 @@ using System.Linq;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
+using Filtration.ObjectModel.Factories;
 using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Parser.Interface.Services;
 using Filtration.Parser.Services;
@@ -19,12 +20,9 @@ namespace Filtration.Parser.Tests.Services
     [TestFixture]
     public class TestItemFilterScriptTranslator
     {
-        private ItemFilterScriptTranslatorTestUtility _testUtility;
-
         [SetUp]
         public void ItemFilterScriptTranslatorTestSetup()
         {
-            _testUtility = new ItemFilterScriptTranslatorTestUtility();
             Settings.Default.Reset();
         }
 
@@ -33,13 +31,16 @@ namespace Filtration.Parser.Tests.Services
         {
             // Arrange
             var testInput = Resources.testscript;
+            
+            var mockItemFilterBlockTranslator = new Mock<IItemFilterBlockTranslator>();
+            var translator = CreateItemFilterScriptTranslator(itemFilterBlockTranslator: mockItemFilterBlockTranslator.Object);
 
             // Act
-            var script = _testUtility.ScriptTranslator.TranslateStringToItemFilterScript(testInput);
+            var script = translator.TranslateStringToItemFilterScript(testInput);
 
             // Assert
             Assert.AreEqual(5, script.ItemFilterBlocks.Count);
-            _testUtility.MockItemFilterBlockTranslator.Verify(t => t.TranslateStringToItemFilterBlock(It.IsAny<string>(), It.IsAny<IItemFilterScriptSettings>()));
+            mockItemFilterBlockTranslator.Verify(t => t.TranslateStringToItemFilterBlock(It.IsAny<string>(), It.IsAny<IItemFilterScriptSettings>()));
         }
 
         [Test]
@@ -54,8 +55,10 @@ namespace Filtration.Parser.Tests.Services
                                         Environment.NewLine +
                                         "End Script Description";
 
+            var translator = CreateItemFilterScriptTranslator();
+
             // Act
-            var script = _testUtility.ScriptTranslator.TranslateStringToItemFilterScript(testInput);
+            var script = translator.TranslateStringToItemFilterScript(testInput);
 
             // Assert
             Assert.AreEqual(expectedDescription, script.Description);
@@ -67,8 +70,8 @@ namespace Filtration.Parser.Tests.Services
             // Arrange
             var testInput = Resources.ThioleItemFilter;
 
-            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
-            var translator = new ItemFilterScriptTranslator(blockTranslator, _testUtility.MockBlockGroupHierarchyBuilder.Object);
+            var blockTranslator = new ItemFilterBlockTranslator(Mock.Of<IBlockGroupHierarchyBuilder>());
+            var translator = CreateItemFilterScriptTranslator(itemFilterBlockTranslator: blockTranslator);
 
             // Act
             translator.TranslateStringToItemFilterScript(testInput);
@@ -83,9 +86,9 @@ namespace Filtration.Parser.Tests.Services
             // Arrange
             var testInput = Resources.testscript2;
 
-            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
-            var translator = new ItemFilterScriptTranslator(blockTranslator, _testUtility.MockBlockGroupHierarchyBuilder.Object);
-            
+            var blockTranslator = new ItemFilterBlockTranslator(Mock.Of<IBlockGroupHierarchyBuilder>());
+            var translator = CreateItemFilterScriptTranslator(itemFilterBlockTranslator: blockTranslator);
+
             // Act
             var result = translator.TranslateStringToItemFilterScript(testInput);
 
@@ -119,15 +122,20 @@ namespace Filtration.Parser.Tests.Services
             const string blockOutput = "Test Script Output";
 
             testScript.ItemFilterBlocks.Add(testBlock);
+            
+            var mockItemFilterBlockTranslator = new Mock<IItemFilterBlockTranslator>();
+            mockItemFilterBlockTranslator
+                .Setup(t => t.TranslateItemFilterBlockToString(testBlock))
+                .Returns(blockOutput)
+                .Verifiable();
 
-            _testUtility.MockItemFilterBlockTranslator.Setup(t => t.TranslateItemFilterBlockToString(testBlock)).Returns(blockOutput).Verifiable();
-
+            var translator = CreateItemFilterScriptTranslator(itemFilterBlockTranslator: mockItemFilterBlockTranslator.Object);
 
             // Act
-            _testUtility.ScriptTranslator.TranslateItemFilterScriptToString(testScript);
+            translator.TranslateItemFilterScriptToString(testScript);
 
             // Assert
-            _testUtility.MockItemFilterBlockTranslator.Verify();
+            mockItemFilterBlockTranslator.Verify();
         }
 
         [Test]
@@ -156,9 +164,8 @@ namespace Filtration.Parser.Tests.Services
                                  "    Width = 3" + Environment.NewLine +
                                  "    SetFontSize 7" + Environment.NewLine;
 
-            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
-            var translator = new ItemFilterScriptTranslator(blockTranslator,
-                _testUtility.MockBlockGroupHierarchyBuilder.Object);
+            var blockTranslator = new ItemFilterBlockTranslator(Mock.Of<IBlockGroupHierarchyBuilder>());
+            var translator = CreateItemFilterScriptTranslator(itemFilterBlockTranslator: blockTranslator);
 
             // Act
             var result = translator.TranslateItemFilterScriptToString(script);
@@ -201,9 +208,8 @@ namespace Filtration.Parser.Tests.Services
                                  "    Width = 3" + Environment.NewLine +
                                  "    SetFontSize 7" + Environment.NewLine + Environment.NewLine;
 
-            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
-            var translator = new ItemFilterScriptTranslator(blockTranslator,
-                _testUtility.MockBlockGroupHierarchyBuilder.Object);
+            var blockTranslator = new ItemFilterBlockTranslator(Mock.Of<IBlockGroupHierarchyBuilder>());
+            var translator = CreateItemFilterScriptTranslator(itemFilterBlockTranslator: blockTranslator);
 
             // Act
             var result = translator.TranslateItemFilterScriptToString(script);
@@ -225,8 +231,10 @@ namespace Filtration.Parser.Tests.Services
                                  Environment.NewLine +
                                  "# Test script description" + Environment.NewLine + Environment.NewLine;
 
+            var translator = CreateItemFilterScriptTranslator();
+
             // Act
-            var result = _testUtility.ScriptTranslator.TranslateItemFilterScriptToString(script);
+            var result = translator.TranslateItemFilterScriptToString(script);
 
             // Assert
             Assert.AreEqual(expectedOutput, result);
@@ -240,9 +248,8 @@ namespace Filtration.Parser.Tests.Services
                                   Environment.NewLine +
                                   "Show" + Environment.NewLine +
                                   "BaseType \"Maelström Staff\"" + Environment.NewLine + Environment.NewLine;
-            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
-            var translator = new ItemFilterScriptTranslator(blockTranslator,
-                _testUtility.MockBlockGroupHierarchyBuilder.Object);
+            var blockTranslator = new ItemFilterBlockTranslator(Mock.Of<IBlockGroupHierarchyBuilder>());
+            var translator = CreateItemFilterScriptTranslator(itemFilterBlockTranslator: blockTranslator);
 
             // Act
             var result = translator.TranslateStringToItemFilterScript(testInputScript);
@@ -274,9 +281,8 @@ namespace Filtration.Parser.Tests.Services
                                   "    SetTextColor 255 255 0";
 
 
-            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
-            var translator = new ItemFilterScriptTranslator(blockTranslator,
-                _testUtility.MockBlockGroupHierarchyBuilder.Object);
+            var blockTranslator = new ItemFilterBlockTranslator(Mock.Of<IBlockGroupHierarchyBuilder>());
+            var translator = CreateItemFilterScriptTranslator(itemFilterBlockTranslator: blockTranslator);
 
             // Act
             var result = translator.TranslateStringToItemFilterScript(testInputScript);
@@ -306,9 +312,8 @@ namespace Filtration.Parser.Tests.Services
                                   "    SetTextColor 255 255 0";
 
 
-            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
-            var translator = new ItemFilterScriptTranslator(blockTranslator,
-                _testUtility.MockBlockGroupHierarchyBuilder.Object);
+            var blockTranslator = new ItemFilterBlockTranslator(Mock.Of<IBlockGroupHierarchyBuilder>());
+            var translator = CreateItemFilterScriptTranslator(itemFilterBlockTranslator: blockTranslator);
 
             // Act
             var result = translator.TranslateStringToItemFilterScript(testInputScript);
@@ -340,9 +345,8 @@ namespace Filtration.Parser.Tests.Services
                                   "#Disabled Block End";
 
 
-            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
-            var translator = new ItemFilterScriptTranslator(blockTranslator,
-                _testUtility.MockBlockGroupHierarchyBuilder.Object);
+            var blockTranslator = new ItemFilterBlockTranslator(Mock.Of<IBlockGroupHierarchyBuilder>());
+            var translator = CreateItemFilterScriptTranslator(itemFilterBlockTranslator: blockTranslator);
 
             // Act
             var result = translator.TranslateStringToItemFilterScript(testInputScript);
@@ -370,14 +374,14 @@ namespace Filtration.Parser.Tests.Services
                                   "#Disabled Block End";
 
 
-            
-            var blockTranslator = new ItemFilterBlockTranslator(_testUtility.MockBlockGroupHierarchyBuilder.Object);
-            _testUtility.MockBlockGroupHierarchyBuilder.Setup(
-                b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>()))
+            var mockBlockGroupHierarchyBuilder = new Mock<IBlockGroupHierarchyBuilder>();
+            mockBlockGroupHierarchyBuilder.Setup(
+                    b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>()))
                 .Returns(new ItemFilterBlockGroup("My Block Group", null));
 
-            var translator = new ItemFilterScriptTranslator(blockTranslator,
-                _testUtility.MockBlockGroupHierarchyBuilder.Object);
+            var blockTranslator = new ItemFilterBlockTranslator(mockBlockGroupHierarchyBuilder.Object);
+            
+            var translator = CreateItemFilterScriptTranslator(itemFilterBlockTranslator: blockTranslator);
 
             // Act
             var result = translator.TranslateStringToItemFilterScript(testInputScript);
@@ -389,21 +393,18 @@ namespace Filtration.Parser.Tests.Services
             Assert.AreEqual("My Block Group", secondBlock.BlockGroup.GroupName);
         }
 
-        private class ItemFilterScriptTranslatorTestUtility
+        private ItemFilterScriptTranslator CreateItemFilterScriptTranslator(IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder = null,
+                                                                            IItemFilterBlockTranslator itemFilterBlockTranslator = null,
+                                                                            IItemFilterScriptFactory itemFilterScriptFactory = null)
         {
-            public ItemFilterScriptTranslatorTestUtility()
-            {
-                // Mock setups
-                MockItemFilterBlockTranslator = new Mock<IItemFilterBlockTranslator>();
-                MockBlockGroupHierarchyBuilder = new Mock<IBlockGroupHierarchyBuilder>();
+            var mockItemFilterScriptFactory = new Mock<IItemFilterScriptFactory>();
+            mockItemFilterScriptFactory
+                .Setup(i => i.Create())
+                .Returns(new ItemFilterScript());
 
-                // Class under test instantiation
-                ScriptTranslator = new ItemFilterScriptTranslator(MockItemFilterBlockTranslator.Object, MockBlockGroupHierarchyBuilder.Object);
-            }
-
-            public ItemFilterScriptTranslator ScriptTranslator { get; }
-            public Mock<IItemFilterBlockTranslator> MockItemFilterBlockTranslator { get; }
-            public Mock<IBlockGroupHierarchyBuilder> MockBlockGroupHierarchyBuilder { get; }
+            return new ItemFilterScriptTranslator(blockGroupHierarchyBuilder ?? new Mock<IBlockGroupHierarchyBuilder>().Object,
+                                                  itemFilterBlockTranslator ?? new Mock<IItemFilterBlockTranslator>().Object,
+                                                  itemFilterScriptFactory ?? mockItemFilterScriptFactory.Object);
         }
     }
 }

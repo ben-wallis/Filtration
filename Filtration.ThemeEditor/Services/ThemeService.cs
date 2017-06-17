@@ -12,7 +12,7 @@ namespace Filtration.ThemeEditor.Services
 {
     public interface IThemeService
     {
-        void ApplyThemeToScript(Theme theme, ItemFilterScript script);
+        void ApplyThemeToScript(Theme theme, IItemFilterScript script);
     }
 
     public class ThemeService : IThemeService
@@ -24,7 +24,7 @@ namespace Filtration.ThemeEditor.Services
             _messageBoxService = messageBoxService;
         }
 
-        public void ApplyThemeToScript(Theme theme, ItemFilterScript script)
+        public void ApplyThemeToScript(Theme theme, IItemFilterScript script)
         {
             var mismatchedComponents = false;
             foreach (var component in theme.Components)

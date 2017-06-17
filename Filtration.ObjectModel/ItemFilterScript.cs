@@ -1,38 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using Filtration.ObjectModel.Annotations;
 using Filtration.ObjectModel.BlockItemTypes;
+using Filtration.ObjectModel.Commands;
 using Filtration.ObjectModel.ThemeEditor;
 
 namespace Filtration.ObjectModel
 {
-    public interface IItemFilterScript
+    public interface IItemFilterScript : INotifyPropertyChanged
     {
+        ICommandManager CommandManager { get; }
+
         ObservableCollection<IItemFilterBlockBase> ItemFilterBlocks { get; }
         ObservableCollection<ItemFilterBlockGroup> ItemFilterBlockGroups { get; }
         ThemeComponentCollection ThemeComponents { get; set; }
         string FilePath { get; set; }
         string Description { get; set; }
         DateTime DateModified { get; set; }
+        bool IsDirty { get; }
+
         IItemFilterScriptSettings ItemFilterScriptSettings { get; }
 
         List<string> Validate();
         void ReplaceColors(ReplaceColorsParameterSet replaceColorsParameterSet);
     }
 
-    public class ItemFilterScript : IItemFilterScript
+    public interface IItemFilterScriptInternal : IItemFilterScript
     {
-        public ItemFilterScript()
+        void SetIsDirty(bool isDirty);
+    }
+
+    public class ItemFilterScript : IItemFilterScriptInternal
+    {
+        private bool _isDirty;
+
+        internal ItemFilterScript()
         {
             ItemFilterBlocks = new ObservableCollection<IItemFilterBlockBase>();
             ItemFilterBlockGroups = new ObservableCollection<ItemFilterBlockGroup>
             {
                 new ItemFilterBlockGroup("Root", null)
             };
-            ThemeComponents = new ThemeComponentCollection { IsMasterCollection = true};
+            ThemeComponents = new ThemeComponentCollection { IsMasterCollection = true };
             ItemFilterScriptSettings = new ItemFilterScriptSettings(ThemeComponents);
         }
+
+        public ItemFilterScript(ICommandManagerInternal commandManager) : this()
+        {
+            CommandManager = commandManager;
+            commandManager.SetScript(this);
+        }
+
+        public ICommandManager CommandManager { get; }
 
         public ObservableCollection<IItemFilterBlockBase> ItemFilterBlocks { get; }
         public ObservableCollection<ItemFilterBlockGroup> ItemFilterBlockGroups { get; }
@@ -44,6 +67,22 @@ namespace Filtration.ObjectModel
         public string FilePath { get; set; }
         public string Description { get; set; }
         public DateTime DateModified { get; set; }
+
+        public bool IsDirty
+        {
+            get => _isDirty;
+            private set
+            {
+                if (value == _isDirty) return;
+                _isDirty = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public void SetIsDirty(bool isDirty)
+        {
+            IsDirty = isDirty;
+        }
 
         public List<string> Validate()
         {
@@ -106,5 +145,12 @@ namespace Filtration.ObjectModel
             return true;
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

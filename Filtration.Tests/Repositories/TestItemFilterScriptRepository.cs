@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using Filtration.ObjectModel;
+using Filtration.ObjectModel.Factories;
 using Filtration.Repositories;
 using Filtration.Services;
 using Filtration.ViewModels;
@@ -29,7 +30,8 @@ namespace Filtration.Tests.Repositories
             var mockItemFilterScriptViewModelFactory = new Mock<IItemFilterScriptViewModelFactory>();
             mockItemFilterScriptViewModelFactory.Setup(f => f.Create()).Returns(mockItemFilterScriptViewModel.Object);
 
-            var repository = new ItemFilterScriptRepository(mockPersistenceService.Object, mockItemFilterScriptViewModelFactory.Object);
+            var repository = CreateItemFilterScriptRepository(itemFilterPersistenceService: mockPersistenceService.Object,
+                                                              itemFilterScriptViewModelFactory: mockItemFilterScriptViewModelFactory.Object);
 
             // Act
             var result = await repository.LoadScriptFromFileAsync(testInputPath);
@@ -50,7 +52,8 @@ namespace Filtration.Tests.Repositories
 
             var mockItemFilterScriptViewModelFactory = new Mock<IItemFilterScriptViewModelFactory>();
 
-            var repository = new ItemFilterScriptRepository(mockPersistenceService.Object, mockItemFilterScriptViewModelFactory.Object);
+            var repository = CreateItemFilterScriptRepository(itemFilterPersistenceService: mockPersistenceService.Object,
+                                                              itemFilterScriptViewModelFactory: mockItemFilterScriptViewModelFactory.Object);
 
             // Act
             Func<Task<IItemFilterScriptViewModel>> result = async () => await repository.LoadScriptFromFileAsync(testInputPath);
@@ -70,7 +73,8 @@ namespace Filtration.Tests.Repositories
 
             var mockItemFilterScriptViewModelFactory = new Mock<IItemFilterScriptViewModelFactory>();
 
-            var repository = new ItemFilterScriptRepository(mockPersistenceService.Object, mockItemFilterScriptViewModelFactory.Object);
+            var repository = CreateItemFilterScriptRepository(itemFilterPersistenceService: mockPersistenceService.Object,
+                                                              itemFilterScriptViewModelFactory: mockItemFilterScriptViewModelFactory.Object);
 
             // Act
             repository.SetItemFilterScriptDirectory(testInputPath);
@@ -90,7 +94,8 @@ namespace Filtration.Tests.Repositories
 
             var mockItemFilterScriptViewModelFactory = new Mock<IItemFilterScriptViewModelFactory>();
 
-            var repository = new ItemFilterScriptRepository(mockPersistenceService.Object, mockItemFilterScriptViewModelFactory.Object);
+            var repository = CreateItemFilterScriptRepository(itemFilterPersistenceService: mockPersistenceService.Object,
+                                                              itemFilterScriptViewModelFactory: mockItemFilterScriptViewModelFactory.Object);
 
             // Act
             string result =  repository.GetItemFilterScriptDirectory();
@@ -111,13 +116,23 @@ namespace Filtration.Tests.Repositories
             var mockItemFilterScriptViewModelFactory = new Mock<IItemFilterScriptViewModelFactory>();
             mockItemFilterScriptViewModelFactory.Setup(f => f.Create()).Returns(mockItemFilterScriptViewModel.Object);
 
-            var repository = new ItemFilterScriptRepository(mockPersistenceService.Object, mockItemFilterScriptViewModelFactory.Object);
-            
+            var repository = CreateItemFilterScriptRepository(itemFilterPersistenceService: mockPersistenceService.Object,
+                                                              itemFilterScriptViewModelFactory: mockItemFilterScriptViewModelFactory.Object);
+
             // Act
             IItemFilterScriptViewModel result = repository.NewScript();
 
             // Assert
             Assert.AreEqual(mockItemFilterScriptViewModel.Object, result);
+        }
+
+        private ItemFilterScriptRepository CreateItemFilterScriptRepository(IItemFilterPersistenceService itemFilterPersistenceService = null,
+                                                                            IItemFilterScriptFactory itemFilterScriptFactory = null,
+                                                                            IItemFilterScriptViewModelFactory itemFilterScriptViewModelFactory = null)
+        {
+            return new ItemFilterScriptRepository(itemFilterPersistenceService ?? new Mock<IItemFilterPersistenceService>().Object,
+                                                  itemFilterScriptFactory ?? new Mock<IItemFilterScriptFactory>().Object,
+                                                  itemFilterScriptViewModelFactory ?? new Mock<IItemFilterScriptViewModelFactory>().Object);
         }
     }
 }

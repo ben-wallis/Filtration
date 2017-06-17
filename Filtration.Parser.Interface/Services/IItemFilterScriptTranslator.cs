@@ -4,7 +4,7 @@ namespace Filtration.Parser.Interface.Services
 {
     public interface IItemFilterScriptTranslator
     {
-        ItemFilterScript TranslateStringToItemFilterScript(string inputString);
-        string TranslateItemFilterScriptToString(ItemFilterScript script);
+        IItemFilterScript TranslateStringToItemFilterScript(string inputString);
+        string TranslateItemFilterScriptToString(IItemFilterScript script);
     }
 }

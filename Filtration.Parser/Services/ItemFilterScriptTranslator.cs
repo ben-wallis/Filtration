@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Filtration.Common.Utilities;
 using Filtration.ObjectModel;
+using Filtration.ObjectModel.Factories;
 using Filtration.Parser.Interface.Services;
 using Filtration.Properties;
 
@@ -35,13 +36,16 @@ namespace Filtration.Parser.Services
     internal class ItemFilterScriptTranslator : IItemFilterScriptTranslator
     {
         private readonly IItemFilterBlockTranslator _blockTranslator;
+        private readonly IItemFilterScriptFactory _itemFilterScriptFactory;
         private readonly IBlockGroupHierarchyBuilder _blockGroupHierarchyBuilder;
 
-        public ItemFilterScriptTranslator(IItemFilterBlockTranslator blockTranslator,
-                                          IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder)
+        public ItemFilterScriptTranslator(IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder,
+                                          IItemFilterBlockTranslator blockTranslator,
+                                          IItemFilterScriptFactory itemFilterScriptFactory)
         {
-            _blockTranslator = blockTranslator;
             _blockGroupHierarchyBuilder = blockGroupHierarchyBuilder;
+            _blockTranslator = blockTranslator;
+            _itemFilterScriptFactory = itemFilterScriptFactory;
         }
 
         public static string PreprocessDisabledBlocks(string inputString)
@@ -104,9 +108,9 @@ namespace Filtration.Parser.Services
             return lines.Aggregate((c, n) => c + Environment.NewLine + n);
         }
 
-        public ItemFilterScript TranslateStringToItemFilterScript(string inputString)
+        public IItemFilterScript TranslateStringToItemFilterScript(string inputString)
         {
-            var script = new ItemFilterScript();
+            var script = _itemFilterScriptFactory.Create();
             _blockGroupHierarchyBuilder.Initialise(script.ItemFilterBlockGroups.First());
 
             inputString = inputString.Replace("\t", "");
@@ -224,7 +228,7 @@ namespace Filtration.Parser.Services
             return blockBoundaries;
         }
 
-        public string TranslateItemFilterScriptToString(ItemFilterScript script)
+        public string TranslateItemFilterScriptToString(IItemFilterScript script)
         {
             var outputString = string.Empty;
 

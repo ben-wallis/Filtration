@@ -6,6 +6,7 @@ using Filtration.ItemFilterPreview.Tests.Properties;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
+using Filtration.ObjectModel.Factories;
 using Filtration.Parser.Services;
 using Moq;
 using NUnit.Framework;
@@ -71,7 +72,12 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             //Arrange
             var testInputScriptFile = Resources.MuldiniFilterScript;
             var blockGroupHierarchyBuilder = new BlockGroupHierarchyBuilder();
-            var scriptTranslator = new ItemFilterScriptTranslator(new ItemFilterBlockTranslator(blockGroupHierarchyBuilder), blockGroupHierarchyBuilder);
+            var mockItemFilterScriptFactory = new Mock<IItemFilterScriptFactory>();
+            mockItemFilterScriptFactory
+                .Setup(i => i.Create())
+                .Returns(new ItemFilterScript());
+
+            var scriptTranslator = new ItemFilterScriptTranslator(blockGroupHierarchyBuilder, new ItemFilterBlockTranslator(blockGroupHierarchyBuilder), mockItemFilterScriptFactory.Object);
             var script = scriptTranslator.TranslateStringToItemFilterScript(testInputScriptFile);
 
             var testInputItem = new Item
@@ -101,7 +107,11 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             //Arrange
             var testInputScriptFile = Resources.MuldiniFilterScript;
             var blockGroupHierarchyBuilder = new BlockGroupHierarchyBuilder();
-            var scriptTranslator = new ItemFilterScriptTranslator(new ItemFilterBlockTranslator(blockGroupHierarchyBuilder), blockGroupHierarchyBuilder);
+            var mockItemFilterScriptFactory = new Mock<IItemFilterScriptFactory>();
+            mockItemFilterScriptFactory
+                .Setup(i => i.Create())
+                .Returns(new ItemFilterScript());
+            var scriptTranslator = new ItemFilterScriptTranslator(blockGroupHierarchyBuilder, new ItemFilterBlockTranslator(blockGroupHierarchyBuilder), mockItemFilterScriptFactory.Object);
             var script = scriptTranslator.TranslateStringToItemFilterScript(testInputScriptFile);
 
             var testInputItems = new List<IItem>
