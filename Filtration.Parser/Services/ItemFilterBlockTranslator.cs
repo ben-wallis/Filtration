@@ -223,26 +223,20 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<SoundBlockItem>(block);
                         RemoveExistingBlockItemsOfType<PositionalSoundBlockItem>(block);
 
-                        var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)\s+(\d+)?");
+                        var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)\s?(\d+)?");
                         
                         if (match.Success)
                         {
-                            string firstValue;
+                            string firstValue = match.Groups[1].Value;
                             int secondValue;
 
-                            if (match.Groups.Count == 2)
+                            if (match.Groups[2].Success)
                             {
-                                firstValue = match.Groups[1].Value;
-                                secondValue = 79;
-                            }
-                            else if (match.Groups.Count == 3)
-                            {
-                                firstValue = match.Groups[1].Value;
                                 secondValue = Convert.ToInt16(match.Groups[2].Value);
                             }
                             else
                             {
-                                break;
+                                secondValue = 79;
                             }
 
                             if (lineOption == "PlayAlertSound")
