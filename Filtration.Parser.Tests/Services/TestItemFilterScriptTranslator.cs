@@ -125,7 +125,7 @@ namespace Filtration.Parser.Tests.Services
             
             var mockItemFilterBlockTranslator = new Mock<IItemFilterBlockTranslator>();
             mockItemFilterBlockTranslator
-                .Setup(t => t.TranslateItemFilterBlockToString(testBlock))
+                .Setup(t => t.TranslateItemFilterBlockBaseToString(testBlock))
                 .Returns(blockOutput)
                 .Verifiable();
 
