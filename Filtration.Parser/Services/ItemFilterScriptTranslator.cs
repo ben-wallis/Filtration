@@ -126,7 +126,11 @@ namespace Filtration.Parser.Services
             // Process the script header
             for (var i = 0; i < conditionBoundaries.Skip(1).First().StartLine; i++)
             {
-                if (lines[i].StartsWith("#"))
+                if (lines[i].StartsWith("# EnableBlockGroups"))
+                {
+                    script.ItemFilterScriptSettings.BlockGroupsEnabled = true;
+                }
+                else if (lines[i].StartsWith("#"))
                 {
                     script.Description += lines[i].Substring(1).Trim(' ') + Environment.NewLine;
                 }
@@ -235,6 +239,11 @@ namespace Filtration.Parser.Services
             outputString += "# Script edited with Filtration - https://github.com/ben-wallis/Filtration" +
                             Environment.NewLine;
 
+            if (script.ItemFilterScriptSettings.BlockGroupsEnabled)
+            {
+                outputString += "# EnableBlockGroups" + Environment.NewLine;
+            }
+
             if (!string.IsNullOrEmpty(script.Description))
             {
                 // ReSharper disable once LoopCanBeConvertedToQuery
@@ -251,7 +260,7 @@ namespace Filtration.Parser.Services
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var block in script.ItemFilterBlocks)
             {
-                outputString += _blockTranslator.TranslateItemFilterBlockToString(block as ItemFilterBlock) + Environment.NewLine;
+                outputString += _blockTranslator.TranslateItemFilterBlockBaseToString(block) + Environment.NewLine;
 
                 if (Settings.Default.ExtraLineBetweenBlocks)
                 {

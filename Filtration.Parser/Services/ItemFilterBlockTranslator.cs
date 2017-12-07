@@ -471,11 +471,15 @@ namespace Filtration.Parser.Services
 
         public string TranslateItemFilterBlockBaseToString(IItemFilterBlockBase itemFilterBlockBase)
         {
-            var itemFilterBlock = itemFilterBlockBase as IItemFilterBlock;
-            if (itemFilterBlock != null) return TranslateItemFilterBlockToString(itemFilterBlock);
+            if (itemFilterBlockBase is IItemFilterBlock itemFilterBlock)
+            {
+                return TranslateItemFilterBlockToString(itemFilterBlock);
+            }
 
-            var itemFilterCommentBlock = itemFilterBlockBase as IItemFilterCommentBlock;
-            if (itemFilterCommentBlock != null) return TranslateItemFilterCommentBlockToString(itemFilterCommentBlock);
+            if (itemFilterBlockBase is IItemFilterCommentBlock itemFilterCommentBlock)
+            {
+                return TranslateItemFilterCommentBlockToString(itemFilterCommentBlock);
+            }
 
             throw new InvalidOperationException("Unable to translate unknown ItemFilterBlock type");
         }
@@ -483,10 +487,18 @@ namespace Filtration.Parser.Services
         // TODO: Private
         public string TranslateItemFilterCommentBlockToString(IItemFilterCommentBlock itemFilterCommentBlock)
         {
-            // TODO: Handle multi-line
             // TODO: Tests
             // TODO: # Section: text?
-            return $"#{itemFilterCommentBlock.Comment}";
+            var commentWithHashes = string.Empty;
+
+            // Add "# " to the beginning of each line of the comment before saving it
+            foreach (var line in new LineReader(() => new StringReader(itemFilterCommentBlock.Comment)))
+            {
+                commentWithHashes += $"# {line.TrimStart(' ')}{Environment.NewLine}";
+            }
+
+            // Remove trailing newline
+            return commentWithHashes.TrimEnd('\r', '\n');
         }
         
         // This method converts an ItemFilterBlock object into a string. This is used for copying a ItemFilterBlock

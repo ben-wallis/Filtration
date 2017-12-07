@@ -32,23 +32,29 @@
             <StackPanel Grid.Row="0" Grid.Column="1">
                 <TextBlock FontWeight="Black">Filtration</TextBlock>
                 <TextBlock Text="{Binding Version}" />
-                <TextBlock>Copyright © 2015</TextBlock>
+                <TextBlock>Copyright © 2017</TextBlock>
                 <TextBlock>Created by Ben Wallis</TextBlock>
                 <TextBlock>
                     <Hyperlink NavigateUri="https://github.com/ben-wallis/Filtration/" extensions:HyperlinkExtensions.IsExternal="True">https://github.com/ben-wallis/Filtration/</Hyperlink>
                     <LineBreak />
                 </TextBlock>
             </StackPanel>
-            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap">
+            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" Margin="0,0,20,0">
                 As you may be able to tell from the MSPaint logo that I have expertly applied a lens flare to, I am not an artist. If you'd like to create a swanky logo for Filtration please
                get in touch via e-mail or IRC.
             </TextBlock>
         </Grid>
         <StackPanel Grid.Row="0" Grid.Column="1">
-            <TextBlock FontWeight="Bold">Contact</TextBlock>
-            <TextBlock TextWrapping="Wrap">IRC: irc.freenode.net #filtration</TextBlock>
-            <TextBlock TextWrapping="Wrap">E-mail: ben-wallis@users.noreply.github.com</TextBlock>
-            <TextBlock TextWrapping="Wrap">In-Game: AtomYcX</TextBlock>
+            <StackPanel>
+                <TextBlock FontWeight="Bold">Contact</TextBlock>
+                <TextBlock TextWrapping="Wrap">IRC: irc.freenode.net #filtration</TextBlock>
+                <TextBlock TextWrapping="Wrap">E-mail: ben-wallis@users.noreply.github.com</TextBlock>
+                <TextBlock TextWrapping="Wrap">In-Game: AtomYcX</TextBlock>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock FontWeight="Bold"><LineBreak/>Special Thanks</TextBlock>
+                <TextBlock TextWrapping="Wrap">GlenCFL - Implemented support for the item filter 3.1 changes</TextBlock>
+            </StackPanel>
         </StackPanel>
         <ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,20,0,0" >
             <TextBlock TextWrapping="Wrap" FontStyle="Italic">

@@ -19,10 +19,8 @@
         <KeyBinding Command="{Binding SaveCommand}" Modifiers="Control" Key="S" />
         <KeyBinding Command="{Binding OpenScriptCommand}" Modifiers="Control" Key="O" />
         <KeyBinding Command="{Binding NewScriptCommand}" Modifiers="Control" Key="N" />
-        
-        <!-- Undo/Redo support incomplete -->
-        <!--<KeyBinding Command="{Binding UndoCommand}" Modifiers="Control" Key="Z" />
-        <KeyBinding Command="{Binding RedoCommand}" Modifiers="Control" Key="Y" />-->
+        <KeyBinding Command="{Binding UndoCommand}" Modifiers="Control" Key="Z" />
+        <KeyBinding Command="{Binding RedoCommand}" Modifiers="Control" Key="Y" />
     </fluent:RibbonWindow.InputBindings>
     <utility:RoutedCommandHandlers.Commands>
         <utility:RoutedCommandHandler RoutedCommand="{StaticResource OpenScriptRoutedCommand}" Command="{Binding OpenScriptCommand}" />
@@ -89,12 +87,10 @@
                     <fluent:Button Header="Paste Style" Command="{Binding PasteBlockStyleCommand}" Icon="{StaticResource PasteStyleIcon}" LargeIcon="{StaticResource PasteIcon}" SizeDefinition="Middle" ToolTip="Paste Style (Ctrl+Shift+V)" />
                     <fluent:Button Header="Copy Script" Command="{Binding CopyScriptCommand}" Icon="{StaticResource CopyIcon}" LargeIcon="{StaticResource PasteIcon}" SizeDefinition="Middle" />
                 </fluent:RibbonGroupBox>
-
-                <!-- Undo/Redo support incomplete -->
-                <!--<fluent:RibbonGroupBox Header="Undo">
+                <fluent:RibbonGroupBox Header="Undo">
                     <fluent:Button Header="Undo" Command="{Binding UndoCommand}"  ToolTip="Undo" SizeDefinition="Middle" Icon="{StaticResource UndoIcon}" />
                     <fluent:Button Header="Redo" Command="{Binding RedoCommand}" ToolTip="Redo" SizeDefinition="Middle" Icon="{StaticResource RedoIcon}" />
-                </fluent:RibbonGroupBox>-->
+                </fluent:RibbonGroupBox>
                 <fluent:RibbonGroupBox Header="Blocks">
                     <fluent:Button Header="Add Block" Command="{Binding AddBlockCommand}" SizeDefinition="Middle" Icon="{StaticResource AddBlockIcon}" />
                     <fluent:Button Header="Add Section" Command="{Binding AddSectionCommand}" SizeDefinition="Middle" Icon="{StaticResource AddSectionIcon}" />

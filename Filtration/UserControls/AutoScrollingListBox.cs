@@ -7,7 +7,10 @@ namespace Filtration.UserControls
     {
         protected override void OnSelectionChanged(SelectionChangedEventArgs e)
         {
-            ScrollIntoView(e.AddedItems[0]);
+            if (e.AddedItems.Count > 0)
+            {
+                ScrollIntoView(e.AddedItems[0]);
+            }
             base.OnSelectionChanged(e);
         }
 
