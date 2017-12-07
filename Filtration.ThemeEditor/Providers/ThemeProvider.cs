@@ -11,8 +11,8 @@ namespace Filtration.ThemeEditor.Providers
 {
     public interface IThemeProvider
     {
-        IThemeEditorViewModel NewThemeForScript(ItemFilterScript script);
-        IThemeEditorViewModel MasterThemeForScript(ItemFilterScript script);
+        IThemeEditorViewModel NewThemeForScript(IItemFilterScript script);
+        IThemeEditorViewModel MasterThemeForScript(IItemFilterScript script);
         Task<IThemeEditorViewModel> LoadThemeFromFile(string filePath);
         Task<Theme> LoadThemeModelFromFile(string filePath);
         Task SaveThemeAsync(IThemeEditorViewModel themeEditorViewModel, string filePath);
@@ -29,7 +29,7 @@ namespace Filtration.ThemeEditor.Providers
             _themePersistenceService = themePersistenceService;
         }
 
-        public IThemeEditorViewModel NewThemeForScript(ItemFilterScript script)
+        public IThemeEditorViewModel NewThemeForScript(IItemFilterScript script)
         {
             var themeComponentCollection = script.ThemeComponents.Aggregate(new ThemeComponentCollection(),
                 (c, component) =>
@@ -45,7 +45,7 @@ namespace Filtration.ThemeEditor.Providers
             return themeViewModel;
         }
 
-        public IThemeEditorViewModel MasterThemeForScript(ItemFilterScript script)
+        public IThemeEditorViewModel MasterThemeForScript(IItemFilterScript script)
         {
             var themeViewModel = _themeViewModelFactory.Create();
             themeViewModel.InitialiseForMasterTheme(script);

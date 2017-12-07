@@ -12,7 +12,7 @@ namespace Filtration.ThemeEditor.Services
 {
     public interface IThemeService
     {
-        void ApplyThemeToScript(Theme theme, ItemFilterScript script);
+        void ApplyThemeToScript(Theme theme, IItemFilterScript script);
     }
 
     public class ThemeService : IThemeService
@@ -24,7 +24,7 @@ namespace Filtration.ThemeEditor.Services
             _messageBoxService = messageBoxService;
         }
 
-        public void ApplyThemeToScript(Theme theme, ItemFilterScript script)
+        public void ApplyThemeToScript(Theme theme, IItemFilterScript script)
         {
             var mismatchedComponents = false;
             foreach (var component in theme.Components)
@@ -44,7 +44,7 @@ namespace Filtration.ThemeEditor.Services
                         break;
                 }
 
-                foreach (var block in script.ItemFilterBlocks)
+                foreach (var block in script.ItemFilterBlocks.OfType<ItemFilterBlock>())
                 {
                     foreach (var blockItem in block.BlockItems.Where(i => i.GetType() == targetType))
                     {

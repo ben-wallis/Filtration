@@ -73,8 +73,8 @@ namespace Filtration.ViewModels.ToolPanes
             }
 
             PreviewText =
-                _itemFilterBlockTranslator.TranslateItemFilterBlockToString(
-                    AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel.Block);
+                _itemFilterBlockTranslator.TranslateItemFilterBlockBaseToString(
+                    AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel.BaseBlock);
         }
     }
 }

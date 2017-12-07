@@ -43,7 +43,7 @@
                     </viewsAvalonDock:PanesTemplateSelector.BlockGroupBrowserTemplate>
                     <viewsAvalonDock:PanesTemplateSelector.SectionBrowserTemplate>
                         <DataTemplate>
-                            <toolPanes:SectionBrowserView DataContext="{Binding}" />
+                            <toolPanes:CommentBlockBrowserView DataContext="{Binding}" />
                         </DataTemplate>
                     </viewsAvalonDock:PanesTemplateSelector.SectionBrowserTemplate>
                     <viewsAvalonDock:PanesTemplateSelector.BlockOutputPreviewTemplate>

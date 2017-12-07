@@ -1,19 +1,19 @@
-﻿<UserControl x:Class="Filtration.Views.ToolPanes.SectionBrowserView"
+﻿<UserControl x:Class="Filtration.Views.ToolPanes.CommentBlockBrowserView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:Filtration.Converters"
              xmlns:toolPanes="clr-namespace:Filtration.ViewModels.ToolPanes"
-             d:DataContext="{d:DesignInstance Type=toolPanes:SectionBrowserViewModel}"
+             d:DataContext="{d:DesignInstance Type=toolPanes:CommentBlockBrowserViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <converters:HashSignRemovalConverter x:Key="HashSignRemovalConverter" />
     </UserControl.Resources>
     <Grid>
-        <ListBox ItemsSource="{Binding SectionBlockViewModels}"
-                             SelectedItem="{Binding SelectedSectionBlockViewModel}"
+        <ListBox ItemsSource="{Binding ItemFilterCommentBlockViewModels}"
+                             SelectedItem="{Binding SelectedItemFilterCommentBlockViewModel}"
                              x:Name="SectionBrowserListBox"
                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"><!--SelectionChanged="SectionBrowserListBox_OnSelectionChanged"-->
             <ListBox.Resources>
@@ -21,7 +21,7 @@
             </ListBox.Resources>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding BlockDescription, Converter={StaticResource HashSignRemovalConverter}}" ToolTip="{Binding BlockDescription}" />
+                    <TextBlock Text="{Binding Comment, Converter={StaticResource HashSignRemovalConverter}}" ToolTip="{Binding Comment}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

@@ -29,64 +29,70 @@ namespace Filtration.Parser.Services
             _blockGroupHierarchyBuilder = blockGroupHierarchyBuilder;
         }
 
+        // Converts a string into an ItemFilterCommentBlock maintaining newlines and spaces but removing # characters
+        public IItemFilterCommentBlock TranslateStringToItemFilterCommentBlock(string inputString, IItemFilterScript parentItemFilterScript)
+        {
+            var itemFilterCommentBlock = new ItemFilterCommentBlock(parentItemFilterScript);
+
+            foreach (var line in new LineReader(() => new StringReader(inputString)))
+            {
+                var trimmedLine = line.TrimStart(' ').TrimStart('#');
+                itemFilterCommentBlock.Comment += trimmedLine + Environment.NewLine;
+            }
+
+            itemFilterCommentBlock.Comment = itemFilterCommentBlock.Comment.TrimEnd('\r', '\n');
+
+            return itemFilterCommentBlock;
+        }
+
         // This method converts a string into a ItemFilterBlock. This is used for pasting ItemFilterBlocks 
         // and reading ItemFilterScripts from a file.
-        public IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, ThemeComponentCollection masterComponentCollection)
+        public IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScript parentItemFilterScript, bool initialiseBlockGroupHierarchyBuilder = false)
         {
-            _masterComponentCollection = masterComponentCollection;
-            var block = new ItemFilterBlock();
+            if (initialiseBlockGroupHierarchyBuilder)
+            {
+                _blockGroupHierarchyBuilder.Initialise(parentItemFilterScript.ItemFilterBlockGroups.First());
+            }
+
+            _masterComponentCollection = parentItemFilterScript.ItemFilterScriptSettings.ThemeComponentCollection;
+            var block = new ItemFilterBlock(parentItemFilterScript);
             var showHideFound = false;
 
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
-
-                if (line.StartsWith(@"# Section:"))
-                {
-                    var section = new ItemFilterSection
-                    {
-                        Description = line.Substring(line.IndexOf(":", StringComparison.Ordinal) + 1).Trim()
-                    };
-                    return section;
-                }
-
                 if (line.StartsWith(@"#") && !showHideFound)
                 {
                     block.Description = line.TrimStart('#').TrimStart(' ');
                     continue;
                 }
 
-                var adjustedLine = line.Replace("#", " # ");
-                var trimmedLine = adjustedLine.TrimStart(' ').TrimEnd(' ');
-
+                var trimmedLine = line.Trim();
                 var spaceOrEndOfLinePos = trimmedLine.IndexOf(" ", StringComparison.Ordinal) > 0 ? trimmedLine.IndexOf(" ", StringComparison.Ordinal) : trimmedLine.Length;
 
                 var lineOption = trimmedLine.Substring(0, spaceOrEndOfLinePos);
                 switch (lineOption)
                 {
                     case "Show":
-                        showHideFound = true;
-                        block.Action = BlockAction.Show;
-                        block.Enabled = true;
-                        AddBlockGroupToBlock(block, trimmedLine);
-                        break;
                     case "Hide":
-                        showHideFound = true;
-                        block.Action = BlockAction.Hide;
-                        block.Enabled = true;
-                        AddBlockGroupToBlock(block, trimmedLine);
-                        break;
                     case "ShowDisabled":
-                        showHideFound = true;
-                        block.Action = BlockAction.Show;
-                        block.Enabled = false;
-                        AddBlockGroupToBlock(block, trimmedLine);
-                        break;
                     case "HideDisabled":
+                    {
                         showHideFound = true;
-                        block.Action = BlockAction.Hide;
-                        block.Enabled = false;
-                        AddBlockGroupToBlock(block, trimmedLine);
+                        block.Action = lineOption.StartsWith("Show") ? BlockAction.Show : BlockAction.Hide;
+                        block.Enabled = !lineOption.EndsWith("Disabled");
+
+                        // If block groups are enabled for this script, the comment after Show/Hide is parsed as a block
+                        // group hierarchy, if block groups are disabled it is preserved as a simple text comment.
+                        if (parentItemFilterScript.ItemFilterScriptSettings.BlockGroupsEnabled)
+                        {
+                            AddBlockGroupToBlock(block, trimmedLine);
+                        }
+                        else
+                        {
+                            block.ActionBlockItem.Comment = GetTextAfterFirstComment(trimmedLine);
+                        }
                         break;
+                    }
                     case "ItemLevel":
                     {
                         AddNumericFilterPredicateItemToBlockItems<ItemLevelBlockItem>(block, trimmedLine);
@@ -417,16 +423,24 @@ namespace Filtration.Parser.Services
         
         private void AddBlockGroupToBlock(IItemFilterBlock block, string inputString)
         {
-            var blockGroupStart = inputString.IndexOf("#", StringComparison.Ordinal);
-            if (blockGroupStart <= 0) return;
+            var blockGroupText = GetTextAfterFirstComment(inputString);
+            var blockGroups = blockGroupText.Split(new[] { " - " }, StringSplitOptions.RemoveEmptyEntries)
+                                            .Select(s => s.Trim())
+                                            .ToList();
 
-            var blockGroupText = inputString.Substring(blockGroupStart + 1);
-            var blockGroups = blockGroupText.Split('-').ToList();
             if (blockGroups.Count(b => !string.IsNullOrEmpty(b.Trim())) > 0)
             {
                 block.BlockGroup = _blockGroupHierarchyBuilder.IntegrateStringListIntoBlockGroupHierarchy(blockGroups);
                 block.BlockGroup.IsChecked = block.Action == BlockAction.Show;
             }
+        }
+
+        private static string GetTextAfterFirstComment(string inputString)
+        {
+            var blockGroupStart = inputString.IndexOf("#", StringComparison.Ordinal);
+            if (blockGroupStart <= 0) return string.Empty;
+
+            return inputString.Substring(blockGroupStart + 1);
         }
 
         private static Color GetColorFromString(string inputString)
@@ -455,15 +469,31 @@ namespace Filtration.Parser.Services
             return new Color();
         }
 
+        public string TranslateItemFilterBlockBaseToString(IItemFilterBlockBase itemFilterBlockBase)
+        {
+            var itemFilterBlock = itemFilterBlockBase as IItemFilterBlock;
+            if (itemFilterBlock != null) return TranslateItemFilterBlockToString(itemFilterBlock);
+
+            var itemFilterCommentBlock = itemFilterBlockBase as IItemFilterCommentBlock;
+            if (itemFilterCommentBlock != null) return TranslateItemFilterCommentBlockToString(itemFilterCommentBlock);
+
+            throw new InvalidOperationException("Unable to translate unknown ItemFilterBlock type");
+        }
+
+        // TODO: Private
+        public string TranslateItemFilterCommentBlockToString(IItemFilterCommentBlock itemFilterCommentBlock)
+        {
+            // TODO: Handle multi-line
+            // TODO: Tests
+            // TODO: # Section: text?
+            return $"#{itemFilterCommentBlock.Comment}";
+        }
+        
         // This method converts an ItemFilterBlock object into a string. This is used for copying a ItemFilterBlock
         // to the clipboard, and when saving a ItemFilterScript.
+        // TODO: Private
         public string TranslateItemFilterBlockToString(IItemFilterBlock block)
         {
-            if (block.GetType() == typeof (ItemFilterSection))
-            {
-                return "# Section: " + block.Description;
-            }
-
             var outputString = string.Empty;
 
             if (!block.Enabled)
@@ -481,6 +511,10 @@ namespace Filtration.Parser.Services
             if (block.BlockGroup != null)
             {
                 outputString += " # " + block.BlockGroup;
+            }
+            else if (!string.IsNullOrEmpty(block.ActionBlockItem?.Comment))
+            {
+                outputString += " #" + block.ActionBlockItem.Comment;
             }
 
             // ReSharper disable once LoopCanBeConvertedToQuery

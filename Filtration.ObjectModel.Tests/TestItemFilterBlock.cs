@@ -7,23 +7,6 @@ namespace Filtration.ObjectModel.Tests
     public class TestItemFilterBlock
     {
         [Test]
-        public void ItemFilterBlock_BlockCount_ReturnsCorrectNumber()
-        {
-            // Arrange
-            var block = new ItemFilterBlock();
-            block.BlockItems.Add(new ItemLevelBlockItem());
-            block.BlockItems.Add(new ItemLevelBlockItem());
-            block.BlockItems.Add(new ItemLevelBlockItem());
-            block.BlockItems.Add(new ItemLevelBlockItem());
-
-            // Act
-            var count = block.BlockCount(typeof (ItemLevelBlockItem));
-
-            // Assert
-            Assert.AreEqual(4, count);
-        }
-
-        [Test]
         public void ItemFilterBlock_AddBlockItemAllowed_LessThanMaximum_ReturnsTrue()
         {
             // Arrange

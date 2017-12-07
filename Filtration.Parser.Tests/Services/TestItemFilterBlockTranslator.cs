@@ -27,6 +27,54 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlockComment_ReturnsItemFilterBlockCommentWithSpacesNotRemoved()
+        {
+            //Arrange
+            var testInputString = "#  This is a comment\r\n# Line 2 \r\n # Test";
+
+            //Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterCommentBlock(testInputString, Mock.Of<IItemFilterScript>());
+
+            //Assert
+            Assert.AreEqual("  This is a comment\r\n Line 2 \r\n Test", result.Comment);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_BlockGroupsEnabled_ActionBlockItemCommentIsNull()
+        {
+
+            // Arrange
+            var inputString = "Show # Test - Test2 - Test3" + Environment.NewLine;
+
+            var inputBlockGroup = new ItemFilterBlockGroup("TestBlockGroup", null);
+            _testUtility.MockBlockGroupHierarchyBuilder
+                .Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>()))
+                .Returns(inputBlockGroup);
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScript>(i => i.ItemFilterScriptSettings.BlockGroupsEnabled));
+
+            //Assert
+            Assert.IsTrue(string.IsNullOrEmpty(result.ActionBlockItem.Comment));
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_BlockGroupsDisabled_ActionBlockItemCommentIsSetCorrectly()
+        {
+
+            // Arrange
+            var testInputExpectedComment = " this is a comment that should be preserved";
+
+            var inputString = $"Show #{testInputExpectedComment}" + Environment.NewLine;
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScript>(i => i.ItemFilterScriptSettings.BlockGroupsEnabled == false));
+
+            //Assert
+            Assert.AreEqual(testInputExpectedComment, result.ActionBlockItem.Comment);
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_NotDisabled_SetsBlockEnabledTrue()
         {
             // Arrange
@@ -34,7 +82,7 @@ namespace Filtration.Parser.Tests.Services
                               "    ItemLevel >= 55";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(true, result.Enabled);
@@ -48,7 +96,7 @@ namespace Filtration.Parser.Tests.Services
                               "    ItemLevel >= 55";
             
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(2, result.BlockItems.Count);
@@ -64,7 +112,7 @@ namespace Filtration.Parser.Tests.Services
                               "    ItemLevel >= 55";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is ItemLevelBlockItem));
@@ -74,7 +122,7 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
-        public void TranslateStringToItemFilterBlock_BlockGroupComment_CallsBlockGroupHierarchyBuilder()
+        public void TranslateStringToItemFilterBlock_BlockGroupsEnabled_ShowBlock_SetsBlockGroupIsCheckedCorrectly()
         {
             // Arrange
             var inputString = "Show # TestBlockGroup" + Environment.NewLine;
@@ -82,29 +130,14 @@ namespace Filtration.Parser.Tests.Services
 
             // Act
             _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Returns(inputBlockGroup).Verifiable();
-            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
-
-            // Assert
-            _testUtility.MockBlockGroupHierarchyBuilder.Verify();
-        }
-
-        [Test]
-        public void TranslateStringToItemFilterBlock_ShowBlock_SetsBlockGroupIsCheckedCorrectly()
-        {
-            // Arrange
-            var inputString = "Show # TestBlockGroup" + Environment.NewLine;
-            var inputBlockGroup = new ItemFilterBlockGroup("TestBlockGroup", null);
-
-            // Act
-            _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Returns(inputBlockGroup).Verifiable();
-            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScript>(i => i.ItemFilterScriptSettings.BlockGroupsEnabled));
 
             // Assert
             Assert.AreEqual(true, inputBlockGroup.IsChecked);
         }
 
         [Test]
-        public void TranslateStringToItemFilterBlock_HideBlock_SetsBlockGroupIsCheckedCorrectly()
+        public void TranslateStringToItemFilterBlock_BlockGroupsEnabled_HideBlock_SetsBlockGroupIsCheckedCorrectly()
         {
             // Arrange
             var inputString = "Hide # TestBlockGroup" + Environment.NewLine;
@@ -112,54 +145,106 @@ namespace Filtration.Parser.Tests.Services
 
             // Act
             _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Returns(inputBlockGroup).Verifiable();
-            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScript>(i => i.ItemFilterScriptSettings.BlockGroupsEnabled));
 
             // Assert
             Assert.AreEqual(false, inputBlockGroup.IsChecked);
         }
 
         [Test]
-        public void TranslateStringToItemFilterBlock_NoBlockGroupComment_CallsBlockGroupHierarchyBuilder()
+        public void TranslateStringToItemFilterBlock_BlockGroupsEnabled_BlockGroupComment_CallsBlockGroupHierarchyBuilder()
+        {
+            // Arrange
+            var inputString = "Show # TestBlockGroup" + Environment.NewLine;
+            var inputBlockGroup = new ItemFilterBlockGroup("TestBlockGroup", null);
+
+            // Act
+            _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Returns(inputBlockGroup).Verifiable();
+            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScript>(i => i.ItemFilterScriptSettings.BlockGroupsEnabled));
+
+            // Assert
+            _testUtility.MockBlockGroupHierarchyBuilder.Verify();
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_BlockGroupsEnabled_NoBlockGroupComment_DoesNotCallBlockGroupHierarchyBuilder()
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine;
 
             // Act
             _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Verifiable();
-            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScript>(i => i.ItemFilterScriptSettings.BlockGroupsEnabled));
 
             // Assert
             _testUtility.MockBlockGroupHierarchyBuilder.Verify(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>()), Times.Never);
         }
 
         [Test]
-        public void TranslateStringToItemFilterBlock_BlockGroupCommentWithNoGroups_DoesNotThrow()
+        public void TranslateStringToItemFilterBlock_BlockGroupsEnabled_BlockGroupCommentWithNoGroups_DoesNotThrow()
         {
             // Arrange
             var inputString = "Show    #" + Environment.NewLine;
 
             // Act
-            _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Verifiable();
-            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScript>(i => i.ItemFilterScriptSettings.BlockGroupsEnabled));
 
             // Assert
             _testUtility.MockBlockGroupHierarchyBuilder.Verify(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>()), Times.Never);
         }
 
         [Test]
-        public void TranslateStringToItemFilterBlock_BlockGroupComment_SetsBlockItemGroupCorrectly()
+        public void TranslateStringToItemFilterBlock_BlockGroupsEnabled_BlockGroupComment_SetsBlockItemGroupCorrectly()
         {
             // Arrange
             var inputString = "Show # Test Block Group - Test Sub Block Group - Test Another Block Group" + Environment.NewLine;
             var testBlockGroup = new ItemFilterBlockGroup("zzzzz", null);
 
             // Act
-            _testUtility.MockBlockGroupHierarchyBuilder.Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>())).Returns(testBlockGroup).Verifiable();
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            _testUtility.MockBlockGroupHierarchyBuilder
+                .Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.Is<IEnumerable<string>>(s => s.Contains("Test Block Group") && s.Contains("Test Sub Block Group") && s.Contains("Test Another Block Group"))))
+                .Returns(testBlockGroup)
+                .Verifiable();
+
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScript>(i => i.ItemFilterScriptSettings.BlockGroupsEnabled));
 
             // Assert
             Assert.AreEqual(testBlockGroup, result.BlockGroup);
             _testUtility.MockBlockGroupHierarchyBuilder.Verify();
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_BlockGroupsEnabled_BlockGroupComment_NoSpacingAroundHyphens_SetsBlockItemGroupCorrectly()
+        {
+            // Arrange
+            var inputString = "Show # AAA-BBB-CCC" + Environment.NewLine;
+            var testBlockGroup = new ItemFilterBlockGroup("zzzzz", null);
+
+            // Act
+            _testUtility.MockBlockGroupHierarchyBuilder
+                .Setup(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.Is<IEnumerable<string>>(s => s.Contains("AAA-BBB-CCC"))))
+                .Returns(testBlockGroup)
+                .Verifiable();
+
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScript>(i => i.ItemFilterScriptSettings.BlockGroupsEnabled));
+
+            // Assert
+            Assert.AreEqual(testBlockGroup, result.BlockGroup);
+            _testUtility.MockBlockGroupHierarchyBuilder.Verify();
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_BlockGroupsDisabled_BlockGroupComment_DoesNotCallBlockGroupHierarchyBuilder()
+        {
+            // Arrange
+            var inputString = "Show # AAA - BBB - CCC" + Environment.NewLine;
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScript>(i => i.ItemFilterScriptSettings.BlockGroupsEnabled == false));
+
+            // Assert
+            Assert.IsNull(result.BlockGroup);
+            _testUtility.MockBlockGroupHierarchyBuilder.Verify(b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>()), Times.Never);
         }
 
         [Test]
@@ -169,7 +254,7 @@ namespace Filtration.Parser.Tests.Services
             var inputString = "Hide" + Environment.NewLine;
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is ActionBlockItem));
@@ -185,7 +270,7 @@ namespace Filtration.Parser.Tests.Services
                               "    ItemLevel >= 55";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual("This is a test Block", result.Description);
@@ -205,7 +290,7 @@ namespace Filtration.Parser.Tests.Services
                               "    ItemLevel >= 55";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual("Second Line", result.Description);
@@ -223,7 +308,7 @@ namespace Filtration.Parser.Tests.Services
                               "    DropLevel = 40";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
 
@@ -241,7 +326,7 @@ namespace Filtration.Parser.Tests.Services
                               "    Corrupted True";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
 
@@ -309,7 +394,7 @@ namespace Filtration.Parser.Tests.Services
                               "    Identified True";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
 
@@ -326,7 +411,7 @@ namespace Filtration.Parser.Tests.Services
                               "    Quality < 18";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
 
@@ -344,7 +429,7 @@ namespace Filtration.Parser.Tests.Services
                               "    Rarity > Normal";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
 
@@ -362,7 +447,7 @@ namespace Filtration.Parser.Tests.Services
                               "    Rarity Normal";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is RarityBlockItem));
@@ -379,7 +464,7 @@ namespace Filtration.Parser.Tests.Services
                               @"    Class ""Test Class 1"" ""TestOneWordClassInQuotes"" TestOneWordClassNotInQuotes ""Test Class 2""";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is ClassBlockItem));
@@ -398,7 +483,7 @@ namespace Filtration.Parser.Tests.Services
                               @"    BaseType ""Test Base Type 1"" ""TestOneWordBaseTypeInQuotes"" TestOneWordBaseTypeNotInQuotes ""Test BaseType 2""";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is BaseTypeBlockItem));
@@ -417,7 +502,7 @@ namespace Filtration.Parser.Tests.Services
                               "    Sockets > 2";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
 
@@ -435,7 +520,7 @@ namespace Filtration.Parser.Tests.Services
                               "    LinkedSockets > 1";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
 
@@ -453,7 +538,7 @@ namespace Filtration.Parser.Tests.Services
                               "    Width = 1";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
 
@@ -471,7 +556,7 @@ namespace Filtration.Parser.Tests.Services
                               "    Height <= 3";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
 
@@ -489,7 +574,7 @@ namespace Filtration.Parser.Tests.Services
                               "    Height <=3";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is HeightBlockItem));
@@ -506,7 +591,7 @@ namespace Filtration.Parser.Tests.Services
                               "    SocketGroup RRGB";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is SocketGroupBlockItem));
@@ -524,7 +609,7 @@ namespace Filtration.Parser.Tests.Services
                               "    SetTextColor 255 20 100";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is TextColorBlockItem));
@@ -542,7 +627,7 @@ namespace Filtration.Parser.Tests.Services
                               "    SetTextColor 65 0 255 12";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is TextColorBlockItem));
@@ -561,7 +646,7 @@ namespace Filtration.Parser.Tests.Services
                               "    SetBackgroundColor 255 20 100";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is BackgroundColorBlockItem));
@@ -580,7 +665,7 @@ namespace Filtration.Parser.Tests.Services
                               "    SetBorderColor 255 20 100";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is BorderColorBlockItem));
@@ -599,8 +684,8 @@ namespace Filtration.Parser.Tests.Services
 
             // Act
 
-            Assert.DoesNotThrow(() => _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null));
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            Assert.DoesNotThrow(() => _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript));
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is BorderColorBlockItem));
@@ -620,7 +705,7 @@ namespace Filtration.Parser.Tests.Services
             var testInputThemeComponentCollection = new ThemeComponentCollection { testComponent };
             
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, testInputThemeComponentCollection);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScript>(i => i.ItemFilterScriptSettings.ThemeComponentCollection == testInputThemeComponentCollection));
 
             // Assert
             var blockItem = result.BlockItems.OfType<TextColorBlockItem>().First();
@@ -638,7 +723,7 @@ namespace Filtration.Parser.Tests.Services
                               "    SetFontSize 15";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is FontSizeBlockItem));
@@ -655,7 +740,7 @@ namespace Filtration.Parser.Tests.Services
                               "    PlayAlertSound 4";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is SoundBlockItem));
@@ -673,7 +758,7 @@ namespace Filtration.Parser.Tests.Services
                               "    PlayAlertSound 2 95";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is SoundBlockItem));
@@ -717,21 +802,6 @@ namespace Filtration.Parser.Tests.Services
             Assert.AreEqual("7", blockItem.Value);
             Assert.AreEqual(95, blockItem.SecondValue);
         }
-
-        [Test]
-        public void TranslateStringToItemFilterBlock_SectionComment_ReturnsItemFilterSectionObjectWithCorrectDescription()
-        {
-            // Arrange
-            const string testInputSectionDescription = "Wonderful items that you definitely won't want to miss!";
-            var inputString = "# Section: " + testInputSectionDescription;
-
-            // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
-
-            // Assert
-            Assert.IsInstanceOf<ItemFilterSection>(result);
-            Assert.AreEqual(testInputSectionDescription, result.Description);
-        }
         
         [Test]
         public void TranslateStringToItemFilterBlock_Everything_ReturnsCorrectObject()
@@ -764,7 +834,7 @@ namespace Filtration.Parser.Tests.Services
                               "    PlayAlertSound 3" + Environment.NewLine;
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual("Test filter with everything", result.Description);
@@ -861,7 +931,7 @@ namespace Filtration.Parser.Tests.Services
                               "    Quality < 17";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(2, result.BlockItems.Count(b => b is ItemLevelBlockItem));
@@ -890,7 +960,7 @@ namespace Filtration.Parser.Tests.Services
                               "    SetTextColor 255 20 100";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is TextColorBlockItem));
@@ -911,7 +981,7 @@ namespace Filtration.Parser.Tests.Services
                               "    SetFontSize 27" + Environment.NewLine;
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is FontSizeBlockItem));
@@ -930,7 +1000,7 @@ namespace Filtration.Parser.Tests.Services
                               "    PlayAlertSound 2" + Environment.NewLine;
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is SoundBlockItem));
@@ -948,7 +1018,7 @@ namespace Filtration.Parser.Tests.Services
                               "    SetBackgroundColor 255 20 100";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is BackgroundColorBlockItem));
@@ -967,7 +1037,7 @@ namespace Filtration.Parser.Tests.Services
                               "    SetBorderColor 255 20 100";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is BorderColorBlockItem));
@@ -995,7 +1065,7 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.TestBlock.BlockItems.Add(new WidthBlockItem(FilterPredicateOperator.Equal, 4));
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is RarityBlockItem));
@@ -1022,7 +1092,7 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.TestBlock.BlockItems.Add(new WidthBlockItem(FilterPredicateOperator.Equal, 4));
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is ActionBlockItem));
@@ -1057,7 +1127,7 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.TestBlock.BlockItems.Add(new WidthBlockItem(FilterPredicateOperator.Equal, 4));
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is ActionBlockItem));
@@ -1097,6 +1167,22 @@ namespace Filtration.Parser.Tests.Services
             var child1BlockGroup = new ItemFilterBlockGroup("Child 1 Block Group", rootBlockGroup);
             var child2BlockGroup = new ItemFilterBlockGroup("Child 2 Block Group", child1BlockGroup);
             _testUtility.TestBlock.BlockGroup = child2BlockGroup;
+
+            // Act
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void TranslateItemFilterBlockToString_HasActionBlockComment_ReturnsCorrectString()
+        {
+            // Arrange
+            var testInputActionBlockComment = "this is a test";
+            var expectedResult = $"Show #{testInputActionBlockComment}";
+
+            _testUtility.TestBlock.BlockItems.OfType<ActionBlockItem>().First().Comment = testInputActionBlockComment;
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
@@ -1582,22 +1668,6 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
-        public void TranslateItemFilterBlockToString_Section_ReturnsCorrectString()
-        {
-            // Arrange
-            const string testInputSectionText = "Ermagerd it's a section!";
-            var expectedResult = "# Section: " + testInputSectionText;
-
-            _testUtility.TestBlock = new ItemFilterSection { Description = testInputSectionText };
-
-            // Act
-            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
-
-            // Assert
-            Assert.AreEqual(expectedResult, result);
-        }
-
-        [Test]
         public void TranslateItemFilterBlockToString_DisabledBlock_ReturnsCorrectString()
         {
             // Arrange
@@ -1893,6 +1963,7 @@ namespace Filtration.Parser.Tests.Services
             // Assert
             
         }
+        
         private class ItemFilterBlockTranslatorTestUtility
         {
             public ItemFilterBlockTranslatorTestUtility()
@@ -1902,6 +1973,7 @@ namespace Filtration.Parser.Tests.Services
 
                 // Mock setups
                 MockBlockGroupHierarchyBuilder = new Mock<IBlockGroupHierarchyBuilder>();
+                MockItemFilterScript = Mock.Of<IItemFilterScript>(i => i.ItemFilterScriptSettings.ThemeComponentCollection == new ThemeComponentCollection());
 
                 // Class under test instantiation
                 Translator = new ItemFilterBlockTranslator(MockBlockGroupHierarchyBuilder.Object);
@@ -1910,6 +1982,8 @@ namespace Filtration.Parser.Tests.Services
             public ItemFilterBlock TestBlock { get; set; }
             public Mock<IBlockGroupHierarchyBuilder> MockBlockGroupHierarchyBuilder { get; }
             public ItemFilterBlockTranslator Translator { get; }
+
+            public IItemFilterScript MockItemFilterScript { get; }
         }
     }
 }

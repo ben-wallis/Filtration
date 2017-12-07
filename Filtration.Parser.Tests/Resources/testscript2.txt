@@ -1,0 +1,31 @@
+#Script description
+#Script description
+#Script description
+#Script description
+
+#Blockdescription
+Show	#Flasks - Endgame - Life/Mana - Divine/Eternal - Q10+ - Normal
+	Class "Life Flasks" "Mana Flasks"
+	Rarity Normal
+	SetFontSize 28
+
+    
+    
+# commentymccommentface
+    
+Show
+	Class "Life Flasks" "Mana Flasks"
+	Rarity Normal
+	DropLevel >= 60
+
+#commment
+#morecomment
+#blah
+
+#anothercomment
+
+#notpartofblockdescription    
+#blockdescription2
+Show	#TestBlock
+	Class "Life Flasks" "Mana Flasks"
+	Rarity Normal	

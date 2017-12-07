@@ -6,6 +6,7 @@ using Filtration.ItemFilterPreview.Tests.Properties;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Enums;
+using Filtration.ObjectModel.Factories;
 using Filtration.Parser.Services;
 using Moq;
 using NUnit.Framework;
@@ -29,7 +30,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             //Arrange
             var testInputItem = Mock.Of<IItem>();
             var testInputBlock = Mock.Of<IItemFilterBlock>();
-            var testInputScript = Mock.Of<IItemFilterScript>(s => s.ItemFilterBlocks == new ObservableCollection<IItemFilterBlock> {testInputBlock});
+            var testInputScript = Mock.Of<IItemFilterScript>(s => s.ItemFilterBlocks == new ObservableCollection<IItemFilterBlockBase> {testInputBlock});
 
             _testUtility.MockBlockItemMatcher
                 .Setup(b => b.ItemBlockMatch(testInputBlock, testInputItem))
@@ -50,7 +51,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             //Arrange
             var testInputItem = Mock.Of<IItem>();
             var testInputBlock = Mock.Of<IItemFilterBlock>();
-            var testInputScript = Mock.Of<IItemFilterScript>(s => s.ItemFilterBlocks == new ObservableCollection<IItemFilterBlock> { testInputBlock });
+            var testInputScript = Mock.Of<IItemFilterScript>(s => s.ItemFilterBlocks == new ObservableCollection<IItemFilterBlockBase> { testInputBlock });
 
             _testUtility.MockBlockItemMatcher
                 .Setup(b => b.ItemBlockMatch(testInputBlock, testInputItem))
@@ -71,7 +72,12 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             //Arrange
             var testInputScriptFile = Resources.MuldiniFilterScript;
             var blockGroupHierarchyBuilder = new BlockGroupHierarchyBuilder();
-            var scriptTranslator = new ItemFilterScriptTranslator(new ItemFilterBlockTranslator(blockGroupHierarchyBuilder), blockGroupHierarchyBuilder);
+            var mockItemFilterScriptFactory = new Mock<IItemFilterScriptFactory>();
+            mockItemFilterScriptFactory
+                .Setup(i => i.Create())
+                .Returns(new ItemFilterScript());
+
+            var scriptTranslator = new ItemFilterScriptTranslator(blockGroupHierarchyBuilder, new ItemFilterBlockTranslator(blockGroupHierarchyBuilder), mockItemFilterScriptFactory.Object);
             var script = scriptTranslator.TranslateStringToItemFilterScript(testInputScriptFile);
 
             var testInputItem = new Item
@@ -101,7 +107,11 @@ namespace Filtration.ItemFilterPreview.Tests.Services
             //Arrange
             var testInputScriptFile = Resources.MuldiniFilterScript;
             var blockGroupHierarchyBuilder = new BlockGroupHierarchyBuilder();
-            var scriptTranslator = new ItemFilterScriptTranslator(new ItemFilterBlockTranslator(blockGroupHierarchyBuilder), blockGroupHierarchyBuilder);
+            var mockItemFilterScriptFactory = new Mock<IItemFilterScriptFactory>();
+            mockItemFilterScriptFactory
+                .Setup(i => i.Create())
+                .Returns(new ItemFilterScript());
+            var scriptTranslator = new ItemFilterScriptTranslator(blockGroupHierarchyBuilder, new ItemFilterBlockTranslator(blockGroupHierarchyBuilder), mockItemFilterScriptFactory.Object);
             var script = scriptTranslator.TranslateStringToItemFilterScript(testInputScriptFile);
 
             var testInputItems = new List<IItem>

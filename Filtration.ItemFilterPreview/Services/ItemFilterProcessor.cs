@@ -31,8 +31,8 @@ namespace Filtration.ItemFilterPreview.Services
                 sw.Restart();
 
                 var matchedBlock = itemFilterScript.ItemFilterBlocks
-                                    .Where(b => !(b is ItemFilterSection))
-                                    .FirstOrDefault(block => _blockItemMatcher.ItemBlockMatch(block, item));
+                                                   .OfType<IItemFilterBlock>()
+                                                   .FirstOrDefault(block => _blockItemMatcher.ItemBlockMatch(block, item));
 
                 filteredItems.Add(new FilteredItem(item, matchedBlock));
 

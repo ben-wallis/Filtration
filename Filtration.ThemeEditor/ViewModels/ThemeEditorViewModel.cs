@@ -26,9 +26,9 @@ namespace Filtration.ThemeEditor.ViewModels
         RelayCommand CloseCommand { get; }
 
         void InitialiseForNewTheme(ThemeComponentCollection themeComponentCollection);
-        void InitialiseForMasterTheme(ItemFilterScript script);
+        void InitialiseForMasterTheme(IItemFilterScript script);
         bool IsMasterTheme { get; }
-        ItemFilterScript IsMasterThemeForScript { get; }
+        IItemFilterScript IsMasterThemeForScript { get; }
         string Title { get; }
         string FilePath { get; set; }
         string Filename { get; }
@@ -72,7 +72,7 @@ namespace Filtration.ThemeEditor.ViewModels
 
         public bool IsMasterTheme => Components.IsMasterCollection;
 
-        public ItemFilterScript IsMasterThemeForScript { get; private set; }
+        public IItemFilterScript IsMasterThemeForScript { get; private set; }
 
         public void InitialiseForNewTheme(ThemeComponentCollection themeComponentCollection)
         {
@@ -80,7 +80,7 @@ namespace Filtration.ThemeEditor.ViewModels
             _filenameIsFake = true;
         }
 
-        public void InitialiseForMasterTheme(ItemFilterScript script)
+        public void InitialiseForMasterTheme(IItemFilterScript script)
         {
             Components = script.ThemeComponents;
             IsMasterThemeForScript = script;

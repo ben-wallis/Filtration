@@ -4,44 +4,82 @@ using System.Linq;
 using System.Windows.Media;
 using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
+using Filtration.ObjectModel.Commands;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.Extensions;
 
 namespace Filtration.ObjectModel
 {
-    public interface IItemFilterBlock
+    public interface IItemFilterBlock : IItemFilterBlockBase
     {
         bool Enabled { get; set; }
         string Description { get; set; }
         ItemFilterBlockGroup BlockGroup { get; set; }
         BlockAction Action { get; set; }
+        ActionBlockItem ActionBlockItem { get; }
         ObservableCollection<IItemFilterBlockItem> BlockItems { get; }
         Color DisplayBackgroundColor { get; }
         Color DisplayTextColor { get; }
         Color DisplayBorderColor { get; }
         double DisplayFontSize { get; }
-        int BlockCount(Type type);
-        bool AddBlockItemAllowed(Type type);
         bool HasBlockItemOfType<T>();
         bool HasBlockGroupInParentHierarchy(ItemFilterBlockGroup targetBlockGroup, ItemFilterBlockGroup startingBlockGroup);
     }
 
-    public class ItemFilterBlock : IItemFilterBlock
+    public interface IItemFilterBlockBase
+    {
+    }
+
+    public abstract class ItemFilterBlockBase : IItemFilterBlockBase
+    {
+        protected ItemFilterBlockBase()
+        {
+        }
+
+        protected ItemFilterBlockBase(IItemFilterScript parentScript)
+        {
+            CommandManager = parentScript.CommandManager;
+            ParentScript = parentScript;
+        }
+
+        public ICommandManager CommandManager { get; }
+        public IItemFilterScript ParentScript { get; set; }
+    }
+
+    public interface IItemFilterCommentBlock : IItemFilterBlockBase
+    {
+        string Comment { get; set; }
+    }
+
+    public class ItemFilterCommentBlock : ItemFilterBlockBase, IItemFilterCommentBlock
+    {
+        public ItemFilterCommentBlock(IItemFilterScript parentScript) : base(parentScript)
+        {
+        }
+
+        public string Comment { get; set; }
+    }
+
+    public class ItemFilterBlock : ItemFilterBlockBase, IItemFilterBlock
     {
         private ItemFilterBlockGroup _blockGroup;
 
-        public ItemFilterBlock()
+        internal ItemFilterBlock()
         {
-            BlockItems = new ObservableCollection<IItemFilterBlockItem> {new ActionBlockItem(BlockAction.Show)};
-            Enabled = true;
+            BlockItems = new ObservableCollection<IItemFilterBlockItem> { ActionBlockItem };
         }
 
-        public bool Enabled { get; set; }
+        public ItemFilterBlock(IItemFilterScript parentScript) : base(parentScript)
+        {
+            BlockItems = new ObservableCollection<IItemFilterBlockItem> { ActionBlockItem };
+        }
+
+        public bool Enabled { get; set; } = true;
         public string Description { get; set; }
 
         public ItemFilterBlockGroup BlockGroup
         {
-            get { return _blockGroup; }
+            get => _blockGroup;
             set
             {
                 var oldBlockGroup = _blockGroup;
@@ -79,17 +117,19 @@ namespace Filtration.ObjectModel
             }
         }
 
-        public ObservableCollection<IItemFilterBlockItem> BlockItems { get; }
+        public ActionBlockItem ActionBlockItem { get; } = new ActionBlockItem(BlockAction.Show);
 
-        public int BlockCount(Type type)
-        {
-            return BlockItems?.Count(b => b.GetType() == type) ?? 0;
-        }
+        public ObservableCollection<IItemFilterBlockItem> BlockItems { get; }
 
         public bool AddBlockItemAllowed(Type type)
         {
+            int BlockCount()
+            {
+                return BlockItems?.Count(b => b.GetType() == type) ?? 0;
+            }
+
             var blockItem = (IItemFilterBlockItem)Activator.CreateInstance(type);
-            return BlockCount(type) < blockItem.MaximumAllowed;
+            return BlockCount() < blockItem.MaximumAllowed;
         }
 
         public bool HasBlockItemOfType<T>()
