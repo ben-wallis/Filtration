@@ -343,7 +343,7 @@ namespace Filtration.Parser.Tests.Services
                               "    ElderItem False";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
 
@@ -360,7 +360,7 @@ namespace Filtration.Parser.Tests.Services
                               "    ShaperItem True";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
 
@@ -377,7 +377,7 @@ namespace Filtration.Parser.Tests.Services
                               "    ShapedMap false";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
 
@@ -776,7 +776,7 @@ namespace Filtration.Parser.Tests.Services
                               "    PlayAlertSoundPositional 12";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is PositionalSoundBlockItem));
@@ -794,7 +794,7 @@ namespace Filtration.Parser.Tests.Services
                               "    PlayAlertSoundPositional 7 95";
 
             // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is PositionalSoundBlockItem));
