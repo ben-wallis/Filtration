@@ -1,11 +1,21 @@
 <UpdateData>
-	<CurrentVersion>0.15</CurrentVersion>
+	<CurrentVersion>0.16</CurrentVersion>
 	<LatestVersionMajorPart>0</LatestVersionMajorPart>
-	<LatestVersionMinorPart>15</LatestVersionMinorPart>
-	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.15</DownloadUrl>
-	<ReleaseDate>2016-12-03</ReleaseDate>
-	<StaticDataUpdatedDate>2016-09-01</StaticDataUpdatedDate>
-	<ReleaseNotes>♦ Implemented #41 - Changed block item output order for increased in-game filter performance
-♦ Implemented #34 - Support for Identified block item
-♦ Implemented #42 - Support for Corrupted block item</ReleaseNotes>
+	<LatestVersionMinorPart>16</LatestVersionMinorPart>
+	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.16</DownloadUrl>
+	<ReleaseDate>2017-12-07</ReleaseDate>
+	<StaticDataUpdatedDate>2017-12-07</StaticDataUpdatedDate>
+	<ReleaseNotes>Special thanks to GlenCFL for implementing the following features:
+♦ Support for the following Filter Block Item Types: ElderItem, ShapedMap, ShaperItem, PlayAlertPositionalSound, 
+♦ Added new alert sounds including the shaper voiceline sounds
+♦ Updated Item Base Types and Item Classes static data for 3.1
+♦ Fixed a bug where the application would freeze upon exit
+
+Other new features:
+♦ Changed Block Group Parsing to use " - " as a delimiter instead of "-", this prevents unwanted block groups being created by filters that didn't intend to use them.
+♦ Block Groups are now only parsed if the script has "# EnableBlockGroups" on its own line in the script header. This means that comments on the Show/Hide line for scripts without this enabled will no longer be discarded.
+♦ All comment blocks in between filter blocks are now preserved regardless of whether they start with # Section:
+♦ Added initial undo/redo support - currently this is only supported at the Item Filter Block level. This means that you can undo/redo adding/deleting/moving blocks within a script but you can't undo/redo editing the blocks themselves.
+
+</ReleaseNotes>
 </UpdateData>
