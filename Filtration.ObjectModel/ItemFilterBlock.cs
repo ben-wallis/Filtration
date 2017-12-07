@@ -74,8 +74,6 @@ namespace Filtration.ObjectModel
             BlockItems = new ObservableCollection<IItemFilterBlockItem> { ActionBlockItem };
         }
 
-        public ICommandManager CommandManager { get; }
-
         public bool Enabled { get; set; } = true;
         public string Description { get; set; }
 

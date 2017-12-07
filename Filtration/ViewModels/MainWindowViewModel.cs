@@ -163,7 +163,9 @@ namespace Filtration.ViewModels
                     }
                     case "OpenScript":
                     {
+#pragma warning disable 4014
                         OnOpenScriptCommand();
+#pragma warning restore 4014
                         break;
                     }
                     case "ShowLoadingBanner":
