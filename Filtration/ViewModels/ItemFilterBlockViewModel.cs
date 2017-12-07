@@ -189,7 +189,10 @@ namespace Filtration.ViewModels
             typeof (ClassBlockItem),
             typeof (BaseTypeBlockItem),
             typeof (IdentifiedBlockItem),
-            typeof (CorruptedBlockItem)
+            typeof (CorruptedBlockItem),
+            typeof (ElderItemBlockItem),
+            typeof (ShaperItemBlockItem),
+            typeof (ShapedMapBlockItem)
         };
 
         public List<Type> AudioVisualBlockItemTypesAvailable => new List<Type>

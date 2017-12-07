@@ -139,6 +139,21 @@ namespace Filtration.Parser.Services
                         AddBooleanItemToBlockItems<IdentifiedBlockItem>(block, trimmedLine);
                         break;
                     }
+                    case "ElderItem":
+                    {
+                        AddBooleanItemToBlockItems<ElderItemBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "ShaperItem":
+                    {
+                        AddBooleanItemToBlockItems<ShaperItemBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "ShapedMap":
+                    {
+                        AddBooleanItemToBlockItems<ShapedMapBlockItem>(block, trimmedLine);
+                        break;
+                    }
                     case "Sockets":
                     {
                         AddNumericFilterPredicateItemToBlockItems<SocketsBlockItem>(block, trimmedLine);

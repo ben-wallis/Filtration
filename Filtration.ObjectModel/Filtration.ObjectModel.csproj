@@ -54,6 +54,9 @@
     <Compile Include="BlockItemTypes\BaseTypeBlockItem.cs" />
     <Compile Include="BlockItemTypes\BorderColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\ClassBlockItem.cs" />
+    <Compile Include="BlockItemTypes\ShapedMapBlockItem.cs" />
+    <Compile Include="BlockItemTypes\ShaperItemBlockItem.cs" />
+    <Compile Include="BlockItemTypes\ElderItemBlockItem.cs" />
     <Compile Include="BlockItemTypes\CorruptedBlockItem.cs" />
     <Compile Include="BlockItemTypes\DropLevelBlockItem.cs" />
     <Compile Include="BlockItemTypes\FontSizeBlockItem.cs" />
