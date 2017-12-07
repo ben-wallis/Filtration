@@ -33,6 +33,6 @@ namespace Filtration.ObjectModel.BlockItemTypes
 
         public override Color SummaryBackgroundColor => Colors.MediumTurquoise;
         public override Color SummaryTextColor => Colors.Black;
-        public override int SortOrder => 11;
+        public override int SortOrder => 16;
     }
 }

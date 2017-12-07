@@ -17,7 +17,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string DisplayHeading => "Shaper Item";
         public override Color SummaryBackgroundColor => Colors.DimGray;
         public override Color SummaryTextColor => Colors.White;
-        public override int SortOrder => 20;
+        public override int SortOrder => 7;
 
     }
 }

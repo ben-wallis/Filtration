@@ -17,7 +17,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string DisplayHeading => "Elder Item";
         public override Color SummaryBackgroundColor => Colors.DarkGray;
         public override Color SummaryTextColor => Colors.White;
-        public override int SortOrder => 19;
+        public override int SortOrder => 6;
 
     }
 }

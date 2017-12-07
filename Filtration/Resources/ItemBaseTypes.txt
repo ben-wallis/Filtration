@@ -208,6 +208,8 @@ Carnal Mitts
 Carnal Sceptre
 Cartographer's Chisel
 Cartographer's Delight
+Cartographer's Seal
+Cartographer's Sextant
 Carved Wand
 Carving Knife
 Cast On Critical Strike Support
@@ -1199,6 +1201,7 @@ Shadow Sceptre
 Shagreen Boots
 Shagreen Gloves
 Shagreen Tower Shield
+Shaper's Orb
 Shaper's Orb (Tier 1)
 Shaper's Orb (Tier 10)
 Shaper's Orb (Tier 2)
@@ -1309,6 +1312,7 @@ Spiraled Foil
 Spiraled Wand
 Spirit Offering
 Splendid Round Shield
+Splinter
 Splinter of Chayula
 Splinter of Esh
 Splinter of Tul
@@ -1686,6 +1690,7 @@ Wasteland Map
 Waterways Map
 Waxed Garb
 Wealth and Power
+Weeping Essence
 Weeping Essence of Anger
 Weeping Essence of Contempt
 Weeping Essence of Doubt

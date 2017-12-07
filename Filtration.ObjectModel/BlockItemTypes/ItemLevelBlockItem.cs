@@ -20,7 +20,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string SummaryText => "Item Level " + FilterPredicate;
         public override Color SummaryBackgroundColor => Colors.DarkSlateGray;
         public override Color SummaryTextColor => Colors.White;
-        public override int SortOrder => 13;
+        public override int SortOrder => 12;
         public override int Minimum => 0;
         public override int Maximum => 100;
     }
