@@ -4,23 +4,18 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Media;
-using Filtration.Common.ViewModels;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.Services;
 using Filtration.Views;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Xceed.Wpf.Toolkit;
 
 namespace Filtration.ViewModels
 {
-    internal interface IItemFilterBlockViewModel
+    internal interface IItemFilterBlockViewModel : IItemFilterBlockViewModelBase
     {
-        event EventHandler BlockBecameDirty;
-        void Initialise(IItemFilterBlock itemFilterBlock, ItemFilterScriptViewModel parentScriptViewModel);
-        bool IsDirty { get; set; }
         bool IsExpanded { get; set; }
         IItemFilterBlock Block { get; }
         bool BlockEnabled { get; set; }
@@ -28,17 +23,16 @@ namespace Filtration.ViewModels
         void RefreshBlockPreview();
     }
 
-    internal class ItemFilterBlockViewModel : ViewModelBase, IItemFilterBlockViewModel
+    internal class ItemFilterBlockViewModel : ItemFilterBlockViewModelBase, IItemFilterBlockViewModel
     {
         private readonly IStaticDataService _staticDataService;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
-        private ItemFilterScriptViewModel _parentScriptViewModel;
+        private IItemFilterScriptViewModel _parentScriptViewModel;
 
         private bool _displaySettingsPopupOpen;
         private bool _isExpanded;
         private bool _audioVisualBlockItemsGridVisible;
-        private bool _isDirty;
 
         public ItemFilterBlockViewModel(IStaticDataService staticDataService, IReplaceColorsViewModel replaceColorsViewModel)
         {
@@ -64,10 +58,9 @@ namespace Filtration.ViewModels
             PlaySoundCommand = new RelayCommand(OnPlaySoundCommand, () => HasSound);
         }
 
-        public event EventHandler BlockBecameDirty;
-
-        public void Initialise(IItemFilterBlock itemFilterBlock, ItemFilterScriptViewModel parentScriptViewModel)
+        public override void Initialise(IItemFilterBlockBase itemFilterBlockBase, IItemFilterScriptViewModel parentScriptViewModel)
         {
+            var itemFilterBlock = itemFilterBlockBase as IItemFilterBlock;
             if (itemFilterBlock == null || parentScriptViewModel == null)
             {
                 throw new ArgumentNullException(nameof(itemFilterBlock));
@@ -76,51 +69,42 @@ namespace Filtration.ViewModels
             _parentScriptViewModel = parentScriptViewModel;
 
             Block = itemFilterBlock;
+
             itemFilterBlock.BlockItems.CollectionChanged += OnBlockItemsCollectionChanged;
 
             foreach (var blockItem in itemFilterBlock.BlockItems)
             {
                 blockItem.PropertyChanged += OnBlockItemChanged;
             }
+
+
+            base.Initialise(itemFilterBlock, parentScriptViewModel);
         }
 
-        public RelayCommand CopyBlockCommand { get; private set; }
-        public RelayCommand PasteBlockCommand { get; private set; }
-        public RelayCommand CopyBlockStyleCommand { get; private set; }
-        public RelayCommand PasteBlockStyleCommand { get; private set; }
-        public RelayCommand AddBlockCommand { get; private set; }
-        public RelayCommand AddSectionCommand { get; private set; }
-        public RelayCommand DeleteBlockCommand { get; private set; }
-        public RelayCommand MoveBlockUpCommand { get; private set; }
-        public RelayCommand MoveBlockDownCommand { get; private set; }
-        public RelayCommand MoveBlockToTopCommand { get; private set; }
-        public RelayCommand MoveBlockToBottomCommand { get; private set; }
-        public RelayCommand ToggleBlockActionCommand { get; private set; }
-        public RelayCommand ReplaceColorsCommand { get; private set; }
-        public RelayCommand<Type> AddFilterBlockItemCommand { get; private set; }
-        public RelayCommand<IItemFilterBlockItem> RemoveFilterBlockItemCommand { get; private set; }
-        public RelayCommand PlaySoundCommand { get; private set; }
-        public RelayCommand SwitchBlockItemsViewCommand { get; private set; }
+        public RelayCommand CopyBlockCommand { get; }
+        public RelayCommand PasteBlockCommand { get; }
+        public RelayCommand CopyBlockStyleCommand { get; }
+        public RelayCommand PasteBlockStyleCommand { get; }
+        public RelayCommand AddBlockCommand { get; }
+        public RelayCommand AddSectionCommand { get; }
+        public RelayCommand DeleteBlockCommand { get; }
+        public RelayCommand MoveBlockUpCommand { get; }
+        public RelayCommand MoveBlockDownCommand { get; }
+        public RelayCommand MoveBlockToTopCommand { get; }
+        public RelayCommand MoveBlockToBottomCommand { get; }
+        public RelayCommand ToggleBlockActionCommand { get; }
+        public RelayCommand ReplaceColorsCommand { get; }
+        public RelayCommand<Type> AddFilterBlockItemCommand { get; }
+        public RelayCommand<IItemFilterBlockItem> RemoveFilterBlockItemCommand { get; }
+        public RelayCommand PlaySoundCommand { get; }
+        public RelayCommand SwitchBlockItemsViewCommand { get; }
 
         public IItemFilterBlock Block { get; private set; }
 
-        public bool IsDirty
-        {
-            get { return _isDirty; }
-            set
-            {
-                if (value != _isDirty)
-                {
-                    _isDirty = value;
-                    RaisePropertyChanged();
-                    BlockBecameDirty?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
 
         public bool IsExpanded
         {
-            get { return _isExpanded; }
+            get => _isExpanded;
             set
             {
                 _isExpanded = value;
@@ -305,7 +289,7 @@ namespace Filtration.ViewModels
 
         private void OnAddSectionCommand()
         {
-            _parentScriptViewModel.AddSection(this);
+            _parentScriptViewModel.AddCommentBlock(this);
         }
 
         private void OnDeleteBlockCommand()

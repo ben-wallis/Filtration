@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using Filtration.ThemeEditor.ViewModels;
@@ -18,7 +19,7 @@ namespace Filtration.ViewModels
         ReadOnlyObservableCollection<IDocument> OpenDocuments { get; }
         IItemFilterScriptViewModel ActiveScriptViewModel { get; }
         IThemeEditorViewModel ActiveThemeViewModel { get; }
-        ISectionBrowserViewModel SectionBrowserViewModel { get; }
+        ICommentBlockBrowserViewModel CommentBlockBrowserViewModel { get; }
         IBlockGroupBrowserViewModel BlockGroupBrowserViewModel { get; }
         IBlockOutputPreviewViewModel BlockOutputPreviewViewModel { get; }
         void AddDocument(IDocument document);
@@ -29,7 +30,7 @@ namespace Filtration.ViewModels
 
     internal class AvalonDockWorkspaceViewModel : ViewModelBase, IAvalonDockWorkspaceViewModel
     {
-        private readonly ISectionBrowserViewModel _sectionBrowserViewModel;
+        private readonly ICommentBlockBrowserViewModel _commentBlockBrowserViewModel;
         private readonly IBlockGroupBrowserViewModel _blockGroupBrowserViewModel;
         private readonly IBlockOutputPreviewViewModel _blockOutputPreviewViewModel;
 
@@ -38,16 +39,16 @@ namespace Filtration.ViewModels
         private IThemeEditorViewModel _activeThemeViewModel;
         private readonly ObservableCollection<IDocument> _openDocuments;
 
-        public AvalonDockWorkspaceViewModel(ISectionBrowserViewModel sectionBrowserViewModel,
+        public AvalonDockWorkspaceViewModel(ICommentBlockBrowserViewModel commentBlockBrowserViewModel,
             IBlockGroupBrowserViewModel blockGroupBrowserViewModel,
             IStartPageViewModel startPageViewModel,
             IBlockOutputPreviewViewModel blockOutputPreviewViewModel)
         {
-            _sectionBrowserViewModel = sectionBrowserViewModel;
+            _commentBlockBrowserViewModel = commentBlockBrowserViewModel;
             _blockGroupBrowserViewModel = blockGroupBrowserViewModel;
             _blockOutputPreviewViewModel = blockOutputPreviewViewModel;
 
-            _sectionBrowserViewModel.Initialise(this);
+            _commentBlockBrowserViewModel.Initialise(this);
             _blockGroupBrowserViewModel.Initialise(this);
             _blockOutputPreviewViewModel.Initialise(this);
 
@@ -94,13 +95,13 @@ namespace Filtration.ViewModels
         public IThemeEditorViewModel ActiveThemeViewModel => _activeThemeViewModel;
         public IBlockGroupBrowserViewModel BlockGroupBrowserViewModel => _blockGroupBrowserViewModel;
         public IBlockOutputPreviewViewModel BlockOutputPreviewViewModel => _blockOutputPreviewViewModel;
-        public ISectionBrowserViewModel SectionBrowserViewModel => _sectionBrowserViewModel;
+        public ICommentBlockBrowserViewModel CommentBlockBrowserViewModel => _commentBlockBrowserViewModel;
 
         private List<IToolViewModel> _tools;
 
         public IEnumerable<IToolViewModel> Tools => _tools ?? (_tools = new List<IToolViewModel>
         {
-            _sectionBrowserViewModel,
+            _commentBlockBrowserViewModel,
             _blockGroupBrowserViewModel,
             _blockOutputPreviewViewModel
         });
@@ -116,7 +117,7 @@ namespace Filtration.ViewModels
                 _activeThemeViewModel = (IThemeEditorViewModel) document;
             }
 
-            _openDocuments.Add(document);
+            Application.Current.Dispatcher.Invoke(() => _openDocuments.Add(document));
             ActiveDocument = document;
         }
 
@@ -129,7 +130,7 @@ namespace Filtration.ViewModels
 
             if (document.IsScript && ActiveDocument == document)
             {
-                _sectionBrowserViewModel.ClearDown();
+                _commentBlockBrowserViewModel.ClearDown();
                 _blockGroupBrowserViewModel.ClearDown();
                 _blockOutputPreviewViewModel.ClearDown();
             }

@@ -30,7 +30,7 @@ namespace Filtration.Views.AvalonDock
                 return ThemeTemplate;
             }
 
-            if (item is SectionBrowserViewModel)
+            if (item is CommentBlockBrowserViewModel)
             {
                 return SectionBrowserTemplate;
             }

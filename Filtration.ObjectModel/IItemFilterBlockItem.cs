@@ -5,8 +5,6 @@ namespace Filtration.ObjectModel
 {
     public interface IItemFilterBlockItem : INotifyPropertyChanged
     {
-        event PropertyChangedEventHandler PropertyChanged;
-
         string PrefixText { get; }
         string OutputText { get; }
         string DisplayHeading { get; }

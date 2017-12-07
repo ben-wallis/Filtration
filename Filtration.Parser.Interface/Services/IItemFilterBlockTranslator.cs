@@ -1,14 +1,16 @@
 using System.Collections.ObjectModel;
 using Filtration.ObjectModel;
-using Filtration.ObjectModel.ThemeEditor;
 
 namespace Filtration.Parser.Interface.Services
 {
     public interface IItemFilterBlockTranslator
     {
-        IItemFilterBlock TranslateStringToItemFilterBlock(string inputString,
-            ThemeComponentCollection masterComponentCollection);
+        IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScript parentItemFilterScript, bool initialiseBlockGroupHierarchyBuilder = false);
+        IItemFilterCommentBlock TranslateStringToItemFilterCommentBlock(string inputString, IItemFilterScript parentItemFilterScript);
+
         string TranslateItemFilterBlockToString(IItemFilterBlock block);
         void ReplaceAudioVisualBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString);
+        string TranslateItemFilterCommentBlockToString(IItemFilterCommentBlock itemFilterCommentBlock);
+        string TranslateItemFilterBlockBaseToString(IItemFilterBlockBase itemFilterBlockBase);
     }
 }

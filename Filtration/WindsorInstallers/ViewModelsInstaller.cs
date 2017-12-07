@@ -3,6 +3,7 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Filtration.ViewModels;
+using Filtration.ViewModels.Factories;
 using Filtration.ViewModels.ToolPanes;
 
 namespace Filtration.WindsorInstallers
@@ -27,6 +28,11 @@ namespace Filtration.WindsorInstallers
                     .LifeStyle.Transient);
 
             container.Register(
+                Component.For<IItemFilterCommentBlockViewModel>()
+                    .ImplementedBy<ItemFilterCommentBlockViewModel>()
+                    .LifeStyle.Transient);
+
+            container.Register(
                 Component.For<IItemFilterScriptViewModel>()
                     .ImplementedBy<ItemFilterScriptViewModel>()
                     .LifeStyle.Transient);
@@ -42,8 +48,8 @@ namespace Filtration.WindsorInstallers
                     .LifeStyle.Singleton);
 
             container.Register(
-                Component.For<ISectionBrowserViewModel>()
-                    .ImplementedBy<SectionBrowserViewModel>()
+                Component.For<ICommentBlockBrowserViewModel>()
+                    .ImplementedBy<CommentBlockBrowserViewModel>()
                     .LifeStyle.Singleton);
 
             container.Register(
@@ -70,7 +76,15 @@ namespace Filtration.WindsorInstallers
                 Component.For<IItemFilterBlockViewModelFactory>().AsFactory());
 
             container.Register(
+                Component.For<IItemFilterCommentBlockViewModelFactory>().AsFactory());
+
+            container.Register(
                 Component.For<IItemFilterScriptViewModelFactory>().AsFactory());
+            
+            container.Register(
+                Component.For<IItemFilterBlockBaseViewModelFactory>()
+                    .ImplementedBy<ItemFilterBlockBaseViewModelFactory>()
+                    .LifeStyle.Singleton);
         }
     }
 }

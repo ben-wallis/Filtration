@@ -30,6 +30,8 @@
     <Image Source="/Filtration;component/Resources/Icons/PasteStyle.ico" x:Key="PasteStyleIcon" x:Shared="False" />
     <Image Source="/Filtration;component/Resources/Icons/filtration_icon.png" x:Key="FiltrationIcon" x:Shared="False" />
     <Image Source="/Filtration;component/Resources/Icons/Add.ico" x:Key="AddIcon" x:Shared="False" />
+    <Image Source="/Filtration;component/Resources/Icons/undo_icon.png" x:Key="UndoIcon" x:Shared="False" />
+    <Image Source="/Filtration;component/Resources/Icons/redo_icon.png" x:Key="RedoIcon" x:Shared="False" />
     <Image Source="/Filtration;component/Resources/Icons/ThemeComponentDelete.ico" x:Key="ThemeComponentDeleteIcon" x:Shared="False" />
     <Image Source="/Filtration;component/Resources/Icons/standby_enabled_icon.png" x:Key="StandbyEnabledIcon" x:Shared="False" />
     <Image Source="/Filtration;component/Resources/Icons/standby_disabled_icon.png" x:Key="StandbyDisabledIcon" x:Shared="False" />

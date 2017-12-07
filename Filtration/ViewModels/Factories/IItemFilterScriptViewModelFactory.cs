@@ -1,4 +1,4 @@
-﻿namespace Filtration.ViewModels
+﻿namespace Filtration.ViewModels.Factories
 {
     internal interface IItemFilterScriptViewModelFactory
     {

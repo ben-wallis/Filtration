@@ -6,7 +6,6 @@ using System.Xml.Serialization;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.Enums;
 using NUnit.Framework;
-using YamlDotNet.Serialization;
 
 namespace Filtration.ItemFilterPreview.Tests.Services
 {
@@ -39,8 +38,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
                 serializer.Serialize(textWriter, item);
                  output = textWriter.ToString();
             }
-
-            var x = 2;
+            
             //Assert
         }
     }

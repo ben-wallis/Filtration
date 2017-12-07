@@ -1,4 +1,26 @@
-﻿using System;
+﻿/* MIT License
+
+Copyright (c) 2016 JetBrains http://www.jetbrains.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE. */
+
+using System;
 
 #pragma warning disable 1591
 // ReSharper disable UnusedMember.Global
@@ -7,7 +29,6 @@
 // ReSharper disable IntroduceOptionalParameters.Global
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable InconsistentNaming
-// ReSharper disable CheckNamespace
 
 namespace Filtration.ObjectModel.Annotations
 {
@@ -16,32 +37,37 @@ namespace Filtration.ObjectModel.Annotations
   /// so the check for <c>null</c> is necessary before its usage.
   /// </summary>
   /// <example><code>
-  /// [CanBeNull] public object Test() { return null; }
-  /// public void UseTest() {
+  /// [CanBeNull] object Test() => null;
+  /// 
+  /// void UseTest() {
   ///   var p = Test();
   ///   var s = p.ToString(); // Warning: Possible 'System.NullReferenceException'
   /// }
   /// </code></example>
   [AttributeUsage(
     AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property |
-    AttributeTargets.Delegate | AttributeTargets.Field | AttributeTargets.Event)]
+    AttributeTargets.Delegate | AttributeTargets.Field | AttributeTargets.Event |
+    AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.GenericParameter)]
   public sealed class CanBeNullAttribute : Attribute { }
 
   /// <summary>
   /// Indicates that the value of the marked element could never be <c>null</c>.
   /// </summary>
   /// <example><code>
-  /// [NotNull] public object Foo() {
+  /// [NotNull] object Foo() {
   ///   return null; // Warning: Possible 'null' assignment
   /// }
   /// </code></example>
   [AttributeUsage(
     AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property |
-    AttributeTargets.Delegate | AttributeTargets.Field | AttributeTargets.Event)]
+    AttributeTargets.Delegate | AttributeTargets.Field | AttributeTargets.Event |
+    AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.GenericParameter)]
   public sealed class NotNullAttribute : Attribute { }
 
   /// <summary>
-  /// Indicates that collection or enumerable value does not contain null elements.
+  /// Can be appplied to symbols of types derived from IEnumerable as well as to symbols of Task
+  /// and Lazy classes to indicate that the value of a collection item, of the Task.Result property
+  /// or of the Lazy.Value property can never be null.
   /// </summary>
   [AttributeUsage(
     AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property |
@@ -49,7 +75,9 @@ namespace Filtration.ObjectModel.Annotations
   public sealed class ItemNotNullAttribute : Attribute { }
 
   /// <summary>
-  /// Indicates that collection or enumerable value can contain null elements.
+  /// Can be appplied to symbols of types derived from IEnumerable as well as to symbols of Task
+  /// and Lazy classes to indicate that the value of a collection item, of the Task.Result property
+  /// or of the Lazy.Value property can be null.
   /// </summary>
   [AttributeUsage(
     AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property |
@@ -63,8 +91,9 @@ namespace Filtration.ObjectModel.Annotations
   /// </summary>
   /// <example><code>
   /// [StringFormatMethod("message")]
-  /// public void ShowError(string message, params object[] args) { /* do something */ }
-  /// public void Foo() {
+  /// void ShowError(string message, params object[] args) { /* do something */ }
+  /// 
+  /// void Foo() {
   ///   ShowError("Failed: {0}"); // Warning: Non-existing argument in format string
   /// }
   /// </code></example>
@@ -76,22 +105,24 @@ namespace Filtration.ObjectModel.Annotations
     /// <param name="formatParameterName">
     /// Specifies which parameter of an annotated method should be treated as format-string
     /// </param>
-    public StringFormatMethodAttribute(string formatParameterName)
+    public StringFormatMethodAttribute([NotNull] string formatParameterName)
     {
       FormatParameterName = formatParameterName;
     }
 
-    public string FormatParameterName { get; private set; }
+    [NotNull] public string FormatParameterName { get; private set; }
   }
 
   /// <summary>
   /// For a parameter that is expected to be one of the limited set of values.
   /// Specify fields of which type should be used as values for this parameter.
   /// </summary>
-  [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Field)]
+  [AttributeUsage(
+    AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Field,
+    AllowMultiple = true)]
   public sealed class ValueProviderAttribute : Attribute
   {
-    public ValueProviderAttribute(string name)
+    public ValueProviderAttribute([NotNull] string name)
     {
       Name = name;
     }
@@ -105,7 +136,7 @@ namespace Filtration.ObjectModel.Annotations
   /// the parameter of <see cref="System.ArgumentNullException"/>.
   /// </summary>
   /// <example><code>
-  /// public void Foo(string param) {
+  /// void Foo(string param) {
   ///   if (param == null)
   ///     throw new ArgumentNullException("par"); // Warning: Cannot resolve symbol
   /// }
@@ -131,10 +162,12 @@ namespace Filtration.ObjectModel.Annotations
   /// <example><code>
   /// public class Foo : INotifyPropertyChanged {
   ///   public event PropertyChangedEventHandler PropertyChanged;
+  /// 
   ///   [NotifyPropertyChangedInvocator]
   ///   protected virtual void NotifyChanged(string propertyName) { ... }
   ///
-  ///   private string _name;
+  ///   string _name;
+  /// 
   ///   public string Name {
   ///     get { return _name; }
   ///     set { _name = value; NotifyChanged("LastName"); /* Warning */ }
@@ -153,12 +186,12 @@ namespace Filtration.ObjectModel.Annotations
   public sealed class NotifyPropertyChangedInvocatorAttribute : Attribute
   {
     public NotifyPropertyChangedInvocatorAttribute() { }
-    public NotifyPropertyChangedInvocatorAttribute(string parameterName)
+    public NotifyPropertyChangedInvocatorAttribute([NotNull] string parameterName)
     {
       ParameterName = parameterName;
     }
 
-    public string ParameterName { get; private set; }
+    [CanBeNull] public string ParameterName { get; private set; }
   }
 
   /// <summary>
@@ -174,15 +207,16 @@ namespace Filtration.ObjectModel.Annotations
   /// <item>Value    ::= true | false | null | notnull | canbenull</item>
   /// </list>
   /// If method has single input parameter, it's name could be omitted.<br/>
-  /// Using <c>halt</c> (or <c>void</c>/<c>nothing</c>, which is the same)
-  /// for method output means that the methos doesn't return normally.<br/>
-  /// <c>canbenull</c> annotation is only applicable for output parameters.<br/>
-  /// You can use multiple <c>[ContractAnnotation]</c> for each FDT row,
-  /// or use single attribute with rows separated by semicolon.<br/>
+  /// Using <c>halt</c> (or <c>void</c>/<c>nothing</c>, which is the same) for method output
+  /// means that the methos doesn't return normally (throws or terminates the process).<br/>
+  /// Value <c>canbenull</c> is only applicable for output parameters.<br/>
+  /// You can use multiple <c>[ContractAnnotation]</c> for each FDT row, or use single attribute
+  /// with rows separated by semicolon. There is no notion of order rows, all rows are checked
+  /// for applicability and applied per each program state tracked by R# analysis.<br/>
   /// </syntax>
   /// <examples><list>
   /// <item><code>
-  /// [ContractAnnotation("=> halt")]
+  /// [ContractAnnotation("=&gt; halt")]
   /// public void TerminationMethod()
   /// </code></item>
   /// <item><code>
@@ -190,17 +224,17 @@ namespace Filtration.ObjectModel.Annotations
   /// public void Assert(bool condition, string text) // regular assertion method
   /// </code></item>
   /// <item><code>
-  /// [ContractAnnotation("s:null => true")]
+  /// [ContractAnnotation("s:null =&gt; true")]
   /// public bool IsNullOrEmpty(string s) // string.IsNullOrEmpty()
   /// </code></item>
   /// <item><code>
   /// // A method that returns null if the parameter is null,
   /// // and not null if the parameter is not null
-  /// [ContractAnnotation("null => null; notnull => notnull")]
+  /// [ContractAnnotation("null =&gt; null; notnull =&gt; notnull")]
   /// public object Transform(object data) 
   /// </code></item>
   /// <item><code>
-  /// [ContractAnnotation("s:null=>false; =>true,result:notnull; =>false, result:null")]
+  /// [ContractAnnotation("=&gt; true, result: notnull; =&gt; false, result: null")]
   /// public bool TryParse(string s, out Person result)
   /// </code></item>
   /// </list></examples>
@@ -216,7 +250,8 @@ namespace Filtration.ObjectModel.Annotations
       ForceFullStates = forceFullStates;
     }
 
-    public string Contract { get; private set; }
+    [NotNull] public string Contract { get; private set; }
+
     public bool ForceFullStates { get; private set; }
   }
 
@@ -225,14 +260,15 @@ namespace Filtration.ObjectModel.Annotations
   /// </summary>
   /// <example><code>
   /// [LocalizationRequiredAttribute(true)]
-  /// public class Foo {
-  ///   private string str = "my string"; // Warning: Localizable string
+  /// class Foo {
+  ///   string str = "my string"; // Warning: Localizable string
   /// }
   /// </code></example>
   [AttributeUsage(AttributeTargets.All)]
   public sealed class LocalizationRequiredAttribute : Attribute
   {
     public LocalizationRequiredAttribute() : this(true) { }
+
     public LocalizationRequiredAttribute(bool required)
     {
       Required = required;
@@ -250,8 +286,9 @@ namespace Filtration.ObjectModel.Annotations
   /// <example><code>
   /// [CannotApplyEqualityOperator]
   /// class NoEquality { }
+  /// 
   /// class UsesNoEquality {
-  ///   public void Test() {
+  ///   void Test() {
   ///     var ca1 = new NoEquality();
   ///     var ca2 = new NoEquality();
   ///     if (ca1 != null) { // OK
@@ -269,9 +306,10 @@ namespace Filtration.ObjectModel.Annotations
   /// </summary>
   /// <example><code>
   /// [BaseTypeRequired(typeof(IComponent)] // Specify requirement
-  /// public class ComponentAttribute : Attribute { }
+  /// class ComponentAttribute : Attribute { }
+  /// 
   /// [Component] // ComponentAttribute requires implementing IComponent interface
-  /// public class MyComponent : IComponent { }
+  /// class MyComponent : IComponent { }
   /// </code></example>
   [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
   [BaseTypeRequired(typeof(Attribute))]
@@ -308,6 +346,7 @@ namespace Filtration.ObjectModel.Annotations
     }
 
     public ImplicitUseKindFlags UseKindFlags { get; private set; }
+
     public ImplicitUseTargetFlags TargetFlags { get; private set; }
   }
 
@@ -334,6 +373,7 @@ namespace Filtration.ObjectModel.Annotations
     }
 
     [UsedImplicitly] public ImplicitUseKindFlags UseKindFlags { get; private set; }
+
     [UsedImplicitly] public ImplicitUseTargetFlags TargetFlags { get; private set; }
   }
 
@@ -377,12 +417,13 @@ namespace Filtration.ObjectModel.Annotations
   public sealed class PublicAPIAttribute : Attribute
   {
     public PublicAPIAttribute() { }
+
     public PublicAPIAttribute([NotNull] string comment)
     {
       Comment = comment;
     }
 
-    public string Comment { get; private set; }
+    [CanBeNull] public string Comment { get; private set; }
   }
 
   /// <summary>
@@ -398,14 +439,50 @@ namespace Filtration.ObjectModel.Annotations
   /// The same as <c>System.Diagnostics.Contracts.PureAttribute</c>.
   /// </summary>
   /// <example><code>
-  /// [Pure] private int Multiply(int x, int y) { return x * y; }
-  /// public void Foo() {
-  ///   const int a = 2, b = 2;
-  ///   Multiply(a, b); // Waring: Return value of pure method is not used
+  /// [Pure] int Multiply(int x, int y) => x * y;
+  /// 
+  /// void M() {
+  ///   Multiply(123, 42); // Waring: Return value of pure method is not used
   /// }
   /// </code></example>
   [AttributeUsage(AttributeTargets.Method)]
   public sealed class PureAttribute : Attribute { }
+
+  /// <summary>
+  /// Indicates that the return value of method invocation must be used.
+  /// </summary>
+  [AttributeUsage(AttributeTargets.Method)]
+  public sealed class MustUseReturnValueAttribute : Attribute
+  {
+    public MustUseReturnValueAttribute() { }
+
+    public MustUseReturnValueAttribute([NotNull] string justification)
+    {
+      Justification = justification;
+    }
+
+    [CanBeNull] public string Justification { get; private set; }
+  }
+
+  /// <summary>
+  /// Indicates the type member or parameter of some type, that should be used instead of all other ways
+  /// to get the value that type. This annotation is useful when you have some "context" value evaluated
+  /// and stored somewhere, meaning that all other ways to get this value must be consolidated with existing one.
+  /// </summary>
+  /// <example><code>
+  /// class Foo {
+  ///   [ProvidesContext] IBarService _barService = ...;
+  /// 
+  ///   void ProcessNode(INode node) {
+  ///     DoSomething(node, node.GetGlobalServices().Bar);
+  ///     //              ^ Warning: use value of '_barService' field
+  ///   }
+  /// }
+  /// </code></example>
+  [AttributeUsage(
+    AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter | AttributeTargets.Method |
+    AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Struct | AttributeTargets.GenericParameter)]
+  public sealed class ProvidesContextAttribute : Attribute { }
 
   /// <summary>
   /// Indicates that a parameter is a path to a file or a folder within a web project.
@@ -415,12 +492,13 @@ namespace Filtration.ObjectModel.Annotations
   public sealed class PathReferenceAttribute : Attribute
   {
     public PathReferenceAttribute() { }
-    public PathReferenceAttribute([PathReference] string basePath)
+
+    public PathReferenceAttribute([NotNull, PathReference] string basePath)
     {
       BasePath = basePath;
     }
 
-    public string BasePath { get; private set; }
+    [CanBeNull] public string BasePath { get; private set; }
   }
 
   /// <summary>
@@ -484,7 +562,7 @@ namespace Filtration.ObjectModel.Annotations
     /// Allows specifying a macro that will be executed for a <see cref="SourceTemplateAttribute">source template</see>
     /// parameter when the template is expanded.
     /// </summary>
-    public string Expression { get; set; }
+    [CanBeNull] public string Expression { get; set; }
 
     /// <summary>
     /// Allows specifying which occurrence of the target parameter becomes editable when the template is deployed.
@@ -500,73 +578,73 @@ namespace Filtration.ObjectModel.Annotations
     /// Identifies the target parameter of a <see cref="SourceTemplateAttribute">source template</see> if the
     /// <see cref="MacroAttribute"/> is applied on a template method.
     /// </summary>
-    public string Target { get; set; }
+    [CanBeNull] public string Target { get; set; }
   }
 
-  [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+  [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
   public sealed class AspMvcAreaMasterLocationFormatAttribute : Attribute
   {
-    public AspMvcAreaMasterLocationFormatAttribute(string format)
+    public AspMvcAreaMasterLocationFormatAttribute([NotNull] string format)
     {
       Format = format;
     }
 
-    public string Format { get; private set; }
+    [NotNull] public string Format { get; private set; }
   }
 
-  [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+  [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
   public sealed class AspMvcAreaPartialViewLocationFormatAttribute : Attribute
   {
-    public AspMvcAreaPartialViewLocationFormatAttribute(string format)
+    public AspMvcAreaPartialViewLocationFormatAttribute([NotNull] string format)
     {
       Format = format;
     }
 
-    public string Format { get; private set; }
+    [NotNull] public string Format { get; private set; }
   }
 
-  [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+  [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
   public sealed class AspMvcAreaViewLocationFormatAttribute : Attribute
   {
-    public AspMvcAreaViewLocationFormatAttribute(string format)
+    public AspMvcAreaViewLocationFormatAttribute([NotNull] string format)
     {
       Format = format;
     }
 
-    public string Format { get; private set; }
+    [NotNull] public string Format { get; private set; }
   }
 
-  [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+  [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
   public sealed class AspMvcMasterLocationFormatAttribute : Attribute
   {
-    public AspMvcMasterLocationFormatAttribute(string format)
+    public AspMvcMasterLocationFormatAttribute([NotNull] string format)
     {
       Format = format;
     }
 
-    public string Format { get; private set; }
+    [NotNull] public string Format { get; private set; }
   }
 
-  [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+  [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
   public sealed class AspMvcPartialViewLocationFormatAttribute : Attribute
   {
-    public AspMvcPartialViewLocationFormatAttribute(string format)
+    public AspMvcPartialViewLocationFormatAttribute([NotNull] string format)
     {
       Format = format;
     }
 
-    public string Format { get; private set; }
+    [NotNull] public string Format { get; private set; }
   }
 
-  [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+  [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
   public sealed class AspMvcViewLocationFormatAttribute : Attribute
   {
-    public AspMvcViewLocationFormatAttribute(string format)
+    public AspMvcViewLocationFormatAttribute([NotNull] string format)
     {
       Format = format;
     }
 
-    public string Format { get; private set; }
+    [NotNull] public string Format { get; private set; }
   }
 
   /// <summary>
@@ -579,12 +657,13 @@ namespace Filtration.ObjectModel.Annotations
   public sealed class AspMvcActionAttribute : Attribute
   {
     public AspMvcActionAttribute() { }
-    public AspMvcActionAttribute(string anonymousProperty)
+
+    public AspMvcActionAttribute([NotNull] string anonymousProperty)
     {
       AnonymousProperty = anonymousProperty;
     }
 
-    public string AnonymousProperty { get; private set; }
+    [CanBeNull] public string AnonymousProperty { get; private set; }
   }
 
   /// <summary>
@@ -596,12 +675,13 @@ namespace Filtration.ObjectModel.Annotations
   public sealed class AspMvcAreaAttribute : Attribute
   {
     public AspMvcAreaAttribute() { }
-    public AspMvcAreaAttribute(string anonymousProperty)
+
+    public AspMvcAreaAttribute([NotNull] string anonymousProperty)
     {
       AnonymousProperty = anonymousProperty;
     }
 
-    public string AnonymousProperty { get; private set; }
+    [CanBeNull] public string AnonymousProperty { get; private set; }
   }
 
   /// <summary>
@@ -614,12 +694,13 @@ namespace Filtration.ObjectModel.Annotations
   public sealed class AspMvcControllerAttribute : Attribute
   {
     public AspMvcControllerAttribute() { }
-    public AspMvcControllerAttribute(string anonymousProperty)
+
+    public AspMvcControllerAttribute([NotNull] string anonymousProperty)
     {
       AnonymousProperty = anonymousProperty;
     }
 
-    public string AnonymousProperty { get; private set; }
+    [CanBeNull] public string AnonymousProperty { get; private set; }
   }
 
   /// <summary>
@@ -649,7 +730,7 @@ namespace Filtration.ObjectModel.Annotations
   /// ASP.NET MVC attribute. Allows disabling inspections for MVC views within a class or a method.
   /// </summary>
   [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-  public sealed class AspMvcSupressViewErrorAttribute : Attribute { }
+  public sealed class AspMvcSuppressViewErrorAttribute : Attribute { }
 
   /// <summary>
   /// ASP.NET MVC attribute. Indicates that a parameter is an MVC display template.
@@ -677,12 +758,26 @@ namespace Filtration.ObjectModel.Annotations
 
   /// <summary>
   /// ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
-  /// is an MVC view. If applied to a method, the MVC view name is calculated implicitly
+  /// is an MVC view component. If applied to a method, the MVC view name is calculated implicitly
   /// from the context. Use this attribute for custom wrappers similar to
   /// <c>System.Web.Mvc.Controller.View(Object)</c>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
   public sealed class AspMvcViewAttribute : Attribute { }
+
+  /// <summary>
+  /// ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
+  /// is an MVC view component name.
+  /// </summary>
+  [AttributeUsage(AttributeTargets.Parameter)]
+  public sealed class AspMvcViewComponentAttribute : Attribute { }
+
+  /// <summary>
+  /// ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
+  /// is an MVC view component view. If applied to a method, the MVC view component view name is default.
+  /// </summary>
+  [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
+  public sealed class AspMvcViewComponentViewAttribute : Attribute { }
 
   /// <summary>
   /// ASP.NET MVC attribute. When applied to a parameter of an attribute,
@@ -702,12 +797,13 @@ namespace Filtration.ObjectModel.Annotations
   public sealed class HtmlElementAttributesAttribute : Attribute
   {
     public HtmlElementAttributesAttribute() { }
-    public HtmlElementAttributesAttribute(string name)
+
+    public HtmlElementAttributesAttribute([NotNull] string name)
     {
       Name = name;
     }
 
-    public string Name { get; private set; }
+    [CanBeNull] public string Name { get; private set; }
   }
 
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Field | AttributeTargets.Property)]
@@ -730,9 +826,10 @@ namespace Filtration.ObjectModel.Annotations
   public sealed class RazorSectionAttribute : Attribute { }
 
   /// <summary>
-  /// Indicates how method invocation affects content of the collection.
+  /// Indicates how method, constructor invocation or property access
+  /// over collection type affects content of the collection.
   /// </summary>
-  [AttributeUsage(AttributeTargets.Method)]
+  [AttributeUsage(AttributeTargets.Method | AttributeTargets.Constructor | AttributeTargets.Property)]
   public sealed class CollectionAccessAttribute : Attribute
   {
     public CollectionAccessAttribute(CollectionAccessType collectionAccessType)
@@ -825,6 +922,16 @@ namespace Filtration.ObjectModel.Annotations
   public sealed class RegexPatternAttribute : Attribute { }
 
   /// <summary>
+  /// Prevents the Member Reordering feature from tossing members of the marked class.
+  /// </summary>
+  /// <remarks>
+  /// The attribute must be mentioned in your member reordering patterns
+  /// </remarks>
+  [AttributeUsage(
+    AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Struct | AttributeTargets.Enum)]
+  public sealed class NoReorderAttribute : Attribute { }
+
+  /// <summary>
   /// XAML attribute. Indicates the type that has <c>ItemsSource</c> property and should be treated
   /// as <c>ItemsControl</c>-derived type, to enable inner items <c>DataContext</c> type resolve.
   /// </summary>
@@ -832,7 +939,7 @@ namespace Filtration.ObjectModel.Annotations
   public sealed class XamlItemsControlAttribute : Attribute { }
 
   /// <summary>
-  /// XAML attibute. Indicates the property of some <c>BindingBase</c>-derived type, that
+  /// XAML attribute. Indicates the property of some <c>BindingBase</c>-derived type, that
   /// is used to bind some item of <c>ItemsControl</c>-derived type. This annotation will
   /// enable the <c>DataContext</c> type resolve for XAML bindings for such properties.
   /// </summary>
@@ -846,14 +953,15 @@ namespace Filtration.ObjectModel.Annotations
   [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
   public sealed class AspChildControlTypeAttribute : Attribute
   {
-    public AspChildControlTypeAttribute(string tagName, Type controlType)
+    public AspChildControlTypeAttribute([NotNull] string tagName, [NotNull] Type controlType)
     {
       TagName = tagName;
       ControlType = controlType;
     }
 
-    public string TagName { get; private set; }
-    public Type ControlType { get; private set; }
+    [NotNull] public string TagName { get; private set; }
+
+    [NotNull] public Type ControlType { get; private set; }
   }
 
   [AttributeUsage(AttributeTargets.Property | AttributeTargets.Method)]
@@ -873,7 +981,7 @@ namespace Filtration.ObjectModel.Annotations
       Attribute = attribute;
     }
 
-    public string Attribute { get; private set; }
+    [NotNull] public string Attribute { get; private set; }
   }
 
   [AttributeUsage(AttributeTargets.Property)]
@@ -890,25 +998,37 @@ namespace Filtration.ObjectModel.Annotations
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class RazorImportNamespaceAttribute : Attribute
   {
-    public RazorImportNamespaceAttribute(string name)
+    public RazorImportNamespaceAttribute([NotNull] string name)
     {
       Name = name;
     }
 
-    public string Name { get; private set; }
+    [NotNull] public string Name { get; private set; }
   }
 
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class RazorInjectionAttribute : Attribute
   {
-    public RazorInjectionAttribute(string type, string fieldName)
+    public RazorInjectionAttribute([NotNull] string type, [NotNull] string fieldName)
     {
       Type = type;
       FieldName = fieldName;
     }
 
-    public string Type { get; private set; }
-    public string FieldName { get; private set; }
+    [NotNull] public string Type { get; private set; }
+
+    [NotNull] public string FieldName { get; private set; }
+  }
+
+  [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+  public sealed class RazorDirectiveAttribute : Attribute
+  {
+    public RazorDirectiveAttribute([NotNull] string directive)
+    {
+      Directive = directive;
+    }
+
+    [NotNull] public string Directive { get; private set; }
   }
 
   [AttributeUsage(AttributeTargets.Method)]
@@ -925,13 +1045,4 @@ namespace Filtration.ObjectModel.Annotations
 
   [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class RazorWriteMethodParameterAttribute : Attribute { }
-
-  /// <summary>
-  /// Prevents the Member Reordering feature from tossing members of the marked class.
-  /// </summary>
-  /// <remarks>
-  /// The attribute must be mentioned in your member reordering patterns
-  /// </remarks>
-  [AttributeUsage(AttributeTargets.All)]
-  public sealed class NoReorder : Attribute { }
 }

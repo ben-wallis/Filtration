@@ -45,6 +45,9 @@
                     <converters:BooleanToBlockActionInverseConverter x:Key="BooleanToBlockActionInverseConverter" />
                     <converters:AvailableThemeComponentsConverter x:Key="AvailableThemeComponentsConverter" />
                 </ResourceDictionary>
+                <ResourceDictionary>
+                    <RoutedCommand x:Key="OpenScriptRoutedCommand" />
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

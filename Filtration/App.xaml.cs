@@ -36,34 +36,18 @@ namespace Filtration
                 .Single();
 
             _container.Kernel.ComponentModelBuilder.RemoveContributor(propInjector);
-            
+
             _container.AddFacility<TypedFactoryFacility>();
             _container.Install(FromAssembly.InThisApplication());
             _container.Install(FromAssembly.Named("Filtration.Parser")); // Not directly referenced so manually call its installers
 
-
-            Mapper.Configuration.ConstructServicesUsing(_container.Resolve);
-
-            Mapper.CreateMap<ItemFilterBlockGroup, ItemFilterBlockGroupViewModel>()
-                .ForMember(destination => destination.ChildGroups, options => options.ResolveUsing(
-                    delegate(ResolutionResult resolutionResult)
-                    {
-                        var context = resolutionResult.Context;
-                        var showAdvanced = (bool) context.Options.Items["showAdvanced"];
-                        var group = (ItemFilterBlockGroup) context.SourceValue;
-                        if (showAdvanced)
-                            return group.ChildGroups;
-                        else
-                            return group.ChildGroups.Where(c => c.Advanced == false);
-                    }))
-                .ForMember(dest => dest.SourceBlockGroup,
-                        opts => opts.MapFrom(from => from))
-                .ForMember(dest => dest.IsExpanded, 
-                        opts => opts.UseValue(false));
-
-            Mapper.CreateMap<Theme, IThemeEditorViewModel>().ConstructUsingServiceLocator();
-            Mapper.CreateMap<ThemeComponent, ThemeComponentViewModel>().ReverseMap();
-            Mapper.CreateMap<IThemeEditorViewModel, Theme>();
+            Mapper.Initialize(cfg =>
+            {
+                cfg.ConstructServicesUsing(_container.Resolve);
+                cfg.CreateMap<Theme, IThemeEditorViewModel>().ConstructUsingServiceLocator();
+                cfg.CreateMap<ThemeComponent, ThemeComponentViewModel>().ReverseMap();
+                cfg.CreateMap<IThemeEditorViewModel, Theme>();
+            });
 
             Mapper.AssertConfigurationIsValid();
 
@@ -73,7 +57,7 @@ namespace Filtration
             var updateCheckService = _container.Resolve<IUpdateCheckService>();
             updateCheckService.CheckForUpdates();
         }
-        
+
         private static void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             Logger.Fatal(e.Exception);

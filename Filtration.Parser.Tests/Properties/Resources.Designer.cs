@@ -92,6 +92,37 @@ namespace Filtration.Parser.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to #Script description
+        ///#Script description
+        ///#Script description
+        ///#Script description
+        ///
+        ///#Comment
+        ///#SomeComment
+        ///
+        ///#Blockdescription
+        ///Show	#Flasks - Endgame - Life/Mana - Divine/Eternal - Q10+ - Normal
+        ///	Class &quot;Life Flasks&quot; &quot;Mana Flasks&quot;
+        ///	Rarity Normal
+        ///	DropLevel &gt;= 60
+        ///	Quality &gt;= 10
+        ///	SetFontSize 28
+        ///	SetTextColor 240 240 240	#Normal Item Highlight
+        ///
+        ///#commentymccommentface
+        ///    
+        ///Show	#Flasks - Endgame - Life/Mana - Divine/Eternal - Q10+ - Normal
+        ///	Class &quot;Life Flasks&quot; &quot;Mana Flasks&quot;
+        ///	Rarity Normal
+        ///	DropL [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string testscript2 {
+            get {
+                return ResourceManager.GetString("testscript2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ###BETA VERSION 1.0.0.1-8
         ///#Please test and let me know via pm on reddit /u/brute_force or @Thiole in game if i am online
         ///

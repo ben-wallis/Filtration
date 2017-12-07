@@ -42,20 +42,18 @@
     <ApplicationIcon>Resources\filtration.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Castle.Windsor">
-      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+    <Reference Include="Castle.Windsor, Version=3.4.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Windsor.3.4.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="ControlzEx, Version=2.1.2.3, Culture=neutral, PublicKeyToken=f08b075e934b7045, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.2.1.2.3\lib\net45\ControlzEx.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="ControlzEx, Version=2.2.0.4, Culture=neutral, PublicKeyToken=f08b075e934b7045, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.2.2.0.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
     <Reference Include="Fluent, Version=4.0.3.394, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
       <HintPath>..\packages\Fluent.Ribbon.4.0.3.394\lib\net45\Fluent.dll</HintPath>
@@ -79,8 +77,7 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.3.7\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\NLog.4.4.9\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -94,8 +91,7 @@
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.2.1.2.3\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\ControlzEx.2.2.0.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -185,19 +181,23 @@
     <Compile Include="UserControls\ThemeComponentSelectionControl.xaml.cs">
       <DependentUpon>ThemeComponentSelectionControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\AutoMapperHelpers.cs" />
-    <Compile Include="Utilities\BlockGroupMapper.cs" />
+    <Compile Include="Utility\RoutedCommandHandler.cs" />
+    <Compile Include="Utility\RoutedCommandHandlers.cs" />
     <Compile Include="ViewModels\AvalonDockWorkspaceViewModel.cs" />
+    <Compile Include="ViewModels\Factories\IItemFilterCommentBlockViewModelFactory.cs" />
+    <Compile Include="ViewModels\Factories\ItemFilterBlockBaseViewModelFactory.cs" />
+    <Compile Include="ViewModels\ItemFilterBlockViewModelBase.cs" />
+    <Compile Include="ViewModels\ItemFilterCommentBlockViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\ToolPanes\BlockGroupBrowserViewModel.cs" />
-    <Compile Include="ViewModels\IItemFilterScriptViewModelFactory.cs" />
-    <Compile Include="ViewModels\IItemFilterBlockViewModelFactory.cs" />
+    <Compile Include="ViewModels\Factories\IItemFilterScriptViewModelFactory.cs" />
+    <Compile Include="ViewModels\Factories\IItemFilterBlockViewModelFactory.cs" />
     <Compile Include="ViewModels\ItemFilterBlockGroupViewModel.cs" />
     <Compile Include="ViewModels\ItemFilterBlockViewModel.cs" />
     <Compile Include="ViewModels\ItemFilterScriptViewModel.cs" />
     <Compile Include="ViewModels\ToolPanes\BlockOutputPreviewViewModel.cs" />
     <Compile Include="ViewModels\ReplaceColorsViewModel.cs" />
-    <Compile Include="ViewModels\ToolPanes\SectionBrowserViewModel.cs" />
+    <Compile Include="ViewModels\ToolPanes\CommentBlockBrowserViewModel.cs" />
     <Compile Include="ViewModels\StartPageViewModel.cs" />
     <Compile Include="ViewModels\ToolPanes\ToolViewModel.cs" />
     <Compile Include="ViewModels\UpdateAvailableViewModel.cs" />
@@ -226,7 +226,6 @@
     <Compile Include="Views\ToolPanes\BlockGroupBrowserView.xaml.cs">
       <DependentUpon>BlockGroupBrowserView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BlockTemplateSelector.cs" />
     <Compile Include="Views\ItemFilterScriptView.xaml.cs">
       <DependentUpon>ItemFilterScriptView.xaml</DependentUpon>
     </Compile>
@@ -236,8 +235,8 @@
     <Compile Include="UserControls\NumericFilterPredicateControl.xaml.cs">
       <DependentUpon>NumericFilterPredicateControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ItemFilterSectionView.xaml.cs">
-      <DependentUpon>ItemFilterSectionView.xaml</DependentUpon>
+    <Compile Include="Views\ItemFilterCommentBlockView.xaml.cs">
+      <DependentUpon>ItemFilterCommentBlockView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
@@ -251,8 +250,8 @@
     <Compile Include="Views\ToolPanes\BlockOutputPreviewView.xaml.cs">
       <DependentUpon>BlockOutputPreviewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ToolPanes\SectionBrowserView.xaml.cs">
-      <DependentUpon>SectionBrowserView.xaml</DependentUpon>
+    <Compile Include="Views\ToolPanes\CommentBlockBrowserView.xaml.cs">
+      <DependentUpon>CommentBlockBrowserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StartPageView.xaml.cs">
       <DependentUpon>StartPageView.xaml</DependentUpon>
@@ -316,7 +315,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ToolPanes\SectionBrowserView.xaml">
+    <Page Include="Views\ToolPanes\CommentBlockBrowserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -328,7 +327,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ItemFilterSectionView.xaml">
+    <Page Include="Views\ItemFilterCommentBlockView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -447,6 +446,8 @@
     <Resource Include="Resources\Icons\ThemeComponentDelete.ico" />
     <Resource Include="Resources\Icons\standby_disabled_icon.png" />
     <Resource Include="Resources\Icons\standby_enabled_icon.png" />
+    <Resource Include="Resources\Icons\redo_icon.png" />
+    <Resource Include="Resources\Icons\undo_icon.png" />
     <Content Include="Resources\ItemBaseTypes.txt" />
     <Content Include="Resources\ItemClasses.txt" />
   </ItemGroup>
@@ -516,9 +517,7 @@
       <Name>Filtration.ThemeEditor</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Translators\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(XamlSpyInstallPath)MSBuild\FirstFloor.XamlSpy.WPF.targets" Condition="'$(XamlSpyInstallPath)' != '' and '$(Configuration)' == 'DEBUG'" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

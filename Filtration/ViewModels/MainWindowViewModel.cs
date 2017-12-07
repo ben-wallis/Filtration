@@ -85,6 +85,11 @@ namespace Filtration.ViewModels
             PasteCommand = new RelayCommand(OnPasteCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
             PasteBlockStyleCommand = new RelayCommand(OnPasteBlockStyleCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
 
+            // TODO: Only enabled if undo/redo available
+            UndoCommand = new RelayCommand(OnUndoCommand, () => ActiveDocumentIsScript);
+            RedoCommand = new RelayCommand(OnRedoCommand, () => ActiveDocumentIsScript);
+
+
             MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
             MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
             MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
@@ -191,6 +196,9 @@ namespace Filtration.ViewModels
         public RelayCommand OpenAboutWindowCommand { get; }
         public RelayCommand ReplaceColorsCommand { get; }
 
+        public RelayCommand UndoCommand { get;}
+        public RelayCommand RedoCommand { get; }
+
         public RelayCommand EditMasterThemeCommand { get; }
         public RelayCommand CreateThemeCommand { get; }
         public RelayCommand ApplyThemeToScriptCommand { get; }
@@ -216,7 +224,7 @@ namespace Filtration.ViewModels
 
         public RelayCommand<bool> ToggleShowAdvancedCommand { get; }
         public RelayCommand ClearFiltersCommand { get; }
-        
+
         public ImageSource Icon { get; private set; }
 
         public IAvalonDockWorkspaceViewModel AvalonDockWorkspaceViewModel => _avalonDockWorkspaceViewModel;
@@ -334,7 +342,7 @@ namespace Filtration.ViewModels
                 return;
             }
 
-            await LoadScriptAsync(filePath);
+            await LoadScriptAsync(filePath); // TODO: fix crash
         }
 
         private async Task LoadScriptAsync(string scriptFilename)
@@ -346,20 +354,19 @@ namespace Filtration.ViewModels
             {
                 loadedViewModel = await _itemFilterScriptRepository.LoadScriptFromFileAsync(scriptFilename);
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                Messenger.Default.Send(new NotificationMessage("HideLoadingBanner"));
-                if (Logger.IsErrorEnabled)
-                {
-                    Logger.Error(e);
-                }
+                Logger.Error(e);
                 _messageBoxService.Show("Script Load Error", "Error loading filter script - " + e.Message,
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 return;
             }
+            finally
+            {
+                Messenger.Default.Send(new NotificationMessage("HideLoadingBanner"));
+            }
 
-            Messenger.Default.Send(new NotificationMessage("HideLoadingBanner"));
             _avalonDockWorkspaceViewModel.AddDocument(loadedViewModel);
         }
 
@@ -382,12 +389,9 @@ namespace Filtration.ViewModels
             {
                 loadedViewModel = await _themeProvider.LoadThemeFromFile(themeFilename);
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                if (Logger.IsErrorEnabled)
-                {
-                    Logger.Error(e);
-                }
+                Logger.Error(e);
                 _messageBoxService.Show("Theme Load Error", "Error loading filter theme - " + e.Message,
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
@@ -523,6 +527,16 @@ namespace Filtration.ViewModels
         private void OnPasteBlockStyleCommand()
         {
             _avalonDockWorkspaceViewModel.ActiveScriptViewModel.PasteBlockStyleCommand.Execute(null);
+        }
+
+        private void OnUndoCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.Script.CommandManager.Undo();
+        }
+
+        private void OnRedoCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.Script.CommandManager.Redo();
         }
 
         private void OnNewScriptCommand()
