@@ -2,15 +2,15 @@
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
-    public class SoundBlockItem : DualIntegerBlockItem
+    public class SoundBlockItem : StrIntBlockItem
     {
         public SoundBlockItem()
         {
-            Value = 1;
+            Value = "1";
             SecondValue = 79;
         }
 
-        public SoundBlockItem(int value, int secondValue) : base(value, secondValue)
+        public SoundBlockItem(string value, int secondValue) : base(value, secondValue)
         {
         }
 

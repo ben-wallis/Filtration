@@ -201,7 +201,8 @@ namespace Filtration.ViewModels
             typeof (BackgroundColorBlockItem),
             typeof (BorderColorBlockItem),
             typeof (FontSizeBlockItem),
-            typeof (SoundBlockItem)
+            typeof (SoundBlockItem),
+            typeof (PositionalSoundBlockItem)
         };
 
         public bool BlockEnabled
@@ -242,7 +243,8 @@ namespace Filtration.ViewModels
         public Color DisplayBorderColor => Block.DisplayBorderColor;
         public double DisplayFontSize => Block.DisplayFontSize/1.8;
         
-        public bool HasSound => Block.HasBlockItemOfType<SoundBlockItem>();
+        public bool HasSound => Block.HasBlockItemOfType<SoundBlockItem>() ||
+            Block.HasBlockItemOfType<PositionalSoundBlockItem>();
         
         public bool HasAudioVisualBlockItems => AudioVisualBlockItems.Any();
 
@@ -350,11 +352,85 @@ namespace Filtration.ViewModels
             return blockCount < blockItem.MaximumAllowed;
         }
 
+        private string ComputeFilePartFromNumber(string identifier)
+        {
+            if (Int32.TryParse(identifier, out int x))
+            {
+                if (x <= 9)
+                {
+                    return "AlertSound_0" + x + ".wav";
+                }
+                else
+                {
+                    return "AlertSound_" + x + ".wav";
+                }
+            }
+
+            return "";
+        }
+
+        private string ComputeFilePartFromID(string identifier)
+        {
+            string filePart;
+            switch (identifier) {
+                case "ShGeneral":
+                    filePart = "SH22General.wav";
+                    break;
+                case "ShBlessed":
+                    filePart = "SH22Blessed.wav";
+                    break;
+                case "SH22Chaos":
+                    filePart = "SH22Chaos.wav";
+                    break;
+                case "ShDivine":
+                    filePart = "SH22Divine.wav";
+                    break;
+                case "ShExalted":
+                    filePart = "SH22Exalted.wav";
+                    break;
+                case "ShMirror":
+                    filePart = "SH22Mirror.wav";
+                    break;
+                case "ShAlchemy":
+                    filePart = "SH22Alchemy.wav";
+                    break;
+                case "ShFusing":
+                    filePart = "SH22Fusing.wav";
+                    break;
+                case "ShRegal":
+                    filePart = "SH22Regal.wav";
+                    break;
+                case "ShVaal":
+                    filePart = "SH22Vaal.wav";
+                    break;
+                default:
+                    filePart = ComputeFilePartFromNumber(identifier);
+                    break;
+            }
+
+            return filePart;
+        }
+
         private void OnPlaySoundCommand()
         {
-            var soundUri = "Resources/AlertSounds/AlertSound" + BlockItems.OfType<SoundBlockItem>().First().Value + ".wav";
-            _mediaPlayer.Open(new Uri(soundUri, UriKind.Relative));
-            _mediaPlayer.Play();
+            var identifier = BlockItems.OfType<SoundBlockItem>().First().Value;
+            var prefix = "Resources/AlertSounds/";
+            var filePart = ComputeFilePartFromID(identifier);
+
+            if (filePart == "")
+            {
+                return;
+            }
+            else
+            {
+                _mediaPlayer.Open(new Uri(prefix + filePart, UriKind.Relative));
+                _mediaPlayer.Play();
+            }
+        }
+
+        private void OnPlayPositionalSoundCommand()
+        {
+            
         }
 
         private void OnBlockItemChanged(object sender, EventArgs e)

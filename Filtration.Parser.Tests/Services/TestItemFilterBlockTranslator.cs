@@ -1432,7 +1432,7 @@ namespace Filtration.Parser.Tests.Services
             var expectedResult = "Show" + Environment.NewLine +
                                  "    PlayAlertSound 2 50";
 
-            _testUtility.TestBlock.BlockItems.Add(new SoundBlockItem(2, 50));
+            _testUtility.TestBlock.BlockItems.Add(new SoundBlockItem("2", 50));
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
@@ -1573,7 +1573,7 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.TestBlock.BlockItems.Add(new BackgroundColorBlockItem(new Color { A = 255, R = 0, G = 0, B = 0 }));
             _testUtility.TestBlock.BlockItems.Add(new BorderColorBlockItem(new Color { A = 255, R = 255, G = 1, B = 254 }));
             _testUtility.TestBlock.BlockItems.Add(new FontSizeBlockItem(50));
-            _testUtility.TestBlock.BlockItems.Add(new SoundBlockItem(6, 90));
+            _testUtility.TestBlock.BlockItems.Add(new SoundBlockItem("6", 90));
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
@@ -1609,7 +1609,7 @@ namespace Filtration.Parser.Tests.Services
             var testInputString = "PlayAlertSound 7 280";
 
             var testInputBlockItems = new ObservableCollection<IItemFilterBlockItem>();
-            var testInputBlockItem = new SoundBlockItem(12,30);
+            var testInputBlockItem = new SoundBlockItem("12",30);
             testInputBlockItems.Add(testInputBlockItem);
 
             // Act
@@ -1676,7 +1676,7 @@ namespace Filtration.Parser.Tests.Services
             var testInputTextColorBlockItem = new TextColorBlockItem(Colors.Red);
             var testInputBackgroundColorBlockItem = new BackgroundColorBlockItem(Colors.Blue);
             var testInputBorderColorBlockItem = new BorderColorBlockItem(Colors.Yellow);
-            var testInputSoundBlockItem = new SoundBlockItem(1, 1);
+            var testInputSoundBlockItem = new SoundBlockItem("1", 1);
 
             testInputBlockItems.Add(testInputTextColorBlockItem);
             testInputBlockItems.Add(testInputBackgroundColorBlockItem);

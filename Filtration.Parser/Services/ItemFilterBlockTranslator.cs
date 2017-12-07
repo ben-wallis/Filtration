@@ -217,35 +217,34 @@ namespace Filtration.Parser.Services
                         break;
                     }
                     case "PlayAlertSound":
+                    case "PlayAlertSoundPositional":
                     {
                         // Only ever use the last PlayAlertSound item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<SoundBlockItem>(block);
+                        RemoveExistingBlockItemsOfType<PositionalSoundBlockItem>(block);
 
-                        var matches = Regex.Matches(trimmedLine, @"\s+(\d+)");
-                        switch (matches.Count)
+                        var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)\s+(\d+)?");
+
+                        if (match.Success)
                         {
-                            case 1:
-                                if (matches[0].Success)
+                            if (match.Groups.Count == 2)
+                            {
+                                var blockItemValue = new SoundBlockItem
                                 {
-                                    var blockItemValue = new SoundBlockItem
-                                    {
-                                        Value = Convert.ToInt16(matches[0].Value),
-                                        SecondValue = 79
-                                    };
-                                    block.BlockItems.Add(blockItemValue);
-                                }
-                                break;
-                            case 2:
-                                if (matches[0].Success && matches[1].Success)
+                                    Value = match.Groups[1].Value,
+                                    SecondValue = 79
+                                };
+                                block.BlockItems.Add(blockItemValue);
+                            }
+                            else if(match.Groups.Count == 3)
+                            {
+                                var blockItemValue = new SoundBlockItem
                                 {
-                                    var blockItemValue = new SoundBlockItem
-                                    {
-                                        Value = Convert.ToInt16(matches[0].Value),
-                                        SecondValue = Convert.ToInt16(matches[1].Value)
-                                    };
-                                    block.BlockItems.Add(blockItemValue);
-                                }
-                                break;
+                                    Value = match.Groups[1].Value,
+                                    SecondValue = Int16.Parse(match.Groups[2].Value)
+                                };
+                                block.BlockItems.Add(blockItemValue);
+                            }
                         }
                         break;
                     }
@@ -373,9 +372,9 @@ namespace Filtration.Parser.Services
                 {
                     case "PlayAlertSound":
                     {
-                        var match = Regex.Match(line, @"\s+(\d+) (\d+)");
+                        var match = Regex.Match(line, @"\s+(\S+) (\d+)");
                         if (!match.Success) break;
-                        blockItems.Add(new SoundBlockItem(Convert.ToInt16(match.Groups[1].Value), Convert.ToInt16(match.Groups[2].Value)));
+                        blockItems.Add(new SoundBlockItem(match.Groups[1].Value, Convert.ToInt16(match.Groups[2].Value)));
                         break;
                     }
                     case "SetTextColor":

@@ -47,6 +47,7 @@
     <Compile Include="BlockItemBaseTypes\BooleanBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\ColorBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\DualIntegerBlockItem.cs" />
+    <Compile Include="BlockItemBaseTypes\StringIntBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\IntegerBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\NumericFilterPredicateBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\StringListBlockItem.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="BlockItemTypes\RarityBlockItem.cs" />
     <Compile Include="BlockItemTypes\SocketGroupBlockItem.cs" />
     <Compile Include="BlockItemTypes\SocketsBlockItem.cs" />
+    <Compile Include="BlockItemTypes\PositionalSoundBlockItem.cs" />
     <Compile Include="BlockItemTypes\SoundBlockItem.cs" />
     <Compile Include="BlockItemTypes\TextColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\WidthBlockItem.cs" />

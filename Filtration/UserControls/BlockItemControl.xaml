@@ -13,11 +13,11 @@
              xmlns:views="clr-namespace:Filtration.Views"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=userControls:BlockItemControl}"
-             d:DesignHeight="200" d:DesignWidth="160">
+             d:DesignHeight="200" d:DesignWidth="190">
     <UserControl.Resources>
         <commonConverters:BooleanInverterConverter x:Key="BooleanInverterConverter"></commonConverters:BooleanInverterConverter>
     </UserControl.Resources>
-    <Border Style="{StaticResource BlockItemBorder}" Width="150">
+    <Border Style="{StaticResource BlockItemBorder}" Width="180">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
