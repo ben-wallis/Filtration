@@ -1,4 +1,5 @@
-﻿Active Skill Gems
+Abyss Jewel
+Active Skill Gems
 Amulets
 Belts
 Body Armours
@@ -18,14 +19,18 @@ Labyrinth Item
 Labyrinth Map Item
 Labyrinth Trinket
 Large Relics
+Leaguestone
 Life Flasks
 Mana Flasks
 Map Fragments
 Maps
 Medium Relics
+Misc Map Items
 One Hand Axes
 One Hand Maces
 One Hand Swords
+Pantheon Soul
+Piece
 Quest Items
 Quivers
 Rings
