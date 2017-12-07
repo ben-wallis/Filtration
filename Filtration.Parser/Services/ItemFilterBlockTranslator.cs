@@ -224,24 +224,42 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<PositionalSoundBlockItem>(block);
 
                         var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)\s+(\d+)?");
-
+                        
                         if (match.Success)
                         {
+                            string firstValue;
+                            int secondValue;
+
                             if (match.Groups.Count == 2)
+                            {
+                                firstValue = match.Groups[1].Value;
+                                secondValue = 79;
+                            }
+                            else if (match.Groups.Count == 3)
+                            {
+                                firstValue = match.Groups[1].Value;
+                                secondValue = Convert.ToInt16(match.Groups[2].Value);
+                            }
+                            else
+                            {
+                                break;
+                            }
+
+                            if (lineOption == "PlayAlertSound")
                             {
                                 var blockItemValue = new SoundBlockItem
                                 {
-                                    Value = match.Groups[1].Value,
-                                    SecondValue = 79
+                                    Value = firstValue,
+                                    SecondValue = secondValue
                                 };
                                 block.BlockItems.Add(blockItemValue);
                             }
-                            else if(match.Groups.Count == 3)
+                            else
                             {
-                                var blockItemValue = new SoundBlockItem
+                                var blockItemValue = new PositionalSoundBlockItem
                                 {
-                                    Value = match.Groups[1].Value,
-                                    SecondValue = Int16.Parse(match.Groups[2].Value)
+                                    Value = firstValue,
+                                    SecondValue = secondValue
                                 };
                                 block.BlockItems.Add(blockItemValue);
                             }

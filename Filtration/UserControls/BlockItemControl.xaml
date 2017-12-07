@@ -115,6 +115,17 @@
                             <xctk:ShortUpDown Value="{Binding Path=SecondValue}" Minimum="1" Maximum="300" HorizontalAlignment="Right" ToolTip="Volume"/>
                         </WrapPanel>
                     </DataTemplate>
+                    
+                    <!-- Positional Sound Template -->
+                    <DataTemplate DataType="{x:Type blockItemTypes:PositionalSoundBlockItem}">
+                        <WrapPanel HorizontalAlignment="Left">
+                            <Button Command="{Binding Path=DataContext.PlayPositionalSoundCommand, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterBlockView}}}" Width="20" Height="20" Background="Transparent" BorderBrush="Transparent">
+                                <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Button>
+                            <ComboBox ItemsSource="{Binding ElementName=BlockItemContentControl, Path=DataContext.SoundsAvailable}" SelectedValue="{Binding Value}" Style="{StaticResource MetroComboBox}" />
+                            <xctk:ShortUpDown Value="{Binding Path=SecondValue}" Minimum="1" Maximum="300" HorizontalAlignment="Right" ToolTip="Volume"/>
+                        </WrapPanel>
+                    </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>
         </Grid>

@@ -62,6 +62,7 @@ namespace Filtration.ViewModels
             RemoveFilterBlockItemCommand = new RelayCommand<IItemFilterBlockItem>(OnRemoveFilterBlockItemCommand);
             SwitchBlockItemsViewCommand = new RelayCommand(OnSwitchBlockItemsViewCommand);
             PlaySoundCommand = new RelayCommand(OnPlaySoundCommand, () => HasSound);
+            PlayPositionalSoundCommand = new RelayCommand(OnPlayPositionalSoundCommand, () => HasPositionalSound);
         }
 
         public event EventHandler BlockBecameDirty;
@@ -100,6 +101,7 @@ namespace Filtration.ViewModels
         public RelayCommand<Type> AddFilterBlockItemCommand { get; private set; }
         public RelayCommand<IItemFilterBlockItem> RemoveFilterBlockItemCommand { get; private set; }
         public RelayCommand PlaySoundCommand { get; private set; }
+        public RelayCommand PlayPositionalSoundCommand { get; private set; }
         public RelayCommand SwitchBlockItemsViewCommand { get; private set; }
 
         public IItemFilterBlock Block { get; private set; }
@@ -243,9 +245,9 @@ namespace Filtration.ViewModels
         public Color DisplayBorderColor => Block.DisplayBorderColor;
         public double DisplayFontSize => Block.DisplayFontSize/1.8;
         
-        public bool HasSound => Block.HasBlockItemOfType<SoundBlockItem>() ||
-            Block.HasBlockItemOfType<PositionalSoundBlockItem>();
-        
+        public bool HasSound => Block.HasBlockItemOfType<SoundBlockItem>();
+        public bool HasPositionalSound => Block.HasBlockItemOfType<PositionalSoundBlockItem>();
+
         public bool HasAudioVisualBlockItems => AudioVisualBlockItems.Any();
 
         private void OnSwitchBlockItemsViewCommand()
@@ -430,7 +432,19 @@ namespace Filtration.ViewModels
 
         private void OnPlayPositionalSoundCommand()
         {
-            
+            var identifier = BlockItems.OfType<PositionalSoundBlockItem>().First().Value;
+            var prefix = "Resources/AlertSounds/";
+            var filePart = ComputeFilePartFromID(identifier);
+
+            if (filePart == "")
+            {
+                return;
+            }
+            else
+            {
+                _mediaPlayer.Open(new Uri(prefix + filePart, UriKind.Relative));
+                _mediaPlayer.Play();
+            }
         }
 
         private void OnBlockItemChanged(object sender, EventArgs e)
