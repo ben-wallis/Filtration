@@ -30,9 +30,9 @@ namespace Filtration.Parser.Services
         }
 
         // Converts a string into an ItemFilterCommentBlock maintaining newlines and spaces but removing # characters
-        public IItemFilterCommentBlock TranslateStringToItemFilterCommentBlock(string inputString)
+        public IItemFilterCommentBlock TranslateStringToItemFilterCommentBlock(string inputString, IItemFilterScript parentItemFilterScript)
         {
-            var itemFilterCommentBlock = new ItemFilterCommentBlock();
+            var itemFilterCommentBlock = new ItemFilterCommentBlock(parentItemFilterScript);
 
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
@@ -47,10 +47,15 @@ namespace Filtration.Parser.Services
 
         // This method converts a string into a ItemFilterBlock. This is used for pasting ItemFilterBlocks 
         // and reading ItemFilterScripts from a file.
-        public IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScriptSettings itemFilterScriptSettings)
+        public IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScript parentItemFilterScript, bool initialiseBlockGroupHierarchyBuilder = false)
         {
-            _masterComponentCollection = itemFilterScriptSettings.ThemeComponentCollection;
-            var block = new ItemFilterBlock();
+            if (initialiseBlockGroupHierarchyBuilder)
+            {
+                _blockGroupHierarchyBuilder.Initialise(parentItemFilterScript.ItemFilterBlockGroups.First());
+            }
+
+            _masterComponentCollection = parentItemFilterScript.ItemFilterScriptSettings.ThemeComponentCollection;
+            var block = new ItemFilterBlock(parentItemFilterScript);
             var showHideFound = false;
 
             foreach (var line in new LineReader(() => new StringReader(inputString)))
@@ -78,7 +83,7 @@ namespace Filtration.Parser.Services
 
                         // If block groups are enabled for this script, the comment after Show/Hide is parsed as a block
                         // group hierarchy, if block groups are disabled it is preserved as a simple text comment.
-                        if (itemFilterScriptSettings.BlockGroupsEnabled)
+                        if (parentItemFilterScript.ItemFilterScriptSettings.BlockGroupsEnabled)
                         {
                             AddBlockGroupToBlock(block, trimmedLine);
                         }

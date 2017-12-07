@@ -5,10 +5,11 @@ namespace Filtration.Parser.Interface.Services
 {
     public interface IItemFilterBlockTranslator
     {
-        IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScriptSettings itemFilterScriptSettings);
+        IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScript parentItemFilterScript, bool initialiseBlockGroupHierarchyBuilder = false);
+        IItemFilterCommentBlock TranslateStringToItemFilterCommentBlock(string inputString, IItemFilterScript parentItemFilterScript);
+
         string TranslateItemFilterBlockToString(IItemFilterBlock block);
         void ReplaceAudioVisualBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString);
-        IItemFilterCommentBlock TranslateStringToItemFilterCommentBlock(string inputString);
         string TranslateItemFilterCommentBlockToString(IItemFilterCommentBlock itemFilterCommentBlock);
         string TranslateItemFilterBlockBaseToString(IItemFilterBlockBase itemFilterBlockBase);
     }

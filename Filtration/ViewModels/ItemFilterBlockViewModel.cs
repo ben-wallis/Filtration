@@ -9,7 +9,6 @@ using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.Services;
 using Filtration.Views;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Xceed.Wpf.Toolkit;
 
@@ -17,7 +16,6 @@ namespace Filtration.ViewModels
 {
     internal interface IItemFilterBlockViewModel : IItemFilterBlockViewModelBase
     {
-        void Initialise(IItemFilterBlock itemFilterBlock, ItemFilterScriptViewModel parentScriptViewModel);
         bool IsExpanded { get; set; }
         IItemFilterBlock Block { get; }
         bool BlockEnabled { get; set; }
@@ -25,72 +23,12 @@ namespace Filtration.ViewModels
         void RefreshBlockPreview();
     }
 
-    internal interface IItemFilterBlockViewModelBase
-    {
-        IItemFilterBlockBase BaseBlock { get; }
-        bool IsDirty { get; set; }
-        event EventHandler BlockBecameDirty;
-    }
-
-    internal abstract class ItemFilterBlockViewModelBase : ViewModelBase, IItemFilterBlockViewModelBase
-    {
-        private bool _isDirty;
-
-        protected void Initialise(IItemFilterBlockBase itemfilterBlock)
-        {
-            BaseBlock = itemfilterBlock;
-        }
-
-
-        public event EventHandler BlockBecameDirty;
-
-        public IItemFilterBlockBase BaseBlock { get; protected set; }
-        
-        public bool IsDirty
-        {
-            get => _isDirty;
-            set
-            {
-                if (value != _isDirty)
-                {
-                    _isDirty = value;
-                    RaisePropertyChanged();
-                    BlockBecameDirty?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
-    }
-
-    internal interface IItemFilterCommentBlockViewModel : IItemFilterBlockViewModelBase
-    {
-        void Initialise(IItemFilterCommentBlock itemFilterCommentBlock);
-        IItemFilterCommentBlock ItemFilterCommentBlock { get; }
-        string Comment { get; }
-    }
-
-    internal class ItemFilterCommentBlockViewModel : ItemFilterBlockViewModelBase, IItemFilterCommentBlockViewModel
-    {
-        public ItemFilterCommentBlockViewModel()
-        {
-        }
-
-        public void Initialise(IItemFilterCommentBlock itemFilterCommentBlock)
-        {
-            ItemFilterCommentBlock = itemFilterCommentBlock;
-            BaseBlock = itemFilterCommentBlock;
-        }
-
-        public IItemFilterCommentBlock ItemFilterCommentBlock { get; private set; }
-
-        public string Comment => ItemFilterCommentBlock.Comment;
-    }
-
     internal class ItemFilterBlockViewModel : ItemFilterBlockViewModelBase, IItemFilterBlockViewModel
     {
         private readonly IStaticDataService _staticDataService;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
-        private ItemFilterScriptViewModel _parentScriptViewModel;
+        private IItemFilterScriptViewModel _parentScriptViewModel;
 
         private bool _displaySettingsPopupOpen;
         private bool _isExpanded;
@@ -120,8 +58,9 @@ namespace Filtration.ViewModels
             PlaySoundCommand = new RelayCommand(OnPlaySoundCommand, () => HasSound);
         }
 
-        public void Initialise(IItemFilterBlock itemFilterBlock, ItemFilterScriptViewModel parentScriptViewModel)
+        public override void Initialise(IItemFilterBlockBase itemFilterBlockBase, IItemFilterScriptViewModel parentScriptViewModel)
         {
+            var itemFilterBlock = itemFilterBlockBase as IItemFilterBlock;
             if (itemFilterBlock == null || parentScriptViewModel == null)
             {
                 throw new ArgumentNullException(nameof(itemFilterBlock));
@@ -139,7 +78,7 @@ namespace Filtration.ViewModels
             }
 
 
-            base.Initialise(itemFilterBlock);
+            base.Initialise(itemFilterBlock, parentScriptViewModel);
         }
 
         public RelayCommand CopyBlockCommand { get; }
@@ -350,7 +289,7 @@ namespace Filtration.ViewModels
 
         private void OnAddSectionCommand()
         {
-            _parentScriptViewModel.AddSection(this);
+            _parentScriptViewModel.AddCommentBlock(this);
         }
 
         private void OnDeleteBlockCommand()

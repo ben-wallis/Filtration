@@ -3,6 +3,7 @@ using Filtration.ObjectModel;
 using Filtration.ObjectModel.Factories;
 using Filtration.Services;
 using Filtration.ViewModels;
+using Filtration.ViewModels.Factories;
 
 namespace Filtration.Repositories
 {

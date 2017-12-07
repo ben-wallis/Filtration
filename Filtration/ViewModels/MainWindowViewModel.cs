@@ -85,6 +85,11 @@ namespace Filtration.ViewModels
             PasteCommand = new RelayCommand(OnPasteCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
             PasteBlockStyleCommand = new RelayCommand(OnPasteBlockStyleCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
 
+            // TODO: Only enabled if undo/redo available
+            UndoCommand = new RelayCommand(OnUndoCommand, () => ActiveDocumentIsScript);
+            RedoCommand = new RelayCommand(OnRedoCommand, () => ActiveDocumentIsScript);
+
+
             MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
             MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
             MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
@@ -158,9 +163,7 @@ namespace Filtration.ViewModels
                     }
                     case "OpenScript":
                     {
-#pragma warning disable 4014
-                        Task.Run(OnOpenScriptCommand).GetAwaiter().GetResult();
-#pragma warning restore 4014
+                        OnOpenScriptCommand();
                         break;
                     }
                     case "ShowLoadingBanner":
@@ -190,6 +193,9 @@ namespace Filtration.ViewModels
         public RelayCommand CloseCommand { get; }
         public RelayCommand OpenAboutWindowCommand { get; }
         public RelayCommand ReplaceColorsCommand { get; }
+
+        public RelayCommand UndoCommand { get;}
+        public RelayCommand RedoCommand { get; }
 
         public RelayCommand EditMasterThemeCommand { get; }
         public RelayCommand CreateThemeCommand { get; }
@@ -519,6 +525,16 @@ namespace Filtration.ViewModels
         private void OnPasteBlockStyleCommand()
         {
             _avalonDockWorkspaceViewModel.ActiveScriptViewModel.PasteBlockStyleCommand.Execute(null);
+        }
+
+        private void OnUndoCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.Script.CommandManager.Undo();
+        }
+
+        private void OnRedoCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.Script.CommandManager.Redo();
         }
 
         private void OnNewScriptCommand()

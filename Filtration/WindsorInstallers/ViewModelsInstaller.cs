@@ -3,6 +3,7 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Filtration.ViewModels;
+using Filtration.ViewModels.Factories;
 using Filtration.ViewModels.ToolPanes;
 
 namespace Filtration.WindsorInstallers
@@ -79,6 +80,11 @@ namespace Filtration.WindsorInstallers
 
             container.Register(
                 Component.For<IItemFilterScriptViewModelFactory>().AsFactory());
+            
+            container.Register(
+                Component.For<IItemFilterBlockBaseViewModelFactory>()
+                    .ImplementedBy<ItemFilterBlockBaseViewModelFactory>()
+                    .LifeStyle.Singleton);
         }
     }
 }

@@ -184,11 +184,14 @@
     <Compile Include="Utility\RoutedCommandHandler.cs" />
     <Compile Include="Utility\RoutedCommandHandlers.cs" />
     <Compile Include="ViewModels\AvalonDockWorkspaceViewModel.cs" />
-    <Compile Include="ViewModels\IItemFilterCommentBlockViewModelFactory.cs" />
+    <Compile Include="ViewModels\Factories\IItemFilterCommentBlockViewModelFactory.cs" />
+    <Compile Include="ViewModels\Factories\ItemFilterBlockBaseViewModelFactory.cs" />
+    <Compile Include="ViewModels\ItemFilterBlockViewModelBase.cs" />
+    <Compile Include="ViewModels\ItemFilterCommentBlockViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\ToolPanes\BlockGroupBrowserViewModel.cs" />
-    <Compile Include="ViewModels\IItemFilterScriptViewModelFactory.cs" />
-    <Compile Include="ViewModels\IItemFilterBlockViewModelFactory.cs" />
+    <Compile Include="ViewModels\Factories\IItemFilterScriptViewModelFactory.cs" />
+    <Compile Include="ViewModels\Factories\IItemFilterBlockViewModelFactory.cs" />
     <Compile Include="ViewModels\ItemFilterBlockGroupViewModel.cs" />
     <Compile Include="ViewModels\ItemFilterBlockViewModel.cs" />
     <Compile Include="ViewModels\ItemFilterScriptViewModel.cs" />
@@ -443,6 +446,8 @@
     <Resource Include="Resources\Icons\ThemeComponentDelete.ico" />
     <Resource Include="Resources\Icons\standby_disabled_icon.png" />
     <Resource Include="Resources\Icons\standby_enabled_icon.png" />
+    <Resource Include="Resources\Icons\redo_icon.png" />
+    <Resource Include="Resources\Icons\undo_icon.png" />
     <Content Include="Resources\ItemBaseTypes.txt" />
     <Content Include="Resources\ItemClasses.txt" />
   </ItemGroup>

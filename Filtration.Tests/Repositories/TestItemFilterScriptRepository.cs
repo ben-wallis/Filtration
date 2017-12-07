@@ -6,6 +6,7 @@ using Filtration.ObjectModel.Factories;
 using Filtration.Repositories;
 using Filtration.Services;
 using Filtration.ViewModels;
+using Filtration.ViewModels.Factories;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;

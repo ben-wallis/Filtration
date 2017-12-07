@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -15,8 +16,11 @@ using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.Commands;
+using Filtration.ObjectModel.Commands.ItemFilterScript;
 using Filtration.Parser.Interface.Services;
 using Filtration.Services;
+using Filtration.ViewModels.Factories;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using NLog;
@@ -59,21 +63,25 @@ namespace Filtration.ViewModels
         RelayCommand<bool> ToggleShowAdvancedCommand { get; }
         RelayCommand ClearFilterCommand { get; }
 
-        void AddSection(IItemFilterBlockViewModelBase targetBlockViewModel);
+        void AddCommentBlock(IItemFilterBlockViewModelBase targetBlockViewModel);
         void AddBlock(IItemFilterBlockViewModelBase targetBlockViewModel);
         void CopyBlock(IItemFilterBlockViewModelBase targetBlockViewModel);
         void CopyBlockStyle(IItemFilterBlockViewModel targetBlockViewModel);
         void PasteBlock(IItemFilterBlockViewModelBase targetBlockViewModel);
         void PasteBlockStyle(IItemFilterBlockViewModel targetBlockViewModel);
+        void DeleteBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase);
+        void MoveBlockToTop(IItemFilterBlockViewModelBase targetBlockViewModelBase);
+        void MoveBlockUp(IItemFilterBlockViewModelBase targetBlockViewModelBase);
+        void MoveBlockDown(IItemFilterBlockViewModelBase targetBlockViewModelBase);
+        void MoveBlockToBottom(IItemFilterBlockViewModelBase targetBlockViewModelBase);
     }
 
     internal class ItemFilterScriptViewModel : PaneViewModel, IItemFilterScriptViewModel
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        private readonly IItemFilterBlockViewModelFactory _itemFilterBlockViewModelFactory;
+        private readonly IItemFilterBlockBaseViewModelFactory _itemFilterBlockBaseViewModelFactory;
         private readonly IItemFilterBlockTranslator _blockTranslator;
-        private readonly IItemFilterCommentBlockViewModelFactory _itemFilterCommentBlockViewModelFactory;
         private readonly IAvalonDockWorkspaceViewModel _avalonDockWorkspaceViewModel;
         private readonly IItemFilterPersistenceService _persistenceService;
         private readonly IMessageBoxService _messageBoxService;
@@ -86,19 +94,18 @@ namespace Filtration.ViewModels
         private readonly ObservableCollection<IItemFilterBlockViewModelBase> _itemFilterBlockViewModels;
         private ICollectionView _itemFilterBlockViewModelsCollectionView;
         private Predicate<IItemFilterBlockViewModel> _blockFilterPredicate;
+        private ICommandManager _scriptCommandManager;
 
-        public ItemFilterScriptViewModel(IItemFilterBlockViewModelFactory itemFilterBlockViewModelFactory,
+        public ItemFilterScriptViewModel(IItemFilterBlockBaseViewModelFactory itemFilterBlockBaseViewModelFactory,
                                          IItemFilterBlockTranslator blockTranslator,
-                                         IItemFilterCommentBlockViewModelFactory itemFilterCommentBlockViewModelFactory,
                                          IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
                                          IItemFilterPersistenceService persistenceService,
                                          IMessageBoxService messageBoxService,
                                          IClipboardService clipboardService,
                                          IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder)
         {
-            _itemFilterBlockViewModelFactory = itemFilterBlockViewModelFactory;
+            _itemFilterBlockBaseViewModelFactory = itemFilterBlockBaseViewModelFactory;
             _blockTranslator = blockTranslator;
-            _itemFilterCommentBlockViewModelFactory = itemFilterCommentBlockViewModelFactory;
             _avalonDockWorkspaceViewModel = avalonDockWorkspaceViewModel;
             _avalonDockWorkspaceViewModel.ActiveDocumentChanged += OnActiveDocumentChanged;
             _persistenceService = persistenceService;
@@ -116,12 +123,12 @@ namespace Filtration.ViewModels
             ClearFilterCommand = new RelayCommand(OnClearFilterCommand, () => BlockFilterPredicate != null);
             CloseCommand = new RelayCommand(async () => await OnCloseCommand());
             DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => SelectedBlockViewModel != null);
-            MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand, () => SelectedBlockViewModel != null);
-            MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand, () => SelectedBlockViewModel != null);
-            MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand, () => SelectedBlockViewModel != null);
-            MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand, () => SelectedBlockViewModel != null);
+            MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand, () => SelectedBlockViewModel != null && ItemFilterBlockViewModels.IndexOf(SelectedBlockViewModel) > 0);
+            MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand, () => SelectedBlockViewModel != null && ItemFilterBlockViewModels.IndexOf(SelectedBlockViewModel) > 0);
+            MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand, () => SelectedBlockViewModel != null && ItemFilterBlockViewModels.IndexOf(SelectedBlockViewModel) < ItemFilterBlockViewModels.Count);
+            MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand, () => SelectedBlockViewModel != null && ItemFilterBlockViewModels.IndexOf(SelectedBlockViewModel) < ItemFilterBlockViewModels.Count);
             AddBlockCommand = new RelayCommand(OnAddBlockCommand);
-            AddSectionCommand = new RelayCommand(OnAddSectionCommand, () => SelectedBlockViewModel != null);
+            AddSectionCommand = new RelayCommand(OnAddCommentBlockCommand, () => SelectedBlockViewModel != null);
             DisableBlockCommand = new RelayCommand(OnDisableBlockCommand, HasSelectedEnabledBlock);
             EnableBlockCommand = new RelayCommand(OnEnableBlockCommand, HasSelectedDisabledBlock);
             CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => SelectedBlockViewModel != null);
@@ -136,6 +143,94 @@ namespace Filtration.ViewModels
             icon.UriSource = new Uri("pack://application:,,,/Filtration;component/Resources/Icons/script_icon.png");
             icon.EndInit();
             IconSource = icon;
+        }
+
+        public void Initialise(IItemFilterScript itemFilterScript, bool newScript)
+        {
+            ItemFilterBlockViewModels.Clear();
+
+            Script = itemFilterScript;
+            _scriptCommandManager = Script.CommandManager;
+            AddItemFilterBlockViewModels(Script.ItemFilterBlocks, -1);
+            
+            Script.ItemFilterBlocks.CollectionChanged += ItemFilterBlocksOnCollectionChanged;
+
+            _filenameIsFake = newScript;
+
+            if (newScript)
+            {
+                Script.FilePath = "Untitled.filter";
+            }
+            
+            Title = Filename;
+            ContentId = "ScriptContentId";
+        }
+
+        private void ItemFilterBlocksOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+        {
+            switch (notifyCollectionChangedEventArgs.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                {
+                    AddItemFilterBlockViewModels(notifyCollectionChangedEventArgs.NewItems.Cast<IItemFilterBlockBase>(), notifyCollectionChangedEventArgs.NewStartingIndex);
+                    break;
+                }
+                case NotifyCollectionChangedAction.Remove:
+                {
+                    RemoveItemFilterBlockviewModels(notifyCollectionChangedEventArgs.OldItems.Cast<IItemFilterBlockBase>());
+                    break;
+                }
+                default:
+                {
+                    Debugger.Break(); // Unhandled NotifyCollectionChangedAction
+                    break;
+                }
+            }
+        }
+
+        private void AddItemFilterBlockViewModels(IEnumerable<IItemFilterBlockBase> itemFilterBlocks, int addAtIndex)
+        {
+            var firstNewViewModel = true;
+
+            foreach (var itemFilterBlock in itemFilterBlocks)
+            {
+                var vm = _itemFilterBlockBaseViewModelFactory.Create(itemFilterBlock);
+                vm.Initialise(itemFilterBlock, this);
+                vm.BlockBecameDirty += OnBlockBecameDirty;
+
+                if (addAtIndex == -1)
+                {
+                    ItemFilterBlockViewModels.Add(vm);
+                }
+                else
+                {
+                    ItemFilterBlockViewModels.Insert(addAtIndex, vm);
+                }
+
+                if (firstNewViewModel)
+                {
+                    SelectedBlockViewModel = vm;
+                    firstNewViewModel = false;
+                }
+            }
+        }
+
+        private void RemoveItemFilterBlockviewModels(IEnumerable<IItemFilterBlockBase> itemFilterBlocks)
+        {
+            foreach (var itemFilterBlock in itemFilterBlocks)
+            {
+                var itemFilterBlockViewModel = ItemFilterBlockViewModels.FirstOrDefault(f => f.BaseBlock == itemFilterBlock);
+                if (itemFilterBlockViewModel == null)
+                {
+                    throw new InvalidOperationException("Item Filter Block removed from model but does not exist in view model!");
+                }
+
+                ItemFilterBlockViewModels.Remove(itemFilterBlockViewModel);
+                if (SelectedBlockViewModel == itemFilterBlockViewModel)
+                {
+                    SelectedBlockViewModel = null;
+                }
+            }
         }
 
         public RelayCommand<bool> ToggleShowAdvancedCommand { get; }
@@ -229,12 +324,7 @@ namespace Filtration.ViewModels
         public string Description
         {
             get => Script.Description;
-            set
-            {
-                Script.Description = value;
-                IsDirty = true;
-                RaisePropertyChanged();
-            }
+            set => _scriptCommandManager.ExecuteCommand(new SetScriptDescriptionCommand(Script, value));
         }
 
         public bool ShowAdvanced
@@ -340,54 +430,7 @@ namespace Filtration.ViewModels
 
         private bool _filenameIsFake;
         private bool _showAdvanced;
-
-        public void Initialise(IItemFilterScript itemFilterScript, bool newScript)
-        {
-            ItemFilterBlockViewModels.Clear();
-
-            Script = itemFilterScript;
-
-            foreach (var block in Script.ItemFilterBlocks)
-            {
-                var itemFilterBlock = block as IItemFilterBlock;
-                if (itemFilterBlock != null)
-                {
-                    var itemFilterBlockViewModel = _itemFilterBlockViewModelFactory.Create();
-                    itemFilterBlockViewModel.Initialise(itemFilterBlock, this);
-                    itemFilterBlockViewModel.BlockBecameDirty += OnBlockBecameDirty;
-                    ItemFilterBlockViewModels.Add(itemFilterBlockViewModel);
-                    continue;
-                }
-
-                var itemFilterCommentBlock = block as IItemFilterCommentBlock;
-                if (itemFilterCommentBlock == null)
-                {
-                    throw new InvalidOperationException("Unknown item filter block type");
-                }
-
-
-                var itemFilterCommentBlockViewModel = _itemFilterCommentBlockViewModelFactory.Create();
-                itemFilterCommentBlockViewModel.Initialise(itemFilterCommentBlock);
-                itemFilterCommentBlockViewModel.BlockBecameDirty += OnBlockBecameDirty;
-                ItemFilterBlockViewModels.Add(itemFilterCommentBlockViewModel);
-            }
-
-            _filenameIsFake = newScript;
-
-            if (newScript)
-            {
-                Script.FilePath = "Untitled.filter";
-            }
-
-            if (ItemFilterBlockViewModels.Count > 0)
-            {
-                SelectedBlockViewModel = ItemFilterBlockViewModels.First();
-            }
-
-            Title = Filename;
-            ContentId = "ScriptContentId";
-        }
-
+        
         public async Task SaveAsync()
         {
             if (!ValidateScript()) return;
@@ -602,8 +645,7 @@ namespace Filtration.ViewModels
             }
             catch
             {
-                _messageBoxService.Show("Clipboard Error", "Failed to access the clipboard, copy command not completed.",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageBoxService.Show("Clipboard Error", "Failed to access the clipboard, copy command not completed.", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -671,60 +713,24 @@ namespace Filtration.ViewModels
             {
                 var clipboardText = _clipboardService.GetClipboardText();
                 if (string.IsNullOrEmpty(clipboardText)) return;
-                _blockGroupHierarchyBuilder.Initialise(Script.ItemFilterBlockGroups.First());
-
-                var translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(clipboardText, Script.ItemFilterScriptSettings);
+                
+                var translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(clipboardText, Script, true); // TODO: Doesn't handle pasting comment blocks?
                 if (translatedBlock == null) return;
 
-                var vm = _itemFilterBlockViewModelFactory.Create();
-                vm.Initialise(translatedBlock, this);
-
-                if (ItemFilterBlockViewModels.Count > 0)
-                {
-                    Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModelBase.BaseBlock) + 1,
-                        translatedBlock);
-                    ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase) + 1, vm);
-                }
-                else
-                {
-                    Script.ItemFilterBlocks.Add(translatedBlock);
-                    ItemFilterBlockViewModels.Add(vm);
-                }
-
-                vm.BlockBecameDirty += OnBlockBecameDirty;
-
-                SelectedBlockViewModel = vm;
-                IsDirty = true;
+                _scriptCommandManager.ExecuteCommand(new PasteBlockCommand(Script, translatedBlock, targetBlockViewModelBase.BaseBlock));
             }
             catch (Exception e)
             {
                 Logger.Error(e);
                 var innerException = e.InnerException?.Message ?? string.Empty;
 
-                _messageBoxService.Show("Paste Error",
-                    e.Message + Environment.NewLine + innerException, MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                _messageBoxService.Show("Paste Error", e.Message + Environment.NewLine + innerException, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void OnMoveBlockToTopCommand()
         {
             MoveBlockToTop(SelectedBlockViewModel);
-        }
-
-        public void MoveBlockToTop(IItemFilterBlockViewModelBase targetBlockViewModelBase)
-        {
-            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase);
-
-            if (currentIndex > 0)
-            {
-                var block = targetBlockViewModelBase.BaseBlock;
-                Script.ItemFilterBlocks.Remove(block);
-                Script.ItemFilterBlocks.Insert(0, block);
-                ItemFilterBlockViewModels.Move(currentIndex, 0);
-                IsDirty = true;
-                RaisePropertyChanged(nameof(ItemFilterCommentBlockViewModels));
-            }
         }
 
         private void OnMoveBlockUpCommand()
@@ -734,18 +740,7 @@ namespace Filtration.ViewModels
 
         public void MoveBlockUp(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
-            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase);
-
-            if (currentIndex > 0)
-            {
-                var block = targetBlockViewModelBase.BaseBlock;
-                var blockPos = Script.ItemFilterBlocks.IndexOf(block);
-                Script.ItemFilterBlocks.RemoveAt(blockPos);
-                Script.ItemFilterBlocks.Insert(blockPos - 1, block);
-                ItemFilterBlockViewModels.Move(currentIndex, currentIndex - 1);
-                IsDirty = true;
-                RaisePropertyChanged(nameof(ItemFilterCommentBlockViewModels));
-            }
+            _scriptCommandManager.ExecuteCommand(new MoveBlockUpCommand(Script, targetBlockViewModelBase?.BaseBlock));
         }
 
         private void OnMoveBlockDownCommand()
@@ -755,38 +750,12 @@ namespace Filtration.ViewModels
 
         public void MoveBlockDown(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
-            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase);
-
-            if (currentIndex < ItemFilterBlockViewModels.Count - 1)
-            {
-                var block = targetBlockViewModelBase.BaseBlock;
-                var blockPos = Script.ItemFilterBlocks.IndexOf(block);
-                Script.ItemFilterBlocks.RemoveAt(blockPos);
-                Script.ItemFilterBlocks.Insert(blockPos + 1, block);
-                ItemFilterBlockViewModels.Move(currentIndex, currentIndex + 1);
-                IsDirty = true;
-                RaisePropertyChanged(nameof(ItemFilterCommentBlockViewModels));
-            }
+            _scriptCommandManager.ExecuteCommand(new MoveBlockDownCommand(Script, targetBlockViewModelBase?.BaseBlock));
         }
 
         private void OnMoveBlockToBottomCommand()
         {
             MoveBlockToBottom(SelectedBlockViewModel);
-        }
-
-        public void MoveBlockToBottom(IItemFilterBlockViewModelBase targetBlockViewModelBase)
-        {
-            var currentIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase);
-
-            if (currentIndex < ItemFilterBlockViewModels.Count - 1)
-            {
-                var block = targetBlockViewModelBase.BaseBlock;
-                Script.ItemFilterBlocks.Remove(block);
-                Script.ItemFilterBlocks.Add(block);
-                ItemFilterBlockViewModels.Move(currentIndex, ItemFilterBlockViewModels.Count - 1);
-                IsDirty = true;
-                RaisePropertyChanged(nameof(ItemFilterCommentBlockViewModels));
-            }
         }
 
         private void OnAddBlockCommand()
@@ -796,25 +765,28 @@ namespace Filtration.ViewModels
 
         public void AddBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
-            var vm = _itemFilterBlockViewModelFactory.Create();
-            var newBlock = new ItemFilterBlock();
-            vm.Initialise(newBlock, this);
+            _scriptCommandManager.ExecuteCommand(new AddBlockCommand(Script, targetBlockViewModelBase?.BaseBlock));
+            // TODO: Expand new viewmodel
+        }
 
-            if (targetBlockViewModelBase != null)
-            {
-                Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModelBase.BaseBlock) + 1, newBlock);
-                ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase) + 1, vm);
-            }
-            else
-            {
-                Script.ItemFilterBlocks.Add(newBlock);
-                ItemFilterBlockViewModels.Add(vm);
-            }
+        public void AddCommentBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase)
+        {
+            _scriptCommandManager.ExecuteCommand(new AddCommentBlockCommand(Script, targetBlockViewModelBase.BaseBlock));
+        }
 
-            vm.BlockBecameDirty += OnBlockBecameDirty;
-            SelectedBlockViewModel = vm;
-            vm.IsExpanded = true;
-            IsDirty = true;
+        public void DeleteBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase)
+        {
+            _scriptCommandManager.ExecuteCommand(new RemoveBlockCommand(Script, targetBlockViewModelBase.BaseBlock));
+        }
+
+        public void MoveBlockToBottom(IItemFilterBlockViewModelBase targetBlockViewModelBase)
+        {
+            _scriptCommandManager.ExecuteCommand(new MoveBlockToBottomCommand(Script, targetBlockViewModelBase.BaseBlock));
+        }
+
+        public void MoveBlockToTop(IItemFilterBlockViewModelBase targetBlockViewModelBase)
+        {
+            _scriptCommandManager.ExecuteCommand(new MoveBlockToTopCommand(Script, targetBlockViewModelBase.BaseBlock));
         }
 
         private void OnBlockBecameDirty(object sender, EventArgs e)
@@ -822,23 +794,9 @@ namespace Filtration.ViewModels
             SetDirtyFlag();
         }
 
-        private void OnAddSectionCommand()
+        private void OnAddCommentBlockCommand()
         {
-            AddSection(SelectedBlockViewModel);
-        }
-        
-        public void AddSection(IItemFilterBlockViewModelBase targetBlockViewModelBase)
-        {
-            var vm = _itemFilterCommentBlockViewModelFactory.Create();
-            var newSection = new ItemFilterCommentBlock { Comment = "New Comment Block" };
-            vm.Initialise(newSection);
-
-            Script.ItemFilterBlocks.Insert(Script.ItemFilterBlocks.IndexOf(targetBlockViewModelBase.BaseBlock), newSection);
-            ItemFilterBlockViewModels.Insert(ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase), vm);
-            IsDirty = true;
-            SelectedBlockViewModel = vm;
-            RaisePropertyChanged(nameof(ItemFilterCommentBlockViewModels));
-            Messenger.Default.Send(new NotificationMessage("SectionsChanged"));
+            AddCommentBlock(SelectedBlockViewModel);
         }
 
         private void OnExpandAllBlocksCommand()
@@ -860,31 +818,6 @@ namespace Filtration.ViewModels
         private void OnDeleteBlockCommand()
         {
             DeleteBlock(SelectedBlockViewModel);
-        }
-
-        public void DeleteBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase)
-        {
-            var result = _messageBoxService.Show("Delete Confirmation", "Are you sure you wish to delete this block?",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-            
-            if (result == MessageBoxResult.Yes)
-            {
-                var isSection = targetBlockViewModelBase.BaseBlock is ItemFilterCommentBlock;
-
-                Script.ItemFilterBlocks.Remove(targetBlockViewModelBase.BaseBlock);
-                ItemFilterBlockViewModels.Remove(targetBlockViewModelBase);
-                IsDirty = true;
-
-                targetBlockViewModelBase.BlockBecameDirty -= OnBlockBecameDirty;
-
-                if (isSection)
-                {
-                    Messenger.Default.Send(new NotificationMessage("SectionsChanged"));
-                }
-
-            }
-            SelectedBlockViewModel = null;
         }
 
         private void OnDisableBlockCommand()

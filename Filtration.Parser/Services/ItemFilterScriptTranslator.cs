@@ -154,11 +154,11 @@ namespace Filtration.Parser.Services
 
                 if (boundary.Value.BoundaryType == ItemFilterBlockBoundaryType.ItemFilterBlock)
                 {
-                    script.ItemFilterBlocks.Add(_blockTranslator.TranslateStringToItemFilterBlock(blockString, script.ItemFilterScriptSettings));
+                    script.ItemFilterBlocks.Add(_blockTranslator.TranslateStringToItemFilterBlock(blockString, script));
                 }
                 else
                 {
-                    script.ItemFilterBlocks.Add(_blockTranslator.TranslateStringToItemFilterCommentBlock(blockString));
+                    script.ItemFilterBlocks.Add(_blockTranslator.TranslateStringToItemFilterCommentBlock(blockString, script));
                 }
             }
 

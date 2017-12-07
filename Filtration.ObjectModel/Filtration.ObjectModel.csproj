@@ -76,6 +76,15 @@
     <Compile Include="BlockItemTypes\WidthBlockItem.cs" />
     <Compile Include="Commands\CommandManager.cs" />
     <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\ItemFilterScript\PasteBlockCommand.cs" />
+    <Compile Include="Commands\ItemFilterScript\MoveBlockToBottomCommand.cs" />
+    <Compile Include="Commands\ItemFilterScript\AddCommentBlockCommand.cs" />
+    <Compile Include="Commands\ItemFilterScript\MoveBlockDownCommand.cs" />
+    <Compile Include="Commands\ItemFilterScript\MoveBlockUpCommand.cs" />
+    <Compile Include="Commands\ItemFilterScript\MoveBlockToTopCommand.cs" />
+    <Compile Include="Commands\ItemFilterScript\SetScriptDescriptionCommand.cs" />
+    <Compile Include="Commands\ItemFilterScript\RemoveBlockCommand.cs" />
+    <Compile Include="Commands\ItemFilterScript\AddBlockCommand.cs" />
     <Compile Include="Commands\IUndoableCommand.cs" />
     <Compile Include="Enums\BlockAction.cs" />
     <Compile Include="Enums\BlockItemType.cs" />

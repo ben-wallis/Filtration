@@ -28,8 +28,7 @@ namespace Filtration.ObjectModel.Commands
         public void ExecuteCommand(ICommand command)
         {
             command.Execute();
-            var undoableCommand = command as IUndoableCommand;
-            if (undoableCommand != null)
+            if (command is IUndoableCommand undoableCommand)
             {
                 _undoCommandStack.Push(undoableCommand);
                 _redoCommandStack.Clear();

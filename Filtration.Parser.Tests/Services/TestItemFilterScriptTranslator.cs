@@ -40,7 +40,7 @@ namespace Filtration.Parser.Tests.Services
 
             // Assert
             Assert.AreEqual(5, script.ItemFilterBlocks.Count);
-            mockItemFilterBlockTranslator.Verify(t => t.TranslateStringToItemFilterBlock(It.IsAny<string>(), It.IsAny<IItemFilterScriptSettings>()));
+            mockItemFilterBlockTranslator.Verify(t => t.TranslateStringToItemFilterBlock(It.IsAny<string>(), It.IsAny<IItemFilterScript>(), false));
         }
 
         [Test]

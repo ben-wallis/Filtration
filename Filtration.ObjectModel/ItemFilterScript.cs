@@ -37,6 +37,7 @@ namespace Filtration.ObjectModel
     public class ItemFilterScript : IItemFilterScriptInternal
     {
         private bool _isDirty;
+        private string _description;
 
         internal ItemFilterScript()
         {
@@ -65,7 +66,18 @@ namespace Filtration.ObjectModel
         public IItemFilterScriptSettings ItemFilterScriptSettings { get; }
 
         public string FilePath { get; set; }
-        public string Description { get; set; }
+
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                if (value == _description) return;
+                _description = value;
+                OnPropertyChanged();
+            }
+        }
+
         public DateTime DateModified { get; set; }
 
         public bool IsDirty

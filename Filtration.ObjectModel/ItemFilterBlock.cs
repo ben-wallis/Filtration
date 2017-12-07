@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Media;
 using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
+using Filtration.ObjectModel.Commands;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.Extensions;
 
@@ -29,9 +30,20 @@ namespace Filtration.ObjectModel
     {
     }
 
-    public class ItemFilterBlockBase : IItemFilterBlockBase
+    public abstract class ItemFilterBlockBase : IItemFilterBlockBase
     {
-        
+        protected ItemFilterBlockBase()
+        {
+        }
+
+        protected ItemFilterBlockBase(IItemFilterScript parentScript)
+        {
+            CommandManager = parentScript.CommandManager;
+            ParentScript = parentScript;
+        }
+
+        public ICommandManager CommandManager { get; }
+        public IItemFilterScript ParentScript { get; set; }
     }
 
     public interface IItemFilterCommentBlock : IItemFilterBlockBase
@@ -41,6 +53,10 @@ namespace Filtration.ObjectModel
 
     public class ItemFilterCommentBlock : ItemFilterBlockBase, IItemFilterCommentBlock
     {
+        public ItemFilterCommentBlock(IItemFilterScript parentScript) : base(parentScript)
+        {
+        }
+
         public string Comment { get; set; }
     }
 
@@ -48,14 +64,19 @@ namespace Filtration.ObjectModel
     {
         private ItemFilterBlockGroup _blockGroup;
 
-        public ItemFilterBlock()
+        internal ItemFilterBlock()
         {
-            ActionBlockItem = new ActionBlockItem(BlockAction.Show);
-            BlockItems = new ObservableCollection<IItemFilterBlockItem> {ActionBlockItem};
-            Enabled = true;
+            BlockItems = new ObservableCollection<IItemFilterBlockItem> { ActionBlockItem };
         }
 
-        public bool Enabled { get; set; }
+        public ItemFilterBlock(IItemFilterScript parentScript) : base(parentScript)
+        {
+            BlockItems = new ObservableCollection<IItemFilterBlockItem> { ActionBlockItem };
+        }
+
+        public ICommandManager CommandManager { get; }
+
+        public bool Enabled { get; set; } = true;
         public string Description { get; set; }
 
         public ItemFilterBlockGroup BlockGroup
@@ -98,7 +119,7 @@ namespace Filtration.ObjectModel
             }
         }
 
-        public ActionBlockItem ActionBlockItem { get; }
+        public ActionBlockItem ActionBlockItem { get; } = new ActionBlockItem(BlockAction.Show);
 
         public ObservableCollection<IItemFilterBlockItem> BlockItems { get; }
 
