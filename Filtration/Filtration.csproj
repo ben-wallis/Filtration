@@ -196,7 +196,7 @@
     <Compile Include="UserControls\ThemeComponentSelectionControl.xaml.cs">
       <DependentUpon>ThemeComponentSelectionControl.xaml</DependentUpon>
     </Compile>
-		<Compile Include="Utility\RoutedCommandHandler.cs" />
+    <Compile Include="Utility\RoutedCommandHandler.cs" />
     <Compile Include="Utility\RoutedCommandHandlers.cs" />
     <Compile Include="ViewModels\AvalonDockWorkspaceViewModel.cs" />
     <Compile Include="ViewModels\Factories\IItemFilterCommentBlockViewModelFactory.cs" />
@@ -250,7 +250,7 @@
     <Compile Include="UserControls\NumericFilterPredicateControl.xaml.cs">
       <DependentUpon>NumericFilterPredicateControl.xaml</DependentUpon>
     </Compile>
-		<Compile Include="Views\ItemFilterCommentBlockView.xaml.cs">
+    <Compile Include="Views\ItemFilterCommentBlockView.xaml.cs">
       <DependentUpon>ItemFilterCommentBlockView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AboutWindow.xaml.cs">
@@ -267,6 +267,9 @@
     </Compile>
     <Compile Include="Views\StartPageView.xaml.cs">
       <DependentUpon>StartPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ToolPanes\CommentBlockBrowserView.xaml.cs">
+      <DependentUpon>CommentBlockBrowserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UpdateAvailableView.xaml.cs">
       <DependentUpon>UpdateAvailableView.xaml</DependentUpon>
@@ -327,7 +330,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-		<Page Include="Views\ToolPanes\CommentBlockBrowserView.xaml">
+    <Page Include="Views\ToolPanes\CommentBlockBrowserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -339,7 +342,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-		<Page Include="Views\ItemFilterCommentBlockView.xaml">
+    <Page Include="Views\ItemFilterCommentBlockView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -5,6 +5,12 @@ namespace Filtration.UserControls
 {
     public class AutoScrollingListBox : ListBox
     {
+        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+        {
+            ScrollIntoView(e.AddedItems[0]);
+            base.OnSelectionChanged(e);
+        }
+
         protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems == null) return;

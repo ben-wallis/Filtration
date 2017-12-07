@@ -24,7 +24,7 @@ namespace Filtration.ViewModels.ToolPanes
             icon.UriSource = new Uri("pack://application:,,,/Filtration;component/Resources/Icons/add_section_icon.png");
             icon.EndInit();
             IconSource = icon;
-
+            
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
                 switch (message.Notification)

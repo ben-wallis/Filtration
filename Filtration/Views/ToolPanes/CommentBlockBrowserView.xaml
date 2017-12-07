@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:Filtration.Converters"
              xmlns:toolPanes="clr-namespace:Filtration.ViewModels.ToolPanes"
+             xmlns:viewModels="clr-namespace:Filtration.ViewModels"
              d:DataContext="{d:DesignInstance Type=toolPanes:CommentBlockBrowserViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -13,14 +14,13 @@
     </UserControl.Resources>
     <Grid>
         <ListBox ItemsSource="{Binding ItemFilterCommentBlockViewModels}"
-                             SelectedItem="{Binding SelectedItemFilterCommentBlockViewModel}"
-                             x:Name="SectionBrowserListBox"
-                             ScrollViewer.HorizontalScrollBarVisibility="Hidden"><!--SelectionChanged="SectionBrowserListBox_OnSelectionChanged"-->
+                 SelectedItem="{Binding SelectedItemFilterCommentBlockViewModel}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"><!--SelectionChanged="SectionBrowserListBox_OnSelectionChanged"-->
             <ListBox.Resources>
               
             </ListBox.Resources>
             <ListBox.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate DataType="viewModels:ItemFilterCommentBlockViewModel">
                     <TextBlock Text="{Binding Comment, Converter={StaticResource HashSignRemovalConverter}}" ToolTip="{Binding Comment}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
