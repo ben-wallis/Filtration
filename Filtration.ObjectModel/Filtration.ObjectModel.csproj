@@ -53,6 +53,7 @@
     <Compile Include="BlockItemBaseTypes\BooleanBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\ColorBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\DualIntegerBlockItem.cs" />
+    <Compile Include="BlockItemBaseTypes\StringIntBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\IntegerBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\NumericFilterPredicateBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\StringListBlockItem.cs" />
@@ -60,6 +61,9 @@
     <Compile Include="BlockItemTypes\BaseTypeBlockItem.cs" />
     <Compile Include="BlockItemTypes\BorderColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\ClassBlockItem.cs" />
+    <Compile Include="BlockItemTypes\ShapedMapBlockItem.cs" />
+    <Compile Include="BlockItemTypes\ShaperItemBlockItem.cs" />
+    <Compile Include="BlockItemTypes\ElderItemBlockItem.cs" />
     <Compile Include="BlockItemTypes\CorruptedBlockItem.cs" />
     <Compile Include="BlockItemTypes\DropLevelBlockItem.cs" />
     <Compile Include="BlockItemTypes\FontSizeBlockItem.cs" />
@@ -71,10 +75,11 @@
     <Compile Include="BlockItemTypes\RarityBlockItem.cs" />
     <Compile Include="BlockItemTypes\SocketGroupBlockItem.cs" />
     <Compile Include="BlockItemTypes\SocketsBlockItem.cs" />
+    <Compile Include="BlockItemTypes\PositionalSoundBlockItem.cs" />
     <Compile Include="BlockItemTypes\SoundBlockItem.cs" />
     <Compile Include="BlockItemTypes\TextColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\WidthBlockItem.cs" />
-    <Compile Include="Commands\CommandManager.cs" />
+		<Compile Include="Commands\CommandManager.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\ItemFilterScript\PasteBlockCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\MoveBlockToBottomCommand.cs" />
@@ -95,7 +100,7 @@
     <Compile Include="Enums\ThemeComponentType.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
     <Compile Include="Extensions\ItemRarityExtensions.cs" />
-    <Compile Include="Factories\IItemFilterScriptFactory.cs" />
+		<Compile Include="Factories\IItemFilterScriptFactory.cs" />
     <Compile Include="FilteredItem.cs" />
     <Compile Include="IAudioVisualBlockItem.cs" />
     <Compile Include="IItemFilterBlockItem.cs" />
@@ -103,7 +108,7 @@
     <Compile Include="ItemFilterBlock.cs" />
     <Compile Include="ItemFilterBlockGroup.cs" />
     <Compile Include="ItemFilterScript.cs" />
-    <Compile Include="ItemFilterScriptSettings.cs" />
+		<Compile Include="ItemFilterScriptSettings.cs" />
     <Compile Include="ItemSet.cs" />
     <Compile Include="NumericFilterPredicate.cs" />
     <Compile Include="PathOfExileNamedColors.cs" />
@@ -118,10 +123,6 @@
     <Compile Include="ThemeEditor\ThemeComponentCollection.cs" />
     <Compile Include="WindsorInstallers\CommandsInstaller.cs" />
     <Compile Include="WindsorInstallers\ModelsInstaller.cs" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

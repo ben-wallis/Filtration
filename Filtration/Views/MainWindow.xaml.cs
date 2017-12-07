@@ -38,9 +38,9 @@ namespace Filtration.Views
             }
         }
 
-        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+        private async void MainWindow_OnClosing(object sender, CancelEventArgs e)
         {
-            var allDocumentsClosed = _mainWindowViewModel.CloseAllDocumentsAsync().Result;
+            var allDocumentsClosed = await _mainWindowViewModel.CloseAllDocumentsAsync();
             if (!allDocumentsClosed)
             {
                 e.Cancel = true;

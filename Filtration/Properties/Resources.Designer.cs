@@ -19,7 +19,7 @@ namespace Filtration.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -63,81 +63,144 @@ namespace Filtration.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream AlertSound1 {
+        internal static System.IO.UnmanagedMemoryStream AlertSound_01 {
             get {
-                return ResourceManager.GetStream("AlertSound1", resourceCulture);
+                return ResourceManager.GetStream("AlertSound_01", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream AlertSound2 {
+        internal static System.IO.UnmanagedMemoryStream AlertSound_02 {
             get {
-                return ResourceManager.GetStream("AlertSound2", resourceCulture);
+                return ResourceManager.GetStream("AlertSound_02", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream AlertSound3 {
+        internal static System.IO.UnmanagedMemoryStream AlertSound_03 {
             get {
-                return ResourceManager.GetStream("AlertSound3", resourceCulture);
+                return ResourceManager.GetStream("AlertSound_03", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream AlertSound4 {
+        internal static System.IO.UnmanagedMemoryStream AlertSound_04 {
             get {
-                return ResourceManager.GetStream("AlertSound4", resourceCulture);
+                return ResourceManager.GetStream("AlertSound_04", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream AlertSound5 {
+        internal static System.IO.UnmanagedMemoryStream AlertSound_05 {
             get {
-                return ResourceManager.GetStream("AlertSound5", resourceCulture);
+                return ResourceManager.GetStream("AlertSound_05", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream AlertSound6 {
+        internal static System.IO.UnmanagedMemoryStream AlertSound_06 {
             get {
-                return ResourceManager.GetStream("AlertSound6", resourceCulture);
+                return ResourceManager.GetStream("AlertSound_06", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream AlertSound7 {
+        internal static System.IO.UnmanagedMemoryStream AlertSound_07 {
             get {
-                return ResourceManager.GetStream("AlertSound7", resourceCulture);
+                return ResourceManager.GetStream("AlertSound_07", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream AlertSound8 {
+        internal static System.IO.UnmanagedMemoryStream AlertSound_08 {
             get {
-                return ResourceManager.GetStream("AlertSound8", resourceCulture);
+                return ResourceManager.GetStream("AlertSound_08", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream AlertSound9 {
+        internal static System.IO.UnmanagedMemoryStream AlertSound_09 {
             get {
-                return ResourceManager.GetStream("AlertSound9", resourceCulture);
+                return ResourceManager.GetStream("AlertSound_09", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream AlertSound_10 {
+            get {
+                return ResourceManager.GetStream("AlertSound_10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream AlertSound_11 {
+            get {
+                return ResourceManager.GetStream("AlertSound_11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream AlertSound_12 {
+            get {
+                return ResourceManager.GetStream("AlertSound_12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream AlertSound_13 {
+            get {
+                return ResourceManager.GetStream("AlertSound_13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream AlertSound_14 {
+            get {
+                return ResourceManager.GetStream("AlertSound_14", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream AlertSound_15 {
+            get {
+                return ResourceManager.GetStream("AlertSound_15", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream AlertSound_16 {
+            get {
+                return ResourceManager.GetStream("AlertSound_16", resourceCulture);
             }
         }
         
@@ -158,6 +221,96 @@ namespace Filtration.Properties {
             get {
                 object obj = ResourceManager.GetObject("groundtile", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream SH22Alchemy {
+            get {
+                return ResourceManager.GetStream("SH22Alchemy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream SH22Blessed {
+            get {
+                return ResourceManager.GetStream("SH22Blessed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream SH22Chaos {
+            get {
+                return ResourceManager.GetStream("SH22Chaos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream SH22Divine {
+            get {
+                return ResourceManager.GetStream("SH22Divine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream SH22Exalted {
+            get {
+                return ResourceManager.GetStream("SH22Exalted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream SH22Fusing {
+            get {
+                return ResourceManager.GetStream("SH22Fusing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream SH22General {
+            get {
+                return ResourceManager.GetStream("SH22General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream SH22Mirror {
+            get {
+                return ResourceManager.GetStream("SH22Mirror", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream SH22Regal {
+            get {
+                return ResourceManager.GetStream("SH22Regal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream SH22Vaal {
+            get {
+                return ResourceManager.GetStream("SH22Vaal", resourceCulture);
             }
         }
     }

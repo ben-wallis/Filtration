@@ -2,21 +2,21 @@
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
-    public class SoundBlockItem : DualIntegerBlockItem
+    public class SoundBlockItem : StrIntBlockItem
     {
         public SoundBlockItem()
         {
-            Value = 1;
+            Value = "1";
             SecondValue = 79;
         }
 
-        public SoundBlockItem(int value, int secondValue) : base(value, secondValue)
+        public SoundBlockItem(string value, int secondValue) : base(value, secondValue)
         {
         }
 
         public override string PrefixText => "PlayAlertSound";
         public override int MaximumAllowed => 1;
         public override string DisplayHeading => "Play Alert Sound";
-        public override int SortOrder => 18;
+        public override int SortOrder => 21;
     }
 }

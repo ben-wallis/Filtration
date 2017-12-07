@@ -13,11 +13,11 @@
              xmlns:views="clr-namespace:Filtration.Views"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=userControls:BlockItemControl}"
-             d:DesignHeight="200" d:DesignWidth="160">
+             d:DesignHeight="200" d:DesignWidth="190">
     <UserControl.Resources>
         <commonConverters:BooleanInverterConverter x:Key="BooleanInverterConverter"></commonConverters:BooleanInverterConverter>
     </UserControl.Resources>
-    <Border Style="{StaticResource BlockItemBorder}" Width="150">
+    <Border Style="{StaticResource BlockItemBorder}" Width="180">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -109,6 +109,17 @@
                     <DataTemplate DataType="{x:Type blockItemTypes:SoundBlockItem}">
                         <WrapPanel HorizontalAlignment="Left">
                             <Button Command="{Binding Path=DataContext.PlaySoundCommand, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterBlockView}}}" Width="20" Height="20" Background="Transparent" BorderBrush="Transparent">
+                                <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Button>
+                            <ComboBox ItemsSource="{Binding ElementName=BlockItemContentControl, Path=DataContext.SoundsAvailable}" SelectedValue="{Binding Value}" Style="{StaticResource MetroComboBox}" />
+                            <xctk:ShortUpDown Value="{Binding Path=SecondValue}" Minimum="1" Maximum="300" HorizontalAlignment="Right" ToolTip="Volume"/>
+                        </WrapPanel>
+                    </DataTemplate>
+                    
+                    <!-- Positional Sound Template -->
+                    <DataTemplate DataType="{x:Type blockItemTypes:PositionalSoundBlockItem}">
+                        <WrapPanel HorizontalAlignment="Left">
+                            <Button Command="{Binding Path=DataContext.PlayPositionalSoundCommand, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterBlockView}}}" Width="20" Height="20" Background="Transparent" BorderBrush="Transparent">
                                 <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Button>
                             <ComboBox ItemsSource="{Binding ElementName=BlockItemContentControl, Path=DataContext.SoundsAvailable}" SelectedValue="{Binding Value}" Style="{StaticResource MetroComboBox}" />

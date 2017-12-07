@@ -336,6 +336,57 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlock_ElderItem_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    ElderItem False";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is ElderItemBlockItem));
+            var blockItem = result.BlockItems.OfType<ElderItemBlockItem>().First();
+            Assert.IsFalse(blockItem.BooleanValue);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_ShaperItem_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    ShaperItem True";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is ShaperItemBlockItem));
+            var blockItem = result.BlockItems.OfType<ShaperItemBlockItem>().First();
+            Assert.IsTrue(blockItem.BooleanValue);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_ShapedMap_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    ShapedMap false";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is ShapedMapBlockItem));
+            var blockItem = result.BlockItems.OfType<ShapedMapBlockItem>().First();
+            Assert.IsFalse(blockItem.BooleanValue);
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_Identified_ReturnsCorrectObject()
         {
             // Arrange
@@ -694,7 +745,7 @@ namespace Filtration.Parser.Tests.Services
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is SoundBlockItem));
             var blockItem = result.BlockItems.OfType<SoundBlockItem>().First();
-            Assert.AreEqual(4, blockItem.Value);
+            Assert.AreEqual("4", blockItem.Value);
             Assert.AreEqual(79, blockItem.SecondValue);
         }
 
@@ -712,7 +763,43 @@ namespace Filtration.Parser.Tests.Services
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is SoundBlockItem));
             var blockItem = result.BlockItems.OfType<SoundBlockItem>().First();
-            Assert.AreEqual(2, blockItem.Value);
+            Assert.AreEqual("2", blockItem.Value);
+            Assert.AreEqual(95, blockItem.SecondValue);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_PlayAlertSoundPositionalWithoutVolume_ReturnsCorrectObject()
+        {
+            // Arrange
+
+            var inputString = "Show" + Environment.NewLine +
+                              "    PlayAlertSoundPositional 12";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is PositionalSoundBlockItem));
+            var blockItem = result.BlockItems.OfType<PositionalSoundBlockItem>().First();
+            Assert.AreEqual("12", blockItem.Value);
+            Assert.AreEqual(79, blockItem.SecondValue);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_PlayAlertSoundPositionalWithVolume_ReturnsCorrectObject()
+        {
+            // Arrange
+
+            var inputString = "Show" + Environment.NewLine +
+                              "    PlayAlertSoundPositional 7 95";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is PositionalSoundBlockItem));
+            var blockItem = result.BlockItems.OfType<PositionalSoundBlockItem>().First();
+            Assert.AreEqual("7", blockItem.Value);
             Assert.AreEqual(95, blockItem.SecondValue);
         }
         
@@ -730,6 +817,9 @@ namespace Filtration.Parser.Tests.Services
                               "    Rarity <= Unique" + Environment.NewLine +
                               "    Identified True" + Environment.NewLine +
                               "    Corrupted false" + Environment.NewLine +
+                              "    ElderItem true" + Environment.NewLine +
+                              "    ShaperItem False" + Environment.NewLine +
+                              "    ShapedMap TRUE" + Environment.NewLine +
                               @"    Class ""My Item Class"" AnotherClass ""AndAnotherClass""" + Environment.NewLine +
                               @"    BaseType MyBaseType ""Another BaseType""" + Environment.NewLine +
                               "    JunkLine Let's ignore this one!" + Environment.NewLine +
@@ -741,7 +831,7 @@ namespace Filtration.Parser.Tests.Services
                               "    SetBackgroundColor 255 100 5" + Environment.NewLine +
                               "    SetBorderColor 0 0 0" + Environment.NewLine +
                               "    SetFontSize 50" + Environment.NewLine +
-                              "    PlayAlertSound 3";
+                              "    PlayAlertSound 3" + Environment.NewLine;
 
             // Act
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
@@ -757,6 +847,15 @@ namespace Filtration.Parser.Tests.Services
 
             var identifiedBlockItem = result.BlockItems.OfType<IdentifiedBlockItem>().First();
             Assert.IsTrue(identifiedBlockItem.BooleanValue);
+
+            var elderItemBlockItem = result.BlockItems.OfType<ElderItemBlockItem>().First();
+            Assert.IsTrue(elderItemBlockItem.BooleanValue);
+
+            var shaperItemBlockItem = result.BlockItems.OfType<ShaperItemBlockItem>().First();
+            Assert.IsFalse(shaperItemBlockItem.BooleanValue);
+
+            var shapedMapBlockItem = result.BlockItems.OfType<ShapedMapBlockItem>().First();
+            Assert.IsTrue(shapedMapBlockItem.BooleanValue);
 
             var dropLevelblockItem = result.BlockItems.OfType<DropLevelBlockItem>().First();
             Assert.AreEqual(FilterPredicateOperator.LessThan, dropLevelblockItem.FilterPredicate.PredicateOperator);
@@ -816,7 +915,7 @@ namespace Filtration.Parser.Tests.Services
             Assert.AreEqual(50, fontSizeblockItem.Value);
 
             var soundblockItem = result.BlockItems.OfType<SoundBlockItem>().First();
-            Assert.AreEqual(3, soundblockItem.Value);
+            Assert.AreEqual("3", soundblockItem.Value);
             Assert.AreEqual(79, soundblockItem.SecondValue);
         }
 
@@ -906,7 +1005,7 @@ namespace Filtration.Parser.Tests.Services
             // Assert
             Assert.AreEqual(1, result.BlockItems.Count(b => b is SoundBlockItem));
             var blockItem = result.BlockItems.OfType<SoundBlockItem>().First();
-            Assert.AreEqual(2, blockItem.Value);
+            Assert.AreEqual("2", blockItem.Value);
             Assert.AreEqual(79, blockItem.SecondValue);
         }
 
@@ -1518,7 +1617,7 @@ namespace Filtration.Parser.Tests.Services
             var expectedResult = "Show" + Environment.NewLine +
                                  "    PlayAlertSound 2 50";
 
-            _testUtility.TestBlock.BlockItems.Add(new SoundBlockItem(2, 50));
+            _testUtility.TestBlock.BlockItems.Add(new SoundBlockItem("2", 50));
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
@@ -1593,21 +1692,23 @@ namespace Filtration.Parser.Tests.Services
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
-
                                  "    LinkedSockets >= 4" + Environment.NewLine +
                                  "    Sockets <= 6" + Environment.NewLine +
                                  "    Quality > 2" + Environment.NewLine +
                                  "    Identified True" + Environment.NewLine +
                                  "    Corrupted False" + Environment.NewLine +
+                                 "    ElderItem True" + Environment.NewLine +
+                                 "    ShaperItem False" + Environment.NewLine +
+                                 "    ShapedMap True" + Environment.NewLine +
                                  "    Height <= 6" + Environment.NewLine +
                                  "    Height >= 2" + Environment.NewLine +
                                  "    Width = 3" + Environment.NewLine +
-                                 "    DropLevel > 56" + Environment.NewLine +
-                                 "    Class \"Body Armour\" \"Gloves\" \"Belt\" \"Two Hand Axes\"" + Environment.NewLine +
-                                 "    BaseType \"Greater Life Flask\" \"Simple Robe\" \"Full Wyrmscale\"" + Environment.NewLine +
-                                 "    Rarity = Unique" + Environment.NewLine +
                                  "    ItemLevel > 70" + Environment.NewLine +
                                  "    ItemLevel <= 85" + Environment.NewLine +
+                                 "    DropLevel > 56" + Environment.NewLine +
+                                 "    Rarity = Unique" + Environment.NewLine +
+                                 "    Class \"Body Armour\" \"Gloves\" \"Belt\" \"Two Hand Axes\"" + Environment.NewLine +
+                                 "    BaseType \"Greater Life Flask\" \"Simple Robe\" \"Full Wyrmscale\"" + Environment.NewLine +
                                  "    SetTextColor 255 89 0 56" + Environment.NewLine +
                                  "    SetBackgroundColor 0 0 0" + Environment.NewLine +
                                  "    SetBorderColor 255 1 254" + Environment.NewLine +
@@ -1643,7 +1744,10 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.TestBlock.BlockItems.Add(new BackgroundColorBlockItem(new Color { A = 255, R = 0, G = 0, B = 0 }));
             _testUtility.TestBlock.BlockItems.Add(new BorderColorBlockItem(new Color { A = 255, R = 255, G = 1, B = 254 }));
             _testUtility.TestBlock.BlockItems.Add(new FontSizeBlockItem(50));
-            _testUtility.TestBlock.BlockItems.Add(new SoundBlockItem(6, 90));
+            _testUtility.TestBlock.BlockItems.Add(new SoundBlockItem("6", 90));
+            _testUtility.TestBlock.BlockItems.Add(new ElderItemBlockItem(true));
+            _testUtility.TestBlock.BlockItems.Add(new ShaperItemBlockItem(false));
+            _testUtility.TestBlock.BlockItems.Add(new ShapedMapBlockItem(true));
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
@@ -1679,7 +1783,7 @@ namespace Filtration.Parser.Tests.Services
             var testInputString = "PlayAlertSound 7 280";
 
             var testInputBlockItems = new ObservableCollection<IItemFilterBlockItem>();
-            var testInputBlockItem = new SoundBlockItem(12,30);
+            var testInputBlockItem = new SoundBlockItem("12",30);
             testInputBlockItems.Add(testInputBlockItem);
 
             // Act
@@ -1689,7 +1793,7 @@ namespace Filtration.Parser.Tests.Services
             var soundBlockItem = testInputBlockItems.First(b => b is SoundBlockItem) as SoundBlockItem;
             Assert.IsNotNull(soundBlockItem);
             Assert.AreNotSame(testInputBlockItem, soundBlockItem);
-            Assert.AreEqual(7, soundBlockItem.Value);
+            Assert.AreEqual("7", soundBlockItem.Value);
             Assert.AreEqual(280, soundBlockItem.SecondValue);
         }
 
@@ -1746,7 +1850,7 @@ namespace Filtration.Parser.Tests.Services
             var testInputTextColorBlockItem = new TextColorBlockItem(Colors.Red);
             var testInputBackgroundColorBlockItem = new BackgroundColorBlockItem(Colors.Blue);
             var testInputBorderColorBlockItem = new BorderColorBlockItem(Colors.Yellow);
-            var testInputSoundBlockItem = new SoundBlockItem(1, 1);
+            var testInputSoundBlockItem = new SoundBlockItem("1", 1);
 
             testInputBlockItems.Add(testInputTextColorBlockItem);
             testInputBlockItems.Add(testInputBackgroundColorBlockItem);
@@ -1775,7 +1879,7 @@ namespace Filtration.Parser.Tests.Services
             var soundBlockItem = testInputBlockItems.First(b => b is SoundBlockItem) as SoundBlockItem;
             Assert.IsNotNull(soundBlockItem);
             Assert.AreNotSame(testInputSoundBlockItem, soundBlockItem);
-            Assert.AreEqual(7, soundBlockItem.Value);
+            Assert.AreEqual("7", soundBlockItem.Value);
             Assert.AreEqual(280, soundBlockItem.SecondValue);
         }
 
@@ -1808,7 +1912,7 @@ namespace Filtration.Parser.Tests.Services
 
             var soundBlockItem = testInputBlockItems.First(b => b is SoundBlockItem) as SoundBlockItem;
             Assert.IsNotNull(soundBlockItem);
-            Assert.AreEqual(7, soundBlockItem.Value);
+            Assert.AreEqual("7", soundBlockItem.Value);
             Assert.AreEqual(280, soundBlockItem.SecondValue);
         }
 

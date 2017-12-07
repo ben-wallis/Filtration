@@ -82,7 +82,11 @@ namespace Filtration.UserControls
 
         public ObservableCollection<ColorItem> AvailableColors => PathOfExileColors.DefaultColors;
 
-        public List<int> SoundsAvailable => new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        public List<string> SoundsAvailable => new List<string> {
+            "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",
+            "ShGeneral", "ShBlessed", "ShChaos", "ShDivine", "ShExalted", "ShMirror", "ShAlchemy",
+            "ShFusing", "ShRegal", "ShVaal"
+        };
 
         private void OnSetBlockColorCommmand()
         {
