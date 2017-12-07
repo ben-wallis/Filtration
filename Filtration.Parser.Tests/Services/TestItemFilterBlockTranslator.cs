@@ -251,6 +251,57 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlock_ElderItem_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    ElderItem False";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+
+            // Assert
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is ElderItemBlockItem));
+            var blockItem = result.BlockItems.OfType<ElderItemBlockItem>().First();
+            Assert.IsFalse(blockItem.BooleanValue);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_ShaperItem_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    ShaperItem True";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+
+            // Assert
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is ShaperItemBlockItem));
+            var blockItem = result.BlockItems.OfType<ShaperItemBlockItem>().First();
+            Assert.IsTrue(blockItem.BooleanValue);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_ShapedMap_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    ShapedMap false";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+
+            // Assert
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is ShapedMapBlockItem));
+            var blockItem = result.BlockItems.OfType<ShapedMapBlockItem>().First();
+            Assert.IsFalse(blockItem.BooleanValue);
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_Identified_ReturnsCorrectObject()
         {
             // Arrange
@@ -628,6 +679,42 @@ namespace Filtration.Parser.Tests.Services
             Assert.AreEqual(1, result.BlockItems.Count(b => b is SoundBlockItem));
             var blockItem = result.BlockItems.OfType<SoundBlockItem>().First();
             Assert.AreEqual("2", blockItem.Value);
+            Assert.AreEqual(95, blockItem.SecondValue);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_PlayAlertSoundPositionalWithoutVolume_ReturnsCorrectObject()
+        {
+            // Arrange
+
+            var inputString = "Show" + Environment.NewLine +
+                              "    PlayAlertSoundPositional 12";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is PositionalSoundBlockItem));
+            var blockItem = result.BlockItems.OfType<PositionalSoundBlockItem>().First();
+            Assert.AreEqual("12", blockItem.Value);
+            Assert.AreEqual(79, blockItem.SecondValue);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_PlayAlertSoundPositionalWithVolume_ReturnsCorrectObject()
+        {
+            // Arrange
+
+            var inputString = "Show" + Environment.NewLine +
+                              "    PlayAlertSoundPositional 7 95";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, null);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is PositionalSoundBlockItem));
+            var blockItem = result.BlockItems.OfType<PositionalSoundBlockItem>().First();
+            Assert.AreEqual("7", blockItem.Value);
             Assert.AreEqual(95, blockItem.SecondValue);
         }
 
