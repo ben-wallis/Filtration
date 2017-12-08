@@ -2,7 +2,7 @@
 
 Filtration is an editor for Path of Exile item filter scripts.
 
-## Current Release (Released 2016-12-03)
+## Current Release (Released 2017-12-08)
 <b>Installer</b> <a href="https://github.com/ben-wallis/Filtration/releases/download/0.17/filtration_0.17_setup.exe">filtration_0.17_setup.exe</a>
 
 <b>Zip File</b> <a href="https://github.com/ben-wallis/Filtration/releases/download/0.17/filtration_0.17.zip">filtration_0.17.zip</a>
