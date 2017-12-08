@@ -15,7 +15,10 @@ namespace Filtration.ObjectModel.Commands.ItemFilterScript
         }
         public void Execute()
         {
-            _newItemFilterBlock = new ItemFilterCommentBlock(_itemFilterScript);
+            _newItemFilterBlock = new ItemFilterCommentBlock(_itemFilterScript)
+            {
+                Comment = string.Empty
+            };
             if (_addAfterItemFilterBlock != null)
             {
                 _itemFilterScript.ItemFilterBlocks.Insert(_itemFilterScript.ItemFilterBlocks.IndexOf(_addAfterItemFilterBlock) + 1, _newItemFilterBlock);
