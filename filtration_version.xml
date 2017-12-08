@@ -1,21 +1,15 @@
 <UpdateData>
-	<CurrentVersion>0.16</CurrentVersion>
+	<CurrentVersion>0.17</CurrentVersion>
 	<LatestVersionMajorPart>0</LatestVersionMajorPart>
-	<LatestVersionMinorPart>16</LatestVersionMinorPart>
-	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.16</DownloadUrl>
-	<ReleaseDate>2017-12-07</ReleaseDate>
-	<StaticDataUpdatedDate>2017-12-07</StaticDataUpdatedDate>
-	<ReleaseNotes>Special thanks to GlenCFL for implementing the following features:
-♦ Support for the following Filter Block Item Types: ElderItem, ShapedMap, ShaperItem, PlayAlertPositionalSound, 
-♦ Added new alert sounds including the shaper voiceline sounds
-♦ Updated Item Base Types and Item Classes static data for 3.1
-♦ Fixed a bug where the application would freeze upon exit
+	<LatestVersionMinorPart>17</LatestVersionMinorPart>
+	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.17</DownloadUrl>
+	<ReleaseDate>2017-12-08</ReleaseDate>
+	<StaticDataUpdatedDate>2017-12-08</StaticDataUpdatedDate>
+	<ReleaseNotes>Contributors for this release: GlenCFL
 
-Other new features:
-♦ Changed Block Group Parsing to use " - " as a delimiter instead of "-", this prevents unwanted block groups being created by filters that didn't intend to use them.
-♦ Block Groups are now only parsed if the script has "# EnableBlockGroups" on its own line in the script header. This means that comments on the Show/Hide line for scripts without this enabled will no longer be discarded.
-♦ All comment blocks in between filter blocks are now preserved regardless of whether they start with # Section:
-♦ Added initial undo/redo support - currently this is only supported at the Item Filter Block level. This means that you can undo/redo adding/deleting/moving blocks within a script but you can't undo/redo editing the blocks themselves.
-
-</ReleaseNotes>
+♦ Fixed a crash when clicking Add Section
+♦ Fixed edits to comment blocks not being saved correctly
+♦ Fixed Delete Section context menu item not working
+♦ Fixed ShChaos sound
+♦ Fixed changes to comment blocks not marking the filter as unsaved</ReleaseNotes>
 </UpdateData>
