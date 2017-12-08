@@ -56,7 +56,7 @@
                     <MenuItem Header="Add Block" Command="{Binding AddBlockCommand}" Icon="{StaticResource AddBlockIcon}" />
                     <MenuItem Header="Add Section" Command="{Binding AddSectionCommand}" Icon="{StaticResource AddSectionIcon}" />
                     <Separator />
-                    <MenuItem Header="Delete Section" Command="{Binding Data.DeleteBlockCommand, Source={StaticResource Proxy}}" Icon="{StaticResource DeleteIcon}" />
+                    <MenuItem Header="Delete Section" Command="{Binding DeleteBlockCommand}" Icon="{StaticResource DeleteIcon}" />
                     <Separator />
                     <MenuItem Header="Move Section To Top" Command="{Binding MoveBlockToTopCommand}" Icon="{StaticResource MoveToTopIcon}" />
                     <MenuItem Header="Move Section Up" Command="{Binding MoveBlockUpCommand}" Icon="{StaticResource MoveUpIcon}" />
@@ -76,7 +76,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column ="0" Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Center" TextWrapping="Wrap" MinWidth="150"/>
+                <TextBox Grid.Column ="0" Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextWrapping="Wrap" MinWidth="150"/>
             </Grid>
         </Border>
     </Grid>

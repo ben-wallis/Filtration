@@ -25,7 +25,7 @@ namespace Filtration.ViewModels
             MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand);
             MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand);
         }
-
+        
         public RelayCommand CopyBlockCommand { get; }
         public RelayCommand PasteBlockCommand { get; }
         public RelayCommand AddBlockCommand { get; }
@@ -47,7 +47,17 @@ namespace Filtration.ViewModels
 
         public IItemFilterCommentBlock ItemFilterCommentBlock { get; private set; }
 
-        public string Comment => ItemFilterCommentBlock.Comment;
+        public string Comment
+        {
+            get
+            {
+                return ItemFilterCommentBlock.Comment;
+            }
+            set
+            {
+                ItemFilterCommentBlock.Comment = value;
+            }
+        }
 
         private void OnCopyBlockCommand()
         {
