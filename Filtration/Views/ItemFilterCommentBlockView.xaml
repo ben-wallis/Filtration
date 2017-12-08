@@ -4,16 +4,47 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:Filtration.ViewModels"
+             xmlns:views="clr-namespace:Filtration.Views"
+             xmlns:converters="clr-namespace:Filtration.Converters"
              d:DataContext="{d:DesignInstance Type=viewModels:ItemFilterCommentBlockViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="300">
     <UserControl.Resources>
-        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-            <Style.Setters>
-                <Setter Property="BorderBrush" Value="Transparent" />
-                <Setter Property="Background" Value="Transparent" />
-            </Style.Setters>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <views:BindingProxy x:Key="Proxy" Data="{Binding}" />
+                    <converters:BlockGroupAdvancedFillColorConverter x:Key="BlockGroupAdvancedFillColorConverter" />
+                    <Style TargetType="{x:Type ContentPresenter}" x:Key="BlockItemFadeInStyle">
+                        <Setter Property="LayoutTransform">
+                            <Setter.Value>
+                                <ScaleTransform x:Name="transform" />
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ResourceDictionary>
+                <ResourceDictionary>
+                <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                    <Style.Setters>
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="Background" Value="Transparent" />
+                    </Style.Setters>
+                </Style>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
     </UserControl.Resources>
     <Grid>
         <Grid.ContextMenu>
@@ -45,7 +76,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column ="0" Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Center" TextWrapping="Wrap" MinWidth="150"/>
+                <TextBox Grid.Column ="0" Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextWrapping="Wrap" MinWidth="150"/>
             </Grid>
         </Border>
     </Grid>

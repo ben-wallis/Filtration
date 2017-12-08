@@ -10,12 +10,9 @@ namespace Filtration.ViewModels
 
     internal class ItemFilterCommentBlockViewModel : ItemFilterBlockViewModelBase, IItemFilterCommentBlockViewModel
     {
-        public ItemFilterCommentBlockViewModel()
-        {
-        }
-
         public override void Initialise(IItemFilterBlockBase itemfilterBlock, IItemFilterScriptViewModel itemFilterScriptViewModel)
         {
+            _parentScriptViewModel = itemFilterScriptViewModel;
             ItemFilterCommentBlock = itemfilterBlock as IItemFilterCommentBlock;
             BaseBlock = ItemFilterCommentBlock;
 
@@ -24,6 +21,21 @@ namespace Filtration.ViewModels
 
         public IItemFilterCommentBlock ItemFilterCommentBlock { get; private set; }
 
-        public string Comment => ItemFilterCommentBlock.Comment;
+        public string Comment
+        {
+            get
+            {
+                return ItemFilterCommentBlock.Comment;
+            }
+            set
+            {
+                if (ItemFilterCommentBlock.Comment != value)
+                {
+                    ItemFilterCommentBlock.Comment = value;
+                    IsDirty = true;
+                    RaisePropertyChanged();
+                }
+            }
+        }
     }
 }

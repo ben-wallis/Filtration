@@ -28,7 +28,6 @@ namespace Filtration.ViewModels
         private readonly IStaticDataService _staticDataService;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
-        private IItemFilterScriptViewModel _parentScriptViewModel;
 
         private bool _displaySettingsPopupOpen;
         private bool _isExpanded;
@@ -39,17 +38,8 @@ namespace Filtration.ViewModels
             _staticDataService = staticDataService;
             _replaceColorsViewModel = replaceColorsViewModel;
 
-            CopyBlockCommand = new RelayCommand(OnCopyBlockCommand);
-            PasteBlockCommand = new RelayCommand(OnPasteBlockCommand);
             CopyBlockStyleCommand = new RelayCommand(OnCopyBlockStyleCommand);
             PasteBlockStyleCommand = new RelayCommand(OnPasteBlockStyleCommand);
-            AddBlockCommand = new RelayCommand(OnAddBlockCommand);
-            AddSectionCommand = new RelayCommand(OnAddSectionCommand);
-            DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand);
-            MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand);
-            MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand);
-            MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand);
-            MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand);
             ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand);
             AddFilterBlockItemCommand = new RelayCommand<Type>(OnAddFilterBlockItemCommand);
             ToggleBlockActionCommand = new RelayCommand(OnToggleBlockActionCommand);
@@ -82,17 +72,8 @@ namespace Filtration.ViewModels
             base.Initialise(itemFilterBlock, parentScriptViewModel);
         }
 
-        public RelayCommand CopyBlockCommand { get; }
-        public RelayCommand PasteBlockCommand { get; }
         public RelayCommand CopyBlockStyleCommand { get; }
         public RelayCommand PasteBlockStyleCommand { get; }
-        public RelayCommand AddBlockCommand { get; }
-        public RelayCommand AddSectionCommand { get; }
-        public RelayCommand DeleteBlockCommand { get; }
-        public RelayCommand MoveBlockUpCommand { get; }
-        public RelayCommand MoveBlockDownCommand { get; }
-        public RelayCommand MoveBlockToTopCommand { get; }
-        public RelayCommand MoveBlockToBottomCommand { get; }
         public RelayCommand ToggleBlockActionCommand { get; }
         public RelayCommand ReplaceColorsCommand { get; }
         public RelayCommand<Type> AddFilterBlockItemCommand { get; }
@@ -365,7 +346,7 @@ namespace Filtration.ViewModels
                 case "ShBlessed":
                     filePart = "SH22Blessed.wav";
                     break;
-                case "SH22Chaos":
+                case "ShChaos":
                     filePart = "SH22Chaos.wav";
                     break;
                 case "ShDivine":

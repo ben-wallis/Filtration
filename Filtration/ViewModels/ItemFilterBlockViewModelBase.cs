@@ -1,6 +1,7 @@
 using System;
 using Filtration.ObjectModel;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Filtration.ViewModels
 {
@@ -16,14 +17,40 @@ namespace Filtration.ViewModels
     {
         private bool _isDirty;
 
+        public ItemFilterBlockViewModelBase()
+        {
+            CopyBlockCommand = new RelayCommand(OnCopyBlockCommand);
+            PasteBlockCommand = new RelayCommand(OnPasteBlockCommand);
+            AddBlockCommand = new RelayCommand(OnAddBlockCommand);
+            AddSectionCommand = new RelayCommand(OnAddSectionCommand);
+            DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand);
+            MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand);
+            MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand);
+            MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand);
+            MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand);
+        }
+
+
         public virtual void Initialise(IItemFilterBlockBase itemfilterBlock, IItemFilterScriptViewModel itemFilterScriptViewModel)
         {
             BaseBlock = itemfilterBlock;
+            _parentScriptViewModel = itemFilterScriptViewModel;
         }
 
         public event EventHandler BlockBecameDirty;
 
         public IItemFilterBlockBase BaseBlock { get; protected set; }
+        public IItemFilterScriptViewModel _parentScriptViewModel;
+
+        public RelayCommand CopyBlockCommand { get; }
+        public RelayCommand PasteBlockCommand { get; }
+        public RelayCommand AddBlockCommand { get; }
+        public RelayCommand AddSectionCommand { get; }
+        public RelayCommand DeleteBlockCommand { get; }
+        public RelayCommand MoveBlockUpCommand { get; }
+        public RelayCommand MoveBlockDownCommand { get; }
+        public RelayCommand MoveBlockToTopCommand { get; }
+        public RelayCommand MoveBlockToBottomCommand { get; }
         
         public bool IsDirty
         {
@@ -37,6 +64,51 @@ namespace Filtration.ViewModels
                     BlockBecameDirty?.Invoke(this, EventArgs.Empty);
                 }
             }
+        }
+
+        private void OnCopyBlockCommand()
+        {
+            _parentScriptViewModel.CopyBlock(this);
+        }
+
+        private void OnPasteBlockCommand()
+        {
+            _parentScriptViewModel.PasteBlock(this);
+        }
+
+        private void OnAddBlockCommand()
+        {
+            _parentScriptViewModel.AddBlock(this);
+        }
+
+        private void OnAddSectionCommand()
+        {
+            _parentScriptViewModel.AddCommentBlock(this);
+        }
+
+        private void OnDeleteBlockCommand()
+        {
+            _parentScriptViewModel.DeleteBlock(this);
+        }
+
+        private void OnMoveBlockUpCommand()
+        {
+            _parentScriptViewModel.MoveBlockUp(this);
+        }
+
+        private void OnMoveBlockDownCommand()
+        {
+            _parentScriptViewModel.MoveBlockDown(this);
+        }
+
+        private void OnMoveBlockToTopCommand()
+        {
+            _parentScriptViewModel.MoveBlockToTop(this);
+        }
+
+        private void OnMoveBlockToBottomCommand()
+        {
+            _parentScriptViewModel.MoveBlockToBottom(this);
         }
     }
 }
