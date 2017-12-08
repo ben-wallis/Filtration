@@ -29,8 +29,12 @@ namespace Filtration.ViewModels
             }
             set
             {
-                ItemFilterCommentBlock.Comment = value;
-                RaisePropertyChanged();
+                if (ItemFilterCommentBlock.Comment != value)
+                {
+                    ItemFilterCommentBlock.Comment = value;
+                    IsDirty = true;
+                    RaisePropertyChanged();
+                }
             }
         }
     }
