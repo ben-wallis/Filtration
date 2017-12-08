@@ -365,7 +365,7 @@ namespace Filtration.ViewModels
                 case "ShBlessed":
                     filePart = "SH22Blessed.wav";
                     break;
-                case "SH22Chaos":
+                case "ShChaos":
                     filePart = "SH22Chaos.wav";
                     break;
                 case "ShDivine":
