@@ -4,7 +4,7 @@
 	<LatestVersionMinorPart>17</LatestVersionMinorPart>
 	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.17</DownloadUrl>
 	<ReleaseDate>2017-12-08</ReleaseDate>
-	<StaticDataUpdatedDate>2017-12-08</StaticDataUpdatedDate>
+	<StaticDataUpdatedDate>2017-12-09</StaticDataUpdatedDate>
 	<ReleaseNotes>Contributors for this release: GlenCFL
 
 ♦ Fixed a crash when clicking Add Section
