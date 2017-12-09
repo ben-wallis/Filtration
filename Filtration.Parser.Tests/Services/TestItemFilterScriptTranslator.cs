@@ -393,6 +393,39 @@ namespace Filtration.Parser.Tests.Services
             Assert.AreEqual("My Block Group", secondBlock.BlockGroup.GroupName);
         }
 
+        [Test]
+        public void TranslateStringToItemFilterScript_SectionBeforeFirstBlock_ParsesCorrectly()
+        {
+            //Arrange
+            var testInputScript = "# Filter Description Line 1" + Environment.NewLine +
+                                  "# Filter Description Line 2" + Environment.NewLine +
+                                  "# Filter Description Line 3" + Environment.NewLine +
+                                  Environment.NewLine +
+                                  "# Section: Test" + Environment.NewLine +
+                                  Environment.NewLine +
+                                  "    Show" + Environment.NewLine +
+                                  "Class \"Pantheon Soul\"";
+
+
+            var blockTranslator = CreateItemFilterScriptTranslator(itemFilterBlockTranslator: new ItemFilterBlockTranslator(Mock.Of<IBlockGroupHierarchyBuilder>()));
+
+            //Act
+            var result = blockTranslator.TranslateStringToItemFilterScript(testInputScript);
+
+            //Assert
+            var expectedDescription = "Filter Description Line 1" + Environment.NewLine +
+                                      "Filter Description Line 2" + Environment.NewLine +
+                                      "Filter Description Line 3";
+
+            Assert.AreEqual(expectedDescription, result.Description);
+            var firstItemFilterCommentBlock = result.ItemFilterBlocks.OfType<ItemFilterCommentBlock>().FirstOrDefault();
+            Assert.IsNotNull(firstItemFilterCommentBlock);
+            Assert.AreEqual(" Section: Test", firstItemFilterCommentBlock.Comment);
+            var firstItemFilterBlock = result.ItemFilterBlocks.OfType<ItemFilterBlock>().FirstOrDefault();
+            Assert.IsNotNull(firstItemFilterBlock);
+            Assert.AreEqual(BlockAction.Show, firstItemFilterBlock.Action);
+        }
+
         private ItemFilterScriptTranslator CreateItemFilterScriptTranslator(IBlockGroupHierarchyBuilder blockGroupHierarchyBuilder = null,
                                                                             IItemFilterBlockTranslator itemFilterBlockTranslator = null,
                                                                             IItemFilterScriptFactory itemFilterScriptFactory = null)

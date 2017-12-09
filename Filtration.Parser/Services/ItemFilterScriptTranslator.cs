@@ -198,12 +198,9 @@ namespace Filtration.Parser.Services
                 }
                 // A line starting with a comment where the previous line was null represents the start of a new comment (unless we're on the first
                 // line in which case it's not a new comment).
-                else if (trimmedLine.StartsWith("#") && string.IsNullOrWhiteSpace(previousLine) && currentItemFilterBlockBoundary.BoundaryType != ItemFilterBlockBoundaryType.ScriptDescription)
+                else if (trimmedLine.StartsWith("#") && string.IsNullOrWhiteSpace(previousLine) && currentLine > 0)
                 {
-                    if (blockBoundaries.Count > 0)
-                    {
-                        blockBoundaries.AddLast(currentItemFilterBlockBoundary);
-                    }
+                    blockBoundaries.AddLast(currentItemFilterBlockBoundary);
                     currentItemFilterBlockBoundary = new ItemFilterBlockBoundary(currentLine, ItemFilterBlockBoundaryType.CommentBlock);
                 }
 
