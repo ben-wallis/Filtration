@@ -907,6 +907,7 @@ Multiple Traps Support
 Multistrike Support
 Murder Boots
 Murder Mitts
+Murderous Eye Jewel
 Museum Map
 Muttering Essence
 Muttering Essence of Anger
