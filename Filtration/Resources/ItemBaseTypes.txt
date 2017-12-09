@@ -1,4 +1,4 @@
-A Mother's Parting Gift
+﻿A Mother's Parting Gift
 Abandoned Wealth
 Abyssal Axe
 Abyssal Cry
@@ -909,6 +909,7 @@ Multiple Traps Support
 Multistrike Support
 Murder Boots
 Murder Mitts
+Murderous Eye Jewel
 Museum Map
 Muttering Essence
 Muttering Essence of Anger
