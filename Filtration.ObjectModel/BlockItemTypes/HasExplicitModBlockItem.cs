@@ -4,11 +4,11 @@ using Filtration.ObjectModel.BlockItemBaseTypes;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
-    public class BaseTypeBlockItem : StringListBlockItem
+    public class HasExplicitModBlockItem : StringListBlockItem
     {
-        public override string PrefixText => "BaseType";
+        public override string PrefixText => "HasExplicitMod";
         public override int MaximumAllowed => 1;
-        public override string DisplayHeading => "Base Type";
+        public override string DisplayHeading => "Has Explicit Mod";
 
         public override string SummaryText
         {
@@ -16,23 +16,23 @@ namespace Filtration.ObjectModel.BlockItemTypes
             {
                 if (Items.Count > 0 && Items.Count < 4)
                 {
-                    return "Item Base Types: " +
+                    return "Item Explicit Mods: " +
                            Items.Aggregate(string.Empty, (current, i) => current + i + ", ").TrimEnd(' ').TrimEnd(',');
                 }
                 if (Items.Count >= 4)
                 {
                     var remaining = Items.Count - 3;
-                    return "Item Base Types: " + Items.Take(3)
+                    return "Item Explicit Mods: " + Items.Take(3)
                         .Aggregate(string.Empty, (current, i) => current + i + ", ")
                         .TrimEnd(' ')
                         .TrimEnd(',') + " (+" + remaining + " more)";
                 }
-                return "Item Base Types: (none)";
+                return "Item Explicit Mods: (none)";
             }
         }
 
-        public override Color SummaryBackgroundColor => Colors.MediumTurquoise;
-        public override Color SummaryTextColor => Colors.Black;
-        public override int SortOrder => 18;
+        public override Color SummaryBackgroundColor => Colors.MidnightBlue;
+        public override Color SummaryTextColor => Colors.White;
+        public override int SortOrder => 19;
     }
 }

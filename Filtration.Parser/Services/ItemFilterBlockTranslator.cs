@@ -266,6 +266,21 @@ namespace Filtration.Parser.Services
                         }
                         break;
                     }
+                    case "GemLevel":
+                    {
+                        AddNumericFilterPredicateItemToBlockItems<GemLevelBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "StackSize":
+                    {
+                        AddNumericFilterPredicateItemToBlockItems<StackSizeBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "HasExplicitMod":
+                    {
+                        AddStringListItemToBlockItems<HasExplicitModBlockItem>(block, trimmedLine);
+                        break;
+                    }
                 }
             }
 

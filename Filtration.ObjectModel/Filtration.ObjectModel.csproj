@@ -61,6 +61,8 @@
     <Compile Include="BlockItemTypes\BaseTypeBlockItem.cs" />
     <Compile Include="BlockItemTypes\BorderColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\ClassBlockItem.cs" />
+    <Compile Include="BlockItemTypes\GemLevelBlockItem.cs" />
+    <Compile Include="BlockItemTypes\HasExplicitModBlockItem.cs" />
     <Compile Include="BlockItemTypes\ShapedMapBlockItem.cs" />
     <Compile Include="BlockItemTypes\ShaperItemBlockItem.cs" />
     <Compile Include="BlockItemTypes\ElderItemBlockItem.cs" />
@@ -77,9 +79,10 @@
     <Compile Include="BlockItemTypes\SocketsBlockItem.cs" />
     <Compile Include="BlockItemTypes\PositionalSoundBlockItem.cs" />
     <Compile Include="BlockItemTypes\SoundBlockItem.cs" />
+    <Compile Include="BlockItemTypes\StackSizeBlockItem.cs" />
     <Compile Include="BlockItemTypes\TextColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\WidthBlockItem.cs" />
-		<Compile Include="Commands\CommandManager.cs" />
+    <Compile Include="Commands\CommandManager.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\ItemFilterScript\PasteBlockCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\MoveBlockToBottomCommand.cs" />
@@ -100,7 +103,7 @@
     <Compile Include="Enums\ThemeComponentType.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
     <Compile Include="Extensions\ItemRarityExtensions.cs" />
-		<Compile Include="Factories\IItemFilterScriptFactory.cs" />
+    <Compile Include="Factories\IItemFilterScriptFactory.cs" />
     <Compile Include="FilteredItem.cs" />
     <Compile Include="IAudioVisualBlockItem.cs" />
     <Compile Include="IItemFilterBlockItem.cs" />
@@ -108,7 +111,7 @@
     <Compile Include="ItemFilterBlock.cs" />
     <Compile Include="ItemFilterBlockGroup.cs" />
     <Compile Include="ItemFilterScript.cs" />
-		<Compile Include="ItemFilterScriptSettings.cs" />
+    <Compile Include="ItemFilterScriptSettings.cs" />
     <Compile Include="ItemSet.cs" />
     <Compile Include="NumericFilterPredicate.cs" />
     <Compile Include="PathOfExileNamedColors.cs" />

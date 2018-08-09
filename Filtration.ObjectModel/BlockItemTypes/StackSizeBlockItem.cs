@@ -1,0 +1,18 @@
+﻿using System.Windows.Media;
+using Filtration.ObjectModel.BlockItemBaseTypes;
+
+namespace Filtration.ObjectModel.BlockItemTypes
+{
+    public class StackSizeBlockItem : NumericFilterPredicateBlockItem
+    {
+        public override string PrefixText => "StackSize";
+        public override int MaximumAllowed => 2;
+        public override string DisplayHeading => "Stack Size";
+        public override string SummaryText => "Stack Size " + FilterPredicate;
+        public override Color SummaryBackgroundColor => Colors.DarkSlateGray;
+        public override Color SummaryTextColor => Colors.White;
+        public override int SortOrder => 15;
+        public override int Minimum => 0;
+        public override int Maximum => 1000;
+    }
+}
