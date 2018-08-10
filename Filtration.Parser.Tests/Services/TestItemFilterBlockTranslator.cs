@@ -541,8 +541,8 @@ namespace Filtration.Parser.Tests.Services
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
             // Assert
-            Assert.AreEqual(1, result.BlockItems.Count(b => b is BaseTypeBlockItem));
-            var blockItem = result.BlockItems.OfType<BaseTypeBlockItem>().First();
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is HasExplicitModBlockItem));
+            var blockItem = result.BlockItems.OfType<HasExplicitModBlockItem>().First();
             Assert.Contains("Test Mod 1", blockItem.Items);
             Assert.Contains("TestOneWordModInQuotes", blockItem.Items);
             Assert.Contains("TestOneWordModNotInQuotes", blockItem.Items);
@@ -1848,6 +1848,8 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.TestBlock.BlockItems.Add(new ItemLevelBlockItem(FilterPredicateOperator.GreaterThan, 70));
             _testUtility.TestBlock.BlockItems.Add(new ItemLevelBlockItem(FilterPredicateOperator.LessThanOrEqual, 85));
             _testUtility.TestBlock.BlockItems.Add(new DropLevelBlockItem(FilterPredicateOperator.GreaterThan, 56));
+            _testUtility.TestBlock.BlockItems.Add(new GemLevelBlockItem(FilterPredicateOperator.LessThan, 15));
+            _testUtility.TestBlock.BlockItems.Add(new StackSizeBlockItem(FilterPredicateOperator.GreaterThanOrEqual, 4));
             _testUtility.TestBlock.BlockItems.Add(new QualityBlockItem(FilterPredicateOperator.GreaterThan, 2));
             _testUtility.TestBlock.BlockItems.Add(new RarityBlockItem(FilterPredicateOperator.Equal, (int)ItemRarity.Unique));
             var classItemblockItem = new ClassBlockItem();

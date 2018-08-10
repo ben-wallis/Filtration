@@ -156,7 +156,7 @@ namespace Filtration.Parser.Tests.Services
             script.ItemFilterBlocks.Add(block2);
 
             var expectedOutput = "# Script edited with Filtration - https://github.com/ben-wallis/Filtration" + Environment.NewLine +
-                                 "# Test Filter 1" + Environment.NewLine +
+                                 "# Test Filter 1" + Environment.NewLine + Environment.NewLine +
                                  "Show" + Environment.NewLine +
                                  "    ItemLevel > 5" + Environment.NewLine +
                                  "Show" + Environment.NewLine +
@@ -194,7 +194,7 @@ namespace Filtration.Parser.Tests.Services
             script.ItemFilterBlocks.Add(block1);
             script.ItemFilterBlocks.Add(block2);
 
-            var expectedOutput = "# Script edited with Filtration - https://github.com/ben-wallis/Filtration" + Environment.NewLine +
+            var expectedOutput = "# Script edited with Filtration - https://github.com/ben-wallis/Filtration" + Environment.NewLine + Environment.NewLine +
                                  "# Test script description" + Environment.NewLine +
                                  "# This is a really great script!" + Environment.NewLine + 
                                  "# Multiple line script descriptions are fun!" + Environment.NewLine +
@@ -228,7 +228,7 @@ namespace Filtration.Parser.Tests.Services
             };
 
             var expectedOutput = "# Script edited with Filtration - https://github.com/ben-wallis/Filtration" +
-                                 Environment.NewLine +
+                                 Environment.NewLine + Environment.NewLine +
                                  "# Test script description" + Environment.NewLine + Environment.NewLine;
 
             var translator = CreateItemFilterScriptTranslator();
