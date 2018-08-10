@@ -10,12 +10,14 @@ namespace Filtration.ViewModels
         void Initialise(IItemFilterBlockBase itemfilterBlock, IItemFilterScriptViewModel itemFilterScriptViewModel);
         IItemFilterBlockBase BaseBlock { get; }
         bool IsDirty { get; set; }
+        bool IsVisible { get; set; }
         event EventHandler BlockBecameDirty;
     }
 
     internal abstract class ItemFilterBlockViewModelBase : ViewModelBase, IItemFilterBlockViewModelBase
     {
         private bool _isDirty;
+        private bool _isVisible;
 
         public ItemFilterBlockViewModelBase()
         {
@@ -28,6 +30,8 @@ namespace Filtration.ViewModels
             MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand);
             MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand);
             MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand);
+
+            _isVisible = true;
         }
 
 
@@ -63,6 +67,16 @@ namespace Filtration.ViewModels
                     RaisePropertyChanged();
                     BlockBecameDirty?.Invoke(this, EventArgs.Empty);
                 }
+            }
+        }
+
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set
+            {
+                _isVisible = value;
+                RaisePropertyChanged();
             }
         }
 

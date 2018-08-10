@@ -1,4 +1,5 @@
 ﻿using Filtration.ObjectModel;
+using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Filtration.ViewModels
 {
@@ -6,10 +7,20 @@ namespace Filtration.ViewModels
     {
         IItemFilterCommentBlock ItemFilterCommentBlock { get; }
         string Comment { get; }
+        bool IsExpanded { get; set; }
     }
 
     internal class ItemFilterCommentBlockViewModel : ItemFilterBlockViewModelBase, IItemFilterCommentBlockViewModel
     {
+        private bool _isExpanded;
+
+        public ItemFilterCommentBlockViewModel()
+        {
+            _isExpanded = true;
+
+            ToggleSectionCommand = new RelayCommand(OnToggleSectionCommand);
+        }
+
         public override void Initialise(IItemFilterBlockBase itemfilterBlock, IItemFilterScriptViewModel itemFilterScriptViewModel)
         {
             _parentScriptViewModel = itemFilterScriptViewModel;
@@ -18,6 +29,8 @@ namespace Filtration.ViewModels
 
             base.Initialise(itemfilterBlock, itemFilterScriptViewModel);
         }
+
+        public RelayCommand ToggleSectionCommand { get; }
 
         public IItemFilterCommentBlock ItemFilterCommentBlock { get; private set; }
 
@@ -36,6 +49,22 @@ namespace Filtration.ViewModels
                     RaisePropertyChanged();
                 }
             }
+        }
+
+
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+            set
+            {
+                _isExpanded = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private void OnToggleSectionCommand()
+        {
+            _parentScriptViewModel.ToggleSection(this);
         }
     }
 }

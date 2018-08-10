@@ -77,6 +77,28 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column ="0" Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextWrapping="Wrap" MinWidth="150"/>
+                <Button Grid.Column="1" Command="{Binding ToggleSectionCommand}"
+                                        Width="25"
+                                        Height="25"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Right"
+                                        Margin="0,0,3,0"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        ToolTip="Expand Section" Visibility="{Binding IsExpanded, Converter={StaticResource InverseBooleanVisibilityConverter}}">
+                    <Image Source="/Filtration;component/Resources/Icons/expand_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Button>
+                <Button Grid.Column="1" Command="{Binding ToggleSectionCommand}"
+                                        Width="25"
+                                        Height="25"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Right"
+                                        Margin="0,0,3,0"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        ToolTip="Collapse Section" Visibility="{Binding IsExpanded, Converter={StaticResource BooleanVisibilityConverter}}">
+                    <Image Source="/Filtration;component/Resources/Icons/collapse_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Button>
             </Grid>
         </Border>
     </Grid>
