@@ -167,7 +167,6 @@
     <Compile Include="Converters\BooleanToBlockActionInverseConverter.cs" />
     <Compile Include="Converters\BooleanToBlockActionConverter.cs" />
     <Compile Include="Converters\BlockItemToRemoveEnabledVisibilityConverter.cs" />
-    <Compile Include="Converters\BooleanToBlockMarginConverter.cs" />
     <Compile Include="Converters\HashSignRemovalConverter.cs" />
     <Compile Include="Converters\ItemRarityConverter.cs" />
     <Compile Include="Converters\TreeViewMarginConverter.cs" />

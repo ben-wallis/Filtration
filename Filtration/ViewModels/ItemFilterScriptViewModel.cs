@@ -98,6 +98,7 @@ namespace Filtration.ViewModels
         private IItemFilterBlockViewModelBase _selectedBlockViewModel;
         private IItemFilterCommentBlockViewModel _sectionBrowserSelectedBlockViewModel;
         private readonly ObservableCollection<IItemFilterBlockViewModelBase> _itemFilterBlockViewModels;
+        private ObservableCollection<IItemFilterBlockViewModelBase> _viewItemFilterBlockViewModels;
         private ICollectionView _itemFilterBlockViewModelsCollectionView;
         private Predicate<IItemFilterBlockViewModel> _blockFilterPredicate;
         private ICommandManager _scriptCommandManager;
@@ -153,6 +154,8 @@ namespace Filtration.ViewModels
             icon.UriSource = new Uri("pack://application:,,,/Filtration;component/Resources/Icons/script_icon.png");
             icon.EndInit();
             IconSource = icon;
+
+            _viewItemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModelBase>();
         }
 
         public void Initialise(IItemFilterScript itemFilterScript, bool newScript)
@@ -174,6 +177,8 @@ namespace Filtration.ViewModels
             
             Title = Filename;
             ContentId = "ScriptContentId";
+
+            UpdateBlockModelsForView();
         }
 
         private void ItemFilterBlocksOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
@@ -196,6 +201,8 @@ namespace Filtration.ViewModels
                     break;
                 }
             }
+
+            UpdateBlockModelsForView();
         }
 
         private void AddItemFilterBlockViewModels(IEnumerable<IItemFilterBlockBase> itemFilterBlocks, int addAtIndex)
@@ -275,6 +282,19 @@ namespace Filtration.ViewModels
 
                 return isActiveDocument;
 
+            }
+        }
+
+        public ObservableCollection<IItemFilterBlockViewModelBase> ViewItemFilterBlockViewModels
+        {
+            get
+            {
+                return _viewItemFilterBlockViewModels;
+            }
+            set
+            {
+                _viewItemFilterBlockViewModels = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -1191,6 +1211,22 @@ namespace Filtration.ViewModels
                 else
                     break;
             }
+
+            UpdateBlockModelsForView();
+        }
+
+        private void UpdateBlockModelsForView()
+        {
+            ObservableCollection<IItemFilterBlockViewModelBase> blocksForView = new ObservableCollection<IItemFilterBlockViewModelBase>();
+            foreach (var block in ItemFilterBlockViewModels)
+            {
+                if (block.IsVisible)
+                {
+                    blocksForView.Add(block);
+                }
+            }
+
+            ViewItemFilterBlockViewModels = blocksForView;
         }
     }
 }

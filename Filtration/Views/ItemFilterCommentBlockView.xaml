@@ -46,7 +46,7 @@
         </ResourceDictionary>
         
     </UserControl.Resources>
-    <Grid Margin="2">
+    <Grid>
         <Grid.ContextMenu>
             <ContextMenu>
                 <ContextMenu.Items>
