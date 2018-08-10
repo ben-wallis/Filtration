@@ -155,8 +155,8 @@ namespace Filtration.Parser.Tests.Services
             script.ItemFilterBlocks.Add(block1);
             script.ItemFilterBlocks.Add(block2);
 
-            var expectedOutput = "# Script edited with Filtration - https://github.com/ben-wallis/Filtration" + Environment.NewLine +
-                                 "# Test Filter 1" + Environment.NewLine + Environment.NewLine +
+            var expectedOutput = "# Script edited with Filtration - https://github.com/ben-wallis/Filtration" + Environment.NewLine + Environment.NewLine +
+                                 "# Test Filter 1" + Environment.NewLine +
                                  "Show" + Environment.NewLine +
                                  "    ItemLevel > 5" + Environment.NewLine +
                                  "Show" + Environment.NewLine +
