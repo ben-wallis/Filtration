@@ -1,10 +1,20 @@
 ﻿using System.Windows.Media;
 using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
     public class GemLevelBlockItem : NumericFilterPredicateBlockItem
     {
+        public GemLevelBlockItem()
+        {
+        }
+
+        public GemLevelBlockItem(FilterPredicateOperator predicateOperator, int predicateOperand)
+            : base(predicateOperator, predicateOperand)
+        {
+        }
+
         public override string PrefixText => "GemLevel";
         public override int MaximumAllowed => 2;
         public override string DisplayHeading => "Gem Level";

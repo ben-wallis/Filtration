@@ -319,6 +319,42 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlock_GemLevel_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    GemLevel = 20";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is GemLevelBlockItem));
+            var blockItem = result.BlockItems.OfType<GemLevelBlockItem>().First();
+            Assert.AreEqual(20, blockItem.FilterPredicate.PredicateOperand);
+            Assert.AreEqual(FilterPredicateOperator.Equal, blockItem.FilterPredicate.PredicateOperator);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_StackSize_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    StackSize > 5";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is StackSizeBlockItem));
+            var blockItem = result.BlockItems.OfType<StackSizeBlockItem>().First();
+            Assert.AreEqual(5, blockItem.FilterPredicate.PredicateOperand);
+            Assert.AreEqual(FilterPredicateOperator.GreaterThan, blockItem.FilterPredicate.PredicateOperator);
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_Corrupted_ReturnsCorrectObject()
         {
             // Arrange
@@ -492,6 +528,25 @@ namespace Filtration.Parser.Tests.Services
             Assert.Contains("TestOneWordBaseTypeInQuotes", blockItem.Items);
             Assert.Contains("TestOneWordBaseTypeNotInQuotes", blockItem.Items);
             Assert.Contains("Test BaseType 2", blockItem.Items);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_HasExplicitMod_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              @"    HasExplicitMod ""Test Mod 1"" ""TestOneWordModInQuotes"" TestOneWordModNotInQuotes ""Test Mod 2""";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is BaseTypeBlockItem));
+            var blockItem = result.BlockItems.OfType<BaseTypeBlockItem>().First();
+            Assert.Contains("Test Mod 1", blockItem.Items);
+            Assert.Contains("TestOneWordModInQuotes", blockItem.Items);
+            Assert.Contains("TestOneWordModNotInQuotes", blockItem.Items);
+            Assert.Contains("Test Mod 2", blockItem.Items);
         }
 
         [Test]
@@ -813,6 +868,8 @@ namespace Filtration.Parser.Tests.Services
                               "Show" + Environment.NewLine +
                               "    ItemLevel >= 50" + Environment.NewLine +
                               "    DropLevel < 70" + Environment.NewLine +
+                              "    GemLevel = 20" + Environment.NewLine +
+                              "    StackSize > 2" + Environment.NewLine +
                               "    Quality = 15" + Environment.NewLine +
                               "    Rarity <= Unique" + Environment.NewLine +
                               "    Identified True" + Environment.NewLine +
@@ -822,6 +879,7 @@ namespace Filtration.Parser.Tests.Services
                               "    ShapedMap TRUE" + Environment.NewLine +
                               @"    Class ""My Item Class"" AnotherClass ""AndAnotherClass""" + Environment.NewLine +
                               @"    BaseType MyBaseType ""Another BaseType""" + Environment.NewLine +
+                              @"    HasExplicitMod MyMod ""Another Mod""" + Environment.NewLine +
                               "    JunkLine Let's ignore this one!" + Environment.NewLine +
                               "    #Quality Commented out quality line" + Environment.NewLine +
                               "    Sockets >= 3" + Environment.NewLine +
@@ -861,6 +919,14 @@ namespace Filtration.Parser.Tests.Services
             Assert.AreEqual(FilterPredicateOperator.LessThan, dropLevelblockItem.FilterPredicate.PredicateOperator);
             Assert.AreEqual(70, dropLevelblockItem.FilterPredicate.PredicateOperand);
 
+            var gemLevelBlockItem = result.BlockItems.OfType<GemLevelBlockItem>().First();
+            Assert.AreEqual(FilterPredicateOperator.Equal, gemLevelBlockItem.FilterPredicate.PredicateOperator);
+            Assert.AreEqual(20, gemLevelBlockItem.FilterPredicate.PredicateOperand);
+
+            var stackSizeBlockItem = result.BlockItems.OfType<StackSizeBlockItem>().First();
+            Assert.AreEqual(FilterPredicateOperator.GreaterThan, stackSizeBlockItem.FilterPredicate.PredicateOperator);
+            Assert.AreEqual(2, stackSizeBlockItem.FilterPredicate.PredicateOperand);
+
             var qualityblockItem = result.BlockItems.OfType<QualityBlockItem>().First();
             Assert.AreEqual(FilterPredicateOperator.Equal, qualityblockItem.FilterPredicate.PredicateOperator);
             Assert.AreEqual(15, qualityblockItem.FilterPredicate.PredicateOperand);
@@ -879,6 +945,11 @@ namespace Filtration.Parser.Tests.Services
             Assert.AreEqual(2, baseTypeblockItem.Items.Count);
             Assert.Contains("MyBaseType", baseTypeblockItem.Items);
             Assert.Contains("Another BaseType", baseTypeblockItem.Items);
+
+            var hasExplicitModBlockItem = result.BlockItems.OfType<HasExplicitModBlockItem>().First();
+            Assert.AreEqual(2, hasExplicitModBlockItem.Items.Count);
+            Assert.Contains("MyMod", hasExplicitModBlockItem.Items);
+            Assert.Contains("Another Mod", hasExplicitModBlockItem.Items);
 
             var socketsblockItem = result.BlockItems.OfType<SocketsBlockItem>().First();
             Assert.AreEqual(FilterPredicateOperator.GreaterThanOrEqual, socketsblockItem.FilterPredicate.PredicateOperator);
@@ -1335,6 +1406,38 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateItemFilterBlockToString_GemLevel_ReturnsCorrectString()
+        {
+            // Arrange
+            var expectedResult = "Show" + Environment.NewLine +
+                                 "    GemLevel <= 15";
+
+            _testUtility.TestBlock.BlockItems.Add(new GemLevelBlockItem(FilterPredicateOperator.LessThanOrEqual, 15));
+
+            // Act
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void TranslateItemFilterBlockToString_StackSize_ReturnsCorrectString()
+        {
+            // Arrange
+            var expectedResult = "Show" + Environment.NewLine +
+                                 "    StackSize = 5";
+
+            _testUtility.TestBlock.BlockItems.Add(new StackSizeBlockItem(FilterPredicateOperator.Equal, 5));
+
+            // Act
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
         public void TranslateItemFilterBlockToString_Quality_ReturnsCorrectString()
         {
             // Arrange
@@ -1417,6 +1520,26 @@ namespace Filtration.Parser.Tests.Services
             baseTypeBlockItem.Items.Add("Another BaseType");
             baseTypeBlockItem.Items.Add("Yet Another BaseType");
             _testUtility.TestBlock.BlockItems.Add(baseTypeBlockItem);
+
+            // Act
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void TranslateItemFilterBlockToString_HasExplicitMod_ReturnsCorrectString()
+        {
+            // Arrange
+            var expectedResult = "Show" + Environment.NewLine +
+                                 "    HasExplicitMod \"Test Mod\" \"Another Mod\" \"Yet Another Mod\"";
+
+            var hasExplicitModBlockItem = new HasExplicitModBlockItem();
+            hasExplicitModBlockItem.Items.Add("Test Mod");
+            hasExplicitModBlockItem.Items.Add("Another Mod");
+            hasExplicitModBlockItem.Items.Add("Yet Another Mod");
+            _testUtility.TestBlock.BlockItems.Add(hasExplicitModBlockItem);
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
@@ -1706,9 +1829,12 @@ namespace Filtration.Parser.Tests.Services
                                  "    ItemLevel > 70" + Environment.NewLine +
                                  "    ItemLevel <= 85" + Environment.NewLine +
                                  "    DropLevel > 56" + Environment.NewLine +
+                                 "    GemLevel < 15" + Environment.NewLine +
+                                 "    StackSize >= 4" + Environment.NewLine +
                                  "    Rarity = Unique" + Environment.NewLine +
                                  "    Class \"Body Armour\" \"Gloves\" \"Belt\" \"Two Hand Axes\"" + Environment.NewLine +
                                  "    BaseType \"Greater Life Flask\" \"Simple Robe\" \"Full Wyrmscale\"" + Environment.NewLine +
+                                 "    HasExplicitMod \"Guatelitzi's\" \"of Tacati\" \"Tyrannical\"" + Environment.NewLine +
                                  "    SetTextColor 255 89 0 56" + Environment.NewLine +
                                  "    SetBackgroundColor 0 0 0" + Environment.NewLine +
                                  "    SetBorderColor 255 1 254" + Environment.NewLine +
@@ -1735,6 +1861,11 @@ namespace Filtration.Parser.Tests.Services
             baseTypeItemblockItem.Items.Add("Simple Robe");
             baseTypeItemblockItem.Items.Add("Full Wyrmscale");
             _testUtility.TestBlock.BlockItems.Add(baseTypeItemblockItem);
+            var hasExplicitModBlockItem = new HasExplicitModBlockItem();
+            hasExplicitModBlockItem.Items.Add("Guatelitzi's");
+            hasExplicitModBlockItem.Items.Add("of Tacati");
+            hasExplicitModBlockItem.Items.Add("Tyrannical");
+            _testUtility.TestBlock.BlockItems.Add(hasExplicitModBlockItem);
             _testUtility.TestBlock.BlockItems.Add(new SocketsBlockItem(FilterPredicateOperator.LessThanOrEqual, 6));
             _testUtility.TestBlock.BlockItems.Add(new LinkedSocketsBlockItem(FilterPredicateOperator.GreaterThanOrEqual, 4));
             _testUtility.TestBlock.BlockItems.Add(new WidthBlockItem(FilterPredicateOperator.Equal, 3));

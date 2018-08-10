@@ -234,7 +234,7 @@ namespace Filtration.Parser.Services
             var outputString = string.Empty;
 
             outputString += "# Script edited with Filtration - https://github.com/ben-wallis/Filtration" +
-                            Environment.NewLine;
+                            Environment.NewLine + Environment.NewLine;
 
             if (script.ItemFilterScriptSettings.BlockGroupsEnabled)
             {
