@@ -72,7 +72,7 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListBoxItem">
-                                        <Border Name="Border" Padding="2" SnapsToDevicePixels="true">
+                                        <Border Name="Border" SnapsToDevicePixels="true">
                                             <ContentPresenter />
                                         </Border>
                                         <ControlTemplate.Triggers>

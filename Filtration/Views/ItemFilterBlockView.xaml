@@ -18,6 +18,7 @@
                 <ResourceDictionary>
                     <views:BindingProxy x:Key="Proxy" Data="{Binding}" />
                     <converters:BlockGroupAdvancedFillColorConverter x:Key="BlockGroupAdvancedFillColorConverter" />
+                    <converters:BooleanToBlockMarginConverter x:Key="BooleanToBlockMarginConverter"/>
                     <Style TargetType="{x:Type ContentPresenter}" x:Key="BlockItemFadeInStyle">
                         <Setter Property="LayoutTransform">
                             <Setter.Value>
@@ -40,7 +41,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid x:Name="TopLevelGrid">
+    <Grid x:Name="TopLevelGrid" Margin="{Binding IsVisible, Converter={StaticResource BooleanToBlockMarginConverter}}">
         <Grid x:Name="DisabledBlockOverlay" IsHitTestVisible="False" Panel.ZIndex="1000" Visibility="{Binding BlockEnabled, Converter={StaticResource InverseBooleanVisibilityConverter}}">
             <Grid.Background>
                 <SolidColorBrush Color="Gray" Opacity=".5" />
