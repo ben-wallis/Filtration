@@ -543,7 +543,7 @@ namespace Filtration.Parser.Services
 
             if (!string.IsNullOrEmpty(block.Description))
             {
-                outputString += "# " + block.Description + Environment.NewLine;
+                outputString += (block.Enabled ? "# " : "## ") + block.Description + Environment.NewLine;
             }
 
             outputString += (!block.Enabled ? "#" : string.Empty) + block.Action.GetAttributeDescription();

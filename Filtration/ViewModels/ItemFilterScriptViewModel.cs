@@ -778,6 +778,16 @@ namespace Filtration.ViewModels
 
         public void PasteBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
+            var commentBlock = targetBlockViewModelBase as IItemFilterCommentBlockViewModel;
+            if(commentBlock != null && !commentBlock.IsExpanded)
+            {
+                var blockIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase) + 1;
+                while (blockIndex < ItemFilterBlockViewModels.Count && (ItemFilterBlockViewModels[blockIndex] as IItemFilterCommentBlockViewModel) == null)
+                {
+                    blockIndex++;
+                }
+                targetBlockViewModelBase = ItemFilterBlockViewModels[blockIndex - 1];
+            }
             try
             {
                 var clipboardText = _clipboardService.GetClipboardText();
@@ -793,7 +803,20 @@ namespace Filtration.ViewModels
                 {
                     IItemFilterBlockBase translatedBlock;
                     var pastedDisabledBlock = false;
-                    if (!curBlock.StartsWith(@"#Disabled Block Start") && curBlock.StartsWith(@"#"))
+                    var isCommentBlock = !curBlock.StartsWith(@"#Disabled Block Start");
+                    string[] textLines = curBlock.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                    foreach(var line in textLines)
+                    {
+                        if(!line.StartsWith(@"#"))
+                        {
+                            isCommentBlock = false;
+                        }
+
+                        if (!isCommentBlock)
+                            break;
+                    }
+
+                    if (isCommentBlock)
                     {
                         translatedBlock = _blockTranslator.TranslateStringToItemFilterCommentBlock(curBlock, Script);
                         pastedSection = true;
@@ -801,7 +824,6 @@ namespace Filtration.ViewModels
                     else if (curBlock.StartsWith(@"#Disabled Block Start"))
                     {
                         pastedDisabledBlock = true;
-                        string[] textLines = curBlock.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                         if (textLines.Length < 3)
                             continue;
 
