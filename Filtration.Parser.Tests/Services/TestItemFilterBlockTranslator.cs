@@ -423,6 +423,23 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlock_ElderMap_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    ElderMap false";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is ElderMapBlockItem));
+            var blockItem = result.BlockItems.OfType<ElderMapBlockItem>().First();
+            Assert.IsFalse(blockItem.BooleanValue);
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_Identified_ReturnsCorrectObject()
         {
             // Arrange
@@ -877,6 +894,7 @@ namespace Filtration.Parser.Tests.Services
                               "    ElderItem true" + Environment.NewLine +
                               "    ShaperItem False" + Environment.NewLine +
                               "    ShapedMap TRUE" + Environment.NewLine +
+                              "    ElderMap False" + Environment.NewLine +
                               @"    Class ""My Item Class"" AnotherClass ""AndAnotherClass""" + Environment.NewLine +
                               @"    BaseType MyBaseType ""Another BaseType""" + Environment.NewLine +
                               @"    HasExplicitMod MyMod ""Another Mod""" + Environment.NewLine +
@@ -914,6 +932,9 @@ namespace Filtration.Parser.Tests.Services
 
             var shapedMapBlockItem = result.BlockItems.OfType<ShapedMapBlockItem>().First();
             Assert.IsTrue(shapedMapBlockItem.BooleanValue);
+
+            var elderMapBlockItem = result.BlockItems.OfType<ElderMapBlockItem>().First();
+            Assert.IsFalse(elderMapBlockItem.BooleanValue);
 
             var dropLevelblockItem = result.BlockItems.OfType<DropLevelBlockItem>().First();
             Assert.AreEqual(FilterPredicateOperator.LessThan, dropLevelblockItem.FilterPredicate.PredicateOperator);
@@ -1823,6 +1844,7 @@ namespace Filtration.Parser.Tests.Services
                                  "    ElderItem True" + Environment.NewLine +
                                  "    ShaperItem False" + Environment.NewLine +
                                  "    ShapedMap True" + Environment.NewLine +
+                                 "    ElderMap True" + Environment.NewLine +
                                  "    Height <= 6" + Environment.NewLine +
                                  "    Height >= 2" + Environment.NewLine +
                                  "    Width = 3" + Environment.NewLine +
@@ -1881,6 +1903,7 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.TestBlock.BlockItems.Add(new ElderItemBlockItem(true));
             _testUtility.TestBlock.BlockItems.Add(new ShaperItemBlockItem(false));
             _testUtility.TestBlock.BlockItems.Add(new ShapedMapBlockItem(true));
+            _testUtility.TestBlock.BlockItems.Add(new ElderMapBlockItem(true));
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);

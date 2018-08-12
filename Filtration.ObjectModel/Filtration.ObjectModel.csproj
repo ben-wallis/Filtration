@@ -61,6 +61,7 @@
     <Compile Include="BlockItemTypes\BaseTypeBlockItem.cs" />
     <Compile Include="BlockItemTypes\BorderColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\ClassBlockItem.cs" />
+    <Compile Include="BlockItemTypes\ElderMapBlockItem.cs" />
     <Compile Include="BlockItemTypes\GemLevelBlockItem.cs" />
     <Compile Include="BlockItemTypes\HasExplicitModBlockItem.cs" />
     <Compile Include="BlockItemTypes\ShapedMapBlockItem.cs" />

@@ -160,6 +160,7 @@ namespace Filtration.ViewModels
             typeof (ElderItemBlockItem),
             typeof (ShaperItemBlockItem),
             typeof (ShapedMapBlockItem),
+            typeof (ElderMapBlockItem),
             typeof (GemLevelBlockItem),
             typeof (StackSizeBlockItem),
             typeof (HasExplicitModBlockItem)

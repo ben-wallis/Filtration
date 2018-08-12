@@ -281,6 +281,11 @@ namespace Filtration.Parser.Services
                         AddStringListItemToBlockItems<HasExplicitModBlockItem>(block, trimmedLine);
                         break;
                     }
+                    case "ElderMap":
+                    {
+                        AddBooleanItemToBlockItems<ElderMapBlockItem>(block, trimmedLine);
+                        break;
+                    }
                 }
             }
 
