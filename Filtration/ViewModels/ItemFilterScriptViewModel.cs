@@ -1037,7 +1037,21 @@ namespace Filtration.ViewModels
 
         private void OnAddBlockCommand()
         {
-            AddBlock(SelectedBlockViewModel);
+            var selectedBlockAsCommentBlock = SelectedBlockViewModel as IItemFilterCommentBlockViewModel;
+            if(selectedBlockAsCommentBlock == null || selectedBlockAsCommentBlock.IsExpanded)
+            {
+                AddBlock(SelectedBlockViewModel);
+            }
+            else
+            {
+                var sectionStart = ItemFilterBlockViewModels.IndexOf(selectedBlockAsCommentBlock);
+                var sectionEnd = sectionStart + 1;
+                while (sectionEnd < ItemFilterBlockViewModels.Count && ItemFilterBlockViewModels[sectionEnd] as IItemFilterCommentBlockViewModel == null)
+                {
+                    sectionEnd++;
+                }
+                AddBlock(ItemFilterBlockViewModels[sectionEnd - 1]);
+            }
         }
 
         public void AddBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase)
