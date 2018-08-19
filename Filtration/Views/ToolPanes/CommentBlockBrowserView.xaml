@@ -21,7 +21,7 @@
             </ListBox.Resources>
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="viewModels:ItemFilterCommentBlockViewModel">
-                    <TextBlock Text="{Binding Comment, Converter={StaticResource HashSignRemovalConverter}}" ToolTip="{Binding Comment}" />
+                    <TextBlock Text="{Binding Header, Converter={StaticResource HashSignRemovalConverter}}" ToolTip="{Binding Comment}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

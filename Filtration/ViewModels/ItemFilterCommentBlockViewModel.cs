@@ -58,11 +58,24 @@ namespace Filtration.ViewModels
             get
             {
                 string[] commentLines = ItemFilterCommentBlock.Comment.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                if (commentLines[0].StartsWith(@"============") || commentLines[0].StartsWith(@"------------"))
+                var titleOffset = 1;
+                if (commentLines.Length > 1 && (commentLines[0].StartsWith(@"============") || commentLines[0].StartsWith(@"------------")))
                 {
+                    titleOffset = 3;
                     commentLines[0] = commentLines[1];
                 }
-                return commentLines[0].TrimStart(' ');
+
+                commentLines[0] = commentLines[0].TrimStart(' ');
+                if (commentLines[0].Length > 80)
+                {
+                    commentLines[0] = commentLines[0].Substring(0, 80) + " (...)";
+                }
+                else if (commentLines.Length > titleOffset)
+                {
+                    commentLines[0] = commentLines[0] + " (...)";
+                }
+
+                return commentLines[0];
             }
         }
 
