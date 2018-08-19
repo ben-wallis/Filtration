@@ -65,6 +65,8 @@ namespace Filtration.ViewModels
         RelayCommand PasteBlockStyleCommand { get; }
         RelayCommand ExpandAllBlocksCommand { get; }
         RelayCommand CollapseAllBlocksCommand { get; }
+        RelayCommand ExpandAllSectionsCommand { get; }
+        RelayCommand CollapseAllSectionsCommand { get; }
         RelayCommand<bool> ToggleShowAdvancedCommand { get; }
         RelayCommand ClearFilterCommand { get; }
 
@@ -148,6 +150,8 @@ namespace Filtration.ViewModels
             PasteBlockStyleCommand = new RelayCommand(OnPasteBlockStyleCommand, () => SelectedBlockViewModel != null);
             ExpandAllBlocksCommand = new RelayCommand(OnExpandAllBlocksCommand);
             CollapseAllBlocksCommand = new RelayCommand(OnCollapseAllBlocksCommand);
+            ExpandAllSectionsCommand = new RelayCommand(ExpandAllSections);
+            CollapseAllSectionsCommand = new RelayCommand(CollapseAllSections);
 
             var icon = new BitmapImage();
             icon.BeginInit();
@@ -178,6 +182,7 @@ namespace Filtration.ViewModels
             Title = Filename;
             ContentId = "ScriptContentId";
 
+            CollapseAllSections();
             UpdateBlockModelsForView();
         }
 
@@ -272,6 +277,8 @@ namespace Filtration.ViewModels
         public RelayCommand PasteBlockStyleCommand { get; }
         public RelayCommand ExpandAllBlocksCommand { get; }
         public RelayCommand CollapseAllBlocksCommand { get; }
+        public RelayCommand ExpandAllSectionsCommand { get; }
+        public RelayCommand CollapseAllSectionsCommand { get; }
 
         public bool IsActiveDocument
         {
@@ -1263,6 +1270,30 @@ namespace Filtration.ViewModels
             }
 
             ViewItemFilterBlockViewModels = blocksForView;
+        }
+
+        private void CollapseAllSections()
+        {
+            for (int i = 0; i < ItemFilterBlockViewModels.Count; i++)
+            {
+                var block = ItemFilterBlockViewModels[i] as IItemFilterCommentBlockViewModel;
+                if (block != null && block.IsExpanded)
+                {
+                    ToggleSection(block);
+                }
+            }
+        }
+
+        private void ExpandAllSections()
+        {
+            for (int i = 0; i < ItemFilterBlockViewModels.Count; i++)
+            {
+                var block = ItemFilterBlockViewModels[i] as IItemFilterCommentBlockViewModel;
+                if (block != null && !block.IsExpanded)
+                {
+                    ToggleSection(block);
+                }
+            }
         }
     }
 }

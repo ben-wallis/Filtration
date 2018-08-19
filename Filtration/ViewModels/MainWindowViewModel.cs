@@ -119,6 +119,9 @@ namespace Filtration.ViewModels
             ExpandAllBlocksCommand = new RelayCommand(OnExpandAllBlocksCommand, () => ActiveDocumentIsScript);
             CollapseAllBlocksCommand = new RelayCommand(OnCollapseAllBlocksCommand, () => ActiveDocumentIsScript);
 
+            ExpandAllSectionsCommand = new RelayCommand(OnExpandAllSectionsCommand, () => ActiveDocumentIsScript);
+            CollapseAllSectionsCommand = new RelayCommand(OnCollapseAllSectionsCommand, () => ActiveDocumentIsScript);
+
             ToggleShowAdvancedCommand = new RelayCommand<bool>(OnToggleShowAdvancedCommand, s => ActiveDocumentIsScript);
             ClearFiltersCommand = new RelayCommand(OnClearFiltersCommand, () => ActiveDocumentIsScript);
 
@@ -229,6 +232,9 @@ namespace Filtration.ViewModels
 
         public RelayCommand ExpandAllBlocksCommand { get; }
         public RelayCommand CollapseAllBlocksCommand { get; }
+
+        public RelayCommand ExpandAllSectionsCommand { get; }
+        public RelayCommand CollapseAllSectionsCommand { get; }
 
         public RelayCommand<bool> ToggleShowAdvancedCommand { get; }
         public RelayCommand ClearFiltersCommand { get; }
@@ -634,6 +640,16 @@ namespace Filtration.ViewModels
         private void OnCollapseAllBlocksCommand()
         {
             _avalonDockWorkspaceViewModel.ActiveScriptViewModel.CollapseAllBlocksCommand.Execute(null);
+        }
+
+        private void OnExpandAllSectionsCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.ExpandAllSectionsCommand.Execute(null);
+        }
+
+        private void OnCollapseAllSectionsCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.CollapseAllSectionsCommand.Execute(null);
         }
 
         private void OnToggleShowAdvancedCommand(bool showAdvanced)
