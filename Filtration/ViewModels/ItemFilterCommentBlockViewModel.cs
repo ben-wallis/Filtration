@@ -59,7 +59,7 @@ namespace Filtration.ViewModels
             {
                 string[] commentLines = ItemFilterCommentBlock.Comment.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 var titleOffset = 1;
-                if (commentLines.Length > 1 && (commentLines[0].StartsWith(@"============") || commentLines[0].StartsWith(@"------------")))
+                if (commentLines.Length > 1 && (commentLines[0].TrimStart(' ').StartsWith(@"============") || commentLines[0].TrimStart(' ').StartsWith(@"------------")))
                 {
                     titleOffset = 3;
                     commentLines[0] = commentLines[1];

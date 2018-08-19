@@ -115,9 +115,10 @@ namespace Filtration.Parser.Services
             var parsingCommented = false;
             for (var i = 0; i < lines.Length; i++)
             {
-                if (!parsingCommented)
+                if (!parsingCommented && lines[i].StartsWith("#"))
                 {
-                    if (lines[i].StartsWith("# Show") || lines[i].StartsWith("#Show"))
+                    string curLine = Regex.Replace(lines[i].Substring(1), @"\s+", "");
+                    if ((curLine.StartsWith("Show") || curLine.StartsWith("Hide")) && (curLine.Length == 4 || curLine[4] == '#'))
                     {
                         parsingCommented = true;
                         lines[i] = "#Disabled Block Start" + Environment.NewLine + lines[i];
@@ -125,7 +126,7 @@ namespace Filtration.Parser.Services
                 }
                 else
                 {
-                    if (!lines[i].StartsWith("#"))
+                    if (parsingCommented && !lines[i].StartsWith("#"))
                     {
                         parsingCommented = false;
                         lines[i - 1] += Environment.NewLine + "#Disabled Block End";
@@ -145,8 +146,8 @@ namespace Filtration.Parser.Services
             var script = _itemFilterScriptFactory.Create();
             _blockGroupHierarchyBuilder.Initialise(script.ItemFilterBlockGroups.First());
 
-            //NeverSink's Indepth Loot Filter parsing
-            if (inputString.Contains("NeverSink's Indepth Loot Filter"))
+            //Check for possible different disabled block syntaxes if the script is not from Filtration
+            if (!inputString.Contains("Script edited with Filtration"))
             {
                 inputString = ConvertCommentedToDisabled(inputString);
             }
@@ -302,13 +303,6 @@ namespace Filtration.Parser.Services
                 {
                     outputString += Environment.NewLine;
                 }
-            }
-
-            //NeverSink's Indepth Loot Filter parsing
-            if (outputString.Contains("NeverSink's Indepth Loot Filter"))
-            {
-                outputString = Regex.Replace(outputString, "(\r)?\n#Disabled Block Start*(\r)?\n", Environment.NewLine);
-                outputString = Regex.Replace(outputString, "(\r)?\n#Disabled Block End*(\r)?\n", Environment.NewLine);
             }
 
             return outputString;

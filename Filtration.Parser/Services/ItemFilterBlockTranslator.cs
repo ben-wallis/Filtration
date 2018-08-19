@@ -312,6 +312,7 @@ namespace Filtration.Parser.Services
 
         private static void AddBooleanItemToBlockItems<T>(IItemFilterBlock block, string inputString) where T : BooleanBlockItem
         {
+            inputString = Regex.Replace(inputString, @"\s+", " ");
             var blockItem = Activator.CreateInstance<T>();
             var splitString = inputString.Split(' ');
             if (splitString.Length == 2)
