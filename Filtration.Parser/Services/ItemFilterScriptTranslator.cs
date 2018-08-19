@@ -75,6 +75,7 @@ namespace Filtration.Parser.Services
                     }
 
                     lines[i] = lines[i].TrimStart('#');
+                    lines[i] = lines[i].TrimStart(' ');
                     lines[i] = lines[i].Replace("#", " # ");
                     var spaceOrEndOfLinePos = lines[i].IndexOf(" ", StringComparison.Ordinal) > 0 ? lines[i].IndexOf(" ", StringComparison.Ordinal) : lines[i].Length;
                     var lineOption = lines[i].Substring(0, spaceOrEndOfLinePos);
@@ -108,10 +109,48 @@ namespace Filtration.Parser.Services
             return lines.Aggregate((c, n) => c + Environment.NewLine + n);
         }
 
+        public static string ConvertCommentedToDisabled(string inputString)
+        {
+            var lines = Regex.Split(inputString, "\r\n|\r|\n");
+            var parsingCommented = false;
+            for (var i = 0; i < lines.Length; i++)
+            {
+                if (!parsingCommented)
+                {
+                    if (lines[i].StartsWith("# Show") || lines[i].StartsWith("#Show"))
+                    {
+                        parsingCommented = true;
+                        lines[i] = "#Disabled Block Start" + Environment.NewLine + lines[i];
+                    }
+                }
+                else
+                {
+                    if (!lines[i].StartsWith("#"))
+                    {
+                        parsingCommented = false;
+                        lines[i - 1] += Environment.NewLine + "#Disabled Block End";
+                    }
+                }
+            }
+            if(parsingCommented)
+            {
+                lines[lines.Length - 1] += Environment.NewLine + "#Disabled Block End";
+            }
+
+            return string.Join(Environment.NewLine, lines);
+        }
+
         public IItemFilterScript TranslateStringToItemFilterScript(string inputString)
         {
             var script = _itemFilterScriptFactory.Create();
             _blockGroupHierarchyBuilder.Initialise(script.ItemFilterBlockGroups.First());
+
+            //NeverSink's Indepth Loot Filter parsing
+            if (inputString.Contains("NeverSink's Indepth Loot Filter"))
+            {
+                inputString = ConvertCommentedToDisabled(inputString);
+            }
+
 
             inputString = inputString.Replace("\t", "");
             if (inputString.Contains("#Disabled Block Start"))
@@ -263,6 +302,13 @@ namespace Filtration.Parser.Services
                 {
                     outputString += Environment.NewLine;
                 }
+            }
+
+            //NeverSink's Indepth Loot Filter parsing
+            if (outputString.Contains("NeverSink's Indepth Loot Filter"))
+            {
+                outputString = Regex.Replace(outputString, "(\r)?\n#Disabled Block Start*(\r)?\n", Environment.NewLine);
+                outputString = Regex.Replace(outputString, "(\r)?\n#Disabled Block End*(\r)?\n", Environment.NewLine);
             }
 
             return outputString;

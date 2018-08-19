@@ -1,5 +1,6 @@
 ﻿using Filtration.ObjectModel;
 using GalaSoft.MvvmLight.CommandWpf;
+using System;
 
 namespace Filtration.ViewModels
 {
@@ -47,7 +48,21 @@ namespace Filtration.ViewModels
                     ItemFilterCommentBlock.Comment = value;
                     IsDirty = true;
                     RaisePropertyChanged();
+                    RaisePropertyChanged("Header");
                 }
+            }
+        }
+
+        public string Header
+        {
+            get
+            {
+                string[] commentLines = ItemFilterCommentBlock.Comment.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                if (commentLines[0].StartsWith(@"============") || commentLines[0].StartsWith(@"------------"))
+                {
+                    commentLines[0] = commentLines[1];
+                }
+                return commentLines[0].TrimStart(' ');
             }
         }
 
