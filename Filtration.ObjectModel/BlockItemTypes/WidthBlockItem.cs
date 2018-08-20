@@ -21,7 +21,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string SummaryText => "Width " + FilterPredicate;
         public override Color SummaryBackgroundColor => Colors.MediumPurple;
         public override Color SummaryTextColor => Colors.White;
-        public override int SortOrder => 11;
+        public override int SortOrder => 12;
         public override int Minimum => 0;
         public override int Maximum => 2;
     }

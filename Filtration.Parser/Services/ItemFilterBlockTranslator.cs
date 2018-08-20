@@ -266,6 +266,34 @@ namespace Filtration.Parser.Services
                         }
                         break;
                     }
+                    case "GemLevel":
+                    {
+                        AddNumericFilterPredicateItemToBlockItems<GemLevelBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "StackSize":
+                    {
+                        AddNumericFilterPredicateItemToBlockItems<StackSizeBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "HasExplicitMod":
+                    {
+                        AddStringListItemToBlockItems<HasExplicitModBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "ElderMap":
+                    {
+                        AddBooleanItemToBlockItems<ElderMapBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "DisableDropSound":
+                    {
+                        // Only ever use the last DisableDropSound item encountered as multiples aren't valid.
+                        RemoveExistingBlockItemsOfType<DisableDropSoundBlockItem>(block);
+
+                        AddBooleanItemToBlockItems<DisableDropSoundBlockItem>(block, trimmedLine);
+                        break;
+                    }
                 }
             }
 

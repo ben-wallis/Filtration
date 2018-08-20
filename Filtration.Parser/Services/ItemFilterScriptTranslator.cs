@@ -251,8 +251,8 @@ namespace Filtration.Parser.Services
                         outputString += "# " + line + Environment.NewLine;
                     }
                 }
-                outputString += Environment.NewLine;
             }
+            outputString += Environment.NewLine;
 
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var block in script.ItemFilterBlocks)

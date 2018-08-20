@@ -30,7 +30,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
                                               ((ItemRarity) FilterPredicate.PredicateOperand).GetAttributeDescription();
         public override Color SummaryBackgroundColor => Colors.LightCoral;
         public override Color SummaryTextColor => Colors.White;
-        public override int SortOrder => 14;
+        public override int SortOrder => 17;
         public override int Minimum => 0;
         public override int Maximum => (int)ItemRarity.Unique;
     }

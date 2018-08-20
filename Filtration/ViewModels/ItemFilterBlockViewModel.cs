@@ -159,7 +159,11 @@ namespace Filtration.ViewModels
             typeof (CorruptedBlockItem),
             typeof (ElderItemBlockItem),
             typeof (ShaperItemBlockItem),
-            typeof (ShapedMapBlockItem)
+            typeof (ShapedMapBlockItem),
+            typeof (ElderMapBlockItem),
+            typeof (GemLevelBlockItem),
+            typeof (StackSizeBlockItem),
+            typeof (HasExplicitModBlockItem)
         };
 
         public List<Type> AudioVisualBlockItemTypesAvailable => new List<Type>
@@ -169,7 +173,8 @@ namespace Filtration.ViewModels
             typeof (BorderColorBlockItem),
             typeof (FontSizeBlockItem),
             typeof (SoundBlockItem),
-            typeof (PositionalSoundBlockItem)
+            typeof (PositionalSoundBlockItem),
+            typeof (DisableDropSoundBlockItem)
         };
 
         public bool BlockEnabled
