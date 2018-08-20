@@ -286,6 +286,14 @@ namespace Filtration.Parser.Services
                         AddBooleanItemToBlockItems<ElderMapBlockItem>(block, trimmedLine);
                         break;
                     }
+                    case "DisableDropSound":
+                    {
+                        // Only ever use the last DisableDropSound item encountered as multiples aren't valid.
+                        RemoveExistingBlockItemsOfType<DisableDropSoundBlockItem>(block);
+
+                        AddBooleanItemToBlockItems<DisableDropSoundBlockItem>(block, trimmedLine);
+                        break;
+                    }
                 }
             }
 

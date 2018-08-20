@@ -173,7 +173,8 @@ namespace Filtration.ViewModels
             typeof (BorderColorBlockItem),
             typeof (FontSizeBlockItem),
             typeof (SoundBlockItem),
-            typeof (PositionalSoundBlockItem)
+            typeof (PositionalSoundBlockItem),
+            typeof (DisableDropSoundBlockItem)
         };
 
         public bool BlockEnabled

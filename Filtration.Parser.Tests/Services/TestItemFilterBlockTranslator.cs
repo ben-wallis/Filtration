@@ -874,7 +874,24 @@ namespace Filtration.Parser.Tests.Services
             Assert.AreEqual("7", blockItem.Value);
             Assert.AreEqual(95, blockItem.SecondValue);
         }
-        
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_DisableDropSound_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    DisableDropSound True";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is DisableDropSoundBlockItem));
+            var blockItem = result.BlockItems.OfType<DisableDropSoundBlockItem>().First();
+            Assert.IsTrue(blockItem.BooleanValue);
+        }
+
         [Test]
         public void TranslateStringToItemFilterBlock_Everything_ReturnsCorrectObject()
         {
@@ -907,7 +924,8 @@ namespace Filtration.Parser.Tests.Services
                               "    SetBackgroundColor 255 100 5" + Environment.NewLine +
                               "    SetBorderColor 0 0 0" + Environment.NewLine +
                               "    SetFontSize 50" + Environment.NewLine +
-                              "    PlayAlertSound 3" + Environment.NewLine;
+                              "    PlayAlertSound 3" + Environment.NewLine +
+                              "    DisableDropSound False" + Environment.NewLine;
 
             // Act
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
@@ -1009,6 +1027,9 @@ namespace Filtration.Parser.Tests.Services
             var soundblockItem = result.BlockItems.OfType<SoundBlockItem>().First();
             Assert.AreEqual("3", soundblockItem.Value);
             Assert.AreEqual(79, soundblockItem.SecondValue);
+
+            var disableDropSoundBlockItem = result.BlockItems.OfType<DisableDropSoundBlockItem>().First();
+            Assert.IsFalse(disableDropSoundBlockItem.BooleanValue);
         }
 
         [Test]
@@ -1861,7 +1882,8 @@ namespace Filtration.Parser.Tests.Services
                                  "    SetBackgroundColor 0 0 0" + Environment.NewLine +
                                  "    SetBorderColor 255 1 254" + Environment.NewLine +
                                  "    SetFontSize 50" + Environment.NewLine +
-                                 "    PlayAlertSound 6 90";
+                                 "    PlayAlertSound 6 90" + Environment.NewLine +
+                                 "    DisableDropSound True";
 
             _testUtility.TestBlock.BlockItems.Add(new ActionBlockItem(BlockAction.Show));
             _testUtility.TestBlock.BlockItems.Add(new IdentifiedBlockItem(true));
@@ -1904,6 +1926,7 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.TestBlock.BlockItems.Add(new ShaperItemBlockItem(false));
             _testUtility.TestBlock.BlockItems.Add(new ShapedMapBlockItem(true));
             _testUtility.TestBlock.BlockItems.Add(new ElderMapBlockItem(true));
+            _testUtility.TestBlock.BlockItems.Add(new DisableDropSoundBlockItem(true));
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
