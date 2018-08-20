@@ -575,7 +575,12 @@ namespace Filtration.Parser.Services
                     outputString += (!block.Enabled ? _disabledNewLine : _newLine) + blockItem.OutputText;
                 }
             }
-            
+
+            // Replace 'Maelström' to prevent encoding problems in other editors
+            outputString.Replace("Maelström Staff", "Maelstr");
+            outputString.Replace("Maelström of Chaos", "Maelstr");
+            outputString.Replace("Maelström", "Maelstr");
+
             return outputString;
         }
     }
