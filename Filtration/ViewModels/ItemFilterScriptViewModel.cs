@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -802,86 +803,46 @@ namespace Filtration.ViewModels
 
                 string[] blockTexts = clipboardText.Split(new string[] { Environment.NewLine + "##CopySection##" + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
-                var previousBlock = targetBlockViewModelBase.BaseBlock;
-                var pastedSection = false;
                 List<IItemFilterBlockBase> blocksToPaste = new List<IItemFilterBlockBase>();
-                List<bool> isBlockDisabled = new List<bool>();
                 foreach (var curBlock in blockTexts)
                 {
                     IItemFilterBlockBase translatedBlock;
-                    var pastedDisabledBlock = false;
-                    var isCommentBlock = !curBlock.StartsWith(@"#Disabled Block Start");
-                    string[] textLines = curBlock.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                    var preparedString = PrepareBlockForParsing(curBlock);
+                    var isCommentBlock = true;
+                    string[] textLines = preparedString.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                     foreach(var line in textLines)
                     {
                         if(!line.StartsWith(@"#"))
                         {
                             isCommentBlock = false;
-                        }
-
-                        if (!isCommentBlock)
                             break;
+                        }
                     }
 
                     if (isCommentBlock)
                     {
-                        translatedBlock = _blockTranslator.TranslateStringToItemFilterCommentBlock(curBlock, Script);
-                        pastedSection = true;
-                    }
-                    else if (curBlock.StartsWith(@"#Disabled Block Start"))
-                    {
-                        pastedDisabledBlock = true;
-                        if (textLines.Length < 3)
-                            continue;
-
-                        string cleanBlock = textLines[1].Substring(1);
-                        for(int i = 2; i < (textLines.Length - 1); i++)
-                        {
-                            cleanBlock += Environment.NewLine + textLines[i].Substring(1);
-                        }
-                        translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(cleanBlock, Script, true);
+                        translatedBlock = _blockTranslator.TranslateStringToItemFilterCommentBlock(preparedString, Script, curBlock);
                     }
                     else
                     {
-                        translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(curBlock, Script, true);
+                        translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(preparedString, Script, curBlock, true);
                     }
 
                     if (translatedBlock == null) continue;
-
+                    
                     blocksToPaste.Add(translatedBlock);
-
-                    isBlockDisabled.Add(pastedDisabledBlock);
                 }
 
-                if(pastedSection)
+                if (blocksToPaste.Count < 1)
+                    return;
+
+                var blockIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase) + 1;
+                _scriptCommandManager.ExecuteCommand(new PasteSectionCommand(Script, blocksToPaste, targetBlockViewModelBase.BaseBlock));
+                var firstBlockAsComment = blocksToPaste[0] as IItemFilterCommentBlock;
+                if (firstBlockAsComment != null)
                 {
-                    var blockIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase) + 1;
-                    _scriptCommandManager.ExecuteCommand(new PasteSectionCommand(Script, blocksToPaste, targetBlockViewModelBase.BaseBlock));
                     SelectedBlockViewModel = ItemFilterBlockViewModels[blockIndex];
-                    foreach (var isDisabled in isBlockDisabled)
-                    {
-                        var block = ItemFilterBlockViewModels[blockIndex++] as IItemFilterBlockViewModel;
-                        if(block != null)
-                        {
-                            block.BlockEnabled = !isDisabled;
-                        }
-                    }
                     OnCollapseSectionCommand();
-                }
-                else
-                {
-                    var blockIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase) + 1;
-                    for (var i = 0; i < blocksToPaste.Count; i++)
-                    {
-                        _scriptCommandManager.ExecuteCommand(new PasteBlockCommand(Script, blocksToPaste[i], previousBlock));
-                        previousBlock = blocksToPaste[i];
-
-                        var block = ItemFilterBlockViewModels[blockIndex + i] as IItemFilterBlockViewModel;
-                        if (block != null)
-                        {
-                            block.BlockEnabled = !isBlockDisabled[i];
-                        }
-                    }
                 }
             }
             catch (Exception e)
@@ -891,6 +852,74 @@ namespace Filtration.ViewModels
 
                 _messageBoxService.Show("Paste Error", e.Message + Environment.NewLine + innerException, MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private string PrepareBlockForParsing(string inputString)
+        {
+            inputString = inputString.Replace("\t", "");
+            var lines = Regex.Split(inputString, "\r\n|\r|\n").ToList();
+            for (var i = 0; i < lines.Count; i++)
+            {
+                if (lines[i].Length == 0)
+                {
+                    lines.RemoveAt(i--);
+                }
+                else
+                    break;
+            }
+            for (var i = lines.Count - 1; i >= 0; i--)
+            {
+                if (lines[i].Length == 0)
+                {
+                    lines.RemoveAt(i++);
+                }
+                else
+                    break;
+            }
+            var allCommented = true;
+            for (var i = 0; i < lines.Count; i++)
+            {
+                lines[i] = Regex.Replace(lines[i], @"\s+", " ");
+                if(lines[i][0] == '#')
+                {
+                    if (lines[i].Length > 1 && lines[i][1] != ' ')
+                    {
+                        lines[i] = "# " + lines[i].Substring(1);
+                    }
+                }
+                else
+                {
+                    allCommented = false;
+                }
+            }
+
+            var disabledBlock = -1;
+            if (allCommented)
+            {
+                for (var i = 0; i < lines.Count; i++)
+                {
+                    if (lines[i].StartsWith("#"))
+                    {
+                        string curLine = Regex.Replace(lines[i].Substring(1), @"\s+", "");
+                        if ((curLine.StartsWith("Show") || curLine.StartsWith("Hide")) && (curLine.Length == 4 || curLine[4] == '#'))
+                        {
+                            lines[i] = lines[i].Substring(0, 6) + "Disabled" + lines[i].Substring(6);
+                            disabledBlock = i;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if(disabledBlock >= 0)
+            {
+                for (var i = disabledBlock; i < lines.Count; i++)
+                {
+                    lines[i] = lines[i].Substring(2);
+                }
+            }
+
+            return string.Join(Environment.NewLine, lines);
         }
 
         private void OnMoveBlockToTopCommand()

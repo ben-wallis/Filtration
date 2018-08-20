@@ -30,9 +30,10 @@ namespace Filtration.Parser.Services
         }
 
         // Converts a string into an ItemFilterCommentBlock maintaining newlines and spaces but removing # characters
-        public IItemFilterCommentBlock TranslateStringToItemFilterCommentBlock(string inputString, IItemFilterScript parentItemFilterScript)
+        public IItemFilterCommentBlock TranslateStringToItemFilterCommentBlock(string inputString, IItemFilterScript parentItemFilterScript, string originalString = "")
         {
             var itemFilterCommentBlock = new ItemFilterCommentBlock(parentItemFilterScript);
+            itemFilterCommentBlock.OriginalText = originalString;
 
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
@@ -42,12 +43,13 @@ namespace Filtration.Parser.Services
 
             itemFilterCommentBlock.Comment = itemFilterCommentBlock.Comment.TrimEnd('\r', '\n');
 
+            itemFilterCommentBlock.IsEdited = false;
             return itemFilterCommentBlock;
         }
 
         // This method converts a string into a ItemFilterBlock. This is used for pasting ItemFilterBlocks 
         // and reading ItemFilterScripts from a file.
-        public IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScript parentItemFilterScript, bool initialiseBlockGroupHierarchyBuilder = false)
+        public IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScript parentItemFilterScript, string originalString = "", bool initialiseBlockGroupHierarchyBuilder = false)
         {
             if (initialiseBlockGroupHierarchyBuilder)
             {
@@ -57,6 +59,7 @@ namespace Filtration.Parser.Services
             _masterComponentCollection = parentItemFilterScript.ItemFilterScriptSettings.ThemeComponentCollection;
             var block = new ItemFilterBlock(parentItemFilterScript);
             var showHideFound = false;
+            block.OriginalText = originalString;
 
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
@@ -297,6 +300,7 @@ namespace Filtration.Parser.Services
                 }
             }
 
+            block.IsEdited = false;
             return block;
         }
 
@@ -516,6 +520,11 @@ namespace Filtration.Parser.Services
         // TODO: Private
         public string TranslateItemFilterCommentBlockToString(IItemFilterCommentBlock itemFilterCommentBlock)
         {
+            if (!itemFilterCommentBlock.IsEdited)
+            {
+                return itemFilterCommentBlock.OriginalText;
+            }
+
             // TODO: Tests
             // TODO: # Section: text?
             var commentWithHashes = string.Empty;
@@ -535,16 +544,16 @@ namespace Filtration.Parser.Services
         // TODO: Private
         public string TranslateItemFilterBlockToString(IItemFilterBlock block)
         {
-            var outputString = string.Empty;
-
-            if (!block.Enabled)
+            if(!block.IsEdited)
             {
-                outputString += "#Disabled Block Start" + Environment.NewLine;
+                return block.OriginalText;
             }
+
+            var outputString = string.Empty;
 
             if (!string.IsNullOrEmpty(block.Description))
             {
-                outputString += (block.Enabled ? "# " : "## ") + block.Description + Environment.NewLine;
+                outputString += "# " + block.Description + Environment.NewLine;
             }
 
             outputString += (!block.Enabled ? "#" : string.Empty) + block.Action.GetAttributeDescription();
@@ -565,11 +574,6 @@ namespace Filtration.Parser.Services
                 {
                     outputString += (!block.Enabled ? _disabledNewLine : _newLine) + blockItem.OutputText;
                 }
-            }
-
-            if (!block.Enabled)
-            {
-                outputString += Environment.NewLine +  "#Disabled Block End";
             }
             
             return outputString;

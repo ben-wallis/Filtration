@@ -424,7 +424,7 @@ namespace Filtration.ViewModels
             {
                 IsDirty = true;
             }
-
+            Block.IsEdited = true;
             //if (sender is IAudioVisualBlockItem)
             //{
             RefreshBlockPreview();

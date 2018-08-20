@@ -1264,6 +1264,8 @@ namespace Filtration.Parser.Tests.Services
             var expectedResult = "Show";
 
             // Act
+            // TODO: Shouldn't be set to edited this way
+            _testUtility.TestBlock.IsEdited = true;
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
@@ -1281,6 +1283,8 @@ namespace Filtration.Parser.Tests.Services
             var child2BlockGroup = new ItemFilterBlockGroup("Child 2 Block Group", child1BlockGroup);
             _testUtility.TestBlock.BlockGroup = child2BlockGroup;
 
+            // TODO: Shouldn't be set to edited this way
+            _testUtility.TestBlock.IsEdited = true;
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
@@ -1296,6 +1300,8 @@ namespace Filtration.Parser.Tests.Services
             var expectedResult = $"Show #{testInputActionBlockComment}";
 
             _testUtility.TestBlock.BlockItems.OfType<ActionBlockItem>().First().Comment = testInputActionBlockComment;
+            // TODO: Shouldn't be set to edited this way
+            _testUtility.TestBlock.IsEdited = true;
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
@@ -1836,10 +1842,8 @@ namespace Filtration.Parser.Tests.Services
         public void TranslateItemFilterBlockToString_DisabledBlock_ReturnsCorrectString()
         {
             // Arrange
-            var expectedResult = "#Disabled Block Start" + Environment.NewLine +
-                                 "#Show" + Environment.NewLine +
-                                 "#    Width = 4" + Environment.NewLine +
-                                 "#Disabled Block End";
+            var expectedResult = "#Show" + Environment.NewLine +
+                                 "#    Width = 4";
                                  
 
             _testUtility.TestBlock.Enabled = false;
