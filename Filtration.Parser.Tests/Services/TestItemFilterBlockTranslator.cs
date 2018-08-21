@@ -893,6 +893,23 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlock_DropIcon_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    Icon Icon1";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is IconBlockItem));
+            var blockItem = result.BlockItems.OfType<IconBlockItem>().First();
+            Assert.AreEqual("Icon1", blockItem.Value);
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_Everything_ReturnsCorrectObject()
         {
             // Arrange
@@ -925,7 +942,8 @@ namespace Filtration.Parser.Tests.Services
                               "    SetBorderColor 0 0 0" + Environment.NewLine +
                               "    SetFontSize 50" + Environment.NewLine +
                               "    PlayAlertSound 3" + Environment.NewLine +
-                              "    DisableDropSound False" + Environment.NewLine;
+                              "    DisableDropSound False" + Environment.NewLine +
+                              "    Icon Icon2" + Environment.NewLine;
 
             // Act
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
@@ -1030,6 +1048,9 @@ namespace Filtration.Parser.Tests.Services
 
             var disableDropSoundBlockItem = result.BlockItems.OfType<DisableDropSoundBlockItem>().First();
             Assert.IsFalse(disableDropSoundBlockItem.BooleanValue);
+
+            var iconBlockItem = result.BlockItems.OfType<IconBlockItem>().First();
+            Assert.AreEqual("Icon2", iconBlockItem.Value);
         }
 
         [Test]
@@ -1857,6 +1878,22 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateItemFilterBlockToString_DropIcon_ReturnsCorrectString()
+        {
+            // Arrange
+            var expectedResult = "Show" + Environment.NewLine +
+                                 "    Icon Icon3";
+            
+            _testUtility.TestBlock.BlockItems.Add(new IconBlockItem("Icon3"));
+
+            // Act
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
         public void TranslateItemFilterBlockToString_Everything_ReturnsCorrectString()
         {
             // Arrange
@@ -1887,7 +1924,8 @@ namespace Filtration.Parser.Tests.Services
                                  "    SetBorderColor 255 1 254" + Environment.NewLine +
                                  "    SetFontSize 50" + Environment.NewLine +
                                  "    PlayAlertSound 6 90" + Environment.NewLine +
-                                 "    DisableDropSound True";
+                                 "    DisableDropSound True" + Environment.NewLine +
+                                 "    Icon Icon4";
 
             _testUtility.TestBlock.BlockItems.Add(new ActionBlockItem(BlockAction.Show));
             _testUtility.TestBlock.BlockItems.Add(new IdentifiedBlockItem(true));
@@ -1931,6 +1969,7 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.TestBlock.BlockItems.Add(new ShapedMapBlockItem(true));
             _testUtility.TestBlock.BlockItems.Add(new ElderMapBlockItem(true));
             _testUtility.TestBlock.BlockItems.Add(new DisableDropSoundBlockItem(true));
+            _testUtility.TestBlock.BlockItems.Add(new IconBlockItem("Icon4"));
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);

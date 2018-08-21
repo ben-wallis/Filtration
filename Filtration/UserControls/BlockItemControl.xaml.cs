@@ -88,6 +88,10 @@ namespace Filtration.UserControls
             "ShFusing", "ShRegal", "ShVaal"
         };
 
+        public List<string> IconsAvailable => new List<string> {
+            "Icon1", "Icon2", "Icon3", "Icon4", "Icon5", "Icon6"
+        };
+
         private void OnSetBlockColorCommmand()
         {
             var blockItem = BlockItem as ColorBlockItem;

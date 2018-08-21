@@ -167,6 +167,7 @@
     <Compile Include="Converters\BooleanToBlockActionInverseConverter.cs" />
     <Compile Include="Converters\BooleanToBlockActionConverter.cs" />
     <Compile Include="Converters\BlockItemToRemoveEnabledVisibilityConverter.cs" />
+    <Compile Include="Converters\DropIconConverter.cs" />
     <Compile Include="Converters\HashSignRemovalConverter.cs" />
     <Compile Include="Converters\ItemRarityConverter.cs" />
     <Compile Include="Converters\TreeViewMarginConverter.cs" />
@@ -189,6 +190,9 @@
     <Compile Include="UserControls\DesignTime\DesignTimeEditableListBoxControl.cs" />
     <Compile Include="UserControls\EditableListBoxControl.xaml.cs">
       <DependentUpon>EditableListBoxControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ImageComboBoxControl.xaml.cs">
+      <DependentUpon>ImageComboBoxControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ItemPreviewControl.xaml.cs">
       <DependentUpon>ItemPreviewControl.xaml</DependentUpon>
@@ -227,6 +231,10 @@
       <DependentUpon>SettingsPageView.xaml</DependentUpon>
     </Compile>
     <Page Include="UserControls\BlockItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ImageComboBoxControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -538,6 +546,12 @@
     </None>
     <Resource Include="Resources\Icons\redo_icon.png" />
     <Resource Include="Resources\Icons\undo_icon.png" />
+    <Resource Include="Resources\DropIcons\Icon1.png" />
+    <Resource Include="Resources\DropIcons\Icon2.png" />
+    <Resource Include="Resources\DropIcons\Icon3.png" />
+    <Resource Include="Resources\DropIcons\Icon4.png" />
+    <Resource Include="Resources\DropIcons\Icon5.png" />
+    <Resource Include="Resources\DropIcons\Icon6.png" />
     <Content Include="Resources\ItemBaseTypes.txt" />
     <Content Include="Resources\ItemClasses.txt" />
   </ItemGroup>

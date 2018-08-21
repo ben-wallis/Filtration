@@ -297,6 +297,23 @@ namespace Filtration.Parser.Services
                         AddBooleanItemToBlockItems<DisableDropSoundBlockItem>(block, trimmedLine);
                         break;
                     }
+                    case "Icon":
+                    {
+                        // Only ever use the last PlayAlertSound item encountered as multiples aren't valid.
+                        RemoveExistingBlockItemsOfType<IconBlockItem>(block);
+
+                        var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)");
+                        
+                        if (match.Success)
+                        {
+                            var blockItemValue = new IconBlockItem
+                            {
+                                Value = match.Groups[1].Value,
+                            };
+                            block.BlockItems.Add(blockItemValue);
+                        }
+                        break;
+                    }
                 }
             }
 

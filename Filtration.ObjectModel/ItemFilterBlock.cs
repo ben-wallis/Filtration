@@ -23,6 +23,7 @@ namespace Filtration.ObjectModel
         Color DisplayTextColor { get; }
         Color DisplayBorderColor { get; }
         double DisplayFontSize { get; }
+        string DisplayIcon { get; }
         bool HasBlockItemOfType<T>();
         bool HasBlockGroupInParentHierarchy(ItemFilterBlockGroup targetBlockGroup, ItemFilterBlockGroup startingBlockGroup);
     }
@@ -258,6 +259,15 @@ namespace Filtration.ObjectModel
             {
                 var fontSizeBlockItem = BlockItems.OfType<FontSizeBlockItem>().FirstOrDefault();
                 return fontSizeBlockItem?.Value ?? 34;
+            }
+        }
+
+        public string DisplayIcon
+        {
+            get
+            {
+                var displayIcon = BlockItems.OfType<IconBlockItem>().FirstOrDefault();
+                return (displayIcon != null) ? displayIcon.Value : "";
             }
         }
     }

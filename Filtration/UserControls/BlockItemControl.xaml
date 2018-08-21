@@ -131,6 +131,13 @@
                             <xctk:ShortUpDown Value="{Binding Path=SecondValue}" Minimum="1" Maximum="300" HorizontalAlignment="Right" ToolTip="Volume"/>
                         </WrapPanel>
                     </DataTemplate>
+
+                    <!-- Drop Icon Template -->
+                    <DataTemplate DataType="{x:Type blockItemTypes:IconBlockItem}">
+                        <WrapPanel HorizontalAlignment="Left">
+                            <userControls:ImageComboBoxControl/>
+                        </WrapPanel>
+                    </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>
         </Grid>

@@ -53,6 +53,7 @@
     <Compile Include="BlockItemBaseTypes\BooleanBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\ColorBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\DualIntegerBlockItem.cs" />
+    <Compile Include="BlockItemBaseTypes\StringBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\StringIntBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\IntegerBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\NumericFilterPredicateBlockItem.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="BlockItemTypes\ElderMapBlockItem.cs" />
     <Compile Include="BlockItemTypes\GemLevelBlockItem.cs" />
     <Compile Include="BlockItemTypes\HasExplicitModBlockItem.cs" />
+    <Compile Include="BlockItemTypes\IconBlockItem.cs" />
     <Compile Include="BlockItemTypes\ShapedMapBlockItem.cs" />
     <Compile Include="BlockItemTypes\ShaperItemBlockItem.cs" />
     <Compile Include="BlockItemTypes\ElderItemBlockItem.cs" />
