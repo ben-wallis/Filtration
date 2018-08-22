@@ -9,11 +9,13 @@ namespace Filtration.ViewModels
         IItemFilterCommentBlock ItemFilterCommentBlock { get; }
         string Comment { get; }
         bool IsExpanded { get; set; }
+        bool HasChild { get; set; }
     }
 
     internal class ItemFilterCommentBlockViewModel : ItemFilterBlockViewModelBase, IItemFilterCommentBlockViewModel
     {
         private bool _isExpanded;
+        private bool _hasChild;
 
         public ItemFilterCommentBlockViewModel()
         {
@@ -79,13 +81,22 @@ namespace Filtration.ViewModels
             }
         }
 
-
         public bool IsExpanded
         {
             get => _isExpanded;
             set
             {
                 _isExpanded = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool HasChild
+        {
+            get => _hasChild;
+            set
+            {
+                _hasChild = value;
                 RaisePropertyChanged();
             }
         }

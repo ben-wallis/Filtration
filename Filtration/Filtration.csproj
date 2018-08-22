@@ -552,6 +552,7 @@
     <Resource Include="Resources\DropIcons\Icon4.png" />
     <Resource Include="Resources\DropIcons\Icon5.png" />
     <Resource Include="Resources\DropIcons\Icon6.png" />
+    <Resource Include="Resources\DropIcons\NoIcon.png" />
     <Content Include="Resources\ItemBaseTypes.txt" />
     <Content Include="Resources\ItemClasses.txt" />
   </ItemGroup>

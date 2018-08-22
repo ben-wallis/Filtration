@@ -25,7 +25,7 @@ namespace Filtration.Converters
                     return "/Filtration;component/Resources/DropIcons/Icon6.png";
             }
 
-            return "";
+            return "/Filtration;component/Resources/DropIcons/NoIcon.png";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

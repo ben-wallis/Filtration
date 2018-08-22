@@ -299,7 +299,7 @@ namespace Filtration.Parser.Services
                     }
                     case "Icon":
                     {
-                        // Only ever use the last PlayAlertSound item encountered as multiples aren't valid.
+                        // Only ever use the last Icon item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<IconBlockItem>(block);
 
                         var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)");
@@ -593,10 +593,11 @@ namespace Filtration.Parser.Services
                 }
             }
 
+            //TODO: Disabled for the time being. A better solution is needed.
             // Replace 'Maelström' to prevent encoding problems in other editors
-            outputString.Replace("Maelström Staff", "Maelstr");
-            outputString.Replace("Maelström of Chaos", "Maelstr");
-            outputString.Replace("Maelström", "Maelstr");
+            //outputString.Replace("Maelström Staff", "Maelstr");
+            //outputString.Replace("Maelström of Chaos", "Maelstr");
+            //outputString.Replace("Maelström", "Maelstr");
 
             return outputString;
         }

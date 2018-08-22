@@ -838,10 +838,11 @@ namespace Filtration.ViewModels
 
                 var blockIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase) + 1;
                 _scriptCommandManager.ExecuteCommand(new PasteSectionCommand(Script, blocksToPaste, targetBlockViewModelBase.BaseBlock));
+                SelectedBlockViewModel = ItemFilterBlockViewModels[blockIndex];
+                RaisePropertyChanged("SelectedBlockViewModel");
                 var firstBlockAsComment = blocksToPaste[0] as IItemFilterCommentBlock;
                 if (firstBlockAsComment != null)
                 {
-                    SelectedBlockViewModel = ItemFilterBlockViewModels[blockIndex];
                     OnCollapseSectionCommand();
                 }
             }
@@ -954,6 +955,8 @@ namespace Filtration.ViewModels
             if (ItemFilterBlockViewModels[blockIndex - 1].IsVisible)
             {
                 _scriptCommandManager.ExecuteCommand(new MoveBlockUpCommand(Script, targetBlockViewModelBase?.BaseBlock));
+                SelectedBlockViewModel = ItemFilterBlockViewModels[blockIndex - 1];
+                RaisePropertyChanged("SelectedBlockViewModel");
             }
             else
             {
@@ -963,6 +966,8 @@ namespace Filtration.ViewModels
                     aboveSectionStart--;
                 }
                 _scriptCommandManager.ExecuteCommand(new MoveSectionToIndexCommand(Script, blockIndex, 1, aboveSectionStart));
+                SelectedBlockViewModel = ItemFilterBlockViewModels[aboveSectionStart];
+                RaisePropertyChanged("SelectedBlockViewModel");
             }
         }
 
@@ -991,6 +996,7 @@ namespace Filtration.ViewModels
 
             ToggleSection(ItemFilterBlockViewModels[newLocation] as IItemFilterCommentBlockViewModel);
             SelectedBlockViewModel = ItemFilterBlockViewModels[newLocation];
+            RaisePropertyChanged("SelectedBlockViewModel");
         }
 
         private void OnMoveBlockDownCommand()
@@ -1013,6 +1019,8 @@ namespace Filtration.ViewModels
             if (beloveBlockAsComment == null || beloveBlockAsComment.IsExpanded)
             {
                 _scriptCommandManager.ExecuteCommand(new MoveBlockDownCommand(Script, targetBlockViewModelBase?.BaseBlock));
+                SelectedBlockViewModel = ItemFilterBlockViewModels[blockIndex + 1];
+                RaisePropertyChanged("SelectedBlockViewModel");
             }
             else
             {
@@ -1022,6 +1030,8 @@ namespace Filtration.ViewModels
                     beloveSectionEnd++;
                 }
                 _scriptCommandManager.ExecuteCommand(new MoveSectionToIndexCommand(Script, blockIndex, 1, beloveSectionEnd - 1));
+                SelectedBlockViewModel = ItemFilterBlockViewModels[beloveSectionEnd - 1];
+                RaisePropertyChanged("SelectedBlockViewModel");
             }
         }
 
@@ -1056,6 +1066,7 @@ namespace Filtration.ViewModels
 
             ToggleSection(ItemFilterBlockViewModels[newLocation] as IItemFilterCommentBlockViewModel);
             SelectedBlockViewModel = ItemFilterBlockViewModels[newLocation];
+            RaisePropertyChanged("SelectedBlockViewModel");
         }
 
         private void OnMoveBlockToBottomCommand()
@@ -1304,11 +1315,26 @@ namespace Filtration.ViewModels
         private void UpdateBlockModelsForView()
         {
             ObservableCollection<IItemFilterBlockViewModelBase> blocksForView = new ObservableCollection<IItemFilterBlockViewModelBase>();
-            foreach (var block in ItemFilterBlockViewModels)
+            for (var i = 0; i < ItemFilterBlockViewModels.Count; i++)
             {
+                var block = ItemFilterBlockViewModels[i];
                 if (block.IsVisible)
                 {
                     blocksForView.Add(block);
+
+                    var blockAsComment = block as IItemFilterCommentBlockViewModel;
+                    if(blockAsComment != null && i < (ItemFilterBlockViewModels.Count - 1))
+                    {
+                        var followingBlock = ItemFilterBlockViewModels[i + 1] as IItemFilterBlockViewModel;
+                        if(followingBlock != null)
+                        {
+                            blockAsComment.HasChild = true;
+                        }
+                        else
+                        {
+                            blockAsComment.HasChild = false;
+                        }
+                    }
                 }
             }
 
