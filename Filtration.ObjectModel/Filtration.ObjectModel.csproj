@@ -60,6 +60,7 @@
     <Compile Include="BlockItemBaseTypes\StringListBlockItem.cs" />
     <Compile Include="BlockItemTypes\BackgroundColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\BaseTypeBlockItem.cs" />
+    <Compile Include="BlockItemTypes\BeamBlockItem.cs" />
     <Compile Include="BlockItemTypes\BorderColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\ClassBlockItem.cs" />
     <Compile Include="BlockItemTypes\DisableDropSoundBlockItem.cs" />

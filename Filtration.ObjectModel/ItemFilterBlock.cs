@@ -24,6 +24,7 @@ namespace Filtration.ObjectModel
         Color DisplayBorderColor { get; }
         double DisplayFontSize { get; }
         string DisplayIcon { get; }
+        Color DisplayBeamColor { get; }
         bool HasBlockItemOfType<T>();
         bool HasBlockGroupInParentHierarchy(ItemFilterBlockGroup targetBlockGroup, ItemFilterBlockGroup startingBlockGroup);
     }
@@ -268,6 +269,15 @@ namespace Filtration.ObjectModel
             {
                 var displayIcon = BlockItems.OfType<IconBlockItem>().FirstOrDefault();
                 return (displayIcon != null) ? displayIcon.Value : "";
+            }
+        }
+
+        public Color DisplayBeamColor
+        {
+            get
+            {
+                var beamBlockItem = BlockItems.OfType<BeamBlockItem>().FirstOrDefault();
+                return beamBlockItem?.Color ?? new Color { A = 0, R = 0, G = 0, B = 0 };
             }
         }
     }

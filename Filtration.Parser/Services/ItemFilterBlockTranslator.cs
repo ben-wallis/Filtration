@@ -314,6 +314,14 @@ namespace Filtration.Parser.Services
                         }
                         break;
                     }
+                    case "BeamColor":
+                    {
+                        // Only ever use the last BeamColor item encountered as multiples aren't valid.
+                        RemoveExistingBlockItemsOfType<BeamBlockItem>(block);
+
+                        AddColorItemToBlockItems<BeamBlockItem>(block, trimmedLine);
+                        break;
+                    }
                 }
             }
 
@@ -587,8 +595,8 @@ namespace Filtration.Parser.Services
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var blockItem in block.BlockItems.Where(b => b.GetType() != typeof(ActionBlockItem)).OrderBy(b => b.SortOrder))
             {
-                // Do not save temporary block until the new feature is fully implemented
-                if (blockItem is IconBlockItem)
+                // Do not save temporary blocks until the new features are fully implemented
+                if (blockItem is IconBlockItem || blockItem is BeamBlockItem)
                 {
                     continue;
                 }

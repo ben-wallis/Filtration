@@ -131,7 +131,12 @@
 
                             <!-- Item Preview Box -->
                             <WrapPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
-                                <Image Source="{Binding DisplayIcon, Converter={StaticResource DropIconConverter}, Mode=OneWay}" Width="30" Height="30" />
+                                <Image Source="{Binding DisplayIcon, Converter={StaticResource DropIconConverter}, Mode=OneWay}" Width="30" Height="30" Margin="0,0,10,0" />
+                                <Line Y2="41" StrokeThickness="2" Stroke="{Binding DisplayBeamColor, Converter={StaticResource ColorToSolidColorBrushConverter}, Mode=OneWay}" Margin="0,2,10,0" >
+                                    <Line.Effect>
+                                        <DropShadowEffect BlurRadius="5" ShadowDepth="0" Color="{Binding DisplayBeamColor, Mode=OneWay}" Direction="0"/>
+                                    </Line.Effect>
+                                </Line>
                                 <Button Command="{Binding PlaySoundCommand}"
                                         Width="25"
                                         Height="25"
