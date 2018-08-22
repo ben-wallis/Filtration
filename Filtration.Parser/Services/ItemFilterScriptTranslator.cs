@@ -245,12 +245,6 @@ namespace Filtration.Parser.Services
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var block in script.ItemFilterBlocks)
             {
-                // Do not save temporary block until the new feature is fully implemented
-                if(block is ObjectModel.BlockItemTypes.IconBlockItem)
-                {
-                    continue;
-                }
-
                 outputString += _blockTranslator.TranslateItemFilterBlockBaseToString(block) + Environment.NewLine;
 
                 if (Settings.Default.ExtraLineBetweenBlocks)

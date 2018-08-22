@@ -587,6 +587,12 @@ namespace Filtration.Parser.Services
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var blockItem in block.BlockItems.Where(b => b.GetType() != typeof(ActionBlockItem)).OrderBy(b => b.SortOrder))
             {
+                // Do not save temporary block until the new feature is fully implemented
+                if (blockItem is IconBlockItem)
+                {
+                    continue;
+                }
+
                 if (blockItem.OutputText != string.Empty)
                 {
                     outputString += (!block.Enabled ? _disabledNewLine : _newLine) + blockItem.OutputText;
