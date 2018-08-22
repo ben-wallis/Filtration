@@ -308,7 +308,7 @@ namespace Filtration.Parser.Services
                         {
                             var blockItemValue = new IconBlockItem
                             {
-                                Value = match.Groups[1].Value,
+                                Value = match.Groups[1].Value
                             };
                             block.BlockItems.Add(blockItemValue);
                         }
@@ -318,8 +318,15 @@ namespace Filtration.Parser.Services
                     {
                         // Only ever use the last BeamColor item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<BeamBlockItem>(block);
-
-                        AddColorItemToBlockItems<BeamBlockItem>(block, trimmedLine);
+                        
+                        var result = Regex.Matches(trimmedLine, @"([\w\s]*)(True|False)[#]?(.*)", RegexOptions.IgnoreCase);
+                        var color = GetColorFromString(result[0].Groups[1].Value);
+                        var beamBlockItem = new BeamBlockItem
+                        {
+                            Color = GetColorFromString(result[0].Groups[1].Value),
+                            BooleanValue = result[0].Groups[2].Value.Trim().ToLowerInvariant() == "true"
+                        };
+                        block.BlockItems.Add(beamBlockItem);
                         break;
                     }
                 }

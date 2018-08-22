@@ -52,6 +52,7 @@
     <Compile Include="BlockItemBaseTypes\BlockItemBase.cs" />
     <Compile Include="BlockItemBaseTypes\BooleanBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\ColorBlockItem.cs" />
+    <Compile Include="BlockItemBaseTypes\ColorBooleanBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\DualIntegerBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\StringBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\StringIntBlockItem.cs" />

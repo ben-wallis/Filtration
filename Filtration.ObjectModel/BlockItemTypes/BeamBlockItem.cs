@@ -3,13 +3,13 @@ using Filtration.ObjectModel.BlockItemBaseTypes;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
-    public class BeamBlockItem : ColorBlockItem
+    public class BeamBlockItem : ColorBooleanBlockItem
     {
         public BeamBlockItem()
         {
         }
 
-        public BeamBlockItem(Color color) : base(color)
+        public BeamBlockItem(Color color, bool booleanValue) : base(color, booleanValue)
         {
         }
 

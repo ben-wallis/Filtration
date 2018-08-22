@@ -914,7 +914,7 @@ namespace Filtration.Parser.Tests.Services
         {
             // Arrange
             var inputString = "Show" + Environment.NewLine +
-                              "    BeamColor 255 20 100";
+                              "    BeamColor 255 20 100 True";
 
             // Act
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
@@ -925,6 +925,7 @@ namespace Filtration.Parser.Tests.Services
             Assert.AreEqual(255, blockItem.Color.R);
             Assert.AreEqual(20, blockItem.Color.G);
             Assert.AreEqual(100, blockItem.Color.B);
+            Assert.IsTrue(blockItem.BooleanValue);
         }
 
         [Test]
@@ -962,7 +963,7 @@ namespace Filtration.Parser.Tests.Services
                               "    PlayAlertSound 3" + Environment.NewLine +
                               "    DisableDropSound False" + Environment.NewLine +
                               "    Icon Icon2" + Environment.NewLine +
-                              "    BeamColor 255 100 5" + Environment.NewLine;
+                              "    BeamColor 255 100 5 false" + Environment.NewLine;
 
             // Act
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
@@ -1075,6 +1076,7 @@ namespace Filtration.Parser.Tests.Services
             Assert.AreEqual(255, beamBlockItem.Color.R);
             Assert.AreEqual(100, beamBlockItem.Color.G);
             Assert.AreEqual(5, beamBlockItem.Color.B);
+            Assert.IsFalse(beamBlockItem.BooleanValue);
         }
 
         [Test]
@@ -1951,7 +1953,7 @@ namespace Filtration.Parser.Tests.Services
                                  "    PlayAlertSound 6 90" + Environment.NewLine +
                                  "    DisableDropSound True";/* + Environment.NewLine +
                                  "    Icon Icon4";
-                                 "    BeamColor 120 130 140";*/
+                                 "    BeamColor 120 130 140 False";*/
 
             _testUtility.TestBlock.BlockItems.Add(new ActionBlockItem(BlockAction.Show));
             _testUtility.TestBlock.BlockItems.Add(new IdentifiedBlockItem(true));
@@ -1996,7 +1998,7 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.TestBlock.BlockItems.Add(new ElderMapBlockItem(true));
             _testUtility.TestBlock.BlockItems.Add(new DisableDropSoundBlockItem(true));
             _testUtility.TestBlock.BlockItems.Add(new IconBlockItem("Icon4"));
-            _testUtility.TestBlock.BlockItems.Add(new BeamBlockItem(new Color { A = 255, R = 120, G = 130, B = 140 }));
+            _testUtility.TestBlock.BlockItems.Add(new BeamBlockItem(new Color { A = 255, R = 120, G = 130, B = 140 }, false));
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
