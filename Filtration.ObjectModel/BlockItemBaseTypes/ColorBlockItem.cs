@@ -63,7 +63,7 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
 
         private void OnThemeComponentUpdated(object sender, EventArgs e)
         {
-            Color = ((ThemeComponent) sender).Color;
+            Color = ((ColorThemeComponent) sender).Color;
         }
 
         private void OnThemeComponentDeleted(object sender, EventArgs e)

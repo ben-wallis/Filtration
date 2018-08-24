@@ -131,6 +131,7 @@
     <Compile Include="Socket.cs" />
     <Compile Include="SocketGroup.cs" />
     <Compile Include="ThemeEditor\Theme.cs" />
+    <Compile Include="ThemeEditor\ColorThemeComponent.cs" />
     <Compile Include="ThemeEditor\ThemeComponent.cs" />
     <Compile Include="ThemeEditor\ThemeComponentCollection.cs" />
     <Compile Include="WindsorInstallers\CommandsInstaller.cs" />

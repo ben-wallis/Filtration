@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Filtration.Common.Services;
@@ -29,38 +30,18 @@ namespace Filtration.ThemeEditor.Services
             var mismatchedComponents = false;
             foreach (var component in theme.Components)
             {
-                var componentMatched = false;
-                Type targetType = null;
+                var blocks = script.ItemFilterBlocks.OfType<ItemFilterBlock>();
                 switch (component.ComponentType)
                 {
                     case ThemeComponentType.BackgroundColor:
-                        targetType = typeof (BackgroundColorBlockItem);
+                        mismatchedComponents = ApplyColorTheme(blocks, typeof(BackgroundColorBlockItem), component);
                         break;
                     case ThemeComponentType.TextColor:
-                        targetType = typeof (TextColorBlockItem);
+                        mismatchedComponents = ApplyColorTheme(blocks, typeof(TextColorBlockItem), component);
                         break;
                     case ThemeComponentType.BorderColor:
-                        targetType = typeof (BorderColorBlockItem);
+                        mismatchedComponents = ApplyColorTheme(blocks, typeof(BorderColorBlockItem), component);
                         break;
-                }
-
-                foreach (var block in script.ItemFilterBlocks.OfType<ItemFilterBlock>())
-                {
-                    foreach (var blockItem in block.BlockItems.Where(i => i.GetType() == targetType))
-                    {
-                        var colorBlockItem = (ColorBlockItem) blockItem;
-                        if (colorBlockItem.ThemeComponent != null &&
-                            colorBlockItem.ThemeComponent.ComponentName == component.ComponentName)
-                        {
-                            colorBlockItem.Color = component.Color;
-                            componentMatched = true;
-                        }
-                    }   
-                }
-
-                if (!componentMatched)
-                {
-                    mismatchedComponents = true;
                 }
             }
 
@@ -70,6 +51,26 @@ namespace Filtration.ThemeEditor.Services
                     "Not all theme components had matches - are you sure this theme is designed for this script?",
                     MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
+        }
+
+        private bool ApplyColorTheme(IEnumerable<ItemFilterBlock> blocks, Type type, ThemeComponent component)
+        {
+            var componentMatched = false;
+            foreach (var block in blocks)
+            {
+                foreach (var blockItem in block.BlockItems.Where(i => i.GetType() == type))
+                {
+                    var colorBlockItem = (ColorBlockItem)blockItem;
+                    if (colorBlockItem.ThemeComponent != null &&
+                        colorBlockItem.ThemeComponent.ComponentName == component.ComponentName)
+                    {
+                        colorBlockItem.Color = ((ColorThemeComponent)component).Color;
+                        componentMatched = true;
+                    }
+                }
+            }
+
+            return !componentMatched;
         }
     }
 }

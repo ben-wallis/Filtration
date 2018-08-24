@@ -773,7 +773,7 @@ namespace Filtration.Parser.Tests.Services
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    SetTextColor 255 20 100 # Rare Item Text";
-            var testComponent = new ThemeComponent(ThemeComponentType.TextColor, "Rare Item Text", new Color { R = 255, G = 20, B = 100});
+            var testComponent = new ColorThemeComponent(ThemeComponentType.TextColor, "Rare Item Text", new Color { R = 255, G = 20, B = 100});
             var testInputThemeComponentCollection = new ThemeComponentCollection { testComponent };
             
             // Act
@@ -1751,7 +1751,7 @@ namespace Filtration.Parser.Tests.Services
 
             var blockItem = new TextColorBlockItem(new Color {A = 255, R = 54, G = 102, B = 255})
             {
-                ThemeComponent = new ThemeComponent(ThemeComponentType.TextColor, "Test Theme Component", new Color())
+                ThemeComponent = new ColorThemeComponent(ThemeComponentType.TextColor, "Test Theme Component", new Color())
             };
 
             _testUtility.TestBlock.BlockItems.Add(blockItem);

@@ -46,6 +46,7 @@ namespace Filtration
                 cfg.ConstructServicesUsing(_container.Resolve);
                 cfg.CreateMap<Theme, IThemeEditorViewModel>().ConstructUsingServiceLocator();
                 cfg.CreateMap<ThemeComponent, ThemeComponentViewModel>().ReverseMap();
+                cfg.CreateMap<ColorThemeComponent, ColorThemeComponentViewModel>().ReverseMap();
                 cfg.CreateMap<IThemeEditorViewModel, Theme>();
             });
 

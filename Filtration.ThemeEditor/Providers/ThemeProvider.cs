@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Filtration.ObjectModel;
+using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.ThemeEditor;
 using Filtration.ThemeEditor.Services;
 using Filtration.ThemeEditor.ViewModels;
@@ -34,7 +35,14 @@ namespace Filtration.ThemeEditor.Providers
             var themeComponentCollection = script.ThemeComponents.Aggregate(new ThemeComponentCollection(),
                 (c, component) =>
                 {
-                    c.Add(new ThemeComponent(component.ComponentType, component.ComponentName, component.Color));
+                    switch(component.ComponentType)
+                    {
+                        case ThemeComponentType.BackgroundColor:
+                        case ThemeComponentType.BorderColor:
+                        case ThemeComponentType.TextColor:
+                            c.Add(new ColorThemeComponent(component.ComponentType, component.ComponentName, ((ColorThemeComponent)component).Color));
+                            break;
+                    }
                     return c;
                 });
                 

@@ -10,25 +10,12 @@ namespace Filtration.ObjectModel.ThemeEditor
     [Serializable]
     public class ThemeComponent : INotifyPropertyChanged
     {
-        private Color _color;
-        private EventHandler _themeComponentUpdatedEventHandler;
+        protected EventHandler _themeComponentUpdatedEventHandler;
         private readonly object _eventLock = new object();
 
         public ThemeComponent()
         {
             
-        }
-
-        public ThemeComponent(ThemeComponentType componentType, string componentName, Color componentColor)
-        {
-            if (componentName == null || componentColor == null)
-            {
-                throw new ArgumentException("Null parameters not allowed in ThemeComponent constructor");
-            }
-
-            ComponentType = componentType;
-            Color = componentColor;
-            ComponentName = componentName;
         }
 
         // By implementing a custom event accessor here we can keep the UsageCount up to date.
@@ -57,17 +44,6 @@ namespace Filtration.ObjectModel.ThemeEditor
 
         public string ComponentName { get; set; }
         public ThemeComponentType ComponentType{ get; set; }
-
-        public Color Color
-        {
-            get { return _color; }
-            set
-            {
-                _color = value;
-                OnPropertyChanged();
-                _themeComponentUpdatedEventHandler?.Invoke(this, EventArgs.Empty);
-            }
-        }
 
         public int UsageCount
         {

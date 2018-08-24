@@ -108,6 +108,7 @@
     <Compile Include="Providers\ThemeProvider.cs" />
     <Compile Include="Services\ThemePersistenceService.cs" />
     <Compile Include="Services\ThemeService.cs" />
+    <Compile Include="ViewModels\ColorThemeComponentViewModel.cs" />
     <Compile Include="ViewModels\IThemeViewModelFactory.cs" />
     <Compile Include="ViewModels\ThemeComponentViewModel.cs" />
     <Compile Include="ViewModels\ThemeEditorViewModel.cs" />

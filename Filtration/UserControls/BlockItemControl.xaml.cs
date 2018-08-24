@@ -6,6 +6,7 @@ using System.Windows;
 using Filtration.Annotations;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
 using Xceed.Wpf.Toolkit;
@@ -97,7 +98,7 @@ namespace Filtration.UserControls
             var blockItem = BlockItem as ColorBlockItem;
             if (blockItem?.ThemeComponent == null) return;
 
-            blockItem.Color = blockItem.ThemeComponent.Color;
+            blockItem.Color = ((ColorThemeComponent)blockItem.ThemeComponent).Color;
         }
         
         public event PropertyChangedEventHandler PropertyChanged;

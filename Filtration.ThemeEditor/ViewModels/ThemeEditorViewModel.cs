@@ -194,8 +194,15 @@ namespace Filtration.ThemeEditor.ViewModels
         
         private void OnAddThemeComponentCommand(ThemeComponentType themeComponentType)
         {
-            Components.Add(new ThemeComponent(themeComponentType, "Untitled Component",
-                new Color {A = 255, R = 255, G = 255, B = 255}));
+            switch (themeComponentType)
+            {
+                case ThemeComponentType.BackgroundColor:
+                case ThemeComponentType.BorderColor:
+                case ThemeComponentType.TextColor:
+                    Components.Add(new ColorThemeComponent(themeComponentType, "Untitled Component",
+                        new Color { A = 255, R = 255, G = 255, B = 255 }));
+                    break;
+            }
         }
 
         private void OnDeleteThemeComponentCommand(ThemeComponent themeComponent)
