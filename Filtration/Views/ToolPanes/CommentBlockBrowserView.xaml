@@ -13,7 +13,12 @@
         <converters:HashSignRemovalConverter x:Key="HashSignRemovalConverter" />
     </UserControl.Resources>
     <Grid>
-        <ListBox ItemsSource="{Binding ItemFilterCommentBlockViewModels}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Height="30" Padding="0,-10,0,0" />
+        <ListBox Grid.Row="1" ItemsSource="{Binding CommentBlocksView}"
                  SelectedItem="{Binding SelectedItemFilterCommentBlockViewModel}"
                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"><!--SelectionChanged="SectionBrowserListBox_OnSelectionChanged"-->
             <ListBox.Resources>
