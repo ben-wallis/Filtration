@@ -16,15 +16,20 @@ namespace Filtration.ObjectModel.ThemeEditor
                 return Items.FirstOrDefault(t => t.ComponentName == componentName && t.ComponentType == componentType);
             }
 
-            ThemeComponent component = null;
-            switch(componentType)
+            var component = new ColorThemeComponent(componentType, componentName, componentColor);
+            Items.Add(component);
+
+            return component;
+        }
+
+        public ThemeComponent AddComponent(ThemeComponentType componentType, string componentName, int componentValue)
+        {
+            if (ComponentExists(componentType, componentName))
             {
-                case ThemeComponentType.BackgroundColor:
-                case ThemeComponentType.BorderColor:
-                case ThemeComponentType.TextColor:
-                    component = new ColorThemeComponent(componentType, componentName, componentColor);
-                    break;
+                return Items.FirstOrDefault(t => t.ComponentName == componentName && t.ComponentType == componentType);
             }
+
+            var component = new IntegerThemeComponent(componentType, componentName, componentValue);
             Items.Add(component);
 
             return component;

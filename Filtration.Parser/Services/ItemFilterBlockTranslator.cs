@@ -217,11 +217,15 @@ namespace Filtration.Parser.Services
                         // Only ever use the last SetFontSize item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<FontSizeBlockItem>(block);
 
-                        var match = Regex.Match(trimmedLine, @"\s+(\d+)");
-                        if (match.Success)
+                        var match = Regex.Matches(trimmedLine, @"(\s+(\d+)\s*)([#]?)(.*)");
+                        if (match.Count > 0)
                         {
-                            var blockItemValue = new FontSizeBlockItem(Convert.ToInt16(match.Value));
-                            block.BlockItems.Add(blockItemValue);
+                            var blockItem = new FontSizeBlockItem(Convert.ToInt16(match[0].Groups[2].Value));
+                            if(match[0].Groups[3].Value == "#" && !string.IsNullOrWhiteSpace(match[0].Groups[4].Value))
+                            {
+                                blockItem.ThemeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.FontSize, match[0].Groups[4].Value.Trim(), blockItem.Value);
+                            }
+                            block.BlockItems.Add(blockItem);
                         }
                         break;
                     }

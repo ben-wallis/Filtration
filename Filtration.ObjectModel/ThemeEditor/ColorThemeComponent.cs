@@ -1,8 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows.Media;
-using Filtration.ObjectModel.Annotations;
 using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel.ThemeEditor
@@ -11,7 +8,6 @@ namespace Filtration.ObjectModel.ThemeEditor
     public class ColorThemeComponent : ThemeComponent
     {
         private Color _color;
-        private readonly object _eventLock = new object();
 
         public ColorThemeComponent(ThemeComponentType componentType, string componentName, Color componentColor)
         {

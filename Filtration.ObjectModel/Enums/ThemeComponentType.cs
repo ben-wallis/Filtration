@@ -9,6 +9,8 @@ namespace Filtration.ObjectModel.Enums
         [Description("Background")]
         BackgroundColor,
         [Description("Border")]
-        BorderColor
+        BorderColor,
+        [Description("Font Size")]
+        FontSize
     }
 }

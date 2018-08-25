@@ -563,7 +563,7 @@ namespace Filtration.ViewModels
                 Script.ThemeComponents.Where(
                     t =>
                         Script.ItemFilterBlocks.OfType<ItemFilterBlock>().Count(
-                            b => b.BlockItems.OfType<ColorBlockItem>().Count(i => i.ThemeComponent == t) > 0) == 0).ToList();
+                            b => b.BlockItems.OfType<IBlockItemWithTheme>().Count(i => i.ThemeComponent == t) > 0) == 0).ToList();
 
             if (unusedThemeComponents.Count <= 0) return true;
 

@@ -202,6 +202,9 @@ namespace Filtration.ThemeEditor.ViewModels
                     Components.Add(new ColorThemeComponent(themeComponentType, "Untitled Component",
                         new Color { A = 255, R = 255, G = 255, B = 255 }));
                     break;
+                case ThemeComponentType.FontSize:
+                    Components.Add(new IntegerThemeComponent(themeComponentType, "Untitled Component", 35));
+                    break;
             }
         }
 

@@ -116,9 +116,21 @@
 
                     <!-- Font Size Template -->
                     <DataTemplate DataType="{x:Type blockItemTypes:FontSizeBlockItem}">
-                        <WrapPanel HorizontalAlignment="Left">
-                            <xctk:ShortUpDown Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Width="50" />
-                        </WrapPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <xctk:ShortUpDown Grid.Column="0" Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Margin="0,0,10,0" />
+                            <userControls:ThemeComponentSelectionControl Grid.Column="1" ThemeComponent="{Binding ThemeComponent}">
+                                <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                                    <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
+                                        <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
+                                        <Binding Path="." />
+                                    </MultiBinding>
+                                </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                            </userControls:ThemeComponentSelectionControl>
+                        </Grid>
                     </DataTemplate>
 
                     <!-- Sound Template -->

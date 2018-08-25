@@ -115,6 +115,7 @@
     <Compile Include="Factories\IItemFilterScriptFactory.cs" />
     <Compile Include="FilteredItem.cs" />
     <Compile Include="IAudioVisualBlockItem.cs" />
+    <Compile Include="IBlockItemWithTheme.cs" />
     <Compile Include="IItemFilterBlockItem.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="ItemFilterBlock.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="ReplaceColorsParameterSet.cs" />
     <Compile Include="Socket.cs" />
     <Compile Include="SocketGroup.cs" />
+    <Compile Include="ThemeEditor\IntegerThemeComponent.cs" />
     <Compile Include="ThemeEditor\Theme.cs" />
     <Compile Include="ThemeEditor\ColorThemeComponent.cs" />
     <Compile Include="ThemeEditor\ThemeComponent.cs" />

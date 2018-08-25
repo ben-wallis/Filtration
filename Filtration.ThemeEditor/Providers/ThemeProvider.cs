@@ -42,6 +42,9 @@ namespace Filtration.ThemeEditor.Providers
                         case ThemeComponentType.TextColor:
                             c.Add(new ColorThemeComponent(component.ComponentType, component.ComponentName, ((ColorThemeComponent)component).Color));
                             break;
+                        case ThemeComponentType.FontSize:
+                            c.Add(new IntegerThemeComponent(component.ComponentType, component.ComponentName, ((IntegerThemeComponent)component).Value));
+                            break;
                     }
                     return c;
                 });

@@ -64,6 +64,11 @@
                 <DataTemplate  DataType="{x:Type themeEditor:ColorThemeComponent}">
                     <xctk:ColorPicker SelectedColor="{Binding Color}" />
                 </DataTemplate>
+
+                <!-- Integer Theme Template -->
+                <DataTemplate  DataType="{x:Type themeEditor:IntegerThemeComponent}">
+                    <xctk:ShortUpDown Value="{Binding Value}" />
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
     </Grid>

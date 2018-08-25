@@ -114,6 +114,7 @@ namespace Filtration.ViewModels
             AddTextColorThemeComponentCommand = new RelayCommand(OnAddTextColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             AddBackgroundColorThemeComponentCommand = new RelayCommand(OnAddBackgroundColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             AddBorderColorThemeComponentCommand = new RelayCommand(OnAddBorderColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
+            AddFontSizeThemeComponentCommand = new RelayCommand(OnAddFontSizeThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             DeleteThemeComponentCommand = new RelayCommand(OnDeleteThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable && _avalonDockWorkspaceViewModel.ActiveThemeViewModel.SelectedThemeComponent != null);
 
             ExpandAllBlocksCommand = new RelayCommand(OnExpandAllBlocksCommand, () => ActiveDocumentIsScript);
@@ -213,6 +214,7 @@ namespace Filtration.ViewModels
         public RelayCommand AddTextColorThemeComponentCommand { get; }
         public RelayCommand AddBackgroundColorThemeComponentCommand { get; }
         public RelayCommand AddBorderColorThemeComponentCommand { get; }
+        public RelayCommand AddFontSizeThemeComponentCommand { get; }
         public RelayCommand DeleteThemeComponentCommand { get; }
 
         public RelayCommand AddBlockCommand { get; }
@@ -675,6 +677,11 @@ namespace Filtration.ViewModels
         private void OnAddBorderColorThemeComponentCommand()
         {
             _avalonDockWorkspaceViewModel.ActiveThemeViewModel.AddThemeComponentCommand.Execute(ThemeComponentType.BorderColor);
+        }
+
+        private void OnAddFontSizeThemeComponentCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveThemeViewModel.AddThemeComponentCommand.Execute(ThemeComponentType.FontSize);
         }
 
         private void OnDeleteThemeComponentCommand()

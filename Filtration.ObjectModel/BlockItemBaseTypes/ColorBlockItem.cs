@@ -4,7 +4,7 @@ using Filtration.ObjectModel.ThemeEditor;
 
 namespace Filtration.ObjectModel.BlockItemBaseTypes
 {
-    public abstract class ColorBlockItem : BlockItemBase, IAudioVisualBlockItem
+    public abstract class ColorBlockItem : BlockItemBase, IAudioVisualBlockItem, IBlockItemWithTheme
     {
         private Color _color;
         private ThemeComponent _themeComponent;
