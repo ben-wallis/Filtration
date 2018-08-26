@@ -773,7 +773,7 @@ namespace Filtration.Parser.Tests.Services
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    SetTextColor 255 20 100 # Rare Item Text";
-            var testComponent = new ThemeComponent(ThemeComponentType.TextColor, "Rare Item Text", new Color { R = 255, G = 20, B = 100});
+            var testComponent = new ColorThemeComponent(ThemeComponentType.TextColor, "Rare Item Text", new Color { R = 255, G = 20, B = 100});
             var testInputThemeComponentCollection = new ThemeComponentCollection { testComponent };
             
             // Act
@@ -893,6 +893,42 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlock_DropIcon_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    Icon Icon1";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is IconBlockItem));
+            var blockItem = result.BlockItems.OfType<IconBlockItem>().First();
+            Assert.AreEqual("Icon1", blockItem.Value);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_BeamColor_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    BeamColor 255 20 100 True";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is BeamBlockItem));
+            var blockItem = result.BlockItems.OfType<BeamBlockItem>().First();
+            Assert.AreEqual(255, blockItem.Color.R);
+            Assert.AreEqual(20, blockItem.Color.G);
+            Assert.AreEqual(100, blockItem.Color.B);
+            Assert.IsTrue(blockItem.BooleanValue);
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_Everything_ReturnsCorrectObject()
         {
             // Arrange
@@ -925,7 +961,9 @@ namespace Filtration.Parser.Tests.Services
                               "    SetBorderColor 0 0 0" + Environment.NewLine +
                               "    SetFontSize 50" + Environment.NewLine +
                               "    PlayAlertSound 3" + Environment.NewLine +
-                              "    DisableDropSound False" + Environment.NewLine;
+                              "    DisableDropSound False" + Environment.NewLine +
+                              "    Icon Icon2" + Environment.NewLine +
+                              "    BeamColor 255 100 5 false" + Environment.NewLine;
 
             // Act
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
@@ -1030,6 +1068,15 @@ namespace Filtration.Parser.Tests.Services
 
             var disableDropSoundBlockItem = result.BlockItems.OfType<DisableDropSoundBlockItem>().First();
             Assert.IsFalse(disableDropSoundBlockItem.BooleanValue);
+
+            var iconBlockItem = result.BlockItems.OfType<IconBlockItem>().First();
+            Assert.AreEqual("Icon2", iconBlockItem.Value);
+
+            var beamBlockItem = result.BlockItems.OfType<BeamBlockItem>().First();
+            Assert.AreEqual(255, beamBlockItem.Color.R);
+            Assert.AreEqual(100, beamBlockItem.Color.G);
+            Assert.AreEqual(5, beamBlockItem.Color.B);
+            Assert.IsFalse(beamBlockItem.BooleanValue);
         }
 
         [Test]
@@ -1264,6 +1311,8 @@ namespace Filtration.Parser.Tests.Services
             var expectedResult = "Show";
 
             // Act
+            // TODO: Shouldn't be set to edited this way
+            _testUtility.TestBlock.IsEdited = true;
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
             // Assert
@@ -1281,6 +1330,8 @@ namespace Filtration.Parser.Tests.Services
             var child2BlockGroup = new ItemFilterBlockGroup("Child 2 Block Group", child1BlockGroup);
             _testUtility.TestBlock.BlockGroup = child2BlockGroup;
 
+            // TODO: Shouldn't be set to edited this way
+            _testUtility.TestBlock.IsEdited = true;
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
 
@@ -1296,6 +1347,8 @@ namespace Filtration.Parser.Tests.Services
             var expectedResult = $"Show #{testInputActionBlockComment}";
 
             _testUtility.TestBlock.BlockItems.OfType<ActionBlockItem>().First().Comment = testInputActionBlockComment;
+            // TODO: Shouldn't be set to edited this way
+            _testUtility.TestBlock.IsEdited = true;
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
@@ -1698,7 +1751,7 @@ namespace Filtration.Parser.Tests.Services
 
             var blockItem = new TextColorBlockItem(new Color {A = 255, R = 54, G = 102, B = 255})
             {
-                ThemeComponent = new ThemeComponent(ThemeComponentType.TextColor, "Test Theme Component", new Color())
+                ThemeComponent = new ColorThemeComponent(ThemeComponentType.TextColor, "Test Theme Component", new Color())
             };
 
             _testUtility.TestBlock.BlockItems.Add(blockItem);
@@ -1836,14 +1889,29 @@ namespace Filtration.Parser.Tests.Services
         public void TranslateItemFilterBlockToString_DisabledBlock_ReturnsCorrectString()
         {
             // Arrange
-            var expectedResult = "#Disabled Block Start" + Environment.NewLine +
-                                 "#Show" + Environment.NewLine +
-                                 "#    Width = 4" + Environment.NewLine +
-                                 "#Disabled Block End";
+            var expectedResult = "#Show" + Environment.NewLine +
+                                 "#    Width = 4";
                                  
 
             _testUtility.TestBlock.Enabled = false;
             _testUtility.TestBlock.BlockItems.Add(new WidthBlockItem(FilterPredicateOperator.Equal, 4));
+
+            // Act
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Ignore("Ignore until the new block type is fully implemented")]
+        [Test]
+        public void TranslateItemFilterBlockToString_DropIcon_ReturnsCorrectString()
+        {
+            // Arrange
+            var expectedResult = "Show" + Environment.NewLine +
+                                 "    Icon Icon3";
+            
+            _testUtility.TestBlock.BlockItems.Add(new IconBlockItem("Icon3"));
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
@@ -1883,7 +1951,9 @@ namespace Filtration.Parser.Tests.Services
                                  "    SetBorderColor 255 1 254" + Environment.NewLine +
                                  "    SetFontSize 50" + Environment.NewLine +
                                  "    PlayAlertSound 6 90" + Environment.NewLine +
-                                 "    DisableDropSound True";
+                                 "    DisableDropSound True";/* + Environment.NewLine +
+                                 "    Icon Icon4";
+                                 "    BeamColor 120 130 140 False";*/
 
             _testUtility.TestBlock.BlockItems.Add(new ActionBlockItem(BlockAction.Show));
             _testUtility.TestBlock.BlockItems.Add(new IdentifiedBlockItem(true));
@@ -1927,6 +1997,8 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.TestBlock.BlockItems.Add(new ShapedMapBlockItem(true));
             _testUtility.TestBlock.BlockItems.Add(new ElderMapBlockItem(true));
             _testUtility.TestBlock.BlockItems.Add(new DisableDropSoundBlockItem(true));
+            _testUtility.TestBlock.BlockItems.Add(new IconBlockItem("Icon4"));
+            _testUtility.TestBlock.BlockItems.Add(new BeamBlockItem(new Color { A = 255, R = 120, G = 130, B = 140 }, false));
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);

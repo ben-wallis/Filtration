@@ -100,6 +100,10 @@ namespace Filtration.ViewModels
             DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
             DisableBlockCommand = new RelayCommand(OnDisableBlockCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedEnabledBlock);
             EnableBlockCommand = new RelayCommand(OnEnableBlockCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedDisabledBlock);
+            DisableSectionCommand = new RelayCommand(OnDisableSectionCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedCommentBlock);
+            EnableSectionCommand = new RelayCommand(OnEnableSectionCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedCommentBlock);
+            ExpandSectionCommand = new RelayCommand(OnExpandSectionCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedCommentBlock);
+            CollapseSectionCommand = new RelayCommand(OnCollapseSectionCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedCommentBlock);
             OpenAboutWindowCommand = new RelayCommand(OnOpenAboutWindowCommand);
             ReplaceColorsCommand = new RelayCommand(OnReplaceColorsCommand, () => ActiveDocumentIsScript);
 
@@ -110,10 +114,15 @@ namespace Filtration.ViewModels
             AddTextColorThemeComponentCommand = new RelayCommand(OnAddTextColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             AddBackgroundColorThemeComponentCommand = new RelayCommand(OnAddBackgroundColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             AddBorderColorThemeComponentCommand = new RelayCommand(OnAddBorderColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
+            AddFontSizeThemeComponentCommand = new RelayCommand(OnAddFontSizeThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
+            AddAlertSoundThemeComponentCommand = new RelayCommand(OnAddAlertSoundThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             DeleteThemeComponentCommand = new RelayCommand(OnDeleteThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable && _avalonDockWorkspaceViewModel.ActiveThemeViewModel.SelectedThemeComponent != null);
 
             ExpandAllBlocksCommand = new RelayCommand(OnExpandAllBlocksCommand, () => ActiveDocumentIsScript);
             CollapseAllBlocksCommand = new RelayCommand(OnCollapseAllBlocksCommand, () => ActiveDocumentIsScript);
+
+            ExpandAllSectionsCommand = new RelayCommand(OnExpandAllSectionsCommand, () => ActiveDocumentIsScript);
+            CollapseAllSectionsCommand = new RelayCommand(OnCollapseAllSectionsCommand, () => ActiveDocumentIsScript);
 
             ToggleShowAdvancedCommand = new RelayCommand<bool>(OnToggleShowAdvancedCommand, s => ActiveDocumentIsScript);
             ClearFiltersCommand = new RelayCommand(OnClearFiltersCommand, () => ActiveDocumentIsScript);
@@ -206,6 +215,8 @@ namespace Filtration.ViewModels
         public RelayCommand AddTextColorThemeComponentCommand { get; }
         public RelayCommand AddBackgroundColorThemeComponentCommand { get; }
         public RelayCommand AddBorderColorThemeComponentCommand { get; }
+        public RelayCommand AddFontSizeThemeComponentCommand { get; }
+        public RelayCommand AddAlertSoundThemeComponentCommand { get; }
         public RelayCommand DeleteThemeComponentCommand { get; }
 
         public RelayCommand AddBlockCommand { get; }
@@ -213,6 +224,10 @@ namespace Filtration.ViewModels
         public RelayCommand DeleteBlockCommand { get; }
         public RelayCommand DisableBlockCommand { get; }
         public RelayCommand EnableBlockCommand { get; }
+        public RelayCommand DisableSectionCommand { get; }
+        public RelayCommand EnableSectionCommand { get; }
+        public RelayCommand ExpandSectionCommand { get; }
+        public RelayCommand CollapseSectionCommand { get; }
 
         public RelayCommand MoveBlockUpCommand { get; }
         public RelayCommand MoveBlockDownCommand { get; }
@@ -221,6 +236,9 @@ namespace Filtration.ViewModels
 
         public RelayCommand ExpandAllBlocksCommand { get; }
         public RelayCommand CollapseAllBlocksCommand { get; }
+
+        public RelayCommand ExpandAllSectionsCommand { get; }
+        public RelayCommand CollapseAllSectionsCommand { get; }
 
         public RelayCommand<bool> ToggleShowAdvancedCommand { get; }
         public RelayCommand ClearFiltersCommand { get; }
@@ -259,6 +277,9 @@ namespace Filtration.ViewModels
         public bool ActiveScriptHasSelectedEnabledBlock => AvalonDockWorkspaceViewModel.ActiveScriptViewModel.HasSelectedEnabledBlock();
 
         public bool ActiveScriptHasSelectedDisabledBlock => AvalonDockWorkspaceViewModel.ActiveScriptViewModel.HasSelectedDisabledBlock();
+
+        public bool ActiveScriptHasSelectedCommentBlock => AvalonDockWorkspaceViewModel.ActiveScriptViewModel.HasSelectedCommentBlock();
+
 
         public bool ActiveThemeIsEditable => AvalonDockWorkspaceViewModel.ActiveThemeViewModel.IsMasterTheme;
 
@@ -595,6 +616,26 @@ namespace Filtration.ViewModels
             _avalonDockWorkspaceViewModel.ActiveScriptViewModel.EnableBlockCommand.Execute(null);
         }
 
+        private void OnDisableSectionCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.DisableSectionCommand.Execute(null);
+        }
+
+        private void OnEnableSectionCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.EnableSectionCommand.Execute(null);
+        }
+
+        private void OnExpandSectionCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.ExpandSectionCommand.Execute(null);
+        }
+
+        private void OnCollapseSectionCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.CollapseSectionCommand.Execute(null);
+        }
+
         private void OnExpandAllBlocksCommand()
         {
             _avalonDockWorkspaceViewModel.ActiveScriptViewModel.ExpandAllBlocksCommand.Execute(null);
@@ -603,6 +644,16 @@ namespace Filtration.ViewModels
         private void OnCollapseAllBlocksCommand()
         {
             _avalonDockWorkspaceViewModel.ActiveScriptViewModel.CollapseAllBlocksCommand.Execute(null);
+        }
+
+        private void OnExpandAllSectionsCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.ExpandAllSectionsCommand.Execute(null);
+        }
+
+        private void OnCollapseAllSectionsCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.CollapseAllSectionsCommand.Execute(null);
         }
 
         private void OnToggleShowAdvancedCommand(bool showAdvanced)
@@ -628,6 +679,16 @@ namespace Filtration.ViewModels
         private void OnAddBorderColorThemeComponentCommand()
         {
             _avalonDockWorkspaceViewModel.ActiveThemeViewModel.AddThemeComponentCommand.Execute(ThemeComponentType.BorderColor);
+        }
+
+        private void OnAddFontSizeThemeComponentCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveThemeViewModel.AddThemeComponentCommand.Execute(ThemeComponentType.FontSize);
+        }
+
+        private void OnAddAlertSoundThemeComponentCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveThemeViewModel.AddThemeComponentCommand.Execute(ThemeComponentType.AlertSound);
         }
 
         private void OnDeleteThemeComponentCommand()

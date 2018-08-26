@@ -94,7 +94,7 @@
 
             <xcad:LayoutRoot>
                 <xcad:LayoutPanel Orientation="Horizontal">
-                    <xcad:LayoutAnchorablePane Name="SectionBrowserPane" DockWidth="150" />
+                    <xcad:LayoutAnchorablePane Name="SectionBrowserPane" DockWidth="200" />
                     <xcad:LayoutPanel Orientation="Vertical">
                         <xcad:LayoutDocumentPane />
                     </xcad:LayoutPanel>

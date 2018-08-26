@@ -30,9 +30,10 @@ namespace Filtration.Parser.Services
         }
 
         // Converts a string into an ItemFilterCommentBlock maintaining newlines and spaces but removing # characters
-        public IItemFilterCommentBlock TranslateStringToItemFilterCommentBlock(string inputString, IItemFilterScript parentItemFilterScript)
+        public IItemFilterCommentBlock TranslateStringToItemFilterCommentBlock(string inputString, IItemFilterScript parentItemFilterScript, string originalString = "")
         {
             var itemFilterCommentBlock = new ItemFilterCommentBlock(parentItemFilterScript);
+            itemFilterCommentBlock.OriginalText = originalString;
 
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
@@ -42,12 +43,13 @@ namespace Filtration.Parser.Services
 
             itemFilterCommentBlock.Comment = itemFilterCommentBlock.Comment.TrimEnd('\r', '\n');
 
+            itemFilterCommentBlock.IsEdited = false;
             return itemFilterCommentBlock;
         }
 
         // This method converts a string into a ItemFilterBlock. This is used for pasting ItemFilterBlocks 
         // and reading ItemFilterScripts from a file.
-        public IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScript parentItemFilterScript, bool initialiseBlockGroupHierarchyBuilder = false)
+        public IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScript parentItemFilterScript, string originalString = "", bool initialiseBlockGroupHierarchyBuilder = false)
         {
             if (initialiseBlockGroupHierarchyBuilder)
             {
@@ -57,6 +59,7 @@ namespace Filtration.Parser.Services
             _masterComponentCollection = parentItemFilterScript.ItemFilterScriptSettings.ThemeComponentCollection;
             var block = new ItemFilterBlock(parentItemFilterScript);
             var showHideFound = false;
+            block.OriginalText = originalString;
 
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
@@ -214,11 +217,15 @@ namespace Filtration.Parser.Services
                         // Only ever use the last SetFontSize item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<FontSizeBlockItem>(block);
 
-                        var match = Regex.Match(trimmedLine, @"\s+(\d+)");
-                        if (match.Success)
+                        var match = Regex.Matches(trimmedLine, @"(\s+(\d+)\s*)([#]?)(.*)");
+                        if (match.Count > 0)
                         {
-                            var blockItemValue = new FontSizeBlockItem(Convert.ToInt16(match.Value));
-                            block.BlockItems.Add(blockItemValue);
+                            var blockItem = new FontSizeBlockItem(Convert.ToInt16(match[0].Groups[2].Value));
+                            if(match[0].Groups[3].Value == "#" && !string.IsNullOrWhiteSpace(match[0].Groups[4].Value))
+                            {
+                                blockItem.ThemeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.FontSize, match[0].Groups[4].Value.Trim(), blockItem.Value);
+                            }
+                            block.BlockItems.Add(blockItem);
                         }
                         break;
                     }
@@ -229,7 +236,7 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<SoundBlockItem>(block);
                         RemoveExistingBlockItemsOfType<PositionalSoundBlockItem>(block);
 
-                        var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)\s?(\d+)?");
+                        var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)\s?(\d+)?\s*([#]?)(.*)");
                         
                         if (match.Success)
                         {
@@ -245,6 +252,12 @@ namespace Filtration.Parser.Services
                                 secondValue = 79;
                             }
 
+                            ThemeComponent themeComponent = null;
+                            if(match.Groups[3].Value == "#" && !string.IsNullOrWhiteSpace(match.Groups[4].Value))
+                            {
+                                themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.AlertSound, match.Groups[4].Value.Trim(), firstValue, secondValue);
+                            }
+
                             if (lineOption == "PlayAlertSound")
                             {
                                 var blockItemValue = new SoundBlockItem
@@ -252,6 +265,7 @@ namespace Filtration.Parser.Services
                                     Value = firstValue,
                                     SecondValue = secondValue
                                 };
+                                blockItemValue.ThemeComponent = themeComponent;
                                 block.BlockItems.Add(blockItemValue);
                             }
                             else
@@ -261,6 +275,7 @@ namespace Filtration.Parser.Services
                                     Value = firstValue,
                                     SecondValue = secondValue
                                 };
+                                blockItemValue.ThemeComponent = themeComponent;
                                 block.BlockItems.Add(blockItemValue);
                             }
                         }
@@ -294,9 +309,42 @@ namespace Filtration.Parser.Services
                         AddBooleanItemToBlockItems<DisableDropSoundBlockItem>(block, trimmedLine);
                         break;
                     }
+                    case "Icon":
+                    {
+                        // Only ever use the last Icon item encountered as multiples aren't valid.
+                        RemoveExistingBlockItemsOfType<IconBlockItem>(block);
+
+                        var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)");
+                        
+                        if (match.Success)
+                        {
+                            var blockItemValue = new IconBlockItem
+                            {
+                                Value = match.Groups[1].Value
+                            };
+                            block.BlockItems.Add(blockItemValue);
+                        }
+                        break;
+                    }
+                    case "BeamColor":
+                    {
+                        // Only ever use the last BeamColor item encountered as multiples aren't valid.
+                        RemoveExistingBlockItemsOfType<BeamBlockItem>(block);
+                        
+                        var result = Regex.Matches(trimmedLine, @"([\w\s]*)(True|False)[#]?(.*)", RegexOptions.IgnoreCase);
+                        var color = GetColorFromString(result[0].Groups[1].Value);
+                        var beamBlockItem = new BeamBlockItem
+                        {
+                            Color = GetColorFromString(result[0].Groups[1].Value),
+                            BooleanValue = result[0].Groups[2].Value.Trim().ToLowerInvariant() == "true"
+                        };
+                        block.BlockItems.Add(beamBlockItem);
+                        break;
+                    }
                 }
             }
 
+            block.IsEdited = false;
             return block;
         }
 
@@ -312,6 +360,7 @@ namespace Filtration.Parser.Services
 
         private static void AddBooleanItemToBlockItems<T>(IItemFilterBlock block, string inputString) where T : BooleanBlockItem
         {
+            inputString = Regex.Replace(inputString, @"\s+", " ");
             var blockItem = Activator.CreateInstance<T>();
             var splitString = inputString.Split(' ');
             if (splitString.Length == 2)
@@ -515,6 +564,11 @@ namespace Filtration.Parser.Services
         // TODO: Private
         public string TranslateItemFilterCommentBlockToString(IItemFilterCommentBlock itemFilterCommentBlock)
         {
+            if (!itemFilterCommentBlock.IsEdited)
+            {
+                return itemFilterCommentBlock.OriginalText;
+            }
+
             // TODO: Tests
             // TODO: # Section: text?
             var commentWithHashes = string.Empty;
@@ -534,12 +588,12 @@ namespace Filtration.Parser.Services
         // TODO: Private
         public string TranslateItemFilterBlockToString(IItemFilterBlock block)
         {
-            var outputString = string.Empty;
-
-            if (!block.Enabled)
+            if(!block.IsEdited)
             {
-                outputString += "#Disabled Block Start" + Environment.NewLine;
+                return block.OriginalText;
             }
+
+            var outputString = string.Empty;
 
             if (!string.IsNullOrEmpty(block.Description))
             {
@@ -560,17 +614,24 @@ namespace Filtration.Parser.Services
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var blockItem in block.BlockItems.Where(b => b.GetType() != typeof(ActionBlockItem)).OrderBy(b => b.SortOrder))
             {
+                // Do not save temporary blocks until the new features are fully implemented
+                if (blockItem is IconBlockItem || blockItem is BeamBlockItem)
+                {
+                    continue;
+                }
+
                 if (blockItem.OutputText != string.Empty)
                 {
                     outputString += (!block.Enabled ? _disabledNewLine : _newLine) + blockItem.OutputText;
                 }
             }
 
-            if (!block.Enabled)
-            {
-                outputString += Environment.NewLine +  "#Disabled Block End";
-            }
-            
+            //TODO: Disabled for the time being. A better solution is needed.
+            // Replace 'Maelström' to prevent encoding problems in other editors
+            //outputString.Replace("Maelström Staff", "Maelstr");
+            //outputString.Replace("Maelström of Chaos", "Maelstr");
+            //outputString.Replace("Maelström", "Maelstr");
+
             return outputString;
         }
     }

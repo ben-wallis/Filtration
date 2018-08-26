@@ -26,7 +26,7 @@ namespace Filtration.ThemeEditor.Tests.Services
             
             var testInputTheme = new Theme();
             var testInputThemeComponentColor = new Color{ R = 255, G = 0, B = 1 };
-            var testInputThemeComponent = new ThemeComponent(ThemeComponentType.TextColor, "Test Component 1", testInputThemeComponentColor);
+            var testInputThemeComponent = new ColorThemeComponent(ThemeComponentType.TextColor, "Test Component 1", testInputThemeComponentColor);
             testInputTheme.Components.Add(testInputThemeComponent);
             testInputBlockItem.ThemeComponent = testInputThemeComponent;
             var mockMessageBoxService = new Mock<IMessageBoxService>();
@@ -53,8 +53,8 @@ namespace Filtration.ThemeEditor.Tests.Services
 
             var testInputTheme = new Theme();
             var testInputThemeComponentColor = new Color { R = 255, G = 0, B = 1 };
-            var testInputThemeComponent = new ThemeComponent(ThemeComponentType.TextColor, "Test Component 1", testInputThemeComponentColor);
-            var testInputBlockItemThemeComponent = new ThemeComponent(ThemeComponentType.TextColor, "Different Component", testInputThemeComponentColor);
+            var testInputThemeComponent = new ColorThemeComponent(ThemeComponentType.TextColor, "Test Component 1", testInputThemeComponentColor);
+            var testInputBlockItemThemeComponent = new ColorThemeComponent(ThemeComponentType.TextColor, "Different Component", testInputThemeComponentColor);
             testInputTheme.Components.Add(testInputThemeComponent);
             testInputBlockItem.ThemeComponent = testInputBlockItemThemeComponent;
             

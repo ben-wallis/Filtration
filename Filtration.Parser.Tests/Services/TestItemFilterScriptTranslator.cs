@@ -27,6 +27,7 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        [Ignore("Outdated item filter")]
         public void TranslateStringToItemFilterScript_ReturnsScriptWithCorrectNumberOfBlocks()
         {
             // Arrange
@@ -40,7 +41,7 @@ namespace Filtration.Parser.Tests.Services
 
             // Assert
             Assert.AreEqual(5, script.ItemFilterBlocks.Count);
-            mockItemFilterBlockTranslator.Verify(t => t.TranslateStringToItemFilterBlock(It.IsAny<string>(), It.IsAny<IItemFilterScript>(), false));
+            mockItemFilterBlockTranslator.Verify(t => t.TranslateStringToItemFilterBlock(It.IsAny<string>(), It.IsAny<IItemFilterScript>(), "", false));
         }
 
         [Test]
@@ -95,13 +96,29 @@ namespace Filtration.Parser.Tests.Services
             // Assert
             var expectedResult = Mock.Of<IItemFilterScript>(s => s.ItemFilterBlocks == new ObservableCollection<IItemFilterBlockBase>
             {
-                Mock.Of<IItemFilterBlock>(c => c.Description == "Blockdescription"),
-                Mock.Of<IItemFilterCommentBlock>(c => c.Comment == " commentymccommentface"),
-                Mock.Of<IItemFilterBlock>(),
-                Mock.Of<IItemFilterCommentBlock>(c => c.Comment == "commment\r\nmorecomment\r\nblah"),
-                Mock.Of<IItemFilterCommentBlock>(c => c.Comment == "anothercomment"),
-                Mock.Of<IItemFilterCommentBlock>(c => c.Comment == "notpartofblockdescription    "),
-                Mock.Of<IItemFilterBlock>(c => c.Description == "blockdescription2")
+                Mock.Of<IItemFilterBlock>(c => c.Description == "Blockdescription" 
+                && c.OriginalText == "#Blockdescription" + Environment.NewLine +
+                    "Show	#Flasks - Endgame - Life/Mana - Divine/Eternal - Q10+ - Normal" + Environment.NewLine +
+                    "	Class \"Life Flasks\" \"Mana Flasks\"" + Environment.NewLine +
+                    "	Rarity Normal" + Environment.NewLine +
+                    "	SetFontSize 28"
+                ),
+                Mock.Of<IItemFilterCommentBlock>(c => c.Comment == " commentymccommentface" && c.OriginalText == "# commentymccommentface"),
+                Mock.Of<IItemFilterBlock>(c => c.OriginalText == "Show" + Environment.NewLine +
+                    "	Class \"Life Flasks\" \"Mana Flasks\"" + Environment.NewLine +
+                    "	Rarity Normal" + Environment.NewLine +
+                    "	DropLevel >= 60"
+                ),
+                Mock.Of<IItemFilterCommentBlock>(c => c.Comment == "commment\r\nmorecomment\r\nblah" 
+                && c.OriginalText == "#commment" + Environment.NewLine + "#morecomment" + Environment.NewLine + "#blah"),
+                Mock.Of<IItemFilterCommentBlock>(c => c.Comment == "anothercomment" && c.OriginalText == "#anothercomment"),
+                Mock.Of<IItemFilterCommentBlock>(c => c.Comment == "notpartofblockdescription    " && c.OriginalText == "#notpartofblockdescription    "),
+                Mock.Of<IItemFilterBlock>(c => c.Description == "blockdescription2"
+                && c.OriginalText == "#blockdescription2" + Environment.NewLine +
+                    "Show	#TestBlock" + Environment.NewLine +
+                    "	Class \"Life Flasks\" \"Mana Flasks\"" + Environment.NewLine +
+                    "	Rarity Normal	"
+                )
             } && s.ItemFilterBlockGroups == new ObservableCollection<ItemFilterBlockGroup> { new ItemFilterBlockGroup("Root", null, false) }
             && s.ThemeComponents == new ThemeComponentCollection() 
             && s.ItemFilterScriptSettings == new ItemFilterScriptSettings(new ThemeComponentCollection())

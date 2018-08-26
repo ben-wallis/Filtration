@@ -85,7 +85,18 @@
                     <DataTemplate DataType="{x:Type blockItemTypes:SocketGroupBlockItem}">
                         <userControls:EditableListBoxControl Margin="5,5,5,5" ItemsSource="{Binding Items}" />
                     </DataTemplate>
-                    
+
+                    <!-- Beam Block Template -->
+                    <DataTemplate DataType="{x:Type blockItemTypes:BeamBlockItem}">
+                        <StackPanel>
+                            <WrapPanel VerticalAlignment="Center" Margin="5,5,5,5">
+                                <RadioButton IsChecked="{Binding BooleanValue}" Margin="0,0,10,0">Permanent</RadioButton>
+                                <RadioButton IsChecked="{Binding BooleanValue, Converter={StaticResource BoolInverterConverter}}" >Temporary</RadioButton>
+                            </WrapPanel>
+                            <xctk:ColorPicker  SelectedColor="{Binding Color}" AvailableColors="{Binding ElementName=BlockItemContentControl, Path=DataContext.AvailableColors }" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors"/>
+                        </StackPanel>
+                    </DataTemplate>
+
                     <!-- Color Template -->
                     <DataTemplate DataType="{x:Type blockItemBaseTypes:ColorBlockItem}">
                         <StackPanel>
@@ -105,9 +116,21 @@
 
                     <!-- Font Size Template -->
                     <DataTemplate DataType="{x:Type blockItemTypes:FontSizeBlockItem}">
-                        <WrapPanel HorizontalAlignment="Left">
-                            <xctk:ShortUpDown Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Width="50" />
-                        </WrapPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <xctk:ShortUpDown Grid.Column="0" Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Margin="0,0,10,0" />
+                            <userControls:ThemeComponentSelectionControl Grid.Column="1" ThemeComponent="{Binding ThemeComponent}">
+                                <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                                    <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
+                                        <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
+                                        <Binding Path="." />
+                                    </MultiBinding>
+                                </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                            </userControls:ThemeComponentSelectionControl>
+                        </Grid>
                     </DataTemplate>
 
                     <!-- Sound Template -->
@@ -118,6 +141,14 @@
                             </Button>
                             <ComboBox ItemsSource="{Binding ElementName=BlockItemContentControl, Path=DataContext.SoundsAvailable}" SelectedValue="{Binding Value}" Style="{StaticResource MetroComboBox}" />
                             <xctk:ShortUpDown Value="{Binding Path=SecondValue}" Minimum="1" Maximum="300" HorizontalAlignment="Right" ToolTip="Volume"/>
+                            <userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}" Margin="0,2,0,0">
+                                <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                                    <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
+                                        <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
+                                        <Binding Path="." />
+                                    </MultiBinding>
+                                </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                            </userControls:ThemeComponentSelectionControl>
                         </WrapPanel>
                     </DataTemplate>
                     
@@ -129,6 +160,21 @@
                             </Button>
                             <ComboBox ItemsSource="{Binding ElementName=BlockItemContentControl, Path=DataContext.SoundsAvailable}" SelectedValue="{Binding Value}" Style="{StaticResource MetroComboBox}" />
                             <xctk:ShortUpDown Value="{Binding Path=SecondValue}" Minimum="1" Maximum="300" HorizontalAlignment="Right" ToolTip="Volume"/>
+                            <userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}" Margin="0,2,0,0">
+                                <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                                    <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
+                                        <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
+                                        <Binding Path="." />
+                                    </MultiBinding>
+                                </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                            </userControls:ThemeComponentSelectionControl>
+                        </WrapPanel>
+                    </DataTemplate>
+
+                    <!-- Drop Icon Template -->
+                    <DataTemplate DataType="{x:Type blockItemTypes:IconBlockItem}">
+                        <WrapPanel HorizontalAlignment="Left">
+                            <userControls:ImageComboBoxControl/>
                         </WrapPanel>
                     </DataTemplate>
                 </ContentControl.Resources>

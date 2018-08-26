@@ -58,6 +58,30 @@
                 </Style>
             </ContentControl.Style>
         </ContentControl>
-        <xctk:ColorPicker Grid.Row="2" SelectedColor="{Binding Color}" />
+        <ContentControl Grid.Row="2" Content="{Binding Mode=OneWay}">
+            <ContentControl.Resources>
+                <!-- Color Theme Template -->
+                <DataTemplate  DataType="{x:Type themeEditor:ColorThemeComponent}">
+                    <xctk:ColorPicker SelectedColor="{Binding Color}" />
+                </DataTemplate>
+
+                <!-- Integer Theme Template -->
+                <DataTemplate  DataType="{x:Type themeEditor:IntegerThemeComponent}">
+                    <xctk:ShortUpDown Value="{Binding Value}" />
+                </DataTemplate>
+
+                <!-- String Integer Theme Template -->
+                <DataTemplate  DataType="{x:Type themeEditor:StrIntThemeComponent}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Text="{Binding Value}" Height="25" Padding="2,-15,0,0" />
+                        <xctk:ShortUpDown Grid.Column="1" Value="{Binding SecondValue}" HorizontalAlignment="Right"/>
+                    </Grid>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
 </UserControl>

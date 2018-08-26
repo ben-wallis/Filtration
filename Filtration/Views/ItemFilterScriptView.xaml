@@ -54,7 +54,7 @@
         </Border>
         <Border Grid.Row="1" BorderThickness="1" BorderBrush="DarkGray" Margin="5,5,5,5">
             <DockPanel LastChildFill="True">
-                <userControls:AutoScrollingListBox ItemsSource="{Binding ItemFilterBlockViewModels}"
+                <userControls:AutoScrollingListBox ItemsSource="{Binding ViewItemFilterBlockViewModels}"
                                                    Padding="5"
                                                    HorizontalContentAlignment="Stretch"
                                                    BorderThickness="0"

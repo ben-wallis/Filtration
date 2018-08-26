@@ -51,58 +51,33 @@ namespace Filtration.Parser.Services
         public static string PreprocessDisabledBlocks(string inputString)
         {
             bool inDisabledBlock = false;
-            var showHideFound = false;
 
             var lines = Regex.Split(inputString, "\r\n|\r|\n").ToList();
-            var linesToRemove = new List<int>();
 
             for (var i = 0; i < lines.Count; i++)
             {
-                if (lines[i].StartsWith("#Disabled Block Start"))
+                if (!inDisabledBlock && lines[i].StartsWith("#"))
                 {
-                    inDisabledBlock = true;
-                    linesToRemove.Add(i);
-                    continue;
+                    string curLine = Regex.Replace(lines[i].Substring(1), @"\s+", "");
+                    if ((curLine.StartsWith("Show") || curLine.StartsWith("Hide")) && (curLine.Length == 4 || curLine[4] == '#'))
+                    {
+                        inDisabledBlock = true;
+                        lines[i] = lines[i].Substring(1).TrimStart(' ');
+                        lines[i] = lines[i].Substring(0, 4) + "Disabled" + lines[i].Substring(4);
+                        continue;
+                    }
                 }
                 if (inDisabledBlock)
                 {
-                    if (lines[i].StartsWith("#Disabled Block End"))
+                    if (!lines[i].StartsWith("#"))
                     {
                         inDisabledBlock = false;
-                        showHideFound = false;
-                        linesToRemove.Add(i);
-                        continue;
                     }
-
-                    lines[i] = lines[i].TrimStart('#');
-                    lines[i] = lines[i].Replace("#", " # ");
-                    var spaceOrEndOfLinePos = lines[i].IndexOf(" ", StringComparison.Ordinal) > 0 ? lines[i].IndexOf(" ", StringComparison.Ordinal) : lines[i].Length;
-                    var lineOption = lines[i].Substring(0, spaceOrEndOfLinePos);
-
-                    // If we haven't found a Show or Hide line yet, then this is probably the block comment.
-                    // Put its # back on and skip to the next line.
-                    if (lineOption != "Show" && lineOption != "Hide" && showHideFound == false)
+                    else
                     {
-                        lines[i] = "#" + lines[i];
-                        continue;
-                    }
-
-                    if (lineOption == "Show")
-                    {
-                        lines[i] = lines[i].Replace("Show", "ShowDisabled");
-                        showHideFound = true;
-                    }
-                    else if (lineOption == "Hide")
-                    {
-                        lines[i] = lines[i].Replace("Hide", "HideDisabled");
-                        showHideFound = true;
+                        lines[i] = lines[i].Substring(1);
                     }
                 }
-            }
-
-            for (var i = linesToRemove.Count - 1; i >= 0; i--)
-            {
-                lines.RemoveAt(linesToRemove[i]);
             }
 
             return lines.Aggregate((c, n) => c + Environment.NewLine + n);
@@ -113,11 +88,14 @@ namespace Filtration.Parser.Services
             var script = _itemFilterScriptFactory.Create();
             _blockGroupHierarchyBuilder.Initialise(script.ItemFilterBlockGroups.First());
 
+            //Remove old disabled tags
+            inputString = Regex.Replace(inputString, @"#Disabled\sBlock\s(Start|End).*?\n", "");
+            inputString = (inputString.EndsWith("\n#Disabled Block End")) ? inputString.Substring(0, inputString.Length - 19) : inputString;
+
+            var originalLines = Regex.Split(inputString, "\r\n|\r|\n");
+
             inputString = inputString.Replace("\t", "");
-            if (inputString.Contains("#Disabled Block Start"))
-            {
-                inputString = PreprocessDisabledBlocks(inputString);
-            }
+            inputString = PreprocessDisabledBlocks(inputString);
 
             var conditionBoundaries = IdentifyBlockBoundaries(inputString);
 
@@ -155,14 +133,24 @@ namespace Filtration.Parser.Services
                 var block = new string[end - begin];
                 Array.Copy(lines, begin, block, 0, end - begin);
                 var blockString = string.Join("\r\n", block);
+                Array.Copy(originalLines, begin, block, 0, end - begin);
+                var originalString = "";
+                for (var i = block.Length - 1; i >= 0; i--)
+                {
+                    if(block[i].Replace(" ", "").Replace("\t", "").Length > 0)
+                    {
+                        originalString = string.Join("\r\n", block, 0, i + 1);
+                        break;
+                    }
+                }
 
                 if (boundary.Value.BoundaryType == ItemFilterBlockBoundaryType.ItemFilterBlock)
                 {
-                    script.ItemFilterBlocks.Add(_blockTranslator.TranslateStringToItemFilterBlock(blockString, script));
+                    script.ItemFilterBlocks.Add(_blockTranslator.TranslateStringToItemFilterBlock(blockString, script, originalString));
                 }
                 else
                 {
-                    script.ItemFilterBlocks.Add(_blockTranslator.TranslateStringToItemFilterCommentBlock(blockString, script));
+                    script.ItemFilterBlocks.Add(_blockTranslator.TranslateStringToItemFilterCommentBlock(blockString, script, originalString));
                 }
             }
 
