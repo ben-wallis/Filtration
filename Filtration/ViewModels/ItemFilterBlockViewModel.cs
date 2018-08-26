@@ -159,7 +159,11 @@ namespace Filtration.ViewModels
             typeof (CorruptedBlockItem),
             typeof (ElderItemBlockItem),
             typeof (ShaperItemBlockItem),
-            typeof (ShapedMapBlockItem)
+            typeof (ShapedMapBlockItem),
+            typeof (ElderMapBlockItem),
+            typeof (GemLevelBlockItem),
+            typeof (StackSizeBlockItem),
+            typeof (HasExplicitModBlockItem)
         };
 
         public List<Type> AudioVisualBlockItemTypesAvailable => new List<Type>
@@ -169,7 +173,10 @@ namespace Filtration.ViewModels
             typeof (BorderColorBlockItem),
             typeof (FontSizeBlockItem),
             typeof (SoundBlockItem),
-            typeof (PositionalSoundBlockItem)
+            typeof (PositionalSoundBlockItem),
+            typeof (DisableDropSoundBlockItem),
+            typeof (IconBlockItem),
+            typeof (BeamBlockItem)
         };
 
         public bool BlockEnabled
@@ -209,7 +216,9 @@ namespace Filtration.ViewModels
         public Color DisplayBackgroundColor => Block.DisplayBackgroundColor;
         public Color DisplayBorderColor => Block.DisplayBorderColor;
         public double DisplayFontSize => Block.DisplayFontSize/1.8;
-        
+        public string DisplayIcon => Block.DisplayIcon;
+        public Color DisplayBeamColor => Block.DisplayBeamColor;
+
         public bool HasSound => Block.HasBlockItemOfType<SoundBlockItem>();
         public bool HasPositionalSound => Block.HasBlockItemOfType<PositionalSoundBlockItem>();
 
@@ -419,7 +428,7 @@ namespace Filtration.ViewModels
             {
                 IsDirty = true;
             }
-
+            Block.IsEdited = true;
             //if (sender is IAudioVisualBlockItem)
             //{
             RefreshBlockPreview();
@@ -432,6 +441,8 @@ namespace Filtration.ViewModels
             RaisePropertyChanged(nameof(DisplayBackgroundColor));
             RaisePropertyChanged(nameof(DisplayBorderColor));
             RaisePropertyChanged(nameof(DisplayFontSize));
+            RaisePropertyChanged(nameof(DisplayIcon));
+            RaisePropertyChanged(nameof(DisplayBeamColor));
             RaisePropertyChanged(nameof(HasSound));
         }
 

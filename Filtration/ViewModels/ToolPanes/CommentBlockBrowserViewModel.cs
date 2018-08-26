@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using GalaSoft.MvvmLight.Messaging;
 
@@ -15,6 +17,8 @@ namespace Filtration.ViewModels.ToolPanes
     {
         private IEnumerable<IItemFilterCommentBlockViewModel> _itemFilterCommentBlockViewModels;
         private IItemFilterCommentBlockViewModel _selectedItemFilterCommentBlockViewModel;
+        private CollectionView _commentBlocksView;
+        private string _searchText;
 
         public CommentBlockBrowserViewModel() : base("Section Browser")
         {
@@ -24,7 +28,9 @@ namespace Filtration.ViewModels.ToolPanes
             icon.UriSource = new Uri("pack://application:,,,/Filtration;component/Resources/Icons/add_section_icon.png");
             icon.EndInit();
             IconSource = icon;
-            
+            _searchText = "";
+            _commentBlocksView = (CollectionView)CollectionViewSource.GetDefaultView(new List<IItemFilterCommentBlockViewModel>());
+
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
                 switch (message.Notification)
@@ -46,7 +52,23 @@ namespace Filtration.ViewModels.ToolPanes
             private set
             {
                 _itemFilterCommentBlockViewModels = value;
-                RaisePropertyChanged();
+
+                _commentBlocksView = _itemFilterCommentBlockViewModels != null ?
+                    (CollectionView)CollectionViewSource.GetDefaultView(_itemFilterCommentBlockViewModels)
+                    : (CollectionView)CollectionViewSource.GetDefaultView(new List<IItemFilterCommentBlockViewModel>());
+
+                _commentBlocksView.Filter = SearchFilter;
+                _commentBlocksView.Refresh();
+                RaisePropertyChanged("CommentBlocksView");
+            }
+        }
+
+        public CollectionView CommentBlocksView
+        {
+            get => _commentBlocksView;
+            private set
+            {
+                _commentBlocksView = value;
             }
         }
 
@@ -61,6 +83,18 @@ namespace Filtration.ViewModels.ToolPanes
                     AvalonDockWorkspaceViewModel.ActiveScriptViewModel.CommentBlockBrowserBrowserSelectedBlockViewModel = value;
                 }
                 RaisePropertyChanged();
+            }
+        }
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                _commentBlocksView.Refresh();
+                RaisePropertyChanged();
+                RaisePropertyChanged("CommentBlocksView");
             }
         }
 
@@ -80,6 +114,25 @@ namespace Filtration.ViewModels.ToolPanes
         {
             ItemFilterCommentBlockViewModels = null;
             SelectedItemFilterCommentBlockViewModel = null;
+        }
+
+        private bool SearchFilter(object obj)
+        {
+            if (string.IsNullOrEmpty(_searchText))
+                return true;
+
+            var block = obj as IItemFilterCommentBlockViewModel;
+            var searchWords = Regex.Split(_searchText, @"\s+");
+            foreach(var word in searchWords)
+            {
+                if (string.IsNullOrEmpty(word))
+                    continue;
+
+                if (block.Comment.IndexOf(word, StringComparison.OrdinalIgnoreCase) >= 0)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

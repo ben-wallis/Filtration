@@ -28,6 +28,9 @@ namespace Filtration.ViewModels.ToolPanes
             icon.UriSource = new Uri("pack://application:,,,/Filtration;component/Resources/Icons/block_group_browser_icon.png");
             icon.EndInit();
             IconSource = icon;
+
+            IsVisible = false;
+
             Messenger.Default.Register<NotificationMessage<bool>>(this, message =>
             {
                 switch (message.Notification)

@@ -16,6 +16,7 @@ Gems
 Gloves
 Helmets
 Hybrid Flasks
+Incursion Item
 Jewel
 Labyrinth Item
 Labyrinth Map Item

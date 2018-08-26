@@ -6,6 +6,8 @@ using System.Windows;
 using Filtration.Annotations;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.Enums;
+using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
 using Xceed.Wpf.Toolkit;
@@ -20,10 +22,10 @@ namespace Filtration.UserControls
             // ReSharper disable once PossibleNullReferenceException
             (Content as FrameworkElement).DataContext = this;
 
-            SetBlockColorCommand = new RelayCommand(OnSetBlockColorCommmand);
+            SetBlockValueCommand = new RelayCommand(OnSetBlockValueCommmand);
         }
 
-        public RelayCommand SetBlockColorCommand { get; private set; }
+        public RelayCommand SetBlockValueCommand { get; private set; }
 
         public static readonly DependencyProperty BlockItemProperty = DependencyProperty.Register(
             "BlockItem",
@@ -88,12 +90,34 @@ namespace Filtration.UserControls
             "ShFusing", "ShRegal", "ShVaal"
         };
 
-        private void OnSetBlockColorCommmand()
-        {
-            var blockItem = BlockItem as ColorBlockItem;
-            if (blockItem?.ThemeComponent == null) return;
+        public List<string> IconsAvailable => new List<string> {
+            "Icon1", "Icon2", "Icon3", "Icon4", "Icon5", "Icon6"
+        };
 
-            blockItem.Color = blockItem.ThemeComponent.Color;
+        private void OnSetBlockValueCommmand()
+        {
+            var blockItemWithTheme = BlockItem as IBlockItemWithTheme;
+            if (blockItemWithTheme?.ThemeComponent == null) return;
+
+            var componentType = ((IBlockItemWithTheme)BlockItem).ThemeComponent.ComponentType;
+            switch(componentType)
+            {
+                case ThemeComponentType.BackgroundColor:
+                case ThemeComponentType.BorderColor:
+                case ThemeComponentType.TextColor:
+                    var colorBlockItem = BlockItem as ColorBlockItem;
+                    colorBlockItem.Color = ((ColorThemeComponent)colorBlockItem.ThemeComponent).Color;
+                    break;
+                case ThemeComponentType.FontSize:
+                    var integerBlockItem = BlockItem as IntegerBlockItem;
+                    integerBlockItem.Value = ((IntegerThemeComponent)integerBlockItem.ThemeComponent).Value;
+                    break;
+                case ThemeComponentType.AlertSound:
+                    var strIntBlockItem = BlockItem as StrIntBlockItem;
+                    strIntBlockItem.Value = ((StrIntThemeComponent)strIntBlockItem.ThemeComponent).Value;
+                    strIntBlockItem.SecondValue = ((StrIntThemeComponent)strIntBlockItem.ThemeComponent).SecondValue;
+                    break;
+            }
         }
         
         public event PropertyChangedEventHandler PropertyChanged;

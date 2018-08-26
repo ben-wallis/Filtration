@@ -31,6 +31,14 @@ namespace Filtration.ThemeEditor.Converters
                 {
                     return "Background Color Theme Components";
                 }
+                case "Font Size":
+                {
+                    return "Font Size Theme Components";
+                }
+                case "Alert Sound":
+                {
+                    return "Alert Sound Theme Components";
+                }
             }
 
             return type.GetAttributeDescription();

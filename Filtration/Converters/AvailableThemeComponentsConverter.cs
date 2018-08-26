@@ -16,7 +16,7 @@ namespace Filtration.Converters
             var themeComponentsList = values[0] as ThemeComponentCollection;
             if (themeComponentsList == null || themeComponentsList.Count == 0) return null;
 
-            var blockItem = values[1] as ColorBlockItem;
+            var blockItem = values[1] as BlockItemBase;
             if (blockItem == null) return null;
 
             ThemeComponentType themeComponentType;
@@ -32,6 +32,14 @@ namespace Filtration.Converters
             else if (blockItem.GetType() == typeof(BorderColorBlockItem))
             {
                 themeComponentType = ThemeComponentType.BorderColor;
+            }
+            else if (blockItem.GetType() == typeof(FontSizeBlockItem))
+            {
+                themeComponentType = ThemeComponentType.FontSize;
+            }
+            else if (blockItem.GetType() == typeof(SoundBlockItem) || blockItem.GetType() == typeof(PositionalSoundBlockItem))
+            {
+                themeComponentType = ThemeComponentType.AlertSound;
             }
             else
             {

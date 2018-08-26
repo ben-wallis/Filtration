@@ -67,6 +67,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
         }
 
         [Test]
+        [Ignore("Outdated item filter")]
         public void ProcessItemsAgainstItemFilterScript_IntegrationTest()
         {
             //Arrange
@@ -102,6 +103,7 @@ namespace Filtration.ItemFilterPreview.Tests.Services
         }
 
         [Test]
+        [Ignore("Outdated item filter")]
         public void ProcessItemsAgainstItemFilterScript_IntegrationTest_10Items()
         {
             //Arrange

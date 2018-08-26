@@ -32,7 +32,17 @@ namespace Filtration.ObjectModel.ThemeEditor
 
         public void AddComponent(ThemeComponentType componentType, string componentName, Color componentColor)
         {
-            _components.Add(new ThemeComponent(componentType, componentName, componentColor));
+            _components.Add(new ColorThemeComponent(componentType, componentName, componentColor));
+        }
+
+        public void AddComponent(ThemeComponentType componentType, string componentName, int componentValue)
+        {
+            _components.Add(new IntegerThemeComponent(componentType, componentName, componentValue));
+        }
+
+        public void AddComponent(ThemeComponentType componentType, string componentName, string componentValue, int componentSecondValue)
+        {
+            _components.Add(new StrIntThemeComponent(componentType, componentName, componentValue, componentSecondValue));
         }
     }
 }
