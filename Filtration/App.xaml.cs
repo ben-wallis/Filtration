@@ -48,6 +48,7 @@ namespace Filtration
                 cfg.CreateMap<ThemeComponent, ThemeComponentViewModel>().ReverseMap();
                 cfg.CreateMap<ColorThemeComponent, ColorThemeComponentViewModel>().ReverseMap();
                 cfg.CreateMap<IntegerThemeComponent, IntegerThemeComponentViewModel>().ReverseMap();
+                cfg.CreateMap<StrIntThemeComponent, StrIntThemeComponentViewModel>().ReverseMap();
                 cfg.CreateMap<IThemeEditorViewModel, Theme>();
             });
 

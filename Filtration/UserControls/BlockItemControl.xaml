@@ -141,6 +141,14 @@
                             </Button>
                             <ComboBox ItemsSource="{Binding ElementName=BlockItemContentControl, Path=DataContext.SoundsAvailable}" SelectedValue="{Binding Value}" Style="{StaticResource MetroComboBox}" />
                             <xctk:ShortUpDown Value="{Binding Path=SecondValue}" Minimum="1" Maximum="300" HorizontalAlignment="Right" ToolTip="Volume"/>
+                            <userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}" Margin="0,2,0,0">
+                                <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                                    <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
+                                        <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
+                                        <Binding Path="." />
+                                    </MultiBinding>
+                                </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                            </userControls:ThemeComponentSelectionControl>
                         </WrapPanel>
                     </DataTemplate>
                     
@@ -152,6 +160,14 @@
                             </Button>
                             <ComboBox ItemsSource="{Binding ElementName=BlockItemContentControl, Path=DataContext.SoundsAvailable}" SelectedValue="{Binding Value}" Style="{StaticResource MetroComboBox}" />
                             <xctk:ShortUpDown Value="{Binding Path=SecondValue}" Minimum="1" Maximum="300" HorizontalAlignment="Right" ToolTip="Volume"/>
+                            <userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}" Margin="0,2,0,0">
+                                <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                                    <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
+                                        <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
+                                        <Binding Path="." />
+                                    </MultiBinding>
+                                </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                            </userControls:ThemeComponentSelectionControl>
                         </WrapPanel>
                     </DataTemplate>
 

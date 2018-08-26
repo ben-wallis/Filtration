@@ -45,6 +45,10 @@ namespace Filtration.ThemeEditor.Services
                     case ThemeComponentType.FontSize:
                         mismatchedComponents = ApplyIntegerTheme(blocks, typeof(FontSizeBlockItem), component);
                         break;
+                    case ThemeComponentType.AlertSound:
+                        mismatchedComponents = ApplyStrIntTheme(blocks, typeof(SoundBlockItem), component);
+                        mismatchedComponents = ApplyStrIntTheme(blocks, typeof(PositionalSoundBlockItem), component);
+                        break;
                 }
             }
 
@@ -88,6 +92,27 @@ namespace Filtration.ThemeEditor.Services
                         colorBlockItem.ThemeComponent.ComponentName == component.ComponentName)
                     {
                         colorBlockItem.Value = ((IntegerThemeComponent)component).Value;
+                        componentMatched = true;
+                    }
+                }
+            }
+
+            return !componentMatched;
+        }
+
+        private bool ApplyStrIntTheme(IEnumerable<ItemFilterBlock> blocks, Type type, ThemeComponent component)
+        {
+            var componentMatched = false;
+            foreach (var block in blocks)
+            {
+                foreach (var blockItem in block.BlockItems.Where(i => i.GetType() == type))
+                {
+                    var colorBlockItem = (StrIntBlockItem)blockItem;
+                    if (colorBlockItem.ThemeComponent != null &&
+                        colorBlockItem.ThemeComponent.ComponentName == component.ComponentName)
+                    {
+                        colorBlockItem.Value = ((StrIntThemeComponent)component).Value;
+                        colorBlockItem.SecondValue = ((StrIntThemeComponent)component).SecondValue;
                         componentMatched = true;
                     }
                 }

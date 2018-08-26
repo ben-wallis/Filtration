@@ -112,6 +112,11 @@ namespace Filtration.UserControls
                     var integerBlockItem = BlockItem as IntegerBlockItem;
                     integerBlockItem.Value = ((IntegerThemeComponent)integerBlockItem.ThemeComponent).Value;
                     break;
+                case ThemeComponentType.AlertSound:
+                    var strIntBlockItem = BlockItem as StrIntBlockItem;
+                    strIntBlockItem.Value = ((StrIntThemeComponent)strIntBlockItem.ThemeComponent).Value;
+                    strIntBlockItem.SecondValue = ((StrIntThemeComponent)strIntBlockItem.ThemeComponent).SecondValue;
+                    break;
             }
         }
         

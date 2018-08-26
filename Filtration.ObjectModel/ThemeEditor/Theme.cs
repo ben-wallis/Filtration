@@ -39,5 +39,10 @@ namespace Filtration.ObjectModel.ThemeEditor
         {
             _components.Add(new IntegerThemeComponent(componentType, componentName, componentValue));
         }
+
+        public void AddComponent(ThemeComponentType componentType, string componentName, string componentValue, int componentSecondValue)
+        {
+            _components.Add(new StrIntThemeComponent(componentType, componentName, componentValue, componentSecondValue));
+        }
     }
 }

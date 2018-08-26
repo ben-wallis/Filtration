@@ -35,6 +35,19 @@ namespace Filtration.ObjectModel.ThemeEditor
             return component;
         }
 
+        public ThemeComponent AddComponent(ThemeComponentType componentType, string componentName, string componentValue, int componentSecondValue)
+        {
+            if (ComponentExists(componentType, componentName))
+            {
+                return Items.FirstOrDefault(t => t.ComponentName == componentName && t.ComponentType == componentType);
+            }
+
+            var component = new StrIntThemeComponent(componentType, componentName, componentValue, componentSecondValue);
+            Items.Add(component);
+
+            return component;
+        }
+
         private bool ComponentExists(ThemeComponentType componentType, string componentName)
         {
             var componentCount =

@@ -236,7 +236,7 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<SoundBlockItem>(block);
                         RemoveExistingBlockItemsOfType<PositionalSoundBlockItem>(block);
 
-                        var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)\s?(\d+)?");
+                        var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)\s?(\d+)?\s*([#]?)(.*)");
                         
                         if (match.Success)
                         {
@@ -252,6 +252,12 @@ namespace Filtration.Parser.Services
                                 secondValue = 79;
                             }
 
+                            ThemeComponent themeComponent = null;
+                            if(match.Groups[3].Value == "#" && !string.IsNullOrWhiteSpace(match.Groups[4].Value))
+                            {
+                                themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.AlertSound, match.Groups[4].Value.Trim(), firstValue, secondValue);
+                            }
+
                             if (lineOption == "PlayAlertSound")
                             {
                                 var blockItemValue = new SoundBlockItem
@@ -259,6 +265,7 @@ namespace Filtration.Parser.Services
                                     Value = firstValue,
                                     SecondValue = secondValue
                                 };
+                                blockItemValue.ThemeComponent = themeComponent;
                                 block.BlockItems.Add(blockItemValue);
                             }
                             else
@@ -268,6 +275,7 @@ namespace Filtration.Parser.Services
                                     Value = firstValue,
                                     SecondValue = secondValue
                                 };
+                                blockItemValue.ThemeComponent = themeComponent;
                                 block.BlockItems.Add(blockItemValue);
                             }
                         }

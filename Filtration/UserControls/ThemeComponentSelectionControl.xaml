@@ -55,8 +55,13 @@
                                                         <DataTemplate DataType="{x:Type themeEditor:ColorThemeComponent}">
                                                             <Border Background="{Binding Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" />
                                                         </DataTemplate>
+                                                        
                                                         <DataTemplate DataType="{x:Type themeEditor:IntegerThemeComponent}">
                                                             <TextBlock Text="{Binding Value}" FontWeight="Bold" />
+                                                        </DataTemplate>
+                                                        
+                                                        <DataTemplate DataType="{x:Type themeEditor:StrIntThemeComponent}">
+                                                            <!--TODO: How to show theese?-->
                                                         </DataTemplate>
                                                     </ContentControl.Resources>
                                                 </ContentControl>

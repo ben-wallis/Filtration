@@ -69,6 +69,18 @@
                 <DataTemplate  DataType="{x:Type themeEditor:IntegerThemeComponent}">
                     <xctk:ShortUpDown Value="{Binding Value}" />
                 </DataTemplate>
+
+                <!-- String Integer Theme Template -->
+                <DataTemplate  DataType="{x:Type themeEditor:StrIntThemeComponent}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Text="{Binding Value}" Height="25" Padding="2,-15,0,0" />
+                        <xctk:ShortUpDown Grid.Column="1" Value="{Binding SecondValue}" HorizontalAlignment="Right"/>
+                    </Grid>
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
     </Grid>

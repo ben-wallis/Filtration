@@ -37,6 +37,10 @@ namespace Filtration.Converters
             {
                 themeComponentType = ThemeComponentType.FontSize;
             }
+            else if (blockItem.GetType() == typeof(SoundBlockItem) || blockItem.GetType() == typeof(PositionalSoundBlockItem))
+            {
+                themeComponentType = ThemeComponentType.AlertSound;
+            }
             else
             {
                 return null;

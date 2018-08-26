@@ -55,7 +55,7 @@
     <Compile Include="BlockItemBaseTypes\ColorBooleanBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\DualIntegerBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\StringBlockItem.cs" />
-    <Compile Include="BlockItemBaseTypes\StringIntBlockItem.cs" />
+    <Compile Include="BlockItemBaseTypes\StrIntBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\IntegerBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\NumericFilterPredicateBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\StringListBlockItem.cs" />
@@ -131,6 +131,7 @@
     <Compile Include="ReplaceColorsParameterSet.cs" />
     <Compile Include="Socket.cs" />
     <Compile Include="SocketGroup.cs" />
+    <Compile Include="ThemeEditor\StrIntThemeComponent.cs" />
     <Compile Include="ThemeEditor\IntegerThemeComponent.cs" />
     <Compile Include="ThemeEditor\Theme.cs" />
     <Compile Include="ThemeEditor\ColorThemeComponent.cs" />

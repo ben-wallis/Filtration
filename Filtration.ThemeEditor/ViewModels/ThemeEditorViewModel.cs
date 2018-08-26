@@ -205,6 +205,9 @@ namespace Filtration.ThemeEditor.ViewModels
                 case ThemeComponentType.FontSize:
                     Components.Add(new IntegerThemeComponent(themeComponentType, "Untitled Component", 35));
                     break;
+                case ThemeComponentType.AlertSound:
+                    Components.Add(new StrIntThemeComponent(themeComponentType, "Untitled Component", "1", 100));
+                    break;
             }
         }
 

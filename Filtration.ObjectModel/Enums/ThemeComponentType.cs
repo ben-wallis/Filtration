@@ -11,6 +11,8 @@ namespace Filtration.ObjectModel.Enums
         [Description("Border")]
         BorderColor,
         [Description("Font Size")]
-        FontSize
+        FontSize,
+        [Description("Alert Sound")]
+        AlertSound
     }
 }

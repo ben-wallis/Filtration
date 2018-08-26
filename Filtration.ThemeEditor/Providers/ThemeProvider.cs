@@ -45,6 +45,9 @@ namespace Filtration.ThemeEditor.Providers
                         case ThemeComponentType.FontSize:
                             c.Add(new IntegerThemeComponent(component.ComponentType, component.ComponentName, ((IntegerThemeComponent)component).Value));
                             break;
+                        case ThemeComponentType.AlertSound:
+                            c.Add(new StrIntThemeComponent(component.ComponentType, component.ComponentName, ((StrIntThemeComponent)component).Value, ((StrIntThemeComponent)component).SecondValue));
+                            break;
                     }
                     return c;
                 });
