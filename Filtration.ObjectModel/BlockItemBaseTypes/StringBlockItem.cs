@@ -15,7 +15,7 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
             Value = value;
         }
 
-        public override string OutputText => PrefixText + " " + Value;
+        public override string OutputText => PrefixText + " \"" + Value + "\"";
 
         public override string SummaryText => string.Empty;
         public override Color SummaryBackgroundColor => Colors.Transparent;

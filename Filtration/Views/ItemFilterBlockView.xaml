@@ -161,6 +161,18 @@
                                         ToolTip="Click to preview drop sound">
                                     <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Button>
+                                <Button Command="{Binding PlayCustomSoundCommand}"
+                                        Width="25"
+                                        Height="25"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        Margin="0,0,3,0"
+                                        Visibility="{Binding HasCustomSound, Converter={StaticResource BooleanVisibilityConverter}}"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        ToolTip="Click to preview drop sound">
+                                    <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                </Button>
                                 <ToggleButton Margin="0,2,2,2"
                                               Style="{StaticResource ChromelessToggleButton}"
                                               x:Name="ItemPreviewButton"

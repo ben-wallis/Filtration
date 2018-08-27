@@ -64,6 +64,7 @@
     <Compile Include="BlockItemTypes\BeamBlockItem.cs" />
     <Compile Include="BlockItemTypes\BorderColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\ClassBlockItem.cs" />
+    <Compile Include="BlockItemTypes\CustomSoundBlockItem.cs" />
     <Compile Include="BlockItemTypes\DisableDropSoundBlockItem.cs" />
     <Compile Include="BlockItemTypes\ElderMapBlockItem.cs" />
     <Compile Include="BlockItemTypes\GemLevelBlockItem.cs" />

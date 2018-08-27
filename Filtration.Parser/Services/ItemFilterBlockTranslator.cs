@@ -235,6 +235,7 @@ namespace Filtration.Parser.Services
                         // Only ever use the last PlayAlertSound item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<SoundBlockItem>(block);
                         RemoveExistingBlockItemsOfType<PositionalSoundBlockItem>(block);
+                        RemoveExistingBlockItemsOfType<CustomSoundBlockItem>(block);
 
                         var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)\s?(\d+)?\s*([#]?)(.*)");
                         
@@ -314,7 +315,7 @@ namespace Filtration.Parser.Services
                         // Only ever use the last Icon item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<IconBlockItem>(block);
 
-                        var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)");
+                        var match = Regex.Match(trimmedLine, @"\S+\s+""(\S+)""");
                         
                         if (match.Success)
                         {
@@ -339,6 +340,25 @@ namespace Filtration.Parser.Services
                             BooleanValue = result[0].Groups[2].Value.Trim().ToLowerInvariant() == "true"
                         };
                         block.BlockItems.Add(beamBlockItem);
+                        break;
+                    }
+                    case "CustomAlertSound":
+                    {
+                        // Only ever use the last CustomSoundBlockItem item encountered as multiples aren't valid.
+                        RemoveExistingBlockItemsOfType<CustomSoundBlockItem>(block);
+                        RemoveExistingBlockItemsOfType<SoundBlockItem>(block);
+                        RemoveExistingBlockItemsOfType<PositionalSoundBlockItem>(block);
+
+                        var match = Regex.Match(trimmedLine, @"\S+\s+""(\S+)""");
+                        
+                        if (match.Success)
+                        {
+                            var blockItemValue = new CustomSoundBlockItem
+                            {
+                                Value = match.Groups[1].Value
+                            };
+                            block.BlockItems.Add(blockItemValue);
+                        }
                         break;
                     }
                 }

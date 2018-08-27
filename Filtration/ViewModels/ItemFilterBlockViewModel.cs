@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using Filtration.ObjectModel;
@@ -10,6 +11,7 @@ using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.Services;
 using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
+using Microsoft.Win32;
 using Xceed.Wpf.Toolkit;
 
 namespace Filtration.ViewModels
@@ -28,6 +30,7 @@ namespace Filtration.ViewModels
         private readonly IStaticDataService _staticDataService;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
+        public static ObservableCollection<string> _customSoundsAvailable;
 
         private bool _displaySettingsPopupOpen;
         private bool _isExpanded;
@@ -47,6 +50,16 @@ namespace Filtration.ViewModels
             SwitchBlockItemsViewCommand = new RelayCommand(OnSwitchBlockItemsViewCommand);
             PlaySoundCommand = new RelayCommand(OnPlaySoundCommand, () => HasSound);
             PlayPositionalSoundCommand = new RelayCommand(OnPlayPositionalSoundCommand, () => HasPositionalSound);
+            PlayCustomSoundCommand = new RelayCommand(OnPlayCustomSoundCommand, () => HasCustomSound);
+            CustomSoundFileDialogCommand = new RelayCommand(OnCustomSoundFileDialog);
+
+            if(_customSoundsAvailable == null || _customSoundsAvailable.Count < 1)
+            {
+                _customSoundsAvailable = new ObservableCollection<string> {
+                    "1maybevaluable.mp3", "2currency.mp3", "3uniques.mp3", "4maps.mp3", "5highmaps.mp3",
+                    "6veryvaluable.mp3", "7chancing.mp3", "12leveling.mp3", "placeholder.mp3"
+                };
+            }
         }
 
         public override void Initialise(IItemFilterBlockBase itemFilterBlockBase, IItemFilterScriptViewModel parentScriptViewModel)
@@ -66,9 +79,16 @@ namespace Filtration.ViewModels
             foreach (var blockItem in itemFilterBlock.BlockItems)
             {
                 blockItem.PropertyChanged += OnBlockItemChanged;
+
+                var customSoundBlockItem = blockItem as CustomSoundBlockItem;
+                if (customSoundBlockItem != null)
+                {
+                    if (_customSoundsAvailable.IndexOf(customSoundBlockItem.Value) < 0)
+                    {
+                        _customSoundsAvailable.Add(customSoundBlockItem.Value);
+                    }
+                }
             }
-
-
             base.Initialise(itemFilterBlock, parentScriptViewModel);
         }
 
@@ -81,6 +101,8 @@ namespace Filtration.ViewModels
         public RelayCommand PlaySoundCommand { get; }
         public RelayCommand PlayPositionalSoundCommand { get; }
         public RelayCommand SwitchBlockItemsViewCommand { get; }
+        public RelayCommand CustomSoundFileDialogCommand { get; }
+        public RelayCommand PlayCustomSoundCommand { get; }
 
         public IItemFilterBlock Block { get; private set; }
 
@@ -176,7 +198,8 @@ namespace Filtration.ViewModels
             typeof (PositionalSoundBlockItem),
             typeof (DisableDropSoundBlockItem),
             typeof (IconBlockItem),
-            typeof (BeamBlockItem)
+            typeof (BeamBlockItem),
+            typeof (CustomSoundBlockItem)
         };
 
         public bool BlockEnabled
@@ -212,6 +235,8 @@ namespace Filtration.ViewModels
 
         public ObservableCollection<ColorItem> AvailableColors => PathOfExileColors.DefaultColors;
 
+        public ObservableCollection<string> CustomSoundsAvailable => _customSoundsAvailable;
+
         public Color DisplayTextColor => Block.DisplayTextColor;
         public Color DisplayBackgroundColor => Block.DisplayBackgroundColor;
         public Color DisplayBorderColor => Block.DisplayBorderColor;
@@ -221,6 +246,7 @@ namespace Filtration.ViewModels
 
         public bool HasSound => Block.HasBlockItemOfType<SoundBlockItem>();
         public bool HasPositionalSound => Block.HasBlockItemOfType<PositionalSoundBlockItem>();
+        public bool HasCustomSound => Block.HasBlockItemOfType<CustomSoundBlockItem>();
 
         public bool HasAudioVisualBlockItems => AudioVisualBlockItems.Any();
 
@@ -444,6 +470,8 @@ namespace Filtration.ViewModels
             RaisePropertyChanged(nameof(DisplayIcon));
             RaisePropertyChanged(nameof(DisplayBeamColor));
             RaisePropertyChanged(nameof(HasSound));
+            RaisePropertyChanged(nameof(HasPositionalSound));
+            RaisePropertyChanged(nameof(HasCustomSound));
         }
 
         private void OnBlockItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -452,6 +480,54 @@ namespace Filtration.ViewModels
             RaisePropertyChanged(nameof(SummaryBlockItems));
             RaisePropertyChanged(nameof(AudioVisualBlockItems));
             RaisePropertyChanged(nameof(HasAudioVisualBlockItems));
+        }
+
+        private void OnCustomSoundFileDialog()
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.DefaultExt = ".mp3";
+            var poePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).ToString() + @"\My Games\Path of Exile\";
+            fileDialog.InitialDirectory = poePath;
+
+            Nullable<bool> result = fileDialog.ShowDialog();
+            if (result == true)
+            {
+                var fileName = fileDialog.FileName;
+                if(fileName.StartsWith(poePath))
+                {
+                    fileName = fileName.Replace(poePath, "");
+                }
+
+                var customSoundBlockItem = BlockItems.First(b => b.GetType() == typeof(CustomSoundBlockItem)) as CustomSoundBlockItem;
+
+                if (CustomSoundsAvailable.IndexOf(fileName) < 0)
+                {
+                    CustomSoundsAvailable.Add(fileName);
+                    RaisePropertyChanged(nameof(CustomSoundsAvailable));
+                }
+                customSoundBlockItem.Value = fileName;
+            }
+        }
+
+        private void OnPlayCustomSoundCommand()
+        {
+            var poePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).ToString() + @"\My Games\Path of Exile\";
+            var identifier = BlockItems.OfType<CustomSoundBlockItem>().First().Value;
+
+            if(!Path.IsPathRooted(identifier))
+            {
+                identifier = poePath + identifier;
+            }
+
+            try
+            {
+                _mediaPlayer.Open(new Uri(identifier, UriKind.Absolute));
+                _mediaPlayer.Play();
+            }
+            catch
+            {
+                MessageBox.Show("Couldn't play the file. Please be sure it is a valid audio file.");
+            }
         }
     }
 }
