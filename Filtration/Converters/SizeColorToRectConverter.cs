@@ -1,5 +1,4 @@
-﻿using Filtration.ObjectModel.Enums;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
@@ -10,6 +9,10 @@ namespace Filtration.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            if (values[0] == DependencyProperty.UnsetValue ||
+                values[1] == DependencyProperty.UnsetValue)
+                return null;
+
             var size = (int)(values[0]);
             var color = (int)(values[1]);
 
