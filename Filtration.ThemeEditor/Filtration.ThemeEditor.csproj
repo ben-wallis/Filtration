@@ -109,6 +109,7 @@
     <Compile Include="Services\ThemePersistenceService.cs" />
     <Compile Include="Services\ThemeService.cs" />
     <Compile Include="ViewModels\ColorThemeComponentViewModel.cs" />
+    <Compile Include="ViewModels\StringThemeComponentViewModel.cs" />
     <Compile Include="ViewModels\StrIntThemeComponentViewModel.cs" />
     <Compile Include="ViewModels\IntegerThemeComponentViewModel.cs" />
     <Compile Include="ViewModels\IThemeViewModelFactory.cs" />
@@ -138,7 +139,10 @@
       <Name>Filtration.ObjectModel</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\open_icon.png" />
+    <Resource Include="Resources\speaker_icon.png" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Views\ThemeComponentControl.xaml">
       <SubType>Designer</SubType>

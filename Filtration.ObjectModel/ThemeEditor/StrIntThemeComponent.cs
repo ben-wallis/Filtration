@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Media;
 using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel.ThemeEditor

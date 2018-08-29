@@ -41,6 +41,10 @@ namespace Filtration.Converters
             {
                 themeComponentType = ThemeComponentType.AlertSound;
             }
+            else if (blockItem.GetType() == typeof(CustomSoundBlockItem))
+            {
+                themeComponentType = ThemeComponentType.CustomSound;
+            }
             else
             {
                 return null;

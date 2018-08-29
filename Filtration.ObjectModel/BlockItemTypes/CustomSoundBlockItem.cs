@@ -6,7 +6,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
     {
         public CustomSoundBlockItem()
         {
-            Value = "";
+            Value = "placeholder.mp3";
         }
 
         public CustomSoundBlockItem(string value) : base(value)

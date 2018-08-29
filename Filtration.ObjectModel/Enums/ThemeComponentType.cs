@@ -13,6 +13,8 @@ namespace Filtration.ObjectModel.Enums
         [Description("Font Size")]
         FontSize,
         [Description("Alert Sound")]
-        AlertSound
+        AlertSound,
+        [Description("Custom Sound")]
+        CustomSound
     }
 }

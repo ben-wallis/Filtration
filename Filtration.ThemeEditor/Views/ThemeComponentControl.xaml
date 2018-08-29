@@ -7,6 +7,7 @@
              xmlns:commonConverters="clr-namespace:Filtration.Common.Converters;assembly=Filtration.Common"
              xmlns:themeEditor="clr-namespace:Filtration.ObjectModel.ThemeEditor;assembly=Filtration.ObjectModel"
              xmlns:views="clr-namespace:Filtration.ThemeEditor.Views"
+             xmlns:viewModels="clr-namespace:Filtration.ThemeEditor.ViewModels"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=themeEditor:ThemeComponent}"
              d:DesignHeight="100" d:DesignWidth="200">
@@ -79,6 +80,23 @@
                         </Grid.ColumnDefinitions>
                         <TextBox Grid.Column="0" Text="{Binding Value}" Height="25" Padding="2,-15,0,0" />
                         <xctk:ShortUpDown Grid.Column="1" Value="{Binding SecondValue}" HorizontalAlignment="Right"/>
+                    </Grid>
+                </DataTemplate>
+
+                <!--TODO:File block type and string block type should be separate-->
+                <!-- Custom Sound Theme Template -->
+                <DataTemplate DataType="{x:Type themeEditor:StringThemeComponent}">
+                    <Grid>
+                        <!--TODO: Add play sound support-->
+                        <!--<Button Grid.Column="0" Command="{Binding PlayCustomSoundCommand}" Width="20" Height="20" Background="Transparent" BorderBrush="Transparent">
+                            <Image Source="/Filtration.ThemeEditor;component/Resources/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Button>-->
+                        <ComboBox ItemsSource="{Binding CustomSoundsAvailable}" 
+                                      SelectedValue="{Binding Value}" Style="{StaticResource MetroComboBox}"/>
+                        <Button Command="{Binding CustomSoundFileDialogCommand}"
+                                    Width="20" Height="20" Background="Transparent" BorderBrush="Transparent" Margin="0,0,30,0" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <Image Source="/Filtration.ThemeEditor;component/Resources/open_icon.png"/>
+                        </Button>
                     </Grid>
                 </DataTemplate>
             </ContentControl.Resources>

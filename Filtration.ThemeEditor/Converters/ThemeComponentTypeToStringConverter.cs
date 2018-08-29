@@ -39,6 +39,10 @@ namespace Filtration.ThemeEditor.Converters
                 {
                     return "Alert Sound Theme Components";
                 }
+                case "Custom Sound":
+                {
+                    return "Custom Alert Sound Theme Components";
+                }
             }
 
             return type.GetAttributeDescription();

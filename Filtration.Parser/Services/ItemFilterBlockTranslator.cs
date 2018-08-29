@@ -349,7 +349,7 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<SoundBlockItem>(block);
                         RemoveExistingBlockItemsOfType<PositionalSoundBlockItem>(block);
 
-                        var match = Regex.Match(trimmedLine, @"\S+\s+""(\S+)""");
+                        var match = Regex.Match(trimmedLine, @"\S+\s+""(\S+)""\s*([#]?)(.*)");
                         
                         if (match.Success)
                         {
@@ -357,6 +357,12 @@ namespace Filtration.Parser.Services
                             {
                                 Value = match.Groups[1].Value
                             };
+                                
+                            if(match.Groups[2].Value == "#" && !string.IsNullOrWhiteSpace(match.Groups[3].Value))
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.CustomSound, match.Groups[3].Value.Trim(), blockItemValue.Value);
+                                blockItemValue.ThemeComponent = themeComponent;
+                            }
                             block.BlockItems.Add(blockItemValue);
                         }
                         break;

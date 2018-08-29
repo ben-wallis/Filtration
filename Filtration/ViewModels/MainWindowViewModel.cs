@@ -116,6 +116,7 @@ namespace Filtration.ViewModels
             AddBorderColorThemeComponentCommand = new RelayCommand(OnAddBorderColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             AddFontSizeThemeComponentCommand = new RelayCommand(OnAddFontSizeThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             AddAlertSoundThemeComponentCommand = new RelayCommand(OnAddAlertSoundThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
+            AddCustomSoundThemeComponentCommand = new RelayCommand(OnAddCustomSoundThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             DeleteThemeComponentCommand = new RelayCommand(OnDeleteThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable && _avalonDockWorkspaceViewModel.ActiveThemeViewModel.SelectedThemeComponent != null);
 
             ExpandAllBlocksCommand = new RelayCommand(OnExpandAllBlocksCommand, () => ActiveDocumentIsScript);
@@ -217,6 +218,7 @@ namespace Filtration.ViewModels
         public RelayCommand AddBorderColorThemeComponentCommand { get; }
         public RelayCommand AddFontSizeThemeComponentCommand { get; }
         public RelayCommand AddAlertSoundThemeComponentCommand { get; }
+        public RelayCommand AddCustomSoundThemeComponentCommand { get; }
         public RelayCommand DeleteThemeComponentCommand { get; }
 
         public RelayCommand AddBlockCommand { get; }
@@ -689,6 +691,11 @@ namespace Filtration.ViewModels
         private void OnAddAlertSoundThemeComponentCommand()
         {
             _avalonDockWorkspaceViewModel.ActiveThemeViewModel.AddThemeComponentCommand.Execute(ThemeComponentType.AlertSound);
+        }
+
+        private void OnAddCustomSoundThemeComponentCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveThemeViewModel.AddThemeComponentCommand.Execute(ThemeComponentType.CustomSound);
         }
 
         private void OnDeleteThemeComponentCommand()

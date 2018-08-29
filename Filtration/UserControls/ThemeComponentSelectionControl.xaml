@@ -63,6 +63,10 @@
                                                         <DataTemplate DataType="{x:Type themeEditor:StrIntThemeComponent}">
                                                             <!--TODO: How to show theese?-->
                                                         </DataTemplate>
+
+                                                        <DataTemplate DataType="{x:Type themeEditor:StringThemeComponent}">
+                                                            <!--TODO: How to show theese?-->
+                                                        </DataTemplate>
                                                     </ContentControl.Resources>
                                                 </ContentControl>
                                             </Grid>

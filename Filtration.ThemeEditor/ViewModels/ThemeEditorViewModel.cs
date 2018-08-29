@@ -208,6 +208,9 @@ namespace Filtration.ThemeEditor.ViewModels
                 case ThemeComponentType.AlertSound:
                     Components.Add(new StrIntThemeComponent(themeComponentType, "Untitled Component", "1", 100));
                     break;
+                case ThemeComponentType.CustomSound:
+                    Components.Add(new StringThemeComponent(themeComponentType, "Untitled Component", "placeholder.mp3"));
+                    break;
             }
         }
 

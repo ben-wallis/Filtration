@@ -185,15 +185,27 @@
                                 <ColumnDefinition Width="20"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Command="{Binding Path=DataContext.PlayCustomSoundCommand, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterBlockView}}}" Width="20" Height="20" Background="Transparent" BorderBrush="Transparent">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Button Grid.Column="0" Grid.Row="0" Command="{Binding Path=DataContext.PlayCustomSoundCommand, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterBlockView}}}" Width="20" Height="20" Background="Transparent" BorderBrush="Transparent">
                                 <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Button>
-                            <ComboBox Grid.Column="1" ItemsSource="{Binding Path=DataContext.CustomSoundsAvailable, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterBlockView}}}" 
-                                      SelectedValue="{Binding Value}" Style="{StaticResource MetroComboBox}"/>
-                            <Button Grid.Column="1" Command="{Binding Path=DataContext.CustomSoundFileDialogCommand, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterBlockView}}}"
+                            <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Path=DataContext.CustomSoundsAvailable, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterBlockView}}}" 
+                                      SelectedValue="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MetroComboBox}"/>
+                            <Button Grid.Column="1" Grid.Row="0" Command="{Binding Path=DataContext.CustomSoundFileDialogCommand, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterBlockView}}}"
                                     Width="20" Height="20" Background="Transparent" BorderBrush="Transparent" Margin="0,0,30,0" VerticalAlignment="Center" HorizontalAlignment="Right">
                                 <Image Grid.Column="1" Source="/Filtration;component/Resources/Icons/open_icon.png"/>
                             </Button>
+                            <userControls:ThemeComponentSelectionControl Grid.Row="1" Grid.Column="1" ThemeComponent="{Binding ThemeComponent}" Margin="0,2,0,0">
+                                <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                                    <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
+                                        <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
+                                        <Binding Path="." />
+                                    </MultiBinding>
+                                </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                            </userControls:ThemeComponentSelectionControl>
                         </Grid>
                     </DataTemplate>
                 </ContentControl.Resources>

@@ -83,7 +83,7 @@ namespace Filtration.ViewModels
                 var customSoundBlockItem = blockItem as CustomSoundBlockItem;
                 if (customSoundBlockItem != null)
                 {
-                    if (_customSoundsAvailable.IndexOf(customSoundBlockItem.Value) < 0)
+                    if (!string.IsNullOrWhiteSpace(customSoundBlockItem.Value) && _customSoundsAvailable.IndexOf(customSoundBlockItem.Value) < 0)
                     {
                         _customSoundsAvailable.Add(customSoundBlockItem.Value);
                     }
@@ -453,6 +453,15 @@ namespace Filtration.ViewModels
             if ( itemFilterBlockItem != null && itemFilterBlockItem.IsDirty)
             {
                 IsDirty = true;
+            }
+            var customSoundBlockItem = sender as CustomSoundBlockItem;
+            if (customSoundBlockItem != null)
+            {
+                if (!string.IsNullOrWhiteSpace(customSoundBlockItem.Value) && _customSoundsAvailable.IndexOf(customSoundBlockItem.Value) < 0)
+                {
+                    _customSoundsAvailable.Add(customSoundBlockItem.Value);
+                }
+                RaisePropertyChanged(nameof(CustomSoundsAvailable));
             }
             Block.IsEdited = true;
             //if (sender is IAudioVisualBlockItem)

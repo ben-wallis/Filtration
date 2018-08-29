@@ -117,6 +117,10 @@ namespace Filtration.UserControls
                     strIntBlockItem.Value = ((StrIntThemeComponent)strIntBlockItem.ThemeComponent).Value;
                     strIntBlockItem.SecondValue = ((StrIntThemeComponent)strIntBlockItem.ThemeComponent).SecondValue;
                     break;
+                case ThemeComponentType.CustomSound:
+                    var stringBlockItem = BlockItem as StringBlockItem;
+                    stringBlockItem.Value = ((StringThemeComponent)stringBlockItem.ThemeComponent).Value;
+                    break;
             }
         }
         
