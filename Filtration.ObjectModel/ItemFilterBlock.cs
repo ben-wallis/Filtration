@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Media;
 using Filtration.ObjectModel.BlockItemBaseTypes;
@@ -22,12 +23,18 @@ namespace Filtration.ObjectModel
         Color DisplayTextColor { get; }
         Color DisplayBorderColor { get; }
         double DisplayFontSize { get; }
+        int DisplayIconSize { get; }
+        int DisplayIconColor { get; }
+        int DisplayIconShape { get; }
+        Color DisplayEffectColor { get; }
         bool HasBlockItemOfType<T>();
         bool HasBlockGroupInParentHierarchy(ItemFilterBlockGroup targetBlockGroup, ItemFilterBlockGroup startingBlockGroup);
     }
 
     public interface IItemFilterBlockBase
     {
+        bool IsEdited { get; set; }
+        string OriginalText { get; set; } 
     }
 
     public abstract class ItemFilterBlockBase : IItemFilterBlockBase
@@ -44,6 +51,8 @@ namespace Filtration.ObjectModel
 
         public ICommandManager CommandManager { get; }
         public IItemFilterScript ParentScript { get; set; }
+        public bool IsEdited { get; set; }
+        public string OriginalText { get; set; }
     }
 
     public interface IItemFilterCommentBlock : IItemFilterBlockBase
@@ -53,29 +62,60 @@ namespace Filtration.ObjectModel
 
     public class ItemFilterCommentBlock : ItemFilterBlockBase, IItemFilterCommentBlock
     {
+        private string _comment;
         public ItemFilterCommentBlock(IItemFilterScript parentScript) : base(parentScript)
         {
         }
 
-        public string Comment { get; set; }
+        public string Comment
+        {
+            get { return _comment; }
+            set
+            {
+                _comment = value;
+                IsEdited = true;
+            }
+        }
     }
 
     public class ItemFilterBlock : ItemFilterBlockBase, IItemFilterBlock
     {
         private ItemFilterBlockGroup _blockGroup;
+        private bool _enabled;
+        private string _description;
 
         internal ItemFilterBlock()
         {
             BlockItems = new ObservableCollection<IItemFilterBlockItem> { ActionBlockItem };
+            BlockItems.CollectionChanged += new NotifyCollectionChangedEventHandler(OnBlockItemsChanged);
+            _enabled = true;
         }
 
         public ItemFilterBlock(IItemFilterScript parentScript) : base(parentScript)
         {
             BlockItems = new ObservableCollection<IItemFilterBlockItem> { ActionBlockItem };
+            BlockItems.CollectionChanged += new NotifyCollectionChangedEventHandler(OnBlockItemsChanged);
+            _enabled = true;
         }
 
-        public bool Enabled { get; set; } = true;
-        public string Description { get; set; }
+        public bool Enabled
+        {
+            get { return _enabled; }
+            set
+            {
+                _enabled = value;
+                IsEdited = true;
+            }
+        }
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                _description = value;
+                IsEdited = true;
+            }
+        }
 
         public ItemFilterBlockGroup BlockGroup
         {
@@ -114,12 +154,17 @@ namespace Filtration.ObjectModel
             {
                 var actionBlock = BlockItems.OfType<ActionBlockItem>().First();
                 actionBlock.Action = value;
+                IsEdited = true;
             }
         }
 
         public ActionBlockItem ActionBlockItem { get; } = new ActionBlockItem(BlockAction.Show);
 
         public ObservableCollection<IItemFilterBlockItem> BlockItems { get; }
+        private void OnBlockItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            IsEdited = true;
+        }
 
         public bool AddBlockItemAllowed(Type type)
         {
@@ -217,6 +262,71 @@ namespace Filtration.ObjectModel
             {
                 var fontSizeBlockItem = BlockItems.OfType<FontSizeBlockItem>().FirstOrDefault();
                 return fontSizeBlockItem?.Value ?? 34;
+            }
+        }
+
+        public int DisplayIconSize
+        {
+            get
+            {
+                var mapIconBlockItem = BlockItems.OfType<MapIconBlockItem>().FirstOrDefault();
+                if (mapIconBlockItem != null)
+                    return (int)mapIconBlockItem.Size;
+
+                return -1;
+            }
+        }
+
+        public int DisplayIconColor
+        {
+            get
+            {
+                var mapIconBlockItem = BlockItems.OfType<MapIconBlockItem>().FirstOrDefault();
+                if (mapIconBlockItem != null)
+                    return (int)mapIconBlockItem.Color;
+
+                return -1;
+            }
+        }
+
+        public int DisplayIconShape
+        {
+            get
+            {
+                var mapIconBlockItem = BlockItems.OfType<MapIconBlockItem>().FirstOrDefault();
+                if (mapIconBlockItem != null)
+                    return (int)mapIconBlockItem.Shape;
+
+                return -1;
+            }
+        }
+
+        public Color DisplayEffectColor
+        {
+            get
+            {
+                var beamBlockItem = BlockItems.OfType<PlayEffectBlockItem>().FirstOrDefault();
+
+                if (beamBlockItem != null)
+                {
+                    switch (beamBlockItem.Color)
+                    {
+                        case EffectColor.Red:
+                            return Colors.Red;
+                        case EffectColor.Green:
+                            return Colors.Green;
+                        case EffectColor.Blue:
+                            return Colors.Blue;
+                        case EffectColor.Brown:
+                            return Colors.Brown;
+                        case EffectColor.White:
+                            return Colors.White;
+                        case EffectColor.Yellow:
+                            return Colors.Yellow;
+                    }
+                }
+
+                return Colors.Transparent;
             }
         }
     }

@@ -9,6 +9,7 @@ Bows
 Claws
 Currency
 Daggers
+Delve Stackable Currency
 Divination Card
 Fishing Rods
 Flasks
@@ -16,6 +17,7 @@ Gems
 Gloves
 Helmets
 Hybrid Flasks
+Incursion Item
 Jewel
 Labyrinth Item
 Labyrinth Map Item

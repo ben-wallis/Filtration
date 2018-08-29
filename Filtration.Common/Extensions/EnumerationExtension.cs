@@ -3,9 +3,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Markup;
 
-namespace Filtration.Extensions
+namespace Filtration.Common.Extensions
 {
-    internal class EnumerationExtension : MarkupExtension
+    public class EnumerationExtension : MarkupExtension
     {
         private Type _enumType;
 

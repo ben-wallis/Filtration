@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Navigation;
 
-namespace Filtration.Extensions
+namespace Filtration.Common.Extensions
 {
     public static class HyperlinkExtensions
     {

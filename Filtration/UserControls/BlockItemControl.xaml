@@ -7,7 +7,7 @@
              xmlns:commonConverters="clr-namespace:Filtration.Common.Converters;assembly=Filtration.Common"
              xmlns:blockItemBaseTypes="clr-namespace:Filtration.ObjectModel.BlockItemBaseTypes;assembly=Filtration.ObjectModel"
              xmlns:blockItemTypes="clr-namespace:Filtration.ObjectModel.BlockItemTypes;assembly=Filtration.ObjectModel"
-             xmlns:extensions="clr-namespace:Filtration.Extensions"
+             xmlns:extensions="clr-namespace:Filtration.Common.Extensions;assembly=Filtration.Common"
              xmlns:enums="clr-namespace:Filtration.ObjectModel.Enums;assembly=Filtration.ObjectModel"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:views="clr-namespace:Filtration.Views"
@@ -75,12 +75,39 @@
                     <DataTemplate DataType="{x:Type blockItemTypes:BaseTypeBlockItem}">
                         <userControls:EditableListBoxControl Margin="5,5,5,5" ItemsSource="{Binding Items}" AutoCompleteItemsSource="{Binding ElementName=TopLevelGrid, Path=DataContext.AutoCompleteItemBaseTypes}" />
                     </DataTemplate>
-                    
+
+                    <!-- Explicit Mods Template -->
+                    <DataTemplate DataType="{x:Type blockItemTypes:HasExplicitModBlockItem}">
+                        <userControls:EditableListBoxControl Margin="5,5,5,5" ItemsSource="{Binding Items}" />
+                    </DataTemplate>
+
                     <!-- Socket Groups Template -->
                     <DataTemplate DataType="{x:Type blockItemTypes:SocketGroupBlockItem}">
                         <userControls:EditableListBoxControl Margin="5,5,5,5" ItemsSource="{Binding Items}" />
                     </DataTemplate>
-                    
+
+                    <!-- Play Effect Block Template -->
+                    <DataTemplate DataType="{x:Type blockItemTypes:PlayEffectBlockItem}">
+                        <StackPanel>
+                            <WrapPanel VerticalAlignment="Center" Margin="5,5,5,5">
+                                <RadioButton IsChecked="{Binding Temporary, Converter={StaticResource BoolInverterConverter}}" Margin="0,0,10,0">Permanent</RadioButton>
+                                <RadioButton IsChecked="{Binding Temporary}" >Temporary</RadioButton>
+                            </WrapPanel>
+                            <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:EffectColor}}}" Style="{StaticResource MetroComboBox}"
+                                                              DisplayMemberPath="Description"
+                                                              SelectedValue="{Binding Color}"
+                                                              SelectedValuePath="Value" />
+                            <userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}" Margin="0,2,0,0">
+                                <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                                    <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
+                                        <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
+                                        <Binding Path="." />
+                                    </MultiBinding>
+                                </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                            </userControls:ThemeComponentSelectionControl>
+                        </StackPanel>
+                    </DataTemplate>
+
                     <!-- Color Template -->
                     <DataTemplate DataType="{x:Type blockItemBaseTypes:ColorBlockItem}">
                         <StackPanel>
@@ -100,9 +127,21 @@
 
                     <!-- Font Size Template -->
                     <DataTemplate DataType="{x:Type blockItemTypes:FontSizeBlockItem}">
-                        <WrapPanel HorizontalAlignment="Left">
-                            <xctk:ShortUpDown Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Width="50" />
-                        </WrapPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <xctk:ShortUpDown Grid.Column="0" Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Margin="0,0,10,0" />
+                            <userControls:ThemeComponentSelectionControl Grid.Column="1" ThemeComponent="{Binding ThemeComponent}">
+                                <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                                    <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
+                                        <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
+                                        <Binding Path="." />
+                                    </MultiBinding>
+                                </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                            </userControls:ThemeComponentSelectionControl>
+                        </Grid>
                     </DataTemplate>
 
                     <!-- Sound Template -->
@@ -113,6 +152,14 @@
                             </Button>
                             <ComboBox ItemsSource="{Binding ElementName=BlockItemContentControl, Path=DataContext.SoundsAvailable}" SelectedValue="{Binding Value}" Style="{StaticResource MetroComboBox}" />
                             <xctk:ShortUpDown Value="{Binding Path=SecondValue}" Minimum="1" Maximum="300" HorizontalAlignment="Right" ToolTip="Volume"/>
+                            <userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}" Margin="0,2,0,0">
+                                <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                                    <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
+                                        <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
+                                        <Binding Path="." />
+                                    </MultiBinding>
+                                </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                            </userControls:ThemeComponentSelectionControl>
                         </WrapPanel>
                     </DataTemplate>
                     
@@ -124,7 +171,72 @@
                             </Button>
                             <ComboBox ItemsSource="{Binding ElementName=BlockItemContentControl, Path=DataContext.SoundsAvailable}" SelectedValue="{Binding Value}" Style="{StaticResource MetroComboBox}" />
                             <xctk:ShortUpDown Value="{Binding Path=SecondValue}" Minimum="1" Maximum="300" HorizontalAlignment="Right" ToolTip="Volume"/>
+                            <userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}" Margin="0,2,0,0">
+                                <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                                    <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
+                                        <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
+                                        <Binding Path="." />
+                                    </MultiBinding>
+                                </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                            </userControls:ThemeComponentSelectionControl>
                         </WrapPanel>
+                    </DataTemplate>
+
+                    <!-- Map Icon Template -->
+                    <DataTemplate DataType="{x:Type blockItemTypes:MapIconBlockItem}">
+                        <StackPanel Orientation="Vertical" Margin="5,5,5,5">
+                            <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:IconSize}}}" Style="{StaticResource MetroComboBox}"
+                                                              DisplayMemberPath="Description"
+                                                              SelectedValue="{Binding Size}"
+                                                              SelectedValuePath="Value" />
+                            <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:IconColor}}}" Style="{StaticResource MetroComboBox}"
+                                                              DisplayMemberPath="Description"
+                                                              SelectedValue="{Binding Color}"
+                                                              SelectedValuePath="Value" />
+                            <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:IconShape}}}" Style="{StaticResource MetroComboBox}"
+                                                              DisplayMemberPath="Description"
+                                                              SelectedValue="{Binding Shape}"
+                                                              SelectedValuePath="Value" />
+                            <userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}" Margin="0,2,0,0">
+                                <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                                    <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
+                                        <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
+                                        <Binding Path="." />
+                                    </MultiBinding>
+                                </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                            </userControls:ThemeComponentSelectionControl>
+                        </StackPanel>
+                    </DataTemplate>
+
+                    <!-- Custom Sound Template -->
+                    <DataTemplate DataType="{x:Type blockItemTypes:CustomSoundBlockItem}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Button Grid.Column="0" Grid.Row="0" Command="{Binding Path=DataContext.PlayCustomSoundCommand, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterBlockView}}}" Width="20" Height="20" Background="Transparent" BorderBrush="Transparent">
+                                <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Button>
+                            <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Path=DataContext.CustomSoundsAvailable, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterBlockView}}}" 
+                                      SelectedValue="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MetroComboBox}"/>
+                            <Button Grid.Column="1" Grid.Row="0" Command="{Binding Path=DataContext.CustomSoundFileDialogCommand, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterBlockView}}}"
+                                    Width="20" Height="20" Background="Transparent" BorderBrush="Transparent" Margin="0,0,30,0" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                <Image Grid.Column="1" Source="/Filtration;component/Resources/Icons/open_icon.png"/>
+                            </Button>
+                            <userControls:ThemeComponentSelectionControl Grid.Row="1" Grid.Column="1" ThemeComponent="{Binding ThemeComponent}" Margin="0,2,0,0">
+                                <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                                    <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
+                                        <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
+                                        <Binding Path="." />
+                                    </MultiBinding>
+                                </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
+                            </userControls:ThemeComponentSelectionControl>
+                        </Grid>
                     </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>

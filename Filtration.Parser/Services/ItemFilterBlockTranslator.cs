@@ -30,9 +30,10 @@ namespace Filtration.Parser.Services
         }
 
         // Converts a string into an ItemFilterCommentBlock maintaining newlines and spaces but removing # characters
-        public IItemFilterCommentBlock TranslateStringToItemFilterCommentBlock(string inputString, IItemFilterScript parentItemFilterScript)
+        public IItemFilterCommentBlock TranslateStringToItemFilterCommentBlock(string inputString, IItemFilterScript parentItemFilterScript, string originalString = "")
         {
             var itemFilterCommentBlock = new ItemFilterCommentBlock(parentItemFilterScript);
+            itemFilterCommentBlock.OriginalText = originalString;
 
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
@@ -42,12 +43,13 @@ namespace Filtration.Parser.Services
 
             itemFilterCommentBlock.Comment = itemFilterCommentBlock.Comment.TrimEnd('\r', '\n');
 
+            itemFilterCommentBlock.IsEdited = false;
             return itemFilterCommentBlock;
         }
 
         // This method converts a string into a ItemFilterBlock. This is used for pasting ItemFilterBlocks 
         // and reading ItemFilterScripts from a file.
-        public IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScript parentItemFilterScript, bool initialiseBlockGroupHierarchyBuilder = false)
+        public IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScript parentItemFilterScript, string originalString = "", bool initialiseBlockGroupHierarchyBuilder = false)
         {
             if (initialiseBlockGroupHierarchyBuilder)
             {
@@ -57,6 +59,7 @@ namespace Filtration.Parser.Services
             _masterComponentCollection = parentItemFilterScript.ItemFilterScriptSettings.ThemeComponentCollection;
             var block = new ItemFilterBlock(parentItemFilterScript);
             var showHideFound = false;
+            block.OriginalText = originalString;
 
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
@@ -214,11 +217,15 @@ namespace Filtration.Parser.Services
                         // Only ever use the last SetFontSize item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<FontSizeBlockItem>(block);
 
-                        var match = Regex.Match(trimmedLine, @"\s+(\d+)");
-                        if (match.Success)
+                        var match = Regex.Matches(trimmedLine, @"(\s+(\d+)\s*)([#]?)(.*)");
+                        if (match.Count > 0)
                         {
-                            var blockItemValue = new FontSizeBlockItem(Convert.ToInt16(match.Value));
-                            block.BlockItems.Add(blockItemValue);
+                            var blockItem = new FontSizeBlockItem(Convert.ToInt16(match[0].Groups[2].Value));
+                            if(match[0].Groups[3].Value == "#" && !string.IsNullOrWhiteSpace(match[0].Groups[4].Value))
+                            {
+                                blockItem.ThemeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.FontSize, match[0].Groups[4].Value.Trim(), blockItem.Value);
+                            }
+                            block.BlockItems.Add(blockItem);
                         }
                         break;
                     }
@@ -228,8 +235,9 @@ namespace Filtration.Parser.Services
                         // Only ever use the last PlayAlertSound item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<SoundBlockItem>(block);
                         RemoveExistingBlockItemsOfType<PositionalSoundBlockItem>(block);
+                        RemoveExistingBlockItemsOfType<CustomSoundBlockItem>(block);
 
-                        var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)\s?(\d+)?");
+                        var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)\s?(\d+)?\s*([#]?)(.*)");
                         
                         if (match.Success)
                         {
@@ -245,6 +253,12 @@ namespace Filtration.Parser.Services
                                 secondValue = 79;
                             }
 
+                            ThemeComponent themeComponent = null;
+                            if(match.Groups[3].Value == "#" && !string.IsNullOrWhiteSpace(match.Groups[4].Value))
+                            {
+                                themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.AlertSound, match.Groups[4].Value.Trim(), firstValue, secondValue);
+                            }
+
                             if (lineOption == "PlayAlertSound")
                             {
                                 var blockItemValue = new SoundBlockItem
@@ -252,6 +266,7 @@ namespace Filtration.Parser.Services
                                     Value = firstValue,
                                     SecondValue = secondValue
                                 };
+                                blockItemValue.ThemeComponent = themeComponent;
                                 block.BlockItems.Add(blockItemValue);
                             }
                             else
@@ -261,14 +276,129 @@ namespace Filtration.Parser.Services
                                     Value = firstValue,
                                     SecondValue = secondValue
                                 };
+                                blockItemValue.ThemeComponent = themeComponent;
                                 block.BlockItems.Add(blockItemValue);
                             }
                         }
                         break;
                     }
+                    case "GemLevel":
+                    {
+                        AddNumericFilterPredicateItemToBlockItems<GemLevelBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "StackSize":
+                    {
+                        AddNumericFilterPredicateItemToBlockItems<StackSizeBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "HasExplicitMod":
+                    {
+                        AddStringListItemToBlockItems<HasExplicitModBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "ElderMap":
+                    {
+                        AddBooleanItemToBlockItems<ElderMapBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "DisableDropSound":
+                    {
+                        // Only ever use the last DisableDropSound item encountered as multiples aren't valid.
+                        RemoveExistingBlockItemsOfType<DisableDropSoundBlockItem>(block);
+
+                        AddBooleanItemToBlockItems<DisableDropSoundBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "MinimapIcon":
+                    {
+                        // Only ever use the last Icon item encountered as multiples aren't valid.
+                        RemoveExistingBlockItemsOfType<MapIconBlockItem>(block);
+                        
+                        // TODO: Get size, color, shape values programmatically
+                        var match = Regex.Match(trimmedLine,
+                            @"\S+\s+(0|1|2)\s+(Red|Green|Blue|Brown|White|Yellow)\s+(Circle|Diamond|Hexagon|Square|Star|Triangle)\s*([#]?)(.*)",
+                            RegexOptions.IgnoreCase);
+                        
+                        if (match.Success)
+                        {
+                            var blockItemValue = new MapIconBlockItem
+                            {
+                                Size = (IconSize)Int16.Parse(match.Groups[1].Value),
+                                Color = EnumHelper.GetEnumValueFromDescription<IconColor>(match.Groups[2].Value),
+                                Shape = EnumHelper.GetEnumValueFromDescription<IconShape>(match.Groups[3].Value)
+                            };
+                                
+                            if(match.Groups[4].Value == "#" && !string.IsNullOrWhiteSpace(match.Groups[5].Value))
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.Icon, match.Groups[5].Value.Trim(),
+                                    blockItemValue.Size, blockItemValue.Color, blockItemValue.Shape);
+                                blockItemValue.ThemeComponent = themeComponent;
+                            }
+                            block.BlockItems.Add(blockItemValue);
+                        }
+                        break;
+                    }
+                    case "PlayEffect":
+                    {
+                        // Only ever use the last BeamColor item encountered as multiples aren't valid.
+                        RemoveExistingBlockItemsOfType<PlayEffectBlockItem>(block);
+                        
+                        // TODO: Get colors programmatically
+                        var match = Regex.Match(trimmedLine, @"\S+\s+(Red|Green|Blue|Brown|White|Yellow)\s+(Temp)?\s*([#]?)(.*)", RegexOptions.IgnoreCase);
+                        
+                        if (match.Success)
+                        {
+                            var blockItemValue = new PlayEffectBlockItem
+                            {
+                                Color = EnumHelper.GetEnumValueFromDescription<EffectColor>(match.Groups[1].Value),
+                                Temporary = match.Groups[2].Value.Trim().ToLower() == "temp"
+                            };
+                                
+                            if(match.Groups[3].Value == "#" && !string.IsNullOrWhiteSpace(match.Groups[4].Value))
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.Effect, match.Groups[4].Value.Trim(),
+                                    blockItemValue.Color, blockItemValue.Temporary);
+                                blockItemValue.ThemeComponent = themeComponent;
+                            }
+                            block.BlockItems.Add(blockItemValue);
+                        }
+                        break;
+                    }
+                    case "CustomAlertSound":
+                    {
+                        // Only ever use the last CustomSoundBlockItem item encountered as multiples aren't valid.
+                        RemoveExistingBlockItemsOfType<CustomSoundBlockItem>(block);
+                        RemoveExistingBlockItemsOfType<SoundBlockItem>(block);
+                        RemoveExistingBlockItemsOfType<PositionalSoundBlockItem>(block);
+
+                        var match = Regex.Match(trimmedLine, @"\S+\s+""(\S+)""\s*([#]?)(.*)");
+                        
+                        if (match.Success)
+                        {
+                            var blockItemValue = new CustomSoundBlockItem
+                            {
+                                Value = match.Groups[1].Value
+                            };
+                                
+                            if(match.Groups[2].Value == "#" && !string.IsNullOrWhiteSpace(match.Groups[3].Value))
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.CustomSound, match.Groups[3].Value.Trim(), blockItemValue.Value);
+                                blockItemValue.ThemeComponent = themeComponent;
+                            }
+                            block.BlockItems.Add(blockItemValue);
+                        }
+                        break;
+                    }
+                    case "MapTier":
+                    {
+                        AddNumericFilterPredicateItemToBlockItems<MapTierBlockItem>(block, trimmedLine);
+                        break;
+                    }
                 }
             }
 
+            block.IsEdited = false;
             return block;
         }
 
@@ -284,6 +414,7 @@ namespace Filtration.Parser.Services
 
         private static void AddBooleanItemToBlockItems<T>(IItemFilterBlock block, string inputString) where T : BooleanBlockItem
         {
+            inputString = Regex.Replace(inputString, @"\s+", " ");
             var blockItem = Activator.CreateInstance<T>();
             var splitString = inputString.Split(' ');
             if (splitString.Length == 2)
@@ -487,6 +618,11 @@ namespace Filtration.Parser.Services
         // TODO: Private
         public string TranslateItemFilterCommentBlockToString(IItemFilterCommentBlock itemFilterCommentBlock)
         {
+            if (!itemFilterCommentBlock.IsEdited)
+            {
+                return itemFilterCommentBlock.OriginalText;
+            }
+
             // TODO: Tests
             // TODO: # Section: text?
             var commentWithHashes = string.Empty;
@@ -506,12 +642,12 @@ namespace Filtration.Parser.Services
         // TODO: Private
         public string TranslateItemFilterBlockToString(IItemFilterBlock block)
         {
-            var outputString = string.Empty;
-
-            if (!block.Enabled)
+            if(!block.IsEdited)
             {
-                outputString += "#Disabled Block Start" + Environment.NewLine;
+                return block.OriginalText;
             }
+
+            var outputString = string.Empty;
 
             if (!string.IsNullOrEmpty(block.Description))
             {
@@ -538,11 +674,12 @@ namespace Filtration.Parser.Services
                 }
             }
 
-            if (!block.Enabled)
-            {
-                outputString += Environment.NewLine +  "#Disabled Block End";
-            }
-            
+            //TODO: Disabled for the time being. A better solution is needed.
+            // Replace 'Maelström' to prevent encoding problems in other editors
+            //outputString.Replace("Maelström Staff", "Maelstr");
+            //outputString.Replace("Maelström of Chaos", "Maelstr");
+            //outputString.Replace("Maelström", "Maelstr");
+
             return outputString;
         }
     }

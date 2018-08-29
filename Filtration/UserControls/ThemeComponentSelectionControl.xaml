@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
+             xmlns:themeEditor="clr-namespace:Filtration.ObjectModel.ThemeEditor;assembly=Filtration.ObjectModel"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=userControls:ThemeComponentSelectionControl}"
@@ -21,7 +22,7 @@
                 <Setter Property="MinHeight" Value="0" />
             </Style>
         </Grid.Resources>
-       <Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions>
            <ColumnDefinition Width="*"/>
            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
@@ -32,44 +33,59 @@
                   Visibility="{Binding ShowThemeComponentComboBox, Converter={StaticResource BooleanToVisibilityConverter}}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding SetBlockColorCommand,  RelativeSource={RelativeSource AncestorType=userControls:BlockItemControl}}" />
+                    <i:InvokeCommandAction Command="{Binding SetBlockValueCommand,  RelativeSource={RelativeSource AncestorType=userControls:BlockItemControl}}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-        <ComboBox.ItemTemplate>
-            <DataTemplate >
-                <ContentControl Content="{Binding}">
-                    <ContentControl.Style>
-                        <Style TargetType="{x:Type ContentControl}">
-                            <Setter Property="ContentTemplate">
-                                <Setter.Value>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition SharedSizeGroup="ComponentNameColumn" Width="Auto" />
-                                                <ColumnDefinition SharedSizeGroup="ComponentColorColumn" Width="20" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="{Binding ComponentName}" Margin="0,0,2,0" />
-                                            <Border Grid.Column="1" Background="{Binding Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ComboBoxItem}}" Value="{x:Null}">  
-                                        <Setter Property="ContentTemplate">
-                                            <Setter.Value>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding ComponentName}" />
-                                                </DataTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                        </Style>
-                        </ContentControl.Style>
-                    </ContentControl>
-            </DataTemplate>
-        </ComboBox.ItemTemplate>
+            <ComboBox.ItemTemplate>
+                <DataTemplate >
+                    <ContentControl Content="{Binding}">
+                        <ContentControl.Style>
+                            <Style TargetType="{x:Type ContentControl}">
+                                <Setter Property="ContentTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition SharedSizeGroup="ComponentNameColumn" Width="Auto" />
+                                                    <ColumnDefinition SharedSizeGroup="ComponentValueColumn" Width="20" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="{Binding ComponentName}" Margin="0,0,2,0" />
+                                                <ContentControl Content="{Binding Mode=OneWay}" Grid.Column="1">
+                                                    <ContentControl.Resources>
+                                                        <DataTemplate DataType="{x:Type themeEditor:ColorThemeComponent}">
+                                                            <Border Background="{Binding Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" />
+                                                        </DataTemplate>
+                                                        
+                                                        <DataTemplate DataType="{x:Type themeEditor:IntegerThemeComponent}">
+                                                            <TextBlock Text="{Binding Value}" FontWeight="Bold" />
+                                                        </DataTemplate>
+                                                        
+                                                        <DataTemplate DataType="{x:Type themeEditor:StrIntThemeComponent}">
+                                                            <!--TODO: How to show theese?-->
+                                                        </DataTemplate>
+
+                                                        <DataTemplate DataType="{x:Type themeEditor:StringThemeComponent}">
+                                                            <!--TODO: How to show theese?-->
+                                                        </DataTemplate>
+
+                                                        <DataTemplate DataType="{x:Type themeEditor:IconThemeComponent}">
+                                                            <!--TODO: How to show theese?-->
+                                                        </DataTemplate>
+
+                                                        <DataTemplate DataType="{x:Type themeEditor:EffectColorThemeComponent}">
+                                                            <!--TODO: How to show theese?-->
+                                                        </DataTemplate>
+                                                    </ContentControl.Resources>
+                                                </ContentControl>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                            </ContentControl.Style>
+                        </ContentControl>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
         </ComboBox>
         <userControls:CrossButton Grid.Column="1" Height="12" Command="{Binding RemoveThemeComponentCommand}" VerticalAlignment="Top" Visibility="{Binding ShowThemeComponentComboBox, Converter={StaticResource BooleanToVisibilityConverter}}"  />
         <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Visibility="{Binding ShowThemeComponentComboBox, Converter={StaticResource InverseBooleanVisibilityConverter}}" VerticalAlignment="Center">

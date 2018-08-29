@@ -17,6 +17,6 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string PrefixText => "PlayAlertSoundPositional";
         public override int MaximumAllowed => 1;
         public override string DisplayHeading => "Play Positional Alert Sound";
-        public override int SortOrder => 22;
+        public override int SortOrder => 27;
     }
 }

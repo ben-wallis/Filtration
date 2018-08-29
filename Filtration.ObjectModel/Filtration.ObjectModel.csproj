@@ -37,10 +37,26 @@
     <Reference Include="Castle.Windsor, Version=3.4.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Windsor.3.4.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net45\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,15 +68,27 @@
     <Compile Include="BlockItemBaseTypes\BlockItemBase.cs" />
     <Compile Include="BlockItemBaseTypes\BooleanBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\ColorBlockItem.cs" />
+    <Compile Include="BlockItemBaseTypes\ColorBooleanBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\DualIntegerBlockItem.cs" />
-    <Compile Include="BlockItemBaseTypes\StringIntBlockItem.cs" />
+    <Compile Include="BlockItemBaseTypes\EffectColorBlockItem.cs" />
+    <Compile Include="BlockItemBaseTypes\IconBlockItem.cs" />
+    <Compile Include="BlockItemBaseTypes\StringBlockItem.cs" />
+    <Compile Include="BlockItemBaseTypes\StrIntBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\IntegerBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\NumericFilterPredicateBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\StringListBlockItem.cs" />
     <Compile Include="BlockItemTypes\BackgroundColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\BaseTypeBlockItem.cs" />
+    <Compile Include="BlockItemTypes\MapTierBlockItem.cs" />
+    <Compile Include="BlockItemTypes\PlayEffectBlockItem.cs" />
     <Compile Include="BlockItemTypes\BorderColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\ClassBlockItem.cs" />
+    <Compile Include="BlockItemTypes\CustomSoundBlockItem.cs" />
+    <Compile Include="BlockItemTypes\DisableDropSoundBlockItem.cs" />
+    <Compile Include="BlockItemTypes\ElderMapBlockItem.cs" />
+    <Compile Include="BlockItemTypes\GemLevelBlockItem.cs" />
+    <Compile Include="BlockItemTypes\HasExplicitModBlockItem.cs" />
+    <Compile Include="BlockItemTypes\MapIconBlockItem.cs" />
     <Compile Include="BlockItemTypes\ShapedMapBlockItem.cs" />
     <Compile Include="BlockItemTypes\ShaperItemBlockItem.cs" />
     <Compile Include="BlockItemTypes\ElderItemBlockItem.cs" />
@@ -77,38 +105,47 @@
     <Compile Include="BlockItemTypes\SocketsBlockItem.cs" />
     <Compile Include="BlockItemTypes\PositionalSoundBlockItem.cs" />
     <Compile Include="BlockItemTypes\SoundBlockItem.cs" />
+    <Compile Include="BlockItemTypes\StackSizeBlockItem.cs" />
     <Compile Include="BlockItemTypes\TextColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\WidthBlockItem.cs" />
-		<Compile Include="Commands\CommandManager.cs" />
+    <Compile Include="Commands\CommandManager.cs" />
     <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\ItemFilterScript\MoveSectionToIndexCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\PasteBlockCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\MoveBlockToBottomCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\AddCommentBlockCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\MoveBlockDownCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\MoveBlockUpCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\MoveBlockToTopCommand.cs" />
+    <Compile Include="Commands\ItemFilterScript\PasteSectionCommand.cs" />
+    <Compile Include="Commands\ItemFilterScript\RemoveSectionCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\SetScriptDescriptionCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\RemoveBlockCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\AddBlockCommand.cs" />
     <Compile Include="Commands\IUndoableCommand.cs" />
     <Compile Include="Enums\BlockAction.cs" />
     <Compile Include="Enums\BlockItemType.cs" />
+    <Compile Include="Enums\EffectColor.cs" />
     <Compile Include="Enums\FilterPredicateOperator.cs" />
     <Compile Include="Enums\FilterType.cs" />
+    <Compile Include="Enums\IconColor.cs" />
+    <Compile Include="Enums\IconShape.cs" />
+    <Compile Include="Enums\IconSize.cs" />
     <Compile Include="Enums\ItemRarity.cs" />
     <Compile Include="Enums\SocketColor.cs" />
     <Compile Include="Enums\ThemeComponentType.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
     <Compile Include="Extensions\ItemRarityExtensions.cs" />
-		<Compile Include="Factories\IItemFilterScriptFactory.cs" />
+    <Compile Include="Factories\IItemFilterScriptFactory.cs" />
     <Compile Include="FilteredItem.cs" />
     <Compile Include="IAudioVisualBlockItem.cs" />
+    <Compile Include="IBlockItemWithTheme.cs" />
     <Compile Include="IItemFilterBlockItem.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="ItemFilterBlock.cs" />
     <Compile Include="ItemFilterBlockGroup.cs" />
     <Compile Include="ItemFilterScript.cs" />
-		<Compile Include="ItemFilterScriptSettings.cs" />
+    <Compile Include="ItemFilterScriptSettings.cs" />
     <Compile Include="ItemSet.cs" />
     <Compile Include="NumericFilterPredicate.cs" />
     <Compile Include="PathOfExileNamedColors.cs" />
@@ -118,11 +155,20 @@
     <Compile Include="ReplaceColorsParameterSet.cs" />
     <Compile Include="Socket.cs" />
     <Compile Include="SocketGroup.cs" />
+    <Compile Include="ThemeEditor\EffectColorThemeComponent.cs" />
+    <Compile Include="ThemeEditor\IconThemeComponent.cs" />
+    <Compile Include="ThemeEditor\StringThemeComponent.cs" />
+    <Compile Include="ThemeEditor\StrIntThemeComponent.cs" />
+    <Compile Include="ThemeEditor\IntegerThemeComponent.cs" />
     <Compile Include="ThemeEditor\Theme.cs" />
+    <Compile Include="ThemeEditor\ColorThemeComponent.cs" />
     <Compile Include="ThemeEditor\ThemeComponent.cs" />
     <Compile Include="ThemeEditor\ThemeComponentCollection.cs" />
     <Compile Include="WindsorInstallers\CommandsInstaller.cs" />
     <Compile Include="WindsorInstallers\ModelsInstaller.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

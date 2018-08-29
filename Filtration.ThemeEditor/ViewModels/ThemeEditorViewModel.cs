@@ -194,8 +194,30 @@ namespace Filtration.ThemeEditor.ViewModels
         
         private void OnAddThemeComponentCommand(ThemeComponentType themeComponentType)
         {
-            Components.Add(new ThemeComponent(themeComponentType, "Untitled Component",
-                new Color {A = 255, R = 255, G = 255, B = 255}));
+            switch (themeComponentType)
+            {
+                case ThemeComponentType.BackgroundColor:
+                case ThemeComponentType.BorderColor:
+                case ThemeComponentType.TextColor:
+                    Components.Add(new ColorThemeComponent(themeComponentType, "Untitled Component",
+                        new Color { A = 255, R = 255, G = 255, B = 255 }));
+                    break;
+                case ThemeComponentType.FontSize:
+                    Components.Add(new IntegerThemeComponent(themeComponentType, "Untitled Component", 35));
+                    break;
+                case ThemeComponentType.AlertSound:
+                    Components.Add(new StrIntThemeComponent(themeComponentType, "Untitled Component", "1", 100));
+                    break;
+                case ThemeComponentType.CustomSound:
+                    Components.Add(new StringThemeComponent(themeComponentType, "Untitled Component", "placeholder.mp3"));
+                    break;
+                case ThemeComponentType.Icon:
+                    Components.Add(new IconThemeComponent(themeComponentType, "Untitled Component", IconSize.Largest, IconColor.Red, IconShape.Circle));
+                    break;
+                case ThemeComponentType.Effect:
+                    Components.Add(new EffectColorThemeComponent(themeComponentType, "Untitled Component", EffectColor.Red, false));
+                    break;
+            }
         }
 
         private void OnDeleteThemeComponentCommand(ThemeComponent themeComponent)

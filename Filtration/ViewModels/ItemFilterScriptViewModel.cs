@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -44,11 +45,16 @@ namespace Filtration.ViewModels
         void SetDirtyFlag();
         bool HasSelectedEnabledBlock();
         bool HasSelectedDisabledBlock();
+        bool HasSelectedCommentBlock();
 
         RelayCommand AddBlockCommand { get; }
         RelayCommand AddSectionCommand { get; }
         RelayCommand DisableBlockCommand { get; }
         RelayCommand EnableBlockCommand { get; }
+        RelayCommand DisableSectionCommand { get; }
+        RelayCommand EnableSectionCommand { get; }
+        RelayCommand ExpandSectionCommand { get; }
+        RelayCommand CollapseSectionCommand { get; }
         RelayCommand DeleteBlockCommand { get; }
         RelayCommand MoveBlockUpCommand { get; }
         RelayCommand MoveBlockDownCommand { get; }
@@ -60,6 +66,8 @@ namespace Filtration.ViewModels
         RelayCommand PasteBlockStyleCommand { get; }
         RelayCommand ExpandAllBlocksCommand { get; }
         RelayCommand CollapseAllBlocksCommand { get; }
+        RelayCommand ExpandAllSectionsCommand { get; }
+        RelayCommand CollapseAllSectionsCommand { get; }
         RelayCommand<bool> ToggleShowAdvancedCommand { get; }
         RelayCommand ClearFilterCommand { get; }
 
@@ -74,6 +82,7 @@ namespace Filtration.ViewModels
         void MoveBlockUp(IItemFilterBlockViewModelBase targetBlockViewModelBase);
         void MoveBlockDown(IItemFilterBlockViewModelBase targetBlockViewModelBase);
         void MoveBlockToBottom(IItemFilterBlockViewModelBase targetBlockViewModelBase);
+        void ToggleSection(IItemFilterCommentBlockViewModel targetCommentBlockViewModelBase, bool updateViewModels = true);
     }
 
     internal class ItemFilterScriptViewModel : PaneViewModel, IItemFilterScriptViewModel
@@ -92,6 +101,7 @@ namespace Filtration.ViewModels
         private IItemFilterBlockViewModelBase _selectedBlockViewModel;
         private IItemFilterCommentBlockViewModel _sectionBrowserSelectedBlockViewModel;
         private readonly ObservableCollection<IItemFilterBlockViewModelBase> _itemFilterBlockViewModels;
+        private ObservableCollection<IItemFilterBlockViewModelBase> _viewItemFilterBlockViewModels;
         private ICollectionView _itemFilterBlockViewModelsCollectionView;
         private Predicate<IItemFilterBlockViewModel> _blockFilterPredicate;
         private ICommandManager _scriptCommandManager;
@@ -131,18 +141,26 @@ namespace Filtration.ViewModels
             AddSectionCommand = new RelayCommand(OnAddCommentBlockCommand, () => SelectedBlockViewModel != null);
             DisableBlockCommand = new RelayCommand(OnDisableBlockCommand, HasSelectedEnabledBlock);
             EnableBlockCommand = new RelayCommand(OnEnableBlockCommand, HasSelectedDisabledBlock);
+            DisableSectionCommand = new RelayCommand(OnDisableSectionCommand, HasSelectedCommentBlock);
+            EnableSectionCommand = new RelayCommand(OnEnableSectionCommand, HasSelectedCommentBlock);
+            ExpandSectionCommand = new RelayCommand(OnExpandSectionCommand, HasSelectedCommentBlock);
+            CollapseSectionCommand = new RelayCommand(OnCollapseSectionCommand, HasSelectedCommentBlock);
             CopyBlockCommand = new RelayCommand(OnCopyBlockCommand, () => SelectedBlockViewModel != null);
             CopyBlockStyleCommand = new RelayCommand(OnCopyBlockStyleCommand, () => SelectedBlockViewModel != null);
             PasteBlockCommand = new RelayCommand(OnPasteBlockCommand, () => SelectedBlockViewModel != null);
             PasteBlockStyleCommand = new RelayCommand(OnPasteBlockStyleCommand, () => SelectedBlockViewModel != null);
             ExpandAllBlocksCommand = new RelayCommand(OnExpandAllBlocksCommand);
             CollapseAllBlocksCommand = new RelayCommand(OnCollapseAllBlocksCommand);
+            ExpandAllSectionsCommand = new RelayCommand(ExpandAllSections);
+            CollapseAllSectionsCommand = new RelayCommand(CollapseAllSections);
 
             var icon = new BitmapImage();
             icon.BeginInit();
             icon.UriSource = new Uri("pack://application:,,,/Filtration;component/Resources/Icons/script_icon.png");
             icon.EndInit();
             IconSource = icon;
+
+            _viewItemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModelBase>();
         }
 
         public void Initialise(IItemFilterScript itemFilterScript, bool newScript)
@@ -164,6 +182,9 @@ namespace Filtration.ViewModels
             
             Title = Filename;
             ContentId = "ScriptContentId";
+
+            CollapseAllSections();
+            UpdateBlockModelsForView();
         }
 
         private void ItemFilterBlocksOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
@@ -186,6 +207,8 @@ namespace Filtration.ViewModels
                     break;
                 }
             }
+
+            UpdateBlockModelsForView();
         }
 
         private void AddItemFilterBlockViewModels(IEnumerable<IItemFilterBlockBase> itemFilterBlocks, int addAtIndex)
@@ -245,12 +268,18 @@ namespace Filtration.ViewModels
         public RelayCommand AddSectionCommand { get; }
         public RelayCommand EnableBlockCommand { get; }
         public RelayCommand DisableBlockCommand { get; }
+        public RelayCommand DisableSectionCommand { get; }
+        public RelayCommand EnableSectionCommand { get; }
+        public RelayCommand ExpandSectionCommand { get; }
+        public RelayCommand CollapseSectionCommand { get; }
         public RelayCommand CopyBlockCommand { get; }
         public RelayCommand CopyBlockStyleCommand { get; }
         public RelayCommand PasteBlockCommand { get; }
         public RelayCommand PasteBlockStyleCommand { get; }
         public RelayCommand ExpandAllBlocksCommand { get; }
         public RelayCommand CollapseAllBlocksCommand { get; }
+        public RelayCommand ExpandAllSectionsCommand { get; }
+        public RelayCommand CollapseAllSectionsCommand { get; }
 
         public bool IsActiveDocument
         {
@@ -261,6 +290,19 @@ namespace Filtration.ViewModels
 
                 return isActiveDocument;
 
+            }
+        }
+
+        public ObservableCollection<IItemFilterBlockViewModelBase> ViewItemFilterBlockViewModels
+        {
+            get
+            {
+                return _viewItemFilterBlockViewModels;
+            }
+            set
+            {
+                _viewItemFilterBlockViewModels = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -357,6 +399,13 @@ namespace Filtration.ViewModels
         private bool HasSelectedBlock()
         {
             return SelectedBlockViewModel != null;
+        }
+
+        public bool HasSelectedCommentBlock()
+        {
+            var selectedBlockViewModel = SelectedBlockViewModel as IItemFilterCommentBlockViewModel;
+
+            return selectedBlockViewModel != null;
         }
 
         public IItemFilterBlockViewModelBase SelectedBlockViewModel
@@ -514,7 +563,7 @@ namespace Filtration.ViewModels
                 Script.ThemeComponents.Where(
                     t =>
                         Script.ItemFilterBlocks.OfType<ItemFilterBlock>().Count(
-                            b => b.BlockItems.OfType<ColorBlockItem>().Count(i => i.ThemeComponent == t) > 0) == 0).ToList();
+                            b => b.BlockItems.OfType<IBlockItemWithTheme>().Count(i => i.ThemeComponent == t) > 0) == 0).ToList();
 
             if (unusedThemeComponents.Count <= 0) return true;
 
@@ -634,7 +683,15 @@ namespace Filtration.ViewModels
 
         private void OnCopyBlockCommand()
         {
-            CopyBlock(SelectedBlockViewModel);
+            var commentBlockViewModel = SelectedBlockViewModel as IItemFilterCommentBlockViewModel;
+            if (commentBlockViewModel == null || commentBlockViewModel.IsExpanded)
+            {
+                CopyBlock(SelectedBlockViewModel);
+            }
+            else
+            {
+                CopySection(commentBlockViewModel);
+            }
         }
 
         public void CopyBlock(IItemFilterBlockViewModelBase targetBlockViewModel)
@@ -642,6 +699,26 @@ namespace Filtration.ViewModels
             try
             {
                 _clipboardService.SetClipboardText(_blockTranslator.TranslateItemFilterBlockBaseToString(SelectedBlockViewModel.BaseBlock));
+            }
+            catch
+            {
+                _messageBoxService.Show("Clipboard Error", "Failed to access the clipboard, copy command not completed.", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        public void CopySection(IItemFilterCommentBlockViewModel targetCommentBlockViewModel)
+        {
+            var sectionStart = ItemFilterBlockViewModels.IndexOf(targetCommentBlockViewModel) + 1;
+            var copyText = _blockTranslator.TranslateItemFilterBlockBaseToString(targetCommentBlockViewModel.BaseBlock);
+            while (sectionStart < ItemFilterBlockViewModels.Count && ItemFilterBlockViewModels[sectionStart] as IItemFilterCommentBlockViewModel == null)
+            {
+                copyText += Environment.NewLine + "##CopySection##" + Environment.NewLine + _blockTranslator.TranslateItemFilterBlockBaseToString(ItemFilterBlockViewModels[sectionStart].BaseBlock);
+                sectionStart++;
+            }
+
+            try
+            {
+                _clipboardService.SetClipboardText(copyText);
             }
             catch
             {
@@ -709,15 +786,65 @@ namespace Filtration.ViewModels
 
         public void PasteBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
+            var commentBlock = targetBlockViewModelBase as IItemFilterCommentBlockViewModel;
+            if(commentBlock != null && !commentBlock.IsExpanded)
+            {
+                var blockIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase) + 1;
+                while (blockIndex < ItemFilterBlockViewModels.Count && (ItemFilterBlockViewModels[blockIndex] as IItemFilterCommentBlockViewModel) == null)
+                {
+                    blockIndex++;
+                }
+                targetBlockViewModelBase = ItemFilterBlockViewModels[blockIndex - 1];
+            }
             try
             {
                 var clipboardText = _clipboardService.GetClipboardText();
                 if (string.IsNullOrEmpty(clipboardText)) return;
-                
-                var translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(clipboardText, Script, true); // TODO: Doesn't handle pasting comment blocks?
-                if (translatedBlock == null) return;
 
-                _scriptCommandManager.ExecuteCommand(new PasteBlockCommand(Script, translatedBlock, targetBlockViewModelBase.BaseBlock));
+                string[] blockTexts = clipboardText.Split(new string[] { Environment.NewLine + "##CopySection##" + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+                List<IItemFilterBlockBase> blocksToPaste = new List<IItemFilterBlockBase>();
+                foreach (var curBlock in blockTexts)
+                {
+                    IItemFilterBlockBase translatedBlock;
+                    var preparedString = PrepareBlockForParsing(curBlock);
+                    var isCommentBlock = true;
+                    string[] textLines = preparedString.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                    foreach(var line in textLines)
+                    {
+                        if(!line.StartsWith(@"#"))
+                        {
+                            isCommentBlock = false;
+                            break;
+                        }
+                    }
+
+                    if (isCommentBlock)
+                    {
+                        translatedBlock = _blockTranslator.TranslateStringToItemFilterCommentBlock(preparedString, Script, curBlock);
+                    }
+                    else
+                    {
+                        translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(preparedString, Script, curBlock, true);
+                    }
+
+                    if (translatedBlock == null) continue;
+                    
+                    blocksToPaste.Add(translatedBlock);
+                }
+
+                if (blocksToPaste.Count < 1)
+                    return;
+
+                var blockIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase) + 1;
+                _scriptCommandManager.ExecuteCommand(new PasteSectionCommand(Script, blocksToPaste, targetBlockViewModelBase.BaseBlock));
+                SelectedBlockViewModel = ItemFilterBlockViewModels[blockIndex];
+                RaisePropertyChanged("SelectedBlockViewModel");
+                var firstBlockAsComment = blocksToPaste[0] as IItemFilterCommentBlock;
+                if (firstBlockAsComment != null)
+                {
+                    OnCollapseSectionCommand();
+                }
             }
             catch (Exception e)
             {
@@ -728,39 +855,250 @@ namespace Filtration.ViewModels
             }
         }
 
+        private string PrepareBlockForParsing(string inputString)
+        {
+            inputString = inputString.Replace("\t", "");
+            var lines = Regex.Split(inputString, "\r\n|\r|\n").ToList();
+            for (var i = 0; i < lines.Count; i++)
+            {
+                if (lines[i].Length == 0)
+                {
+                    lines.RemoveAt(i--);
+                }
+                else
+                    break;
+            }
+            for (var i = lines.Count - 1; i >= 0; i--)
+            {
+                if (lines[i].Length == 0)
+                {
+                    lines.RemoveAt(i++);
+                }
+                else
+                    break;
+            }
+            var allCommented = true;
+            for (var i = 0; i < lines.Count; i++)
+            {
+                lines[i] = Regex.Replace(lines[i], @"\s+", " ");
+                if(lines[i][0] == '#')
+                {
+                    if (lines[i].Length > 1 && lines[i][1] != ' ')
+                    {
+                        lines[i] = "# " + lines[i].Substring(1);
+                    }
+                }
+                else
+                {
+                    allCommented = false;
+                }
+            }
+
+            var disabledBlock = -1;
+            if (allCommented)
+            {
+                for (var i = 0; i < lines.Count; i++)
+                {
+                    if (lines[i].StartsWith("#"))
+                    {
+                        string curLine = Regex.Replace(lines[i].Substring(1), @"\s+", "");
+                        if ((curLine.StartsWith("Show") || curLine.StartsWith("Hide")) && (curLine.Length == 4 || curLine[4] == '#'))
+                        {
+                            lines[i] = lines[i].Substring(0, 6) + "Disabled" + lines[i].Substring(6);
+                            disabledBlock = i;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if(disabledBlock >= 0)
+            {
+                for (var i = disabledBlock; i < lines.Count; i++)
+                {
+                    lines[i] = lines[i].Substring(2);
+                }
+            }
+
+            return string.Join(Environment.NewLine, lines);
+        }
+
         private void OnMoveBlockToTopCommand()
         {
-            MoveBlockToTop(SelectedBlockViewModel);
+            var commentBlockViewModel = SelectedBlockViewModel as IItemFilterCommentBlockViewModel;
+            if (commentBlockViewModel == null || commentBlockViewModel.IsExpanded)
+            {
+                MoveBlockToTop(SelectedBlockViewModel);
+            }
+            else
+            {
+                MoveSectionToTop(commentBlockViewModel);
+            }
         }
 
         private void OnMoveBlockUpCommand()
         {
-            MoveBlockUp(SelectedBlockViewModel);
+            var commentBlockViewModel = SelectedBlockViewModel as IItemFilterCommentBlockViewModel;
+            if(commentBlockViewModel == null || commentBlockViewModel.IsExpanded)
+            {
+                MoveBlockUp(SelectedBlockViewModel);
+            }
+            else
+            {
+                MoveSectionUp(commentBlockViewModel);
+            }
         }
 
         public void MoveBlockUp(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
-            _scriptCommandManager.ExecuteCommand(new MoveBlockUpCommand(Script, targetBlockViewModelBase?.BaseBlock));
+            var blockIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase);
+            if (ItemFilterBlockViewModels[blockIndex - 1].IsVisible)
+            {
+                _scriptCommandManager.ExecuteCommand(new MoveBlockUpCommand(Script, targetBlockViewModelBase?.BaseBlock));
+                SelectedBlockViewModel = ItemFilterBlockViewModels[blockIndex - 1];
+                RaisePropertyChanged("SelectedBlockViewModel");
+            }
+            else
+            {
+                var aboveSectionStart = blockIndex - 1;
+                while(ItemFilterBlockViewModels[aboveSectionStart] as IItemFilterCommentBlockViewModel == null)
+                {
+                    aboveSectionStart--;
+                }
+                _scriptCommandManager.ExecuteCommand(new MoveSectionToIndexCommand(Script, blockIndex, 1, aboveSectionStart));
+                SelectedBlockViewModel = ItemFilterBlockViewModels[aboveSectionStart];
+                RaisePropertyChanged("SelectedBlockViewModel");
+            }
+        }
+
+        public void MoveSectionUp(IItemFilterCommentBlockViewModel targetCommentBlockViewModel)
+        {
+            var sectionStart = ItemFilterBlockViewModels.IndexOf(targetCommentBlockViewModel);
+            var sectionEnd = sectionStart + 1;
+            while(sectionEnd < ItemFilterBlockViewModels.Count && ItemFilterBlockViewModels[sectionEnd] as IItemFilterCommentBlockViewModel == null)
+            {
+                sectionEnd++;
+            }
+
+            var newLocation = sectionStart - 1;
+            if (ItemFilterBlockViewModels[newLocation].IsVisible)
+            {
+                _scriptCommandManager.ExecuteCommand(new MoveSectionToIndexCommand(Script, sectionStart, sectionEnd - sectionStart, newLocation));
+            }
+            else
+            {
+                while (ItemFilterBlockViewModels[newLocation] as IItemFilterCommentBlockViewModel == null)
+                {
+                    newLocation--;
+                }
+                _scriptCommandManager.ExecuteCommand(new MoveSectionToIndexCommand(Script, sectionStart, sectionEnd - sectionStart, newLocation));
+            }
+
+            ToggleSection(ItemFilterBlockViewModels[newLocation] as IItemFilterCommentBlockViewModel);
+            SelectedBlockViewModel = ItemFilterBlockViewModels[newLocation];
+            RaisePropertyChanged("SelectedBlockViewModel");
         }
 
         private void OnMoveBlockDownCommand()
         {
-            MoveBlockDown(SelectedBlockViewModel);
+            var commentBlockViewModel = SelectedBlockViewModel as IItemFilterCommentBlockViewModel;
+            if (commentBlockViewModel == null || commentBlockViewModel.IsExpanded)
+            {
+                MoveBlockDown(SelectedBlockViewModel);
+            }
+            else
+            {
+                MoveSectionDown(commentBlockViewModel);
+            }
         }
 
         public void MoveBlockDown(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
-            _scriptCommandManager.ExecuteCommand(new MoveBlockDownCommand(Script, targetBlockViewModelBase?.BaseBlock));
+            var blockIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase);
+            var beloveBlockAsComment = ItemFilterBlockViewModels[blockIndex + 1] as IItemFilterCommentBlockViewModel;
+            if (beloveBlockAsComment == null || beloveBlockAsComment.IsExpanded)
+            {
+                _scriptCommandManager.ExecuteCommand(new MoveBlockDownCommand(Script, targetBlockViewModelBase?.BaseBlock));
+                SelectedBlockViewModel = ItemFilterBlockViewModels[blockIndex + 1];
+                RaisePropertyChanged("SelectedBlockViewModel");
+            }
+            else
+            {
+                var beloveSectionEnd = blockIndex + 2;
+                while (beloveSectionEnd < ItemFilterBlockViewModels.Count && ItemFilterBlockViewModels[beloveSectionEnd] as IItemFilterCommentBlockViewModel == null)
+                {
+                    beloveSectionEnd++;
+                }
+                _scriptCommandManager.ExecuteCommand(new MoveSectionToIndexCommand(Script, blockIndex, 1, beloveSectionEnd - 1));
+                SelectedBlockViewModel = ItemFilterBlockViewModels[beloveSectionEnd - 1];
+                RaisePropertyChanged("SelectedBlockViewModel");
+            }
+        }
+
+        public void MoveSectionDown(IItemFilterCommentBlockViewModel targetCommentBlockViewModel)
+        {
+            var sectionStart = ItemFilterBlockViewModels.IndexOf(targetCommentBlockViewModel);
+            var sectionEnd = sectionStart + 1;
+            while (sectionEnd < ItemFilterBlockViewModels.Count && ItemFilterBlockViewModels[sectionEnd] as IItemFilterCommentBlockViewModel == null)
+            {
+                sectionEnd++;
+            }
+
+            if (sectionEnd >= ItemFilterBlockViewModels.Count)
+                return;
+
+            var sectionSize = sectionEnd - sectionStart;
+
+            var newLocation = sectionStart + 1;
+            var beloveBlockAsComment = ItemFilterBlockViewModels[sectionEnd] as IItemFilterCommentBlockViewModel;
+            if (beloveBlockAsComment == null || beloveBlockAsComment.IsExpanded)
+            {
+                _scriptCommandManager.ExecuteCommand(new MoveSectionToIndexCommand(Script, sectionStart, sectionSize, newLocation));
+            }
+            else
+            {
+                while ((newLocation + sectionSize) < ItemFilterBlockViewModels.Count && ItemFilterBlockViewModels[newLocation + sectionSize] as IItemFilterCommentBlockViewModel == null)
+                {
+                    newLocation++;
+                }
+                _scriptCommandManager.ExecuteCommand(new MoveSectionToIndexCommand(Script, sectionStart, sectionEnd - sectionStart, newLocation));
+            }
+
+            ToggleSection(ItemFilterBlockViewModels[newLocation] as IItemFilterCommentBlockViewModel);
+            SelectedBlockViewModel = ItemFilterBlockViewModels[newLocation];
+            RaisePropertyChanged("SelectedBlockViewModel");
         }
 
         private void OnMoveBlockToBottomCommand()
         {
-            MoveBlockToBottom(SelectedBlockViewModel);
+            var commentBlockViewModel = SelectedBlockViewModel as IItemFilterCommentBlockViewModel;
+            if (commentBlockViewModel == null || commentBlockViewModel.IsExpanded)
+            {
+                MoveBlockToBottom(SelectedBlockViewModel);
+            }
+            else
+            {
+                MoveSectionToBottom(commentBlockViewModel);
+            }
         }
 
         private void OnAddBlockCommand()
         {
-            AddBlock(SelectedBlockViewModel);
+            var selectedBlockAsCommentBlock = SelectedBlockViewModel as IItemFilterCommentBlockViewModel;
+            if(selectedBlockAsCommentBlock == null || selectedBlockAsCommentBlock.IsExpanded)
+            {
+                AddBlock(SelectedBlockViewModel);
+            }
+            else
+            {
+                var sectionStart = ItemFilterBlockViewModels.IndexOf(selectedBlockAsCommentBlock);
+                var sectionEnd = sectionStart + 1;
+                while (sectionEnd < ItemFilterBlockViewModels.Count && ItemFilterBlockViewModels[sectionEnd] as IItemFilterCommentBlockViewModel == null)
+                {
+                    sectionEnd++;
+                }
+                AddBlock(ItemFilterBlockViewModels[sectionEnd - 1]);
+            }
         }
 
         public void AddBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase)
@@ -776,7 +1114,22 @@ namespace Filtration.ViewModels
 
         public void DeleteBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
-            _scriptCommandManager.ExecuteCommand(new RemoveBlockCommand(Script, targetBlockViewModelBase.BaseBlock));
+            var commentBlockViewModel = SelectedBlockViewModel as IItemFilterCommentBlockViewModel;
+            if (commentBlockViewModel == null || commentBlockViewModel.IsExpanded)
+            {
+                _scriptCommandManager.ExecuteCommand(new RemoveBlockCommand(Script, targetBlockViewModelBase.BaseBlock));
+            }
+            else
+            {
+                var sectionStart = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase);
+                var sectionEnd = sectionStart + 1;
+                while (sectionEnd < ItemFilterBlockViewModels.Count && ItemFilterBlockViewModels[sectionEnd] as IItemFilterCommentBlockViewModel == null)
+                {
+                    sectionEnd++;
+                }
+
+                _scriptCommandManager.ExecuteCommand(new RemoveSectionCommand(Script, sectionStart, sectionEnd - sectionStart));
+            }
         }
 
         public void MoveBlockToBottom(IItemFilterBlockViewModelBase targetBlockViewModelBase)
@@ -784,9 +1137,41 @@ namespace Filtration.ViewModels
             _scriptCommandManager.ExecuteCommand(new MoveBlockToBottomCommand(Script, targetBlockViewModelBase.BaseBlock));
         }
 
+        public void MoveSectionToBottom(IItemFilterCommentBlockViewModel targetCommentBlockViewModel)
+        {
+            var sectionStart = ItemFilterBlockViewModels.IndexOf(targetCommentBlockViewModel);
+            var sectionEnd = sectionStart + 1;
+            while (sectionEnd < ItemFilterBlockViewModels.Count && ItemFilterBlockViewModels[sectionEnd] as IItemFilterCommentBlockViewModel == null)
+            {
+                sectionEnd++;
+            }
+
+            var newLocation = ItemFilterBlockViewModels.Count - (sectionEnd - sectionStart);
+            _scriptCommandManager.ExecuteCommand(new MoveSectionToIndexCommand(Script, sectionStart, sectionEnd - sectionStart, newLocation));
+
+            ToggleSection(ItemFilterBlockViewModels[newLocation] as IItemFilterCommentBlockViewModel);
+            SelectedBlockViewModel = ItemFilterBlockViewModels[newLocation];
+        }
+
         public void MoveBlockToTop(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
             _scriptCommandManager.ExecuteCommand(new MoveBlockToTopCommand(Script, targetBlockViewModelBase.BaseBlock));
+        }
+
+        public void MoveSectionToTop(IItemFilterCommentBlockViewModel targetCommentBlockViewModel)
+        {
+            var sectionStart = ItemFilterBlockViewModels.IndexOf(targetCommentBlockViewModel);
+            var sectionEnd = sectionStart + 1;
+            while (sectionEnd < ItemFilterBlockViewModels.Count && ItemFilterBlockViewModels[sectionEnd] as IItemFilterCommentBlockViewModel == null)
+            {
+                sectionEnd++;
+            }
+
+            var newLocation = 0;
+            _scriptCommandManager.ExecuteCommand(new MoveSectionToIndexCommand(Script, sectionStart, sectionEnd - sectionStart, newLocation));
+
+            ToggleSection(ItemFilterBlockViewModels[newLocation] as IItemFilterCommentBlockViewModel);
+            SelectedBlockViewModel = ItemFilterBlockViewModels[newLocation];
         }
 
         private void OnBlockBecameDirty(object sender, EventArgs e)
@@ -796,7 +1181,21 @@ namespace Filtration.ViewModels
 
         private void OnAddCommentBlockCommand()
         {
-            AddCommentBlock(SelectedBlockViewModel);
+            var selectedBlockAsCommentBlock = SelectedBlockViewModel as IItemFilterCommentBlockViewModel;
+            if (selectedBlockAsCommentBlock == null || selectedBlockAsCommentBlock.IsExpanded)
+            {
+                AddCommentBlock(SelectedBlockViewModel);
+            }
+            else
+            {
+                var sectionStart = ItemFilterBlockViewModels.IndexOf(selectedBlockAsCommentBlock);
+                var sectionEnd = sectionStart + 1;
+                while (sectionEnd < ItemFilterBlockViewModels.Count && ItemFilterBlockViewModels[sectionEnd] as IItemFilterCommentBlockViewModel == null)
+                {
+                    sectionEnd++;
+                }
+                AddCommentBlock(ItemFilterBlockViewModels[sectionEnd - 1]);
+            }
         }
 
         private void OnExpandAllBlocksCommand()
@@ -836,6 +1235,182 @@ namespace Filtration.ViewModels
             {
                 selectedBlockViewModel.BlockEnabled = true;
             }
+        }
+
+        private void OnDisableSectionCommand()
+        {
+            var selectedBlockViewModel = SelectedBlockViewModel as IItemFilterCommentBlockViewModel;
+            if (selectedBlockViewModel != null)
+            {
+                var sectionIndex = ItemFilterBlockViewModels.IndexOf(selectedBlockViewModel);
+                for (int i = sectionIndex + 1; i < ItemFilterBlockViewModels.Count; i++)
+                {
+                    var block = ItemFilterBlockViewModels[i] as IItemFilterBlockViewModel;
+                    if (block != null)
+                    {
+                        block.BlockEnabled = false;
+                    }
+                    else
+                        break;
+                }
+            }
+        }
+
+        private void OnEnableSectionCommand()
+        {
+            var selectedBlockViewModel = SelectedBlockViewModel as IItemFilterCommentBlockViewModel;
+            if (selectedBlockViewModel != null)
+            {
+                var sectionIndex = ItemFilterBlockViewModels.IndexOf(selectedBlockViewModel);
+                for (int i = sectionIndex + 1; i < ItemFilterBlockViewModels.Count; i++)
+                {
+                    var block = ItemFilterBlockViewModels[i] as IItemFilterBlockViewModel;
+                    if (block != null)
+                    {
+                        block.BlockEnabled = true;
+                    }
+                    else
+                        break;
+                }
+            }
+        }
+
+        private void OnExpandSectionCommand()
+        {
+            var selectedBlockViewModel = SelectedBlockViewModel as IItemFilterCommentBlockViewModel;
+            if (selectedBlockViewModel != null && !selectedBlockViewModel.IsExpanded)
+            {
+                ToggleSection(selectedBlockViewModel);
+            }
+        }
+
+        private void OnCollapseSectionCommand()
+        {
+            var selectedBlockViewModel = SelectedBlockViewModel as IItemFilterCommentBlockViewModel;
+            if (selectedBlockViewModel != null && selectedBlockViewModel.IsExpanded)
+            {
+                ToggleSection(selectedBlockViewModel);
+            }
+        }
+
+        public void ToggleSection(IItemFilterCommentBlockViewModel targetCommentBlockViewModelBase, bool updateViewModels = true)
+        {
+            var newState = !targetCommentBlockViewModelBase.IsExpanded;
+            targetCommentBlockViewModelBase.IsExpanded = newState;
+            var sectionIndex = ItemFilterBlockViewModels.IndexOf(targetCommentBlockViewModelBase);
+            var viewIndex = ViewItemFilterBlockViewModels.IndexOf(targetCommentBlockViewModelBase);
+            for (int i = sectionIndex + 1; i < ItemFilterBlockViewModels.Count; i++)
+            {
+                var block = ItemFilterBlockViewModels[i] as IItemFilterBlockViewModel;
+                if (block != null)
+                {
+                    if (newState)
+                        viewIndex++;
+
+                    if (newState == block.IsVisible)
+                    {
+                        continue;
+                    }
+
+                    if(updateViewModels)
+                    {
+                        if(newState)
+                        {
+                            if(viewIndex < ViewItemFilterBlockViewModels.Count)
+                            {
+                                ViewItemFilterBlockViewModels.Insert(viewIndex, block);
+                            }
+                            else
+                            {
+                                ViewItemFilterBlockViewModels.Add(block);
+                            }
+                        }
+                        else
+                        {
+                            ViewItemFilterBlockViewModels.RemoveAt(viewIndex + 1);
+                        }
+                    }
+                    block.IsVisible = newState;
+                }
+                else
+                    break;
+            }
+        }
+
+        private void UpdateBlockModelsForView()
+        {
+            ObservableCollection<IItemFilterBlockViewModelBase> blocksForView = new ObservableCollection<IItemFilterBlockViewModelBase>();
+            for (var i = 0; i < ItemFilterBlockViewModels.Count; i++)
+            {
+                var block = ItemFilterBlockViewModels[i];
+                if (block.IsVisible)
+                {
+                    blocksForView.Add(block);
+
+                    var blockAsComment = block as IItemFilterCommentBlockViewModel;
+                    if(blockAsComment != null && i < (ItemFilterBlockViewModels.Count - 1))
+                    {
+                        var followingBlock = ItemFilterBlockViewModels[i + 1] as IItemFilterBlockViewModel;
+                        if(followingBlock != null)
+                        {
+                            blockAsComment.HasChild = true;
+                        }
+                        else
+                        {
+                            blockAsComment.HasChild = false;
+                        }
+                    }
+                }
+            }
+
+            ViewItemFilterBlockViewModels = blocksForView;
+        }
+
+        private void CollapseAllSections()
+        {
+            ObservableCollection<IItemFilterBlockViewModelBase> blocksForView = new ObservableCollection<IItemFilterBlockViewModelBase>();
+            for (int i = 0; i < ItemFilterBlockViewModels.Count; i++)
+            {
+                var block = ItemFilterBlockViewModels[i] as IItemFilterCommentBlockViewModel;
+                if (block != null)
+                {
+                    blocksForView.Add(block);
+
+                    if(block.IsExpanded)
+                    {
+                        ToggleSection(block, false);
+                    }
+                }
+            }
+
+            if (SelectedBlockViewModel == null && blocksForView.Count > 0)
+            {
+                SelectedBlockViewModel = blocksForView[0];
+            }
+
+            ViewItemFilterBlockViewModels = blocksForView;
+        }
+
+        private void ExpandAllSections()
+        {
+            ObservableCollection<IItemFilterBlockViewModelBase> blocksForView = new ObservableCollection<IItemFilterBlockViewModelBase>();
+            for (int i = 0; i < ItemFilterBlockViewModels.Count; i++)
+            {
+                blocksForView.Add(ItemFilterBlockViewModels[i]);
+
+                var block = ItemFilterBlockViewModels[i] as IItemFilterCommentBlockViewModel;
+                if (block != null && !block.IsExpanded)
+                {
+                    ToggleSection(block, false);
+                }
+            }
+
+            if(SelectedBlockViewModel == null && blocksForView.Count > 0)
+            {
+                SelectedBlockViewModel = blocksForView[0];
+            }
+
+            ViewItemFilterBlockViewModels = blocksForView;
         }
     }
 }

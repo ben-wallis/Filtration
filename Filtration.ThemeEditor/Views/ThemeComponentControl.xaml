@@ -7,6 +7,8 @@
              xmlns:commonConverters="clr-namespace:Filtration.Common.Converters;assembly=Filtration.Common"
              xmlns:themeEditor="clr-namespace:Filtration.ObjectModel.ThemeEditor;assembly=Filtration.ObjectModel"
              xmlns:views="clr-namespace:Filtration.ThemeEditor.Views"
+             xmlns:extensions="clr-namespace:Filtration.Common.Extensions;assembly=Filtration.Common"
+             xmlns:enums="clr-namespace:Filtration.ObjectModel.Enums;assembly=Filtration.ObjectModel"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=themeEditor:ThemeComponent}"
              d:DesignHeight="100" d:DesignWidth="200">
@@ -17,7 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.Resources>
             <DataTemplate x:Key="EditableComponentNameTemplate">
@@ -58,6 +60,79 @@
                 </Style>
             </ContentControl.Style>
         </ContentControl>
-        <xctk:ColorPicker Grid.Row="2" SelectedColor="{Binding Color}" />
+        <ContentControl Grid.Row="2" Content="{Binding Mode=OneWay}">
+            <ContentControl.Resources>
+                <!-- Color Theme Template -->
+                <DataTemplate  DataType="{x:Type themeEditor:ColorThemeComponent}">
+                    <xctk:ColorPicker SelectedColor="{Binding Color}" />
+                </DataTemplate>
+
+                <!-- Integer Theme Template -->
+                <DataTemplate  DataType="{x:Type themeEditor:IntegerThemeComponent}">
+                    <xctk:ShortUpDown Value="{Binding Value}" />
+                </DataTemplate>
+
+                <!-- String Integer Theme Template -->
+                <DataTemplate  DataType="{x:Type themeEditor:StrIntThemeComponent}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Text="{Binding Value}" Height="25" Padding="2,-15,0,0" />
+                        <xctk:ShortUpDown Grid.Column="1" Value="{Binding SecondValue}" HorizontalAlignment="Right"/>
+                    </Grid>
+                </DataTemplate>
+
+                <!--TODO:File block type and string block type should be separate-->
+                <!-- Custom Sound Theme Template -->
+                <DataTemplate DataType="{x:Type themeEditor:StringThemeComponent}">
+                    <Grid>
+                        <!--TODO: Add play sound support-->
+                        <!--<Button Grid.Column="0" Command="{Binding PlayCustomSoundCommand}" Width="20" Height="20" Background="Transparent" BorderBrush="Transparent">
+                            <Image Source="/Filtration.ThemeEditor;component/Resources/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Button>-->
+                        <ComboBox ItemsSource="{Binding CustomSoundsAvailable}" 
+                                      SelectedValue="{Binding Value}" Style="{StaticResource MetroComboBox}"/>
+                        <Button Command="{Binding CustomSoundFileDialogCommand}"
+                                    Width="20" Height="20" Background="Transparent" BorderBrush="Transparent" Margin="0,0,30,0" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <Image Source="/Filtration.ThemeEditor;component/Resources/open_icon.png"/>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+
+                 <!--Icon Theme Template--> 
+                <DataTemplate  DataType="{x:Type themeEditor:IconThemeComponent}">
+                    <StackPanel Orientation="Vertical" Margin="5,5,5,5">
+                        <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:IconSize}}}" Style="{StaticResource MetroComboBox}"
+                                                              DisplayMemberPath="Description"
+                                                              SelectedValue="{Binding IconSize}"
+                                                              SelectedValuePath="Value" />
+                        <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:IconColor}}}" Style="{StaticResource MetroComboBox}"
+                                                              DisplayMemberPath="Description"
+                                                              SelectedValue="{Binding IconColor}"
+                                                              SelectedValuePath="Value" />
+                        <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:IconShape}}}" Style="{StaticResource MetroComboBox}"
+                                                              DisplayMemberPath="Description"
+                                                              SelectedValue="{Binding IconShape}"
+                                                              SelectedValuePath="Value" />
+                    </StackPanel>
+                </DataTemplate>
+
+                 <!--Effect Color Theme Template--> 
+                <DataTemplate  DataType="{x:Type themeEditor:EffectColorThemeComponent}">
+                    <StackPanel>
+                        <WrapPanel VerticalAlignment="Center" Margin="5,5,5,5">
+                            <RadioButton IsChecked="{Binding Temporary, Converter={StaticResource BoolInverterConverter}}" Margin="0,0,10,0">Permanent</RadioButton>
+                            <RadioButton IsChecked="{Binding Temporary}" >Temporary</RadioButton>
+                        </WrapPanel>
+                        <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:EffectColor}}}" Style="{StaticResource MetroComboBox}"
+                                                              DisplayMemberPath="Description"
+                                                              SelectedValue="{Binding EffectColor}"
+                                                              SelectedValuePath="Value" />
+                    </StackPanel>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
 </UserControl>

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Filtration.Views.AboutWindow"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      xmlns:extensions="clr-namespace:Filtration.Extensions"
+                      xmlns:extensions="clr-namespace:Filtration.Common.Extensions;assembly=Filtration.Common"
                       Title="About Filtration"
                       Height="360"
                       Width="580"
