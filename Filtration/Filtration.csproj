@@ -167,12 +167,11 @@
     <Compile Include="Converters\BooleanToBlockActionInverseConverter.cs" />
     <Compile Include="Converters\BooleanToBlockActionConverter.cs" />
     <Compile Include="Converters\BlockItemToRemoveEnabledVisibilityConverter.cs" />
-    <Compile Include="Converters\DropIconConverter.cs" />
+    <Compile Include="Converters\SizeColorToRectConverter.cs" />
     <Compile Include="Converters\HashSignRemovalConverter.cs" />
+    <Compile Include="Converters\IconShapeToSourceConverter.cs" />
     <Compile Include="Converters\ItemRarityConverter.cs" />
     <Compile Include="Converters\TreeViewMarginConverter.cs" />
-    <Compile Include="Extensions\EnumerationExtension.cs" />
-    <Compile Include="Extensions\HyperlinkExtensions.cs" />
     <Compile Include="Models\UpdateData.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repositories\ItemFilterScriptRepository.cs" />
@@ -546,13 +545,13 @@
     </None>
     <Resource Include="Resources\Icons\redo_icon.png" />
     <Resource Include="Resources\Icons\undo_icon.png" />
-    <Resource Include="Resources\DropIcons\Icon1.png" />
-    <Resource Include="Resources\DropIcons\Icon2.png" />
-    <Resource Include="Resources\DropIcons\Icon3.png" />
-    <Resource Include="Resources\DropIcons\Icon4.png" />
-    <Resource Include="Resources\DropIcons\Icon5.png" />
-    <Resource Include="Resources\DropIcons\Icon6.png" />
     <Resource Include="Resources\DropIcons\NoIcon.png" />
+    <Resource Include="Resources\DropIcons\Circle.png" />
+    <Resource Include="Resources\DropIcons\Diamond.png" />
+    <Resource Include="Resources\DropIcons\Hexagon.png" />
+    <Resource Include="Resources\DropIcons\Square.png" />
+    <Resource Include="Resources\DropIcons\Star.png" />
+    <Resource Include="Resources\DropIcons\Triangle.png" />
     <Content Include="Resources\ItemBaseTypes.txt" />
     <Content Include="Resources\ItemClasses.txt" />
   </ItemGroup>

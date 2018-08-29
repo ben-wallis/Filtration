@@ -18,7 +18,8 @@
                 <ResourceDictionary>
                     <views:BindingProxy x:Key="Proxy" Data="{Binding}" />
                     <converters:BlockGroupAdvancedFillColorConverter x:Key="BlockGroupAdvancedFillColorConverter" />
-                    <converters:DropIconConverter x:Key="DropIconConverter"/>
+                    <converters:IconShapeToSourceConverter x:Key="IconShapeToSourceConverter"/>
+                    <converters:SizeColorToRectConverter x:Key="SizeColorToRectConverter"/>
                     <Style TargetType="{x:Type ContentPresenter}" x:Key="BlockItemFadeInStyle">
                         <Setter Property="LayoutTransform">
                             <Setter.Value>
@@ -131,12 +132,19 @@
 
                             <!-- Item Preview Box -->
                             <WrapPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
-                                <Image Source="{Binding DisplayIcon, Converter={StaticResource DropIconConverter}, Mode=OneWay}" Width="30" Height="30" Margin="0,0,10,0" />
-                                <Line Y2="41" StrokeThickness="2" Stroke="{Binding DisplayBeamColor, Converter={StaticResource ColorToSolidColorBrushConverter}, Mode=OneWay}" Margin="0,2,10,0" >
-                                    <Line.Effect>
-                                        <DropShadowEffect BlurRadius="5" ShadowDepth="0" Color="{Binding DisplayBeamColor, Mode=OneWay}" Direction="0"/>
-                                    </Line.Effect>
-                                </Line>
+                                <Rectangle Height="40" Width="40" Margin="0,0,10,0">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="{Binding DisplayIconShape, Converter={StaticResource IconShapeToSourceConverter}, Mode=OneWay}"
+                                            ViewboxUnits="Absolute" Stretch="Fill">
+                                            <ImageBrush.Viewbox>
+                                                <MultiBinding Converter="{StaticResource SizeColorToRectConverter}">
+                                                    <Binding Path="DisplayIconSize"/>
+                                                    <Binding Path="DisplayIconColor"/>
+                                                </MultiBinding>
+                                            </ImageBrush.Viewbox>
+                                        </ImageBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
                                 <Button Command="{Binding PlaySoundCommand}"
                                         Width="25"
                                         Height="25"
@@ -173,7 +181,14 @@
                                         ToolTip="Click to preview drop sound">
                                     <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Button>
-                                <ToggleButton Margin="0,2,2,2"
+                                <Line Y1="5" Y2="38" StrokeThickness="2" Panel.ZIndex="999"
+                                      Stroke="{Binding DisplayEffectColor, Converter={StaticResource ColorToSolidColorBrushConverter}, Mode=OneWay}"
+                                      Margin="10,2,0,0" >
+                                    <Line.Effect>
+                                        <DropShadowEffect BlurRadius="5" ShadowDepth="0" Color="{Binding DisplayEffectColor, Mode=OneWay}" Direction="0"/>
+                                    </Line.Effect>
+                                </Line>
+                                <ToggleButton Margin="-10,2,2,2"
                                               Style="{StaticResource ChromelessToggleButton}"
                                               x:Name="ItemPreviewButton"
                                               IsChecked="{Binding AudioVisualBlockItemsGridVisible}"

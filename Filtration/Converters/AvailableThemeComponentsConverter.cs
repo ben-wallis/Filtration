@@ -45,6 +45,14 @@ namespace Filtration.Converters
             {
                 themeComponentType = ThemeComponentType.CustomSound;
             }
+            else if (blockItem.GetType() == typeof(MapIconBlockItem))
+            {
+                themeComponentType = ThemeComponentType.Icon;
+            }
+            else if (blockItem.GetType() == typeof(PlayEffectBlockItem))
+            {
+                themeComponentType = ThemeComponentType.Effect;
+            }
             else
             {
                 return null;

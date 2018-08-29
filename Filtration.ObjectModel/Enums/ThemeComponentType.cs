@@ -15,6 +15,10 @@ namespace Filtration.ObjectModel.Enums
         [Description("Alert Sound")]
         AlertSound,
         [Description("Custom Sound")]
-        CustomSound
+        CustomSound,
+        [Description("Icon")]
+        Icon,
+        [Description("Effect")]
+        Effect
     }
 }

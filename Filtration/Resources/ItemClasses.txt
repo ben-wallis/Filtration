@@ -9,6 +9,7 @@ Bows
 Claws
 Currency
 Daggers
+Delve Stackable Currency
 Divination Card
 Fishing Rods
 Flasks

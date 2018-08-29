@@ -211,6 +211,12 @@ namespace Filtration.ThemeEditor.ViewModels
                 case ThemeComponentType.CustomSound:
                     Components.Add(new StringThemeComponent(themeComponentType, "Untitled Component", "placeholder.mp3"));
                     break;
+                case ThemeComponentType.Icon:
+                    Components.Add(new IconThemeComponent(themeComponentType, "Untitled Component", IconSize.Largest, IconColor.Red, IconShape.Circle));
+                    break;
+                case ThemeComponentType.Effect:
+                    Components.Add(new EffectColorThemeComponent(themeComponentType, "Untitled Component", EffectColor.Red, false));
+                    break;
             }
         }
 

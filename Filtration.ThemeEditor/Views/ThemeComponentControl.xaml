@@ -7,7 +7,8 @@
              xmlns:commonConverters="clr-namespace:Filtration.Common.Converters;assembly=Filtration.Common"
              xmlns:themeEditor="clr-namespace:Filtration.ObjectModel.ThemeEditor;assembly=Filtration.ObjectModel"
              xmlns:views="clr-namespace:Filtration.ThemeEditor.Views"
-             xmlns:viewModels="clr-namespace:Filtration.ThemeEditor.ViewModels"
+             xmlns:extensions="clr-namespace:Filtration.Common.Extensions;assembly=Filtration.Common"
+             xmlns:enums="clr-namespace:Filtration.ObjectModel.Enums;assembly=Filtration.ObjectModel"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=themeEditor:ThemeComponent}"
              d:DesignHeight="100" d:DesignWidth="200">
@@ -18,7 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.Resources>
             <DataTemplate x:Key="EditableComponentNameTemplate">
@@ -98,6 +99,38 @@
                             <Image Source="/Filtration.ThemeEditor;component/Resources/open_icon.png"/>
                         </Button>
                     </Grid>
+                </DataTemplate>
+
+                 <!--Icon Theme Template--> 
+                <DataTemplate  DataType="{x:Type themeEditor:IconThemeComponent}">
+                    <StackPanel Orientation="Vertical" Margin="5,5,5,5">
+                        <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:IconSize}}}" Style="{StaticResource MetroComboBox}"
+                                                              DisplayMemberPath="Description"
+                                                              SelectedValue="{Binding IconSize}"
+                                                              SelectedValuePath="Value" />
+                        <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:IconColor}}}" Style="{StaticResource MetroComboBox}"
+                                                              DisplayMemberPath="Description"
+                                                              SelectedValue="{Binding IconColor}"
+                                                              SelectedValuePath="Value" />
+                        <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:IconShape}}}" Style="{StaticResource MetroComboBox}"
+                                                              DisplayMemberPath="Description"
+                                                              SelectedValue="{Binding IconShape}"
+                                                              SelectedValuePath="Value" />
+                    </StackPanel>
+                </DataTemplate>
+
+                 <!--Effect Color Theme Template--> 
+                <DataTemplate  DataType="{x:Type themeEditor:EffectColorThemeComponent}">
+                    <StackPanel>
+                        <WrapPanel VerticalAlignment="Center" Margin="5,5,5,5">
+                            <RadioButton IsChecked="{Binding Temporary, Converter={StaticResource BoolInverterConverter}}" Margin="0,0,10,0">Permanent</RadioButton>
+                            <RadioButton IsChecked="{Binding Temporary}" >Temporary</RadioButton>
+                        </WrapPanel>
+                        <ComboBox ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:EffectColor}}}" Style="{StaticResource MetroComboBox}"
+                                                              DisplayMemberPath="Description"
+                                                              SelectedValue="{Binding EffectColor}"
+                                                              SelectedValuePath="Value" />
+                    </StackPanel>
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>

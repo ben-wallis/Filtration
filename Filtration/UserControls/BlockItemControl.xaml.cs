@@ -90,10 +90,6 @@ namespace Filtration.UserControls
             "ShFusing", "ShRegal", "ShVaal"
         };
 
-        public List<string> IconsAvailable => new List<string> {
-            "Icon1", "Icon2", "Icon3", "Icon4", "Icon5", "Icon6"
-        };
-
         private void OnSetBlockValueCommmand()
         {
             var blockItemWithTheme = BlockItem as IBlockItemWithTheme;
@@ -120,6 +116,17 @@ namespace Filtration.UserControls
                 case ThemeComponentType.CustomSound:
                     var stringBlockItem = BlockItem as StringBlockItem;
                     stringBlockItem.Value = ((StringThemeComponent)stringBlockItem.ThemeComponent).Value;
+                    break;
+                case ThemeComponentType.Icon:
+                    var iconBlockItem = BlockItem as IconBlockItem;
+                    iconBlockItem.Size = ((IconThemeComponent)iconBlockItem.ThemeComponent).IconSize;
+                    iconBlockItem.Color = ((IconThemeComponent)iconBlockItem.ThemeComponent).IconColor;
+                    iconBlockItem.Shape = ((IconThemeComponent)iconBlockItem.ThemeComponent).IconShape;
+                    break;
+                case ThemeComponentType.Effect:
+                    var effectColorBlockItem = BlockItem as EffectColorBlockItem;
+                    effectColorBlockItem.Color = ((EffectColorThemeComponent)effectColorBlockItem.ThemeComponent).EffectColor;
+                    effectColorBlockItem.Temporary = ((EffectColorThemeComponent)effectColorBlockItem.ThemeComponent).Temporary;
                     break;
             }
         }

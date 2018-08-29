@@ -23,8 +23,10 @@ namespace Filtration.ObjectModel
         Color DisplayTextColor { get; }
         Color DisplayBorderColor { get; }
         double DisplayFontSize { get; }
-        string DisplayIcon { get; }
-        Color DisplayBeamColor { get; }
+        int DisplayIconSize { get; }
+        int DisplayIconColor { get; }
+        int DisplayIconShape { get; }
+        Color DisplayEffectColor { get; }
         bool HasBlockItemOfType<T>();
         bool HasBlockGroupInParentHierarchy(ItemFilterBlockGroup targetBlockGroup, ItemFilterBlockGroup startingBlockGroup);
     }
@@ -263,21 +265,68 @@ namespace Filtration.ObjectModel
             }
         }
 
-        public string DisplayIcon
+        public int DisplayIconSize
         {
             get
             {
-                var displayIcon = BlockItems.OfType<IconBlockItem>().FirstOrDefault();
-                return (displayIcon != null) ? displayIcon.Value : "";
+                var mapIconBlockItem = BlockItems.OfType<MapIconBlockItem>().FirstOrDefault();
+                if (mapIconBlockItem != null)
+                    return (int)mapIconBlockItem.Size;
+
+                return -1;
             }
         }
 
-        public Color DisplayBeamColor
+        public int DisplayIconColor
         {
             get
             {
-                var beamBlockItem = BlockItems.OfType<BeamBlockItem>().FirstOrDefault();
-                return beamBlockItem?.Color ?? new Color { A = 0, R = 0, G = 0, B = 0 };
+                var mapIconBlockItem = BlockItems.OfType<MapIconBlockItem>().FirstOrDefault();
+                if (mapIconBlockItem != null)
+                    return (int)mapIconBlockItem.Color;
+
+                return -1;
+            }
+        }
+
+        public int DisplayIconShape
+        {
+            get
+            {
+                var mapIconBlockItem = BlockItems.OfType<MapIconBlockItem>().FirstOrDefault();
+                if (mapIconBlockItem != null)
+                    return (int)mapIconBlockItem.Shape;
+
+                return -1;
+            }
+        }
+
+        public Color DisplayEffectColor
+        {
+            get
+            {
+                var beamBlockItem = BlockItems.OfType<PlayEffectBlockItem>().FirstOrDefault();
+
+                if (beamBlockItem != null)
+                {
+                    switch (beamBlockItem.Color)
+                    {
+                        case EffectColor.Red:
+                            return Colors.Red;
+                        case EffectColor.Green:
+                            return Colors.Green;
+                        case EffectColor.Blue:
+                            return Colors.Blue;
+                        case EffectColor.Brown:
+                            return Colors.Brown;
+                        case EffectColor.White:
+                            return Colors.White;
+                        case EffectColor.Yellow:
+                            return Colors.Yellow;
+                    }
+                }
+
+                return Colors.Transparent;
             }
         }
     }

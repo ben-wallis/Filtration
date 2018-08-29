@@ -16,6 +16,6 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string PrefixText => "CustomAlertSound";
         public override int MaximumAllowed => 1;
         public override string DisplayHeading => "Custom Alert Sound";
-        public override int SortOrder => 30;
+        public override int SortOrder => 31;
     }
 }

@@ -21,7 +21,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string SummaryText => "Height " + FilterPredicate;
         public override Color SummaryBackgroundColor => Colors.LightBlue;
         public override Color SummaryTextColor => Colors.Black;
-        public override int SortOrder => 11;
+        public override int SortOrder => 12;
         public override int Minimum => 0;
         public override int Maximum => 6;
     }

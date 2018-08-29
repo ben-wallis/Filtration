@@ -17,7 +17,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string DisplayHeading => "Disable Drop Sound";
         public override Color SummaryBackgroundColor => Colors.Transparent;
         public override Color SummaryTextColor => Colors.Transparent;
-        public override int SortOrder => 27;
+        public override int SortOrder => 28;
 
     }
 }

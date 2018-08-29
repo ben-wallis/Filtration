@@ -310,36 +310,59 @@ namespace Filtration.Parser.Services
                         AddBooleanItemToBlockItems<DisableDropSoundBlockItem>(block, trimmedLine);
                         break;
                     }
-                    case "Icon":
+                    case "MinimapIcon":
                     {
                         // Only ever use the last Icon item encountered as multiples aren't valid.
-                        RemoveExistingBlockItemsOfType<IconBlockItem>(block);
-
-                        var match = Regex.Match(trimmedLine, @"\S+\s+""(\S+)""");
+                        RemoveExistingBlockItemsOfType<MapIconBlockItem>(block);
+                        
+                        // TODO: Get size, color, shape values programmatically
+                        var match = Regex.Match(trimmedLine,
+                            @"\S+\s+(0|1|2)\s+(Red|Green|Blue|Brown|White|Yellow)\s+(Circle|Diamond|Hexagon|Square|Star|Triangle)\s*([#]?)(.*)",
+                            RegexOptions.IgnoreCase);
                         
                         if (match.Success)
                         {
-                            var blockItemValue = new IconBlockItem
+                            var blockItemValue = new MapIconBlockItem
                             {
-                                Value = match.Groups[1].Value
+                                Size = (IconSize)Int16.Parse(match.Groups[1].Value),
+                                Color = EnumHelper.GetEnumValueFromDescription<IconColor>(match.Groups[2].Value),
+                                Shape = EnumHelper.GetEnumValueFromDescription<IconShape>(match.Groups[3].Value)
                             };
+                                
+                            if(match.Groups[4].Value == "#" && !string.IsNullOrWhiteSpace(match.Groups[5].Value))
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.Icon, match.Groups[5].Value.Trim(),
+                                    blockItemValue.Size, blockItemValue.Color, blockItemValue.Shape);
+                                blockItemValue.ThemeComponent = themeComponent;
+                            }
                             block.BlockItems.Add(blockItemValue);
                         }
                         break;
                     }
-                    case "BeamColor":
+                    case "PlayEffect":
                     {
                         // Only ever use the last BeamColor item encountered as multiples aren't valid.
-                        RemoveExistingBlockItemsOfType<BeamBlockItem>(block);
+                        RemoveExistingBlockItemsOfType<PlayEffectBlockItem>(block);
                         
-                        var result = Regex.Matches(trimmedLine, @"([\w\s]*)(True|False)[#]?(.*)", RegexOptions.IgnoreCase);
-                        var color = GetColorFromString(result[0].Groups[1].Value);
-                        var beamBlockItem = new BeamBlockItem
+                        // TODO: Get colors programmatically
+                        var match = Regex.Match(trimmedLine, @"\S+\s+(Red|Green|Blue|Brown|White|Yellow)\s+(Temp)?\s*([#]?)(.*)", RegexOptions.IgnoreCase);
+                        
+                        if (match.Success)
                         {
-                            Color = GetColorFromString(result[0].Groups[1].Value),
-                            BooleanValue = result[0].Groups[2].Value.Trim().ToLowerInvariant() == "true"
-                        };
-                        block.BlockItems.Add(beamBlockItem);
+                            var blockItemValue = new PlayEffectBlockItem
+                            {
+                                Color = EnumHelper.GetEnumValueFromDescription<EffectColor>(match.Groups[1].Value),
+                                Temporary = match.Groups[2].Value.Trim().ToLower() == "temp"
+                            };
+                                
+                            if(match.Groups[3].Value == "#" && !string.IsNullOrWhiteSpace(match.Groups[4].Value))
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.Effect, match.Groups[4].Value.Trim(),
+                                    blockItemValue.Color, blockItemValue.Temporary);
+                                blockItemValue.ThemeComponent = themeComponent;
+                            }
+                            block.BlockItems.Add(blockItemValue);
+                        }
                         break;
                     }
                     case "CustomAlertSound":
@@ -365,6 +388,11 @@ namespace Filtration.Parser.Services
                             }
                             block.BlockItems.Add(blockItemValue);
                         }
+                        break;
+                    }
+                    case "MapTier":
+                    {
+                        AddNumericFilterPredicateItemToBlockItems<MapTierBlockItem>(block, trimmedLine);
                         break;
                     }
                 }
@@ -640,12 +668,6 @@ namespace Filtration.Parser.Services
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var blockItem in block.BlockItems.Where(b => b.GetType() != typeof(ActionBlockItem)).OrderBy(b => b.SortOrder))
             {
-                // Do not save temporary blocks until the new features are fully implemented
-                if (blockItem is IconBlockItem || blockItem is BeamBlockItem)
-                {
-                    continue;
-                }
-
                 if (blockItem.OutputText != string.Empty)
                 {
                     outputString += (!block.Enabled ? _disabledNewLine : _newLine) + blockItem.OutputText;

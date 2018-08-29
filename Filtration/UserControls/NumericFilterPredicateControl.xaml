@@ -5,7 +5,7 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:extensions="clr-namespace:Filtration.Extensions"
+             xmlns:extensions="clr-namespace:Filtration.Common.Extensions;assembly=Filtration.Common"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
              xmlns:enums="clr-namespace:Filtration.ObjectModel.Enums;assembly=Filtration.ObjectModel"
              mc:Ignorable="d" 

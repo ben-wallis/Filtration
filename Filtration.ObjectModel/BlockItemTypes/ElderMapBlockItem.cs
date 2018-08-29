@@ -17,7 +17,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string DisplayHeading => "Elder Map";
         public override Color SummaryBackgroundColor => Colors.DarkGoldenrod;
         public override Color SummaryTextColor => Colors.White;
-        public override int SortOrder => 9;
+        public override int SortOrder => 10;
 
     }
 }

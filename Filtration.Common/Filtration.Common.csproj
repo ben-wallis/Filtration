@@ -75,6 +75,8 @@
     <Compile Include="Converters\ColorToSolidColorBrushConverter.cs" />
     <Compile Include="Converters\InverseBooleanVisibilityConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Extensions\EnumerationExtension.cs" />
+    <Compile Include="Extensions\HyperlinkExtensions.cs" />
     <Compile Include="Messages\ThemeClosedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FileSystemService.cs" />

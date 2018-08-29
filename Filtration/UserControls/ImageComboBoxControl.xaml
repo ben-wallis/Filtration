@@ -8,7 +8,7 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <Converters:DropIconConverter x:Key="DropIconConverter"/>
+        <Converters:SizeColorToRectConverter x:Key="DropIconConverter"/>
     </UserControl.Resources>
 
     <Grid>

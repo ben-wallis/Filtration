@@ -8,6 +8,7 @@ using System.Windows.Media;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
+using Filtration.ObjectModel.Enums;
 using Filtration.Services;
 using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -181,6 +182,7 @@ namespace Filtration.ViewModels
             typeof (CorruptedBlockItem),
             typeof (ElderItemBlockItem),
             typeof (ShaperItemBlockItem),
+            typeof (MapTierBlockItem),
             typeof (ShapedMapBlockItem),
             typeof (ElderMapBlockItem),
             typeof (GemLevelBlockItem),
@@ -197,8 +199,8 @@ namespace Filtration.ViewModels
             typeof (SoundBlockItem),
             typeof (PositionalSoundBlockItem),
             typeof (DisableDropSoundBlockItem),
-            typeof (IconBlockItem),
-            typeof (BeamBlockItem),
+            typeof (MapIconBlockItem),
+            typeof (PlayEffectBlockItem),
             typeof (CustomSoundBlockItem)
         };
 
@@ -241,8 +243,10 @@ namespace Filtration.ViewModels
         public Color DisplayBackgroundColor => Block.DisplayBackgroundColor;
         public Color DisplayBorderColor => Block.DisplayBorderColor;
         public double DisplayFontSize => Block.DisplayFontSize/1.8;
-        public string DisplayIcon => Block.DisplayIcon;
-        public Color DisplayBeamColor => Block.DisplayBeamColor;
+        public int DisplayIconSize => Block.DisplayIconSize;
+        public int DisplayIconColor => Block.DisplayIconColor;
+        public int DisplayIconShape => Block.DisplayIconShape;
+        public Color DisplayEffectColor => Block.DisplayEffectColor;
 
         public bool HasSound => Block.HasBlockItemOfType<SoundBlockItem>();
         public bool HasPositionalSound => Block.HasBlockItemOfType<PositionalSoundBlockItem>();
@@ -476,8 +480,10 @@ namespace Filtration.ViewModels
             RaisePropertyChanged(nameof(DisplayBackgroundColor));
             RaisePropertyChanged(nameof(DisplayBorderColor));
             RaisePropertyChanged(nameof(DisplayFontSize));
-            RaisePropertyChanged(nameof(DisplayIcon));
-            RaisePropertyChanged(nameof(DisplayBeamColor));
+            RaisePropertyChanged(nameof(DisplayIconSize));
+            RaisePropertyChanged(nameof(DisplayIconColor));
+            RaisePropertyChanged(nameof(DisplayIconShape));
+            RaisePropertyChanged(nameof(DisplayEffectColor));
             RaisePropertyChanged(nameof(HasSound));
             RaisePropertyChanged(nameof(HasPositionalSound));
             RaisePropertyChanged(nameof(HasCustomSound));

@@ -61,6 +61,32 @@ namespace Filtration.ObjectModel.ThemeEditor
             return component;
         }
 
+        public ThemeComponent AddComponent(ThemeComponentType componentType, string componentName, IconSize componentIconSize, IconColor componentIconColor, IconShape componentIconShape)
+        {
+            if (ComponentExists(componentType, componentName))
+            {
+                return Items.FirstOrDefault(t => t.ComponentName == componentName && t.ComponentType == componentType);
+            }
+
+            var component = new IconThemeComponent(componentType, componentName, componentIconSize, componentIconColor, componentIconShape);
+            Items.Add(component);
+
+            return component;
+        }
+
+        public ThemeComponent AddComponent(ThemeComponentType componentType, string componentName, EffectColor componentEffectColor, bool componentTemporary)
+        {
+            if (ComponentExists(componentType, componentName))
+            {
+                return Items.FirstOrDefault(t => t.ComponentName == componentName && t.ComponentType == componentType);
+            }
+
+            var component = new EffectColorThemeComponent(componentType, componentName, componentEffectColor, componentTemporary);
+            Items.Add(component);
+
+            return component;
+        }
+
         private bool ComponentExists(ThemeComponentType componentType, string componentName)
         {
             var componentCount =

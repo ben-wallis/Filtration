@@ -132,6 +132,8 @@
                     <fluent:Button SizeDefinition="Middle" Header="Add Font Size" Icon="{StaticResource AddIcon}" Command="{Binding AddFontSizeThemeComponentCommand}" />
                     <fluent:Button SizeDefinition="Middle" Header="Add Alert Sound" Icon="{StaticResource AddIcon}" Command="{Binding AddAlertSoundThemeComponentCommand}" />
                     <fluent:Button SizeDefinition="Middle" Header="Add Custom Sound" Icon="{StaticResource AddIcon}" Command="{Binding AddCustomSoundThemeComponentCommand}" />
+                    <fluent:Button SizeDefinition="Middle" Header="Add Icon" Icon="{StaticResource AddIcon}" Command="{Binding AddIconThemeComponentCommand}" />
+                    <fluent:Button SizeDefinition="Middle" Header="Add Effect Color" Icon="{StaticResource AddIcon}" Command="{Binding AddEffectColorThemeComponentCommand}" />
                 </fluent:RibbonGroupBox>
                 <fluent:RibbonGroupBox Header="Delete">
                     <fluent:Button Header="Delete Theme Component" Icon="{StaticResource ThemeComponentDeleteIcon}" LargeIcon="{StaticResource ThemeComponentDeleteIcon}" Command="{Binding DeleteThemeComponentCommand}" />

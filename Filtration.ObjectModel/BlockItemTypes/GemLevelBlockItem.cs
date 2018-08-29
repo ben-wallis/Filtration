@@ -21,7 +21,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string SummaryText => "Gem Level " + FilterPredicate;
         public override Color SummaryBackgroundColor => Colors.DarkSlateGray;
         public override Color SummaryTextColor => Colors.White;
-        public override int SortOrder => 15;
+        public override int SortOrder => 16;
         public override int Minimum => 0;
         public override int Maximum => 21;
     }

@@ -117,6 +117,8 @@ namespace Filtration.ViewModels
             AddFontSizeThemeComponentCommand = new RelayCommand(OnAddFontSizeThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             AddAlertSoundThemeComponentCommand = new RelayCommand(OnAddAlertSoundThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             AddCustomSoundThemeComponentCommand = new RelayCommand(OnAddCustomSoundThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
+            AddIconThemeComponentCommand = new RelayCommand(OnAddIconThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
+            AddEffectColorThemeComponentCommand = new RelayCommand(OnAddEffectColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             DeleteThemeComponentCommand = new RelayCommand(OnDeleteThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable && _avalonDockWorkspaceViewModel.ActiveThemeViewModel.SelectedThemeComponent != null);
 
             ExpandAllBlocksCommand = new RelayCommand(OnExpandAllBlocksCommand, () => ActiveDocumentIsScript);
@@ -219,6 +221,8 @@ namespace Filtration.ViewModels
         public RelayCommand AddFontSizeThemeComponentCommand { get; }
         public RelayCommand AddAlertSoundThemeComponentCommand { get; }
         public RelayCommand AddCustomSoundThemeComponentCommand { get; }
+        public RelayCommand AddIconThemeComponentCommand { get; }
+        public RelayCommand AddEffectColorThemeComponentCommand { get; }
         public RelayCommand DeleteThemeComponentCommand { get; }
 
         public RelayCommand AddBlockCommand { get; }
@@ -696,6 +700,16 @@ namespace Filtration.ViewModels
         private void OnAddCustomSoundThemeComponentCommand()
         {
             _avalonDockWorkspaceViewModel.ActiveThemeViewModel.AddThemeComponentCommand.Execute(ThemeComponentType.CustomSound);
+        }
+
+        private void OnAddIconThemeComponentCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveThemeViewModel.AddThemeComponentCommand.Execute(ThemeComponentType.Icon);
+        }
+
+        private void OnAddEffectColorThemeComponentCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveThemeViewModel.AddThemeComponentCommand.Execute(ThemeComponentType.Effect);
         }
 
         private void OnDeleteThemeComponentCommand()

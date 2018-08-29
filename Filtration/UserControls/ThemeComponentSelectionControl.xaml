@@ -67,6 +67,14 @@
                                                         <DataTemplate DataType="{x:Type themeEditor:StringThemeComponent}">
                                                             <!--TODO: How to show theese?-->
                                                         </DataTemplate>
+
+                                                        <DataTemplate DataType="{x:Type themeEditor:IconThemeComponent}">
+                                                            <!--TODO: How to show theese?-->
+                                                        </DataTemplate>
+
+                                                        <DataTemplate DataType="{x:Type themeEditor:EffectColorThemeComponent}">
+                                                            <!--TODO: How to show theese?-->
+                                                        </DataTemplate>
                                                     </ContentControl.Resources>
                                                 </ContentControl>
                                             </Grid>
