@@ -345,7 +345,7 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<PlayEffectBlockItem>(block);
                         
                         // TODO: Get colors programmatically
-                        var match = Regex.Match(trimmedLine, @"\S+\s+(Red|Green|Blue|Brown|White|Yellow)\s+(Temp)?\s*([#]?)(.*)", RegexOptions.IgnoreCase);
+                        var match = Regex.Match(trimmedLine, @"\S+\s+(Red|Green|Blue|Brown|White|Yellow)\s*(Temp)?\s*([#]?)(.*)", RegexOptions.IgnoreCase);
                         
                         if (match.Success)
                         {
