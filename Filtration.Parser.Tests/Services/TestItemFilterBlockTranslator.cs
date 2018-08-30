@@ -1868,6 +1868,7 @@ namespace Filtration.Parser.Tests.Services
                                  "    Corrupted False" + Environment.NewLine +
                                  "    ElderItem True" + Environment.NewLine +
                                  "    ShaperItem False" + Environment.NewLine +
+                                 "    MapTier < 10" + Environment.NewLine +
                                  "    ShapedMap True" + Environment.NewLine +
                                  "    ElderMap True" + Environment.NewLine +
                                  "    Height <= 6" + Environment.NewLine +
@@ -1887,7 +1888,10 @@ namespace Filtration.Parser.Tests.Services
                                  "    SetBorderColor 255 1 254" + Environment.NewLine +
                                  "    SetFontSize 50" + Environment.NewLine +
                                  "    PlayAlertSound 6 90" + Environment.NewLine +
-                                 "    DisableDropSound True";
+                                 "    DisableDropSound True" + Environment.NewLine +
+                                 "    MinimapIcon 1 Blue Circle" + Environment.NewLine +
+                                 "    PlayEffect Red Temp" + Environment.NewLine +
+                                 "    CustomAlertSound \"test.mp3\"";
 
             _testUtility.TestBlock.BlockItems.Add(new ActionBlockItem(BlockAction.Show));
             _testUtility.TestBlock.BlockItems.Add(new IdentifiedBlockItem(true));
@@ -1930,6 +1934,10 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.TestBlock.BlockItems.Add(new ShaperItemBlockItem(false));
             _testUtility.TestBlock.BlockItems.Add(new ShapedMapBlockItem(true));
             _testUtility.TestBlock.BlockItems.Add(new ElderMapBlockItem(true));
+            _testUtility.TestBlock.BlockItems.Add(new CustomSoundBlockItem("test.mp3"));
+            _testUtility.TestBlock.BlockItems.Add(new MapTierBlockItem(FilterPredicateOperator.LessThan, 10));
+            _testUtility.TestBlock.BlockItems.Add(new MapIconBlockItem(IconSize.Medium, IconColor.Blue, IconShape.Circle));
+            _testUtility.TestBlock.BlockItems.Add(new PlayEffectBlockItem(EffectColor.Red, true));
             _testUtility.TestBlock.BlockItems.Add(new DisableDropSoundBlockItem(true));
 
             // Act
