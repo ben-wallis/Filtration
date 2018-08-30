@@ -32,7 +32,7 @@
             <StackPanel Grid.Row="0" Grid.Column="1">
                 <TextBlock FontWeight="Black">Filtration</TextBlock>
                 <TextBlock Text="{Binding Version}" />
-                <TextBlock>Copyright © 2017</TextBlock>
+                <TextBlock>Copyright © 2018</TextBlock>
                 <TextBlock>Created by Ben Wallis</TextBlock>
                 <TextBlock>
                     <Hyperlink NavigateUri="https://github.com/ben-wallis/Filtration/" extensions:HyperlinkExtensions.IsExternal="True">https://github.com/ben-wallis/Filtration/</Hyperlink>
@@ -53,7 +53,8 @@
             </StackPanel>
             <StackPanel>
                 <TextBlock FontWeight="Bold"><LineBreak/>Special Thanks</TextBlock>
-                <TextBlock TextWrapping="Wrap">GlenCFL - Implemented support for the item filter 3.1 changes</TextBlock>
+                <TextBlock TextWrapping="Wrap">GlenCFL - 3.1 changes</TextBlock>
+                <TextBlock TextWrapping="Wrap">halil - 3.3 - 3.4 changes</TextBlock>
             </StackPanel>
         </StackPanel>
         <ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,20,0,0" >
