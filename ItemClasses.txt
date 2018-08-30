@@ -1,19 +1,23 @@
 Abyss Jewel
 Active Skill Gems
 Amulets
+Axe
 Belts
 Body Armours
 Boots
 Bows
 Claws
-Critical Utility Flasks
 Currency
 Daggers
+Delve Stackable Currency
 Divination Card
 Fishing Rods
+Flasks
+Gems
 Gloves
 Helmets
 Hybrid Flasks
+Incursion Item
 Jewel
 Labyrinth Item
 Labyrinth Map Item
@@ -21,10 +25,10 @@ Labyrinth Trinket
 Large Relics
 Leaguestone
 Life Flasks
+Mace
 Mana Flasks
 Map Fragments
 Maps
-Medium Relics
 Misc Map Items
 One Hand Axes
 One Hand Maces
@@ -36,10 +40,10 @@ Quivers
 Rings
 Sceptres
 Shields
-Small Relics
 Stackable Currency
 Staves
 Support Skill Gems
+Sword
 Thrusting One Hand Swords
 Two Hand Axes
 Two Hand Maces
