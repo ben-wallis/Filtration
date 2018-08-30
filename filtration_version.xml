@@ -1,15 +1,24 @@
 <UpdateData>
-	<CurrentVersion>0.17</CurrentVersion>
+	<CurrentVersion>0.18</CurrentVersion>
 	<LatestVersionMajorPart>0</LatestVersionMajorPart>
-	<LatestVersionMinorPart>17</LatestVersionMinorPart>
-	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.17</DownloadUrl>
-	<ReleaseDate>2017-12-08</ReleaseDate>
+	<LatestVersionMinorPart>18</LatestVersionMinorPart>
+	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.18</DownloadUrl>
+	<ReleaseDate>2018-08-30</ReleaseDate>
 	<StaticDataUpdatedDate>2018-08-30</StaticDataUpdatedDate>
-	<ReleaseNotes>Contributors for this release: GlenCFL
+	<ReleaseNotes>Contributors for this release: Halil
 
-♦ Fixed a crash when clicking Add Section
-♦ Fixed edits to comment blocks not being saved correctly
-♦ Fixed Delete Section context menu item not working
-♦ Fixed ShChaos sound
-♦ Fixed changes to comment blocks not marking the filter as unsaved</ReleaseNotes>
+♦ Added support for DisableDropSound filter block items
+♦ Added support for GemLevel filter block items
+♦ Added support for HasExplicitMod filter block items
+♦ Added support for StackSize filter block items
+♦ Added support for CustomAlertSound filter block items
+♦ Added support for MinimapIcon filter block items
+♦ Added support for MapTier filter block items
+♦ Added support for PlayEffect filter block items
+♦ Added theme support for several filter blocks
+♦ Added collapse/expand support for sections
+♦ Added support for performing actions on whole sections (copy/move/delete etc)
+♦ Added search box to Section Browser
+♦ Improved parsing to support different syntaxes
+♦ Small bugfixes</ReleaseNotes>
 </UpdateData>
