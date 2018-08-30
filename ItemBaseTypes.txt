@@ -1,5 +1,6 @@
 A Mother's Parting Gift
 Abandoned Wealth
+Aberrant Fossil
 Abyssal Axe
 Abyssal Cry
 Abyssal Sceptre
@@ -10,6 +11,7 @@ Added Cold Damage Support
 Added Fire Damage Support
 Added Lightning Damage Support
 Additional Accuracy Support
+Aetheric Fossil
 Agate Amulet
 Albino Rhoa Feather
 Alchemy Shard
@@ -111,9 +113,11 @@ Battle Sword
 Bazaar Map
 Beach Map
 Bear Trap
+Beauty Through Death
 Behemoth Mace
 Belfry Map
 Bestel's Manuscript
+Bestiary Orb
 Beyond Leaguestone
 Binding Shard
 Birth of the Three
@@ -131,6 +135,7 @@ Blast Rain
 Blessed Orb
 Blessing of Chayula
 Blessing of Esh
+Blessing of God
 Blessing of Tul
 Blessing of Uul-Netol
 Blessing of Xoph
@@ -146,6 +151,7 @@ Blood Raiment
 Blood Sceptre
 Bloodlines Leaguestone
 Bloodlust Support
+Bloodstained Fossil
 Blue Pearl Amulet
 Blunt Arrow Quiver
 Boarding Axe
@@ -159,9 +165,11 @@ Bone Helmet
 Bone Offering
 Bone Spirit Shield
 Bonespire Talisman
+Boon of the First Ones
 Boot Blade
 Boot Knife
 Bottled Storm
+Bound Fossil
 Boundless Realms
 Bowyer's Dream
 Branded Kite Shield
@@ -208,6 +216,8 @@ Carnal Mitts
 Carnal Sceptre
 Cartographer's Chisel
 Cartographer's Delight
+Cartographer's Seal
+Cartographer's Sextant
 Carved Wand
 Carving Knife
 Cast On Critical Strike Support
@@ -242,6 +252,7 @@ Chaos Orb
 Chaos Shard
 Chaotic Disposition
 Charged Dash
+Charged Traps Support
 Chateau Map
 Chayula's Breachstone
 Chest Splitter
@@ -288,6 +299,7 @@ Conjurer Boots
 Conjurer Gloves
 Conjurer's Vestment
 Conquest Chainmail
+Consecrated Path
 Conservatory Map
 Contagion
 Controlled Destruction Support
@@ -304,6 +316,7 @@ Core Map
 Coronal Leather
 Coronal Maul
 Corroded Blade
+Corroded Fossil
 Corroded Tower Shield
 Corrugated Buckler
 Corsair Sword
@@ -383,6 +396,7 @@ Defiled Cathedral Map
 Deicide Mask
 Demon Dagger
 Demon's Horn
+Dense Fossil
 Desecrate
 Desert Brigandine
 Desert Map
@@ -458,6 +472,8 @@ Emperor of Purity
 Emperor's Luck
 Empower Support
 Enameled Buckler
+Enchanted Fossil
+Encrusted Fossil
 Endurance Charge on Melee Stun Support
 Enduring Cry
 Enfeeble
@@ -490,6 +506,7 @@ Exalted Orb
 Exalted Shard
 Excavation Map
 Explosive Arrow
+Explosive Trap
 Exquisite Blade
 Exquisite Leather
 Eye Gouger
@@ -502,6 +519,7 @@ Ezomyte Dagger
 Ezomyte Spiked Shield
 Ezomyte Staff
 Ezomyte Tower Shield
+Faceted Fossil
 Factory Map
 Fancy Foil
 Fangjaw Talisman
@@ -529,8 +547,10 @@ Flame Dash
 Flame Surge
 Flame Totem
 Flameblast
+Flamethrower Trap
 Flammability
 Flanged Mace
+Flashpowder Keg
 Flaying Knife
 Flesh Offering
 Fleshripper
@@ -538,11 +558,13 @@ Flicker Strike
 Flooded Mine Map
 Fluted Bascinet
 Footman Sword
+Forbidden Power
 Forge of the Phoenix Map
 Fork Support
 Fortify Support
 Fossilised Spirit Shield
 Foul Staff
+Fractured Fossil
 Fragment of the Chimera
 Fragment of the Hydra
 Fragment of the Minotaur
@@ -552,6 +574,7 @@ Freezing Pulse
 Frenzy
 Fright Claw
 Fright Maul
+Frigid Fossil
 Frontier Leather
 Frost Blades
 Frost Bomb
@@ -581,6 +604,7 @@ Giant Mana Flask
 Gift of the Gemling Queen
 Gilded Axe
 Gilded Buckler
+Gilded Fossil
 Gilded Sallet
 Girded Tower Shield
 Glacial Cascade
@@ -593,6 +617,7 @@ Glassblower's Bauble
 Glimmer of Hope
 Glorious Leather
 Glorious Plate
+Glyphic Fossil
 Gnarled Branch
 Goat's Horn
 Goathide Boots
@@ -652,6 +677,7 @@ Harbinger's Orb
 Harbinger's Shard
 Harlequin Mask
 Harmonic Spirit Shield
+Harmony of Souls
 Harpy Rapier
 Haste
 Hatred
@@ -665,8 +691,10 @@ Heavy Quiver
 Heavy Strike
 Hellion's Paw
 Her Mask
+Herald of Agony
 Herald of Ash
 Herald of Ice
+Herald of Purity
 Herald of Thunder
 Heterochromia
 Hexclaw Talisman
@@ -674,6 +702,7 @@ Highborn Bow
 Highborn Staff
 Highland Blade
 Hinekora's Hair
+Hollow Fossil
 Holy Chainmail
 Hook Sword
 Hope
@@ -703,6 +732,7 @@ Ignite Proliferation Support
 Imbued Wand
 Immolate Support
 Immortal Call
+Immortal Resolve
 Imp Dagger
 Imperial Bow
 Imperial Buckler
@@ -710,6 +740,7 @@ Imperial Claw
 Imperial Maul
 Imperial Skean
 Imperial Staff
+Imprinted Bestiary Orb
 Incinerate
 Increased Area of Effect Support
 Increased Critical Damage Support
@@ -747,6 +778,7 @@ Jade Chopper
 Jade Flask
 Jade Hatchet
 Jagged Foil
+Jagged Fossil
 Jagged Maul
 Jasper Axe
 Jasper Chopper
@@ -811,6 +843,7 @@ Light Quiver
 Lighthouse Map
 Lightning Arrow
 Lightning Penetration Support
+Lightning Spire Trap
 Lightning Strike
 Lightning Tendrils
 Lightning Trap
@@ -830,6 +863,7 @@ Lordly Plate
 Loricated Ringmail
 Lost Worlds
 Loyalty
+Lucent Fossil
 Lucky Connections
 Lucky Deck
 Lunaris Circlet
@@ -871,6 +905,7 @@ Merciless Armament
 Mesa Map
 Mesh Boots
 Mesh Gloves
+Metallic Fossil
 Miasmeter
 Midnight Blade
 Might is Right
@@ -921,6 +956,7 @@ Muttering Essence of Woe
 Nailed Fist
 Necromancer Circlet
 Necromancer Silks
+Necromancy Net
 Necropolis Map
 Nemesis Leaguestone
 Nightmare Bascinet
@@ -981,12 +1017,13 @@ Penetrating Arrow Quiver
 Peninsula Map
 Perandus Coin
 Perandus Leaguestone
+Perfect Fossil
+Perfection
 Pernarch
 Petrified Club
 Phantasmagoria Map
 Phantom Mace
 Phase Run
-Physical Projectile Attack Damage Support
 Physical to Lightning Support
 Pier Map
 Pierce Support
@@ -1016,19 +1053,29 @@ Port Map
 Portal
 Portal Scroll
 Portal Shredder
+Potent Alchemical Resonator
+Potent Chaotic Resonator
 Power Charge On Critical Support
 Power Siphon
+Powerful Alchemical Resonator
+Powerful Chaotic Resonator
 Praetor Crown
 Precinct Map
 Prehistoric Claw
 Pride Before the Fall
 Primal Skull Talisman
+Prime Alchemical Resonator
+Prime Chaotic Resonator
 Primeval Rapier
+Primitive Alchemical Resonator
+Primitive Chaotic Resonator
 Primitive Staff
 Primordial Pool Map
 Primordial Staff
+Prismatic Fossil
 Prismatic Jewel
 Prismatic Ring
+Pristine Fossil
 Profane Wand
 Projectile Weakness
 Promenade Map
@@ -1080,7 +1127,10 @@ Regal Orb
 Regal Shard
 Regicide Mask
 Reinforced Greaves
+Reinforced Iron Net
 Reinforced Kite Shield
+Reinforced Rope Net
+Reinforced Steel Net
 Reinforced Tower Shield
 Rejuvenation Totem
 Relic Chambers Map
@@ -1139,6 +1189,7 @@ Sambar Sceptre
 Samite Gloves
 Samite Helmet
 Samite Slippers
+Sanctified Fossil
 Sanctified Life Flask
 Sanctified Mana Flask
 Sand of Eternity
@@ -1155,7 +1206,9 @@ Scarlet Round Shield
 Scholar Boots
 Scholar of the Seas
 Scholar's Robe
+Scorched Fossil
 Scorching Ray
+Scourge Arrow
 Screaming Essence
 Screaming Essence of Anger
 Screaming Essence of Anguish
@@ -1183,6 +1236,7 @@ Scroll of Wisdom
 Searching Eye Jewel
 Searing Bond
 Secutor Helm
+Seismic Trap
 Sekhem
 Sekhema Feather
 Sentinel Jacket
@@ -1193,6 +1247,7 @@ Serpentscale Boots
 Serpentscale Gauntlets
 Serrated Arrow Quiver
 Serrated Foil
+Serrated Fossil
 Shabby Jerkin
 Shackled Boots
 Shadow Axe
@@ -1200,8 +1255,8 @@ Shadow Sceptre
 Shagreen Boots
 Shagreen Gloves
 Shagreen Tower Shield
+Shaper's Orb
 Shaper's Orb (Tier 1)
-Shaper's Orb (Tier 10)
 Shaper's Orb (Tier 2)
 Shaper's Orb (Tier 3)
 Shaper's Orb (Tier 4)
@@ -1210,6 +1265,7 @@ Shaper's Orb (Tier 6)
 Shaper's Orb (Tier 7)
 Shaper's Orb (Tier 8)
 Shaper's Orb (Tier 9)
+Shaper's Orb (Tier 10)
 Shard of Fate
 Sharkskin Boots
 Sharkskin Gloves
@@ -1245,6 +1301,7 @@ Shrieking Essence of Woe
 Shrieking Essence of Wrath
 Shrieking Essence of Zeal
 Shrine Map
+Shuddering Fossil
 Siege Axe
 Siege Ballista
 Siege Helmet
@@ -1261,8 +1318,12 @@ Silver Coin
 Silver Flask
 Silver Key
 Silver Locket
+Simple Iron Net
 Simple Robe
+Simple Rope Net
+Simple Steel Net
 Sinner Tricorne
+Siphoning Trap
 Skean
 Skinning Knife
 Slaughter Knife
@@ -1275,6 +1336,7 @@ Small Hybrid Flask
 Small Life Flask
 Small Mana Flask
 Smallsword
+Smite
 Smoke Mine
 Sniper Bow
 Solar Maul
@@ -1289,6 +1351,7 @@ Sovereign Spiked Shield
 Spark
 Sparkling Claw
 Spectral Axe
+Spectral Shield Throw
 Spectral Sword
 Spectral Throw
 Spell Cascade Support
@@ -1310,6 +1373,7 @@ Spiraled Foil
 Spiraled Wand
 Spirit Offering
 Splendid Round Shield
+Splinter
 Splinter of Chayula
 Splinter of Esh
 Splinter of Tul
@@ -1337,6 +1401,7 @@ Stibnite Flask
 Stiletto
 Stone Axe
 Stone Hammer
+Stone of Passage
 Storm Barrier Support
 Storm Blade
 Storm Burst
@@ -1345,6 +1410,9 @@ Strand Map
 Strapped Boots
 Strapped Leather
 Strapped Mitts
+Strong Iron Net
+Strong Rope Net
+Strong Steel Net
 Struck by Lightning
 Studded Belt
 Studded Round Shield
@@ -1355,8 +1423,10 @@ Sulphur Vents Map
 Summit Map
 Summon Chaos Golem
 Summon Flame Golem
+Summon Holy Relic
 Summon Ice Golem
 Summon Lightning Golem
+Summon Phantasm on Kill Support
 Summon Raging Spirit
 Summon Skeleton
 Summon Stone Golem
@@ -1371,8 +1441,10 @@ Sweep
 Swift Affliction Support
 Talisman Leaguestone
 Talon Axe
+Tangled Fossil
 Tarnished Spirit Shield
 Teak Round Shield
+Tectonic Slam
 Tempered Foil
 Tempest Leaguestone
 Tempest Shield
@@ -1382,38 +1454,50 @@ Tenderizer
 Terrace Map
 Terror Claw
 Terror Maul
+Thaumaturgical Net
 Thaumetic Emblem
 Thaumetic Sulphite
+The Admirer
 The Aesthete
 The Arena Champion
+The Army of Blood
 The Artist
 The Avenger
 The Battle Born
+The Beast
 The Betrayal
 The Black Flag
 The Blazing Fire
 The Body
+The Breach
 The Brittle Emperor
+The Cacophony
 The Calling
 The Carrion Crow
 The Cartographer
 The Cataclysm
 The Catalyst
 The Celestial Justicar
+The Celestial Stone
 The Chains that Bind
 The Coming Storm
 The Conduit
 The Cursed King
 The Dapper Prodigy
 The Dark Mage
+The Darkest Dream
+The Deceiver
 The Demoness
 The Devastator
 The Doctor
 The Doppelganger
 The Dragon
 The Dragon's Heart
+The Dreamer
+The Dreamland
 The Drunken Aristocrat
 The Encroaching Darkness
+The Endless Darkness
 The Endurance
 The Enlightened
 The Ethereal
@@ -1421,6 +1505,7 @@ The Explorer
 The Eye of Desire
 The Eye of Fury
 The Eye of the Dragon
+The Fathomless Depths
 The Feast
 The Fiend
 The Fletcher
@@ -1433,15 +1518,20 @@ The Garish Power
 The Gemcutter
 The Gentleman
 The Gladiator
+The Hale Heart
 The Harvester
 The Hermit
 The Hoarder
 The Hunger
 The Immortal
 The Incantation
+The Innocent
 The Inoculated
+The Insatiable
 The Inventor
+The Iron Bard
 The Jester
+The Jeweller's Boon
 The King's Blade
 The King's Heart
 The Last One Standing
@@ -1450,9 +1540,12 @@ The Lion
 The Lord in Black
 The Lover
 The Lunaris Priestess
+The Master
+The Mayor
 The Mercenary
 The Metalsmith's Gift
 The Oath
+The Obscured
 The Offering
 The One With All
 The Opulent
@@ -1462,17 +1555,23 @@ The Penitent
 The Poet
 The Polymath
 The Porcupine
+The Price of Protection
+The Professor
+The Puzzle
 The Queen
 The Rabid Rhoa
 The Realm
 The Risk
+The Rite of Elements
 The Road to Power
 The Ruthless Ceinture
 The Saint's Treasure
+The Samurai's Eye
 The Scarred Meadow
 The Scavenger
 The Scholar
 The Sephirot
+The Shaper's Key
 The Sigil
 The Siren
 The Soul
@@ -1486,14 +1585,18 @@ The Sun
 The Surgeon
 The Surveyor
 The Survivalist
+The Sword King's Salute
 The Teardrop
 The Thaumaturgist
 The Throne
 The Tower
 The Traitor
 The Trial
+The Twilight Moon
 The Twins
 The Tyrant
+The Undaunted
+The Undisputed
 The Union
 The Valkyrie
 The Valley of Steel Boxes
@@ -1504,11 +1607,14 @@ The Warden
 The Warlord
 The Watcher
 The Web
+The Wilted Rose
 The Wind
+The Witch
 The Wolf
 The Wolf's Shadow
 The Wolven King's Bite
 The Wolverine
+The World Eater
 The Wrath
 The Wretched
 Thicket Bow
@@ -1519,6 +1625,7 @@ Thorn Rapier
 Three Faces in the Dark
 Three Hands Talisman
 Three Rat Talisman
+Three Voices
 Thresher Claw
 Throat Stabber
 Thunderous Skies
@@ -1528,6 +1635,7 @@ Tiger's Paw
 Timber Axe
 Time-Lost Relic
 Timeworn Claw
+Timeworn Reliquary Key
 Titan Gauntlets
 Titan Greaves
 Titanium Spirit Shield
@@ -1543,6 +1651,7 @@ Torture Chamber Map
 Totemic Maul
 Tower Key
 Tower Map
+Toxic Rain
 Toxic Sewer Map
 Tranquillity
 Transmutation Shard
@@ -1583,9 +1692,12 @@ Unset Ring
 Unshaping Orb
 Ursine Pelt
 Uul-Netol's Breachstone
+Vaal Ancestral Warchief
 Vaal Arc
 Vaal Axe
 Vaal Blade
+Vaal Blade Vortex
+Vaal Blight
 Vaal Breach
 Vaal Buckler
 Vaal Burning Arrow
@@ -1596,6 +1708,7 @@ Vaal Cyclone
 Vaal Detonate Dead
 Vaal Discipline
 Vaal Double Strike
+Vaal Earthquake
 Vaal Fireball
 Vaal Flameblast
 Vaal Gauntlets
@@ -1608,6 +1721,9 @@ Vaal Haste
 Vaal Hatchet
 Vaal Ice Nova
 Vaal Immortal Call
+Vaal Impurity of Fire
+Vaal Impurity of Ice
+Vaal Impurity of Lightning
 Vaal Lightning Strike
 Vaal Lightning Trap
 Vaal Lightning Warp
@@ -1636,7 +1752,17 @@ Vault Map
 Velvet Gloves
 Velvet Slippers
 Vengeance
+Vial of Awakening
+Vial of Consequence
+Vial of Dominance
+Vial of Fate
 Vial Of Power
+Vial of Sacrifice
+Vial of Summoning
+Vial of the Ghost
+Vial of the Ritual
+Vial of Transcendence
+Vicious Projectiles Support
 Vigilant Strike
 Vile Staff
 Vile Toxins Support
@@ -1687,6 +1813,7 @@ Wasteland Map
 Waterways Map
 Waxed Garb
 Wealth and Power
+Weeping Essence
 Weeping Essence of Anger
 Weeping Essence of Contempt
 Weeping Essence of Doubt
@@ -1713,6 +1840,7 @@ Wild Leather
 Wild Strike
 Wings of Vastiri
 Wither
+Withering Touch Support
 Wolf Pelt
 Woodful Staff
 Woodsplitter
