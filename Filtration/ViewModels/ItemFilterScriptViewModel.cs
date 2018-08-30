@@ -180,21 +180,13 @@ namespace Filtration.ViewModels
             _scriptCommandManager = Script.CommandManager;
             AddItemFilterBlockViewModels(Script.ItemFilterBlocks, -1);
 
-            foreach(var block in Script.ItemFilterBlocks)
+            foreach(var block in Script.ItemFilterBlocks.OfType<IItemFilterBlock>())
             {
-                var itemBlock = block as IItemFilterBlock;
-                if(itemBlock != null)
+                foreach (var customSoundBlockItem in block.BlockItems.OfType<CustomSoundBlockItem>())
                 {
-                    foreach(var blockItem in itemBlock.BlockItems)
+                    if (!string.IsNullOrWhiteSpace(customSoundBlockItem.Value) && CustomSoundsAvailable.IndexOf(customSoundBlockItem.Value) < 0)
                     {
-                        var customSoundBlockItem = blockItem as CustomSoundBlockItem;
-                        if (customSoundBlockItem != null)
-                        {
-                            if (!string.IsNullOrWhiteSpace(customSoundBlockItem.Value) && _customSoundsAvailable.IndexOf(customSoundBlockItem.Value) < 0)
-                            {
-                                CustomSoundsAvailable.Add(customSoundBlockItem.Value);
-                            }
-                        }
+                        CustomSoundsAvailable.Add(customSoundBlockItem.Value);
                     }
                 }
             }
@@ -273,15 +265,11 @@ namespace Filtration.ViewModels
                 var itemBlock = itemFilterBlock as IItemFilterBlock;
                 if (itemBlock != null)
                 {
-                    foreach (var blockItem in itemBlock.BlockItems)
+                    foreach (var customSoundBlockItem in itemBlock.BlockItems.OfType<CustomSoundBlockItem>())
                     {
-                        var customSoundBlockItem = blockItem as CustomSoundBlockItem;
-                        if (customSoundBlockItem != null)
+                        if (!string.IsNullOrWhiteSpace(customSoundBlockItem.Value) && CustomSoundsAvailable.IndexOf(customSoundBlockItem.Value) < 0)
                         {
-                            if (!string.IsNullOrWhiteSpace(customSoundBlockItem.Value) && _customSoundsAvailable.IndexOf(customSoundBlockItem.Value) < 0)
-                            {
-                                CustomSoundsAvailable.Add(customSoundBlockItem.Value);
-                            }
+                            CustomSoundsAvailable.Add(customSoundBlockItem.Value);
                         }
                     }
                 }
