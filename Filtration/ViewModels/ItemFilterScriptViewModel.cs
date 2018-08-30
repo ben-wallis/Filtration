@@ -17,6 +17,7 @@ using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Commands;
 using Filtration.ObjectModel.Commands.ItemFilterScript;
 using Filtration.Parser.Interface.Services;
@@ -34,6 +35,7 @@ namespace Filtration.ViewModels
         IItemFilterBlockViewModelBase SelectedBlockViewModel { get; set; }
         IItemFilterCommentBlockViewModel CommentBlockBrowserBrowserSelectedBlockViewModel { get; set; }
         IEnumerable<IItemFilterCommentBlockViewModel> ItemFilterCommentBlockViewModels { get; }
+        ObservableCollection<string> CustomSoundsAvailable { get; }
         Predicate<IItemFilterBlockViewModel> BlockFilterPredicate { get; set; }
         
         bool ShowAdvanced { get; }
@@ -106,6 +108,8 @@ namespace Filtration.ViewModels
         private Predicate<IItemFilterBlockViewModel> _blockFilterPredicate;
         private ICommandManager _scriptCommandManager;
 
+        private ObservableCollection<string> _customSoundsAvailable;
+
         public ItemFilterScriptViewModel(IItemFilterBlockBaseViewModelFactory itemFilterBlockBaseViewModelFactory,
                                          IItemFilterBlockTranslator blockTranslator,
                                          IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
@@ -161,6 +165,11 @@ namespace Filtration.ViewModels
             IconSource = icon;
 
             _viewItemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModelBase>();
+
+            _customSoundsAvailable = new ObservableCollection<string> {
+                "1maybevaluable.mp3", "2currency.mp3", "3uniques.mp3", "4maps.mp3", "5highmaps.mp3",
+                "6veryvaluable.mp3", "7chancing.mp3", "12leveling.mp3", "placeholder.mp3"
+            };
         }
 
         public void Initialise(IItemFilterScript itemFilterScript, bool newScript)
@@ -170,8 +179,20 @@ namespace Filtration.ViewModels
             Script = itemFilterScript;
             _scriptCommandManager = Script.CommandManager;
             AddItemFilterBlockViewModels(Script.ItemFilterBlocks, -1);
+
+            foreach(var block in Script.ItemFilterBlocks.OfType<IItemFilterBlock>())
+            {
+                foreach (var customSoundBlockItem in block.BlockItems.OfType<CustomSoundBlockItem>())
+                {
+                    if (!string.IsNullOrWhiteSpace(customSoundBlockItem.Value) && CustomSoundsAvailable.IndexOf(customSoundBlockItem.Value) < 0)
+                    {
+                        CustomSoundsAvailable.Add(customSoundBlockItem.Value);
+                    }
+                }
+            }
             
             Script.ItemFilterBlocks.CollectionChanged += ItemFilterBlocksOnCollectionChanged;
+            _customSoundsAvailable.CollectionChanged += CustomSoundsAvailableOnCollectionChanged;
 
             _filenameIsFake = newScript;
 
@@ -211,6 +232,11 @@ namespace Filtration.ViewModels
             UpdateBlockModelsForView();
         }
 
+        private void CustomSoundsAvailableOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+        {
+            RaisePropertyChanged(nameof(CustomSoundsAvailable));
+        }
+
         private void AddItemFilterBlockViewModels(IEnumerable<IItemFilterBlockBase> itemFilterBlocks, int addAtIndex)
         {
             var firstNewViewModel = true;
@@ -234,6 +260,18 @@ namespace Filtration.ViewModels
                 {
                     SelectedBlockViewModel = vm;
                     firstNewViewModel = false;
+                }
+
+                var itemBlock = itemFilterBlock as IItemFilterBlock;
+                if (itemBlock != null)
+                {
+                    foreach (var customSoundBlockItem in itemBlock.BlockItems.OfType<CustomSoundBlockItem>())
+                    {
+                        if (!string.IsNullOrWhiteSpace(customSoundBlockItem.Value) && CustomSoundsAvailable.IndexOf(customSoundBlockItem.Value) < 0)
+                        {
+                            CustomSoundsAvailable.Add(customSoundBlockItem.Value);
+                        }
+                    }
                 }
             }
         }
@@ -290,6 +328,16 @@ namespace Filtration.ViewModels
 
                 return isActiveDocument;
 
+            }
+        }
+
+        public ObservableCollection<string> CustomSoundsAvailable
+        {
+            get => _customSoundsAvailable;
+            set
+            {
+                _customSoundsAvailable = value;
+                RaisePropertyChanged();
             }
         }
 

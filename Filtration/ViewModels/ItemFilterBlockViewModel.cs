@@ -31,7 +31,6 @@ namespace Filtration.ViewModels
         private readonly IStaticDataService _staticDataService;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
-        public static ObservableCollection<string> _customSoundsAvailable;
 
         private bool _displaySettingsPopupOpen;
         private bool _isExpanded;
@@ -53,14 +52,6 @@ namespace Filtration.ViewModels
             PlayPositionalSoundCommand = new RelayCommand(OnPlayPositionalSoundCommand, () => HasPositionalSound);
             PlayCustomSoundCommand = new RelayCommand(OnPlayCustomSoundCommand, () => HasCustomSound);
             CustomSoundFileDialogCommand = new RelayCommand(OnCustomSoundFileDialog);
-
-            if(_customSoundsAvailable == null || _customSoundsAvailable.Count < 1)
-            {
-                _customSoundsAvailable = new ObservableCollection<string> {
-                    "1maybevaluable.mp3", "2currency.mp3", "3uniques.mp3", "4maps.mp3", "5highmaps.mp3",
-                    "6veryvaluable.mp3", "7chancing.mp3", "12leveling.mp3", "placeholder.mp3"
-                };
-            }
         }
 
         public override void Initialise(IItemFilterBlockBase itemFilterBlockBase, IItemFilterScriptViewModel parentScriptViewModel)
@@ -80,15 +71,6 @@ namespace Filtration.ViewModels
             foreach (var blockItem in itemFilterBlock.BlockItems)
             {
                 blockItem.PropertyChanged += OnBlockItemChanged;
-
-                var customSoundBlockItem = blockItem as CustomSoundBlockItem;
-                if (customSoundBlockItem != null)
-                {
-                    if (!string.IsNullOrWhiteSpace(customSoundBlockItem.Value) && _customSoundsAvailable.IndexOf(customSoundBlockItem.Value) < 0)
-                    {
-                        _customSoundsAvailable.Add(customSoundBlockItem.Value);
-                    }
-                }
             }
             base.Initialise(itemFilterBlock, parentScriptViewModel);
         }
@@ -236,8 +218,6 @@ namespace Filtration.ViewModels
         }
 
         public ObservableCollection<ColorItem> AvailableColors => PathOfExileColors.DefaultColors;
-
-        public ObservableCollection<string> CustomSoundsAvailable => _customSoundsAvailable;
 
         public Color DisplayTextColor => Block.DisplayTextColor;
         public Color DisplayBackgroundColor => Block.DisplayBackgroundColor;
@@ -461,11 +441,10 @@ namespace Filtration.ViewModels
             var customSoundBlockItem = sender as CustomSoundBlockItem;
             if (customSoundBlockItem != null)
             {
-                if (!string.IsNullOrWhiteSpace(customSoundBlockItem.Value) && _customSoundsAvailable.IndexOf(customSoundBlockItem.Value) < 0)
+                if (!string.IsNullOrWhiteSpace(customSoundBlockItem.Value) && _parentScriptViewModel.CustomSoundsAvailable.IndexOf(customSoundBlockItem.Value) < 0)
                 {
-                    _customSoundsAvailable.Add(customSoundBlockItem.Value);
+                    _parentScriptViewModel.CustomSoundsAvailable.Add(customSoundBlockItem.Value);
                 }
-                RaisePropertyChanged(nameof(CustomSoundsAvailable));
             }
             Block.IsEdited = true;
             //if (sender is IAudioVisualBlockItem)
@@ -515,10 +494,9 @@ namespace Filtration.ViewModels
 
                 var customSoundBlockItem = BlockItems.First(b => b.GetType() == typeof(CustomSoundBlockItem)) as CustomSoundBlockItem;
 
-                if (CustomSoundsAvailable.IndexOf(fileName) < 0)
+                if (_parentScriptViewModel.CustomSoundsAvailable.IndexOf(fileName) < 0)
                 {
-                    CustomSoundsAvailable.Add(fileName);
-                    RaisePropertyChanged(nameof(CustomSoundsAvailable));
+                    _parentScriptViewModel.CustomSoundsAvailable.Add(fileName);
                 }
                 customSoundBlockItem.Value = fileName;
             }
