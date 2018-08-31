@@ -30,19 +30,22 @@ namespace Filtration.ObjectModel.ThemeEditor
                 _customSoundsAvailable = new ObservableCollection<string>();
 
                 var poeFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).ToString() + @"\My Games\Path of Exile\";
-                var poeFolderFiles = System.IO.Directory.GetFiles(poeFolderPath).Where(
-                    s => s.EndsWith(".mp3")
-                    || s.EndsWith(".wav")
-                    || s.EndsWith(".wma")
-                    || s.EndsWith(".3gp")
-                    || s.EndsWith(".aag")
-                    || s.EndsWith(".m4a")
-                    || s.EndsWith(".ogg")
-                ).OrderBy(f => f);
-
-                foreach (var file in poeFolderFiles)
+                if(System.IO.Directory.Exists(poeFolderPath))
                 {
-                    _customSoundsAvailable.Add(file.Replace(poeFolderPath, ""));
+                    var poeFolderFiles = System.IO.Directory.GetFiles(poeFolderPath).Where(
+                        s => s.EndsWith(".mp3")
+                        || s.EndsWith(".wav")
+                        || s.EndsWith(".wma")
+                        || s.EndsWith(".3gp")
+                        || s.EndsWith(".aag")
+                        || s.EndsWith(".m4a")
+                        || s.EndsWith(".ogg")
+                    ).OrderBy(f => f);
+
+                    foreach (var file in poeFolderFiles)
+                    {
+                        _customSoundsAvailable.Add(file.Replace(poeFolderPath, ""));
+                    }
                 }
             }
 

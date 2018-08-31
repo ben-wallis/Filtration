@@ -167,9 +167,8 @@ namespace Filtration.ViewModels
             _viewItemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModelBase>();
 
             _customSoundsAvailable = new ObservableCollection<string>();
-
-            var poeFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).ToString() + @"\My Games\Path of Exile\";
-            var poeFolderFiles = Directory.GetFiles(poeFolderPath).Where(
+            
+            var poeFolderFiles = Directory.GetFiles(persistenceService.DefaultPathOfExileDirectory() + "\\").Where(
                 s => s.EndsWith(".mp3")
                 || s.EndsWith(".wav")
                 || s.EndsWith(".wma")
@@ -181,7 +180,7 @@ namespace Filtration.ViewModels
 
             foreach(var file in poeFolderFiles)
             {
-                _customSoundsAvailable.Add(file.Replace(poeFolderPath, ""));
+                _customSoundsAvailable.Add(file.Replace(persistenceService.DefaultPathOfExileDirectory() + "\\", ""));
             }
         }
 
