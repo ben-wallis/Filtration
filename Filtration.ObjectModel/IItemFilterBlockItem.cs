@@ -14,5 +14,6 @@ namespace Filtration.ObjectModel
         int MaximumAllowed { get; }
         int SortOrder { get; }
         bool IsDirty { get; }
+        string Comment { get; set; }
     }
 }

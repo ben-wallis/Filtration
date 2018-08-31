@@ -17,6 +17,7 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
         public abstract Color SummaryBackgroundColor { get; }
         public abstract Color SummaryTextColor { get; }
         public abstract int SortOrder { get; }
+        public string Comment { get; set; }
 
         public bool IsDirty
         {
