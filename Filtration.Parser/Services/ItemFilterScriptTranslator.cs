@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Windows;
 using Filtration.Common.Utilities;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.Factories;
@@ -48,18 +48,58 @@ namespace Filtration.Parser.Services
             _itemFilterScriptFactory = itemFilterScriptFactory;
         }
 
-        public static string PreprocessDisabledBlocks(string inputString)
+        public static string PreprocessDisabledBlocks(string inputString, out List<bool> inBlock)
         {
             bool inDisabledBlock = false;
+            inBlock = new List<bool>();
 
             var lines = Regex.Split(inputString, "\r\n|\r|\n").ToList();
+            // find first show/hide and check script
+            for (var i = 0; i < lines.Count; i++)
+            {
+                inBlock.Add(false);
+                lines[i] = lines[i].Trim();
+                if(!lines[i].StartsWith("#"))
+                {
+                    string curLine = Regex.Replace(lines[i], @"\s+", "");
+                    if ((curLine.StartsWith("Show") || curLine.StartsWith("Hide")) && (curLine.Length == 4 || curLine[4] == '#')) // found
+                    {
+                        inBlock[i] = true;
+                        break;
+                    }
+                    else // This means script has wrong syntax, just replace those lines with empty string
+                    {
+                        lines[i] = "";
+                    }
+                }
+            }
+
+            // find remaining boundaries
+            var lastInBlock = inBlock.Count - 1;
+            for (var i = inBlock.Count; i < lines.Count; i++)
+            {
+                inBlock.Add(false);
+                lines[i] = lines[i].Trim();
+                if (!lines[i].StartsWith("#") && lines[i].Length > 0)
+                {
+                    if (!lines[i].StartsWith("Show") && !lines[i].StartsWith("Hide")) // Continuing inline
+                    {
+                        for(int j = lastInBlock + 1; j < i; j++)
+                        {
+                            inBlock[j] = true;
+                        }
+                    }
+                    lastInBlock = i;
+                    inBlock[i] = true;
+                }
+            }
 
             for (var i = 0; i < lines.Count; i++)
             {
                 if (!inDisabledBlock && lines[i].StartsWith("#"))
                 {
                     string curLine = Regex.Replace(lines[i].Substring(1), @"\s+", "");
-                    if ((curLine.StartsWith("Show") || curLine.StartsWith("Hide")) && (curLine.Length == 4 || curLine[4] == '#'))
+                    if ((curLine.StartsWith("Show") || curLine.StartsWith("Hide")) && (curLine.Length == 4 || curLine[4] == '#') && !inBlock[i])
                     {
                         inDisabledBlock = true;
                         lines[i] = lines[i].Substring(1).TrimStart(' ');
@@ -88,16 +128,29 @@ namespace Filtration.Parser.Services
             var script = _itemFilterScriptFactory.Create();
             _blockGroupHierarchyBuilder.Initialise(script.ItemFilterBlockGroups.First());
 
-            //Remove old disabled tags
-            inputString = Regex.Replace(inputString, @"#Disabled\sBlock\s(Start|End).*?\n", "");
-            inputString = (inputString.EndsWith("\n#Disabled Block End")) ? inputString.Substring(0, inputString.Length - 19) : inputString;
+            if(Regex.Matches(inputString, @"#Disabled\sBlock\s(Start|End).*?\n").Count > 0)
+            {
+                if (MessageBox.Show(
+                    "Loaded script contains special '#Disabled Block Start' lines." +
+                    " These may be coming from old versions of Filtration or Greengroove's filter." +
+                    "It is suggested to remove them however this may cause problems with original source" +
+                    Environment.NewLine + "(There is no in game effect of those lines)" +
+                    Environment.NewLine + Environment.NewLine + "Would you like to remove them?", "Special Comment Lines Found",
+                    MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    //Remove old disabled tags
+                    inputString = Regex.Replace(inputString, @"#Disabled\sBlock\s(Start|End).*?\n", "");
+                    inputString = (inputString.EndsWith("\n#Disabled Block End")) ? inputString.Substring(0, inputString.Length - 19) : inputString;
+                }
+            }
 
             var originalLines = Regex.Split(inputString, "\r\n|\r|\n");
 
             inputString = inputString.Replace("\t", "");
-            inputString = PreprocessDisabledBlocks(inputString);
+            List<bool> inBlock;
+            inputString = PreprocessDisabledBlocks(inputString, out inBlock);
 
-            var conditionBoundaries = IdentifyBlockBoundaries(inputString);
+            var conditionBoundaries = IdentifyBlockBoundaries(inputString, inBlock);
 
             var lines = Regex.Split(inputString, "\r\n|\r|\n");
 
@@ -158,7 +211,7 @@ namespace Filtration.Parser.Services
             return script;
         }
         
-        private static LinkedList<ItemFilterBlockBoundary> IdentifyBlockBoundaries(string inputString)
+        private static LinkedList<ItemFilterBlockBoundary> IdentifyBlockBoundaries(string inputString, List<bool> inBlock)
         {
             var blockBoundaries = new LinkedList<ItemFilterBlockBoundary>();
             var previousLine = string.Empty;
@@ -177,9 +230,10 @@ namespace Filtration.Parser.Services
                     continue;
                 }
 
-                // A line starting with a comment when we're inside a ItemFilterBlock boundary represents the end of that block 
-                // as ItemFilterBlocks cannot have comment lines after the block description
-                if (trimmedLine.StartsWith("#") && currentItemFilterBlockBoundary.BoundaryType == ItemFilterBlockBoundaryType.ItemFilterBlock)
+                // A line starting with a comment when we're inside a ItemFilterBlock boundary may represent the end of that block 
+                // or a block item comment
+                if (trimmedLine.StartsWith("#") && !inBlock[currentLine] &&
+                    currentItemFilterBlockBoundary.BoundaryType == ItemFilterBlockBoundaryType.ItemFilterBlock)
                 {
                     blockBoundaries.AddLast(currentItemFilterBlockBoundary);
                     currentItemFilterBlockBoundary = new ItemFilterBlockBoundary(currentLine, ItemFilterBlockBoundaryType.CommentBlock);

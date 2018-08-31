@@ -27,8 +27,6 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
             }
         }
 
-        public string Comment { get; set; }
-
         public override string OutputText => Action.GetAttributeDescription();
 
         public override string PrefixText => string.Empty;
