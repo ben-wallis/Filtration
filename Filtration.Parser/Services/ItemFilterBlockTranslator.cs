@@ -86,8 +86,7 @@ namespace Filtration.Parser.Services
                 var fullLine = line.Trim();
                 var trimmedLine = fullLine;
                 var blockComment = "";
-                var nextBlockIndex = block.BlockItems.Count;
-                ThemeComponentType themeComponentType = ThemeComponentType.AlertSound;
+                var themeComponentType = -1;
                 if(trimmedLine.IndexOf('#') > 0)
                 {
                     blockComment = trimmedLine.Substring(trimmedLine.IndexOf('#') + 1);
@@ -221,7 +220,7 @@ namespace Filtration.Parser.Services
                         var blockItem = new TextColorBlockItem();
                         blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
                         block.BlockItems.Add(blockItem);
-                        themeComponentType = ThemeComponentType.TextColor;
+                        themeComponentType = (int)ThemeComponentType.TextColor;
                         break;
                     }
                     case "SetBackgroundColor":
@@ -234,7 +233,7 @@ namespace Filtration.Parser.Services
                         var blockItem = new BackgroundColorBlockItem();
                         blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
                         block.BlockItems.Add(blockItem);
-                        themeComponentType = ThemeComponentType.BackgroundColor;
+                        themeComponentType = (int)ThemeComponentType.BackgroundColor;
                         break;
                     }
                     case "SetBorderColor":
@@ -247,7 +246,7 @@ namespace Filtration.Parser.Services
                         var blockItem = new BorderColorBlockItem();
                         blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
                         block.BlockItems.Add(blockItem);
-                        themeComponentType = ThemeComponentType.BorderColor;
+                        themeComponentType = (int)ThemeComponentType.BorderColor;
                         break;
                     }
                     case "SetFontSize":
@@ -260,8 +259,8 @@ namespace Filtration.Parser.Services
                         {
                             var blockItem = new FontSizeBlockItem(Convert.ToInt16(match[0].Groups[2].Value));
                             block.BlockItems.Add(blockItem);
+                            themeComponentType = (int)ThemeComponentType.FontSize;
                         }
-                        themeComponentType = ThemeComponentType.FontSize;
                         break;
                     }
                     case "PlayAlertSound":
@@ -306,8 +305,8 @@ namespace Filtration.Parser.Services
                                 };
                                 block.BlockItems.Add(blockItemValue);
                             }
+                            themeComponentType = (int)ThemeComponentType.AlertSound;
                         }
-                        themeComponentType = ThemeComponentType.AlertSound;
                         break;
                     }
                     case "GemLevel":
@@ -364,8 +363,8 @@ namespace Filtration.Parser.Services
                                 blockItemValue.ThemeComponent = themeComponent;
                             }
                             block.BlockItems.Add(blockItemValue);
+                            themeComponentType = (int)ThemeComponentType.Icon;
                         }
-                        themeComponentType = ThemeComponentType.Icon;
                         break;
                     }
                     case "PlayEffect":
@@ -384,8 +383,8 @@ namespace Filtration.Parser.Services
                                 Temporary = match.Groups[2].Value.Trim().ToLower() == "temp"
                             };
                             block.BlockItems.Add(blockItemValue);
+                            themeComponentType = (int)ThemeComponentType.Effect;
                         }
-                        themeComponentType = ThemeComponentType.Effect;
                         break;
                     }
                     case "CustomAlertSound":
@@ -404,8 +403,8 @@ namespace Filtration.Parser.Services
                                 Value = match.Groups[1].Value
                             };
                             block.BlockItems.Add(blockItemValue);
+                            themeComponentType = (int)ThemeComponentType.CustomSound;
                         }
-                        themeComponentType = ThemeComponentType.CustomSound;
                         break;
                     }
                     case "MapTier":
@@ -422,9 +421,9 @@ namespace Filtration.Parser.Services
                     {
                         block.BlockItems.Last().Comment = blockComment;
                     }
-                    else if(nextBlockIndex == block.BlockItems.Count - 1) // If these 2 are not equal, this theme doesn't belong to last block
+                    else
                     {
-                        switch(themeComponentType)
+                        switch((ThemeComponentType)themeComponentType)
                         {
                             case ThemeComponentType.AlertSound:
                             {
@@ -461,7 +460,7 @@ namespace Filtration.Parser.Services
                                 ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.CustomSound,
                                     blockComment.Trim(), ((CustomSoundBlockItem)blockItemWithTheme).Value);
                                 blockItemWithTheme.ThemeComponent = themeComponent;
-                                break;
+                                    break;
                             }
                             case ThemeComponentType.Effect:
                             {

@@ -406,6 +406,24 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlock_MapTier_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              "    MapTier >= 15";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is MapTierBlockItem));
+            var blockItem = result.BlockItems.OfType<MapTierBlockItem>().First();
+            Assert.AreEqual(15, blockItem.FilterPredicate.PredicateOperand);
+            Assert.AreEqual(FilterPredicateOperator.GreaterThanOrEqual, blockItem.FilterPredicate.PredicateOperator);
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_ShapedMap_ReturnsCorrectObject()
         {
             // Arrange
@@ -925,7 +943,10 @@ namespace Filtration.Parser.Tests.Services
                               "    SetBorderColor 0 0 0" + Environment.NewLine +
                               "    SetFontSize 50" + Environment.NewLine +
                               "    PlayAlertSound 3" + Environment.NewLine +
-                              "    DisableDropSound False" + Environment.NewLine;
+                              "    DisableDropSound False" + Environment.NewLine +
+                              "    CustomAlertSound \"test.mp3\" # customSoundTheme" + Environment.NewLine +
+                              "    MinimapIcon 2 Green Triangle  # iconTheme" + Environment.NewLine +
+                              "    PlayEffect Green Temp  # effectTheme" + Environment.NewLine;
 
             // Act
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
@@ -1023,13 +1044,41 @@ namespace Filtration.Parser.Tests.Services
 
             var fontSizeblockItem = result.BlockItems.OfType<FontSizeBlockItem>().First();
             Assert.AreEqual(50, fontSizeblockItem.Value);
-
-            var soundblockItem = result.BlockItems.OfType<SoundBlockItem>().First();
-            Assert.AreEqual("3", soundblockItem.Value);
-            Assert.AreEqual(79, soundblockItem.SecondValue);
+            
+            Assert.AreEqual(0, result.BlockItems.OfType<SoundBlockItem>().Count());
 
             var disableDropSoundBlockItem = result.BlockItems.OfType<DisableDropSoundBlockItem>().First();
             Assert.IsFalse(disableDropSoundBlockItem.BooleanValue);
+
+            var customSoundBlockItem = result.BlockItems.OfType<CustomSoundBlockItem>().First();
+            Assert.AreEqual("test.mp3", customSoundBlockItem.Value);
+            Assert.AreNotEqual(null, customSoundBlockItem.ThemeComponent);
+            Assert.AreEqual(ThemeComponentType.CustomSound, customSoundBlockItem.ThemeComponent.ComponentType);
+            Assert.AreEqual("customSoundTheme", customSoundBlockItem.ThemeComponent.ComponentName);
+            Assert.AreEqual(typeof(StringThemeComponent), customSoundBlockItem.ThemeComponent.GetType());
+            Assert.AreEqual("test.mp3", ((StringThemeComponent)customSoundBlockItem.ThemeComponent).Value);
+
+            var mapIconBlockItem = result.BlockItems.OfType<MapIconBlockItem>().First();
+            Assert.AreEqual(IconSize.Small, mapIconBlockItem.Size);
+            Assert.AreEqual(IconColor.Green, mapIconBlockItem.Color);
+            Assert.AreEqual(IconShape.Triangle, mapIconBlockItem.Shape);
+            Assert.AreNotEqual(null, mapIconBlockItem.ThemeComponent);
+            Assert.AreEqual(ThemeComponentType.Icon, mapIconBlockItem.ThemeComponent.ComponentType);
+            Assert.AreEqual("iconTheme", mapIconBlockItem.ThemeComponent.ComponentName);
+            Assert.AreEqual(typeof(IconThemeComponent), mapIconBlockItem.ThemeComponent.GetType());
+            Assert.AreEqual(IconSize.Small, ((IconThemeComponent)mapIconBlockItem.ThemeComponent).IconSize);
+            Assert.AreEqual(IconColor.Green, ((IconThemeComponent)mapIconBlockItem.ThemeComponent).IconColor);
+            Assert.AreEqual(IconShape.Triangle, ((IconThemeComponent)mapIconBlockItem.ThemeComponent).IconShape);
+
+            var effectColorBlockItem = result.BlockItems.OfType<EffectColorBlockItem>().First();
+            Assert.AreEqual(EffectColor.Green, effectColorBlockItem.Color);
+            Assert.IsTrue(effectColorBlockItem.Temporary);
+            Assert.AreNotEqual(null, effectColorBlockItem.ThemeComponent);
+            Assert.AreEqual(ThemeComponentType.Effect, effectColorBlockItem.ThemeComponent.ComponentType);
+            Assert.AreEqual("effectTheme", effectColorBlockItem.ThemeComponent.ComponentName);
+            Assert.AreEqual(typeof(EffectColorThemeComponent), effectColorBlockItem.ThemeComponent.GetType());
+            Assert.AreEqual(EffectColor.Green, ((EffectColorThemeComponent)effectColorBlockItem.ThemeComponent).EffectColor);
+            Assert.IsTrue(((EffectColorThemeComponent)effectColorBlockItem.ThemeComponent).Temporary);
         }
 
         [Test]
