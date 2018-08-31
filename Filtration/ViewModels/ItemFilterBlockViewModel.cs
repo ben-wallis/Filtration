@@ -251,6 +251,13 @@ namespace Filtration.ViewModels
             var newBlockItem = (IItemFilterBlockItem) Activator.CreateInstance(blockItemType);
 
             newBlockItem.PropertyChanged += OnBlockItemChanged;
+
+            var customSoundBlockItem = newBlockItem as CustomSoundBlockItem;
+            if(customSoundBlockItem != null && _parentScriptViewModel.CustomSoundsAvailable.Count > 0)
+            {
+                customSoundBlockItem.Value = _parentScriptViewModel.CustomSoundsAvailable[0];
+            }
+
             BlockItems.Add(newBlockItem);
             OnBlockItemChanged(this, EventArgs.Empty);
             IsDirty = true;

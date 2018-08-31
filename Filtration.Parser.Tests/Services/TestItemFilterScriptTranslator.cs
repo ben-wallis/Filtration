@@ -285,13 +285,11 @@ namespace Filtration.Parser.Tests.Services
                                   "    ItemLevel > 2" + Environment.NewLine +
                                   "    SetTextColor 255 40 0" + Environment.NewLine +
                                   Environment.NewLine +
-                                  "#Disabled Block Start" + Environment.NewLine +
                                   "#Show" + Environment.NewLine +
                                   "#    ItemLevel > 2" + Environment.NewLine +
                                   "#    SetTextColor 255 215 0" + Environment.NewLine +
                                   "#    SetBorderColor 255 105 180" + Environment.NewLine +
                                   "#    SetFontSize 32" + Environment.NewLine +
-                                  "#Disabled Block End" + Environment.NewLine +
                                   Environment.NewLine +
                                   "Show" + Environment.NewLine +
                                   "   ItemLevel > 20" + Environment.NewLine +
@@ -316,13 +314,11 @@ namespace Filtration.Parser.Tests.Services
                                   "    ItemLevel > 2" + Environment.NewLine +
                                   "    SetTextColor 255 40 0" + Environment.NewLine +
                                   Environment.NewLine +
-                                  "#Disabled Block Start" + Environment.NewLine +
                                   "#Show" + Environment.NewLine +
                                   "#    ItemLevel > 2" + Environment.NewLine +
                                   "#    SetTextColor 255 215 0" + Environment.NewLine +
                                   "#    SetBorderColor 255 105 180" + Environment.NewLine +
                                   "#    SetFontSize 32" + Environment.NewLine +
-                                  "#Disabled Block End" + Environment.NewLine +
                                   Environment.NewLine +
                                   "Show" + Environment.NewLine +
                                   "   ItemLevel > 20" + Environment.NewLine +
@@ -355,11 +351,9 @@ namespace Filtration.Parser.Tests.Services
                                   "    ItemLevel > 2" + Environment.NewLine +
                                   "    SetTextColor 255 40 0" + Environment.NewLine +
                                   Environment.NewLine +
-                                  "#Disabled Block Start" + Environment.NewLine +
                                   "# This is a disabled block" + Environment.NewLine +
                                   "#Show" + Environment.NewLine +
-                                  "#    ItemLevel > 2" + Environment.NewLine +
-                                  "#Disabled Block End";
+                                  "#    ItemLevel > 2";
 
 
             var blockTranslator = new ItemFilterBlockTranslator(Mock.Of<IBlockGroupHierarchyBuilder>());
@@ -384,11 +378,9 @@ namespace Filtration.Parser.Tests.Services
                                   "    ItemLevel > 2" + Environment.NewLine +
                                   "    SetTextColor 255 40 0" + Environment.NewLine +
                                   Environment.NewLine +
-                                  "#Disabled Block Start" + Environment.NewLine +
                                   "# This is a disabled block" + Environment.NewLine +
                                   "#Show#My Block Group" + Environment.NewLine +
-                                  "#    ItemLevel > 2" + Environment.NewLine +
-                                  "#Disabled Block End";
+                                  "#    ItemLevel > 2";
 
 
             var mockBlockGroupHierarchyBuilder = new Mock<IBlockGroupHierarchyBuilder>();

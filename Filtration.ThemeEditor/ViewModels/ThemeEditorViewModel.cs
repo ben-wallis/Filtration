@@ -209,7 +209,7 @@ namespace Filtration.ThemeEditor.ViewModels
                     Components.Add(new StrIntThemeComponent(themeComponentType, "Untitled Component", "1", 100));
                     break;
                 case ThemeComponentType.CustomSound:
-                    Components.Add(new StringThemeComponent(themeComponentType, "Untitled Component", "placeholder.mp3"));
+                    Components.Add(new StringThemeComponent(themeComponentType, "Untitled Component", ""));
                     break;
                 case ThemeComponentType.Icon:
                     Components.Add(new IconThemeComponent(themeComponentType, "Untitled Component", IconSize.Largest, IconColor.Red, IconShape.Circle));

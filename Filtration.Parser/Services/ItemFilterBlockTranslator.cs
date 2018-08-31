@@ -63,13 +63,35 @@ namespace Filtration.Parser.Services
 
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
-                if (line.StartsWith(@"#") && !showHideFound)
+                if (line.StartsWith(@"#"))
                 {
-                    block.Description = line.TrimStart('#').TrimStart(' ');
+                    if(!showHideFound)
+                    {
+                        block.Description = line.TrimStart('#').TrimStart(' ');
+                    }
+                    else
+                    {
+                        if(block.BlockItems.Count > 1)
+                        {
+                            block.BlockItems.Last().Comment += Environment.NewLine + line.TrimStart('#');
+                        }
+                        else
+                        {
+                            block.ActionBlockItem.Comment += Environment.NewLine + line.TrimStart('#');
+                        }
+                    }
                     continue;
                 }
 
-                var trimmedLine = line.Trim();
+                var fullLine = line.Trim();
+                var trimmedLine = fullLine;
+                var blockComment = "";
+                var themeComponentType = -1;
+                if(trimmedLine.IndexOf('#') > 0)
+                {
+                    blockComment = trimmedLine.Substring(trimmedLine.IndexOf('#') + 1);
+                    trimmedLine = trimmedLine.Substring(0, trimmedLine.IndexOf('#')).Trim();
+                }
                 var spaceOrEndOfLinePos = trimmedLine.IndexOf(" ", StringComparison.Ordinal) > 0 ? trimmedLine.IndexOf(" ", StringComparison.Ordinal) : trimmedLine.Length;
 
                 var lineOption = trimmedLine.Substring(0, spaceOrEndOfLinePos);
@@ -88,11 +110,11 @@ namespace Filtration.Parser.Services
                         // group hierarchy, if block groups are disabled it is preserved as a simple text comment.
                         if (parentItemFilterScript.ItemFilterScriptSettings.BlockGroupsEnabled)
                         {
-                            AddBlockGroupToBlock(block, trimmedLine);
+                            AddBlockGroupToBlock(block, fullLine);
                         }
                         else
                         {
-                            block.ActionBlockItem.Comment = GetTextAfterFirstComment(trimmedLine);
+                            block.ActionBlockItem.Comment = GetTextAfterFirstComment(fullLine);
                         }
                         break;
                     }
@@ -193,7 +215,12 @@ namespace Filtration.Parser.Services
                         // Only ever use the last SetTextColor item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<TextColorBlockItem>(block);
 
-                        AddColorItemToBlockItems<TextColorBlockItem>(block, trimmedLine);
+                        var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
+                        
+                        var blockItem = new TextColorBlockItem();
+                        blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
+                        block.BlockItems.Add(blockItem);
+                        themeComponentType = (int)ThemeComponentType.TextColor;
                         break;
                     }
                     case "SetBackgroundColor":
@@ -201,7 +228,12 @@ namespace Filtration.Parser.Services
                         // Only ever use the last SetBackgroundColor item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<BackgroundColorBlockItem>(block);
 
-                        AddColorItemToBlockItems<BackgroundColorBlockItem>(block, trimmedLine);
+                        var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
+                        
+                        var blockItem = new BackgroundColorBlockItem();
+                        blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
+                        block.BlockItems.Add(blockItem);
+                        themeComponentType = (int)ThemeComponentType.BackgroundColor;
                         break;
                     }
                     case "SetBorderColor":
@@ -209,7 +241,12 @@ namespace Filtration.Parser.Services
                         // Only ever use the last SetBorderColor item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<BorderColorBlockItem>(block);
 
-                        AddColorItemToBlockItems<BorderColorBlockItem>(block, trimmedLine);
+                        var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
+                        
+                        var blockItem = new BorderColorBlockItem();
+                        blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
+                        block.BlockItems.Add(blockItem);
+                        themeComponentType = (int)ThemeComponentType.BorderColor;
                         break;
                     }
                     case "SetFontSize":
@@ -217,15 +254,12 @@ namespace Filtration.Parser.Services
                         // Only ever use the last SetFontSize item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<FontSizeBlockItem>(block);
 
-                        var match = Regex.Matches(trimmedLine, @"(\s+(\d+)\s*)([#]?)(.*)");
+                        var match = Regex.Matches(trimmedLine, @"(\s+(\d+)\s*)");
                         if (match.Count > 0)
                         {
                             var blockItem = new FontSizeBlockItem(Convert.ToInt16(match[0].Groups[2].Value));
-                            if(match[0].Groups[3].Value == "#" && !string.IsNullOrWhiteSpace(match[0].Groups[4].Value))
-                            {
-                                blockItem.ThemeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.FontSize, match[0].Groups[4].Value.Trim(), blockItem.Value);
-                            }
                             block.BlockItems.Add(blockItem);
+                            themeComponentType = (int)ThemeComponentType.FontSize;
                         }
                         break;
                     }
@@ -237,7 +271,7 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<PositionalSoundBlockItem>(block);
                         RemoveExistingBlockItemsOfType<CustomSoundBlockItem>(block);
 
-                        var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)\s?(\d+)?\s*([#]?)(.*)");
+                        var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)\s?(\d+)?");
                         
                         if (match.Success)
                         {
@@ -253,12 +287,6 @@ namespace Filtration.Parser.Services
                                 secondValue = 79;
                             }
 
-                            ThemeComponent themeComponent = null;
-                            if(match.Groups[3].Value == "#" && !string.IsNullOrWhiteSpace(match.Groups[4].Value))
-                            {
-                                themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.AlertSound, match.Groups[4].Value.Trim(), firstValue, secondValue);
-                            }
-
                             if (lineOption == "PlayAlertSound")
                             {
                                 var blockItemValue = new SoundBlockItem
@@ -266,7 +294,6 @@ namespace Filtration.Parser.Services
                                     Value = firstValue,
                                     SecondValue = secondValue
                                 };
-                                blockItemValue.ThemeComponent = themeComponent;
                                 block.BlockItems.Add(blockItemValue);
                             }
                             else
@@ -276,9 +303,9 @@ namespace Filtration.Parser.Services
                                     Value = firstValue,
                                     SecondValue = secondValue
                                 };
-                                blockItemValue.ThemeComponent = themeComponent;
                                 block.BlockItems.Add(blockItemValue);
                             }
+                            themeComponentType = (int)ThemeComponentType.AlertSound;
                         }
                         break;
                     }
@@ -336,6 +363,7 @@ namespace Filtration.Parser.Services
                                 blockItemValue.ThemeComponent = themeComponent;
                             }
                             block.BlockItems.Add(blockItemValue);
+                            themeComponentType = (int)ThemeComponentType.Icon;
                         }
                         break;
                     }
@@ -345,7 +373,7 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<PlayEffectBlockItem>(block);
                         
                         // TODO: Get colors programmatically
-                        var match = Regex.Match(trimmedLine, @"\S+\s+(Red|Green|Blue|Brown|White|Yellow)\s*(Temp)?\s*([#]?)(.*)", RegexOptions.IgnoreCase);
+                        var match = Regex.Match(trimmedLine, @"\S+\s+(Red|Green|Blue|Brown|White|Yellow)\s*(Temp)?", RegexOptions.IgnoreCase);
                         
                         if (match.Success)
                         {
@@ -354,14 +382,8 @@ namespace Filtration.Parser.Services
                                 Color = EnumHelper.GetEnumValueFromDescription<EffectColor>(match.Groups[1].Value),
                                 Temporary = match.Groups[2].Value.Trim().ToLower() == "temp"
                             };
-                                
-                            if(match.Groups[3].Value == "#" && !string.IsNullOrWhiteSpace(match.Groups[4].Value))
-                            {
-                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.Effect, match.Groups[4].Value.Trim(),
-                                    blockItemValue.Color, blockItemValue.Temporary);
-                                blockItemValue.ThemeComponent = themeComponent;
-                            }
                             block.BlockItems.Add(blockItemValue);
+                            themeComponentType = (int)ThemeComponentType.Effect;
                         }
                         break;
                     }
@@ -372,7 +394,7 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<SoundBlockItem>(block);
                         RemoveExistingBlockItemsOfType<PositionalSoundBlockItem>(block);
 
-                        var match = Regex.Match(trimmedLine, @"\S+\s+""(\S+)""\s*([#]?)(.*)");
+                        var match = Regex.Match(trimmedLine, @"\S+\s+""(\S+)""");
                         
                         if (match.Success)
                         {
@@ -380,13 +402,8 @@ namespace Filtration.Parser.Services
                             {
                                 Value = match.Groups[1].Value
                             };
-                                
-                            if(match.Groups[2].Value == "#" && !string.IsNullOrWhiteSpace(match.Groups[3].Value))
-                            {
-                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.CustomSound, match.Groups[3].Value.Trim(), blockItemValue.Value);
-                                blockItemValue.ThemeComponent = themeComponent;
-                            }
                             block.BlockItems.Add(blockItemValue);
+                            themeComponentType = (int)ThemeComponentType.CustomSound;
                         }
                         break;
                     }
@@ -396,8 +413,87 @@ namespace Filtration.Parser.Services
                         break;
                     }
                 }
-            }
 
+                if (!string.IsNullOrWhiteSpace(blockComment) && block.BlockItems.Count > 1)
+                {
+                    var blockItemWithTheme = block.BlockItems.Last() as IBlockItemWithTheme;
+                    if(blockItemWithTheme == null)
+                    {
+                        block.BlockItems.Last().Comment = blockComment;
+                    }
+                    else
+                    {
+                        switch((ThemeComponentType)themeComponentType)
+                        {
+                            case ThemeComponentType.AlertSound:
+                            {
+                                ThemeComponent themeComponent = null;
+                                if(blockItemWithTheme is SoundBlockItem)
+                                {
+                                    themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.AlertSound, blockComment.Trim(),
+                                        ((SoundBlockItem)blockItemWithTheme).Value, ((SoundBlockItem)blockItemWithTheme).SecondValue);
+                                }
+                                else
+                                {
+                                    themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.AlertSound, blockComment.Trim(),
+                                        ((PositionalSoundBlockItem)blockItemWithTheme).Value, ((PositionalSoundBlockItem)blockItemWithTheme).SecondValue);
+                                }
+                                blockItemWithTheme.ThemeComponent = themeComponent;
+                                break;
+                            }
+                            case ThemeComponentType.BackgroundColor:
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.BackgroundColor,
+                                    blockComment.Trim(), ((BackgroundColorBlockItem)blockItemWithTheme).Color);
+                                blockItemWithTheme.ThemeComponent = themeComponent;
+                                break;
+                            }
+                            case ThemeComponentType.BorderColor:
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.BorderColor,
+                                    blockComment.Trim(), ((BorderColorBlockItem)blockItemWithTheme).Color);
+                                blockItemWithTheme.ThemeComponent = themeComponent;
+                                break;
+                            }
+                            case ThemeComponentType.CustomSound:
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.CustomSound,
+                                    blockComment.Trim(), ((CustomSoundBlockItem)blockItemWithTheme).Value);
+                                blockItemWithTheme.ThemeComponent = themeComponent;
+                                    break;
+                            }
+                            case ThemeComponentType.Effect:
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.Effect,
+                                    blockComment.Trim(), ((EffectColorBlockItem)blockItemWithTheme).Color, ((EffectColorBlockItem)blockItemWithTheme).Temporary);
+                                blockItemWithTheme.ThemeComponent = themeComponent;
+                                break;
+                            }
+                            case ThemeComponentType.FontSize:
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.FontSize,
+                                    blockComment.Trim(), ((FontSizeBlockItem)blockItemWithTheme).Value);
+                                blockItemWithTheme.ThemeComponent = themeComponent;
+                                break;
+                            }
+                            case ThemeComponentType.Icon:
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.Icon, blockComment.Trim(),
+                                    ((IconBlockItem)blockItemWithTheme).Size, ((IconBlockItem)blockItemWithTheme).Color, ((IconBlockItem)blockItemWithTheme).Shape);
+                                blockItemWithTheme.ThemeComponent = themeComponent;
+                                break;
+                            }
+                            case ThemeComponentType.TextColor:
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.TextColor,
+                                    blockComment.Trim(), ((TextColorBlockItem)blockItemWithTheme).Color);
+                                blockItemWithTheme.ThemeComponent = themeComponent;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
             block.IsEdited = false;
             return block;
         }
@@ -460,48 +556,6 @@ namespace Filtration.Parser.Services
             }
         }
 
-        private void AddColorItemToBlockItems<T>(IItemFilterBlock block, string inputString) where T : ColorBlockItem
-        {
-            block.BlockItems.Add(GetColorBlockItemFromString<T>(inputString));
-        }
-
-        private T GetColorBlockItemFromString<T>(string inputString) where T: ColorBlockItem
-        {
-            var blockItem = Activator.CreateInstance<T>();
-            var result = Regex.Matches(inputString, @"([\w\s]*)[#]?(.*)");
-
-            blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
-
-            var componentName = result[0].Groups[2].Value.Trim();
-            if (!string.IsNullOrEmpty(componentName))
-            {
-                ThemeComponentType componentType;
-                if (typeof(T) == typeof(TextColorBlockItem))
-                {
-                    componentType = ThemeComponentType.TextColor;
-                }
-                else if (typeof(T) == typeof(BackgroundColorBlockItem))
-                {
-                    componentType = ThemeComponentType.BackgroundColor;
-                }
-                else if (typeof(T) == typeof(BorderColorBlockItem))
-                {
-                    componentType = ThemeComponentType.BorderColor;
-                }
-                else
-                {
-                    throw new Exception("Parsing error - unknown theme component type");
-                }
-                if (_masterComponentCollection != null)
-                {
-                    blockItem.ThemeComponent = _masterComponentCollection.AddComponent(componentType, componentName,
-                        blockItem.Color);
-                }
-            }
-
-            return blockItem;
-        }
-
         public void ReplaceAudioVisualBlockItemsFromString(ObservableCollection<IItemFilterBlockItem> blockItems, string inputString)
         {
             // Reverse iterate to remove existing IAudioVisualBlockItems
@@ -516,36 +570,87 @@ namespace Filtration.Parser.Services
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
                 var matches = Regex.Match(line, @"(\w+)");
-                
+                var blockComment = "";
+                var trimmedLine = line.Trim();
+                if (trimmedLine.IndexOf('#') > 0)
+                {
+                    blockComment = trimmedLine.Substring(trimmedLine.IndexOf('#') + 1);
+                    trimmedLine = trimmedLine.Substring(0, trimmedLine.IndexOf('#')).Trim();
+                }
+
                 switch (matches.Value)
                 {
                     case "PlayAlertSound":
                     {
-                        var match = Regex.Match(line, @"\s+(\S+) (\d+)");
+                        var match = Regex.Match(trimmedLine, @"\s+(\S+) (\d+)");
                         if (!match.Success) break;
-                        blockItems.Add(new SoundBlockItem(match.Groups[1].Value, Convert.ToInt16(match.Groups[2].Value)));
+                        var blockItem = new SoundBlockItem(match.Groups[1].Value, Convert.ToInt16(match.Groups[2].Value));
+                        if(_masterComponentCollection != null && !string.IsNullOrWhiteSpace(blockComment))
+                        {
+                            ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.AlertSound,
+                                blockComment, blockItem.Value, blockItem.SecondValue);
+                                blockItem.ThemeComponent = themeComponent;
+                        }
+                        blockItems.Add(blockItem);
                         break;
                     }
                     case "SetTextColor":
                     {
-                        blockItems.Add(GetColorBlockItemFromString<TextColorBlockItem>(line));
+                        var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
+                        
+                        var blockItem = new TextColorBlockItem();
+                        blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
+                        if(_masterComponentCollection != null && !string.IsNullOrWhiteSpace(blockComment))
+                        {
+                            ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.TextColor,
+                                blockComment, blockItem.Color);
+                            blockItem.ThemeComponent = themeComponent;
+                        }
+                        blockItems.Add(blockItem);
                         break;
                     }
                     case "SetBackgroundColor":
                     {
-                        blockItems.Add(GetColorBlockItemFromString<BackgroundColorBlockItem>(line));
+                        var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
+                        
+                        var blockItem = new BackgroundColorBlockItem();
+                        blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
+                        if(_masterComponentCollection != null && !string.IsNullOrWhiteSpace(blockComment))
+                        {
+                            ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.BackgroundColor,
+                                blockComment, blockItem.Color);
+                            blockItem.ThemeComponent = themeComponent;
+                        }
+                        blockItems.Add(blockItem);
                         break;
                     }
                     case "SetBorderColor":
                     {
-                        blockItems.Add(GetColorBlockItemFromString<BorderColorBlockItem>(line));
+                        var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
+                        
+                        var blockItem = new BorderColorBlockItem();
+                        blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
+                        if(_masterComponentCollection != null && !string.IsNullOrWhiteSpace(blockComment))
+                        {
+                            ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.BorderColor,
+                                blockComment, blockItem.Color);
+                            blockItem.ThemeComponent = themeComponent;
+                        }
+                        blockItems.Add(blockItem);
                         break;
                     }
                     case "SetFontSize":
                     {
-                        var match = Regex.Match(line, @"\s+(\d+)");
+                        var match = Regex.Match(trimmedLine, @"\s+(\d+)");
                         if (!match.Success) break;
-                        blockItems.Add(new FontSizeBlockItem(Convert.ToInt16(match.Value)));
+                        var blockItem = new FontSizeBlockItem(Convert.ToInt16(match.Value));
+                        if (_masterComponentCollection != null && !string.IsNullOrWhiteSpace(blockComment))
+                        {
+                            ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.FontSize,
+                                blockComment, blockItem.Value);
+                            blockItem.ThemeComponent = themeComponent;
+                        }
+                        blockItems.Add(blockItem);
                         break;
                     }
                 } 

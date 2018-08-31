@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Filtration.ObjectModel.Enums;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
@@ -25,13 +26,34 @@ namespace Filtration.ObjectModel.ThemeEditor
 
             if (_customSoundsAvailable == null || _customSoundsAvailable.Count < 1)
             {
-                _customSoundsAvailable = new ObservableCollection<string> {
-                    "1maybevaluable.mp3", "2currency.mp3", "3uniques.mp3", "4maps.mp3", "5highmaps.mp3",
-                    "6veryvaluable.mp3", "7chancing.mp3", "12leveling.mp3", "placeholder.mp3"
-                };
+
+                _customSoundsAvailable = new ObservableCollection<string>();
+
+                var poeFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).ToString() + @"\My Games\Path of Exile\";
+                if(System.IO.Directory.Exists(poeFolderPath))
+                {
+                    var poeFolderFiles = System.IO.Directory.GetFiles(poeFolderPath).Where(
+                        s => s.EndsWith(".mp3")
+                        || s.EndsWith(".wav")
+                        || s.EndsWith(".wma")
+                        || s.EndsWith(".3gp")
+                        || s.EndsWith(".aag")
+                        || s.EndsWith(".m4a")
+                        || s.EndsWith(".ogg")
+                    ).OrderBy(f => f);
+
+                    foreach (var file in poeFolderFiles)
+                    {
+                        _customSoundsAvailable.Add(file.Replace(poeFolderPath, ""));
+                    }
+                }
             }
 
-            if (_customSoundsAvailable.IndexOf(Value) < 0)
+            if(string.IsNullOrWhiteSpace(Value))
+            {
+                Value = _customSoundsAvailable.Count > 0 ? _customSoundsAvailable[0] : "";
+            }
+            else if (_customSoundsAvailable.IndexOf(Value) < 0)
             {
                 _customSoundsAvailable.Add(Value);
             }

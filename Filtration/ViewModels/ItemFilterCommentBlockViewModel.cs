@@ -1,6 +1,7 @@
 ﻿using Filtration.ObjectModel;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
+using System.Text.RegularExpressions;
 
 namespace Filtration.ViewModels
 {
@@ -61,7 +62,7 @@ namespace Filtration.ViewModels
             {
                 string[] commentLines = ItemFilterCommentBlock.Comment.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 var titleOffset = 1;
-                if (commentLines.Length > 1 && (commentLines[0].TrimStart(' ').StartsWith(@"============") || commentLines[0].TrimStart(' ').StartsWith(@"------------")))
+                if (commentLines.Length > 1 && !Regex.Match(commentLines[0], "[a-zA-Z]+").Success)
                 {
                     titleOffset = 3;
                     commentLines[0] = commentLines[1];

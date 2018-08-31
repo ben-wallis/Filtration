@@ -11,7 +11,7 @@ namespace Filtration.Converters
         {
             if (values[0] == DependencyProperty.UnsetValue ||
                 values[1] == DependencyProperty.UnsetValue)
-                return null;
+                return new Rect(0, 0, 0, 0);
 
             var size = (int)(values[0]);
             var color = (int)(values[1]);
