@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="Filtration.Views.ItemFilterBlockView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:Filtration.ViewModels"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
@@ -9,7 +9,7 @@
              xmlns:converters="clr-namespace:Filtration.Converters"
              xmlns:blockItemBaseTypes="clr-namespace:Filtration.ObjectModel.BlockItemBaseTypes;assembly=Filtration.ObjectModel"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:ItemFilterBlockViewModel}"
              d:DesignHeight="200" d:DesignWidth="800">
     <UserControl.Resources>
@@ -18,8 +18,7 @@
                 <ResourceDictionary>
                     <views:BindingProxy x:Key="Proxy" Data="{Binding}" />
                     <converters:BlockGroupAdvancedFillColorConverter x:Key="BlockGroupAdvancedFillColorConverter" />
-                    <converters:IconShapeToSourceConverter x:Key="IconShapeToSourceConverter"/>
-                    <converters:SizeColorToRectConverter x:Key="SizeColorToRectConverter"/>
+                    <converters:MinimapIconConverter x:Key="MinimapIconConverter"/>
                     <Style TargetType="{x:Type ContentPresenter}" x:Key="BlockItemFadeInStyle">
                         <Setter Property="LayoutTransform">
                             <Setter.Value>
@@ -134,14 +133,14 @@
                             <WrapPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
                                 <Rectangle Height="40" Width="40" Margin="0,0,10,0">
                                     <Rectangle.Fill>
-                                        <ImageBrush ImageSource="{Binding DisplayIconShape, Converter={StaticResource IconShapeToSourceConverter}, Mode=OneWay}"
-                                            ViewboxUnits="Absolute" Stretch="Fill">
-                                            <ImageBrush.Viewbox>
-                                                <MultiBinding Converter="{StaticResource SizeColorToRectConverter}">
+                                        <ImageBrush ViewboxUnits="Absolute" Stretch="Fill" Viewbox="0,0,64,64">
+                                            <ImageBrush.ImageSource>
+                                                <MultiBinding Converter="{StaticResource MinimapIconConverter}">
                                                     <Binding Path="DisplayIconSize"/>
                                                     <Binding Path="DisplayIconColor"/>
+                                                    <Binding Path="DisplayIconShape"/>
                                                 </MultiBinding>
-                                            </ImageBrush.Viewbox>
+                                            </ImageBrush.ImageSource>
                                         </ImageBrush>
                                     </Rectangle.Fill>
                                 </Rectangle>
@@ -206,7 +205,7 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        
+
                         <Grid Grid.Row="0" Visibility="{Binding AudioVisualBlockItemsGridVisible, Converter={StaticResource InverseBooleanVisibilityConverter}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -221,7 +220,7 @@
                                     Switch to Appearance Block Items
                                 </Hyperlink>
                             </TextBlock>
-                        
+
                             <!-- Add Block Item Links -->
                             <ItemsControl Grid.Column="0" ItemsSource="{Binding BlockItemTypesAvailable}" Grid.Row="0" Margin="0,0,0,10">
                                 <ItemsControl.ItemsPanel>
@@ -243,7 +242,7 @@
                             <!-- Enable/Disable Block Button -->
                             <ToggleButton Grid.Row="0"
                                           Grid.Column="1"
-                                          Style="{StaticResource ChromelessToggleButton}" 
+                                          Style="{StaticResource ChromelessToggleButton}"
                                           IsChecked="{Binding BlockEnabled}"
                                           Margin="0,0,5,0"
                                           ToolTip="Enable/Disable Block"
@@ -265,7 +264,7 @@
                                     </Image.Style>
                                 </Image>
                             </ToggleButton>
-                            
+
                             <!-- Block Items -->
                             <WrapPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" MaxHeight="200">
                                 <WrapPanel.Resources>
@@ -319,7 +318,7 @@
                             </ItemsControl>
 
                             <TextBlock Grid.Row="1" FontStyle="Italic" HorizontalAlignment="Left" Visibility="{Binding HasAudioVisualBlockItems, Converter={StaticResource InverseBooleanVisibilityConverter}}">To change the appearance of this block, add a Text, Background or Border Block Item above.</TextBlock>
-                            
+
                             <!-- Block Items -->
                             <WrapPanel Grid.Row="1" MaxHeight="200">
                                 <WrapPanel.Resources>
