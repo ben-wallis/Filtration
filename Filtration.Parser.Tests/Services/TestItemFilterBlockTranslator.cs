@@ -1272,6 +1272,41 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlock_SpecificTest_2()
+        {
+            // Arrange
+            var inputString = @"#8#" + Environment.NewLine +
+                              "Hide " + Environment.NewLine +
+                              "Rarity Magic " + Environment.NewLine +
+                              "DropLevel >= 67" + Environment.NewLine +
+                              "BaseType \"Sorcerer Boots\"" + Environment.NewLine +
+                              "Rarity Magic " + Environment.NewLine +
+                              "SetFontSize 26" + Environment.NewLine +
+                              "SetBackgroundColor 0 20 0\"";
+
+
+            _testUtility.TestBlock.Enabled = false;
+            _testUtility.TestBlock.BlockItems.Add(new WidthBlockItem(FilterPredicateOperator.Equal, 4));
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is ActionBlockItem));
+            var actionBlockItem = result.BlockItems.OfType<ActionBlockItem>().First();
+            Assert.AreEqual(BlockAction.Hide, actionBlockItem.Action);
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is DropLevelBlockItem));
+            var droplevelBlockItem = result.BlockItems.OfType<DropLevelBlockItem>().First();
+            Assert.AreEqual(67, droplevelBlockItem.FilterPredicate.PredicateOperand);
+            Assert.AreEqual(FilterPredicateOperator.GreaterThanOrEqual, droplevelBlockItem.FilterPredicate.PredicateOperator);
+
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is RarityBlockItem));
+            var rarityBlockItem = result.BlockItems.OfType<RarityBlockItem>().First();
+            Assert.AreEqual(ItemRarity.Magic, (ItemRarity)rarityBlockItem.FilterPredicate.PredicateOperand);
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_CustomSoundDocumentsFile()
         {
             // Arrange
@@ -1349,41 +1384,6 @@ namespace Filtration.Parser.Tests.Services
             Assert.AreEqual(1, result.BlockItems.Count(b => b is CustomSoundBlockItem));
             var customSoundBlockItem = result.BlockItems.OfType<CustomSoundBlockItem>().First();
             Assert.AreEqual("C:\\Sounds/test.mp3", customSoundBlockItem.Value);
-        }
-
-        [Test]
-        public void TranslateStringToItemFilterBlock_SpecificTest_2()
-        {
-            // Arrange
-            var inputString = @"#8#" + Environment.NewLine +
-                              "Hide " + Environment.NewLine +
-                              "Rarity Magic " + Environment.NewLine +
-                              "DropLevel >= 67" + Environment.NewLine +
-                              "BaseType \"Sorcerer Boots\"" + Environment.NewLine +
-                              "Rarity Magic " + Environment.NewLine +
-                              "SetFontSize 26" + Environment.NewLine +
-                              "SetBackgroundColor 0 20 0\"";
-
-
-            _testUtility.TestBlock.Enabled = false;
-            _testUtility.TestBlock.BlockItems.Add(new WidthBlockItem(FilterPredicateOperator.Equal, 4));
-
-            // Act
-            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
-
-            // Assert
-            Assert.AreEqual(1, result.BlockItems.Count(b => b is ActionBlockItem));
-            var actionBlockItem = result.BlockItems.OfType<ActionBlockItem>().First();
-            Assert.AreEqual(BlockAction.Hide, actionBlockItem.Action);
-
-            Assert.AreEqual(1, result.BlockItems.Count(b => b is DropLevelBlockItem));
-            var droplevelBlockItem = result.BlockItems.OfType<DropLevelBlockItem>().First();
-            Assert.AreEqual(67, droplevelBlockItem.FilterPredicate.PredicateOperand);
-            Assert.AreEqual(FilterPredicateOperator.GreaterThanOrEqual, droplevelBlockItem.FilterPredicate.PredicateOperator);
-
-            Assert.AreEqual(1, result.BlockItems.Count(b => b is RarityBlockItem));
-            var rarityBlockItem = result.BlockItems.OfType<RarityBlockItem>().First();
-            Assert.AreEqual(ItemRarity.Magic, (ItemRarity)rarityBlockItem.FilterPredicate.PredicateOperand);
         }
 
         [Test]
