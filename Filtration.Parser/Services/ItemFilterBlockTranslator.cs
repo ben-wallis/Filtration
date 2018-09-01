@@ -47,7 +47,7 @@ namespace Filtration.Parser.Services
             return itemFilterCommentBlock;
         }
 
-        // This method converts a string into a ItemFilterBlock. This is used for pasting ItemFilterBlocks 
+        // This method converts a string into a ItemFilterBlock. This is used for pasting ItemFilterBlocks
         // and reading ItemFilterScripts from a file.
         public IItemFilterBlock TranslateStringToItemFilterBlock(string inputString, IItemFilterScript parentItemFilterScript, string originalString = "", bool initialiseBlockGroupHierarchyBuilder = false)
         {
@@ -216,7 +216,7 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<TextColorBlockItem>(block);
 
                         var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
-                        
+
                         var blockItem = new TextColorBlockItem();
                         blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
                         block.BlockItems.Add(blockItem);
@@ -229,7 +229,7 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<BackgroundColorBlockItem>(block);
 
                         var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
-                        
+
                         var blockItem = new BackgroundColorBlockItem();
                         blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
                         block.BlockItems.Add(blockItem);
@@ -242,7 +242,7 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<BorderColorBlockItem>(block);
 
                         var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
-                        
+
                         var blockItem = new BorderColorBlockItem();
                         blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
                         block.BlockItems.Add(blockItem);
@@ -272,7 +272,7 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<CustomSoundBlockItem>(block);
 
                         var match = Regex.Match(trimmedLine, @"\S+\s+(\S+)\s?(\d+)?");
-                        
+
                         if (match.Success)
                         {
                             string firstValue = match.Groups[1].Value;
@@ -341,12 +341,12 @@ namespace Filtration.Parser.Services
                     {
                         // Only ever use the last Icon item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<MapIconBlockItem>(block);
-                        
+
                         // TODO: Get size, color, shape values programmatically
                         var match = Regex.Match(trimmedLine,
                             @"\S+\s+(0|1|2)\s+(Red|Green|Blue|Brown|White|Yellow)\s+(Circle|Diamond|Hexagon|Square|Star|Triangle)\s*([#]?)(.*)",
                             RegexOptions.IgnoreCase);
-                        
+
                         if (match.Success)
                         {
                             var blockItemValue = new MapIconBlockItem
@@ -355,7 +355,7 @@ namespace Filtration.Parser.Services
                                 Color = EnumHelper.GetEnumValueFromDescription<IconColor>(match.Groups[2].Value),
                                 Shape = EnumHelper.GetEnumValueFromDescription<IconShape>(match.Groups[3].Value)
                             };
-                                
+
                             if(match.Groups[4].Value == "#" && !string.IsNullOrWhiteSpace(match.Groups[5].Value))
                             {
                                 ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.Icon, match.Groups[5].Value.Trim(),
@@ -371,10 +371,10 @@ namespace Filtration.Parser.Services
                     {
                         // Only ever use the last BeamColor item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<PlayEffectBlockItem>(block);
-                        
+
                         // TODO: Get colors programmatically
                         var match = Regex.Match(trimmedLine, @"\S+\s+(Red|Green|Blue|Brown|White|Yellow)\s*(Temp)?", RegexOptions.IgnoreCase);
-                        
+
                         if (match.Success)
                         {
                             var blockItemValue = new PlayEffectBlockItem
@@ -394,8 +394,8 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<SoundBlockItem>(block);
                         RemoveExistingBlockItemsOfType<PositionalSoundBlockItem>(block);
 
-                        var match = Regex.Match(trimmedLine, @"\S+\s+""(\S+)""");
-                        
+	                    var match = Regex.Match(trimmedLine, @"\S+\s+""([^\*\<\>\?|]+)""");
+
                         if (match.Success)
                         {
                             var blockItemValue = new CustomSoundBlockItem
@@ -523,7 +523,7 @@ namespace Filtration.Parser.Services
         private static void AddNumericFilterPredicateItemToBlockItems<T>(IItemFilterBlock block, string inputString) where T : NumericFilterPredicateBlockItem
         {
             var blockItem = Activator.CreateInstance<T>();
-            
+
             SetNumericFilterPredicateFromString(blockItem.FilterPredicate, inputString);
             block.BlockItems.Add(blockItem);
         }
@@ -597,7 +597,7 @@ namespace Filtration.Parser.Services
                     case "SetTextColor":
                     {
                         var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
-                        
+
                         var blockItem = new TextColorBlockItem();
                         blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
                         if(_masterComponentCollection != null && !string.IsNullOrWhiteSpace(blockComment))
@@ -612,7 +612,7 @@ namespace Filtration.Parser.Services
                     case "SetBackgroundColor":
                     {
                         var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
-                        
+
                         var blockItem = new BackgroundColorBlockItem();
                         blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
                         if(_masterComponentCollection != null && !string.IsNullOrWhiteSpace(blockComment))
@@ -627,7 +627,7 @@ namespace Filtration.Parser.Services
                     case "SetBorderColor":
                     {
                         var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
-                        
+
                         var blockItem = new BorderColorBlockItem();
                         blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
                         if(_masterComponentCollection != null && !string.IsNullOrWhiteSpace(blockComment))
@@ -653,10 +653,10 @@ namespace Filtration.Parser.Services
                         blockItems.Add(blockItem);
                         break;
                     }
-                } 
+                }
             }
         }
-        
+
         private void AddBlockGroupToBlock(IItemFilterBlock block, string inputString)
         {
             var blockGroupText = GetTextAfterFirstComment(inputString);
@@ -741,7 +741,7 @@ namespace Filtration.Parser.Services
             // Remove trailing newline
             return commentWithHashes.TrimEnd('\r', '\n');
         }
-        
+
         // This method converts an ItemFilterBlock object into a string. This is used for copying a ItemFilterBlock
         // to the clipboard, and when saving a ItemFilterScript.
         // TODO: Private
