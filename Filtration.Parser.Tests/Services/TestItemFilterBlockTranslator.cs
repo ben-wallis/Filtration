@@ -945,8 +945,10 @@ namespace Filtration.Parser.Tests.Services
                               "    PlayAlertSound 3" + Environment.NewLine +
                               "    DisableDropSound False" + Environment.NewLine +
                               "    CustomAlertSound \"test.mp3\" # customSoundTheme" + Environment.NewLine +
-                              "    MinimapIcon 2 Green Triangle  # iconTheme" + Environment.NewLine +
-                              "    PlayEffect Green Temp  # effectTheme" + Environment.NewLine;
+                              "    # iconTheme" + Environment.NewLine +
+                              "    MinimapIcon 2 Green Triangle" + Environment.NewLine +
+                              "    # effectTheme" + Environment.NewLine +
+                              "    PlayEffect Green Temp" + Environment.NewLine;
 
             // Act
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);

@@ -1,5 +1,7 @@
 ﻿using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.Enums;
+using Filtration.ObjectModel.Extensions;
+using System;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
@@ -20,5 +22,8 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override int MaximumAllowed => 1;
         public override string DisplayHeading => "Minimap Icon";
         public override int SortOrder => 29;
+
+        public override string OutputText => (ThemeComponent != null ? "# " + ThemeComponent.ComponentName + Environment.NewLine : string.Empty) +
+                                             PrefixText + " " + (int)Size + " " + Color.GetAttributeDescription() + " " + Shape.GetAttributeDescription();
     }
 }

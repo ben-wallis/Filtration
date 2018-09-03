@@ -1,4 +1,5 @@
 ﻿using Filtration.ObjectModel.BlockItemBaseTypes;
+using System;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
@@ -19,5 +20,8 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override int SortOrder => 25;
         public override int Minimum => 11;
         public override int Maximum => 45;
+
+        public override string OutputText => (ThemeComponent != null ? "# " + ThemeComponent.ComponentName + Environment.NewLine : string.Empty) +
+                                             PrefixText + " " + Value;
     }
 }

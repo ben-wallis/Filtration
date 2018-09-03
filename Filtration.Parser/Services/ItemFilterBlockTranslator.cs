@@ -61,35 +61,30 @@ namespace Filtration.Parser.Services
             var showHideFound = false;
             block.OriginalText = originalString;
 
+            var blockComment = new List<string>();
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
-                if (line.StartsWith(@"#"))
+                if(line.Trim().StartsWith(@"#") || string.IsNullOrWhiteSpace(line))
                 {
                     if(!showHideFound)
                     {
                         block.Description = line.TrimStart('#').TrimStart(' ');
+                        blockComment.Clear();
                     }
                     else
                     {
-                        if(block.BlockItems.Count > 1)
-                        {
-                            block.BlockItems.Last().Comment += Environment.NewLine + line.TrimStart('#');
-                        }
-                        else
-                        {
-                            block.ActionBlockItem.Comment += Environment.NewLine + line.TrimStart('#');
-                        }
+                        blockComment.Add(line.Trim().TrimStart('#'));
                     }
                     continue;
                 }
 
                 var fullLine = line.Trim();
                 var trimmedLine = fullLine;
-                var blockComment = "";
+                var trailingComment = "";
                 var themeComponentType = -1;
                 if(trimmedLine.IndexOf('#') > 0)
                 {
-                    blockComment = trimmedLine.Substring(trimmedLine.IndexOf('#') + 1);
+                    trailingComment = trimmedLine.Substring(trimmedLine.IndexOf('#') + 1);
                     trimmedLine = trimmedLine.Substring(0, trimmedLine.IndexOf('#')).Trim();
                 }
                 var spaceOrEndOfLinePos = trimmedLine.IndexOf(" ", StringComparison.Ordinal) > 0 ? trimmedLine.IndexOf(" ", StringComparison.Ordinal) : trimmedLine.Length;
@@ -414,28 +409,24 @@ namespace Filtration.Parser.Services
                     }
                 }
 
-                if (!string.IsNullOrWhiteSpace(blockComment) && block.BlockItems.Count > 1)
+                if (themeComponentType >= 0)
                 {
                     var blockItemWithTheme = block.BlockItems.Last() as IBlockItemWithTheme;
-                    if(blockItemWithTheme == null)
+                    if(!string.IsNullOrWhiteSpace(trailingComment))
                     {
-                        block.BlockItems.Last().Comment = blockComment;
-                    }
-                    else
-                    {
-                        switch((ThemeComponentType)themeComponentType)
+                        switch ((ThemeComponentType)themeComponentType)
                         {
                             case ThemeComponentType.AlertSound:
                             {
                                 ThemeComponent themeComponent = null;
-                                if(blockItemWithTheme is SoundBlockItem)
+                                if (blockItemWithTheme is SoundBlockItem)
                                 {
-                                    themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.AlertSound, blockComment.Trim(),
+                                    themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.AlertSound, trailingComment.Trim(),
                                         ((SoundBlockItem)blockItemWithTheme).Value, ((SoundBlockItem)blockItemWithTheme).SecondValue);
                                 }
                                 else
                                 {
-                                    themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.AlertSound, blockComment.Trim(),
+                                    themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.AlertSound, trailingComment.Trim(),
                                         ((PositionalSoundBlockItem)blockItemWithTheme).Value, ((PositionalSoundBlockItem)blockItemWithTheme).SecondValue);
                                 }
                                 blockItemWithTheme.ThemeComponent = themeComponent;
@@ -444,55 +435,72 @@ namespace Filtration.Parser.Services
                             case ThemeComponentType.BackgroundColor:
                             {
                                 ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.BackgroundColor,
-                                    blockComment.Trim(), ((BackgroundColorBlockItem)blockItemWithTheme).Color);
+                                    trailingComment.Trim(), ((BackgroundColorBlockItem)blockItemWithTheme).Color);
                                 blockItemWithTheme.ThemeComponent = themeComponent;
                                 break;
                             }
                             case ThemeComponentType.BorderColor:
                             {
                                 ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.BorderColor,
-                                    blockComment.Trim(), ((BorderColorBlockItem)blockItemWithTheme).Color);
+                                    trailingComment.Trim(), ((BorderColorBlockItem)blockItemWithTheme).Color);
                                 blockItemWithTheme.ThemeComponent = themeComponent;
                                 break;
                             }
                             case ThemeComponentType.CustomSound:
                             {
                                 ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.CustomSound,
-                                    blockComment.Trim(), ((CustomSoundBlockItem)blockItemWithTheme).Value);
-                                blockItemWithTheme.ThemeComponent = themeComponent;
-                                    break;
-                            }
-                            case ThemeComponentType.Effect:
-                            {
-                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.Effect,
-                                    blockComment.Trim(), ((EffectColorBlockItem)blockItemWithTheme).Color, ((EffectColorBlockItem)blockItemWithTheme).Temporary);
-                                blockItemWithTheme.ThemeComponent = themeComponent;
-                                break;
-                            }
-                            case ThemeComponentType.FontSize:
-                            {
-                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.FontSize,
-                                    blockComment.Trim(), ((FontSizeBlockItem)blockItemWithTheme).Value);
-                                blockItemWithTheme.ThemeComponent = themeComponent;
-                                break;
-                            }
-                            case ThemeComponentType.Icon:
-                            {
-                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.Icon, blockComment.Trim(),
-                                    ((IconBlockItem)blockItemWithTheme).Size, ((IconBlockItem)blockItemWithTheme).Color, ((IconBlockItem)blockItemWithTheme).Shape);
+                                    trailingComment.Trim(), ((CustomSoundBlockItem)blockItemWithTheme).Value);
                                 blockItemWithTheme.ThemeComponent = themeComponent;
                                 break;
                             }
                             case ThemeComponentType.TextColor:
                             {
                                 ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.TextColor,
-                                    blockComment.Trim(), ((TextColorBlockItem)blockItemWithTheme).Color);
+                                    trailingComment.Trim(), ((TextColorBlockItem)blockItemWithTheme).Color);
+                                blockItemWithTheme.ThemeComponent = themeComponent;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (blockComment.Count > 0 && !string.IsNullOrWhiteSpace(blockComment.Last()))
+                    {
+                        var lastLine = blockComment.Last();
+                        blockComment.RemoveAt(blockComment.Count - 1);
+
+                        switch ((ThemeComponentType)themeComponentType)
+                        {
+                            case ThemeComponentType.Effect:
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.Effect,
+                                    lastLine.Trim(), ((EffectColorBlockItem)blockItemWithTheme).Color, ((EffectColorBlockItem)blockItemWithTheme).Temporary);
+                                blockItemWithTheme.ThemeComponent = themeComponent;
+                                break;
+                            }
+                            case ThemeComponentType.FontSize:
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.FontSize,
+                                    lastLine.Trim(), ((FontSizeBlockItem)blockItemWithTheme).Value);
+                                blockItemWithTheme.ThemeComponent = themeComponent;
+                                break;
+                            }
+                            case ThemeComponentType.Icon:
+                            {
+                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.Icon, lastLine.Trim(),
+                                    ((IconBlockItem)blockItemWithTheme).Size, ((IconBlockItem)blockItemWithTheme).Color, ((IconBlockItem)blockItemWithTheme).Shape);
                                 blockItemWithTheme.ThemeComponent = themeComponent;
                                 break;
                             }
                         }
                     }
                 }
+
+                if(blockComment.Count > 0 && block.BlockItems.Count > 0)
+                {
+                    block.BlockItems.Last().Comment = string.Join(Environment.NewLine, blockComment);
+                }
+
+                blockComment.Clear();
             }
             block.IsEdited = false;
             return block;
@@ -773,9 +781,20 @@ namespace Filtration.Parser.Services
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var blockItem in block.BlockItems.Where(b => b.GetType() != typeof(ActionBlockItem)).OrderBy(b => b.SortOrder))
             {
+                if (!string.IsNullOrEmpty(blockItem.Comment))
+                {
+                    foreach(var line in Regex.Split(blockItem.Comment, "\r\n|\r|\n"))
+                    {
+                        outputString += (!block.Enabled ? _disabledNewLine : _newLine) + "#" + line;
+                    }
+                }
+
                 if (blockItem.OutputText != string.Empty)
                 {
-                    outputString += (!block.Enabled ? _disabledNewLine : _newLine) + blockItem.OutputText;
+                    foreach (var line in Regex.Split(blockItem.OutputText, "\r\n|\r|\n"))
+                    {
+                        outputString += (!block.Enabled ? _disabledNewLine : _newLine) +line;
+                    }
                 }
             }
 
