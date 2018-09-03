@@ -243,7 +243,7 @@ namespace Filtration.ObjectModel
             get
             {
                 var backgroundColorBlockItem = BlockItems.OfType<BackgroundColorBlockItem>().FirstOrDefault();
-                return backgroundColorBlockItem?.Color ?? new Color { A = 255, R = 0, G = 0, B = 0 };
+                return backgroundColorBlockItem?.Color ?? new Color { A = 240, R = 0, G = 0, B = 0 };
             }
         }
 
@@ -252,7 +252,7 @@ namespace Filtration.ObjectModel
             get
             {
                 var borderColorBlockItem = BlockItems.OfType<BorderColorBlockItem>().FirstOrDefault();
-                return borderColorBlockItem?.Color ?? new Color { A = 255, R = 0, G = 0, B = 0 };
+                return borderColorBlockItem?.Color ?? new Color { A = 240, R = 0, G = 0, B = 0 };
             }
         }
 

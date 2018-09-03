@@ -24,8 +24,8 @@ namespace Filtration.ObjectModel
             ItemFilterBlock = itemFilterBlock;
 
             BlockAction = itemFilterBlock?.Action ?? BlockAction.Show;
-            BackgroundColor = itemFilterBlock?.DisplayBackgroundColor ?? new Color { A = 255, R = 0, G = 0, B = 0 };
-            BorderColor = itemFilterBlock?.DisplayBorderColor ?? new Color {A = 255, R = 0, G = 0, B = 0};
+            BackgroundColor = itemFilterBlock?.DisplayBackgroundColor ?? new Color { A = 240, R = 0, G = 0, B = 0 };
+            BorderColor = itemFilterBlock?.DisplayBorderColor ?? new Color {A = 240, R = 0, G = 0, B = 0};
             FontSize = (itemFilterBlock?.DisplayFontSize ?? 34) / 1.8;
 
             SetTextColor();

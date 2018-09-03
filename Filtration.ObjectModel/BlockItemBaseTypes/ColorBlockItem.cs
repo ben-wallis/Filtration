@@ -19,7 +19,7 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
         }
 
         public override string OutputText => PrefixText + " " + +Color.R + " " + Color.G + " "
-                                             + Color.B + (Color.A < 255 ? " " + Color.A : string.Empty) +
+                                             + Color.B + (Color.A != 240 ? " " + Color.A : string.Empty) +
                                              (ThemeComponent != null ? " # " + ThemeComponent.ComponentName : string.Empty);
 
         public override string SummaryText => string.Empty;

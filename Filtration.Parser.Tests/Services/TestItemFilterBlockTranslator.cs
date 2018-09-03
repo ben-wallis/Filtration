@@ -791,7 +791,7 @@ namespace Filtration.Parser.Tests.Services
             // Arrange
             var inputString = "Show" + Environment.NewLine +
                               "    SetTextColor 255 20 100 # Rare Item Text";
-            var testComponent = new ColorThemeComponent(ThemeComponentType.TextColor, "Rare Item Text", new Color { R = 255, G = 20, B = 100});
+            var testComponent = new ColorThemeComponent(ThemeComponentType.TextColor, "Rare Item Text", new Color { A = 240, R = 255, G = 20, B = 100});
             var testInputThemeComponentCollection = new ThemeComponentCollection { testComponent };
             
             // Act
@@ -1735,7 +1735,7 @@ namespace Filtration.Parser.Tests.Services
             var expectedResult = "Show" + Environment.NewLine +
                                  "    SetTextColor 54 102 255";
 
-            _testUtility.TestBlock.BlockItems.Add(new TextColorBlockItem(new Color {A = 255, R = 54, G = 102, B = 255}));
+            _testUtility.TestBlock.BlockItems.Add(new TextColorBlockItem(new Color {A = 240, R = 54, G = 102, B = 255}));
 
             // Act
             var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
@@ -1751,7 +1751,7 @@ namespace Filtration.Parser.Tests.Services
             var expectedResult = "Show" + Environment.NewLine +
                                  "    SetTextColor 54 102 255 # Test Theme Component";
 
-            var blockItem = new TextColorBlockItem(new Color {A = 255, R = 54, G = 102, B = 255})
+            var blockItem = new TextColorBlockItem(new Color {A = 240, R = 54, G = 102, B = 255})
             {
                 ThemeComponent = new ColorThemeComponent(ThemeComponentType.TextColor, "Test Theme Component", new Color())
             };
@@ -1975,8 +1975,8 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.TestBlock.BlockItems.Add(new HeightBlockItem(FilterPredicateOperator.LessThanOrEqual, 6));
             _testUtility.TestBlock.BlockItems.Add(new HeightBlockItem(FilterPredicateOperator.GreaterThanOrEqual, 2));
             _testUtility.TestBlock.BlockItems.Add(new TextColorBlockItem(new Color {A = 56, R = 255, G = 89, B = 0}));
-            _testUtility.TestBlock.BlockItems.Add(new BackgroundColorBlockItem(new Color { A = 255, R = 0, G = 0, B = 0 }));
-            _testUtility.TestBlock.BlockItems.Add(new BorderColorBlockItem(new Color { A = 255, R = 255, G = 1, B = 254 }));
+            _testUtility.TestBlock.BlockItems.Add(new BackgroundColorBlockItem(new Color { A = 240, R = 0, G = 0, B = 0 }));
+            _testUtility.TestBlock.BlockItems.Add(new BorderColorBlockItem(new Color { A = 240, R = 255, G = 1, B = 254 }));
             _testUtility.TestBlock.BlockItems.Add(new FontSizeBlockItem(50));
             _testUtility.TestBlock.BlockItems.Add(new SoundBlockItem("6", 90));
             _testUtility.TestBlock.BlockItems.Add(new ElderItemBlockItem(true));
@@ -2013,7 +2013,7 @@ namespace Filtration.Parser.Tests.Services
             var textColorBlockItem = testInputBlockItems.First(b => b is TextColorBlockItem) as TextColorBlockItem;
             Assert.IsNotNull(textColorBlockItem);
             Assert.AreNotSame(testInputBlockItem, textColorBlockItem);
-            Assert.AreEqual(new Color { R = 240, G = 200, B = 150, A = 255}, textColorBlockItem.Color);
+            Assert.AreEqual(new Color { R = 240, G = 200, B = 150, A = 240}, textColorBlockItem.Color);
         }
 
         [Test]
@@ -2104,17 +2104,17 @@ namespace Filtration.Parser.Tests.Services
             var textColorBlockItem = testInputBlockItems.First(b => b is TextColorBlockItem) as TextColorBlockItem;
             Assert.IsNotNull(textColorBlockItem);
             Assert.AreNotSame(testInputTextColorBlockItem, textColorBlockItem);
-            Assert.AreEqual(new Color {A = 255, R = 240, G = 200, B = 150}, textColorBlockItem.Color);
+            Assert.AreEqual(new Color {A = 240, R = 240, G = 200, B = 150}, textColorBlockItem.Color);
 
             var backgroundColorBlockItem = testInputBlockItems.First(b => b is BackgroundColorBlockItem) as BackgroundColorBlockItem;
             Assert.IsNotNull(backgroundColorBlockItem);
             Assert.AreNotSame(testInputBackgroundColorBlockItem, backgroundColorBlockItem);
-            Assert.AreEqual(new Color { A = 255, R = 0, G = 0, B = 0 }, backgroundColorBlockItem.Color);
+            Assert.AreEqual(new Color { A = 240, R = 0, G = 0, B = 0 }, backgroundColorBlockItem.Color);
 
             var borderColorBlockItem = testInputBlockItems.First(b => b is BorderColorBlockItem) as BorderColorBlockItem;
             Assert.IsNotNull(borderColorBlockItem);
             Assert.AreNotSame(testInputBorderColorBlockItem, borderColorBlockItem);
-            Assert.AreEqual(new Color { A = 255, R = 255, G = 255, B = 255 }, borderColorBlockItem.Color);
+            Assert.AreEqual(new Color { A = 240, R = 255, G = 255, B = 255 }, borderColorBlockItem.Color);
 
             var soundBlockItem = testInputBlockItems.First(b => b is SoundBlockItem) as SoundBlockItem;
             Assert.IsNotNull(soundBlockItem);
@@ -2140,15 +2140,15 @@ namespace Filtration.Parser.Tests.Services
             // Assert
             var textColorBlockItem = testInputBlockItems.First(b => b is TextColorBlockItem) as TextColorBlockItem;
             Assert.IsNotNull(textColorBlockItem);
-            Assert.AreEqual(new Color { A = 255, R = 240, G = 200, B = 150 }, textColorBlockItem.Color);
+            Assert.AreEqual(new Color { A = 240, R = 240, G = 200, B = 150 }, textColorBlockItem.Color);
 
             var backgroundColorBlockItem = testInputBlockItems.First(b => b is BackgroundColorBlockItem) as BackgroundColorBlockItem;
             Assert.IsNotNull(backgroundColorBlockItem);
-            Assert.AreEqual(new Color { A = 255, R = 0, G = 0, B = 0 }, backgroundColorBlockItem.Color);
+            Assert.AreEqual(new Color { A = 240, R = 0, G = 0, B = 0 }, backgroundColorBlockItem.Color);
 
             var borderColorBlockItem = testInputBlockItems.First(b => b is BorderColorBlockItem) as BorderColorBlockItem;
             Assert.IsNotNull(borderColorBlockItem);
-            Assert.AreEqual(new Color { A = 255, R = 255, G = 255, B = 255 }, borderColorBlockItem.Color);
+            Assert.AreEqual(new Color { A = 240, R = 255, G = 255, B = 255 }, borderColorBlockItem.Color);
 
             var soundBlockItem = testInputBlockItems.First(b => b is SoundBlockItem) as SoundBlockItem;
             Assert.IsNotNull(soundBlockItem);
@@ -2177,11 +2177,11 @@ namespace Filtration.Parser.Tests.Services
             // Assert
             var textColorBlockItem = testInputBlockItems.First(b => b is TextColorBlockItem) as TextColorBlockItem;
             Assert.IsNotNull(textColorBlockItem);
-            Assert.AreEqual(new Color { A = 255, R = 240, G = 200, B = 150 }, textColorBlockItem.Color);
+            Assert.AreEqual(new Color { A = 240, R = 240, G = 200, B = 150 }, textColorBlockItem.Color);
 
             var backgroundColorBlockItem = testInputBlockItems.First(b => b is BackgroundColorBlockItem) as BackgroundColorBlockItem;
             Assert.IsNotNull(backgroundColorBlockItem);
-            Assert.AreEqual(new Color { A = 255, R = 0, G = 0, B = 0 }, backgroundColorBlockItem.Color);
+            Assert.AreEqual(new Color { A = 240, R = 0, G = 0, B = 0 }, backgroundColorBlockItem.Color);
 
             Assert.AreEqual(0, testInputBlockItems.Count(b => b is BorderColorBlockItem));
         }
