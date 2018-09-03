@@ -4,7 +4,7 @@
 	<LatestVersionMinorPart>20/LatestVersionMinorPart>
 	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.20/DownloadUrl>
 	<ReleaseDate>2018-09-01/ReleaseDate>
-	<StaticDataUpdatedDate>2018-09-01/StaticDataUpdatedDate>
+	<StaticDataUpdatedDate>2018-09-01</StaticDataUpdatedDate>
 	<ReleaseNotes>Contributors for this release: GlenCFL
 
 ♦ Fixed a parsing issue with CustomAlertSound file paths</ReleaseNotes>
