@@ -688,7 +688,7 @@ namespace Filtration.Parser.Services
                 case 3:
                     return new Color
                     {
-                        A = byte.MaxValue,
+                        A = 240,
                         R = Convert.ToByte(argbValues[0].Value),
                         G = Convert.ToByte(argbValues[1].Value),
                         B = Convert.ToByte(argbValues[2].Value)

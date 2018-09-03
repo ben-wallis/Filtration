@@ -77,7 +77,7 @@ namespace Filtration.ViewModels
 
         public Color DisplayTextColor => _replaceColorsParameterSet.ReplaceTextColor
             ? _replaceColorsParameterSet.NewTextColor
-            : new Color {A = 255, R = 255, G = 255, B = 255};
+            : new Color {A = 240, R = 255, G = 255, B = 255};
 
         public bool ReplaceTextColor
         {
@@ -102,7 +102,7 @@ namespace Filtration.ViewModels
 
         public Color DisplayBackgroundColor => _replaceColorsParameterSet.ReplaceBackgroundColor
             ? _replaceColorsParameterSet.NewBackgroundColor
-            : new Color { A = 255, R = 0, G = 0, B = 0 };
+            : new Color { A = 240, R = 0, G = 0, B = 0 };
 
         public bool ReplaceBackgroundColor
         {
@@ -127,7 +127,7 @@ namespace Filtration.ViewModels
 
         public Color DisplayBorderColor => _replaceColorsParameterSet.ReplaceBorderColor
             ? _replaceColorsParameterSet.NewBorderColor
-            : new Color { A = 255, R = 0, G = 0, B = 0 };
+            : new Color { A = 240, R = 0, G = 0, B = 0 };
 
         public bool ReplaceBorderColor
         {
