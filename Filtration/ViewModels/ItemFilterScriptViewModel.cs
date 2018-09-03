@@ -84,7 +84,7 @@ namespace Filtration.ViewModels
         void MoveBlockUp(IItemFilterBlockViewModelBase targetBlockViewModelBase);
         void MoveBlockDown(IItemFilterBlockViewModelBase targetBlockViewModelBase);
         void MoveBlockToBottom(IItemFilterBlockViewModelBase targetBlockViewModelBase);
-        void ToggleSection(IItemFilterCommentBlockViewModel targetCommentBlockViewModelBase, bool updateViewModels = true);
+        void ToggleSection(IItemFilterCommentBlockViewModel targetCommentBlockViewModelBase, bool deferPropertyChanged = false);
     }
 
     internal class ItemFilterScriptViewModel : PaneViewModel, IItemFilterScriptViewModel
@@ -103,8 +103,6 @@ namespace Filtration.ViewModels
         private IItemFilterBlockViewModelBase _selectedBlockViewModel;
         private IItemFilterCommentBlockViewModel _sectionBrowserSelectedBlockViewModel;
         private readonly ObservableCollection<IItemFilterBlockViewModelBase> _itemFilterBlockViewModels;
-        private ObservableCollection<IItemFilterBlockViewModelBase> _viewItemFilterBlockViewModels;
-        private ICollectionView _itemFilterBlockViewModelsCollectionView;
         private Predicate<IItemFilterBlockViewModel> _blockFilterPredicate;
         private ICommandManager _scriptCommandManager;
 
@@ -164,8 +162,6 @@ namespace Filtration.ViewModels
             icon.EndInit();
             IconSource = icon;
 
-            _viewItemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModelBase>();
-
             _customSoundsAvailable = new ObservableCollection<string>();
             
             var poeFolderFiles = Directory.GetFiles(persistenceService.DefaultPathOfExileDirectory() + "\\").Where(
@@ -217,7 +213,6 @@ namespace Filtration.ViewModels
             ContentId = "ScriptContentId";
 
             CollapseAllSections();
-            UpdateBlockModelsForView();
         }
 
         private void ItemFilterBlocksOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
@@ -241,7 +236,7 @@ namespace Filtration.ViewModels
                 }
             }
 
-            UpdateBlockModelsForView();
+            RaisePropertyChanged(nameof(ViewItemFilterBlockViewModels));
         }
 
         private void CustomSoundsAvailableOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
@@ -353,16 +348,34 @@ namespace Filtration.ViewModels
             }
         }
 
-        public ObservableCollection<IItemFilterBlockViewModelBase> ViewItemFilterBlockViewModels
+        public ICollectionView ViewItemFilterBlockViewModels
         {
             get
             {
-                return _viewItemFilterBlockViewModels;
-            }
-            set
-            {
-                _viewItemFilterBlockViewModels = value;
-                RaisePropertyChanged();
+                ICollectionView filteredView = CollectionViewSource.GetDefaultView(ItemFilterBlockViewModels);
+                filteredView.Filter = BlockFilter;
+
+                IItemFilterBlockViewModelBase previousBlock = null;
+                foreach (IItemFilterBlockViewModelBase block in filteredView)
+                {
+                    if (block is IItemFilterBlockViewModel)
+                    {
+                        if (previousBlock is IItemFilterCommentBlockViewModel)
+                        {
+                            (previousBlock as IItemFilterCommentBlockViewModel).HasChild = true;
+                        }
+                    }
+                    else if (block is IItemFilterCommentBlockViewModel)
+                    {
+                        (block as IItemFilterCommentBlockViewModel).HasChild = false;
+                    }
+                    previousBlock = block;
+                }
+
+                ICollectionView visibilityView = CollectionViewSource.GetDefaultView(filteredView.Cast<IItemFilterBlockViewModelBase>());
+                visibilityView.Filter = BlockVisibilityFilter;
+
+                return visibilityView;
             }
         }
 
@@ -370,10 +383,6 @@ namespace Filtration.ViewModels
         {
             get
             {
-                _itemFilterBlockViewModelsCollectionView =
-                    CollectionViewSource.GetDefaultView(_itemFilterBlockViewModels);
-                _itemFilterBlockViewModelsCollectionView.Filter = BlockFilter;
-                
                 return _itemFilterBlockViewModels;
             }
         }
@@ -390,6 +399,11 @@ namespace Filtration.ViewModels
             }
 
             return ShowBlockBasedOnAdvanced(blockViewModel);
+        }
+
+        private bool BlockVisibilityFilter(object item)
+        {
+            return (bool)(item as IItemFilterBlockViewModelBase)?.IsVisible;
         }
 
         private bool ShowBlockBasedOnAdvanced(IItemFilterBlockViewModel blockViewModel)
@@ -414,7 +428,7 @@ namespace Filtration.ViewModels
             set
             {
                 _blockFilterPredicate = value;
-                RaisePropertyChanged(nameof(ItemFilterBlockViewModels));
+                RaisePropertyChanged(nameof(ViewItemFilterBlockViewModels));
             }
         }
 
@@ -436,7 +450,7 @@ namespace Filtration.ViewModels
             {
                 _showAdvanced = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged(nameof(ItemFilterBlockViewModels));
+                RaisePropertyChanged(nameof(ViewItemFilterBlockViewModels));
             }
         }
 
@@ -1353,124 +1367,55 @@ namespace Filtration.ViewModels
             }
         }
 
-        public void ToggleSection(IItemFilterCommentBlockViewModel targetCommentBlockViewModelBase, bool updateViewModels = true)
+        public void ToggleSection(IItemFilterCommentBlockViewModel targetCommentBlockViewModelBase, bool deferPropertyChanged = false)
         {
             var newState = !targetCommentBlockViewModelBase.IsExpanded;
             targetCommentBlockViewModelBase.IsExpanded = newState;
             var sectionIndex = ItemFilterBlockViewModels.IndexOf(targetCommentBlockViewModelBase);
-            var viewIndex = ViewItemFilterBlockViewModels.IndexOf(targetCommentBlockViewModelBase);
             for (int i = sectionIndex + 1; i < ItemFilterBlockViewModels.Count; i++)
             {
                 var block = ItemFilterBlockViewModels[i] as IItemFilterBlockViewModel;
                 if (block != null)
                 {
-                    if (newState)
-                        viewIndex++;
-
-                    if (newState == block.IsVisible)
-                    {
-                        continue;
-                    }
-
-                    if(updateViewModels)
-                    {
-                        if(newState)
-                        {
-                            if(viewIndex < ViewItemFilterBlockViewModels.Count)
-                            {
-                                ViewItemFilterBlockViewModels.Insert(viewIndex, block);
-                            }
-                            else
-                            {
-                                ViewItemFilterBlockViewModels.Add(block);
-                            }
-                        }
-                        else
-                        {
-                            ViewItemFilterBlockViewModels.RemoveAt(viewIndex + 1);
-                        }
-                    }
                     block.IsVisible = newState;
                 }
                 else
                     break;
             }
-        }
 
-        private void UpdateBlockModelsForView()
-        {
-            ObservableCollection<IItemFilterBlockViewModelBase> blocksForView = new ObservableCollection<IItemFilterBlockViewModelBase>();
-            for (var i = 0; i < ItemFilterBlockViewModels.Count; i++)
-            {
-                var block = ItemFilterBlockViewModels[i];
-                if (block.IsVisible)
-                {
-                    blocksForView.Add(block);
-
-                    var blockAsComment = block as IItemFilterCommentBlockViewModel;
-                    if(blockAsComment != null && i < (ItemFilterBlockViewModels.Count - 1))
-                    {
-                        var followingBlock = ItemFilterBlockViewModels[i + 1] as IItemFilterBlockViewModel;
-                        if(followingBlock != null)
-                        {
-                            blockAsComment.HasChild = true;
-                        }
-                        else
-                        {
-                            blockAsComment.HasChild = false;
-                        }
-                    }
-                }
-            }
-
-            ViewItemFilterBlockViewModels = blocksForView;
+            if (!deferPropertyChanged)
+                RaisePropertyChanged(nameof(ViewItemFilterBlockViewModels));
         }
 
         private void CollapseAllSections()
         {
-            ObservableCollection<IItemFilterBlockViewModelBase> blocksForView = new ObservableCollection<IItemFilterBlockViewModelBase>();
             for (int i = 0; i < ItemFilterBlockViewModels.Count; i++)
             {
                 var block = ItemFilterBlockViewModels[i] as IItemFilterCommentBlockViewModel;
                 if (block != null)
                 {
-                    blocksForView.Add(block);
-
                     if(block.IsExpanded)
                     {
-                        ToggleSection(block, false);
+                        ToggleSection(block, true);
                     }
                 }
             }
-
-            if (SelectedBlockViewModel == null && blocksForView.Count > 0)
-            {
-                SelectedBlockViewModel = blocksForView[0];
-            }
-
-            ViewItemFilterBlockViewModels = blocksForView;
+            
+            RaisePropertyChanged(nameof(ViewItemFilterBlockViewModels));
         }
 
         private void ExpandAllSections()
         {
-            ObservableCollection<IItemFilterBlockViewModelBase> blocksForView = new ObservableCollection<IItemFilterBlockViewModelBase>();
             for (int i = 0; i < ItemFilterBlockViewModels.Count; i++)
             {
-                blocksForView.Add(ItemFilterBlockViewModels[i]);
-
                 var block = ItemFilterBlockViewModels[i] as IItemFilterCommentBlockViewModel;
                 if (block != null && !block.IsExpanded)
                 {
-                    ToggleSection(block, false);
+                    ToggleSection(block, true);
                 }
             }
-
-            if(SelectedBlockViewModel == null && blocksForView.Count > 0)
-            {
-                SelectedBlockViewModel = blocksForView[0];
-            }
-
-            ViewItemFilterBlockViewModels = blocksForView;
+            
+            RaisePropertyChanged(nameof(ViewItemFilterBlockViewModels));
         }
     }
 }
