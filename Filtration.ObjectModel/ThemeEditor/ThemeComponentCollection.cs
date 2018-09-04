@@ -93,5 +93,10 @@ namespace Filtration.ObjectModel.ThemeEditor
                 Items.Count(c => c.ComponentName == componentName && c.ComponentType == componentType);
             return componentCount > 0;
         }
+
+        public bool ComponentExists(ThemeComponent themeComponent)
+        {
+            return ComponentExists(themeComponent.ComponentType, themeComponent.ComponentName);
+        }
     }
 }
