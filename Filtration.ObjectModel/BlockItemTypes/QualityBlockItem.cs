@@ -23,6 +23,6 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override Color SummaryTextColor => Colors.White;
         public override int SortOrder => 3;
         public override int Minimum => 0;
-        public override int Maximum => 20;
+        public override int Maximum => 30;
     }
 }
