@@ -21,6 +21,9 @@ namespace Filtration.ViewModels.ToolPanes
         public BlockGroupBrowserViewModel() : base("Block Group Browser")
         {
             FilterToSelectedBlockGroupCommand = new RelayCommand(OnFilterToSelectedBlockGroupCommand, () => SelectedBlockGroupViewModel != null);
+            ClearAllFiltersCommand = new RelayCommand(OnClearAllFiltersCommand);
+            ExpandAllCommand = new RelayCommand(OnExpandAllCommand);
+            CollapseAllCommand = new RelayCommand(OnCollapseAllCommand);
 
             ContentId = ToolContentId;
             var icon = new BitmapImage();
@@ -71,7 +74,13 @@ namespace Filtration.ViewModels.ToolPanes
         }
 
         public RelayCommand FilterToSelectedBlockGroupCommand { get; }
-        
+
+        public RelayCommand ClearAllFiltersCommand { get; }
+
+        public RelayCommand ExpandAllCommand { get; }
+
+        public RelayCommand CollapseAllCommand { get; }
+
         public ObservableCollection<ItemFilterBlockGroupViewModel> BlockGroupViewModels
         {
             get => _blockGroupViewModelViewModels;
@@ -106,6 +115,27 @@ namespace Filtration.ViewModels.ToolPanes
         {
             AvalonDockWorkspaceViewModel.ActiveScriptViewModel.BlockFilterPredicate =
                 b => b.Block.HasBlockGroupInParentHierarchy(SelectedBlockGroupViewModel.SourceBlockGroup, b.Block.BlockGroup);
+        }
+
+        private void OnClearAllFiltersCommand()
+        {
+            AvalonDockWorkspaceViewModel.ActiveScriptViewModel?.ClearFilterCommand.Execute(null);
+        }
+
+        private void OnExpandAllCommand()
+        {
+            foreach (var vm in BlockGroupViewModels)
+            {
+                vm.IsExpanded = true;
+            }
+        }
+
+        private void OnCollapseAllCommand()
+        {
+            foreach (var vm in BlockGroupViewModels)
+            {
+                vm.IsExpanded = false;
+            }
         }
     }
 }
