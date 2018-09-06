@@ -22,7 +22,7 @@ namespace Filtration.Parser.Tests.Services
             
             // Assert
             Assert.AreEqual(1, rootBlock.ChildGroups.Count);
-            Assert.AreEqual("Sub Block Group", result.GroupName);
+            Assert.AreEqual("Sub Block Group", result.ParentGroup.GroupName);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace Filtration.Parser.Tests.Services
 
             // Assert
             Assert.AreEqual(1, rootBlock.ChildGroups.Count);
-            Assert.AreEqual("Block Group", result.GroupName);
+            Assert.AreEqual("Block Group", result.ParentGroup.GroupName);
         }
 
         [Test]
@@ -56,8 +56,8 @@ namespace Filtration.Parser.Tests.Services
 
             // Assert
             Assert.AreEqual(1, rootBlock.ChildGroups.Count);
-            Assert.AreEqual("Block Group", result.GroupName);
-            Assert.AreEqual(true, result.Advanced);
+            Assert.AreEqual("Block Group", result.ParentGroup.GroupName);
+            Assert.AreEqual(true, result.ParentGroup.Advanced);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace Filtration.Parser.Tests.Services
 
             // Assert
             Assert.AreEqual(1, rootBlock.ChildGroups.Count);
-            Assert.AreEqual(true, result.Advanced);
+            Assert.AreEqual(true, result.ParentGroup.Advanced);
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace Filtration.Parser.Tests.Services
 
             // Assert
             Assert.AreEqual(2, rootBlock.ChildGroups.Count);
-            Assert.AreEqual("Sub Block Group", result.GroupName);
+            Assert.AreEqual("Sub Block Group", result.ParentGroup.GroupName);
         }
     }
 }
