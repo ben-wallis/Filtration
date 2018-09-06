@@ -7,6 +7,6 @@ namespace Filtration.Parser.Interface.Services
     {
         void Initialise(ItemFilterBlockGroup rootBlockGroup);
         void Cleanup();
-        ItemFilterBlockGroup IntegrateStringListIntoBlockGroupHierarchy(IEnumerable<string> groupStrings);
+        ItemFilterBlockGroup IntegrateStringListIntoBlockGroupHierarchy(IEnumerable<string> groupStrings, bool show, bool enabled);
     }
 }

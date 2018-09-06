@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Filtration.Common.ViewModels;
 using Filtration.ObjectModel;
@@ -27,6 +28,7 @@ namespace Filtration.ViewModels
             ParentGroup = parent;
             Advanced = itemFilterBlockGroup.Advanced;
             SourceBlockGroup = itemFilterBlockGroup;
+            SourceBlockGroup.BlockGroupStatusChanged += OnSourceBlockGroupStatusChanged;
             IsShowChecked = itemFilterBlockGroup.IsShowChecked;
             IsEnableChecked = itemFilterBlockGroup.IsEnableChecked;
 
@@ -34,6 +36,12 @@ namespace Filtration.ViewModels
             foreach (var childGroup in itemFilterBlockGroup.ChildGroups.Where(c => showAdvanced || !c.Advanced))
             {
                 ChildGroups.Add(new ItemFilterBlockGroupViewModel(childGroup, showAdvanced, this));
+            }
+
+            VisibleChildGroups = new ObservableCollection<ItemFilterBlockGroupViewModel>();
+            foreach (var childGroup in ChildGroups.Where(item => !item.IsHidden))
+            {
+                VisibleChildGroups.Add(childGroup);
             }
 
             if (ChildGroups.Any())
@@ -74,7 +82,12 @@ namespace Filtration.ViewModels
         public string GroupName { get; internal set; }
         public ItemFilterBlockGroupViewModel ParentGroup { get; internal set; }
         public ObservableCollection<ItemFilterBlockGroupViewModel> ChildGroups { get; internal set; }
+        public ObservableCollection<ItemFilterBlockGroupViewModel> VisibleChildGroups { get; internal set; }
         public bool Advanced { get; internal set; }
+        public bool IsHidden
+        {
+            get => SourceBlockGroup.IsLeafNode;
+        }
         public ItemFilterBlockGroup SourceBlockGroup { get; internal set; }
 
         public bool? IsShowChecked
@@ -103,7 +116,7 @@ namespace Filtration.ViewModels
                         _isShowChecked = value;
                         UpdateCheckState(true);
                         RaisePropertyChanged();
-                        SourceBlockGroup.IsShowChecked = value ?? false;
+                        SourceBlockGroup.IsShowChecked = value;
                         _showReentrancyCheck = false;
                     }
                 }
@@ -136,7 +149,7 @@ namespace Filtration.ViewModels
                         _isEnableChecked = value;
                         UpdateCheckState(false);
                         RaisePropertyChanged();
-                        SourceBlockGroup.IsEnableChecked = value ?? false;
+                        SourceBlockGroup.IsEnableChecked = value;
                         _enableReentrancyCheck = false;
                     }
                 }
@@ -153,6 +166,14 @@ namespace Filtration.ViewModels
             }
         }
 
+        public void RecalculateCheckState()
+        {
+            _isShowChecked = DetermineCheckState(true);
+            _isEnableChecked = DetermineCheckState(false);
+            RaisePropertyChanged(nameof(IsShowChecked));
+            RaisePropertyChanged(nameof(IsEnableChecked));
+        }
+
         private void UpdateCheckState(bool isShowCheck)
         {
             // update all children:
@@ -161,31 +182,29 @@ namespace Filtration.ViewModels
                 UpdateChildrenCheckState(isShowCheck);
             }
 
-            // update parent item
+            // inform parent about the change
             if (ParentGroup != null)
             {
-                var parentIsChecked = ParentGroup.DetermineCheckState(isShowCheck);
-                if(isShowCheck)
+                var parentValue = isShowCheck ? ParentGroup.IsShowChecked : ParentGroup.IsEnableChecked;
+                var ownValue = isShowCheck ? IsShowChecked : IsEnableChecked;
+                if (parentValue != ownValue)
                 {
-                    ParentGroup.IsShowChecked = parentIsChecked;
-                }
-                else
-                {
-                    ParentGroup.IsEnableChecked = parentIsChecked;
+                    ParentGroup.RecalculateCheckState();
                 }
             }
         }
 
         private void UpdateChildrenCheckState(bool isShowCheck)
         {
-            if(isShowCheck)
+            // Update children only when state is not null
+            if(isShowCheck && IsShowChecked != null)
             {
                 foreach (var childGroup in ChildGroups.Where(c => IsShowChecked != null))
                 {
                     childGroup.IsShowChecked = IsShowChecked;
                 }
             }
-            else
+            else if (IsEnableChecked != null)
             {
                 foreach (var childGroup in ChildGroups.Where(c => IsEnableChecked != null))
                 {
@@ -211,6 +230,20 @@ namespace Filtration.ViewModels
             }
 
             return null;
+        }
+
+        private void OnSourceBlockGroupStatusChanged(object sender, EventArgs e)
+        {
+            // We assume that source block group status is only changed by either view model
+            // or related ItemFilterBlock if leaf node
+            if(SourceBlockGroup.IsShowChecked != IsShowChecked)
+            {
+                IsShowChecked = SourceBlockGroup.IsShowChecked;
+            }
+            if (SourceBlockGroup.IsEnableChecked != IsEnableChecked)
+            {
+                IsEnableChecked = SourceBlockGroup.IsEnableChecked;
+            }
         }
     }
 }

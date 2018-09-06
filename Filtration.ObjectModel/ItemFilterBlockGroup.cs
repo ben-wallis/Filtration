@@ -5,15 +5,16 @@ namespace Filtration.ObjectModel
 {
     public class ItemFilterBlockGroup
     {
-        private bool _isShowChecked;
-        private bool _isEnableChecked;
+        private bool? _isShowChecked;
+        private bool? _isEnableChecked;
 
-        public ItemFilterBlockGroup(string groupName, ItemFilterBlockGroup parent, bool advanced = false)
+        public ItemFilterBlockGroup(string groupName, ItemFilterBlockGroup parent, bool advanced = false, bool isLeafNode = false)
         {
             GroupName = groupName;
             ParentGroup = parent;
             Advanced = advanced;
             ChildGroups = new List<ItemFilterBlockGroup>();
+            IsLeafNode = isLeafNode;
         }
 
         public event EventHandler BlockGroupStatusChanged;
@@ -22,8 +23,9 @@ namespace Filtration.ObjectModel
         public ItemFilterBlockGroup ParentGroup { get; }
         public List<ItemFilterBlockGroup> ChildGroups { get; }
         public bool Advanced { get; }
+        public bool IsLeafNode { get; }
 
-        public bool IsShowChecked
+        public bool? IsShowChecked
         {
             get { return _isShowChecked; }
             set
@@ -38,7 +40,7 @@ namespace Filtration.ObjectModel
             }
         }
 
-        public bool IsEnableChecked
+        public bool? IsEnableChecked
         {
             get { return _isEnableChecked; }
             set

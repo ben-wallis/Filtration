@@ -89,6 +89,7 @@ namespace Filtration.ObjectModel
         {
             BlockItems = new ObservableCollection<IItemFilterBlockItem> { ActionBlockItem };
             BlockItems.CollectionChanged += new NotifyCollectionChangedEventHandler(OnBlockItemsChanged);
+            ActionBlockItem.PropertyChanged += OnActionBlockItemChanged;
             _enabled = true;
         }
 
@@ -96,6 +97,7 @@ namespace Filtration.ObjectModel
         {
             BlockItems = new ObservableCollection<IItemFilterBlockItem> { ActionBlockItem };
             BlockItems.CollectionChanged += new NotifyCollectionChangedEventHandler(OnBlockItemsChanged);
+            ActionBlockItem.PropertyChanged += OnActionBlockItemChanged;
             _enabled = true;
         }
 
@@ -107,6 +109,10 @@ namespace Filtration.ObjectModel
                 _enabled = value;
                 IsEdited = true;
                 EnabledStatusChanged?.Invoke(null, null);
+                if(BlockGroup != null && BlockGroup.IsEnableChecked != value)
+                {
+                    BlockGroup.IsEnableChecked = value;
+                }
             }
         }
 
@@ -170,6 +176,13 @@ namespace Filtration.ObjectModel
         {
             IsEdited = true;
         }
+        private void OnActionBlockItemChanged(object sender, EventArgs e)
+        {
+            if (BlockGroup != null && BlockGroup.IsShowChecked != (Action == BlockAction.Show))
+            {
+                BlockGroup.IsShowChecked = (Action == BlockAction.Show);
+            }
+        }
 
         public bool AddBlockItemAllowed(Type type)
         {
@@ -207,7 +220,7 @@ namespace Filtration.ObjectModel
             {
                 Action = BlockAction.Hide;
             }
-            else if (BlockGroup.IsShowChecked && Action == BlockAction.Hide)
+            else if (BlockGroup.IsShowChecked == true && Action == BlockAction.Hide)
             {
                 Action = BlockAction.Show;
             }
@@ -216,7 +229,7 @@ namespace Filtration.ObjectModel
             {
                 Enabled = false;
             }
-            else if (BlockGroup.IsEnableChecked && !Enabled)
+            else if (BlockGroup.IsEnableChecked == true && !Enabled)
             {
                 Enabled = true;
             }
