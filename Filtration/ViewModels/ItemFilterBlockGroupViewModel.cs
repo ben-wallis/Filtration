@@ -8,9 +8,12 @@ namespace Filtration.ViewModels
 {
     internal class ItemFilterBlockGroupViewModel : ViewModelBase
     {
-        private bool? _isChecked;
-        private bool _reentrancyCheck;
-        private bool _postMapComplete;
+        private bool? _isShowChecked;
+        private bool? _isEnableChecked;
+        private bool _showReentrancyCheck;
+        private bool _enableReentrancyCheck;
+        private bool _showPostMapComplete;
+        private bool _enablePostMapComplete;
         private bool _isExpanded;
 
         public ItemFilterBlockGroupViewModel()
@@ -24,7 +27,8 @@ namespace Filtration.ViewModels
             ParentGroup = parent;
             Advanced = itemFilterBlockGroup.Advanced;
             SourceBlockGroup = itemFilterBlockGroup;
-            IsChecked = itemFilterBlockGroup.IsChecked;
+            IsShowChecked = itemFilterBlockGroup.IsShowChecked;
+            IsEnableChecked = itemFilterBlockGroup.IsEnableChecked;
 
             ChildGroups = new ObservableCollection<ItemFilterBlockGroupViewModel>();
             foreach (var childGroup in itemFilterBlockGroup.ChildGroups.Where(c => showAdvanced || !c.Advanced))
@@ -40,17 +44,30 @@ namespace Filtration.ViewModels
 
         private void SetIsCheckedBasedOnChildGroups()
         {
-            if (ChildGroups.All(g => g.IsChecked == true))
+            if (ChildGroups.All(g => g.IsShowChecked == true))
             {
-                IsChecked = true;
+                IsShowChecked = true;
             }
-            else if (ChildGroups.Any(g => g.IsChecked == true || g.IsChecked == null))
+            else if (ChildGroups.Any(g => g.IsShowChecked == true || g.IsShowChecked == null))
             {
-                IsChecked = null;
+                IsShowChecked = null;
             }
             else
             {
-                IsChecked = false;
+                IsShowChecked = false;
+            }
+
+            if (ChildGroups.All(g => g.IsEnableChecked == true))
+            {
+                IsEnableChecked = true;
+            }
+            else if (ChildGroups.Any(g => g.IsEnableChecked == true || g.IsEnableChecked == null))
+            {
+                IsEnableChecked = null;
+            }
+            else
+            {
+                IsEnableChecked = false;
             }
         }
 
@@ -60,34 +77,67 @@ namespace Filtration.ViewModels
         public bool Advanced { get; internal set; }
         public ItemFilterBlockGroup SourceBlockGroup { get; internal set; }
 
-        public bool? IsChecked
+        public bool? IsShowChecked
         {
             get
             {
-                return _isChecked;
+                return _isShowChecked;
             }
             set
             {
-                if (!_postMapComplete)
+                if (!_showPostMapComplete)
                 {
-                    _isChecked = value;
-                    _postMapComplete = true;
+                    _isShowChecked = value;
+                    _showPostMapComplete = true;
                 }
                 else
                 {
-                    if (_isChecked != value)
+                    if (_isShowChecked != value)
                     {
 
-                        if (_reentrancyCheck)
+                        if (_showReentrancyCheck)
                         {
                             return;
                         }
-                        _reentrancyCheck = true;
-                        _isChecked = value;
-                        UpdateCheckState();
+                        _showReentrancyCheck = true;
+                        _isShowChecked = value;
+                        UpdateCheckState(true);
                         RaisePropertyChanged();
-                        SourceBlockGroup.IsChecked = value ?? false;
-                        _reentrancyCheck = false;
+                        SourceBlockGroup.IsShowChecked = value ?? false;
+                        _showReentrancyCheck = false;
+                    }
+                }
+            }
+        }
+
+        public bool? IsEnableChecked
+        {
+            get
+            {
+                return _isEnableChecked;
+            }
+            set
+            {
+                if (!_enablePostMapComplete)
+                {
+                    _isEnableChecked = value;
+                    _enablePostMapComplete = true;
+                }
+                else
+                {
+                    if (_isEnableChecked != value)
+                    {
+
+                        if (_enableReentrancyCheck)
+                        {
+                            return;
+                        }
+                        _enableReentrancyCheck = true;
+                        _isEnableChecked = value;
+                        UpdateCheckState(false);
+                        RaisePropertyChanged();
+                        SourceBlockGroup.IsEnableChecked = value ?? false;
+                        _enableReentrancyCheck = false;
                     }
                 }
             }
@@ -103,39 +153,58 @@ namespace Filtration.ViewModels
             }
         }
 
-        private void UpdateCheckState()
+        private void UpdateCheckState(bool isShowCheck)
         {
             // update all children:
             if (ChildGroups.Count != 0)
             {
-                UpdateChildrenCheckState();
+                UpdateChildrenCheckState(isShowCheck);
             }
 
             // update parent item
             if (ParentGroup != null)
             {
-                var parentIsChecked = ParentGroup.DetermineCheckState();
-                ParentGroup.IsChecked = parentIsChecked;
+                var parentIsChecked = ParentGroup.DetermineCheckState(isShowCheck);
+                if(isShowCheck)
+                {
+                    ParentGroup.IsShowChecked = parentIsChecked;
+                }
+                else
+                {
+                    ParentGroup.IsEnableChecked = parentIsChecked;
+                }
             }
         }
 
-        private void UpdateChildrenCheckState()
+        private void UpdateChildrenCheckState(bool isShowCheck)
         {
-            foreach (var childGroup in ChildGroups.Where(c => IsChecked != null))
+            if(isShowCheck)
             {
-                childGroup.IsChecked = IsChecked;
+                foreach (var childGroup in ChildGroups.Where(c => IsShowChecked != null))
+                {
+                    childGroup.IsShowChecked = IsShowChecked;
+                }
+            }
+            else
+            {
+                foreach (var childGroup in ChildGroups.Where(c => IsEnableChecked != null))
+                {
+                    childGroup.IsEnableChecked = IsEnableChecked;
+                }
             }
         }
 
-        private bool? DetermineCheckState()
+        private bool? DetermineCheckState(bool isShowCheck)
         {
-            var allChildrenChecked = ChildGroups.Count(x => x.IsChecked == true) == ChildGroups.Count;
+            var allChildrenChecked = (isShowCheck ? ChildGroups.Count(x => x.IsShowChecked == true) :
+                ChildGroups.Count(x => x.IsEnableChecked == true)) == ChildGroups.Count;
             if (allChildrenChecked)
             {
                 return true;
             }
 
-            var allChildrenUnchecked = ChildGroups.Count(x => x.IsChecked == false) == ChildGroups.Count;
+            var allChildrenUnchecked = (isShowCheck ? ChildGroups.Count(x => x.IsShowChecked == false) :
+                ChildGroups.Count(x => x.IsEnableChecked == false)) == ChildGroups.Count;
             if (allChildrenUnchecked)
             {
                 return false;

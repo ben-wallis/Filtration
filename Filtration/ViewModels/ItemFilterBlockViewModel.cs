@@ -65,6 +65,7 @@ namespace Filtration.ViewModels
             _parentScriptViewModel = parentScriptViewModel;
 
             Block = itemFilterBlock;
+            Block.EnabledStatusChanged += OnBlockEnabledStatusChanged;
 
             itemFilterBlock.BlockItems.CollectionChanged += OnBlockItemsCollectionChanged;
 
@@ -436,6 +437,11 @@ namespace Filtration.ViewModels
                 _mediaPlayer.Open(new Uri(prefix + filePart, UriKind.Relative));
                 _mediaPlayer.Play();
             }
+        }
+
+        private void OnBlockEnabledStatusChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged(nameof(BlockEnabled));
         }
 
         private void OnBlockItemChanged(object sender, EventArgs e)

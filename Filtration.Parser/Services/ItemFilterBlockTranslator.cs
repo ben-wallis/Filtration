@@ -667,7 +667,8 @@ namespace Filtration.Parser.Services
             if (blockGroups.Count(b => !string.IsNullOrEmpty(b.Trim())) > 0)
             {
                 block.BlockGroup = _blockGroupHierarchyBuilder.IntegrateStringListIntoBlockGroupHierarchy(blockGroups);
-                block.BlockGroup.IsChecked = block.Action == BlockAction.Show;
+                block.BlockGroup.IsShowChecked = block.Action == BlockAction.Show;
+                block.BlockGroup.IsEnableChecked = block.Enabled;
             }
         }
 

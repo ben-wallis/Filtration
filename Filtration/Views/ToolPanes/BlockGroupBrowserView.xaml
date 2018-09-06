@@ -38,8 +38,9 @@
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type viewModels:ItemFilterBlockGroupViewModel}" ItemsSource="{Binding ChildGroups}">
                     <WrapPanel>
-                            <CheckBox IsThreeState="True" IsChecked="{Binding IsChecked}" Click="BlockGroupCheckBox_Clicked" />
-                            <TextBlock Text="{Binding GroupName}" VerticalAlignment="Center" Foreground="{Binding Advanced, Converter={StaticResource BlockGroupAdvancedColorConverter}}" />
+                        <CheckBox IsThreeState="True" IsChecked="{Binding IsShowChecked}" Click="BlockGroupCheckBox_Clicked" ToolTip="Show/Hide" />
+                        <CheckBox IsThreeState="True" IsChecked="{Binding IsEnableChecked}" Click="BlockGroupCheckBox_Clicked" ToolTip="Enable/Disable" />
+                        <TextBlock Text="{Binding GroupName}" VerticalAlignment="Center" Foreground="{Binding Advanced, Converter={StaticResource BlockGroupAdvancedColorConverter}}" />
                     </WrapPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>

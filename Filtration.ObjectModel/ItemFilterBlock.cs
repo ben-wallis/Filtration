@@ -14,6 +14,7 @@ namespace Filtration.ObjectModel
     public interface IItemFilterBlock : IItemFilterBlockBase
     {
         bool Enabled { get; set; }
+        event EventHandler EnabledStatusChanged;
         string Description { get; set; }
         ItemFilterBlockGroup BlockGroup { get; set; }
         BlockAction Action { get; set; }
@@ -105,8 +106,12 @@ namespace Filtration.ObjectModel
             {
                 _enabled = value;
                 IsEdited = true;
+                EnabledStatusChanged?.Invoke(null, null);
             }
         }
+
+        public event EventHandler EnabledStatusChanged;
+
         public string Description
         {
             get { return _description; }
@@ -198,13 +203,22 @@ namespace Filtration.ObjectModel
         
         private void OnBlockGroupStatusChanged(object sender, EventArgs e)
         {
-            if (BlockGroup.IsChecked == false && Action == BlockAction.Show)
+            if (BlockGroup.IsShowChecked == false && Action == BlockAction.Show)
             {
                 Action = BlockAction.Hide;
             }
-            else if (BlockGroup.IsChecked && Action == BlockAction.Hide)
+            else if (BlockGroup.IsShowChecked && Action == BlockAction.Hide)
             {
                 Action = BlockAction.Show;
+            }
+
+            if (BlockGroup.IsEnableChecked == false && Enabled)
+            {
+                Enabled = false;
+            }
+            else if (BlockGroup.IsEnableChecked && !Enabled)
+            {
+                Enabled = true;
             }
         }
 

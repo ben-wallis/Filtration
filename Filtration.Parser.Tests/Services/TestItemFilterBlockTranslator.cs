@@ -133,7 +133,7 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScript>(i => i.ItemFilterScriptSettings.BlockGroupsEnabled));
 
             // Assert
-            Assert.AreEqual(true, inputBlockGroup.IsChecked);
+            Assert.AreEqual(true, inputBlockGroup.IsShowChecked);
         }
 
         [Test]
@@ -148,7 +148,7 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScript>(i => i.ItemFilterScriptSettings.BlockGroupsEnabled));
 
             // Assert
-            Assert.AreEqual(false, inputBlockGroup.IsChecked);
+            Assert.AreEqual(false, inputBlockGroup.IsShowChecked);
         }
 
         [Test]

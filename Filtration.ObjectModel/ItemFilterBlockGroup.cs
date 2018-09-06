@@ -5,7 +5,8 @@ namespace Filtration.ObjectModel
 {
     public class ItemFilterBlockGroup
     {
-        private bool _isChecked;
+        private bool _isShowChecked;
+        private bool _isEnableChecked;
 
         public ItemFilterBlockGroup(string groupName, ItemFilterBlockGroup parent, bool advanced = false)
         {
@@ -22,16 +23,31 @@ namespace Filtration.ObjectModel
         public List<ItemFilterBlockGroup> ChildGroups { get; }
         public bool Advanced { get; }
 
-        public bool IsChecked
+        public bool IsShowChecked
         {
-            get { return _isChecked; }
+            get { return _isShowChecked; }
             set
             {
-                if (value != _isChecked)
+                if (value != _isShowChecked)
                 {
-                    _isChecked = value;
+                    _isShowChecked = value;
                     // Raise an event to let blocks that have this block group assigned that
                     // they might need to change their Action due to the block group status changing.
+                    BlockGroupStatusChanged?.Invoke(null, null);
+                }
+            }
+        }
+
+        public bool IsEnableChecked
+        {
+            get { return _isEnableChecked; }
+            set
+            {
+                if (value != _isEnableChecked)
+                {
+                    _isEnableChecked = value;
+                    // Raise an event to let blocks that have this block group assigned that
+                    // they might need to change their Enabled due to the block group status changing.
                     BlockGroupStatusChanged?.Invoke(null, null);
                 }
             }
