@@ -166,6 +166,15 @@ namespace Filtration.ViewModels
             }
         }
 
+        public void SetIsExpandedForAll(bool isExpanded)
+        {
+            IsExpanded = isExpanded;
+            foreach(var child in VisibleChildGroups)
+            {
+                child.SetIsExpandedForAll(isExpanded);
+            }
+        }
+
         public void RecalculateCheckState()
         {
             _isShowChecked = DetermineCheckState(true);

@@ -126,7 +126,7 @@ namespace Filtration.ViewModels.ToolPanes
         {
             foreach (var vm in BlockGroupViewModels)
             {
-                vm.IsExpanded = true;
+                vm.SetIsExpandedForAll(true);
             }
         }
 
@@ -134,7 +134,7 @@ namespace Filtration.ViewModels.ToolPanes
         {
             foreach (var vm in BlockGroupViewModels)
             {
-                vm.IsExpanded = false;
+                vm.SetIsExpandedForAll(false);
             }
         }
     }

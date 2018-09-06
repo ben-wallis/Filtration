@@ -57,18 +57,17 @@ namespace Filtration.ObjectModel
 
         public override string ToString()
         {
-            var currentBlockGroup = this;
+            if(ParentGroup == null)
+            {
+                return string.Empty;
+            }
 
             var outputString = (Advanced ? "~" : string.Empty) + GroupName;
 
-            // TODO: This is retarded, fix this.
-            if (currentBlockGroup.ParentGroup != null)
+            var parentOutput = ParentGroup.ToString();
+            if(!string.IsNullOrWhiteSpace(parentOutput))
             {
-                while (currentBlockGroup.ParentGroup.ParentGroup != null)
-                {
-                    outputString = (currentBlockGroup.ParentGroup.Advanced ? "~" : string.Empty) + currentBlockGroup.ParentGroup.GroupName + " - " + outputString;
-                    currentBlockGroup = currentBlockGroup.ParentGroup;
-                }
+                outputString = parentOutput + (IsLeafNode ? string.Empty : " - " + outputString);
             }
 
             return outputString;
