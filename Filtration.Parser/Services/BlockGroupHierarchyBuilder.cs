@@ -51,7 +51,18 @@ namespace Filtration.Parser.Services
                 newItemGroup.IsEnableChecked = enabled;
                 startItemGroup.ChildGroups.Add(newItemGroup);
                 inputGroups = inputGroups.Skip(1).ToList();
-                return inputGroups.Count > 0 ? IntegrateStringListIntoBlockGroupHierarchy(inputGroups, newItemGroup, show, enabled) : newItemGroup;
+                if (inputGroups.Count > 0)
+                {
+                    return IntegrateStringListIntoBlockGroupHierarchy(inputGroups, newItemGroup, show, enabled);
+                }
+                else
+                {
+                    var leafNode = new ItemFilterBlockGroup("", newItemGroup, false, true);
+                    leafNode.IsShowChecked = show;
+                    leafNode.IsEnableChecked = enabled;
+                    newItemGroup.ChildGroups.Add(leafNode);
+                    return leafNode;
+                }
             }
             else
             {
