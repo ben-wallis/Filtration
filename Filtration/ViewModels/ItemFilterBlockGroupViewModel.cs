@@ -28,6 +28,7 @@ namespace Filtration.ViewModels
             ParentGroup = parent;
             Advanced = itemFilterBlockGroup.Advanced;
             SourceBlockGroup = itemFilterBlockGroup;
+            SourceBlockGroup.ClearStatusChangeSubscribers();
             SourceBlockGroup.BlockGroupStatusChanged += OnSourceBlockGroupStatusChanged;
             IsShowChecked = itemFilterBlockGroup.IsShowChecked;
             IsEnableChecked = itemFilterBlockGroup.IsEnableChecked;
@@ -205,8 +206,9 @@ namespace Filtration.ViewModels
 
         private void UpdateChildrenCheckState(bool isShowCheck)
         {
-            // Update children only when state is not null
-            if(isShowCheck && IsShowChecked != null)
+            // Update children only when state is not null which means update is either from children
+            // (all children must have same value to be not null) or from user
+            if (isShowCheck && IsShowChecked != null)
             {
                 foreach (var childGroup in ChildGroups.Where(c => IsShowChecked != null))
                 {

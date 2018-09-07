@@ -43,6 +43,11 @@ namespace Filtration.ViewModels.ToolPanes
                         OnShowAdvancedToggled(message.Content);
                         break;
                     }
+                    case "BlockGroupsChanged":
+                    {
+                        BlockGroupViewModels = RebuildBlockGroupViewModels(message.Content);
+                        break;
+                    }
                 }
             });
 
@@ -107,7 +112,7 @@ namespace Filtration.ViewModels.ToolPanes
             // This assumes that there will only ever be a single root node.
             return new ObservableCollection<ItemFilterBlockGroupViewModel>
             (
-                new ItemFilterBlockGroupViewModel(AvalonDockWorkspaceViewModel.ActiveScriptViewModel.Script.ItemFilterBlockGroups.First(), showAdvanced, null).ChildGroups
+                new ItemFilterBlockGroupViewModel(AvalonDockWorkspaceViewModel.ActiveScriptViewModel.Script.ItemFilterBlockGroups.First(), showAdvanced, null).VisibleChildGroups
             );
         }
 

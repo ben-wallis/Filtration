@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:Filtration.ViewModels"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
+             xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
              xmlns:views="clr-namespace:Filtration.Views"
              xmlns:converters="clr-namespace:Filtration.Converters"
              xmlns:blockItemBaseTypes="clr-namespace:Filtration.ObjectModel.BlockItemBaseTypes;assembly=Filtration.ObjectModel"
@@ -200,9 +201,47 @@
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
+
+                        <WrapPanel Grid.Row="0">
+                            <TextBlock Text="Group" VerticalAlignment="Center" FontWeight="Bold" />
+                            <ItemsControl ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding BlockGroups}"
+                                     BorderThickness="0">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel IsItemsHost="True" Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <WrapPanel VerticalAlignment="Center">
+                                            <TextBlock Text=" > " FontWeight="ExtraBold" />
+                                            <TextBlock Text="{Binding GroupName}" />
+                                        </WrapPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <Button Height="10" Command="{Binding DeleteBlockGroupCommand}" Content="{StaticResource DeleteIcon}" ToolTip="Delete"
+                                    Background="Transparent" BorderThickness="0" Margin="2,3,0,0" VerticalAlignment="Top">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}" >
+                                        <Style.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <toolkit:AutoCompleteBox ItemsSource="{Binding BlockGroupSuggestions}" Text="{Binding BlockGroupSearch, Mode=TwoWay}"
+                                                     MinWidth="100" Margin="5,0,0,0" BorderThickness="0, 0, 0, 1" FilterMode="Contains"
+                                                     PreviewKeyDown="AutoCompleteBox_PreviewKeyDown" />
+                            <Button Height="12" Command="{Binding AddBlockGroupCommand}" Content="{StaticResource AddIcon}"
+                                    ToolTip="Add" Background="Transparent" BorderThickness="0" Margin="3,0,0,0" />
+                        </WrapPanel>
                         
-                        <Grid Grid.Row="0" Visibility="{Binding AudioVisualBlockItemsGridVisible, Converter={StaticResource InverseBooleanVisibilityConverter}}">
+                        <Grid Grid.Row="1" Visibility="{Binding AudioVisualBlockItemsGridVisible, Converter={StaticResource InverseBooleanVisibilityConverter}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
@@ -285,7 +324,7 @@
                                 </ItemsControl>
                             </WrapPanel>
                         </Grid>
-                        <Grid Grid.Row="0" Visibility="{Binding AudioVisualBlockItemsGridVisible, Converter={StaticResource BooleanVisibilityConverter}}">
+                        <Grid Grid.Row="1" Visibility="{Binding AudioVisualBlockItemsGridVisible, Converter={StaticResource BooleanVisibilityConverter}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
@@ -339,7 +378,7 @@
                                 </ItemsControl>
                             </WrapPanel>
                         </Grid>
-                        <Grid Grid.Row="1" Margin="0,5,0,5">
+                        <Grid Grid.Row="2" Margin="0,5,0,5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />

@@ -17,13 +17,13 @@ namespace Filtration.ObjectModel
             IsLeafNode = isLeafNode;
         }
 
-        public event EventHandler BlockGroupStatusChanged;
-
         public string GroupName { get; }
-        public ItemFilterBlockGroup ParentGroup { get; }
+        public ItemFilterBlockGroup ParentGroup { get; set; }
         public List<ItemFilterBlockGroup> ChildGroups { get; }
         public bool Advanced { get; }
         public bool IsLeafNode { get; }
+
+        public event EventHandler BlockGroupStatusChanged;
 
         public bool? IsShowChecked
         {
@@ -52,6 +52,57 @@ namespace Filtration.ObjectModel
                     // they might need to change their Enabled due to the block group status changing.
                     BlockGroupStatusChanged?.Invoke(null, null);
                 }
+            }
+        }
+
+        public void ClearStatusChangeSubscribers()
+        {
+            BlockGroupStatusChanged = null;
+        }
+
+        public void AddOrJoinBlockGroup(ItemFilterBlockGroup blockGroup)
+        {
+            var childIndex = ChildGroups.FindIndex(item => item.GroupName.Equals(blockGroup.GroupName));
+            if (!blockGroup.IsLeafNode && childIndex >= 0)
+            {
+                while(blockGroup.ChildGroups.Count > 0)
+                {
+                    ChildGroups[childIndex].AddOrJoinBlockGroup(blockGroup.ChildGroups[0]);
+                }
+            }
+            else
+            {
+                if(blockGroup.ParentGroup != null)
+                {
+                    blockGroup.ParentGroup.ChildGroups.Remove(blockGroup);
+                }
+                blockGroup.ParentGroup = this;
+                ChildGroups.Add(blockGroup);
+            }
+        }
+
+        public void DetachSelf(bool keepChildren)
+        {
+            if(ParentGroup == null)
+                return;
+
+            if(IsLeafNode && ParentGroup.ParentGroup != null && ParentGroup.ChildGroups.Count < 2)
+            {
+                ParentGroup.DetachSelf(false);
+            }
+            else
+            {
+                ParentGroup.ChildGroups.Remove(this);
+
+                if (keepChildren)
+                {
+                    foreach(var child in ChildGroups)
+                    {
+                        ParentGroup.AddOrJoinBlockGroup(child);
+                    }
+                }
+
+                ParentGroup = null;
             }
         }
 

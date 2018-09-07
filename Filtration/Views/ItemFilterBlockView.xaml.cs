@@ -20,5 +20,15 @@ namespace Filtration.Views
             
             BlockExpander.IsExpanded = !BlockExpander.IsExpanded;
         }
+
+        private void AutoCompleteBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                System.Windows.Controls.AutoCompleteBox box = sender as System.Windows.Controls.AutoCompleteBox;
+                dynamic viewModel = box.DataContext;
+                viewModel.AddBlockGroupCommand.Execute(null);
+            }
+        }
     }
 }
