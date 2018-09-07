@@ -1030,7 +1030,6 @@ namespace Filtration.ViewModels
             {
                 _scriptCommandManager.ExecuteCommand(new MoveBlockUpCommand(Script, targetBlockViewModelBase?.BaseBlock));
                 SelectedBlockViewModel = ItemFilterBlockViewModels[blockIndex - 1];
-                RaisePropertyChanged("SelectedBlockViewModel");
             }
             else
             {
@@ -1041,9 +1040,11 @@ namespace Filtration.ViewModels
                 }
                 _scriptCommandManager.ExecuteCommand(new MoveSectionToIndexCommand(Script, blockIndex, 1, aboveSectionStart));
                 SelectedBlockViewModel = ItemFilterBlockViewModels[aboveSectionStart];
-                RaisePropertyChanged("SelectedBlockViewModel");
             }
-        }
+
+			RaisePropertyChanged("SelectedBlockViewModel");
+			SetDirtyFlag();
+		}
 
         public void MoveSectionUp(IItemFilterCommentBlockViewModel targetCommentBlockViewModel)
         {
@@ -1071,7 +1072,8 @@ namespace Filtration.ViewModels
             ToggleSection(ItemFilterBlockViewModels[newLocation] as IItemFilterCommentBlockViewModel);
             SelectedBlockViewModel = ItemFilterBlockViewModels[newLocation];
             RaisePropertyChanged("SelectedBlockViewModel");
-        }
+			SetDirtyFlag();
+		}
 
         private void OnMoveBlockDownCommand()
         {
@@ -1094,7 +1096,6 @@ namespace Filtration.ViewModels
             {
                 _scriptCommandManager.ExecuteCommand(new MoveBlockDownCommand(Script, targetBlockViewModelBase?.BaseBlock));
                 SelectedBlockViewModel = ItemFilterBlockViewModels[blockIndex + 1];
-                RaisePropertyChanged("SelectedBlockViewModel");
             }
             else
             {
@@ -1105,9 +1106,11 @@ namespace Filtration.ViewModels
                 }
                 _scriptCommandManager.ExecuteCommand(new MoveSectionToIndexCommand(Script, blockIndex, 1, beloveSectionEnd - 1));
                 SelectedBlockViewModel = ItemFilterBlockViewModels[beloveSectionEnd - 1];
-                RaisePropertyChanged("SelectedBlockViewModel");
             }
-        }
+
+			RaisePropertyChanged("SelectedBlockViewModel");
+			SetDirtyFlag();
+		}
 
         public void MoveSectionDown(IItemFilterCommentBlockViewModel targetCommentBlockViewModel)
         {
@@ -1141,7 +1144,8 @@ namespace Filtration.ViewModels
             ToggleSection(ItemFilterBlockViewModels[newLocation] as IItemFilterCommentBlockViewModel);
             SelectedBlockViewModel = ItemFilterBlockViewModels[newLocation];
             RaisePropertyChanged("SelectedBlockViewModel");
-        }
+			SetDirtyFlag();
+		}
 
         private void OnMoveBlockToBottomCommand()
         {
@@ -1178,13 +1182,17 @@ namespace Filtration.ViewModels
         public void AddBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
             _scriptCommandManager.ExecuteCommand(new AddBlockCommand(Script, targetBlockViewModelBase?.BaseBlock));
-            // TODO: Expand new viewmodel
-        }
+			RaisePropertyChanged("SelectedBlockViewModel");
+			SetDirtyFlag();
+			// TODO: Expand new viewmodel
+		}
 
         public void AddCommentBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
             _scriptCommandManager.ExecuteCommand(new AddCommentBlockCommand(Script, targetBlockViewModelBase.BaseBlock));
-        }
+			RaisePropertyChanged("SelectedBlockViewModel");
+			SetDirtyFlag();
+		}
 
         public void DeleteBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
@@ -1204,12 +1212,17 @@ namespace Filtration.ViewModels
 
                 _scriptCommandManager.ExecuteCommand(new RemoveSectionCommand(Script, sectionStart, sectionEnd - sectionStart));
             }
-        }
+
+			RaisePropertyChanged("SelectedBlockViewModel");
+			SetDirtyFlag();
+		}
 
         public void MoveBlockToBottom(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
             _scriptCommandManager.ExecuteCommand(new MoveBlockToBottomCommand(Script, targetBlockViewModelBase.BaseBlock));
-        }
+			RaisePropertyChanged("SelectedBlockViewModel");
+			SetDirtyFlag();
+		}
 
         public void MoveSectionToBottom(IItemFilterCommentBlockViewModel targetCommentBlockViewModel)
         {
@@ -1225,12 +1238,16 @@ namespace Filtration.ViewModels
 
             ToggleSection(ItemFilterBlockViewModels[newLocation] as IItemFilterCommentBlockViewModel);
             SelectedBlockViewModel = ItemFilterBlockViewModels[newLocation];
-        }
+			RaisePropertyChanged("SelectedBlockViewModel");
+			SetDirtyFlag();
+		}
 
         public void MoveBlockToTop(IItemFilterBlockViewModelBase targetBlockViewModelBase)
         {
             _scriptCommandManager.ExecuteCommand(new MoveBlockToTopCommand(Script, targetBlockViewModelBase.BaseBlock));
-        }
+			RaisePropertyChanged("SelectedBlockViewModel");
+			SetDirtyFlag();
+		}
 
         public void MoveSectionToTop(IItemFilterCommentBlockViewModel targetCommentBlockViewModel)
         {
@@ -1246,7 +1263,9 @@ namespace Filtration.ViewModels
 
             ToggleSection(ItemFilterBlockViewModels[newLocation] as IItemFilterCommentBlockViewModel);
             SelectedBlockViewModel = ItemFilterBlockViewModels[newLocation];
-        }
+			RaisePropertyChanged("SelectedBlockViewModel");
+			SetDirtyFlag();
+		}
 
         private void OnBlockBecameDirty(object sender, EventArgs e)
         {
