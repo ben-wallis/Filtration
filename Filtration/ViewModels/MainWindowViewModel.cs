@@ -14,6 +14,7 @@ using Filtration.Interface;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.ThemeEditor;
 using Filtration.Parser.Interface.Services;
+using Filtration.Properties;
 using Filtration.Repositories;
 using Filtration.Services;
 using Filtration.ThemeEditor.Messages;
@@ -50,6 +51,9 @@ namespace Filtration.ViewModels
         private readonly IMessageBoxService _messageBoxService;
         private readonly IClipboardService _clipboardService;
         private bool _showLoadingBanner;
+        private WindowState _windowState;
+        private int _windowWidth;
+        private int _windowHeight;
 
         public MainWindowViewModel(IItemFilterScriptRepository itemFilterScriptRepository,
                                    IItemFilterScriptTranslator itemFilterScriptTranslator,
@@ -70,6 +74,9 @@ namespace Filtration.ViewModels
             _themeService = themeService;
             _messageBoxService = messageBoxService;
             _clipboardService = clipboardService;
+            _windowState = Settings.Default.WindowState;
+            _windowWidth = Settings.Default.WindowWidth;
+            _windowHeight = Settings.Default.WindowHeight;
 
             NewScriptCommand = new RelayCommand(OnNewScriptCommand);
             CopyScriptCommand = new RelayCommand(OnCopyScriptCommand, () => ActiveDocumentIsScript);
@@ -192,6 +199,11 @@ namespace Filtration.ViewModels
                     }
                 }
             });
+
+            if (!string.IsNullOrWhiteSpace(Settings.Default.LastActiveDocument) && File.Exists(Settings.Default.LastActiveDocument))
+            {
+                LoadScriptAsync(Settings.Default.LastActiveDocument);
+            }
         }
 
         public RelayCommand OpenScriptCommand { get; }
@@ -261,6 +273,45 @@ namespace Filtration.ViewModels
                 var assembly = Assembly.GetExecutingAssembly();
                 var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
                 return "Filtration v" + fvi.FileMajorPart + "." +  fvi.FileMinorPart;
+            }
+        }
+
+        public WindowState WindowState
+        {
+            get => _windowState;
+            set
+            {
+                _windowState = value;
+                if(value != WindowState.Minimized)
+                {
+                    Settings.Default.WindowState = value;
+                }
+            }
+        }
+
+        public int WindowWidth
+        {
+            get => _windowWidth;
+            set
+            {
+                _windowWidth = value;
+                if (WindowState == WindowState.Normal)
+                {
+                    Settings.Default.WindowWidth = value;
+                }
+            }
+        }
+
+        public int WindowHeight
+        {
+            get => _windowHeight;
+            set
+            {
+                _windowHeight = value;
+                if (WindowState == WindowState.Normal)
+                {
+                    Settings.Default.WindowHeight = value;
+                }
             }
         }
 
@@ -574,6 +625,7 @@ namespace Filtration.ViewModels
 
         private void OnCloseDocumentCommand()
         {
+            Settings.Default.LastActiveDocument = "";
             _avalonDockWorkspaceViewModel.ActiveDocument.Close();
         }
 

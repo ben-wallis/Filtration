@@ -12,7 +12,7 @@
         xmlns:utility="clr-namespace:Filtration.Utility"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
-        Title="{Binding WindowTitle}" Height="762" Width="1126" IsIconVisible="True"
+        Title="{Binding WindowTitle}" Height="{Binding WindowHeight, Mode=TwoWay}" Width="{Binding WindowWidth, Mode=TwoWay}" IsIconVisible="True" WindowState="{Binding WindowState}"
         Closing="MainWindow_OnClosing" Drop="MainWindow_OnDrop" AllowDrop="True">
 
     <fluent:RibbonWindow.InputBindings>

@@ -9,6 +9,7 @@ using Filtration.ThemeEditor.ViewModels;
 using Filtration.ViewModels.ToolPanes;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
+using Filtration.Properties;
 
 namespace Filtration.ViewModels
 {
@@ -74,6 +75,7 @@ namespace Filtration.ViewModels
                 if (value.IsScript)
                 {
                     _activeScriptViewModel = (IItemFilterScriptViewModel) value;
+                    Settings.Default.LastActiveDocument = _activeScriptViewModel.Script.FilePath;
                 }
                 else if (value.IsTheme)
                 {

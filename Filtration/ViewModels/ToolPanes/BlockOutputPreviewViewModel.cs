@@ -26,8 +26,6 @@ namespace Filtration.ViewModels.ToolPanes
             icon.EndInit();
             IconSource = icon;
 
-            IsVisible = false;
-
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
                 switch (message.Notification)
