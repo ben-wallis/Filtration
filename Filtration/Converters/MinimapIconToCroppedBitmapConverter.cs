@@ -56,7 +56,7 @@ namespace Filtration.Converters
 							Width = cellWidth,
 							Height = cellHeight,
 							X = column * cellWidth,
-							Y = row * cellWidth
+							Y = row * cellHeight
 						};
 
 						bitmaps.Add(new CroppedBitmap(sourceImage, bitmapRect));
@@ -70,7 +70,8 @@ namespace Filtration.Converters
 		{
 			if (values[0] == DependencyProperty.UnsetValue ||
 				values[1] == DependencyProperty.UnsetValue ||
-				values[2] == DependencyProperty.UnsetValue) {
+				values[2] == DependencyProperty.UnsetValue)
+			{
 				return empty;
 			}
 
@@ -78,46 +79,23 @@ namespace Filtration.Converters
 			var iconColor = (int)(values[1]);
 			var iconShape = (int)(values[2]);
 
-			switch ((IconSize) iconSize) {
-				case IconSize.Largest:
-				case IconSize.Medium:
-				case IconSize.Small:
-					break;
-				default:
-					return empty;
-			}
-
-			switch ((IconColor) iconColor) {
-				case IconColor.Blue:
-				case IconColor.Green:
-				case IconColor.Brown:
-				case IconColor.Red:
-				case IconColor.White:
-				case IconColor.Yellow:
-					break;
-				default:
-					return empty;
-			}
-
-			switch ((IconShape) iconShape) {
-				case IconShape.Circle:
-				case IconShape.Diamond:
-				case IconShape.Hexagon:
-				case IconShape.Square:
-				case IconShape.Star:
-				case IconShape.Triangle:
-					break;
-				default:
-					return empty;
+			if (!Enum.IsDefined(typeof(IconSize), iconSize) ||
+				!Enum.IsDefined(typeof(IconColor), iconColor) ||
+				!Enum.IsDefined(typeof(IconShape), iconShape))
+			{
+				return empty;
 			}
 
 			var shapeOffset = iconShape * (sizeCount * colorCount);
 			var colorOffset = iconColor * sizeCount;
 			var iconIndex = shapeOffset + colorOffset + iconSize;
 
-			if (iconIndex >= bitmaps.Count) {
+			if (iconIndex >= bitmaps.Count)
+			{
 				return empty;
-			} else {
+			}
+			else
+			{
 				return bitmaps[iconIndex];
 			}
 		}
