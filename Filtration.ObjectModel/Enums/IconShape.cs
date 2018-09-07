@@ -2,7 +2,13 @@
 
 namespace Filtration.ObjectModel.Enums
 {
-    public enum IconShape
+	/// <summary>
+	/// Each of the shapes supported by the MinimapIcon block rule.
+	/// </summary>
+	/// <remarks>
+	/// The ordering here should match the ordering of the shapes within the source image.
+	/// </remarks>
+	public enum IconShape
     {
         [Description("Circle")]
         Circle,

@@ -167,9 +167,8 @@
     <Compile Include="Converters\BooleanToBlockActionInverseConverter.cs" />
     <Compile Include="Converters\BooleanToBlockActionConverter.cs" />
     <Compile Include="Converters\BlockItemToRemoveEnabledVisibilityConverter.cs" />
-    <Compile Include="Converters\SizeColorToRectConverter.cs" />
+    <Compile Include="Converters\MinimapIconToCroppedBitmapConverter.cs" />
     <Compile Include="Converters\HashSignRemovalConverter.cs" />
-    <Compile Include="Converters\IconShapeToSourceConverter.cs" />
     <Compile Include="Converters\ItemRarityConverter.cs" />
     <Compile Include="Converters\TreeViewMarginConverter.cs" />
     <Compile Include="Models\UpdateData.cs" />
@@ -189,9 +188,6 @@
     <Compile Include="UserControls\DesignTime\DesignTimeEditableListBoxControl.cs" />
     <Compile Include="UserControls\EditableListBoxControl.xaml.cs">
       <DependentUpon>EditableListBoxControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\ImageComboBoxControl.xaml.cs">
-      <DependentUpon>ImageComboBoxControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ItemPreviewControl.xaml.cs">
       <DependentUpon>ItemPreviewControl.xaml</DependentUpon>
@@ -230,10 +226,6 @@
       <DependentUpon>SettingsPageView.xaml</DependentUpon>
     </Compile>
     <Page Include="UserControls\BlockItemControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\ImageComboBoxControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -545,13 +537,7 @@
     </None>
     <Resource Include="Resources\Icons\redo_icon.png" />
     <Resource Include="Resources\Icons\undo_icon.png" />
-    <Resource Include="Resources\DropIcons\NoIcon.png" />
-    <Resource Include="Resources\DropIcons\Circle.png" />
-    <Resource Include="Resources\DropIcons\Diamond.png" />
-    <Resource Include="Resources\DropIcons\Hexagon.png" />
-    <Resource Include="Resources\DropIcons\Square.png" />
-    <Resource Include="Resources\DropIcons\Star.png" />
-    <Resource Include="Resources\DropIcons\Triangle.png" />
+    <Resource Include="Resources\minimap_icons.png" />
     <Content Include="Resources\ItemBaseTypes.txt" />
     <Content Include="Resources\ItemClasses.txt" />
   </ItemGroup>
