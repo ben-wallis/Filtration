@@ -18,8 +18,7 @@
                 <ResourceDictionary>
                     <views:BindingProxy x:Key="Proxy" Data="{Binding}" />
                     <converters:BlockGroupAdvancedFillColorConverter x:Key="BlockGroupAdvancedFillColorConverter" />
-                    <converters:IconShapeToSourceConverter x:Key="IconShapeToSourceConverter"/>
-                    <converters:SizeColorToRectConverter x:Key="SizeColorToRectConverter"/>
+                    <converters:MinimapIconToCroppedBitmapConverter x:Key="MinimapIconToCroppedBitmapConverter"/>
                     <Style TargetType="{x:Type ContentPresenter}" x:Key="BlockItemFadeInStyle">
                         <Setter Property="LayoutTransform">
                             <Setter.Value>
@@ -132,19 +131,15 @@
 
                             <!-- Item Preview Box -->
                             <WrapPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
-                                <Rectangle Height="40" Width="40" Margin="0,0,10,0">
-                                    <Rectangle.Fill>
-                                        <ImageBrush ImageSource="{Binding DisplayIconShape, Converter={StaticResource IconShapeToSourceConverter}, Mode=OneWay}"
-                                            ViewboxUnits="Absolute" Stretch="Fill">
-                                            <ImageBrush.Viewbox>
-                                                <MultiBinding Converter="{StaticResource SizeColorToRectConverter}">
-                                                    <Binding Path="DisplayIconSize"/>
-                                                    <Binding Path="DisplayIconColor"/>
-                                                </MultiBinding>
-                                            </ImageBrush.Viewbox>
-                                        </ImageBrush>
-                                    </Rectangle.Fill>
-                                </Rectangle>
+                                <Image Height="40" Width="40" Margin="0,0,10,0" Stretch="Fill">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource MinimapIconToCroppedBitmapConverter}">
+                                            <Binding Path="DisplayIconSize"/>
+                                            <Binding Path="DisplayIconColor"/>
+                                            <Binding Path="DisplayIconShape"/>
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
                                 <Button Command="{Binding PlaySoundCommand}"
                                         Width="25"
                                         Height="25"

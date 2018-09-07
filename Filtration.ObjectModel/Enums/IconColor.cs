@@ -2,16 +2,22 @@
 
 namespace Filtration.ObjectModel.Enums
 {
-    public enum IconColor
+	/// <summary>
+	/// Each of the colors supported by the MinimapIcon block rule.
+	/// </summary>
+	/// <remarks>
+	/// The ordering here should match the ordering of the colors within the source image.
+	/// </remarks>
+	public enum IconColor
     {
-        [Description("Red")]
+		[Description("Blue")]
+		Blue,
+		[Description("Green")]
+		Green,
+		[Description("Brown")]
+		Brown,
+		[Description("Red")]
         Red,
-        [Description("Green")]
-        Green,
-        [Description("Blue")]
-        Blue,
-        [Description("Brown")]
-        Brown,
         [Description("White")]
         White,
         [Description("Yellow")]
