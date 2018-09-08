@@ -93,6 +93,7 @@ namespace Filtration.ViewModels
 
         private readonly IItemFilterBlockBaseViewModelFactory _itemFilterBlockBaseViewModelFactory;
         private readonly IItemFilterBlockTranslator _blockTranslator;
+        private readonly IItemFilterScriptTranslator _scriptTranslator;
         private readonly IAvalonDockWorkspaceViewModel _avalonDockWorkspaceViewModel;
         private readonly IItemFilterPersistenceService _persistenceService;
         private readonly IMessageBoxService _messageBoxService;
@@ -110,6 +111,7 @@ namespace Filtration.ViewModels
 
         public ItemFilterScriptViewModel(IItemFilterBlockBaseViewModelFactory itemFilterBlockBaseViewModelFactory,
                                          IItemFilterBlockTranslator blockTranslator,
+                                         IItemFilterScriptTranslator scriptTranslator,
                                          IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
                                          IItemFilterPersistenceService persistenceService,
                                          IMessageBoxService messageBoxService,
@@ -118,6 +120,7 @@ namespace Filtration.ViewModels
         {
             _itemFilterBlockBaseViewModelFactory = itemFilterBlockBaseViewModelFactory;
             _blockTranslator = blockTranslator;
+            _scriptTranslator = scriptTranslator;
             _avalonDockWorkspaceViewModel = avalonDockWorkspaceViewModel;
             _avalonDockWorkspaceViewModel.ActiveDocumentChanged += OnActiveDocumentChanged;
             _persistenceService = persistenceService;
@@ -786,7 +789,7 @@ namespace Filtration.ViewModels
             var copyText = _blockTranslator.TranslateItemFilterBlockBaseToString(targetCommentBlockViewModel.BaseBlock);
             while (sectionStart < ItemFilterBlockViewModels.Count && ItemFilterBlockViewModels[sectionStart] as IItemFilterCommentBlockViewModel == null)
             {
-                copyText += Environment.NewLine + "##CopySection##" + Environment.NewLine + _blockTranslator.TranslateItemFilterBlockBaseToString(ItemFilterBlockViewModels[sectionStart].BaseBlock);
+                copyText += Environment.NewLine + Environment.NewLine + _blockTranslator.TranslateItemFilterBlockBaseToString(ItemFilterBlockViewModels[sectionStart].BaseBlock);
                 sectionStart++;
             }
 
@@ -875,50 +878,30 @@ namespace Filtration.ViewModels
                 var clipboardText = _clipboardService.GetClipboardText();
                 if (string.IsNullOrEmpty(clipboardText)) return;
 
-                string[] blockTexts = clipboardText.Split(new string[] { Environment.NewLine + "##CopySection##" + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                IItemFilterScript pastedScript = _scriptTranslator.TranslatePastedStringToItemFilterScript(clipboardText,
+                    Script.ItemFilterScriptSettings.BlockGroupsEnabled);
 
-                List<IItemFilterBlockBase> blocksToPaste = new List<IItemFilterBlockBase>();
-                foreach (var curBlock in blockTexts)
+                foreach (var themeComponent in pastedScript.ThemeComponents.Where(item => !Script.ThemeComponents.ComponentExists(item)))
                 {
-                    IItemFilterBlockBase translatedBlock;
-                    var preparedString = PrepareBlockForParsing(curBlock);
-                    var isCommentBlock = true;
-                    string[] textLines = preparedString.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                    foreach(var line in textLines)
-                    {
-                        if(!line.StartsWith(@"#"))
-                        {
-                            isCommentBlock = false;
-                            break;
-                        }
-                    }
-
-                    if (isCommentBlock)
-                    {
-                        translatedBlock = _blockTranslator.TranslateStringToItemFilterCommentBlock(preparedString, Script, curBlock);
-                    }
-                    else
-                    {
-                        translatedBlock = _blockTranslator.TranslateStringToItemFilterBlock(preparedString, Script, curBlock, true);
-                    }
-
-                    if (translatedBlock == null) continue;
-                    
-                    blocksToPaste.Add(translatedBlock);
+                    Script.ThemeComponents.Add(themeComponent);
                 }
 
-                if (blocksToPaste.Count < 1)
-                    return;
-
-                var blockIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase) + 1;
-                _scriptCommandManager.ExecuteCommand(new PasteSectionCommand(Script, blocksToPaste, targetBlockViewModelBase.BaseBlock));
-                SelectedBlockViewModel = ItemFilterBlockViewModels[blockIndex];
-                RaisePropertyChanged("SelectedBlockViewModel");
-                var firstBlockAsComment = blocksToPaste[0] as IItemFilterCommentBlock;
-                if (firstBlockAsComment != null)
+                foreach (var blockGroup in pastedScript.ItemFilterBlockGroups.First().ChildGroups)
                 {
-                    OnCollapseSectionCommand();
+                    Script.ItemFilterBlockGroups.First().ChildGroups.Add(blockGroup);
                 }
+
+                _scriptCommandManager.ExecuteCommand(new PasteMultipleBlocksCommand(Script, pastedScript.ItemFilterBlocks.ToList(),
+                    targetBlockViewModelBase.BaseBlock));
+
+                Messenger.Default.Send(new NotificationMessage<bool>(ShowAdvanced, "BlockGroupsChanged"));
+                var lastBlockIndex = ItemFilterBlockViewModels.IndexOf(targetBlockViewModelBase) + pastedScript.ItemFilterBlocks.Count;
+                var lastBlock = ItemFilterBlockViewModels[lastBlockIndex];
+                if(ViewItemFilterBlockViewModels.Contains(lastBlock))
+                {
+                    SelectedBlockViewModel = lastBlock;
+                }
+                RaisePropertyChanged(nameof(SelectedBlockViewModel));
             }
             catch (Exception e)
             {

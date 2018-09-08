@@ -43,6 +43,11 @@ namespace Filtration.ViewModels.ToolPanes
                         OnShowAdvancedToggled(message.Content);
                         break;
                     }
+                    case "BlockGroupsChanged":
+                    {
+                        BlockGroupViewModels = RebuildBlockGroupViewModels(message.Content);
+                        break;
+                    }
                 }
             });
 

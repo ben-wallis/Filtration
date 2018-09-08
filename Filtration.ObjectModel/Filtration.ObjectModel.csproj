@@ -117,7 +117,7 @@
     <Compile Include="Commands\ItemFilterScript\MoveBlockDownCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\MoveBlockUpCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\MoveBlockToTopCommand.cs" />
-    <Compile Include="Commands\ItemFilterScript\PasteSectionCommand.cs" />
+    <Compile Include="Commands\ItemFilterScript\PasteMultipleBlocksCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\RemoveSectionCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\SetScriptDescriptionCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\RemoveBlockCommand.cs" />

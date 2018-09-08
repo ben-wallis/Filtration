@@ -210,7 +210,18 @@ namespace Filtration.Parser.Services
             _blockGroupHierarchyBuilder.Cleanup();
             return script;
         }
-        
+
+        public IItemFilterScript TranslatePastedStringToItemFilterScript(string inputString, bool blockGroupsEnabled)
+        {
+            //Remove old disabled tags to prevent messagebox on paste
+            inputString = Regex.Replace(inputString, @"#Disabled\sBlock\s(Start|End).*?\n", "");
+            inputString = (inputString.EndsWith("\n#Disabled Block End")) ? inputString.Substring(0, inputString.Length - 19) : inputString;
+
+            inputString = (blockGroupsEnabled ? "# EnableBlockGroups" : "#") + Environment.NewLine + Environment.NewLine + inputString;
+
+            return TranslateStringToItemFilterScript(inputString);
+        }
+
         private static LinkedList<ItemFilterBlockBoundary> IdentifyBlockBoundaries(string inputString, List<bool> inBlock)
         {
             var blockBoundaries = new LinkedList<ItemFilterBlockBoundary>();
