@@ -21,6 +21,7 @@ using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Commands;
 using Filtration.ObjectModel.Commands.ItemFilterScript;
 using Filtration.Parser.Interface.Services;
+using Filtration.Properties;
 using Filtration.Services;
 using Filtration.ViewModels.Factories;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -128,6 +129,7 @@ namespace Filtration.ViewModels
             _clipboardService = clipboardService;
             _blockGroupHierarchyBuilder = blockGroupHierarchyBuilder;
             _itemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModelBase>();
+            _showAdvanced = Settings.Default.ShowAdvanced;
 
             _avalonDockWorkspaceViewModel.ActiveDocumentChanged += (s, e) =>
             {
@@ -454,6 +456,7 @@ namespace Filtration.ViewModels
                 _showAdvanced = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(ViewItemFilterBlockViewModels));
+                Settings.Default.ShowAdvanced = value;
             }
         }
 
