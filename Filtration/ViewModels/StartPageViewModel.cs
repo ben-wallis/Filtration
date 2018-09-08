@@ -12,7 +12,6 @@ namespace Filtration.ViewModels
 
     internal class StartPageViewModel : PaneViewModel, IStartPageViewModel
     {
-
         public StartPageViewModel()
         {
             Title = "Start Page";
@@ -20,8 +19,8 @@ namespace Filtration.ViewModels
             NewScriptCommand = new RelayCommand(OnNewScriptCommand);
         }
         
-        public RelayCommand OpenScriptCommand { get; private set; }
-        public RelayCommand NewScriptCommand { get; private set; }
+        public RelayCommand OpenScriptCommand { get; }
+        public RelayCommand NewScriptCommand { get; }
 
         public bool IsScript => false;
         public bool IsTheme => false;
@@ -30,6 +29,8 @@ namespace Filtration.ViewModels
         {
             throw new System.NotImplementedException();
         }
+
+        public RelayCommand CloseCommand { get; }
 
         private static void OnOpenScriptCommand()
         {

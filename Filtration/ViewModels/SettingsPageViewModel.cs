@@ -1,16 +1,21 @@
 ﻿using System.IO;
 using System.Windows;
 using Filtration.Common.Services;
-using Filtration.Common.ViewModels;
 using Filtration.Properties;
 using Filtration.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Filtration.ViewModels
 {
     internal interface ISettingsPageViewModel
     {
+        RelayCommand SetItemFilterScriptDirectoryCommand { get; }
+
+        string DefaultFilterDirectory { get; }
+        bool ExtraLineBetweenBlocks { get; set; }
+        bool DownloadPrereleaseUpdates { get; set; }
     }
 
     internal class SettingsPageViewModel : ViewModelBase, ISettingsPageViewModel
@@ -22,31 +27,44 @@ namespace Filtration.ViewModels
         {
             _itemFilterPersistenceService = itemFilterPersistenceService;
             _messageBoxService = messageBoxService;
-            SaveCommand = new RelayCommand(OnSaveCommand);
-
-            DefaultFilterDirectory = Settings.Default.DefaultFilterDirectory;
-            ExtraLineBetweenBlocks = Settings.Default.ExtraLineBetweenBlocks;
-            SuppressUpdateNotifications = Settings.Default.SuppressUpdates;
+            SetItemFilterScriptDirectoryCommand = new RelayCommand(OnSetItemFilterScriptDirectoryCommand);
         }
-        public RelayCommand SaveCommand { get; private set; }
 
-        public string DefaultFilterDirectory { get; set; }
-        public bool ExtraLineBetweenBlocks { get; set; }
-        public bool SuppressUpdateNotifications { get; set; }
+        public RelayCommand SetItemFilterScriptDirectoryCommand { get; }
 
-        private void OnSaveCommand()
+        public string DefaultFilterDirectory => Settings.Default.DefaultFilterDirectory;
+
+        public bool ExtraLineBetweenBlocks
         {
-            try
-            {
-                _itemFilterPersistenceService.SetItemFilterScriptDirectory(DefaultFilterDirectory);
+            get => Settings.Default.ExtraLineBetweenBlocks;
+            set => Settings.Default.ExtraLineBetweenBlocks = value;
+        }
 
-                Settings.Default.ExtraLineBetweenBlocks = ExtraLineBetweenBlocks;
-                Settings.Default.SuppressUpdates = SuppressUpdateNotifications;
-            }
-            catch (DirectoryNotFoundException)
+        public bool DownloadPrereleaseUpdates
+        {
+            get => Settings.Default.DownloadPrereleaseUpdates;
+            set => Settings.Default.DownloadPrereleaseUpdates = value;
+        }
+
+        private void OnSetItemFilterScriptDirectoryCommand()
+        {
+            using (var dialog = new CommonOpenFileDialog())
             {
-                _messageBoxService.Show("Error", "The entered Default Filter Directory is invalid or does not exist.",
-                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                dialog.IsFolderPicker = true;
+                var result = dialog.ShowDialog();
+                if (result == CommonFileDialogResult.Ok)
+                {
+                    try
+                    {
+                        _itemFilterPersistenceService.SetItemFilterScriptDirectory(dialog.FileName);
+                        RaisePropertyChanged(nameof(DefaultFilterDirectory));
+                    }
+                    catch (DirectoryNotFoundException)
+                    {
+                        _messageBoxService.Show("Error", "The entered Default Filter Directory is invalid or does not exist.",
+                            MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
+                }
             }
         }
     }

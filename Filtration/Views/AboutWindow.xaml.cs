@@ -26,7 +26,7 @@ namespace Filtration.Views
             {
                 var assembly = Assembly.GetExecutingAssembly();
                 var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-                return "Version " + fvi.FileMajorPart + "." + fvi.FileMinorPart;
+                return "Version " + fvi.ProductVersion;
             }
         }
     }

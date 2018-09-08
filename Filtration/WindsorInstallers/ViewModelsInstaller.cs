@@ -68,9 +68,9 @@ namespace Filtration.WindsorInstallers
                     .LifeStyle.Transient);
 
             container.Register(
-                Component.For<IUpdateAvailableViewModel>()
-                    .ImplementedBy<UpdateAvailableViewModel>()
-                    .LifeStyle.Transient);
+                Component.For<IUpdateViewModel>()
+                    .ImplementedBy<UpdateViewModel>()
+                    .LifeStyle.Singleton);
 
             container.Register(
                 Component.For<IItemFilterBlockViewModelFactory>().AsFactory());

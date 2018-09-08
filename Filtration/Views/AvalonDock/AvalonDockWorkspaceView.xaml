@@ -61,6 +61,11 @@
                             <themeEditorViews:ThemeEditorView DataContext="{Binding}" />
                         </DataTemplate>
                     </viewsAvalonDock:PanesTemplateSelector.ThemeTemplate>
+                    <viewsAvalonDock:PanesTemplateSelector.UpdateTemplate>
+                        <DataTemplate>
+                            <views:UpdateTabView DataContext="{Binding}" />
+                        </DataTemplate>
+                    </viewsAvalonDock:PanesTemplateSelector.UpdateTemplate>
                 </viewsAvalonDock:PanesTemplateSelector>
             </xcad:DockingManager.LayoutItemTemplateSelector>
 

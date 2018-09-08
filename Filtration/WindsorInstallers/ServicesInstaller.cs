@@ -25,13 +25,23 @@ namespace Filtration.WindsorInstallers
                     .LifeStyle.Singleton);
 
             container.Register(
-                Component.For<IUpdateCheckService>()
-                    .ImplementedBy<UpdateCheckService>()
+                Component.For<IUpdateService>()
+                    .ImplementedBy<UpdateService>()
                     .LifeStyle.Singleton);
 
             container.Register(
                 Component.For<IClipboardService>()
                     .ImplementedBy<ClipboardService>()
+                    .LifeStyle.Singleton);
+
+            container.Register(
+                Component.For<IBootstrapper>()
+                    .ImplementedBy<Bootstrapper>()
+                    .LifeStyle.Singleton);
+
+            container.Register(
+                Component.For<ISettingsService>()
+                    .ImplementedBy<SettingsService>()
                     .LifeStyle.Singleton);
         }
     }

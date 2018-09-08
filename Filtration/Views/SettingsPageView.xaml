@@ -3,12 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:viewModels="clr-namespace:Filtration.ViewModels"
-        mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Type=viewModels:SettingsPageViewModel}">
-    <!--IsMaxRestoreButtonEnabled="False"-->
+        xmlns:designTime="clr-namespace:Filtration.ViewModels.DesignTime"
+        mc:Ignorable="d" d:DesignWidth="1200"
+        d:DataContext="{d:DesignInstance Type=designTime:DesignTimeSettingsPageViewModel, IsDesignTimeCreatable=True}">
     <Border BorderBrush="Black" BorderThickness="1">
-        <DockPanel Margin="10">
+        <DockPanel Margin="10" MaxWidth="600" HorizontalAlignment="Left">
             <Grid DockPanel.Dock="Bottom">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -18,7 +17,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="5" />
-                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -28,22 +27,22 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0">Default Filter Directory:</TextBlock>
-                    <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding DefaultFilterDirectory}" Width="250" />
+                    <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">Default Filter Directory:</TextBlock>
+                    <Grid Grid.Row="0" Grid.Column="2" Height="40" Width="300">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="40" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding DefaultFilterDirectory}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <Button Grid.Column="1" Margin="5,0,0,0" Width="30" Height="30" Command="{Binding SetItemFilterScriptDirectoryCommand}">
+                            <ContentControl Content="{StaticResource OpenIcon}" Width="16" Height="16"></ContentControl>
+                        </Button>
+                    </Grid>
                     <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">Add blank line between blocks when saving</TextBlock>
                     <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding ExtraLineBetweenBlocks}"  />
-                    <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">Suppress update notifications for current version</TextBlock>
-                    <CheckBox Grid.Row="4" Grid.Column="2" IsChecked="{Binding SuppressUpdateNotifications}"  />
+                    <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">Download pre-release updates (use with caution)</TextBlock>
+                    <CheckBox Grid.Row="4" Grid.Column="2" IsChecked="{Binding DownloadPrereleaseUpdates}"  />
                 </Grid>
-                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
-                    <StackPanel.Resources>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Width" Value="80" />
-                            <Setter Property="Margin" Value="3" />
-                        </Style>
-                    </StackPanel.Resources>
-                    <Button Command="{Binding SaveCommand}">Save</Button>
-                </StackPanel>
             </Grid>
         </DockPanel>
     </Border>

@@ -10,8 +10,9 @@
         xmlns:views="clr-namespace:Filtration.Views"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:utility="clr-namespace:Filtration.Utility"
-        mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
+        xmlns:designTime="clr-namespace:Filtration.ViewModels.DesignTime"
+        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+        d:DataContext="{d:DesignInstance Type=designTime:DesignTimeMainWindowViewModel, IsDesignTimeCreatable=True}"
         Title="{Binding WindowTitle}" Height="{Binding WindowHeight, Mode=TwoWay}" Width="{Binding WindowWidth, Mode=TwoWay}" IsIconVisible="True" WindowState="{Binding WindowState}"
         Closing="MainWindow_OnClosing" Drop="MainWindow_OnDrop" AllowDrop="True">
 
@@ -166,6 +167,7 @@
                     </Border>
                 </Grid>
             </Grid>
+            <views:UpdateView DataContext="{Binding UpdateViewModel}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="4" Height="90" />
         </Grid>
     </DockPanel>
 </fluent:RibbonWindow>

@@ -15,11 +15,10 @@ namespace Filtration.Views.AvalonDock
         public DataTemplate BlockOutputPreviewTemplate { get; set; }
         public DataTemplate StartPageTemplate { get; set; }
         public DataTemplate ThemeTemplate { get; set; }
+        public DataTemplate UpdateTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            var itemAsLayoutContent = item as LayoutContent;
-
             if (item is ItemFilterScriptViewModel)
             {
                 return ItemFilterScriptTemplate;
@@ -48,6 +47,11 @@ namespace Filtration.Views.AvalonDock
             if (item is StartPageViewModel)
             {
                 return StartPageTemplate;
+            }
+
+            if (item is IUpdateViewModel)
+            {
+                return UpdateTemplate;
             }
 
             return base.SelectTemplate(item, container);

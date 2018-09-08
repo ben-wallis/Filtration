@@ -12,7 +12,7 @@ namespace Filtration.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -121,123 +121,111 @@ namespace Filtration.Properties {
                 return ((string)(this["UpdateDataUrl"]));
             }
         }
-
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DownloadPrereleaseUpdates {
+            get {
+                return ((bool)(this["DownloadPrereleaseUpdates"]));
+            }
+            set {
+                this["DownloadPrereleaseUpdates"] = value;
+            }
+        }
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ShowSectionBrowser
-        {
-            get
-            {
+        public bool ShowSectionBrowser {
+            get {
                 return ((bool)(this["ShowSectionBrowser"]));
             }
-            set
-            {
+            set {
                 this["ShowSectionBrowser"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ShowBlockGroupBrowser
-        {
-            get
-            {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowBlockGroupBrowser {
+            get {
                 return ((bool)(this["ShowBlockGroupBrowser"]));
             }
-            set
-            {
+            set {
                 this["ShowBlockGroupBrowser"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ShowBlockOutputPreview
-        {
-            get
-            {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowBlockOutputPreview {
+            get {
                 return ((bool)(this["ShowBlockOutputPreview"]));
             }
-            set
-            {
+            set {
                 this["ShowBlockOutputPreview"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ShowAdvanced
-        {
-            get
-            {
+        public bool ShowAdvanced {
+            get {
                 return ((bool)(this["ShowAdvanced"]));
             }
-            set
-            {
+            set {
                 this["ShowAdvanced"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
-        public global::System.Windows.WindowState WindowState
-        {
-            get
-            {
+        public global::System.Windows.WindowState WindowState {
+            get {
                 return ((global::System.Windows.WindowState)(this["WindowState"]));
             }
-            set
-            {
+            set {
                 this["WindowState"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("960")]
-        public int WindowWidth
-        {
-            get
-            {
+        [global::System.Configuration.DefaultSettingValueAttribute("1200")]
+        public int WindowWidth {
+            get {
                 return ((int)(this["WindowWidth"]));
             }
-            set
-            {
+            set {
                 this["WindowWidth"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("720")]
-        public int WindowHeight
-        {
-            get
-            {
+        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        public int WindowHeight {
+            get {
                 return ((int)(this["WindowHeight"]));
             }
-            set
-            {
+            set {
                 this["WindowHeight"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastActiveDocument
-        {
-            get
-            {
+        public string LastActiveDocument {
+            get {
                 return ((string)(this["LastActiveDocument"]));
             }
-            set
-            {
+            set {
                 this["LastActiveDocument"] = value;
             }
         }

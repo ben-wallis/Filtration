@@ -1,8 +1,8 @@
 ﻿namespace Filtration.Views
 {
-    public partial class UpdateAvailableView
+    public partial class UpdateView
     {
-        public UpdateAvailableView()
+        public UpdateView()
         {
             InitializeComponent();
         }

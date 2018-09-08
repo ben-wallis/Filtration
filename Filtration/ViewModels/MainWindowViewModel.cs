@@ -34,6 +34,9 @@ namespace Filtration.ViewModels
     {
         RelayCommand OpenScriptCommand { get; }
         RelayCommand NewScriptCommand { get; }
+        int WindowWidth { get; set; }
+        int WindowHeight { get; set; }
+        IUpdateViewModel UpdateViewModel { get; }
         Task<bool> CloseAllDocumentsAsync();
         Task OpenDroppedFilesAsync(List<string> filenames);
     }
@@ -63,7 +66,8 @@ namespace Filtration.ViewModels
                                    IThemeProvider themeProvider,
                                    IThemeService themeService,
                                    IMessageBoxService messageBoxService,
-                                   IClipboardService clipboardService)
+                                   IClipboardService clipboardService,
+                                   IUpdateViewModel updateViewModel)
         {
             _itemFilterScriptRepository = itemFilterScriptRepository;
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
@@ -74,6 +78,8 @@ namespace Filtration.ViewModels
             _themeService = themeService;
             _messageBoxService = messageBoxService;
             _clipboardService = clipboardService;
+            UpdateViewModel = updateViewModel;
+
             _windowState = Settings.Default.WindowState;
             _windowWidth = Settings.Default.WindowWidth;
             _windowHeight = Settings.Default.WindowHeight;
@@ -266,13 +272,15 @@ namespace Filtration.ViewModels
         public IAvalonDockWorkspaceViewModel AvalonDockWorkspaceViewModel => _avalonDockWorkspaceViewModel;
         public ISettingsPageViewModel SettingsPageViewModel { get; }
 
+        public IUpdateViewModel UpdateViewModel { get; }
+
         public string WindowTitle
         {
             get
             {
                 var assembly = Assembly.GetExecutingAssembly();
                 var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-                return "Filtration v" + fvi.FileMajorPart + "." +  fvi.FileMinorPart;
+                return "Filtration v" + fvi.ProductVersion;
             }
         }
 
