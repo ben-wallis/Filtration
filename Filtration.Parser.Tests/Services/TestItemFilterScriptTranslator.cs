@@ -119,7 +119,7 @@ namespace Filtration.Parser.Tests.Services
                     "	Class \"Life Flasks\" \"Mana Flasks\"" + Environment.NewLine +
                     "	Rarity Normal	"
                 )
-            } && s.ItemFilterBlockGroups == new ObservableCollection<ItemFilterBlockGroup> { new ItemFilterBlockGroup("Root", null, false) }
+            } && s.ItemFilterBlockGroups == new ObservableCollection<ItemFilterBlockGroup> { new ItemFilterBlockGroup("Root", null, false, false) }
             && s.ThemeComponents == new ThemeComponentCollection() 
             && s.ItemFilterScriptSettings == new ItemFilterScriptSettings(new ThemeComponentCollection())
             && s.Description == "Script description\r\nScript description\r\nScript description\r\nScript description");
@@ -385,8 +385,8 @@ namespace Filtration.Parser.Tests.Services
 
             var mockBlockGroupHierarchyBuilder = new Mock<IBlockGroupHierarchyBuilder>();
             mockBlockGroupHierarchyBuilder.Setup(
-                    b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>()))
-                .Returns(new ItemFilterBlockGroup("My Block Group", null));
+                    b => b.IntegrateStringListIntoBlockGroupHierarchy(It.IsAny<IEnumerable<string>>(), true, false))
+                .Returns(new ItemFilterBlockGroup("My Block Group", null, false, true));
 
             var blockTranslator = new ItemFilterBlockTranslator(mockBlockGroupHierarchyBuilder.Object);
             

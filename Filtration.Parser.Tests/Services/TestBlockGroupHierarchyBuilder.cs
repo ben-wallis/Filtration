@@ -18,11 +18,11 @@ namespace Filtration.Parser.Tests.Services
             var builder = new BlockGroupHierarchyBuilder();
 
             // Act
-            var result = builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock);
+            var result = builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock, true, true);
             
             // Assert
             Assert.AreEqual(1, rootBlock.ChildGroups.Count);
-            Assert.AreEqual("Sub Block Group", result.GroupName);
+            Assert.AreEqual("Sub Block Group", result.ParentGroup.GroupName);
         }
 
         [Test]
@@ -35,11 +35,11 @@ namespace Filtration.Parser.Tests.Services
             var builder = new BlockGroupHierarchyBuilder();
 
             // Act
-            var result = builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock);
+            var result = builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock, true, true);
 
             // Assert
             Assert.AreEqual(1, rootBlock.ChildGroups.Count);
-            Assert.AreEqual("Block Group", result.GroupName);
+            Assert.AreEqual("Block Group", result.ParentGroup.GroupName);
         }
 
         [Test]
@@ -52,12 +52,12 @@ namespace Filtration.Parser.Tests.Services
             var builder = new BlockGroupHierarchyBuilder();
 
             // Act
-            var result = builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock);
+            var result = builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock, true, true);
 
             // Assert
             Assert.AreEqual(1, rootBlock.ChildGroups.Count);
-            Assert.AreEqual("Block Group", result.GroupName);
-            Assert.AreEqual(true, result.Advanced);
+            Assert.AreEqual("Block Group", result.ParentGroup.GroupName);
+            Assert.AreEqual(true, result.ParentGroup.Advanced);
         }
 
         [Test]
@@ -70,11 +70,11 @@ namespace Filtration.Parser.Tests.Services
             var builder = new BlockGroupHierarchyBuilder();
 
             // Act
-            var result = builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock);
+            var result = builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock, true, true);
 
             // Assert
             Assert.AreEqual(1, rootBlock.ChildGroups.Count);
-            Assert.AreEqual(true, result.Advanced);
+            Assert.AreEqual(true, result.ParentGroup.Advanced);
         }
 
         [Test]
@@ -90,12 +90,12 @@ namespace Filtration.Parser.Tests.Services
             var builder = new BlockGroupHierarchyBuilder();
 
             // Act
-            var result = builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock);
+            var result = builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock, true, true);
 
             // Assert
             Assert.AreEqual(1, rootBlock.ChildGroups.Count);
-            Assert.AreEqual("Block Group", result.GroupName);
-            Assert.AreEqual(true, result.Advanced);
+            Assert.AreEqual("Block Group", result.ParentGroup.GroupName);
+            Assert.AreEqual(true, result.ParentGroup.Advanced);
         }
 
         [Test]
@@ -107,15 +107,15 @@ namespace Filtration.Parser.Tests.Services
 
             // Act
             var inputStrings = new List<string> { "Block Group" };
-            builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock);
+            builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock, true, true);
             inputStrings = new List<string> { "Block Group 2" };
-            builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock);
+            builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock, true, true);
             inputStrings = new List<string> { "Block Group", "Sub Block Group" };
-            var result = builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock);
+            var result = builder.IntegrateStringListIntoBlockGroupHierarchy(inputStrings, rootBlock, true, true);
 
             // Assert
             Assert.AreEqual(2, rootBlock.ChildGroups.Count);
-            Assert.AreEqual("Sub Block Group", result.GroupName);
+            Assert.AreEqual("Sub Block Group", result.ParentGroup.GroupName);
         }
     }
 }

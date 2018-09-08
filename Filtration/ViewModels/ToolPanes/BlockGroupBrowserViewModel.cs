@@ -112,7 +112,7 @@ namespace Filtration.ViewModels.ToolPanes
             // This assumes that there will only ever be a single root node.
             return new ObservableCollection<ItemFilterBlockGroupViewModel>
             (
-                new ItemFilterBlockGroupViewModel(AvalonDockWorkspaceViewModel.ActiveScriptViewModel.Script.ItemFilterBlockGroups.First(), showAdvanced, null).ChildGroups
+                new ItemFilterBlockGroupViewModel(AvalonDockWorkspaceViewModel.ActiveScriptViewModel.Script.ItemFilterBlockGroups.First(), showAdvanced, null).VisibleChildGroups
             );
         }
 
@@ -131,7 +131,7 @@ namespace Filtration.ViewModels.ToolPanes
         {
             foreach (var vm in BlockGroupViewModels)
             {
-                vm.IsExpanded = true;
+                vm.SetIsExpandedForAll(true);
             }
         }
 
@@ -139,7 +139,7 @@ namespace Filtration.ViewModels.ToolPanes
         {
             foreach (var vm in BlockGroupViewModels)
             {
-                vm.IsExpanded = false;
+                vm.SetIsExpandedForAll(false);
             }
         }
     }

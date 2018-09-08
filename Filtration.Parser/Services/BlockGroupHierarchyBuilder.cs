@@ -20,16 +20,16 @@ namespace Filtration.Parser.Services
             _rootBlockGroup = null;
         }
 
-        public ItemFilterBlockGroup IntegrateStringListIntoBlockGroupHierarchy(IEnumerable<string> groupStrings)
+        public ItemFilterBlockGroup IntegrateStringListIntoBlockGroupHierarchy(IEnumerable<string> groupStrings, bool show, bool enabled)
         {
             if (_rootBlockGroup == null)
             {
                 throw new Exception("BlockGroupHierarchyBuilder must be initialised with root BlockGroup before use");
             }
-            return IntegrateStringListIntoBlockGroupHierarchy(groupStrings, _rootBlockGroup);
+            return IntegrateStringListIntoBlockGroupHierarchy(groupStrings, _rootBlockGroup, show, enabled);
         }
 
-        public ItemFilterBlockGroup IntegrateStringListIntoBlockGroupHierarchy(IEnumerable<string> groupStrings, ItemFilterBlockGroup startItemGroup)
+        public ItemFilterBlockGroup IntegrateStringListIntoBlockGroupHierarchy(IEnumerable<string> groupStrings, ItemFilterBlockGroup startItemGroup, bool show, bool enabled)
         {
             var inputGroups = groupStrings.ToList();
             var firstGroup = inputGroups.First().Trim();
@@ -47,12 +47,47 @@ namespace Filtration.Parser.Services
             if (matchingChildItemGroup == null)
             {
                 var newItemGroup = CreateBlockGroup(inputGroups.First().Trim(), startItemGroup);
+                newItemGroup.IsShowChecked = show;
+                newItemGroup.IsEnableChecked = enabled;
                 startItemGroup.ChildGroups.Add(newItemGroup);
                 inputGroups = inputGroups.Skip(1).ToList();
-                return inputGroups.Count > 0 ? IntegrateStringListIntoBlockGroupHierarchy(inputGroups, newItemGroup) : newItemGroup;
+                if (inputGroups.Count > 0)
+                {
+                    return IntegrateStringListIntoBlockGroupHierarchy(inputGroups, newItemGroup, show, enabled);
+                }
+                else
+                {
+                    var leafNode = new ItemFilterBlockGroup("", newItemGroup, false, true);
+                    leafNode.IsShowChecked = show;
+                    leafNode.IsEnableChecked = enabled;
+                    newItemGroup.ChildGroups.Add(leafNode);
+                    return leafNode;
+                }
+            }
+            else
+            {
+                if(matchingChildItemGroup.IsShowChecked != show)
+                {
+                    matchingChildItemGroup.IsShowChecked = null;
+                }
+                if (matchingChildItemGroup.IsEnableChecked != enabled)
+                {
+                    matchingChildItemGroup.IsEnableChecked = null;
+                }
             }
             inputGroups = inputGroups.Skip(1).ToList();
-            return inputGroups.Count > 0 ? IntegrateStringListIntoBlockGroupHierarchy(inputGroups, matchingChildItemGroup) : matchingChildItemGroup;
+            if(inputGroups.Count > 0)
+            {
+                return IntegrateStringListIntoBlockGroupHierarchy(inputGroups, matchingChildItemGroup, show, enabled);
+            }
+            else
+            {
+                var leafNode = new ItemFilterBlockGroup("", matchingChildItemGroup, false, true);
+                leafNode.IsShowChecked = show;
+                leafNode.IsEnableChecked = enabled;
+                matchingChildItemGroup.ChildGroups.Add(leafNode);
+                return leafNode;
+            }
         }
 
         private ItemFilterBlockGroup CreateBlockGroup(string groupNameString, ItemFilterBlockGroup parentGroup)

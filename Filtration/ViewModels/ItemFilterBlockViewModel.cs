@@ -12,6 +12,7 @@ using Filtration.ObjectModel.Enums;
 using Filtration.Services;
 using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Win32;
 using Xceed.Wpf.Toolkit;
 
@@ -52,6 +53,8 @@ namespace Filtration.ViewModels
             PlayPositionalSoundCommand = new RelayCommand(OnPlayPositionalSoundCommand, () => HasPositionalSound);
             PlayCustomSoundCommand = new RelayCommand(OnPlayCustomSoundCommand, () => HasCustomSound);
             CustomSoundFileDialogCommand = new RelayCommand(OnCustomSoundFileDialog);
+            AddBlockGroupCommand = new RelayCommand(OnAddBlockGroupCommand);
+            DeleteBlockGroupCommand = new RelayCommand(OnDeleteBlockGroupCommand, () => BlockGroups.Count > 0);
         }
 
         public override void Initialise(IItemFilterBlockBase itemFilterBlockBase, IItemFilterScriptViewModel parentScriptViewModel)
@@ -62,9 +65,12 @@ namespace Filtration.ViewModels
                 throw new ArgumentNullException(nameof(itemFilterBlock));
             }
 
+            BlockGroups = new ObservableCollection<ItemFilterBlockGroup>();
+
             _parentScriptViewModel = parentScriptViewModel;
 
             Block = itemFilterBlock;
+            Block.EnabledStatusChanged += OnBlockEnabledStatusChanged;
 
             itemFilterBlock.BlockItems.CollectionChanged += OnBlockItemsCollectionChanged;
 
@@ -73,6 +79,8 @@ namespace Filtration.ViewModels
                 blockItem.PropertyChanged += OnBlockItemChanged;
             }
             base.Initialise(itemFilterBlock, parentScriptViewModel);
+
+            UpdateBlockGroups();
         }
 
         public RelayCommand CopyBlockStyleCommand { get; }
@@ -86,9 +94,16 @@ namespace Filtration.ViewModels
         public RelayCommand SwitchBlockItemsViewCommand { get; }
         public RelayCommand CustomSoundFileDialogCommand { get; }
         public RelayCommand PlayCustomSoundCommand { get; }
+        public RelayCommand AddBlockGroupCommand { get; }
+        public RelayCommand DeleteBlockGroupCommand { get; }
 
         public IItemFilterBlock Block { get; private set; }
 
+        public ObservableCollection<ItemFilterBlockGroup> BlockGroups { get; internal set; }
+
+        public ObservableCollection<string> BlockGroupSuggestions { get; internal set; }
+
+        public string BlockGroupSearch { get; set; }
 
         public bool IsExpanded
         {
@@ -117,7 +132,7 @@ namespace Filtration.ViewModels
             get { return Block.BlockItems.Where(b => b is IAudioVisualBlockItem); }
         }
 
-        public bool AdvancedBlockGroup => Block.BlockGroup != null && Block.BlockGroup.Advanced;
+        public bool AdvancedBlockGroup => Block.BlockGroup?.ParentGroup != null && Block.BlockGroup.ParentGroup.Advanced;
 
         public bool AudioVisualBlockItemsGridVisible
         {
@@ -438,6 +453,11 @@ namespace Filtration.ViewModels
             }
         }
 
+        private void OnBlockEnabledStatusChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged(nameof(BlockEnabled));
+        }
+
         private void OnBlockItemChanged(object sender, EventArgs e)
         {
             var itemFilterBlockItem = sender as IItemFilterBlockItem;
@@ -528,6 +548,105 @@ namespace Filtration.ViewModels
             {
                 MessageBox.Show("Couldn't play the file. Please be sure it is a valid audio file.");
             }
+        }
+
+        private void OnAddBlockGroupCommand()
+        {
+            var baseBlock = Block as ItemFilterBlock;
+            if (baseBlock == null)
+                return;
+
+            if (!string.IsNullOrWhiteSpace(BlockGroupSearch))
+            {
+                var blockToAdd = _parentScriptViewModel.Script.ItemFilterBlockGroups.First();
+                if(BlockGroups.Count > 0)
+                {
+                    blockToAdd = BlockGroups.Last();
+                }
+
+                var newGroup = new ItemFilterBlockGroup(BlockGroupSearch, null, AdvancedBlockGroup, false);
+                if (baseBlock.BlockGroup == null)
+                {
+                    baseBlock.BlockGroup = new ItemFilterBlockGroup("", null, false, true);
+                    baseBlock.BlockGroup.IsShowChecked = baseBlock.Action == BlockAction.Show;
+                    baseBlock.BlockGroup.IsEnableChecked = BlockEnabled;
+                }
+                newGroup.AddOrJoinBlockGroup(baseBlock.BlockGroup);
+                blockToAdd.AddOrJoinBlockGroup(newGroup);
+
+                Block.IsEdited = true;
+                _parentScriptViewModel.SetDirtyFlag();
+
+                Messenger.Default.Send(new NotificationMessage<bool>(_parentScriptViewModel.ShowAdvanced, "BlockGroupsChanged"));
+                UpdateBlockGroups();
+            }
+
+            BlockGroupSearch = "";
+            RaisePropertyChanged(nameof(BlockGroupSearch));
+        }
+
+        private void OnDeleteBlockGroupCommand()
+        {
+            if(BlockGroups.Count > 0)
+            {
+                Block.BlockGroup.DetachSelf(false);
+                BlockGroups.RemoveAt(BlockGroups.Count - 1);
+
+                var blockToAdd = _parentScriptViewModel.Script.ItemFilterBlockGroups.First();
+                if (BlockGroups.Count > 0)
+                {
+                    blockToAdd = BlockGroups.Last();
+                }
+                blockToAdd.AddOrJoinBlockGroup(Block.BlockGroup);
+
+                Block.IsEdited = true;
+                _parentScriptViewModel.SetDirtyFlag();
+
+                Messenger.Default.Send(new NotificationMessage<bool>(_parentScriptViewModel.ShowAdvanced, "BlockGroupsChanged"));
+                UpdateBlockGroups();
+            }
+        }
+
+        private void UpdateBlockGroups()
+        {
+            var baseBlock = Block as ItemFilterBlock;
+            if (baseBlock == null)
+                return;
+
+            var currentGroup = baseBlock.BlockGroup;
+            var groupList = new List<ItemFilterBlockGroup>();
+            while (currentGroup != null)
+            {
+                groupList.Add(currentGroup);
+                currentGroup = currentGroup.ParentGroup;
+            }
+
+            var topGroup = _parentScriptViewModel.Script.ItemFilterBlockGroups.First();
+            if (groupList.Count > 1)
+            {
+                groupList.Reverse();
+                groupList.RemoveAt(0);
+                groupList.RemoveAt(groupList.Count - 1);
+
+                if(groupList.Count > 0)
+                {
+                    topGroup = groupList.Last();
+                }
+            }
+
+            BlockGroups = new ObservableCollection<ItemFilterBlockGroup>(groupList);
+            BlockGroupSuggestions = new ObservableCollection<string>();
+            
+            foreach(var child in topGroup.ChildGroups)
+            {
+                if(!child.IsLeafNode)
+                {
+                    BlockGroupSuggestions.Add(child.GroupName);
+                }
+            }
+            
+            RaisePropertyChanged(nameof(BlockGroups));
+            RaisePropertyChanged(nameof(BlockGroupSuggestions));
         }
     }
 }

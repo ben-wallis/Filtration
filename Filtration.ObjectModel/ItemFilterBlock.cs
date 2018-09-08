@@ -14,6 +14,7 @@ namespace Filtration.ObjectModel
     public interface IItemFilterBlock : IItemFilterBlockBase
     {
         bool Enabled { get; set; }
+        event EventHandler EnabledStatusChanged;
         string Description { get; set; }
         ItemFilterBlockGroup BlockGroup { get; set; }
         BlockAction Action { get; set; }
@@ -88,6 +89,7 @@ namespace Filtration.ObjectModel
         {
             BlockItems = new ObservableCollection<IItemFilterBlockItem> { ActionBlockItem };
             BlockItems.CollectionChanged += new NotifyCollectionChangedEventHandler(OnBlockItemsChanged);
+            ActionBlockItem.PropertyChanged += OnActionBlockItemChanged;
             _enabled = true;
         }
 
@@ -95,6 +97,7 @@ namespace Filtration.ObjectModel
         {
             BlockItems = new ObservableCollection<IItemFilterBlockItem> { ActionBlockItem };
             BlockItems.CollectionChanged += new NotifyCollectionChangedEventHandler(OnBlockItemsChanged);
+            ActionBlockItem.PropertyChanged += OnActionBlockItemChanged;
             _enabled = true;
         }
 
@@ -105,8 +108,16 @@ namespace Filtration.ObjectModel
             {
                 _enabled = value;
                 IsEdited = true;
+                EnabledStatusChanged?.Invoke(null, null);
+                if(BlockGroup != null && BlockGroup.IsEnableChecked != value)
+                {
+                    BlockGroup.IsEnableChecked = value;
+                }
             }
         }
+
+        public event EventHandler EnabledStatusChanged;
+
         public string Description
         {
             get { return _description; }
@@ -165,6 +176,13 @@ namespace Filtration.ObjectModel
         {
             IsEdited = true;
         }
+        private void OnActionBlockItemChanged(object sender, EventArgs e)
+        {
+            if (BlockGroup != null && BlockGroup.IsShowChecked != (Action == BlockAction.Show))
+            {
+                BlockGroup.IsShowChecked = (Action == BlockAction.Show);
+            }
+        }
 
         public bool AddBlockItemAllowed(Type type)
         {
@@ -198,13 +216,22 @@ namespace Filtration.ObjectModel
         
         private void OnBlockGroupStatusChanged(object sender, EventArgs e)
         {
-            if (BlockGroup.IsChecked == false && Action == BlockAction.Show)
+            if (BlockGroup.IsShowChecked == false && Action == BlockAction.Show)
             {
                 Action = BlockAction.Hide;
             }
-            else if (BlockGroup.IsChecked && Action == BlockAction.Hide)
+            else if (BlockGroup.IsShowChecked == true && Action == BlockAction.Hide)
             {
                 Action = BlockAction.Show;
+            }
+
+            if (BlockGroup.IsEnableChecked == false && Enabled)
+            {
+                Enabled = false;
+            }
+            else if (BlockGroup.IsEnableChecked == true && !Enabled)
+            {
+                Enabled = true;
             }
         }
 
