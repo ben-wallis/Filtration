@@ -366,11 +366,11 @@ namespace Filtration.ViewModels
             {
                 if (x <= 9)
                 {
-                    return "AlertSound_0" + x + ".wav";
+                    return "AlertSound_0" + x + ".mp3";
                 }
                 else
                 {
-                    return "AlertSound_" + x + ".wav";
+                    return "AlertSound_" + x + ".mp3";
                 }
             }
 
@@ -382,34 +382,34 @@ namespace Filtration.ViewModels
             string filePart;
             switch (identifier) {
                 case "ShGeneral":
-                    filePart = "SH22General.wav";
+                    filePart = "SH22General.mp3";
                     break;
                 case "ShBlessed":
-                    filePart = "SH22Blessed.wav";
+                    filePart = "SH22Blessed.mp3";
                     break;
                 case "ShChaos":
-                    filePart = "SH22Chaos.wav";
+                    filePart = "SH22Chaos.mp3";
                     break;
                 case "ShDivine":
-                    filePart = "SH22Divine.wav";
+                    filePart = "SH22Divine.mp3";
                     break;
                 case "ShExalted":
-                    filePart = "SH22Exalted.wav";
+                    filePart = "SH22Exalted.mp3";
                     break;
                 case "ShMirror":
-                    filePart = "SH22Mirror.wav";
+                    filePart = "SH22Mirror.mp3";
                     break;
                 case "ShAlchemy":
-                    filePart = "SH22Alchemy.wav";
+                    filePart = "SH22Alchemy.mp3";
                     break;
                 case "ShFusing":
-                    filePart = "SH22Fusing.wav";
+                    filePart = "SH22Fusing.mp3";
                     break;
                 case "ShRegal":
-                    filePart = "SH22Regal.wav";
+                    filePart = "SH22Regal.mp3";
                     break;
                 case "ShVaal":
-                    filePart = "SH22Vaal.wav";
+                    filePart = "SH22Vaal.mp3";
                     break;
                 default:
                     filePart = ComputeFilePartFromNumber(identifier);
