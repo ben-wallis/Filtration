@@ -10,17 +10,20 @@ namespace Filtration.ViewModels
         IItemFilterCommentBlock ItemFilterCommentBlock { get; }
         string Comment { get; }
         bool IsExpanded { get; set; }
-        bool HasChild { get; set; }
+        bool HasVisibleChild { get; }
     }
 
     internal class ItemFilterCommentBlockViewModel : ItemFilterBlockViewModelBase, IItemFilterCommentBlockViewModel
     {
         private bool _isExpanded;
-        private bool _hasChild;
+        private int _childCount;
+        private int _visibleChildCount;
 
         public ItemFilterCommentBlockViewModel()
         {
             _isExpanded = true;
+            _childCount = 0;
+            _visibleChildCount = 0;
 
             ToggleSectionCommand = new RelayCommand(OnToggleSectionCommand);
         }
@@ -92,14 +95,30 @@ namespace Filtration.ViewModels
             }
         }
 
-        public bool HasChild
+        public int ChildCount
         {
-            get => _hasChild;
+            get => _childCount;
             set
             {
-                _hasChild = value;
+                _childCount = value;
                 RaisePropertyChanged();
             }
+        }
+
+        public int VisibleChildCount
+        {
+            get => _visibleChildCount;
+            set
+            {
+                _visibleChildCount = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(HasVisibleChild));
+            }
+        }
+
+        public bool HasVisibleChild
+        {
+            get => (_visibleChildCount > 0);
         }
 
         private void OnToggleSectionCommand()

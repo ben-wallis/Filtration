@@ -3,13 +3,20 @@ using System.Collections.Generic;
 
 namespace Filtration.ObjectModel.Commands.ItemFilterScript
 {
-    public class PasteMultipleBlocksCommand : IUndoableCommand
+    public class PasteBlocksCommand : IUndoableCommand
     {
         private readonly IItemFilterScript _itemFilterScript;
         private readonly List<IItemFilterBlockBase> _pastedItemFilterBlocks;
         private readonly IItemFilterBlockBase _addAfterItemFilterBlock;
 
-        public PasteMultipleBlocksCommand(IItemFilterScript itemFilterScript, List<IItemFilterBlockBase> pastedItemFilterBlocks, IItemFilterBlockBase addAfterItemFilterBlock)
+        public PasteBlocksCommand(IItemFilterScript itemFilterScript, IItemFilterBlockBase block, IItemFilterBlockBase addAfterItemFilterBlock)
+        {
+            _itemFilterScript = itemFilterScript;
+            _pastedItemFilterBlocks = new List<IItemFilterBlockBase> { block };
+            _addAfterItemFilterBlock = addAfterItemFilterBlock;
+        }
+
+        public PasteBlocksCommand(IItemFilterScript itemFilterScript, List<IItemFilterBlockBase> pastedItemFilterBlocks, IItemFilterBlockBase addAfterItemFilterBlock)
         {
             _itemFilterScript = itemFilterScript;
             _pastedItemFilterBlocks = pastedItemFilterBlocks;
@@ -21,7 +28,7 @@ namespace Filtration.ObjectModel.Commands.ItemFilterScript
             if (_addAfterItemFilterBlock != null)
             {
                 var lastAddedBlock = _addAfterItemFilterBlock;
-                foreach(var block in _pastedItemFilterBlocks)
+                foreach (var block in _pastedItemFilterBlocks)
                 {
                     _itemFilterScript.ItemFilterBlocks.Insert(_itemFilterScript.ItemFilterBlocks.IndexOf(lastAddedBlock) + 1, block);
                     lastAddedBlock = block;

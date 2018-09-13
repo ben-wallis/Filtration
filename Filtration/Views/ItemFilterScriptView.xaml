@@ -61,7 +61,7 @@
                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                                    VirtualizingStackPanel.VirtualizationMode="Recycling"
                                                    attachedProperties:SelectingItemAttachedProperty.SelectingItem="{Binding CommentBlockBrowserBrowserSelectedBlockViewModel}"
-                                                   SelectedItem="{Binding SelectedBlockViewModel}">
+                                                   SelectionMode="Extended" attachedProperties:SelectedItemsAttachedProperty.SelectedItems="{Binding SelectedBlockViewModels}">
                     <!--ItemTemplateSelector="{StaticResource BlockTemplateSelector}"-->
                     <ListBox.InputBindings>
                         <KeyBinding Key="Delete" Command="{Binding DeleteBlockCommand}" />

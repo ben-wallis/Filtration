@@ -21,16 +21,6 @@ namespace Filtration.ViewModels
 
         public ItemFilterBlockViewModelBase()
         {
-            CopyBlockCommand = new RelayCommand(OnCopyBlockCommand);
-            PasteBlockCommand = new RelayCommand(OnPasteBlockCommand);
-            AddBlockCommand = new RelayCommand(OnAddBlockCommand);
-            AddSectionCommand = new RelayCommand(OnAddSectionCommand);
-            DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand);
-            MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand);
-            MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand);
-            MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand);
-            MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand);
-
             _isVisible = true;
         }
 
@@ -39,6 +29,16 @@ namespace Filtration.ViewModels
         {
             BaseBlock = itemfilterBlock;
             _parentScriptViewModel = itemFilterScriptViewModel;
+
+            CopyBlockCommand = new RelayCommand(OnCopyBlockCommand);
+            PasteBlockCommand = new RelayCommand(OnPasteBlockCommand);
+            AddBlockCommand = new RelayCommand(OnAddBlockCommand);
+            AddSectionCommand = new RelayCommand(OnAddSectionCommand);
+            DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => _parentScriptViewModel.CanModifyBlock(this));
+            MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand);
+            MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand);
+            MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand);
+            MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand);
         }
 
         public event EventHandler BlockBecameDirty;
@@ -46,15 +46,15 @@ namespace Filtration.ViewModels
         public IItemFilterBlockBase BaseBlock { get; protected set; }
         public IItemFilterScriptViewModel _parentScriptViewModel;
 
-        public RelayCommand CopyBlockCommand { get; }
-        public RelayCommand PasteBlockCommand { get; }
-        public RelayCommand AddBlockCommand { get; }
-        public RelayCommand AddSectionCommand { get; }
-        public RelayCommand DeleteBlockCommand { get; }
-        public RelayCommand MoveBlockUpCommand { get; }
-        public RelayCommand MoveBlockDownCommand { get; }
-        public RelayCommand MoveBlockToTopCommand { get; }
-        public RelayCommand MoveBlockToBottomCommand { get; }
+        public RelayCommand CopyBlockCommand { get; private set; }
+        public RelayCommand PasteBlockCommand { get; private set; }
+        public RelayCommand AddBlockCommand { get; private set; }
+        public RelayCommand AddSectionCommand { get; private set; }
+        public RelayCommand DeleteBlockCommand { get; private set; }
+        public RelayCommand MoveBlockUpCommand { get; private set; }
+        public RelayCommand MoveBlockDownCommand { get; private set; }
+        public RelayCommand MoveBlockToTopCommand { get; private set; }
+        public RelayCommand MoveBlockToBottomCommand { get; private set; }
         
         public bool IsDirty
         {

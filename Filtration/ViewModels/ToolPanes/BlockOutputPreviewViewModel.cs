@@ -30,14 +30,14 @@ namespace Filtration.ViewModels.ToolPanes
             {
                 switch (message.Notification)
                 {
-                    case "SelectedBlockChanged":
+                    case "LastSelectedBlockChanged":
                     {
-                        OnSelectedBlockChanged(this, EventArgs.Empty);
+                        OnLastSelectedBlockChanged(this, EventArgs.Empty);
                         break;
                     }
                     case "ActiveDocumentChanged":
                     {
-                        OnSelectedBlockChanged(this, EventArgs.Empty);
+                        OnLastSelectedBlockChanged(this, EventArgs.Empty);
                         break;
                     }
                 }
@@ -62,9 +62,9 @@ namespace Filtration.ViewModels.ToolPanes
             PreviewText = string.Empty;
         }
 
-        private void OnSelectedBlockChanged(object sender, EventArgs e)
+        private void OnLastSelectedBlockChanged(object sender, EventArgs e)
         {
-            if (AvalonDockWorkspaceViewModel.ActiveScriptViewModel?.SelectedBlockViewModel == null)
+            if (AvalonDockWorkspaceViewModel.ActiveScriptViewModel?.LastSelectedBlockViewModel == null)
             {
                 PreviewText = string.Empty;
                 return;
@@ -72,7 +72,7 @@ namespace Filtration.ViewModels.ToolPanes
 
             PreviewText =
                 _itemFilterBlockTranslator.TranslateItemFilterBlockBaseToString(
-                    AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel.BaseBlock);
+                    AvalonDockWorkspaceViewModel.ActiveScriptViewModel.LastSelectedBlockViewModel.BaseBlock);
         }
     }
 }
