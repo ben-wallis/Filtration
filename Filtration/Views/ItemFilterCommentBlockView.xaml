@@ -89,7 +89,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Label Grid.Column="0" VerticalAlignment="Center" MinWidth="150" Content="{Binding Header, Mode=OneWay}" />
-                            <WrapPanel Grid.Column="1" HorizontalAlignment="Right" Visibility="{Binding HasChild, Converter={StaticResource BooleanVisibilityConverter}}">
+                            <WrapPanel Grid.Column="1" HorizontalAlignment="Right" Visibility="{Binding HasVisibleChild, Converter={StaticResource BooleanVisibilityConverter}}">
                                 <Button Command="{Binding ToggleSectionCommand}"
                                     Width="25"
                                     Height="25"

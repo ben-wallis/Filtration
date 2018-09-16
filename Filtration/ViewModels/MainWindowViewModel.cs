@@ -97,18 +97,18 @@ namespace Filtration.ViewModels
             RedoCommand = new RelayCommand(OnRedoCommand, () => ActiveDocumentIsScript);
 
 
-            MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
-            MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
-            MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
-            MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
+            MoveBlockUpCommand = new RelayCommand(OnMoveBlockUpCommand, () => ActiveDocumentIsScript && ActiveScriptHasSingleSelectedeBlock);
+            MoveBlockDownCommand = new RelayCommand(OnMoveBlockDownCommand, () => ActiveDocumentIsScript && ActiveScriptHasSingleSelectedeBlock);
+            MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock && ActiveScriptCanModifySelectedBlocks);
+            MoveBlockToBottomCommand = new RelayCommand(OnMoveBlockToBottomCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock && ActiveScriptCanModifySelectedBlocks);
 
             AddBlockCommand = new RelayCommand(OnAddBlockCommand, () => ActiveDocumentIsScript);
             AddSectionCommand = new RelayCommand(OnAddSectionCommand, () => ActiveDocumentIsScript);
-            DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock);
-            DisableBlockCommand = new RelayCommand(OnDisableBlockCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedEnabledBlock);
-            EnableBlockCommand = new RelayCommand(OnEnableBlockCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedDisabledBlock);
-            DisableSectionCommand = new RelayCommand(OnDisableSectionCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedCommentBlock);
-            EnableSectionCommand = new RelayCommand(OnEnableSectionCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedCommentBlock);
+            DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => ActiveDocumentIsScript && ActiveScriptCanModifySelectedBlocks);
+            DisableBlockCommand = new RelayCommand(OnDisableBlockCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedEnabledBlock && ActiveScriptCanModifySelectedBlocks);
+            EnableBlockCommand = new RelayCommand(OnEnableBlockCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedDisabledBlock && ActiveScriptCanModifySelectedBlocks);
+            DisableSectionCommand = new RelayCommand(OnDisableSectionCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedCommentBlock && ActiveScriptCanModifySelectedBlocks);
+            EnableSectionCommand = new RelayCommand(OnEnableSectionCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedCommentBlock && ActiveScriptCanModifySelectedBlocks);
             ExpandSectionCommand = new RelayCommand(OnExpandSectionCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedCommentBlock);
             CollapseSectionCommand = new RelayCommand(OnCollapseSectionCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedCommentBlock);
             OpenAboutWindowCommand = new RelayCommand(OnOpenAboutWindowCommand);
@@ -329,13 +329,17 @@ namespace Filtration.ViewModels
 
         public bool ActiveDocumentIsTheme => _avalonDockWorkspaceViewModel.ActiveDocument!= null && _avalonDockWorkspaceViewModel.ActiveDocument.IsTheme;
 
-        public bool ActiveScriptHasSelectedBlock => AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModel != null;
+        public bool ActiveScriptHasSelectedBlock => AvalonDockWorkspaceViewModel.ActiveScriptViewModel.LastSelectedBlockViewModel != null;
+
+        public bool ActiveScriptHasSingleSelectedeBlock => AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModels.Count == 1;
 
         public bool ActiveScriptHasSelectedEnabledBlock => AvalonDockWorkspaceViewModel.ActiveScriptViewModel.HasSelectedEnabledBlock();
 
         public bool ActiveScriptHasSelectedDisabledBlock => AvalonDockWorkspaceViewModel.ActiveScriptViewModel.HasSelectedDisabledBlock();
 
         public bool ActiveScriptHasSelectedCommentBlock => AvalonDockWorkspaceViewModel.ActiveScriptViewModel.HasSelectedCommentBlock();
+
+        public bool ActiveScriptCanModifySelectedBlocks => AvalonDockWorkspaceViewModel.ActiveScriptViewModel.CanModifySelectedBlocks();
 
 
         public bool ActiveThemeIsEditable => AvalonDockWorkspaceViewModel.ActiveThemeViewModel.IsMasterTheme;

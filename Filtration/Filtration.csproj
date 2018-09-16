@@ -191,6 +191,7 @@
     <Compile Include="UserControls\ThemeComponentSelectionControl.xaml.cs">
       <DependentUpon>ThemeComponentSelectionControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AttachedProperties\SelectedItemsAttachedProperty.cs" />
     <Compile Include="Utility\RoutedCommandHandler.cs" />
     <Compile Include="Utility\RoutedCommandHandlers.cs" />
     <Compile Include="ViewModels\AvalonDockWorkspaceViewModel.cs" />
