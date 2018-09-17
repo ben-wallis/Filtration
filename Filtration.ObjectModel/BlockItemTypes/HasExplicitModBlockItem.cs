@@ -7,7 +7,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
     public class HasExplicitModBlockItem : StringListBlockItem
     {
         public override string PrefixText => "HasExplicitMod";
-        public override int MaximumAllowed => 1;
+        public override int MaximumAllowed => 8;
         public override string DisplayHeading => "Has Explicit Mod";
 
         public override string SummaryText
