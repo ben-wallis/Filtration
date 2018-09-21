@@ -37,6 +37,10 @@ namespace Filtration.Views.AttachedProperties
 
                     listbox.SelectionChanged += (s, ev) =>
                     {
+                        // TODO: Temporary solution. If a block item uses AutoScrollingListBox, it may create problems.
+                        if (!(ev.OriginalSource is UserControls.AutoScrollingListBox))
+                            return;
+
                         if (null != ev.RemovedItems)
                         {
                             foreach (var item in ev.RemovedItems)
