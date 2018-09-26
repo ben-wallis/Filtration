@@ -586,8 +586,8 @@
     <Content Include="Resources\AlertSounds\SH22Vaal.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\ItemBaseTypes.txt" />
-    <Content Include="Resources\ItemClasses.txt" />
+    <EmbeddedResource Include="Resources\ItemBaseTypes.txt" />
+    <EmbeddedResource Include="Resources\ItemClasses.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Filtration.Common\Filtration.Common.csproj">

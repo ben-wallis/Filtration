@@ -225,6 +225,93 @@ namespace Filtration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A Mother&apos;s Parting Gift
+        ///Abandoned Wealth
+        ///Aberrant Fossil
+        ///Abyssal Axe
+        ///Abyssal Cry
+        ///Abyssal Sceptre
+        ///Academy Map
+        ///Acid Lakes Map
+        ///Added Chaos Damage Support
+        ///Added Cold Damage Support
+        ///Added Fire Damage Support
+        ///Added Lightning Damage Support
+        ///Additional Accuracy Support
+        ///Aetheric Fossil
+        ///Agate Amulet
+        ///Albino Rhoa Feather
+        ///Alchemy Shard
+        ///Alder Spiked Shield
+        ///Alira&apos;s Amulet
+        ///Alleyways Map
+        ///Allflame
+        ///Alloyed Spiked Shield
+        ///Alteration Shard
+        ///Amber Amulet
+        ///Ambush Boots
+        ///Ambush Leaguestone
+        ///Ambush Mitts
+        ///Ambus [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ItemBaseTypes {
+            get {
+                return ResourceManager.GetString("ItemBaseTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abyss Jewel
+        ///Active Skill Gems
+        ///Amulets
+        ///Axe
+        ///Belts
+        ///Body Armours
+        ///Boots
+        ///Bows
+        ///Claws
+        ///Currency
+        ///Daggers
+        ///Delve Socketable Currency
+        ///Divination Card
+        ///Fishing Rods
+        ///Flasks
+        ///Gems
+        ///Gloves
+        ///Helmets
+        ///Hybrid Flasks
+        ///Incursion Item
+        ///Jewel
+        ///Labyrinth Item
+        ///Labyrinth Map Item
+        ///Labyrinth Trinket
+        ///Large Relics
+        ///Leaguestone
+        ///Life Flasks
+        ///Mace
+        ///Mana Flasks
+        ///Map Fragments
+        ///Maps
+        ///Misc Map Items
+        ///One Hand Axes
+        ///One Hand Maces
+        ///One Hand Swords
+        ///Pantheon Soul
+        ///Piece
+        ///Quest Items
+        ///Quivers
+        ///Rings
+        ///Sceptres
+        ///Shields
+        ///Stackable  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ItemClasses {
+            get {
+                return ResourceManager.GetString("ItemClasses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
         internal static System.IO.UnmanagedMemoryStream SH22Alchemy {
