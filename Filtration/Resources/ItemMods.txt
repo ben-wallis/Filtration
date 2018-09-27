@@ -434,7 +434,6 @@ of Acclaim
 of Acclimatisation
 of Accuracy
 of Adamantite Skin
-of Adaptation
 of Adaption
 of Adrenaline
 of Amassment
@@ -477,6 +476,7 @@ of Congealment
 of Consumption
 of Corundum Skin
 of Crafting
+of Craiceann
 of Craving
 of Cunning
 of Curing
@@ -517,7 +517,9 @@ of Expulsion
 of Extinguishing
 of Exuberance
 of Fame
+of Farrul
 of Fending
+of Fenumus
 of Ferocity
 of Finesse
 of Flames
@@ -624,6 +626,7 @@ of Ruin
 of Runes
 of Rupturing
 of Rust
+of Saqawal
 of Savouring
 of Shaping
 of Shelter

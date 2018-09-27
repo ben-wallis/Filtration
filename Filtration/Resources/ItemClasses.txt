@@ -1,7 +1,7 @@
 Abyss Jewel
 Active Skill Gems
 Amulets
-Axe
+Axes
 Belts
 Body Armours
 Boots
@@ -25,7 +25,7 @@ Labyrinth Trinket
 Large Relics
 Leaguestone
 Life Flasks
-Mace
+Maces
 Mana Flasks
 Map Fragments
 Maps
@@ -43,7 +43,7 @@ Shields
 Stackable Currency
 Staves
 Support Skill Gems
-Sword
+Swords
 Thrusting One Hand Swords
 Two Hand Axes
 Two Hand Maces
