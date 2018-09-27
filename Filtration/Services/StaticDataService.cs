@@ -10,6 +10,7 @@ namespace Filtration.Services
     {
         IEnumerable<string> ItemBaseTypes { get; }
         IEnumerable<string> ItemClasses { get; }
+        IEnumerable<string> ItemMods { get; }
     }
 
     internal class StaticDataService : IStaticDataService
@@ -23,10 +24,13 @@ namespace Filtration.Services
 
         public IEnumerable<string> ItemClasses { get; private set; }
 
+        public IEnumerable<string> ItemMods { get; private set; }
+
         private void PopulateStaticData()
         {
             ItemBaseTypes = new LineReader(() => new StringReader(Resources.ItemBaseTypes)).ToList();
             ItemClasses = new LineReader(() => new StringReader(Resources.ItemClasses)).ToList();
+            ItemMods = new LineReader(() => new StringReader(Resources.ItemMods)).ToList();
         }
     }
 }

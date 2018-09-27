@@ -78,7 +78,7 @@
 
                     <!-- Explicit Mods Template -->
                     <DataTemplate DataType="{x:Type blockItemTypes:HasExplicitModBlockItem}">
-                        <userControls:EditableListBoxControl Margin="5,5,5,5" ItemsSource="{Binding Items}" />
+                        <userControls:EditableListBoxControl Margin="5,5,5,5" ItemsSource="{Binding Items}" AutoCompleteItemsSource="{Binding ElementName=TopLevelGrid, Path=DataContext.AutocompleteItemMods}" />
                     </DataTemplate>
 
                     <!-- Socket Groups Template -->
