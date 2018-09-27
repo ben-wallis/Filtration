@@ -66,7 +66,6 @@
     <Compile Include="Repositories\TestItemFilterScriptRepository.cs" />
     <Compile Include="Services\TestHTTPService.cs" />
     <Compile Include="Services\TestItemFilterPersistenceService.cs" />
-    <Compile Include="Services\TestStaticDataService.cs" />
     <Compile Include="Services\TestUpdateService.cs" />
   </ItemGroup>
   <ItemGroup>
