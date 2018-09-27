@@ -1,0 +1,783 @@
+Abbot's
+Abhorrent
+Acrobat's
+Adept's
+Agile
+Alchemist's
+Alluring
+Alpine
+Ample
+Anarchic
+Anarchist's
+Annealed
+Antagonist's
+Apprentice's
+Aqua
+Archmage's
+Arcing
+Arctic
+Armadillo's
+Arming
+Armoured
+Athlete's
+Avalanching
+Avenger's
+Azure
+Bandit's
+Barbed
+Battlemage's
+Beating
+Beautiful
+Beetle's
+Beryl
+Betrayer's
+Bipedal
+Biting
+Bitter
+Blasting
+Blazing
+Blistering
+Bloodthirsty
+Blue
+Blunt
+Blurred
+Boggart's
+Bolting
+Brawler's
+Breathtaking
+Brinerot
+Brutal
+Bubbling
+Burning
+Burnished
+Butterfly's
+Buttressed
+Buzzing
+Calming
+Capricious
+Captivating
+Carapaced
+Carved
+Caster's
+Catalysed
+Catalyzing
+Caustic
+Cauterising
+Cautious
+Ceremonial
+Cerulean
+Chaining
+Chalybeous
+Champion's
+Chanter's
+Chaotic
+Charged
+Charging
+Cheetah's
+Chemist's
+Chilled
+Chilling
+Citaqualotl's
+Cleaving
+Clouded
+Cobalt
+Combatant's
+Conflagrating
+Conqueror's
+Corrupted
+Coursing
+Crab's
+Crackling
+Cremating
+Crocodile's
+Cruel
+Cryomancer's
+Cryomantic
+Crystalline
+Dancer's
+Darkened
+Dauntless
+Dazzling
+Deadly
+Deafening
+Deceiver's
+Deflecting
+Degenerative
+Demonic
+Devastating
+Dictator's
+Discharging
+Dissipating
+Djinn's
+Dragon's
+Dragonfly's
+Duelist's
+Eldritch
+Electrocuting
+Electromantic
+Elephant's
+Emanant
+Emperor's
+Empowered
+Empowering
+Encased
+Energetic
+Energising
+Enlightened
+Entombing
+Enveloped
+Ephemeral
+Esh's
+Ethereal
+Evanescent
+Evasive
+Exarch's
+Exemplary
+Experimenter's
+Exuberant
+Fawn's
+Fearless
+Feasting
+Fecund
+Fencer's
+Fencing
+Feral
+Fevered
+Fierce
+Filigree
+Flame Spinner's
+Flaming
+Flanking
+Flaring
+Flawless
+Flea's
+Fleet
+Fletcher's
+Fortified
+Freezing
+Frigid
+Frost Weaver's
+Frosted
+Frozen
+Fuelling
+Gazelle's
+Gentian
+Ghost's
+Girded
+Glaciated
+Gladiator's
+Gleaming
+Glimmering
+Glinting
+Glittering
+Glowing
+Glyphic
+Gremlin's
+Grounded
+Guatelitzi's
+Hailing
+Hale
+Halting
+Harming
+Harmonic
+Haunting
+Healthy
+Heated
+Heavy
+Hellion's
+Hero's
+Hexproof
+Hexwarded
+Hissing
+Honed
+Humming
+Hummingbird's
+Ibex's
+Icy
+Illusion's
+Illusory
+Impenetrable
+Impervious
+Impregnable
+Incandescent
+Incanter's
+Incinerating
+Incombustible
+Incorporeal
+Inculcated
+Indomitable
+Infernal
+Infixed
+Infused
+Infusing
+Ingrained
+Inspirational
+Inspired
+Inspiring
+Instilled
+Interpermeated
+Interpolated
+Ionising
+Jagged
+Jinxing
+Journeyman's
+Judging
+Lacquered
+Lamprey's
+Lava Caller's
+Layered
+Leadership
+Legend's
+Lethal
+Lich's
+Lively
+Lobstered
+Lunar
+Mage's
+Magician's
+Magmatic
+Magpie's
+Malicious
+Malignant
+Mammoth's
+Master's
+Matatl's
+Mazarine
+Mercenary's
+Merciless
+Mirage's
+Mirrored
+Molten
+Monk's
+Mosquito's
+Moth's
+Multifarious
+Mutewind
+Muttering
+Naga's
+Nautilus's
+Necromancer's
+Nightmare's
+Nihilist's
+Occultist's
+Opalescent
+Otherworldly
+Overlord's
+Overpowering
+Oyster's
+Panicked
+Paragon's
+Parched
+Parrying
+Perandus'
+Perpetual
+Phantasm's
+Phased
+Piercing
+Pirate's
+Pixie's
+Plated
+Polar
+Polished
+Prime
+Prior's
+Professor's
+Protective
+Pulsing
+Puncturing
+Punishing
+Pyroclastic
+Pyromantic
+Quintessential
+Radiating
+Ram's
+Rapturous
+Razor-sharp
+Reanimator's
+Reaver's
+Recovering
+Redblade
+Reinforced
+Remora's
+Resistant
+Resolute
+Resonant
+Resonating
+Resplendent
+Rhino's
+Ribbed
+Ripping
+Robust
+Rotund
+Runic
+Runner's
+Rupturing
+Sabotage
+Sanguine
+Sapphire
+Sapping
+Saturated
+Savage
+Scholar's
+Scintillating
+Scorching
+Scrapper's
+Screaming
+Searing
+Seething
+Seraphim's
+Serene
+Serrated
+Shade's
+Shadowy
+Shaman's
+Sharpened
+Sharpshooter's
+Shielding
+Shimmering
+Shining
+Shocking
+Shrieking
+Sinister
+Sizzling
+Skeletal
+Slicing
+Slithering
+Smiting
+Smoking
+Smouldering
+Snapping
+Snowy
+Solar
+Soldier's
+Sorcerer's
+Sparking
+Spectre's
+Spiny
+Spirited
+Splitting
+Sprinter's
+Squire's
+Stallion's
+Stalwart
+Stout
+Striking
+Strong-Willed
+Studded
+Subterranean
+Summoner's
+Sundering
+Surgeon's
+Surging
+Tacati's
+Tainted
+Technical
+Tempered
+Tempest King's
+Thaumaturgist's
+The Shaper's
+Thickened
+Thirsty
+Thorny
+Thunder Lord's
+Thundering
+Thwarting
+Titan's
+Topotante's
+Trapping
+Tul's
+Turncoat's
+Twinned
+Tyrannical
+Unassailable
+Undead
+Unfaltering
+Unleashed
+Unreal
+Unstoppable
+Unwavering
+Unworldly
+Urchin's
+Vaal
+Vampire's
+Vaporous
+Vicious
+Victor's
+Vigorous
+Vile
+Virile
+Vivacious
+Vivid
+Volcanic
+Volleying
+Wailing
+Warding
+Warlock's
+Warrior's
+Wasp's
+Weaponmaster's
+Weeping
+Whispering
+Wicked
+Winterbringer's
+Wizard's
+Wraith's
+Wright's
+Xopec's
+Xoph's
+Youthful
+Zaffre
+Zana's
+of Absorption
+of Abuse
+of Acclaim
+of Acclimatisation
+of Accuracy
+of Adamantite Skin
+of Adaptation
+of Adaption
+of Adrenaline
+of Amassment
+of Anger
+of Animation
+of Annihilation
+of Archaeology
+of Archery
+of Arcing
+of Ashes
+of Athletics
+of Authority
+of Balance
+of Bameth
+of Banishing
+of Banishment
+of Berserking
+of Blasting
+of Bleeding
+of Blinding
+of Bliss
+of Bloodlines
+of Burning
+of Calamity
+of Calm
+of Celebration
+of Champions
+of Chilling
+of Cinders
+of Citaqualotl
+of Coals
+of Collecting
+of Collision
+of Combat
+of Combusting
+of Commanders
+of Confidence
+of Conflagrating
+of Congealment
+of Consumption
+of Corundum Skin
+of Crafting
+of Craving
+of Cunning
+of Curing
+of Dampening
+of Darting
+of Dazing
+of Deadliness
+of Delaying
+of Demolishing
+of Desecration
+of Destruction
+of Dexterity
+of Disaster
+of Discharge
+of Dishonour
+of Distraction
+of Dousing
+of Drought
+of Ease
+of Efficiency
+of Elation
+of Electricity
+of Elemental Weakness
+of Embers
+of Enchanting
+of Endurance
+of Enfeeblement
+of Entropy
+of Ephij
+of Euphoria
+of Eviction
+of Excavation
+of Excitement
+of Exile
+of Expertise
+of Exposure
+of Expulsion
+of Extinguishing
+of Exuberance
+of Fame
+of Fending
+of Ferocity
+of Finesse
+of Flames
+of Flight
+of Floe
+of Focus
+of Fog
+of Fortitude
+of Fracturing
+of Freezing
+of Frenzy
+of Fury
+of Gathering
+of Giants
+of Glaciation
+of Gluttony
+of Grandmastery
+of Grounding
+of Guarding
+of Guatelitzi
+of Haast
+of Haemophilia
+of Harm
+of Havoc
+of Haze
+of Heat
+of Hemomancy
+of Hindering
+of Hoarding
+of Hordes
+of Ice
+of Immolation
+of Impact
+of Impotence
+of Incision
+of Infamy
+of Instinct
+of Insulating
+of Insulation
+of Intelligence
+of Intercepting
+of Ire
+of Iron Skin
+of Joy
+of Legerdemain
+of Light
+of Lightning
+of Lioneye
+of Longevity
+of Malevolence
+of Malice
+of Maneuvering
+of Marshalling
+of Mastery
+of Matatl
+of Menace
+of Mending
+of Miring
+of Momentum
+of Mysticism
+of Needling
+of Nimbleness
+of Nirvana
+of Nourishment
+of Numbing
+of Onslaught
+of Opportunity
+of Orchestration
+of Order
+of Osmosis
+of Overflowing
+of Penetrating
+of Phasing
+of Piercing
+of Plunder
+of Poisoning
+of Potency
+of Power
+of Praxis
+of Precision
+of Preparation
+of Prestidigitation
+of Propulsion
+of Puhuarte
+of Radiance
+of Rage
+of Raiding
+of Rallying
+of Readiness
+of Recovery
+of Refilling
+of Reflexes
+of Regrowth
+of Rejuvenation
+of Rending
+of Renown
+of Resilience
+of Resistance
+of Restoration
+of Retaliation
+of Righteousness
+of Rime
+of Ruin
+of Runes
+of Rupturing
+of Rust
+of Savouring
+of Shaping
+of Shelter
+of Shining
+of Shocking
+of Sin
+of Sipping
+of Skill
+of Skirmishing
+of Slamming
+of Sleet
+of Smothering
+of Snow
+of Soaring
+of Sortilege
+of Sparks
+of Spellcraft
+of Spirit
+of Staggering
+of Stasis
+of Static
+of Staunching
+of Steadiness
+of Steel Skin
+of Stifling
+of Stinging
+of Stone Skin
+of Strength
+of Stunning
+of Success
+of Tacati
+of Talent
+of Taunting
+of Temporal Chains
+of Thick Skin
+of Tolerance
+of Toughness
+of Training
+of Triumph
+of Tzteosh
+of Unholy Might
+of Unmaking
+of Unwavering
+of Vampirism
+of Variegation
+of Venom
+of Vibrance
+of Victory
+of Vivaciousness
+of Voltage
+of Vulnerability
+of Walling
+of Warding
+of Warming
+of Weaponcraft
+of Weight
+of Wounding
+of Zeal
+of the Apocalypse
+of the Apt
+of the Assassin
+of the Augur
+of the Bear
+of the Beast
+of the Blur
+of the Boxer
+of the Brawler
+of the Brute
+of the Cloud
+of the Clouds
+of the Combatant
+of the Comet
+of the Crystal
+of the Deadeye
+of the Dragon
+of the Drake
+of the Elder
+of the Elements
+of the Falcon
+of the Fox
+of the Furnace
+of the Galaxy
+of the Gale
+of the Genius
+of the Gladiator
+of the Gods
+of the Godslayer
+of the Goliath
+of the Gorilla
+of the Guardian
+of the Hearth
+of the Heavens
+of the Hydra
+of the Ice
+of the Inferno
+of the Infinite
+of the Inquisitor
+of the Inuit
+of the Jaguar
+of the Kaleidoscope
+of the Kiln
+of the Leopard
+of the Leviathan
+of the Lightning
+of the Lion
+of the Lizard
+of the Lost
+of the Lynx
+of the Maelstrom
+of the Magma
+of the Marksman
+of the Meteor
+of the Mongoose
+of the Multiverse
+of the Newt
+of the Panther
+of the Penguin
+of the Phantom
+of the Philosopher
+of the Phoenix
+of the Polar Bear
+of the Polymath
+of the Prism
+of the Prodigy
+of the Pugilist
+of the Pupil
+of the Raider
+of the Rainbow
+of the Ranger
+of the Sage
+of the Salamander
+of the Savant
+of the Seal
+of the Sky
+of the Slayer
+of the Sniper
+of the Span
+of the Squall
+of the Starfish
+of the Storm
+of the Student
+of the Tempest
+of the Thunderhead
+of the Titan
+of the Troll
+of the Underground
+of the Universe
+of the Virtuoso
+of the Volcano
+of the Wall
+of the Walrus
+of the Whelpling
+of the Wind
+of the Worthy
+of the Wrestler
+of the Yeti
+of the Zephyr

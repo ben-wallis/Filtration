@@ -252,7 +252,9 @@ namespace Filtration.Properties {
         ///Ambush Boots
         ///Ambush Leaguestone
         ///Ambush Mitts
-        ///Ambus [rest of string was truncated]&quot;;.
+        ///Ambusher
+        ///Amethyst Flask
+        ///Amethyst [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ItemBaseTypes {
             get {
@@ -303,11 +305,80 @@ namespace Filtration.Properties {
         ///Rings
         ///Sceptres
         ///Shields
-        ///Stackable  [rest of string was truncated]&quot;;.
+        ///Stackable Currency
+        ///Staves
+        ///Support Skill Gems
+        ///Sword
+        ///T [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ItemClasses {
             get {
                 return ResourceManager.GetString("ItemClasses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abbot&apos;s
+        ///Abhorrent
+        ///Acrobat&apos;s
+        ///Adept&apos;s
+        ///Agile
+        ///Alchemist&apos;s
+        ///Alluring
+        ///Alpine
+        ///Ample
+        ///Anarchic
+        ///Anarchist&apos;s
+        ///Annealed
+        ///Antagonist&apos;s
+        ///Apprentice&apos;s
+        ///Aqua
+        ///Archmage&apos;s
+        ///Arcing
+        ///Arctic
+        ///Armadillo&apos;s
+        ///Arming
+        ///Armoured
+        ///Athlete&apos;s
+        ///Avalanching
+        ///Avenger&apos;s
+        ///Azure
+        ///Bandit&apos;s
+        ///Barbed
+        ///Battlemage&apos;s
+        ///Beating
+        ///Beautiful
+        ///Beetle&apos;s
+        ///Beryl
+        ///Betrayer&apos;s
+        ///Bipedal
+        ///Biting
+        ///Bitter
+        ///Blasting
+        ///Blazing
+        ///Blistering
+        ///Bloodthirsty
+        ///Blue
+        ///Blunt
+        ///Blurred
+        ///Boggart&apos;s
+        ///Bolting
+        ///Brawler&apos;s
+        ///Breathtaking
+        ///Brinerot
+        ///Brutal
+        ///Bubbling
+        ///Burning
+        ///Burnished
+        ///Butterfly&apos;s
+        ///Buttressed
+        ///Buzzing
+        ///Calming
+        ///Capric [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ItemMods {
+            get {
+                return ResourceManager.GetString("ItemMods", resourceCulture);
             }
         }
         

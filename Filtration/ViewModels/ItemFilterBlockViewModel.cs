@@ -162,6 +162,8 @@ namespace Filtration.ViewModels
 
         public IEnumerable<string> AutoCompleteItemBaseTypes => _staticDataService.ItemBaseTypes;
 
+        public IEnumerable<string> AutocompleteItemMods => _staticDataService.ItemMods;
+
         public List<Type> BlockItemTypesAvailable => new List<Type>
         {
             typeof (ItemLevelBlockItem),
@@ -352,7 +354,7 @@ namespace Filtration.ViewModels
             var replaceColorsWindow = new ReplaceColorsWindow { DataContext = _replaceColorsViewModel };
             replaceColorsWindow.ShowDialog();
         }
-        
+
         private bool AddBlockItemAllowed(Type type)
         {
             var blockItem = (IItemFilterBlockItem)Activator.CreateInstance(type);
@@ -636,7 +638,7 @@ namespace Filtration.ViewModels
 
             BlockGroups = new ObservableCollection<ItemFilterBlockGroup>(groupList);
             BlockGroupSuggestions = new ObservableCollection<string>();
-            
+
             foreach(var child in topGroup.ChildGroups)
             {
                 if(!child.IsLeafNode)
@@ -644,7 +646,7 @@ namespace Filtration.ViewModels
                     BlockGroupSuggestions.Add(child.GroupName);
                 }
             }
-            
+
             RaisePropertyChanged(nameof(BlockGroups));
             RaisePropertyChanged(nameof(BlockGroupSuggestions));
         }
