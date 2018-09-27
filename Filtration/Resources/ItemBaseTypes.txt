@@ -11,6 +11,7 @@ Added Cold Damage Support
 Added Fire Damage Support
 Added Lightning Damage Support
 Additional Accuracy Support
+Advanced Traps Support
 Aetheric Fossil
 Agate Amulet
 Albino Rhoa Feather
@@ -64,6 +65,7 @@ Arcane Surge Support
 Arcanist Gloves
 Arcanist Slippers
 Archon Kite Shield
+Archon Kite Shield Piece
 Arctic Armour
 Arctic Breath
 Arena Map
@@ -87,6 +89,7 @@ Atziri's Arsenal
 Audacity
 Auric Mace
 Aventail Helmet
+Avian Slippers
 Avian Twins Talisman
 Awl
 Baleful Gem
@@ -154,6 +157,7 @@ Bloodlust Support
 Bloodstained Fossil
 Blue Pearl Amulet
 Blunt Arrow Quiver
+Blunt Arrow Quiver Piece
 Boarding Axe
 Bodyswap
 Bog Map
@@ -207,7 +211,28 @@ Caldera Map
 Calendar of Fortune
 Call to the First Ones
 Callous Mask
+Callous Mask Piece
 Canyon Map
+Captured Soul
+Captured Soul of Arachnoxia
+Captured Soul of Armala, the Widow
+Captured Soul of Drek, Apex Hunter
+Captured Soul of Erebix, Light's Bane
+Captured Soul of Gorulis, Will-Thief
+Captured Soul of Jorus, Sky's Edge
+Captured Soul of Lycius, Midnight's Howl
+Captured Soul of Mephod, the Earth Scorcher
+Captured Soul of Nassar, Lion of the Seas
+Captured Soul of Puruna, the Challenger
+Captured Soul of Sebbert, Crescent's Point
+Captured Soul of Shadow of the Vaal
+Captured Soul of Shock and Horror
+Captured Soul of Stalker of the Endless Dunes
+Captured Soul of Suncaller Asha
+Captured Soul of Terror of the Infinite Drifts
+Captured Soul of The Forgotten Soldier
+Captured Soul of Thraxia
+Captured Soul of Varhesh, Shimmering Aberration
 Carcass Map
 Cardinal Round Shield
 Carnal Armour
@@ -246,11 +271,11 @@ Chainmail Vest
 Champion Kite Shield
 Chance to Bleed Support
 Chance to Flee Support
-Chance to Ignite Support
 Channel Map
 Chaos Orb
 Chaos Shard
 Chaotic Disposition
+Charan's Sword
 Charged Dash
 Charged Traps Support
 Chateau Map
@@ -271,6 +296,7 @@ Cleave
 Cleaver
 Close Helmet
 Cloth Belt
+Cloth Belt Piece
 Cluster Traps Support
 Clutching Talisman
 Cobalt Jewel
@@ -287,6 +313,7 @@ Colossal Tower Shield
 Colosseum Map
 Colosseum Plate
 Colossus Mallet
+Combustion Support
 Commander's Brigandine
 Composite Bow
 Compound Bow
@@ -457,6 +484,7 @@ Eelskin Gloves
 Eelskin Tunic
 Efficacy Support
 Elder Sword
+Elder's Orb
 Elegant Foil
 Elegant Ringmail
 Elegant Round Shield
@@ -487,10 +515,30 @@ Enlighten Support
 Esh's Breachstone
 Essence Drain
 Essence Leaguestone
+Essence of Anger
+Essence of Anguish
+Essence of Contempt
 Essence of Delirium
+Essence of Doubt
+Essence of Dread
+Essence of Envy
+Essence of Fear
+Essence of Greed
+Essence of Hatred
 Essence of Horror
 Essence of Hysteria
 Essence of Insanity
+Essence of Loathing
+Essence of Misery
+Essence of Rage
+Essence of Scorn
+Essence of Sorrow
+Essence of Spite
+Essence of Suffering
+Essence of Torment
+Essence of Woe
+Essence of Wrath
+Essence of Zeal
 Estoc
 Estuary Map
 Etched Greatsword
@@ -673,6 +721,7 @@ Hallowed Life Flask
 Hallowed Mana Flask
 Hammered Buckler
 Harbinger Bow
+Harbinger Map
 Harbinger's Orb
 Harbinger's Shard
 Harlequin Mask
@@ -740,6 +789,7 @@ Imperial Claw
 Imperial Maul
 Imperial Skean
 Imperial Staff
+Imperial Staff Piece
 Imprinted Bestiary Orb
 Incinerate
 Increased Area of Effect Support
@@ -831,15 +881,16 @@ Legion Boots
 Legion Gloves
 Legion Hammer
 Legion Sword
+Legion Sword Piece
 Less Duration Support
 Lesser Multiple Projectiles Support
 Lesser Poison Support
 Leyline Map
 Life Gain on Hit Support
 Life Leech Support
-Light and Truth
 Light Brigandine
 Light Quiver
+Light and Truth
 Lighthouse Map
 Lightning Arrow
 Lightning Penetration Support
@@ -901,6 +952,17 @@ Medium Life Flask
 Medium Mana Flask
 Melee Physical Damage Support
 Melee Splash Support
+Memory Fragment
+Memory Fragment I
+Memory Fragment II
+Memory Fragment III
+Memory Fragment IV
+Memory Fragment V
+Memory Fragment VI
+Memory Fragment VII
+Memory Fragment VIII
+Memory Fragment IX
+Memory Fragment X
 Merciless Armament
 Mesa Map
 Mesh Boots
@@ -913,14 +975,14 @@ Military Staff
 Mind Cage
 Minefield Support
 Mineral Pools Map
-Minion and Totem Elemental Resistance Support
 Minion Damage Support
 Minion Life Support
 Minion Speed Support
+Minion and Totem Elemental Resistance Support
 Mirage Archer Support
 Mirror Arrow
-Mirror of Kalandra
 Mirror Shard
+Mirror of Kalandra
 Mirrored Spiked Shield
 Mitts
 Molten Shell
@@ -1098,9 +1160,9 @@ Quartz Wand
 Quicksilver Flask
 Quilted Jacket
 Racecourse Map
+Rain Tempter
 Rain of Arrows
 Rain of Chaos
-Rain Tempter
 Raise Spectre
 Raise Zombie
 Rallying Cry
@@ -1117,6 +1179,7 @@ Reave
 Reaver Axe
 Reaver Helmet
 Reaver Sword
+Rebirth
 Reckoning
 Recurve Bow
 Reduced Mana Support
@@ -1572,6 +1635,7 @@ The Scavenger
 The Scholar
 The Sephirot
 The Shaper's Key
+The Shaper's Realm
 The Sigil
 The Siren
 The Soul
@@ -1655,9 +1719,8 @@ Toxic Rain
 Toxic Sewer Map
 Tranquillity
 Transmutation Shard
-Trap and Mine Damage Support
-Trap Cooldown Support
 Trap Support
+Trap and Mine Damage Support
 Trapper Boots
 Trapper Mitts
 Trarthan Powder
@@ -1752,16 +1815,16 @@ Vault Map
 Velvet Gloves
 Velvet Slippers
 Vengeance
+Vial Of Power
 Vial of Awakening
 Vial of Consequence
 Vial of Dominance
 Vial of Fate
-Vial Of Power
 Vial of Sacrifice
 Vial of Summoning
+Vial of Transcendence
 Vial of the Ghost
 Vial of the Ritual
-Vial of Transcendence
 Vicious Projectiles Support
 Vigilant Strike
 Vile Staff
