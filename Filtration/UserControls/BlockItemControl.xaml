@@ -97,14 +97,15 @@
                                                               DisplayMemberPath="Description"
                                                               SelectedValue="{Binding Color}"
                                                               SelectedValuePath="Value" />
-                            <userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}" Margin="0,2,0,0">
+                            <!-- Disabled until there is a solution to GitHub Issue #68 (certain block items do not support trailing comments) -->
+                            <!--<userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}" Margin="0,2,0,0">
                                 <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
                                     <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
                                         <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
                                         <Binding Path="." />
                                     </MultiBinding>
                                 </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
-                            </userControls:ThemeComponentSelectionControl>
+                            </userControls:ThemeComponentSelectionControl>-->
                         </StackPanel>
                     </DataTemplate>
 
@@ -133,14 +134,15 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <xctk:ShortUpDown Grid.Column="0" Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Margin="0,0,10,0" />
-                            <userControls:ThemeComponentSelectionControl Grid.Column="1" ThemeComponent="{Binding ThemeComponent}">
+                            <!-- Disabled until there is a solution to GitHub Issue #68 (certain block items do not support trailing comments) -->
+                            <!--<userControls:ThemeComponentSelectionControl Grid.Column="1" ThemeComponent="{Binding ThemeComponent}">
                                 <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
                                     <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
                                         <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
                                         <Binding Path="." />
                                     </MultiBinding>
                                 </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
-                            </userControls:ThemeComponentSelectionControl>
+                            </userControls:ThemeComponentSelectionControl>-->
                         </Grid>
                     </DataTemplate>
 
@@ -197,14 +199,15 @@
                                                               DisplayMemberPath="Description"
                                                               SelectedValue="{Binding Shape}"
                                                               SelectedValuePath="Value" />
-                            <userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}" Margin="0,2,0,0">
+                            <!-- Disabled until there is a solution to GitHub Issue #68 (certain block items do not support trailing comments) -->
+                            <!--<userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}" Margin="0,2,0,0">
                                 <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
                                     <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
                                         <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
                                         <Binding Path="." />
                                     </MultiBinding>
                                 </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
-                            </userControls:ThemeComponentSelectionControl>
+                            </userControls:ThemeComponentSelectionControl>-->
                         </StackPanel>
                     </DataTemplate>
 

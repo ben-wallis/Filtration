@@ -32,8 +32,7 @@ namespace Filtration.Parser.Services
         // Converts a string into an ItemFilterCommentBlock maintaining newlines and spaces but removing # characters
         public IItemFilterCommentBlock TranslateStringToItemFilterCommentBlock(string inputString, IItemFilterScript parentItemFilterScript, string originalString = "")
         {
-            var itemFilterCommentBlock = new ItemFilterCommentBlock(parentItemFilterScript);
-            itemFilterCommentBlock.OriginalText = originalString;
+            var itemFilterCommentBlock = new ItemFilterCommentBlock(parentItemFilterScript) {OriginalText = originalString};
 
             foreach (var line in new LineReader(() => new StringReader(inputString)))
             {
@@ -216,9 +215,8 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<TextColorBlockItem>(block);
 
                         var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
-                        
-                        var blockItem = new TextColorBlockItem();
-                        blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
+
+                        var blockItem = new TextColorBlockItem {Color = GetColorFromString(result[0].Groups[1].Value)};
                         block.BlockItems.Add(blockItem);
                         themeComponentType = (int)ThemeComponentType.TextColor;
                         break;
@@ -229,9 +227,8 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<BackgroundColorBlockItem>(block);
 
                         var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
-                        
-                        var blockItem = new BackgroundColorBlockItem();
-                        blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
+
+                        var blockItem = new BackgroundColorBlockItem {Color = GetColorFromString(result[0].Groups[1].Value)};
                         block.BlockItems.Add(blockItem);
                         themeComponentType = (int)ThemeComponentType.BackgroundColor;
                         break;
@@ -242,9 +239,8 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<BorderColorBlockItem>(block);
 
                         var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
-                        
-                        var blockItem = new BorderColorBlockItem();
-                        blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
+
+                        var blockItem = new BorderColorBlockItem {Color = GetColorFromString(result[0].Groups[1].Value)};
                         block.BlockItems.Add(blockItem);
                         themeComponentType = (int)ThemeComponentType.BorderColor;
                         break;
@@ -276,16 +272,8 @@ namespace Filtration.Parser.Services
                         if (match.Success)
                         {
                             string firstValue = match.Groups[1].Value;
-                            int secondValue;
 
-                            if (match.Groups[2].Success)
-                            {
-                                secondValue = Convert.ToInt16(match.Groups[2].Value);
-                            }
-                            else
-                            {
-                                secondValue = 79;
-                            }
+                            var secondValue = match.Groups[2].Success ? Convert.ToInt16(match.Groups[2].Value) : 79;
 
                             if (lineOption == "PlayAlertSound")
                             {
@@ -351,15 +339,15 @@ namespace Filtration.Parser.Services
                         {
                             var blockItemValue = new MapIconBlockItem
                             {
-                                Size = (IconSize)Int16.Parse(match.Groups[1].Value),
+                                Size = (IconSize)short.Parse(match.Groups[1].Value),
                                 Color = EnumHelper.GetEnumValueFromDescription<IconColor>(match.Groups[2].Value),
                                 Shape = EnumHelper.GetEnumValueFromDescription<IconShape>(match.Groups[3].Value)
                             };
-                                
+
+                            var themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.Icon, match.Groups[5].Value.Trim(),
+                                blockItemValue.Size, blockItemValue.Color, blockItemValue.Shape);
                             if(match.Groups[4].Value == "#" && !string.IsNullOrWhiteSpace(match.Groups[5].Value))
                             {
-                                ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.Icon, match.Groups[5].Value.Trim(),
-                                    blockItemValue.Size, blockItemValue.Color, blockItemValue.Shape);
                                 blockItemValue.ThemeComponent = themeComponent;
                             }
                             block.BlockItems.Add(blockItemValue);
@@ -416,8 +404,7 @@ namespace Filtration.Parser.Services
 
                 if (!string.IsNullOrWhiteSpace(blockComment) && block.BlockItems.Count > 1)
                 {
-                    var blockItemWithTheme = block.BlockItems.Last() as IBlockItemWithTheme;
-                    if(blockItemWithTheme == null)
+                    if(!(block.BlockItems.Last() is IBlockItemWithTheme blockItemWithTheme))
                     {
                         block.BlockItems.Last().Comment = blockComment;
                     }
@@ -427,11 +414,11 @@ namespace Filtration.Parser.Services
                         {
                             case ThemeComponentType.AlertSound:
                             {
-                                ThemeComponent themeComponent = null;
-                                if(blockItemWithTheme is SoundBlockItem)
+                                ThemeComponent themeComponent;
+                                if(blockItemWithTheme is SoundBlockItem item)
                                 {
                                     themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.AlertSound, blockComment.Trim(),
-                                        ((SoundBlockItem)blockItemWithTheme).Value, ((SoundBlockItem)blockItemWithTheme).SecondValue);
+                                        item.Value, item.SecondValue);
                                 }
                                 else
                                 {
@@ -597,9 +584,8 @@ namespace Filtration.Parser.Services
                     case "SetTextColor":
                     {
                         var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
-                        
-                        var blockItem = new TextColorBlockItem();
-                        blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
+
+                        var blockItem = new TextColorBlockItem {Color = GetColorFromString(result[0].Groups[1].Value)};
                         if(_masterComponentCollection != null && !string.IsNullOrWhiteSpace(blockComment))
                         {
                             ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.TextColor,
@@ -612,9 +598,8 @@ namespace Filtration.Parser.Services
                     case "SetBackgroundColor":
                     {
                         var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
-                        
-                        var blockItem = new BackgroundColorBlockItem();
-                        blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
+
+                        var blockItem = new BackgroundColorBlockItem {Color = GetColorFromString(result[0].Groups[1].Value)};
                         if(_masterComponentCollection != null && !string.IsNullOrWhiteSpace(blockComment))
                         {
                             ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.BackgroundColor,
@@ -627,9 +612,8 @@ namespace Filtration.Parser.Services
                     case "SetBorderColor":
                     {
                         var result = Regex.Matches(trimmedLine, @"([\w\s]*)");
-                        
-                        var blockItem = new BorderColorBlockItem();
-                        blockItem.Color = GetColorFromString(result[0].Groups[1].Value);
+
+                        var blockItem = new BorderColorBlockItem {Color = GetColorFromString(result[0].Groups[1].Value)};
                         if(_masterComponentCollection != null && !string.IsNullOrWhiteSpace(blockComment))
                         {
                             ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.BorderColor,
