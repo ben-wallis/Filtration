@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCulture("")]
 
 [assembly: AssemblyVersion("1.0.0")]
-[assembly: AssemblyInformationalVersion("1.0.0-beta2")]
+[assembly: AssemblyInformationalVersion("1.0.0-beta3")]
 
 [assembly: InternalsVisibleTo("Filtration.Tests")]
 [assembly: InternalsVisibleTo("Filtration.ItemFilterPreview.Tests")]

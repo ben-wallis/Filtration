@@ -7,6 +7,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
     {
         public BorderColorBlockItem()
         {
+            Color = new Color {A = 240, R = 0, G = 0, B = 0};
         }
 
         public BorderColorBlockItem(Color color) : base(color)

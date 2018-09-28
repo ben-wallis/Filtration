@@ -15,6 +15,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Win32;
 using Xceed.Wpf.Toolkit;
+using static System.Int32;
 
 namespace Filtration.ViewModels
 {
@@ -59,8 +60,7 @@ namespace Filtration.ViewModels
 
         public override void Initialise(IItemFilterBlockBase itemFilterBlockBase, IItemFilterScriptViewModel parentScriptViewModel)
         {
-            var itemFilterBlock = itemFilterBlockBase as IItemFilterBlock;
-            if (itemFilterBlock == null || parentScriptViewModel == null)
+            if (!(itemFilterBlockBase is IItemFilterBlock itemFilterBlock) || parentScriptViewModel == null)
             {
                 throw new ArgumentNullException(nameof(itemFilterBlock));
             }
@@ -136,7 +136,7 @@ namespace Filtration.ViewModels
 
         public bool AudioVisualBlockItemsGridVisible
         {
-            get { return _audioVisualBlockItemsGridVisible; }
+            get => _audioVisualBlockItemsGridVisible;
             set
             {
                 _audioVisualBlockItemsGridVisible = value;
@@ -150,7 +150,7 @@ namespace Filtration.ViewModels
 
         public bool DisplaySettingsPopupOpen
         {
-            get { return _displaySettingsPopupOpen; }
+            get => _displaySettingsPopupOpen;
             set
             {
                 _displaySettingsPopupOpen = value;
@@ -205,7 +205,7 @@ namespace Filtration.ViewModels
 
         public bool BlockEnabled
         {
-            get { return Block.Enabled; }
+            get => Block.Enabled;
             set
             {
                 if (Block.Enabled != value)
@@ -219,10 +219,7 @@ namespace Filtration.ViewModels
 
         public string BlockDescription
         {
-            get
-            {
-                return Block.Description;
-            }
+            get => Block.Description;
             set
             {
                 if (Block.Description != value)
@@ -269,8 +266,7 @@ namespace Filtration.ViewModels
 
             newBlockItem.PropertyChanged += OnBlockItemChanged;
 
-            var customSoundBlockItem = newBlockItem as CustomSoundBlockItem;
-            if(customSoundBlockItem != null && _parentScriptViewModel.CustomSoundsAvailable.Count > 0)
+            if(newBlockItem is CustomSoundBlockItem customSoundBlockItem && _parentScriptViewModel.CustomSoundsAvailable.Count > 0)
             {
                 customSoundBlockItem.Value = _parentScriptViewModel.CustomSoundsAvailable[0];
             }
@@ -364,16 +360,14 @@ namespace Filtration.ViewModels
 
         private string ComputeFilePartFromNumber(string identifier)
         {
-            if (Int32.TryParse(identifier, out int x))
+            if (TryParse(identifier, out int x))
             {
                 if (x <= 9)
                 {
                     return "AlertSound_0" + x + ".mp3";
                 }
-                else
-                {
-                    return "AlertSound_" + x + ".mp3";
-                }
+
+                return "AlertSound_" + x + ".mp3";
             }
 
             return "";
@@ -431,11 +425,9 @@ namespace Filtration.ViewModels
             {
                 return;
             }
-            else
-            {
-                _mediaPlayer.Open(new Uri(prefix + filePart, UriKind.Relative));
-                _mediaPlayer.Play();
-            }
+
+            _mediaPlayer.Open(new Uri(prefix + filePart, UriKind.Relative));
+            _mediaPlayer.Play();
         }
 
         private void OnPlayPositionalSoundCommand()
@@ -448,11 +440,9 @@ namespace Filtration.ViewModels
             {
                 return;
             }
-            else
-            {
-                _mediaPlayer.Open(new Uri(prefix + filePart, UriKind.Relative));
-                _mediaPlayer.Play();
-            }
+
+            _mediaPlayer.Open(new Uri(prefix + filePart, UriKind.Relative));
+            _mediaPlayer.Play();
         }
 
         private void OnBlockEnabledStatusChanged(object sender, EventArgs e)
@@ -462,13 +452,12 @@ namespace Filtration.ViewModels
 
         private void OnBlockItemChanged(object sender, EventArgs e)
         {
-            var itemFilterBlockItem = sender as IItemFilterBlockItem;
-            if ( itemFilterBlockItem != null && itemFilterBlockItem.IsDirty)
+            if (sender is IItemFilterBlockItem itemFilterBlockItem && itemFilterBlockItem.IsDirty)
             {
                 IsDirty = true;
             }
-            var customSoundBlockItem = sender as CustomSoundBlockItem;
-            if (customSoundBlockItem != null)
+
+            if (sender is CustomSoundBlockItem customSoundBlockItem)
             {
                 if (!string.IsNullOrWhiteSpace(customSoundBlockItem.Value) && _parentScriptViewModel.CustomSoundsAvailable.IndexOf(customSoundBlockItem.Value) < 0)
                 {
@@ -507,12 +496,11 @@ namespace Filtration.ViewModels
 
         private void OnCustomSoundFileDialog()
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.DefaultExt = ".mp3";
-            var poePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).ToString() + @"\My Games\Path of Exile\";
+            OpenFileDialog fileDialog = new OpenFileDialog {DefaultExt = ".mp3"};
+            var poePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\My Games\Path of Exile\";
             fileDialog.InitialDirectory = poePath;
 
-            Nullable<bool> result = fileDialog.ShowDialog();
+            bool? result = fileDialog.ShowDialog();
             if (result == true)
             {
                 var fileName = fileDialog.FileName;
@@ -533,7 +521,7 @@ namespace Filtration.ViewModels
 
         private void OnPlayCustomSoundCommand()
         {
-            var poePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).ToString() + @"\My Games\Path of Exile\";
+            var poePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\My Games\Path of Exile\";
             var identifier = BlockItems.OfType<CustomSoundBlockItem>().First().Value;
 
             if(!Path.IsPathRooted(identifier))
@@ -569,9 +557,11 @@ namespace Filtration.ViewModels
                 var newGroup = new ItemFilterBlockGroup(BlockGroupSearch, null, AdvancedBlockGroup, false);
                 if (baseBlock.BlockGroup == null)
                 {
-                    baseBlock.BlockGroup = new ItemFilterBlockGroup("", null, false, true);
-                    baseBlock.BlockGroup.IsShowChecked = baseBlock.Action == BlockAction.Show;
-                    baseBlock.BlockGroup.IsEnableChecked = BlockEnabled;
+                    baseBlock.BlockGroup = new ItemFilterBlockGroup("", null, false, true)
+                    {
+                        IsShowChecked = baseBlock.Action == BlockAction.Show,
+                        IsEnableChecked = BlockEnabled
+                    };
                 }
                 newGroup.AddOrJoinBlockGroup(baseBlock.BlockGroup);
                 blockToAdd.AddOrJoinBlockGroup(newGroup);
@@ -611,8 +601,7 @@ namespace Filtration.ViewModels
 
         private void UpdateBlockGroups()
         {
-            var baseBlock = Block as ItemFilterBlock;
-            if (baseBlock == null)
+            if (!(Block is ItemFilterBlock baseBlock))
                 return;
 
             var currentGroup = baseBlock.BlockGroup;

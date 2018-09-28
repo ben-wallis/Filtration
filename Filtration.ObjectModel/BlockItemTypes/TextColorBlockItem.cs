@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media;
 using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
@@ -7,6 +8,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
     {
         public TextColorBlockItem()
         {
+            Color = PathOfExileNamedColors.Colors[PathOfExileNamedColor.WhiteItem];
         }
 
         public TextColorBlockItem(Color color) : base(color)
