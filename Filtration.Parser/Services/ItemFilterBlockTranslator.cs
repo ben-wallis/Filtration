@@ -382,7 +382,7 @@ namespace Filtration.Parser.Services
                         RemoveExistingBlockItemsOfType<SoundBlockItem>(block);
                         RemoveExistingBlockItemsOfType<PositionalSoundBlockItem>(block);
 
-                        var match = Regex.Match(trimmedLine, @"\S+\s+""(\S+)""");
+                        var match = Regex.Match(trimmedLine, @"\S+\s+""([^\*\<\>\?|]+)""");
                         
                         if (match.Success)
                         {

@@ -94,7 +94,7 @@ namespace Filtration.Parser.Tests.Services
             // Arrange
             var inputString = "HideDisabled" + Environment.NewLine +
                               "    ItemLevel >= 55";
-            
+
             // Act
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
 
@@ -795,7 +795,7 @@ namespace Filtration.Parser.Tests.Services
                               "    SetTextColor 255 20 100 # Rare Item Text";
             var testComponent = new ColorThemeComponent(ThemeComponentType.TextColor, "Rare Item Text", new Color { A = 240, R = 255, G = 20, B = 100});
             var testInputThemeComponentCollection = new ThemeComponentCollection { testComponent };
-            
+
             // Act
             var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, Mock.Of<IItemFilterScript>(i => i.ItemFilterScriptSettings.ThemeComponentCollection == testInputThemeComponentCollection));
 
@@ -1046,7 +1046,7 @@ namespace Filtration.Parser.Tests.Services
 
             var fontSizeblockItem = result.BlockItems.OfType<FontSizeBlockItem>().First();
             Assert.AreEqual(50, fontSizeblockItem.Value);
-            
+
             Assert.AreEqual(0, result.BlockItems.OfType<SoundBlockItem>().Count());
 
             var disableDropSoundBlockItem = result.BlockItems.OfType<DisableDropSoundBlockItem>().First();
@@ -1089,9 +1089,9 @@ namespace Filtration.Parser.Tests.Services
             // Arrange
 
             var inputString = "Show" + Environment.NewLine +
-                              "    ItemLevel >= 70" + Environment.NewLine + 
-                              "    ItemLevel <= 80" + Environment.NewLine + 
-                              "    Quality = 15" + Environment.NewLine + 
+                              "    ItemLevel >= 70" + Environment.NewLine +
+                              "    ItemLevel <= 80" + Environment.NewLine +
+                              "    Quality = 15" + Environment.NewLine +
                               "    Quality < 17";
 
             // Act
@@ -1152,7 +1152,7 @@ namespace Filtration.Parser.Tests.Services
             var blockItem = result.BlockItems.OfType<FontSizeBlockItem>().First();
             Assert.AreEqual(27, blockItem.Value);
         }
-        
+
         [Test]
         public void TranslateStringToItemFilterBlock_MultipleSoundItems_OnlyLastOneUsed()
         {
@@ -1309,6 +1309,86 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlock_CustomSoundDocumentsFile()
+        {
+            // Arrange
+            var inputString = @"Show" + Environment.NewLine +
+                              "CustomAlertSound \"test.mp3\"";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is CustomSoundBlockItem));
+            var customSoundBlockItem = result.BlockItems.OfType<CustomSoundBlockItem>().First();
+            Assert.AreEqual("test.mp3", customSoundBlockItem.Value);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_CustomSoundDocumentsRelativeFile()
+        {
+            // Arrange
+            var inputString = @"Show" + Environment.NewLine +
+                              "CustomAlertSound \"Sounds\test.mp3\"";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is CustomSoundBlockItem));
+            var customSoundBlockItem = result.BlockItems.OfType<CustomSoundBlockItem>().First();
+            Assert.AreEqual("Sounds\test.mp3", customSoundBlockItem.Value);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_CustomSoundFullBackSlashPath()
+        {
+            // Arrange
+            var inputString = @"Show" + Environment.NewLine +
+                              "CustomAlertSound \"C:\\Sounds\\test.mp3\"";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is CustomSoundBlockItem));
+            var customSoundBlockItem = result.BlockItems.OfType<CustomSoundBlockItem>().First();
+            Assert.AreEqual("C:\\Sounds\\test.mp3", customSoundBlockItem.Value);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_CustomSoundFullForwardSlashPath()
+        {
+            // Arrange
+            var inputString = @"Show" + Environment.NewLine +
+                              "CustomAlertSound \"C:/Sounds/test.mp3\"";
+
+            //Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is CustomSoundBlockItem));
+            var customSoundBlockItem = result.BlockItems.OfType<CustomSoundBlockItem>().First();
+            Assert.AreEqual("C:/Sounds/test.mp3", customSoundBlockItem.Value);
+        }
+
+        [Test]
+        public void TranslateStringToItemFilterBlock_CustomSoundFullMixedPath()
+        {
+            // Arrange
+            var inputString = @"Show" + Environment.NewLine +
+                              "CustomAlertSound \"C:\\Sounds/test.mp3\"";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is CustomSoundBlockItem));
+            var customSoundBlockItem = result.BlockItems.OfType<CustomSoundBlockItem>().First();
+            Assert.AreEqual("C:\\Sounds/test.mp3", customSoundBlockItem.Value);
+        }
+
+        [Test]
         public void TranslateItemFilterBlockToString_NothingPopulated_ReturnsCorrectString()
         {
             // Arrange
@@ -1328,7 +1408,7 @@ namespace Filtration.Parser.Tests.Services
         {
             // Arrange
             var expectedResult = "Show # Child 1 Block Group - Child 2 Block Group";
-            
+
             var rootBlockGroup = new ItemFilterBlockGroup("Root Block Group", null);
             var child1BlockGroup = new ItemFilterBlockGroup("Child 1 Block Group", rootBlockGroup);
             var child2BlockGroup = new ItemFilterBlockGroup("Child 2 Block Group", child1BlockGroup);
@@ -1853,7 +1933,7 @@ namespace Filtration.Parser.Tests.Services
         {
             // Arrange
             var expectedResult = "Show" + Environment.NewLine +
-                                 "    ItemLevel > 56" + Environment.NewLine + 
+                                 "    ItemLevel > 56" + Environment.NewLine +
                                  "    ItemLevel >= 45" + Environment.NewLine +
                                  "    ItemLevel < 100";
 
@@ -1895,7 +1975,7 @@ namespace Filtration.Parser.Tests.Services
             // Arrange
             var expectedResult = "#Show" + Environment.NewLine +
                                  "#    Width = 4";
-                                 
+
 
             _testUtility.TestBlock.Enabled = false;
             _testUtility.TestBlock.BlockItems.Add(new WidthBlockItem(FilterPredicateOperator.Equal, 4));
@@ -2010,7 +2090,7 @@ namespace Filtration.Parser.Tests.Services
 
             // Act
             _testUtility.Translator.ReplaceAudioVisualBlockItemsFromString(testInputBlockItems, testInputString);
-            
+
             // Assert
             var textColorBlockItem = testInputBlockItems.First(b => b is TextColorBlockItem) as TextColorBlockItem;
             Assert.IsNotNull(textColorBlockItem);
@@ -2085,7 +2165,7 @@ namespace Filtration.Parser.Tests.Services
             // Arrange
             var testInputString = "SetTextColor 240 200 150 # Rarest Currency" + Environment.NewLine +
                                   "SetBackgroundColor 0 0 0 # Rarest Currency Background" + Environment.NewLine +
-                                  "SetBorderColor 255 255 255 # Rarest Currency Border" + Environment.NewLine + 
+                                  "SetBorderColor 255 255 255 # Rarest Currency Border" + Environment.NewLine +
                                   "PlayAlertSound 7 280";
 
             var testInputBlockItems = new ObservableCollection<IItemFilterBlockItem>();
@@ -2131,9 +2211,9 @@ namespace Filtration.Parser.Tests.Services
             // Arrange
             var testInputString = "SetTextColor 240 200 150 # Rarest Currency" + Environment.NewLine +
                                   "SetBackgroundColor 0 0 0 # Rarest Currency Background" + Environment.NewLine +
-                                  "SetBorderColor 255 255 255 # Rarest Currency Border" + Environment.NewLine + 
+                                  "SetBorderColor 255 255 255 # Rarest Currency Border" + Environment.NewLine +
                                   "PlayAlertSound 7 280";
-            
+
             var testInputBlockItems = new ObservableCollection<IItemFilterBlockItem>();
 
             // Act
@@ -2203,9 +2283,9 @@ namespace Filtration.Parser.Tests.Services
             _testUtility.Translator.ReplaceAudioVisualBlockItemsFromString(testInputBlockItems, testInputString);
 
             // Assert
-            
+
         }
-        
+
         private class ItemFilterBlockTranslatorTestUtility
         {
             public ItemFilterBlockTranslatorTestUtility()
