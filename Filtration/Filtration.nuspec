@@ -9,7 +9,13 @@
     <description>A Path of Exile loot filter script editor</description>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <copyright>Copyright 2018</copyright>
-    <releaseNotes>The release notes for 1.0.0 have not been written yet!</releaseNotes>
+    <releaseNotes>Still no 1.0.0 release notes
+
+Changes since 1.0.0-beta1:
+
+* Static data (ItemBaseTypes and ItemClasses) is now correctly loaded from embedded resources instead of the legacy text files in appdata
+* Updates to static data files
+* Disabled setting themes for MinimapIcon, PlayEffect and SetFontSize blocks as a temporary fix for issue #68</releaseNotes>
     <dependencies />
   </metadata>
   <files>
