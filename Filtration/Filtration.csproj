@@ -203,6 +203,7 @@
     <Compile Include="Converters\HashSignRemovalConverter.cs" />
     <Compile Include="Converters\ItemRarityConverter.cs" />
     <Compile Include="Converters\TreeViewMarginConverter.cs" />
+    <Compile Include="Enums\UpdateSource.cs" />
     <Compile Include="Models\UpdateData.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repositories\ItemFilterScriptRepository.cs" />

@@ -50,7 +50,7 @@ namespace Filtration.ViewModels
             updateService.UpdateProgressChanged += UpdateServiceOnUpdateProgressChanged;
             updateService.UpdateStatusChanged += UpdateServiceOnUpdateStatusChanged;
 
-            
+
             HideUpdateWindowCommand = new RelayCommand(OnHideUpdateWindowCommand, () => UpdateStatus == UpdateStatus.UpdateAvailable || UpdateStatus == UpdateStatus.Error);
             NextStepCommand = new RelayCommand(async () => await OnNextStepCommandAsync(), () => NextStepCommandEnabled);
 
@@ -100,39 +100,39 @@ namespace Filtration.ViewModels
         }
 
         private bool NextStepCommandEnabled => UpdateStatus == UpdateStatus.UpdateAvailable || UpdateStatus == UpdateStatus.ReadyToApplyUpdate || UpdateStatus == UpdateStatus.UpdateComplete;
-        
+
         private async Task OnNextStepCommandAsync()
         {
             switch (UpdateStatus)
             {
                 case UpdateStatus.UpdateAvailable:
-                {
-                    await _updateService.DownloadUpdatesAsync();
-                    break;
-                }
+                    {
+                        await _updateService.DownloadUpdatesAsync();
+                        break;
+                    }
                 case UpdateStatus.ReadyToApplyUpdate:
-                {
-                    if (!_updateTabShown)
                     {
-                        // When the update has downloaded and is ready to apply, clicking the button
-                        // closes the update popup and shows the update tab.
-                        _avalonDockWorkspaceViewModel.AddDocument(this);
-                        Visible = false;
-                        _updateTabShown = true;
-                        NextStepButtonText = "Update";
-                    }
-                    else
-                    {
-                        await _updateService.ApplyUpdatesAsync();
-                    }
+                        if (!_updateTabShown)
+                        {
+                            // When the update has downloaded and is ready to apply, clicking the button
+                            // closes the update popup and shows the update tab.
+                            _avalonDockWorkspaceViewModel.AddDocument(this);
+                            Visible = false;
+                            _updateTabShown = true;
+                            NextStepButtonText = "Update";
+                        }
+                        else
+                        {
+                            await _updateService.ApplyUpdatesAsync();
+                        }
 
-                    break;
-                }
+                        break;
+                    }
                 case UpdateStatus.UpdateComplete:
-                {
-                    _updateService.RestartAfterUpdate();
-                    break;
-                }
+                    {
+                        _updateService.RestartAfterUpdate();
+                        break;
+                    }
             }
         }
 
@@ -144,7 +144,6 @@ namespace Filtration.ViewModels
                 {
                     Visible = true;
                     NextStepButtonText = "Download";
-                    RaisePropertyChanged(nameof(ReleaseNotes));
                     RaisePropertyChanged(nameof(Version));
                     break;
                 }
@@ -156,6 +155,7 @@ namespace Filtration.ViewModels
                 }
                 case UpdateStatus.ReadyToApplyUpdate:
                 {
+                    RaisePropertyChanged(nameof(ReleaseNotes));
                     NextStepButtonText = "Update Ready";
                     break;
                 }

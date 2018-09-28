@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Filtration.Enums;
 using Filtration.Properties;
 using NLog;
 using Squirrel;
@@ -52,7 +53,7 @@ namespace Filtration.Services
 
         string LatestReleaseVersion { get; }
 
-        Task CheckForUpdates();
+        Task CheckForUpdatesAsync();
 
         Task DownloadUpdatesAsync();
 
@@ -63,13 +64,16 @@ namespace Filtration.Services
 
     internal class UpdateService : IUpdateService
     {
-        private readonly ISettingsService _settingsService;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private const string _localUpdatePath = @"C:\Repos\Filtration\Releases";
+
+        private readonly ISettingsService _settingsService;
+        private readonly UpdateSource _updateSource = UpdateSource.GitHub;
+
         private ReleaseEntry _latestRelease;
         private UpdateInfo _updates;
-
+        private bool _downloadPrereleaseUpdates;
         private UpdateStatus _updateStatus;
 
         public UpdateService(ISettingsService settingsService)
@@ -96,35 +100,42 @@ namespace Filtration.Services
 
         public string LatestReleaseVersion { get; private set; }
 
-        public async Task CheckForUpdates()
+        public async Task CheckForUpdatesAsync()
         {
             if (UpdateStatus != UpdateStatus.NoUpdateAvailable)
             {
                 throw new InvalidOperationException();
             }
 
-
             Logger.Debug("Checking for update...");
             UpdateStatus = UpdateStatus.CheckingForUpdate;
 
             try
             {
-                bool downloadPrereleaseUpdates;
-                downloadPrereleaseUpdates = Settings.Default.DownloadPrereleaseUpdates;
+                _downloadPrereleaseUpdates = Settings.Default.DownloadPrereleaseUpdates;
 #if DEBUG
-                downloadPrereleaseUpdates = true;
+                _downloadPrereleaseUpdates = true;
 #endif
-                using (var mgr = await UpdateManager.GitHubUpdateManager("https://github.com/ben-wallis/Filtration", prerelease: downloadPrereleaseUpdates))
+
+                async Task CheckForUpdatesAsync(IUpdateManager updateManager)
                 {
-                    _updates = await mgr.CheckForUpdate(progress: progress => UpdateProgressChanged?.Invoke(this, new UpdateProgressChangedEventArgs(progress)));
+                    _updates = await updateManager.CheckForUpdate(progress: progress => UpdateProgressChanged?.Invoke(this, new UpdateProgressChangedEventArgs(progress)));
                 }
 
-                // Local file update source for testing
-                //using (var mgr = new UpdateManager(_localUpdatePath))
-                //{
-
-                //    _updates = await mgr.CheckForUpdate(progress: progress => UpdateProgressChanged?.Invoke(this, new UpdateProgressChangedEventArgs(progress)));
-                //}
+                if (_updateSource == UpdateSource.GitHub)
+                {
+                    using (var updateManager = await UpdateManager.GitHubUpdateManager("https://github.com/ben-wallis/Filtration", prerelease: _downloadPrereleaseUpdates))
+                    {
+                        await CheckForUpdatesAsync(updateManager);
+                    }
+                }
+                else
+                {
+                    using (var updateManager = new UpdateManager(_localUpdatePath))
+                    {
+                        await CheckForUpdatesAsync(updateManager);
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -133,26 +144,13 @@ namespace Filtration.Services
                 return;
             }
 
-
             if (_updates.ReleasesToApply.Any())
             {
                 _latestRelease = _updates.ReleasesToApply.OrderBy(x => x.Version).Last();
                 LatestReleaseVersion = _latestRelease.Version.ToString();
 
-                Logger.Debug($"Update found ({LatestReleaseVersion}), fetching release notes...");
-
-                try
-                {
-                    var releaseNotes = _latestRelease.GetReleaseNotes(_localUpdatePath);
-                    LatestReleaseNotes = ProcessReleaseNotes(releaseNotes);
-                }
-                catch (Exception e)
-                {
-                    Logger.Error(e);
-                    UpdateStatus = UpdateStatus.Error;
-                    return;
-                }
-
+                Logger.Debug($"Update found ({LatestReleaseVersion})");
+                
                 UpdateStatus = UpdateStatus.UpdateAvailable;
             }
             else
@@ -162,7 +160,7 @@ namespace Filtration.Services
             }
         }
 
-        private string ProcessReleaseNotes(string rawReleaseNotes)
+        private static string ProcessReleaseNotes(string rawReleaseNotes)
         {
             var regex = new Regex(@"<!\[CDATA\[(.*)]]>", RegexOptions.Singleline);
             var matches = regex.Match(rawReleaseNotes);
@@ -184,11 +182,31 @@ namespace Filtration.Services
 
             UpdateStatus = UpdateStatus.Downloading;
 
+            async Task DownloadUpdatesAsync(IUpdateManager updateManager)
+            {
+                Logger.Debug("Downloading update...");
+                await updateManager.DownloadReleases(_updates.ReleasesToApply, OnProgressChanged);
+
+                Logger.Debug("Fetching release notes...");
+                var releaseNotes = _updates.FetchReleaseNotes();
+                LatestReleaseNotes = ProcessReleaseNotes(releaseNotes[_latestRelease]);
+            }
+
             try
             {
-                using (var updateManager = new UpdateManager(_localUpdatePath))
+                if (_updateSource == UpdateSource.GitHub)
                 {
-                    await updateManager.DownloadReleases(_updates.ReleasesToApply, OnProgressChanged);
+                    using (var updateManager = await UpdateManager.GitHubUpdateManager("https://github.com/ben-wallis/Filtration", prerelease: _downloadPrereleaseUpdates))
+                    {
+                        await DownloadUpdatesAsync(updateManager);
+                    }
+                }
+                else
+                {
+                    using (var updateManager = new UpdateManager(_localUpdatePath))
+                    {
+                        await DownloadUpdatesAsync(updateManager);
+                    }
                 }
             }
             catch (Exception e)
@@ -215,11 +233,22 @@ namespace Filtration.Services
             // wipes out user settings due to the application directory changing with each update
             _settingsService.BackupSettings();
 
+            Logger.Debug("Applying update...");
             try
             {
-                using (var updateManager = new UpdateManager(_localUpdatePath))
+                if (_updateSource == UpdateSource.GitHub)
                 {
-                    await updateManager.ApplyReleases(_updates, OnProgressChanged);
+                    using (var mgr = await UpdateManager.GitHubUpdateManager("https://github.com/ben-wallis/Filtration", prerelease: _downloadPrereleaseUpdates))
+                    {
+                        await mgr.ApplyReleases(_updates, OnProgressChanged);
+                    }
+                }
+                else
+                {
+                    using (var updateManager = new UpdateManager(_localUpdatePath))
+                    {
+                        await updateManager.ApplyReleases(_updates, OnProgressChanged);
+                    }
                 }
             }
             catch (Exception e)
@@ -229,6 +258,7 @@ namespace Filtration.Services
                 return;
             }
 
+            Logger.Debug("Update complete");
             UpdateStatus = UpdateStatus.UpdateComplete;
         }
 

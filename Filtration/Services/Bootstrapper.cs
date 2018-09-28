@@ -39,7 +39,7 @@ namespace Filtration.Services
 
             _mainWindow.Show();
 
-            await _updateService.CheckForUpdates();
+            await _updateService.CheckForUpdatesAsync();
         }
 
         private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
