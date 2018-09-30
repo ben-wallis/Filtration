@@ -1,9 +1,9 @@
 <UpdateData>
-	<CurrentVersion>1.0/CurrentVersion>
+	<CurrentVersion>1.0</CurrentVersion>
 	<LatestVersionMajorPart>1</LatestVersionMajorPart>
 	<LatestVersionMinorPart>0</LatestVersionMinorPart>
-	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/1.0.0<DownloadUrl>
-	<ReleaseDate>2018-09-30/ReleaseDate>
+	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/1.0.0</DownloadUrl>
+	<ReleaseDate>2018-09-30</ReleaseDate>
 	<StaticDataUpdatedDate>2018-09-30</StaticDataUpdatedDate>
 	<ReleaseNotes>This is the first release of Filtration using the new installer - you will need to manually uninstall any existing install of Filtration 0.20 or earlier.
 		
