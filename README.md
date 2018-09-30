@@ -24,10 +24,10 @@ If you'd like to make your script fully compatible with Filtration, please take 
 ## Screenshots
 
 ##### Main Window
-<img src="http://i.imgur.com/eAsMoSo.png" />
+<img src="https://i.imgur.com/d3tKEab.png" />
 
 ##### Theme Editor
-<img src="http://i.imgur.com/FJWJknO.png" />
+<img src="https://i.imgur.com/Pi9wds1.png" />
 
 ## Contact
 You can find me on irc.freenode.net in #filtration
