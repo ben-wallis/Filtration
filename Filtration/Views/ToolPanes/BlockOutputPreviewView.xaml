@@ -8,6 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TextBlock Text="{Binding PreviewText}" ToolTip="{Binding PreviewText}" Margin="10" />
+        <TextBox IsReadOnly="True" Text="{Binding PreviewText, Mode=OneWay}" ToolTip="{Binding PreviewText}" Padding="5" Background="Transparent" BorderThickness="0" />
     </Grid>
 </UserControl>
