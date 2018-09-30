@@ -1,11 +1,28 @@
 <UpdateData>
-	<CurrentVersion>0.20/CurrentVersion>
-	<LatestVersionMajorPart>0</LatestVersionMajorPart>
-	<LatestVersionMinorPart>20/LatestVersionMinorPart>
-	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/0.20/DownloadUrl>
-	<ReleaseDate>2018-09-01/ReleaseDate>
-	<StaticDataUpdatedDate>2018-09-01</StaticDataUpdatedDate>
-	<ReleaseNotes>Contributors for this release: GlenCFL
+	<CurrentVersion>1.0/CurrentVersion>
+	<LatestVersionMajorPart>1</LatestVersionMajorPart>
+	<LatestVersionMinorPart>0/LatestVersionMinorPart>
+	<DownloadUrl>https://github.com/ben-wallis/Filtration/releases/tag/1.0.0<DownloadUrl>
+	<ReleaseDate>2018-09-30/ReleaseDate>
+	<StaticDataUpdatedDate>2018-09-30</StaticDataUpdatedDate>
+	<ReleaseNotes>This is the first release of Filtration using the new installer - you will need to manually uninstall any existing install of Filtration 0.20 or earlier.
+		
+New Features
+♦ Implemented copying and pasting of multiple blocks (multiple blocks can be selected by holding the Ctrl and/or Shift keys while clicking)
+♦ Added Expand All, Collapse All, and Clear All Filters buttons to the Block Group Browser
+♦ It is now possible to add/remove Block Groups from blocks (there is a new text box and a + button on each block in the editor)
+♦ The Block Group browser now has an additional column of checkboxes which enables block groups to be enabled/disabled as well as shown/hidden
+♦ Implemented a new auto-update mechanism - previous versions of Filtration will need to be manually uninstalled
+♦ The state (maximised/restored) and size of the application window is now remembered
+♦ The visibility of the Section Browser, Block Group Browser, and Block Output Preview tool panes is now remembered
+♦ The last active script is now re-opened on when the application is launched
 
-♦ Fixed a parsing issue with CustomAlertSound file paths</ReleaseNotes>
+Bug Fixes / Improvements
+♦ Fixed incorrect filtering behavior in the Block Group Browser
+♦ Increased the maximum value of Quality block items to 30 from 20
+♦ Changed default opacity of colours to 240 from 255
+♦ MinimapIcon preview icons have been improved in appearance and now have a transparent background
+♦ Fixed an issue where several section-related commands didn't correctly mark the script as unsaved
+♦ Increased the HasExplicitMod block item limit from 1 to 8 since it is possible to use up to 8 of these blocks together to only match items that have an explicit mod from all HasExplicitMod block items within a block
+♦ Changed the default colours of TextColor, BorderColor and BackgroundColor block items to sensible defaults instead of 100% transparent</ReleaseNotes>
 </UpdateData>
