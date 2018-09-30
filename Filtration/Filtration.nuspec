@@ -9,26 +9,9 @@
     <description>A Path of Exile loot filter script editor</description>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <copyright>Copyright 2018</copyright>
-    <releaseNotes>### New Features
-
-* Implemented copying and pasting of multiple blocks (multiple blocks can be selected by holding the Ctrl and/or Shift keys while clicking)
-* Added Expand All, Collapse All, and Clear All Filters buttons to the Block Group Browser
-* It is now possible to add/remove Block Groups from blocks (there is a new text box and a + button on each block in the editor)
-* The Block Group browser now has an additional column of checkboxes which enables block groups to be enabled/disabled as well as shown/hidden
-* Implemented a new auto-update mechanism - previous versions of Filtration will need to be manually uninstalled
-* The state (maximised/restored) and size of the application window is now remembered
-* The visibility of the Section Browser, Block Group Browser, and Block Output Preview tool panes is now remembered
-* The last active script is now re-opened on when the application is launched
-
-### Bug Fixes / Improvements
-
-* Fixed incorrect filtering behavior in the Block Group Browser
-* Increased the maximum value of Quality block items to 30 from 20
-* Changed default opacity of colours to 240 from 255
-* MinimapIcon preview icons have been improved in appearance and now have a transparent background
-* Fixed an issue where several section-related commands didn't correctly mark the script as unsaved
-* Increased the HasExplicitMod block item limit from 1 to 8 since it is possible to use up to 8 of these blocks together to only match items that have an explicit mod from all HasExplicitMod block items within a block
-* Changed the default colours of TextColor, BorderColor and BackgroundColor block items to sensible defaults instead of 100% transparent</releaseNotes>
+    <releaseNotes>* Fixed the Block Output Preview pane not working
+* The Block Output Preview pane now supports previewing multiple selected blocks
+* The Block Output Preview pane now supports selecting the text within it</releaseNotes>
     <dependencies />
   </metadata>
   <files>
