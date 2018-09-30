@@ -143,6 +143,7 @@ namespace Filtration.ViewModels
             {
                 RaisePropertyChanged(nameof(SelectedBlockViewModels));
                 RaisePropertyChanged(nameof(LastSelectedBlockViewModel));
+                Messenger.Default.Send(new NotificationMessage("LastSelectedBlockChanged"));
             };
             _lastAddedBlocks = new List<IItemFilterBlockViewModelBase>();
             _showAdvanced = Settings.Default.ShowAdvanced;

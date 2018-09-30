@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Media.Imaging;
 using Filtration.Parser.Interface.Services;
 using GalaSoft.MvvmLight.Messaging;
@@ -28,19 +29,10 @@ namespace Filtration.ViewModels.ToolPanes
 
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
-                switch (message.Notification)
-                {
-                    case "LastSelectedBlockChanged":
-                    {
-                        OnLastSelectedBlockChanged(this, EventArgs.Empty);
-                        break;
-                    }
-                    case "ActiveDocumentChanged":
-                    {
-                        OnLastSelectedBlockChanged(this, EventArgs.Empty);
-                        break;
-                    }
-                }
+                if (message.Notification == "LastSelectedBlockChanged")
+                    OnLastSelectedBlockChanged(this, EventArgs.Empty);
+                else if (message.Notification == "ActiveDocumentChanged")
+                    OnLastSelectedBlockChanged(this, EventArgs.Empty);
             });
 
         }
@@ -49,7 +41,7 @@ namespace Filtration.ViewModels.ToolPanes
 
         public string PreviewText
         {
-            get { return _previewText; }
+            get => _previewText;
             private set
             {
                 _previewText = value;
@@ -64,15 +56,16 @@ namespace Filtration.ViewModels.ToolPanes
 
         private void OnLastSelectedBlockChanged(object sender, EventArgs e)
         {
-            if (AvalonDockWorkspaceViewModel.ActiveScriptViewModel?.LastSelectedBlockViewModel == null)
+            if (AvalonDockWorkspaceViewModel.ActiveScriptViewModel?.SelectedBlockViewModels == null || 
+                AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModels.Count == 0)
             {
                 PreviewText = string.Empty;
                 return;
             }
-
-            PreviewText =
-                _itemFilterBlockTranslator.TranslateItemFilterBlockBaseToString(
-                    AvalonDockWorkspaceViewModel.ActiveScriptViewModel.LastSelectedBlockViewModel.BaseBlock);
+            
+            PreviewText = AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModels
+                .Select(s => _itemFilterBlockTranslator.TranslateItemFilterBlockBaseToString(s.BaseBlock))
+                .Aggregate((prev, curr) => prev + Environment.NewLine + Environment.NewLine + curr);
         }
     }
 }
