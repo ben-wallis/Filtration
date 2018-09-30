@@ -57,7 +57,8 @@ namespace Filtration.ViewModels.ToolPanes
         private void OnLastSelectedBlockChanged(object sender, EventArgs e)
         {
             if (AvalonDockWorkspaceViewModel.ActiveScriptViewModel?.SelectedBlockViewModels == null || 
-                AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModels.Count == 0)
+                AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModels.Count == 0 ||
+                AvalonDockWorkspaceViewModel.ActiveScriptViewModel.SelectedBlockViewModels.FirstOrDefault() == null)
             {
                 PreviewText = string.Empty;
                 return;

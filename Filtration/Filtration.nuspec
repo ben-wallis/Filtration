@@ -9,9 +9,7 @@
     <description>A Path of Exile loot filter script editor</description>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <copyright>Copyright 2018</copyright>
-    <releaseNotes>* Fixed the Block Output Preview pane not working
-* The Block Output Preview pane now supports previewing multiple selected blocks
-* The Block Output Preview pane now supports selecting the text within it</releaseNotes>
+    <releaseNotes>* Fixed crash on exit</releaseNotes>
     <dependencies />
   </metadata>
   <files>
