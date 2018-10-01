@@ -10,7 +10,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <copyright>Copyright 2018</copyright>
     <releaseNotes>* Added missing AlertSound mp3 resources to installer
-* Fixed a crash related to performing certain commands with no blocks selected</releaseNotes>
+* Fixed a crash related to performing certain commands with no blocks selected
+* Added extra logging to updater</releaseNotes>
     <dependencies />
   </metadata>
   <files>
