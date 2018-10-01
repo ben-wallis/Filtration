@@ -10,8 +10,8 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("1.1.0")]
-[assembly: AssemblyInformationalVersion("1.1.0-beta1")]
+[assembly: AssemblyVersion("1.0.3")]
+[assembly: AssemblyInformationalVersion("1.0.3-beta1")]
 
 [assembly: InternalsVisibleTo("Filtration.Tests")]
 [assembly: InternalsVisibleTo("Filtration.ItemFilterPreview.Tests")]
