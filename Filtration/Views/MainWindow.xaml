@@ -114,9 +114,10 @@
                     <fluent:Button Header="Expand All" Command="{Binding ExpandAllBlocksCommand}" SizeDefinition="Middle" Icon="{StaticResource ExpandIcon}" />
                     <fluent:Button Header="Collapse All" Command="{Binding CollapseAllBlocksCommand}" SizeDefinition="Middle" Icon="{StaticResource CollapseIcon}" />
                 </fluent:RibbonGroupBox>
-                <fluent:RibbonGroupBox Header="Filters">
+                <fluent:RibbonGroupBox Header="Filters &amp; Styles">
                     <fluent:ToggleButton Command="{Binding ToggleShowAdvancedCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" Header="Show Advanced Blocks" SizeDefinition="Middle" Icon="{StaticResource ShowAdvancedIcon}" IsChecked="{Binding ShowAdvancedStatus, Mode=OneWay}" />
                     <fluent:Button Header="Clear All Filters" Command="{Binding ClearFiltersCommand}" SizeDefinition="Middle" Icon="{StaticResource ClearFilterIcon}" />
+                    <fluent:Button Header="Clear Styles" Command="{Binding ClearStylesCommand}" SizeDefinition="Middle" Icon="{StaticResource PasteStyleIcon}" />
                 </fluent:RibbonGroupBox>
                 <fluent:RibbonGroupBox Header="Themes">
                     <fluent:Button Header="Edit Master Theme" Command="{Binding EditMasterThemeCommand}" Icon="{StaticResource ThemeIcon}" LargeIcon="{StaticResource ThemeIcon}" />

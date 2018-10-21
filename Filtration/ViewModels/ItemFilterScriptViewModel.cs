@@ -76,6 +76,7 @@ namespace Filtration.ViewModels
         RelayCommand CollapseAllSectionsCommand { get; }
         RelayCommand<bool> ToggleShowAdvancedCommand { get; }
         RelayCommand ClearFilterCommand { get; }
+        RelayCommand ClearStylesCommand { get; }
 
         void AddCommentBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase);
         void AddBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase);
@@ -155,6 +156,7 @@ namespace Filtration.ViewModels
 
             ToggleShowAdvancedCommand = new RelayCommand<bool>(OnToggleShowAdvancedCommand);
             ClearFilterCommand = new RelayCommand(OnClearFilterCommand, () => BlockFilterPredicate != null);
+            ClearStylesCommand = new RelayCommand(OnClearStylesCommand, () => SelectedBlockViewModels.OfType<IItemFilterBlockViewModel>().Count() > 0);
             CloseCommand = new RelayCommand(async () => await OnCloseCommand());
             DeleteBlockCommand = new RelayCommand(OnDeleteBlockCommand, () => CanModifySelectedBlocks());
             MoveBlockToTopCommand = new RelayCommand(OnMoveBlockToTopCommand, () => SelectedBlockViewModels.Count > 0 && CanModifySelectedBlocks());
@@ -388,6 +390,7 @@ namespace Filtration.ViewModels
 
         public RelayCommand<bool> ToggleShowAdvancedCommand { get; }
         public RelayCommand ClearFilterCommand { get; }
+        public RelayCommand ClearStylesCommand { get; }
         public RelayCommand CloseCommand { get; }
         public RelayCommand DeleteBlockCommand { get; }
         public RelayCommand MoveBlockToTopCommand { get; }
@@ -851,6 +854,23 @@ namespace Filtration.ViewModels
         private void OnClearFilterCommand()
         {
             BlockFilterPredicate = null;
+        }
+
+        private void OnClearStylesCommand()
+        {
+            ValidateSelectedBlocks();
+            foreach (var block in SelectedBlockViewModels.OfType<IItemFilterBlockViewModel>())
+            {
+                var blockItems = block.Block.BlockItems;
+                for (var i = 0; i < blockItems.Count; i++)
+                {
+                    if (blockItems[i] is IAudioVisualBlockItem)
+                    {
+                        blockItems.RemoveAt(i--);
+                    }
+                }
+                block.RefreshBlockPreview();
+            }
         }
 
         private void OnCopyBlockCommand()

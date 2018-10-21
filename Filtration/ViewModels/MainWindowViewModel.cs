@@ -142,6 +142,7 @@ namespace Filtration.ViewModels
 
             ToggleShowAdvancedCommand = new RelayCommand<bool>(OnToggleShowAdvancedCommand, s => ActiveDocumentIsScript);
             ClearFiltersCommand = new RelayCommand(OnClearFiltersCommand, () => ActiveDocumentIsScript);
+            ClearStylesCommand = new RelayCommand(OnClearStylesCommand, () => ActiveDocumentIsScript);
 
             if (string.IsNullOrEmpty(_itemFilterScriptRepository.GetItemFilterScriptDirectory()))
             {
@@ -266,6 +267,7 @@ namespace Filtration.ViewModels
 
         public RelayCommand<bool> ToggleShowAdvancedCommand { get; }
         public RelayCommand ClearFiltersCommand { get; }
+        public RelayCommand ClearStylesCommand { get; }
 
         public ImageSource Icon { get; private set; }
 
@@ -734,6 +736,11 @@ namespace Filtration.ViewModels
         private void OnClearFiltersCommand()
         {
             _avalonDockWorkspaceViewModel.ActiveScriptViewModel.ClearFilterCommand.Execute(null);
+        }
+
+        private void OnClearStylesCommand()
+        {
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.ClearStylesCommand.Execute(null);
         }
 
         private void OnAddTextColorThemeComponentCommand()
