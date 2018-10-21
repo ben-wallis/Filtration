@@ -28,7 +28,6 @@ namespace Filtration.ViewModels
             ParentGroup = parent;
             Advanced = itemFilterBlockGroup.Advanced;
             SourceBlockGroup = itemFilterBlockGroup;
-            SourceBlockGroup.ClearStatusChangeSubscribers();
             SourceBlockGroup.BlockGroupStatusChanged += OnSourceBlockGroupStatusChanged;
             IsShowChecked = itemFilterBlockGroup.IsShowChecked;
             IsEnableChecked = itemFilterBlockGroup.IsEnableChecked;
@@ -254,6 +253,19 @@ namespace Filtration.ViewModels
             if (SourceBlockGroup.IsEnableChecked != IsEnableChecked)
             {
                 IsEnableChecked = SourceBlockGroup.IsEnableChecked;
+            }
+        }
+
+        public void ClearStatusChangeSubscriptions()
+        {
+            if (SourceBlockGroup != null)
+            {
+                SourceBlockGroup.BlockGroupStatusChanged -= OnSourceBlockGroupStatusChanged;
+            }
+
+            foreach (var child in ChildGroups)
+            {
+                child.ClearStatusChangeSubscriptions();
             }
         }
     }
