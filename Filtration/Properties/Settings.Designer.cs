@@ -221,12 +221,12 @@ namespace Filtration.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastActiveDocument {
+        public string LastOpenScripts {
             get {
-                return ((string)(this["LastActiveDocument"]));
+                return ((string)(this["LastOpenScripts"]));
             }
             set {
-                this["LastActiveDocument"] = value;
+                this["LastOpenScripts"] = value;
             }
         }
     }

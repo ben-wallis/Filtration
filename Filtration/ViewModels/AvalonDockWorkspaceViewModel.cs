@@ -75,7 +75,6 @@ namespace Filtration.ViewModels
                 if (value.IsScript)
                 {
                     _activeScriptViewModel = (IItemFilterScriptViewModel) value;
-                    Settings.Default.LastActiveDocument = _activeScriptViewModel.Script.FilePath;
                 }
                 else if (value.IsTheme)
                 {
