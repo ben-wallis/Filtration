@@ -206,9 +206,9 @@ namespace Filtration.ViewModels
                 }
             });
 
-            if (!string.IsNullOrWhiteSpace(Settings.Default.LastActiveDocument) && File.Exists(Settings.Default.LastActiveDocument))
+            if (!string.IsNullOrWhiteSpace(Settings.Default.LastOpenScripts))
             {
-                LoadScriptAsync(Settings.Default.LastActiveDocument);
+                LoadScriptsAsync(Settings.Default.LastOpenScripts.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
             }
         }
 
@@ -435,6 +435,17 @@ namespace Filtration.ViewModels
             await LoadScriptAsync(filePath); // TODO: fix crash
         }
 
+        private async Task LoadScriptsAsync(string[] files)
+        {
+            foreach (var file in files)
+            {
+                if (File.Exists(file))
+                {
+                    await LoadScriptAsync(file);
+                }
+            }
+        }
+
         private async Task LoadScriptAsync(string scriptFilename)
         {
             IItemFilterScriptViewModel loadedViewModel;
@@ -637,7 +648,6 @@ namespace Filtration.ViewModels
 
         private void OnCloseDocumentCommand()
         {
-            Settings.Default.LastActiveDocument = "";
             _avalonDockWorkspaceViewModel.ActiveDocument.Close();
         }
 
@@ -784,6 +794,7 @@ namespace Filtration.ViewModels
 
         public async Task<bool> CloseAllDocumentsAsync()
         {
+            Settings.Default.LastOpenScripts = string.Join("|", _avalonDockWorkspaceViewModel.OpenDocuments.OfType<IItemFilterScriptViewModel>().Select(sc => sc.Script.FilePath));
             var openDocuments = _avalonDockWorkspaceViewModel.OpenDocuments.OfType<IEditableDocument>().ToList();
             
             foreach (var document in openDocuments)
