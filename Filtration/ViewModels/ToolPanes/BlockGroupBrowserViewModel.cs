@@ -107,6 +107,14 @@ namespace Filtration.ViewModels.ToolPanes
 
         private ObservableCollection<ItemFilterBlockGroupViewModel> RebuildBlockGroupViewModels(bool showAdvanced)
         {
+            if (BlockGroupViewModels != null)
+            {
+                foreach (var viewModel in BlockGroupViewModels)
+                {
+                    viewModel.ClearStatusChangeSubscriptions();
+                }
+            }
+
             // This assumes that there will only ever be a single root node.
             return new ObservableCollection<ItemFilterBlockGroupViewModel>
             (
