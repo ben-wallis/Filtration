@@ -788,12 +788,12 @@ namespace Filtration.ViewModels
             
             foreach (var document in openDocuments)
             {
-                var docCount = _avalonDockWorkspaceViewModel.OpenDocuments.OfType<IEditableDocument>().Count();
-                await document.Close();
-                if (_avalonDockWorkspaceViewModel.OpenDocuments.OfType<IEditableDocument>().Count() == docCount)
+                if (!_avalonDockWorkspaceViewModel.OpenDocuments.Contains(document))
                 {
-                    return false;
+                    continue;
                 }
+
+                await document.Close();
             }
 
             return true;

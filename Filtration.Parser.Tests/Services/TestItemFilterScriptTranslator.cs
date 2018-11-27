@@ -124,7 +124,7 @@ namespace Filtration.Parser.Tests.Services
             && s.ItemFilterScriptSettings == new ItemFilterScriptSettings(new ThemeComponentCollection())
             && s.Description == "Script description\r\nScript description\r\nScript description\r\nScript description");
 
-            result.ShouldBeEquivalentTo(expectedResult);
+            result.Should().BeEquivalentTo(expectedResult);
         }
 
         [Test]

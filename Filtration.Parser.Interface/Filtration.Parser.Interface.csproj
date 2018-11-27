@@ -46,7 +46,9 @@
     <Compile Include="Services\IItemFilterBlockTranslator.cs" />
     <Compile Include="Services\IItemFilterScriptTranslator.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Filtration.ObjectModel\Filtration.ObjectModel.csproj">
       <Project>{4aac3beb-1dc1-483e-9d11-0e9334e80227}</Project>

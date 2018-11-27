@@ -60,7 +60,7 @@ namespace Filtration.Tests.Repositories
             Func<Task<IItemFilterScriptViewModel>> result = async () => await repository.LoadScriptFromFileAsync(testInputPath);
 
             // Assert
-            result.ShouldThrow<IOException>();
+            result.Should().Throw<IOException>();
         }
 
         [Test]
