@@ -5,7 +5,7 @@ using Filtration.Services;
 
 namespace Filtration.WindsorInstallers
 {
-    public class ServicesInstaller :IWindsorInstaller
+    public class ServicesInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
@@ -17,6 +17,11 @@ namespace Filtration.WindsorInstallers
             container.Register(
                 Component.For<IItemFilterScriptDirectoryService>()
                          .ImplementedBy<ItemFilterScriptDirectoryService>()
+                         .LifeStyle.Singleton);
+
+            container.Register(
+                Component.For<IScriptLoadingService>()
+                         .ImplementedBy<ScriptLoadingService>()
                          .LifeStyle.Singleton);
 
             container.Register(

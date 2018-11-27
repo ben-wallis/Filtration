@@ -217,6 +217,7 @@
     <Compile Include="Services\HTTPService.cs" />
     <Compile Include="Services\ItemFilterPersistenceService.cs" />
     <Compile Include="Services\ItemFilterScriptDirectoryService.cs" />
+    <Compile Include="Services\ScriptLoadingService.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\StaticDataService.cs" />
     <Compile Include="Services\UpdateService.cs" />

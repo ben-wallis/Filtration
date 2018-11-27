@@ -49,6 +49,7 @@ namespace Filtration.ViewModels
         private readonly IItemFilterScriptTranslator _itemFilterScriptTranslator;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
         private readonly IAvalonDockWorkspaceViewModel _avalonDockWorkspaceViewModel;
+        private readonly IScriptLoadingService _scriptLoadingService;
         private readonly IThemeProvider _themeProvider;
         private readonly IThemeService _themeService;
         private readonly IMessageBoxService _messageBoxService;
@@ -63,6 +64,7 @@ namespace Filtration.ViewModels
                                    IItemFilterScriptTranslator itemFilterScriptTranslator,
                                    IReplaceColorsViewModel replaceColorsViewModel,
                                    IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
+                                   IScriptLoadingService scriptLoadingService,
                                    ISettingsPageViewModel settingsPageViewModel,
                                    IThemeProvider themeProvider,
                                    IThemeService themeService,
@@ -75,6 +77,7 @@ namespace Filtration.ViewModels
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
             _replaceColorsViewModel = replaceColorsViewModel;
             _avalonDockWorkspaceViewModel = avalonDockWorkspaceViewModel;
+            _scriptLoadingService = scriptLoadingService;
             SettingsPageViewModel = settingsPageViewModel;
             _themeProvider = themeProvider;
             _themeService = themeService;
@@ -204,10 +207,6 @@ namespace Filtration.ViewModels
                 }
             });
 
-            if (!string.IsNullOrWhiteSpace(Settings.Default.LastOpenScripts))
-            {
-                LoadScriptsAsync(Settings.Default.LastOpenScripts.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
-            }
         }
 
         public RelayCommand OpenScriptCommand { get; }
@@ -369,12 +368,12 @@ namespace Filtration.ViewModels
                 {
                     case ".FILTER":
                     {
-                        await LoadScriptAsync(filename);
+                        await _scriptLoadingService.LoadScriptAsync(filename);
                         break;
                     }
                     case ".FILTERTHEME":
                     {
-                        await LoadThemeAsync(filename);
+                        await _scriptLoadingService.LoadThemeAsync(filename);
                         break;
                     }
                 }
@@ -431,43 +430,7 @@ namespace Filtration.ViewModels
                 return;
             }
 
-            await LoadScriptAsync(filePath); // TODO: fix crash
-        }
-
-        private async Task LoadScriptsAsync(string[] files)
-        {
-            foreach (var file in files)
-            {
-                if (File.Exists(file))
-                {
-                    await LoadScriptAsync(file);
-                }
-            }
-        }
-
-        private async Task LoadScriptAsync(string scriptFilename)
-        {
-            IItemFilterScriptViewModel loadedViewModel;
-
-            Messenger.Default.Send(new NotificationMessage("ShowLoadingBanner"));
-            try
-            {
-                loadedViewModel = await _itemFilterScriptRepository.LoadScriptFromFileAsync(scriptFilename);
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e);
-                _messageBoxService.Show("Script Load Error", "Error loading filter script - " + e.Message,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-                return;
-            }
-            finally
-            {
-                Messenger.Default.Send(new NotificationMessage("HideLoadingBanner"));
-            }
-
-            _avalonDockWorkspaceViewModel.AddDocument(loadedViewModel);
+            await _scriptLoadingService.LoadScriptAsync(filePath);
         }
 
         private async Task OnOpenThemeCommandAsync()
@@ -478,27 +441,7 @@ namespace Filtration.ViewModels
                 return;
             }
 
-            await LoadThemeAsync(filePath);
-        }
-
-        private async Task LoadThemeAsync(string themeFilename)
-        {
-            IThemeEditorViewModel loadedViewModel;
-
-            try
-            {
-                loadedViewModel = await _themeProvider.LoadThemeFromFile(themeFilename);
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e);
-                _messageBoxService.Show("Theme Load Error", "Error loading filter theme - " + e.Message,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-                return;
-            }
-
-            _avalonDockWorkspaceViewModel.AddDocument(loadedViewModel);
+            await _scriptLoadingService.LoadThemeAsync(filePath);
         }
 
         private async Task OnApplyThemeToScriptCommandAsync()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
+using Filtration.Properties;
 using Filtration.Views;
 using NLog;
 
@@ -17,16 +18,19 @@ namespace Filtration.Services
 
         private readonly IItemFilterScriptDirectoryService _itemFilterScriptDirectoryService;
         private readonly IMainWindow _mainWindow;
+        private readonly IScriptLoadingService _scriptLoadingService;
         private readonly ISettingsService _settingsService;
         private readonly IUpdateService _updateService;
 
         public Bootstrapper(IItemFilterScriptDirectoryService itemFilterScriptDirectoryService,
                             IMainWindow mainWindow,
+                            IScriptLoadingService scriptLoadingService,
                             ISettingsService settingsService,
                             IUpdateService updateService)
         {
             _itemFilterScriptDirectoryService = itemFilterScriptDirectoryService;
             _mainWindow = mainWindow;
+            _scriptLoadingService = scriptLoadingService;
             _settingsService = settingsService;
             _updateService = updateService;
         }
@@ -43,6 +47,12 @@ namespace Filtration.Services
             _itemFilterScriptDirectoryService.PromptForFilterScriptDirectoryIfRequired();
 
             _mainWindow.Show();
+
+            // If there were scripts open the last time the application was closed, reopen them
+            if (!string.IsNullOrWhiteSpace(Settings.Default.LastOpenScripts))
+            {
+                await _scriptLoadingService.LoadScriptsAsync(Settings.Default.LastOpenScripts.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+            }
 
             await _updateService.CheckForUpdatesAsync();
         }
