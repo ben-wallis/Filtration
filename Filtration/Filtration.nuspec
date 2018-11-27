@@ -9,7 +9,9 @@
     <description>A Path of Exile loot filter script editor</description>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <copyright>Copyright 2018</copyright>
-    <releaseNotes>* Fixed crash on exit</releaseNotes>
+    <releaseNotes>* All open filter scripts are now remembered on exit and reopened when the application is started rather than just the last opened one (#95)
+* A new Clear Styles button has been added which removes all styles from the selected block (#96)
+* Fixed checkboxes in Block Group Browser (#97)</releaseNotes>
     <dependencies />
   </metadata>
   <files>
