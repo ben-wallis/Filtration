@@ -64,49 +64,6 @@ namespace Filtration.Tests.Repositories
         }
 
         [Test]
-        public void SetItemFilterScriptDirectory_CallsPersistenceServiceSetItemFilterScriptDirectory()
-        {
-            // Arrange
-            var testInputPath = "C:\\Test\\Path";
-
-            var mockPersistenceService = new Mock<IItemFilterPersistenceService>();
-            mockPersistenceService.Setup(p => p.SetItemFilterScriptDirectory(testInputPath)).Verifiable();
-
-            var mockItemFilterScriptViewModelFactory = new Mock<IItemFilterScriptViewModelFactory>();
-
-            var repository = CreateItemFilterScriptRepository(itemFilterPersistenceService: mockPersistenceService.Object,
-                                                              itemFilterScriptViewModelFactory: mockItemFilterScriptViewModelFactory.Object);
-
-            // Act
-            repository.SetItemFilterScriptDirectory(testInputPath);
-
-            // Assert
-            mockPersistenceService.Verify();
-        }
-
-        [Test]
-        public void GetItemFilterScriptDirectory_ReturnsItemFilterScriptDirectoryFromPersistenceService()
-        {
-            // Arrange
-            var testInputPath = "C:\\Test\\Path";
-
-            var mockPersistenceService = new Mock<IItemFilterPersistenceService>();
-            mockPersistenceService.SetupGet(p => p.ItemFilterScriptDirectory).Returns(testInputPath).Verifiable();
-
-            var mockItemFilterScriptViewModelFactory = new Mock<IItemFilterScriptViewModelFactory>();
-
-            var repository = CreateItemFilterScriptRepository(itemFilterPersistenceService: mockPersistenceService.Object,
-                                                              itemFilterScriptViewModelFactory: mockItemFilterScriptViewModelFactory.Object);
-
-            // Act
-            string result =  repository.GetItemFilterScriptDirectory();
-
-            // Assert
-            mockPersistenceService.Verify();
-            Assert.AreEqual(result, testInputPath);
-        }
-
-        [Test]
         public void NewScript_ReturnsScriptFromViewModelFactory()
         {
             // Arrange

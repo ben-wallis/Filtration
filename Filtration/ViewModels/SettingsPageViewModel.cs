@@ -1,11 +1,7 @@
-﻿using System.IO;
-using System.Windows;
-using Filtration.Common.Services;
-using Filtration.Properties;
+﻿using Filtration.Properties;
 using Filtration.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Filtration.ViewModels
 {
@@ -20,13 +16,11 @@ namespace Filtration.ViewModels
 
     internal class SettingsPageViewModel : ViewModelBase, ISettingsPageViewModel
     {
-        private readonly IItemFilterPersistenceService _itemFilterPersistenceService;
-        private readonly IMessageBoxService _messageBoxService;
+        private readonly IItemFilterScriptDirectoryService _itemFilterScriptDirectoryService;
 
-        public SettingsPageViewModel(IItemFilterPersistenceService itemFilterPersistenceService, IMessageBoxService messageBoxService)
+        public SettingsPageViewModel(IItemFilterScriptDirectoryService itemFilterScriptDirectoryService)
         {
-            _itemFilterPersistenceService = itemFilterPersistenceService;
-            _messageBoxService = messageBoxService;
+            _itemFilterScriptDirectoryService = itemFilterScriptDirectoryService;
             SetItemFilterScriptDirectoryCommand = new RelayCommand(OnSetItemFilterScriptDirectoryCommand);
         }
 
@@ -48,24 +42,8 @@ namespace Filtration.ViewModels
 
         private void OnSetItemFilterScriptDirectoryCommand()
         {
-            using (var dialog = new CommonOpenFileDialog())
-            {
-                dialog.IsFolderPicker = true;
-                var result = dialog.ShowDialog();
-                if (result == CommonFileDialogResult.Ok)
-                {
-                    try
-                    {
-                        _itemFilterPersistenceService.SetItemFilterScriptDirectory(dialog.FileName);
-                        RaisePropertyChanged(nameof(DefaultFilterDirectory));
-                    }
-                    catch (DirectoryNotFoundException)
-                    {
-                        _messageBoxService.Show("Error", "The entered Default Filter Directory is invalid or does not exist.",
-                            MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    }
-                }
-            }
+            _itemFilterScriptDirectoryService.SetItemFilterScriptDirectory();
+            RaisePropertyChanged(nameof(DefaultFilterDirectory));
         }
     }
 }

@@ -25,16 +25,6 @@ namespace Filtration.Services
         {
             _fileSystemService = fileSystemService;
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
-
-            if (string.IsNullOrEmpty(Settings.Default.DefaultFilterDirectory))
-            {
-                ItemFilterScriptDirectory = DefaultPathOfExileDirectory();
-                Settings.Default.DefaultFilterDirectory = ItemFilterScriptDirectory;
-            }
-            else
-            {
-                ItemFilterScriptDirectory = Settings.Default.DefaultFilterDirectory;
-            }
         }
 
         public string ItemFilterScriptDirectory { get; private set; }

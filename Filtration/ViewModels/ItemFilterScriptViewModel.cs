@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -16,7 +15,6 @@ using Filtration.Common.Services;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
 using Filtration.ObjectModel;
-using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.BlockItemTypes;
 using Filtration.ObjectModel.Commands;
 using Filtration.ObjectModel.Commands.ItemFilterScript;
@@ -185,23 +183,6 @@ namespace Filtration.ViewModels
             icon.UriSource = new Uri("pack://application:,,,/Filtration;component/Resources/Icons/script_icon.png");
             icon.EndInit();
             IconSource = icon;
-
-            _customSoundsAvailable = new ObservableCollection<string>();
-            
-            var poeFolderFiles = Directory.GetFiles(persistenceService.DefaultPathOfExileDirectory() + "\\").Where(
-                s => s.EndsWith(".mp3")
-                || s.EndsWith(".wav")
-                || s.EndsWith(".wma")
-                || s.EndsWith(".3gp")
-                || s.EndsWith(".aag")
-                || s.EndsWith(".m4a")
-                || s.EndsWith(".ogg")
-            ).OrderBy(f => f);
-
-            foreach(var file in poeFolderFiles)
-            {
-                _customSoundsAvailable.Add(file.Replace(persistenceService.DefaultPathOfExileDirectory() + "\\", ""));
-            }
         }
 
         public void Initialise(IItemFilterScript itemFilterScript, bool newScript)
@@ -226,6 +207,23 @@ namespace Filtration.ViewModels
                 }
             }
             
+            _customSoundsAvailable = new ObservableCollection<string>();
+
+            var poeFolderFiles = Directory.GetFiles(_persistenceService.ItemFilterScriptDirectory + "\\").Where(
+                s => s.EndsWith(".mp3")
+                     || s.EndsWith(".wav")
+                     || s.EndsWith(".wma")
+                     || s.EndsWith(".3gp")
+                     || s.EndsWith(".aag")
+                     || s.EndsWith(".m4a")
+                     || s.EndsWith(".ogg")
+            ).OrderBy(f => f);
+
+            foreach (var file in poeFolderFiles)
+            {
+                _customSoundsAvailable.Add(file.Replace(_persistenceService.ItemFilterScriptDirectory + "\\", ""));
+            }
+
             Script.ItemFilterBlocks.CollectionChanged += ItemFilterBlocksOnCollectionChanged;
             _customSoundsAvailable.CollectionChanged += CustomSoundsAvailableOnCollectionChanged;
 

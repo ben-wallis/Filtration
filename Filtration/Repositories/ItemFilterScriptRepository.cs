@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Filtration.ObjectModel;
 using Filtration.ObjectModel.Factories;
 using Filtration.Services;
 using Filtration.ViewModels;
@@ -11,8 +10,6 @@ namespace Filtration.Repositories
     {
         Task<IItemFilterScriptViewModel> LoadScriptFromFileAsync(string path);
         IItemFilterScriptViewModel NewScript();
-        string GetItemFilterScriptDirectory();
-        void SetItemFilterScriptDirectory(string path);
     }
 
     internal class ItemFilterScriptRepository : IItemFilterScriptRepository
@@ -48,15 +45,6 @@ namespace Filtration.Repositories
 
             return newViewModel;
         }
-        
-        public void SetItemFilterScriptDirectory(string path)
-        {
-            _itemFilterPersistenceService.SetItemFilterScriptDirectory(path);
-        }
-
-        public string GetItemFilterScriptDirectory()
-        {
-            return _itemFilterPersistenceService.ItemFilterScriptDirectory;
-        }
     }
 }
+;

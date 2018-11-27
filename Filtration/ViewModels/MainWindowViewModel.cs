@@ -6,7 +6,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Filtration.Common.Services;
@@ -45,6 +44,7 @@ namespace Filtration.ViewModels
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        private readonly IItemFilterScriptDirectoryService _itemFilterScriptDirectoryService;
         private readonly IItemFilterScriptRepository _itemFilterScriptRepository;
         private readonly IItemFilterScriptTranslator _itemFilterScriptTranslator;
         private readonly IReplaceColorsViewModel _replaceColorsViewModel;
@@ -58,7 +58,8 @@ namespace Filtration.ViewModels
         private int _windowWidth;
         private int _windowHeight;
 
-        public MainWindowViewModel(IItemFilterScriptRepository itemFilterScriptRepository,
+        public MainWindowViewModel(IItemFilterScriptDirectoryService itemFilterScriptDirectoryService,
+                                   IItemFilterScriptRepository itemFilterScriptRepository,
                                    IItemFilterScriptTranslator itemFilterScriptTranslator,
                                    IReplaceColorsViewModel replaceColorsViewModel,
                                    IAvalonDockWorkspaceViewModel avalonDockWorkspaceViewModel,
@@ -69,6 +70,7 @@ namespace Filtration.ViewModels
                                    IClipboardService clipboardService,
                                    IUpdateViewModel updateViewModel)
         {
+            _itemFilterScriptDirectoryService = itemFilterScriptDirectoryService;
             _itemFilterScriptRepository = itemFilterScriptRepository;
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
             _replaceColorsViewModel = replaceColorsViewModel;
@@ -143,11 +145,6 @@ namespace Filtration.ViewModels
             ToggleShowAdvancedCommand = new RelayCommand<bool>(OnToggleShowAdvancedCommand, s => ActiveDocumentIsScript);
             ClearFiltersCommand = new RelayCommand(OnClearFiltersCommand, () => ActiveDocumentIsScript);
             ClearStylesCommand = new RelayCommand(OnClearStylesCommand, () => ActiveDocumentIsScript);
-
-            if (string.IsNullOrEmpty(_itemFilterScriptRepository.GetItemFilterScriptDirectory()))
-            {
-                SetItemFilterScriptDirectory();
-            }
 
             var icon = new BitmapImage();
             icon.BeginInit();
@@ -547,7 +544,7 @@ namespace Filtration.ViewModels
             var openFileDialog = new OpenFileDialog
             {
                 Filter = "Filter Files (*.filter)|*.filter|All Files (*.*)|*.*",
-                InitialDirectory = _itemFilterScriptRepository.GetItemFilterScriptDirectory()
+                InitialDirectory = _itemFilterScriptDirectoryService.ItemFilterScriptDirectory
             };
 
             return openFileDialog.ShowDialog() != true ? string.Empty : openFileDialog.FileName;
@@ -558,25 +555,10 @@ namespace Filtration.ViewModels
             var openFileDialog = new OpenFileDialog
             {
                 Filter = "Filter Theme Files (*.filtertheme)|*.filtertheme|All Files (*.*)|*.*",
-                InitialDirectory = _itemFilterScriptRepository.GetItemFilterScriptDirectory()
-            };
+                InitialDirectory = _itemFilterScriptDirectoryService.ItemFilterScriptDirectory
+        };
 
             return openFileDialog.ShowDialog() != true ? string.Empty : openFileDialog.FileName;
-        }
-
-        private void SetItemFilterScriptDirectory()
-        {
-            var dlg = new FolderBrowserDialog
-            {
-                Description = @"Select your Path of Exile data directory, usually in Documents\My Games",
-                ShowNewFolderButton = false
-            };
-            var result = dlg.ShowDialog();
-
-            if (result == DialogResult.OK)
-            {
-                _itemFilterScriptRepository.SetItemFilterScriptDirectory(dlg.SelectedPath);
-            }
         }
 
         private async Task OnSaveDocumentCommandAsync()

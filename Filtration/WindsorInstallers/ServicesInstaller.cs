@@ -15,6 +15,11 @@ namespace Filtration.WindsorInstallers
                     .LifeStyle.Singleton);
 
             container.Register(
+                Component.For<IItemFilterScriptDirectoryService>()
+                         .ImplementedBy<ItemFilterScriptDirectoryService>()
+                         .LifeStyle.Singleton);
+
+            container.Register(
                 Component.For<IStaticDataService>()
                     .ImplementedBy<StaticDataService>()
                     .LifeStyle.Singleton);
@@ -42,6 +47,11 @@ namespace Filtration.WindsorInstallers
             container.Register(
                 Component.For<ISettingsService>()
                     .ImplementedBy<SettingsService>()
+                    .LifeStyle.Singleton);
+
+            container.Register(
+                Component.For<IDialogService>()
+                    .ImplementedBy<DialogService>()
                     .LifeStyle.Singleton);
         }
     }

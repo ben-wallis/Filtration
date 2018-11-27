@@ -41,6 +41,7 @@
     <Reference Include="FluentAssertions.Core, Version=4.19.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.4.19.2\lib\net45\FluentAssertions.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="Moq, Version=4.5.30.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.5.30\lib\net45\Moq.dll</HintPath>
     </Reference>
@@ -66,6 +67,7 @@
     <Compile Include="Repositories\TestItemFilterScriptRepository.cs" />
     <Compile Include="Services\TestHTTPService.cs" />
     <Compile Include="Services\TestItemFilterPersistenceService.cs" />
+    <Compile Include="Services\TestItemFilterScriptDirectoryService.cs" />
     <Compile Include="Services\TestUpdateService.cs" />
   </ItemGroup>
   <ItemGroup>

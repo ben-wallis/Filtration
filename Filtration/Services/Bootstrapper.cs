@@ -15,14 +15,17 @@ namespace Filtration.Services
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        private readonly IItemFilterScriptDirectoryService _itemFilterScriptDirectoryService;
         private readonly IMainWindow _mainWindow;
         private readonly ISettingsService _settingsService;
         private readonly IUpdateService _updateService;
 
-        public Bootstrapper(IMainWindow mainWindow,
+        public Bootstrapper(IItemFilterScriptDirectoryService itemFilterScriptDirectoryService,
+                            IMainWindow mainWindow,
                             ISettingsService settingsService,
                             IUpdateService updateService)
         {
+            _itemFilterScriptDirectoryService = itemFilterScriptDirectoryService;
             _mainWindow = mainWindow;
             _settingsService = settingsService;
             _updateService = updateService;
@@ -36,6 +39,8 @@ namespace Filtration.Services
             // user settings will have been lost due to Squirrel changing the app directory
             // with each update
             _settingsService.RestoreSettings();
+
+            _itemFilterScriptDirectoryService.PromptForFilterScriptDirectoryIfRequired();
 
             _mainWindow.Show();
 
