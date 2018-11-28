@@ -11,6 +11,7 @@ namespace Filtration.ViewModels
         string Comment { get; }
         bool IsExpanded { get; set; }
         bool HasVisibleChild { get; }
+        int ChildCount { get; set; }
     }
 
     internal class ItemFilterCommentBlockViewModel : ItemFilterBlockViewModelBase, IItemFilterCommentBlockViewModel
@@ -28,13 +29,13 @@ namespace Filtration.ViewModels
             ToggleSectionCommand = new RelayCommand(OnToggleSectionCommand);
         }
 
-        public override void Initialise(IItemFilterBlockBase itemfilterBlock, IItemFilterScriptViewModel itemFilterScriptViewModel)
+        public override void Initialise(IItemFilterBlockBase itemFilterBlock, IItemFilterScriptViewModel itemFilterScriptViewModel)
         {
             _parentScriptViewModel = itemFilterScriptViewModel;
-            ItemFilterCommentBlock = itemfilterBlock as IItemFilterCommentBlock;
+            ItemFilterCommentBlock = itemFilterBlock as IItemFilterCommentBlock;
             BaseBlock = ItemFilterCommentBlock;
 
-            base.Initialise(itemfilterBlock, itemFilterScriptViewModel);
+            base.Initialise(itemFilterBlock, itemFilterScriptViewModel);
         }
 
         public RelayCommand ToggleSectionCommand { get; }
@@ -43,10 +44,7 @@ namespace Filtration.ViewModels
 
         public string Comment
         {
-            get
-            {
-                return ItemFilterCommentBlock.Comment;
-            }
+            get => ItemFilterCommentBlock.Comment;
             set
             {
                 if (ItemFilterCommentBlock.Comment != value)

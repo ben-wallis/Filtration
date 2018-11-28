@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:designTime="clr-namespace:Filtration.ViewModels.DesignTime"
-        mc:Ignorable="d" d:DesignWidth="1200"
+        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="400"
         d:DataContext="{d:DesignInstance Type=designTime:DesignTimeSettingsPageViewModel, IsDesignTimeCreatable=True}">
     <Border BorderBrush="Black" BorderThickness="1">
         <DockPanel Margin="10" MaxWidth="600" HorizontalAlignment="Left">
@@ -22,8 +22,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="5" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition x:Name="BlankLineBetweenBlocks" Height="Auto" />
+                        <RowDefinition x:Name="DownloadPreReleases" Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
@@ -40,8 +40,10 @@
                     </Grid>
                     <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">Add blank line between blocks when saving</TextBlock>
                     <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding ExtraLineBetweenBlocks}"  />
-                    <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">Download pre-release updates (use with caution)</TextBlock>
-                    <CheckBox Grid.Row="4" Grid.Column="2" IsChecked="{Binding DownloadPrereleaseUpdates}"  />
+                    <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center">Download pre-release updates (use with caution)</TextBlock>
+                    <CheckBox Grid.Row="3" Grid.Column="2" IsChecked="{Binding DownloadPrereleaseUpdates}"  />
+                    <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">Auto-expand all sections when opening scripts</TextBlock>
+                    <CheckBox Grid.Row="4" Grid.Column="2" IsChecked="{Binding BlocksExpandedOnOpen}"  />
                 </Grid>
             </Grid>
         </DockPanel>

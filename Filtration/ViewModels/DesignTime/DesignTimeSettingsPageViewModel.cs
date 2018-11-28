@@ -12,6 +12,8 @@ namespace Filtration.ViewModels.DesignTime
             set { }
         }
 
+        public bool BlocksExpandedOnOpen { get; set; }
+
         public bool ExtraLineBetweenBlocks
         {
             get => true;

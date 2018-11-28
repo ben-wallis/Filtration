@@ -7,7 +7,7 @@ namespace Filtration.ViewModels
 {
     internal interface IItemFilterBlockViewModelBase
     {
-        void Initialise(IItemFilterBlockBase itemfilterBlock, IItemFilterScriptViewModel itemFilterScriptViewModel);
+        void Initialise(IItemFilterBlockBase itemFilterBlock, IItemFilterScriptViewModel itemFilterScriptViewModel);
         IItemFilterBlockBase BaseBlock { get; }
         bool IsDirty { get; set; }
         bool IsVisible { get; set; }
@@ -25,9 +25,9 @@ namespace Filtration.ViewModels
         }
 
 
-        public virtual void Initialise(IItemFilterBlockBase itemfilterBlock, IItemFilterScriptViewModel itemFilterScriptViewModel)
+        public virtual void Initialise(IItemFilterBlockBase itemFilterBlock, IItemFilterScriptViewModel itemFilterScriptViewModel)
         {
-            BaseBlock = itemfilterBlock;
+            BaseBlock = itemFilterBlock;
             _parentScriptViewModel = itemFilterScriptViewModel;
 
             CopyBlockCommand = new RelayCommand(OnCopyBlockCommand);

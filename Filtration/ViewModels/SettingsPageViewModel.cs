@@ -10,8 +10,9 @@ namespace Filtration.ViewModels
         RelayCommand SetItemFilterScriptDirectoryCommand { get; }
 
         string DefaultFilterDirectory { get; }
-        bool ExtraLineBetweenBlocks { get; set; }
+        bool BlocksExpandedOnOpen { get; set; }
         bool DownloadPrereleaseUpdates { get; set; }
+        bool ExtraLineBetweenBlocks { get; set; }
     }
 
     internal class SettingsPageViewModel : ViewModelBase, ISettingsPageViewModel
@@ -28,16 +29,22 @@ namespace Filtration.ViewModels
 
         public string DefaultFilterDirectory => Settings.Default.DefaultFilterDirectory;
 
-        public bool ExtraLineBetweenBlocks
+        public bool BlocksExpandedOnOpen
         {
-            get => Settings.Default.ExtraLineBetweenBlocks;
-            set => Settings.Default.ExtraLineBetweenBlocks = value;
+            get => Settings.Default.BlocksExpandedOnOpen;
+            set => Settings.Default.BlocksExpandedOnOpen = value;
         }
 
         public bool DownloadPrereleaseUpdates
         {
             get => Settings.Default.DownloadPrereleaseUpdates;
             set => Settings.Default.DownloadPrereleaseUpdates = value;
+        }
+
+        public bool ExtraLineBetweenBlocks
+        {
+            get => Settings.Default.ExtraLineBetweenBlocks;
+            set => Settings.Default.ExtraLineBetweenBlocks = value;
         }
 
         private void OnSetItemFilterScriptDirectoryCommand()

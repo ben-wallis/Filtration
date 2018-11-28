@@ -53,8 +53,11 @@
     <Setting Name="WindowHeight" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">800</Value>
     </Setting>
-    <Setting Name="LastActiveDocument" Type="System.String" Scope="User">
+    <Setting Name="LastOpenScripts" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="BlocksExpandedOnOpen" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>
