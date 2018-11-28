@@ -43,7 +43,7 @@ namespace Filtration
                 cfg.CreateMap<StringThemeComponent, StringThemeComponentViewModel>().ReverseMap();
                 cfg.CreateMap<IconThemeComponent, IconThemeComponentViewModel>().ReverseMap();
                 cfg.CreateMap<EffectColorThemeComponent, EffectColorThemeComponentViewModel>().ReverseMap();
-                cfg.CreateMap<IThemeEditorViewModel, Theme>();
+                cfg.CreateMap<ThemeEditorViewModel, Theme>();
             });
 
             Mapper.AssertConfigurationIsValid();

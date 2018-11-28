@@ -9,22 +9,21 @@ namespace Filtration.ObjectModel.ThemeEditor
         private EffectColor _effectColor;
         private bool _temporary;
 
+        private EffectColorThemeComponent()
+        {
+        }
+
         public EffectColorThemeComponent(ThemeComponentType componentType, string componentName, EffectColor componentEffectColor, bool componentTemporary)
         {
-            if (componentName == null)
-            {
-                throw new ArgumentException("Null parameters not allowed in EffectColorThemeComponent constructor");
-            }
-
             ComponentType = componentType;
-            ComponentName = componentName;
+            ComponentName = componentName ?? throw new ArgumentException("Null parameters not allowed in EffectColorThemeComponent constructor");
             EffectColor = componentEffectColor;
             Temporary = componentTemporary;
         }
 
         public EffectColor EffectColor
         {
-            get { return _effectColor; }
+            get => _effectColor;
             set
             {
                 _effectColor = value;
@@ -35,7 +34,7 @@ namespace Filtration.ObjectModel.ThemeEditor
 
         public bool Temporary
         {
-            get { return _temporary; }
+            get => _temporary;
             set
             {
                 _temporary = value;

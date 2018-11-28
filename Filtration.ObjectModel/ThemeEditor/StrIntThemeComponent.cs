@@ -9,6 +9,10 @@ namespace Filtration.ObjectModel.ThemeEditor
         private string _value;
         private int _secondValue;
 
+        private StrIntThemeComponent()
+        {
+        }
+
         public StrIntThemeComponent(ThemeComponentType componentType, string componentName, string componentValue, int componentSecondValue)
         {
             if (componentName == null || componentValue == null)
@@ -24,7 +28,7 @@ namespace Filtration.ObjectModel.ThemeEditor
 
         public string Value
         {
-            get { return _value; }
+            get => _value;
             set
             {
                 _value = value;
@@ -35,7 +39,7 @@ namespace Filtration.ObjectModel.ThemeEditor
 
         public int SecondValue
         {
-            get { return _secondValue; }
+            get => _secondValue;
             set
             {
                 _secondValue = value;

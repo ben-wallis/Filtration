@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Xml.Serialization;
 using Filtration.ObjectModel.Enums;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
@@ -12,6 +13,10 @@ namespace Filtration.ObjectModel.ThemeEditor
     {
         private string _value;
         public static ObservableCollection<string> _customSoundsAvailable;
+
+        private StringThemeComponent()
+        {
+        }
 
         public StringThemeComponent(ThemeComponentType componentType, string componentName, string componentValue)
         {
@@ -61,13 +66,14 @@ namespace Filtration.ObjectModel.ThemeEditor
             CustomSoundFileDialogCommand = new RelayCommand(OnCustomSoundFileDialog);
         }
 
+        [XmlIgnore]
         public RelayCommand CustomSoundFileDialogCommand { get; set; }
 
         public ObservableCollection<string> CustomSoundsAvailable => _customSoundsAvailable;
 
         public string Value
         {
-            get { return _value; }
+            get => _value;
             set
             {
                 _value = value;
@@ -78,12 +84,11 @@ namespace Filtration.ObjectModel.ThemeEditor
 
         private void OnCustomSoundFileDialog()
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.DefaultExt = ".mp3";
-            var poePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).ToString() + @"\My Games\Path of Exile\";
+            OpenFileDialog fileDialog = new OpenFileDialog {DefaultExt = ".mp3"};
+            var poePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\My Games\Path of Exile\";
             fileDialog.InitialDirectory = poePath;
 
-            Nullable<bool> result = fileDialog.ShowDialog();
+            bool? result = fileDialog.ShowDialog();
             if (result == true)
             {
                 var fileName = fileDialog.FileName;

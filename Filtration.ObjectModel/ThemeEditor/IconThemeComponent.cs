@@ -10,6 +10,10 @@ namespace Filtration.ObjectModel.ThemeEditor
         private IconColor _iconColor;
         private IconShape _iconShape;
 
+        private IconThemeComponent()
+        {
+        }
+
         public IconThemeComponent(ThemeComponentType componentType, string componentName, IconSize componentIconSize, IconColor componentIconColor, IconShape componentIconShape)
         {
             if (componentName == null)
@@ -26,7 +30,7 @@ namespace Filtration.ObjectModel.ThemeEditor
 
         public IconSize IconSize
         {
-            get { return _iconSize; }
+            get => _iconSize;
             set
             {
                 _iconSize = value;
@@ -37,7 +41,7 @@ namespace Filtration.ObjectModel.ThemeEditor
 
         public IconColor IconColor
         {
-            get { return _iconColor; }
+            get => _iconColor;
             set
             {
                 _iconColor = value;
@@ -48,7 +52,7 @@ namespace Filtration.ObjectModel.ThemeEditor
 
         public IconShape IconShape
         {
-            get { return _iconShape; }
+            get => _iconShape;
             set
             {
                 _iconShape = value;

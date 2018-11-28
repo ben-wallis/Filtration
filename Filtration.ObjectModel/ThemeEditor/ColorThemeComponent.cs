@@ -9,6 +9,10 @@ namespace Filtration.ObjectModel.ThemeEditor
     {
         private Color _color;
 
+        private ColorThemeComponent()
+        {
+        }
+
         public ColorThemeComponent(ThemeComponentType componentType, string componentName, Color componentColor)
         {
             if (componentName == null || componentColor == null)
@@ -23,7 +27,7 @@ namespace Filtration.ObjectModel.ThemeEditor
 
         public Color Color
         {
-            get { return _color; }
+            get => _color;
             set
             {
                 _color = value;

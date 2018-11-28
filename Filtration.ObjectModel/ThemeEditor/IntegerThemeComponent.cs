@@ -9,6 +9,10 @@ namespace Filtration.ObjectModel.ThemeEditor
     {
         private int _value;
 
+        private IntegerThemeComponent()
+        {
+        }
+
         public IntegerThemeComponent(ThemeComponentType componentType, string componentName, int componentValue)
         {
             if (componentName == null)
@@ -23,7 +27,7 @@ namespace Filtration.ObjectModel.ThemeEditor
 
         public int Value
         {
-            get { return _value; }
+            get => _value;
             set
             {
                 _value = value;
