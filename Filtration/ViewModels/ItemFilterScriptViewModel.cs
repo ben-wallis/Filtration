@@ -191,6 +191,8 @@ namespace Filtration.ViewModels
 
             Script = itemFilterScript;
             _scriptCommandManager = Script.CommandManager;
+            InitialiseCustomSounds();
+
             AddItemFilterBlockViewModels(Script.ItemFilterBlocks, -1);
 
             UpdateChildCount();
@@ -206,8 +208,26 @@ namespace Filtration.ViewModels
                     }
                 }
             }
+
+            Script.ItemFilterBlocks.CollectionChanged += ItemFilterBlocksOnCollectionChanged;
+
+            _filenameIsFake = newScript;
+
+            if (newScript)
+            {
+                Script.FilePath = "Untitled.filter";
+            }
             
+            Title = Filename;
+            ContentId = "ScriptContentId";
+
+            CollapseAllSections();
+        }
+
+        private void InitialiseCustomSounds()
+        {
             _customSoundsAvailable = new ObservableCollection<string>();
+            _customSoundsAvailable.CollectionChanged += CustomSoundsAvailableOnCollectionChanged;
 
             var poeFolderFiles = Directory.GetFiles(_persistenceService.ItemFilterScriptDirectory + "\\").Where(
                 s => s.EndsWith(".mp3")
@@ -223,21 +243,6 @@ namespace Filtration.ViewModels
             {
                 _customSoundsAvailable.Add(file.Replace(_persistenceService.ItemFilterScriptDirectory + "\\", ""));
             }
-
-            Script.ItemFilterBlocks.CollectionChanged += ItemFilterBlocksOnCollectionChanged;
-            _customSoundsAvailable.CollectionChanged += CustomSoundsAvailableOnCollectionChanged;
-
-            _filenameIsFake = newScript;
-
-            if (newScript)
-            {
-                Script.FilePath = "Untitled.filter";
-            }
-            
-            Title = Filename;
-            ContentId = "ScriptContentId";
-
-            CollapseAllSections();
         }
 
         private void ItemFilterBlocksOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
