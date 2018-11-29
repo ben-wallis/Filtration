@@ -6,11 +6,13 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
+using DynamicData.Binding;
 using Filtration.Common.Services;
 using Filtration.Common.ViewModels;
 using Filtration.Interface;
@@ -111,6 +113,7 @@ namespace Filtration.ViewModels
         private Predicate<IItemFilterBlockViewModel> _blockFilterPredicate;
         private ICommandManager _scriptCommandManager;
 
+		private List<IDisposable> _subscriptions;
         private ObservableCollection<string> _customSoundsAvailable;
         private readonly List<IItemFilterBlockViewModelBase> _lastAddedBlocks;
 
@@ -130,14 +133,20 @@ namespace Filtration.ViewModels
             _persistenceService = persistenceService;
             _messageBoxService = messageBoxService;
             _clipboardService = clipboardService;
+			_subscriptions = new List<IDisposable>();
             ItemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModelBase>();
-            SelectedBlockViewModels = new ObservableCollection<IItemFilterBlockViewModelBase>();
-            SelectedBlockViewModels.CollectionChanged += (s, e) =>
-            {
-                RaisePropertyChanged(nameof(SelectedBlockViewModels));
-                RaisePropertyChanged(nameof(LastSelectedBlockViewModel));
-                Messenger.Default.Send(new NotificationMessage("LastSelectedBlockChanged"));
-            };
+			SelectedBlockViewModels = new ObservableCollection<IItemFilterBlockViewModelBase>();
+
+			_subscriptions.Add(
+				SelectedBlockViewModels.ToObservableChangeSet()
+				.Throttle(TimeSpan.FromMilliseconds(30))
+				.Subscribe(x => {
+					RaisePropertyChanged(nameof(SelectedBlockViewModels));
+					RaisePropertyChanged(nameof(LastSelectedBlockViewModel));
+					Messenger.Default.Send(new NotificationMessage("LastSelectedBlockChanged"));
+				})
+			);
+
             _lastAddedBlocks = new List<IItemFilterBlockViewModelBase>();
             _showAdvanced = Settings.Default.ShowAdvanced;
 
@@ -815,6 +824,11 @@ namespace Filtration.ViewModels
 
         private void CloseScript()
         {
+			foreach (var disposable in Enumerable.Reverse(_subscriptions))
+			{
+				disposable.Dispose();
+			}
+
             var openMasterThemForScript =
                 _avalonDockWorkspaceViewModel.OpenMasterThemeForScript(this);
             if (openMasterThemForScript != null)
