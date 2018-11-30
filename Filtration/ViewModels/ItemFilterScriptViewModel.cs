@@ -829,6 +829,8 @@ namespace Filtration.ViewModels
 				disposable.Dispose();
 			}
 
+            _subscriptions.Clear();
+
             var openMasterThemForScript =
                 _avalonDockWorkspaceViewModel.OpenMasterThemeForScript(this);
             if (openMasterThemForScript != null)
