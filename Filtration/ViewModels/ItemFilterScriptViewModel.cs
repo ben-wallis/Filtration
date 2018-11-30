@@ -113,7 +113,7 @@ namespace Filtration.ViewModels
         private Predicate<IItemFilterBlockViewModel> _blockFilterPredicate;
         private ICommandManager _scriptCommandManager;
 
-		private List<IDisposable> _subscriptions;
+        private List<IDisposable> _subscriptions;
         private ObservableCollection<string> _customSoundsAvailable;
         private readonly List<IItemFilterBlockViewModelBase> _lastAddedBlocks;
 
@@ -133,19 +133,19 @@ namespace Filtration.ViewModels
             _persistenceService = persistenceService;
             _messageBoxService = messageBoxService;
             _clipboardService = clipboardService;
-			_subscriptions = new List<IDisposable>();
+            _subscriptions = new List<IDisposable>();
             ItemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModelBase>();
-			SelectedBlockViewModels = new ObservableCollection<IItemFilterBlockViewModelBase>();
+            SelectedBlockViewModels = new ObservableCollection<IItemFilterBlockViewModelBase>();
 
-			_subscriptions.Add(
-				SelectedBlockViewModels.ToObservableChangeSet()
-				.Throttle(TimeSpan.FromMilliseconds(30))
-				.Subscribe(x => {
-					RaisePropertyChanged(nameof(SelectedBlockViewModels));
-					RaisePropertyChanged(nameof(LastSelectedBlockViewModel));
-					Messenger.Default.Send(new NotificationMessage("LastSelectedBlockChanged"));
-				})
-			);
+            _subscriptions.Add(
+                SelectedBlockViewModels.ToObservableChangeSet()
+                .Throttle(TimeSpan.FromMilliseconds(30))
+                .Subscribe(x => {
+                    RaisePropertyChanged(nameof(SelectedBlockViewModels));
+                    RaisePropertyChanged(nameof(LastSelectedBlockViewModel));
+                    Messenger.Default.Send(new NotificationMessage("LastSelectedBlockChanged"));
+                })
+            );
 
             _lastAddedBlocks = new List<IItemFilterBlockViewModelBase>();
             _showAdvanced = Settings.Default.ShowAdvanced;
@@ -824,10 +824,10 @@ namespace Filtration.ViewModels
 
         private void CloseScript()
         {
-			foreach (var disposable in Enumerable.Reverse(_subscriptions))
-			{
-				disposable.Dispose();
-			}
+            foreach (var disposable in Enumerable.Reverse(_subscriptions))
+            {
+                disposable.Dispose();
+            }
 
             _subscriptions.Clear();
 
