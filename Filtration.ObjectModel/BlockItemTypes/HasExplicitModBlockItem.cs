@@ -16,18 +16,18 @@ namespace Filtration.ObjectModel.BlockItemTypes
             {
                 if (Items.Count > 0 && Items.Count < 4)
                 {
-                    return "Item Explicit Mods: " +
+                    return "Explicit Mods: " +
                            Items.Aggregate(string.Empty, (current, i) => current + i + ", ").TrimEnd(' ').TrimEnd(',');
                 }
                 if (Items.Count >= 4)
                 {
                     var remaining = Items.Count - 3;
-                    return "Item Explicit Mods: " + Items.Take(3)
+                    return "Explicit Mods: " + Items.Take(3)
                         .Aggregate(string.Empty, (current, i) => current + i + ", ")
                         .TrimEnd(' ')
                         .TrimEnd(',') + " (+" + remaining + " more)";
                 }
-                return "Item Explicit Mods: (none)";
+                return "Explicit Mods: (none)";
             }
         }
 

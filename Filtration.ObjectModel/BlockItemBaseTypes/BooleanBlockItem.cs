@@ -27,7 +27,7 @@
         }
 
         public override string OutputText => PrefixText + " " + BooleanValue;
-        public override string SummaryText => PrefixText + " = " + BooleanValue;
+        public override string SummaryText => DisplayHeading + " = " + BooleanValue;
         public override int MaximumAllowed => 1;
 
         public void ToggleValue()
