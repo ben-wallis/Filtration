@@ -25,6 +25,47 @@ namespace Filtration.ViewModels
         IItemFilterBlock Block { get; }
         bool BlockEnabled { get; set; }
         string BlockDescription { get; set; }
+        RelayCommand CopyBlockStyleCommand { get; }
+        RelayCommand PasteBlockStyleCommand { get; }
+        RelayCommand ToggleBlockActionCommand { get; }
+        RelayCommand ReplaceColorsCommand { get; }
+        RelayCommand<Type> AddFilterBlockItemCommand { get; }
+        RelayCommand<IItemFilterBlockItem> RemoveFilterBlockItemCommand { get; }
+        RelayCommand PlaySoundCommand { get; }
+        RelayCommand PlayPositionalSoundCommand { get; }
+        RelayCommand SwitchBlockItemsViewCommand { get; }
+        RelayCommand CustomSoundFileDialogCommand { get; }
+        RelayCommand PlayCustomSoundCommand { get; }
+        RelayCommand AddBlockGroupCommand { get; }
+        RelayCommand DeleteBlockGroupCommand { get; }
+        ObservableCollection<ItemFilterBlockGroup> BlockGroups { get; }
+        ObservableCollection<string> BlockGroupSuggestions { get; }
+        string BlockGroupSearch { get; set; }
+        ObservableCollection<IItemFilterBlockItem> BlockItems { get; }
+        IEnumerable<IItemFilterBlockItem> SummaryBlockItems { get; }
+        IEnumerable<IItemFilterBlockItem> RegularBlockItems { get; }
+        IEnumerable<IItemFilterBlockItem> AudioVisualBlockItems { get; }
+        bool AdvancedBlockGroup { get; }
+        bool AudioVisualBlockItemsGridVisible { get; set; }
+        bool DisplaySettingsPopupOpen { get; set; }
+        IEnumerable<string> AutoCompleteItemClasses { get; }
+        IEnumerable<string> AutoCompleteItemBaseTypes { get; }
+        IEnumerable<string> AutocompleteItemMods { get; }
+        List<Type> BlockItemTypesAvailable { get; }
+        List<Type> AudioVisualBlockItemTypesAvailable { get; }
+        ObservableCollection<ColorItem> AvailableColors { get; }
+        Color DisplayTextColor { get; }
+        Color DisplayBackgroundColor { get; }
+        Color DisplayBorderColor { get; }
+        double DisplayFontSize { get; }
+        int DisplayIconSize { get; }
+        int DisplayIconColor { get; }
+        int DisplayIconShape { get; }
+        Color DisplayEffectColor { get; }
+        bool HasSound { get; }
+        bool HasPositionalSound { get; }
+        bool HasCustomSound { get; }
+        bool HasAudioVisualBlockItems { get; }
         void RefreshBlockPreview();
     }
 

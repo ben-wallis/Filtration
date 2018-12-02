@@ -238,12 +238,16 @@
     <Compile Include="UserControls\EditableListBoxControl.xaml.cs">
       <DependentUpon>EditableListBoxControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\EnableDisableToggleButton.xaml.cs">
+      <DependentUpon>EnableDisableToggleButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ItemPreviewControl.xaml.cs">
       <DependentUpon>ItemPreviewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ThemeComponentSelectionControl.xaml.cs">
       <DependentUpon>ThemeComponentSelectionControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\DesignTime\DesignTimeItemFilterBlockViewModel.cs" />
     <Compile Include="ViewModels\DesignTime\DesignTimeSettingsPageViewModel.cs" />
     <Compile Include="Views\AttachedProperties\SelectedItemsAttachedProperty.cs" />
     <Compile Include="Utility\RoutedCommandHandler.cs" />
@@ -279,6 +283,10 @@
       <DependentUpon>SettingsPageView.xaml</DependentUpon>
     </Compile>
     <Page Include="UserControls\BlockItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\EnableDisableToggleButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

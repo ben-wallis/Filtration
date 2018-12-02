@@ -3,43 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:viewModels="clr-namespace:Filtration.ViewModels"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
              xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
              xmlns:views="clr-namespace:Filtration.Views"
              xmlns:converters="clr-namespace:Filtration.Converters"
              xmlns:blockItemBaseTypes="clr-namespace:Filtration.ObjectModel.BlockItemBaseTypes;assembly=Filtration.ObjectModel"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:designTime="clr-namespace:Filtration.ViewModels.DesignTime"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=viewModels:ItemFilterBlockViewModel}"
-             d:DesignHeight="200" d:DesignWidth="800">
+             d:DataContext="{d:DesignInstance Type=designTime:DesignTimeItemFilterBlockViewModel, IsDesignTimeCreatable=True}"
+             d:DesignHeight="400" d:DesignWidth="817">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary>
-                    <views:BindingProxy x:Key="Proxy" Data="{Binding}" />
-                    <converters:BlockGroupAdvancedFillColorConverter x:Key="BlockGroupAdvancedFillColorConverter" />
-                    <converters:MinimapIconToCroppedBitmapConverter x:Key="MinimapIconToCroppedBitmapConverter"/>
-                    <Style TargetType="{x:Type ContentPresenter}" x:Key="BlockItemFadeInStyle">
-                        <Setter Property="LayoutTransform">
-                            <Setter.Value>
-                                <ScaleTransform x:Name="transform" />
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <EventTrigger RoutedEvent="Loaded">
-                                <EventTrigger.Actions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger.Actions>
-                            </EventTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ResourceDictionary>
-            </ResourceDictionary.MergedDictionaries>
+            <views:BindingProxy x:Key="Proxy" Data="{Binding}" />
+            <converters:BlockGroupAdvancedFillColorConverter x:Key="BlockGroupAdvancedFillColorConverter" />
+            <converters:MinimapIconToCroppedBitmapConverter x:Key="MinimapIconToCroppedBitmapConverter"/>
+            <Style TargetType="{x:Type ContentPresenter}" x:Key="BlockItemFadeInStyle">
+                <Setter Property="LayoutTransform">
+                    <Setter.Value>
+                        <ScaleTransform x:Name="transform" />
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="TopLevelGrid">
@@ -99,7 +95,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <!-- BlockItems Summary Panel -->
-                            <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
+                            <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,5">
                                 <StackPanel.Resources>
                                     <CollectionViewSource Source="{Binding SummaryBlockItems}" x:Key="SummaryBlockItemsCollectionViewSource">
                                         <CollectionViewSource.SortDescriptions>
@@ -121,9 +117,9 @@
                                         </DataTemplate>
                                         <DataTemplate DataType="{x:Type blockItemBaseTypes:ActionBlockItem}">
                                             <Button Command="{Binding ElementName=TopLevelGrid, Path=DataContext.ToggleBlockActionCommand}" Style="{StaticResource ChromelessButton}">
-                                            <Border BorderBrush="Black" CornerRadius="4" Margin="0,2,2,2" BorderThickness="1" Background="{Binding SummaryBackgroundColor, Converter={StaticResource ColorToSolidColorBrushConverter}}">
-                                                <TextBlock Text="{Binding SummaryText}" Margin="5,1,5,1" Foreground="{Binding SummaryTextColor, Converter={StaticResource ColorToSolidColorBrushConverter}}" />
-                                            </Border>
+                                                <Border BorderBrush="Black" CornerRadius="4" Margin="0,2,2,2" BorderThickness="1" Background="{Binding SummaryBackgroundColor, Converter={StaticResource ColorToSolidColorBrushConverter}}">
+                                                    <TextBlock Text="{Binding SummaryText}" Margin="5,1,5,1" Foreground="{Binding SummaryTextColor, Converter={StaticResource ColorToSolidColorBrushConverter}}" />
+                                                </Border>
                                             </Button>
                                         </DataTemplate>
                                     </ItemsControl.Resources>
@@ -199,9 +195,9 @@
                     </Expander.Header>
                     <Grid Margin="10,5,10,5" x:Name="BlockItemsGrid">
                         <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <WrapPanel Grid.Row="0">
@@ -240,24 +236,78 @@
                             <Button Height="12" Command="{Binding AddBlockGroupCommand}" Content="{StaticResource AddIcon}"
                                     ToolTip="Add" Background="Transparent" BorderThickness="0" Margin="3,0,0,0" />
                         </WrapPanel>
-                        
+
+                        <!-- Regular Block Items-->
                         <Grid Grid.Row="1" Visibility="{Binding AudioVisualBlockItemsGridVisible, Converter={StaticResource InverseBooleanVisibilityConverter}}">
                             <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                                <Hyperlink Command="{Binding SwitchBlockItemsViewCommand}">
-                                    Switch to Appearance Block Items
-                                </Hyperlink>
-                            </TextBlock>
-                        
                             <!-- Add Block Item Links -->
                             <ItemsControl Grid.Column="0" ItemsSource="{Binding BlockItemTypesAvailable}" Grid.Row="0" Margin="0,0,0,10">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="0,0,3,0">
+                                            <Hyperlink Command="{Binding ElementName=TopLevelGrid, Path=DataContext.AddFilterBlockItemCommand}" CommandParameter="{Binding}">
+                                                <TextBlock>+</TextBlock><TextBlock Text="{Binding Path=., Converter={StaticResource BlockItemTypeToStringConverter}}" />
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <!-- Enable/Disable Block Button -->
+                            <userControls:EnableDisableToggleButton Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" />
+
+                            <!-- Block Items -->
+                            <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" MaxHeight="200">
+                                <Grid.Resources>
+                                    <CollectionViewSource Source="{Binding RegularBlockItems}" x:Key="BlockItemsCollectionViewSource">
+                                        <CollectionViewSource.SortDescriptions>
+                                            <componentModel:SortDescription PropertyName="SortOrder"/>
+                                        </CollectionViewSource.SortDescriptions>
+                                    </CollectionViewSource>
+                                </Grid.Resources>
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                    <ItemsControl ItemsSource="{Binding Source={StaticResource BlockItemsCollectionViewSource}}"
+                                              ItemContainerStyle="{StaticResource BlockItemFadeInStyle}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel Orientation="Vertical" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <userControls:BlockItemControl BlockItem="{Binding}" RemoveItemCommand="{Binding ElementName=TopLevelGrid, Path=DataContext.RemoveFilterBlockItemCommand}" RemoveEnabled="{Binding Path=., Converter={StaticResource BlockItemToRemoveEnabledVisibilityConverter}}" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </Grid>
+                        </Grid>
+
+                        <!-- Audio/Visual Block Items-->
+                        <Grid Grid.Row="1" Visibility="{Binding AudioVisualBlockItemsGridVisible, Converter={StaticResource BooleanVisibilityConverter}}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Add AudioVisual Block Item Links -->
+                            <ItemsControl Grid.Column="0" ItemsSource="{Binding AudioVisualBlockItemTypesAvailable}" Grid.Row="0" Margin="0,0,0,10">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel></WrapPanel>
@@ -275,116 +325,56 @@
                             </ItemsControl>
 
                             <!-- Enable/Disable Block Button -->
-                            <ToggleButton Grid.Row="0"
-                                          Grid.Column="1"
-                                          Style="{StaticResource ChromelessToggleButton}" 
-                                          IsChecked="{Binding BlockEnabled}"
-                                          Margin="0,0,5,0"
-                                          ToolTip="Enable/Disable Block"
-                                          Cursor="Hand"
-                                          Width="25"
-                                          Height="25">
-                                <Image RenderOptions.BitmapScalingMode="HighQuality">
-                                    <Image.Style>
-                                        <Style TargetType="{x:Type Image}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding BlockEnabled}" Value="true">
-                                                    <Setter Property="Source" Value="/Filtration;component/Resources/Icons/standby_enabled_icon.png"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding BlockEnabled}" Value="false">
-                                                    <Setter Property="Source" Value="/Filtration;component/Resources/Icons/standby_disabled_icon.png"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Image.Style>
-                                </Image>
-                            </ToggleButton>
-                            
-                            <!-- Block Items -->
-                            <WrapPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" MaxHeight="200">
-                                <WrapPanel.Resources>
-                                    <CollectionViewSource Source="{Binding RegularBlockItems}" x:Key="BlockItemsCollectionViewSource">
-                                        <CollectionViewSource.SortDescriptions>
-                                            <componentModel:SortDescription PropertyName="SortOrder"/>
-                                        </CollectionViewSource.SortDescriptions>
-                                    </CollectionViewSource>
-                                </WrapPanel.Resources>
-                                <ItemsControl ItemsSource="{Binding Source={StaticResource BlockItemsCollectionViewSource}}"
-                                              ItemContainerStyle="{StaticResource BlockItemFadeInStyle}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel Orientation="Vertical" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <userControls:BlockItemControl BlockItem="{Binding}" RemoveItemCommand="{Binding ElementName=TopLevelGrid, Path=DataContext.RemoveFilterBlockItemCommand}" RemoveEnabled="{Binding Path=., Converter={StaticResource BlockItemToRemoveEnabledVisibilityConverter}}" />
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </WrapPanel>
-                        </Grid>
-                        <Grid Grid.Row="1" Visibility="{Binding AudioVisualBlockItemsGridVisible, Converter={StaticResource BooleanVisibilityConverter}}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                                <Hyperlink Command="{Binding SwitchBlockItemsViewCommand}">
-                                    Switch to Regular Block Items
-                                </Hyperlink>
-                            </TextBlock>
-                            <!-- Add AudioVisual Block Item Links -->
-                            <ItemsControl ItemsSource="{Binding AudioVisualBlockItemTypesAvailable}" Grid.Row="0" Margin="0,0,0,10">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel></WrapPanel>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Margin="0,0,3,0">
-                                            <Hyperlink Command="{Binding ElementName=TopLevelGrid, Path=DataContext.AddFilterBlockItemCommand}" CommandParameter="{Binding}">
-                                                <TextBlock>+</TextBlock><TextBlock Text="{Binding Path=., Converter={StaticResource BlockItemTypeToStringConverter}}" />
-                                            </Hyperlink>
-                                        </TextBlock>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                            <userControls:EnableDisableToggleButton Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" />
 
-                            <TextBlock Grid.Row="1" FontStyle="Italic" HorizontalAlignment="Left" Visibility="{Binding HasAudioVisualBlockItems, Converter={StaticResource InverseBooleanVisibilityConverter}}">To change the appearance of this block, add a Text, Background or Border Block Item above.</TextBlock>
-                            
+                            <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" FontStyle="Italic" HorizontalAlignment="Left" Visibility="{Binding HasAudioVisualBlockItems, Converter={StaticResource InverseBooleanVisibilityConverter}}">To change the appearance of this block, add a Text, Background or Border Block Item above.</TextBlock>
+
                             <!-- Block Items -->
-                            <WrapPanel Grid.Row="1" MaxHeight="200">
-                                <WrapPanel.Resources>
+                            <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" MaxHeight="200">
+                                <Grid.Resources>
                                     <CollectionViewSource Source="{Binding AudioVisualBlockItems}" x:Key="BlockItemsCollectionViewSource">
                                         <CollectionViewSource.SortDescriptions>
                                             <componentModel:SortDescription PropertyName="SortOrder"/>
                                         </CollectionViewSource.SortDescriptions>
                                     </CollectionViewSource>
-                                </WrapPanel.Resources>
-                                <ItemsControl ItemsSource="{Binding Source={StaticResource BlockItemsCollectionViewSource}}"
+                                </Grid.Resources>
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                    <ItemsControl ItemsSource="{Binding Source={StaticResource BlockItemsCollectionViewSource}}"
                                               ItemContainerStyle="{StaticResource BlockItemFadeInStyle}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel Orientation="Vertical" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <userControls:BlockItemControl BlockItem="{Binding}" RemoveItemCommand="{Binding ElementName=TopLevelGrid, Path=DataContext.RemoveFilterBlockItemCommand}" />
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </WrapPanel>
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel Orientation="Vertical" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <userControls:BlockItemControl BlockItem="{Binding}" RemoveItemCommand="{Binding ElementName=TopLevelGrid, Path=DataContext.RemoveFilterBlockItemCommand}" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </Grid>
                         </Grid>
                         <Grid Grid.Row="2" Margin="0,5,0,5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0"  Margin="0,0,5,0" Text="Description:" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Text="{Binding BlockDescription}" />
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,0,8">
+                                <Hyperlink Command="{Binding SwitchBlockItemsViewCommand}">
+                                    <Grid>
+                                        <TextBlock Text="Switch to Regular Block Items" Visibility="{Binding AudioVisualBlockItemsGridVisible, Converter={StaticResource BooleanVisibilityConverter}}" />
+                                        <TextBlock Text="Switch to Appearance Block Items" Visibility="{Binding AudioVisualBlockItemsGridVisible, Converter={StaticResource InverseBooleanVisibilityConverter}}" />
+                                    </Grid>
+                                </Hyperlink>
+                            </TextBlock>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,5,0" Text="Description:" VerticalAlignment="Center" />
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding BlockDescription}" />
                         </Grid>
                     </Grid>
                 </Expander>
