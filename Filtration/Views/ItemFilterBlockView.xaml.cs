@@ -35,6 +35,10 @@ namespace Filtration.Views
         
         private void UIElement_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
+            // Prevents the ScrollViewer from handling mouse wheel events, and passes the events
+            // to the parent control instead. This is necessary because the ItemsControl that displays
+            // ItemFilterBlocks is in a ScrollViewer but we want to use the mouse wheel for scrolling
+            // up and down in ItemFilterScriptView rather than within the block.
             if (sender is ScrollViewer viewer && !e.Handled)
             {
                 e.Handled = true;
