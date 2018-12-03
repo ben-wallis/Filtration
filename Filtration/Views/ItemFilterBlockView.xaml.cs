@@ -1,4 +1,6 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Filtration.Views
@@ -25,9 +27,23 @@ namespace Filtration.Views
         {
             if (e.Key == Key.Enter)
             {
-                System.Windows.Controls.AutoCompleteBox box = sender as System.Windows.Controls.AutoCompleteBox;
+                AutoCompleteBox box = sender as AutoCompleteBox;
                 dynamic viewModel = box.DataContext;
                 viewModel.AddBlockGroupCommand.Execute(null);
+            }
+        }
+        
+        private void UIElement_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (sender is ScrollViewer viewer && !e.Handled)
+            {
+                e.Handled = true;
+
+                var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta) {RoutedEvent = MouseWheelEvent, Source = viewer};
+                if (viewer.Parent is UIElement parent)
+                {
+                    parent.RaiseEvent(eventArg);
+                }
             }
         }
     }

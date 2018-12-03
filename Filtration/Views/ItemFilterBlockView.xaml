@@ -277,7 +277,7 @@
                                         </CollectionViewSource.SortDescriptions>
                                     </CollectionViewSource>
                                 </Grid.Resources>
-                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" PreviewMouseWheel="UIElement_OnPreviewMouseWheel">
                                     <ItemsControl ItemsSource="{Binding Source={StaticResource BlockItemsCollectionViewSource}}"
                                               ItemContainerStyle="{StaticResource BlockItemFadeInStyle}">
                                         <ItemsControl.ItemsPanel>
@@ -338,7 +338,7 @@
                                         </CollectionViewSource.SortDescriptions>
                                     </CollectionViewSource>
                                 </Grid.Resources>
-                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" PreviewMouseWheel="UIElement_OnPreviewMouseWheel">
                                     <ItemsControl ItemsSource="{Binding Source={StaticResource BlockItemsCollectionViewSource}}"
                                               ItemContainerStyle="{StaticResource BlockItemFadeInStyle}">
                                         <ItemsControl.ItemsPanel>
