@@ -2,6 +2,8 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Filtration.UserControls;
+using Filtration.Utility;
 
 namespace Filtration.Views
 {
@@ -41,6 +43,14 @@ namespace Filtration.Views
             // up and down in ItemFilterScriptView rather than within the block.
             if (sender is ScrollViewer viewer && !e.Handled)
             {
+                // Don't handle events if they originated from a control within an EditableListBoxControl
+                // since we still want to allow scrolling within those with the mouse wheel
+                if (e.OriginalSource is DependencyObject dependencyObject && VisualTreeUtility.FindParent<EditableListBoxControl>(dependencyObject) != null)
+                {
+                    e.Handled = false;
+                    return;
+                }
+
                 e.Handled = true;
 
                 var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta) {RoutedEvent = MouseWheelEvent, Source = viewer};
