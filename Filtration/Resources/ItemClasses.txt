@@ -23,12 +23,13 @@ Labyrinth Item
 Labyrinth Map Item
 Labyrinth Trinket
 Large Relics
-Leaguestone
+Leaguestones
 Life Flasks
 Maces
 Mana Flasks
 Map Fragments
 Maps
+Medium Relics
 Misc Map Items
 One Hand Axes
 One Hand Maces
@@ -37,9 +38,11 @@ Pantheon Soul
 Piece
 Quest Items
 Quivers
+Relics
 Rings
 Sceptres
 Shields
+Small Relics
 Stackable Currency
 Staves
 Support Skill Gems
