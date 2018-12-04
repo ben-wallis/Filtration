@@ -1,4 +1,5 @@
 ﻿using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
@@ -16,7 +17,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string PrefixText => "SetFontSize";
         public override int MaximumAllowed => 1;
         public override string DisplayHeading => "Font Size";
-        public override int SortOrder => 25;
+        public override BlockItemOrdering SortOrder => BlockItemOrdering.SetFontSize;
         public override int Minimum => 11;
         public override int Maximum => 45;
     }

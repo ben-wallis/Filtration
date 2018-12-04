@@ -123,6 +123,7 @@
     <Compile Include="Commands\ItemFilterScript\AddBlockCommand.cs" />
     <Compile Include="Commands\IUndoableCommand.cs" />
     <Compile Include="Enums\BlockAction.cs" />
+    <Compile Include="Enums\BlockItemOrdering.cs" />
     <Compile Include="Enums\BlockItemType.cs" />
     <Compile Include="Enums\EffectColor.cs" />
     <Compile Include="Enums\FilterPredicateOperator.cs" />

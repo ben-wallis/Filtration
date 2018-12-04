@@ -9,7 +9,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public QualityBlockItem()
         {
         }
-        
+
         public QualityBlockItem(FilterPredicateOperator predicateOperator, int predicateOperand)
             : base(predicateOperator, predicateOperand)
         {
@@ -21,7 +21,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string SummaryText => "Quality " + FilterPredicate;
         public override Color SummaryBackgroundColor => Colors.DarkOrange;
         public override Color SummaryTextColor => Colors.White;
-        public override int SortOrder => 3;
+        public override BlockItemOrdering SortOrder => BlockItemOrdering.Quality;
         public override int Minimum => 0;
         public override int Maximum => 30;
     }

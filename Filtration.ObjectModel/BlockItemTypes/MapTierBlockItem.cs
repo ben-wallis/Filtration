@@ -21,7 +21,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string SummaryText => "Map Tier " + FilterPredicate;
         public override Color SummaryBackgroundColor => Colors.DarkSlateGray;
         public override Color SummaryTextColor => Colors.White;
-        public override int SortOrder => 8;
+        public override BlockItemOrdering SortOrder => BlockItemOrdering.MapTier;
         public override int Minimum => 1;
         public override int Maximum => 16;
     }

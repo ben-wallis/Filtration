@@ -11,7 +11,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
     {
         public SocketGroupBlockItem()
         {
-            
+
         }
 
         public override string PrefixText => "SocketGroup";
@@ -39,7 +39,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
 
         public override Color SummaryBackgroundColor => Colors.GhostWhite;
         public override Color SummaryTextColor => Colors.Black;
-        public override int SortOrder => 11;
+        public override BlockItemOrdering SortOrder => BlockItemOrdering.SocketGroup;
 
         private SocketColor StringToSocketColor(char socketColorString)
         {

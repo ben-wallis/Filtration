@@ -41,8 +41,8 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
 
         public override Color SummaryTextColor => Action == BlockAction.Show ? Colors.Black : Colors.White;
 
-        public override int SortOrder => 0;
-        
+        public override BlockItemOrdering SortOrder => BlockItemOrdering.Action;
+
         public void ToggleAction()
         {
             Action = Action == BlockAction.Show ? BlockAction.Hide : BlockAction.Show;

@@ -21,7 +21,7 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string SummaryText => "Stack Size " + FilterPredicate;
         public override Color SummaryBackgroundColor => Colors.DarkSlateGray;
         public override Color SummaryTextColor => Colors.White;
-        public override int SortOrder => 17;
+        public override BlockItemOrdering SortOrder => BlockItemOrdering.StackSize;
         public override int Minimum => 0;
         public override int Maximum => 1000;
     }

@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using Filtration.ObjectModel.Annotations;
+using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel.BlockItemBaseTypes
 {
@@ -16,7 +17,7 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
         public abstract string SummaryText { get; }
         public abstract Color SummaryBackgroundColor { get; }
         public abstract Color SummaryTextColor { get; }
-        public abstract int SortOrder { get; }
+        public abstract BlockItemOrdering SortOrder { get; }
         public string Comment { get; set; }
 
         public bool IsDirty
@@ -30,7 +31,7 @@ namespace Filtration.ObjectModel.BlockItemBaseTypes
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
