@@ -44,8 +44,9 @@ namespace Filtration.Views
             if (sender is ScrollViewer viewer && !e.Handled)
             {
                 // Don't handle events if they originated from a control within an EditableListBoxControl
-                // since we still want to allow scrolling within those with the mouse wheel
-                if (e.OriginalSource is DependencyObject dependencyObject && VisualTreeUtility.FindParent<EditableListBoxControl>(dependencyObject) != null)
+                // or a ComboBox since we still want to allow scrolling within those with the mouse wheel
+                if (e.OriginalSource is DependencyObject dependencyObject && (VisualTreeUtility.FindParent<EditableListBoxControl>(dependencyObject) != null ||
+                    IsDropDownScrollViewer(dependencyObject)))
                 {
                     e.Handled = false;
                     return;
@@ -59,6 +60,12 @@ namespace Filtration.Views
                     parent.RaiseEvent(eventArg);
                 }
             }
+        }
+
+        private bool IsDropDownScrollViewer(DependencyObject dependencyObject)
+        {
+            var parent = VisualTreeUtility.FindParent<ScrollViewer>(dependencyObject);
+            return parent != null && parent.Name == "DropDownScrollViewer";
         }
     }
 }
