@@ -13,6 +13,7 @@
 * All open filter scripts are now remembered on exit and reopened when the application is started rather than just the last opened one (#95)
 * Filter sections are once again now expanded by default when scripts are opened, unless the new "Auto-expand all sections when opening scripts" setting is disabled
 * A new Clear Styles button has been added which removes all styles from the selected block (#96)
+* New buttons for adding/removing DisableDropSound from selected blocks have been added (#110)
 * The Enable/Disable Block toggle button is now visible on both the Regular Block Items and Appearance Block Items views
 * When there are too many block items to fit horizontally in a block a horizontal scrollbar will now appear
 * Fixed the application freezing for a long period of time when Ctrl+A (Select All) is performed

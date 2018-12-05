@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Filtration.Common.Services;
+﻿using Filtration.Common.Services;
 using Filtration.Services;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Moq;
