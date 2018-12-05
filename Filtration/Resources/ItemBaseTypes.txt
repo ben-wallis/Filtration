@@ -1,11 +1,12 @@
-﻿A Mother's Parting Gift
+﻿A Dab of Ink
+A Mother's Parting Gift
 Abandoned Wealth
 Aberrant Fossil
 Abyssal Axe
 Abyssal Cry
 Abyssal Sceptre
 Academy Map
-Acid Lakes Map
+Acid Caverns Map
 Added Chaos Damage Support
 Added Cold Damage Support
 Added Fire Damage Support
@@ -71,6 +72,7 @@ Arctic Breath
 Arena Map
 Arena Plate
 Arid Lake Map
+Armageddon Brand
 Arming Axe
 Armourer's Scrap
 Armoury Map
@@ -168,6 +170,7 @@ Bone Crypt Map
 Bone Helmet
 Bone Offering
 Bone Spirit Shield
+Bonechill Support
 Bonespire Talisman
 Boon of the First Ones
 Boot Blade
@@ -176,6 +179,7 @@ Bottled Storm
 Bound Fossil
 Boundless Realms
 Bowyer's Dream
+Brand Recall
 Branded Kite Shield
 Brass Maul
 Brass Spirit Shield
@@ -352,6 +356,7 @@ Courthouse Map
 Courtyard Map
 Coves Map
 Coveted Possession
+Crater Map
 Cremation
 Crescent Staff
 Crested Tower Shield
@@ -461,6 +466,7 @@ Dragonscale Boots
 Dragonscale Doublet
 Dragonscale Gauntlets
 Dragoon Sword
+Dread Banner
 Dread Maul
 Dream Mace
 Driftwood Club
@@ -636,6 +642,7 @@ Full Plate
 Full Ringmail
 Full Scale Armour
 Full Wyrmscale
+Fungal Hollow Map
 Gardens Map
 Gavel
 Gemcutter's Prism
@@ -650,13 +657,26 @@ Ghetto Map
 Giant Life Flask
 Giant Mana Flask
 Gift of the Gemling Queen
+Gilded Ambush Scarab
 Gilded Axe
+Gilded Bestiary Scarab
+Gilded Breach Scarab
 Gilded Buckler
+Gilded Cartography Scarab
+Gilded Divination Scarab
+Gilded Elder Scarab
 Gilded Fossil
+Gilded Harbinger Scarab
+Gilded Perandus Scarab
+Gilded Reliquary Scarab
 Gilded Sallet
+Gilded Shaper Scarab
+Gilded Sulphite Scarab
+Gilded Torment Scarab
 Girded Tower Shield
 Glacial Cascade
 Glacial Hammer
+Glacier Map
 Gladiator Helmet
 Gladiator Plate
 Gladius
@@ -689,7 +709,6 @@ Golden Plate
 Golden Wreath
 Goliath Gauntlets
 Goliath Greaves
-Gorge Map
 Gouger
 Grace
 Graceful Sword
@@ -859,6 +878,7 @@ Lacquered Helmet
 Lair Map
 Lair of the Hydra Map
 Laminated Kite Shield
+Lancing Steel
 Lantador's Lost Love
 Lapis Amulet
 Large Hybrid Flask
@@ -867,7 +887,7 @@ Large Mana Flask
 Last Hope
 Lathi
 Latticed Ringmail
-Lava Chamber Map
+Lava Chambers Map
 Lava Lake Map
 Layered Kite Shield
 Lead Sceptre
@@ -888,9 +908,9 @@ Lesser Poison Support
 Leyline Map
 Life Gain on Hit Support
 Life Leech Support
+Light and Truth
 Light Brigandine
 Light Quiver
-Light and Truth
 Lighthouse Map
 Lightning Arrow
 Lightning Penetration Support
@@ -975,14 +995,14 @@ Military Staff
 Mind Cage
 Minefield Support
 Mineral Pools Map
+Minion and Totem Elemental Resistance Support
 Minion Damage Support
 Minion Life Support
 Minion Speed Support
-Minion and Totem Elemental Resistance Support
 Mirage Archer Support
 Mirror Arrow
-Mirror Shard
 Mirror of Kalandra
+Mirror Shard
 Mirrored Spiked Shield
 Mitts
 Molten Shell
@@ -1000,6 +1020,7 @@ Mortal Ignorance
 Mortal Rage
 Mosaic Kite Shield
 Mud Geyser Map
+Multiple Totems Support
 Multiple Traps Support
 Multistrike Support
 Murder Boots
@@ -1110,7 +1131,19 @@ Poignard
 Point Blank Support
 Poison Support
 Poleaxe
+Polished Ambush Scarab
+Polished Bestiary Scarab
+Polished Breach Scarab
+Polished Cartography Scarab
+Polished Divination Scarab
+Polished Elder Scarab
+Polished Harbinger Scarab
+Polished Perandus Scarab
+Polished Reliquary Scarab
+Polished Shaper Scarab
 Polished Spiked Shield
+Polished Sulphite Scarab
+Polished Torment Scarab
 Port Map
 Portal
 Portal Scroll
@@ -1132,6 +1165,7 @@ Primeval Rapier
 Primitive Alchemical Resonator
 Primitive Chaotic Resonator
 Primitive Staff
+Primordial Blocks Map
 Primordial Pool Map
 Primordial Staff
 Prismatic Fossil
@@ -1160,9 +1194,9 @@ Quartz Wand
 Quicksilver Flask
 Quilted Jacket
 Racecourse Map
-Rain Tempter
 Rain of Arrows
 Rain of Chaos
+Rain Tempter
 Raise Spectre
 Raise Zombie
 Rallying Cry
@@ -1226,10 +1260,22 @@ Ruby Flask
 Ruby Ring
 Rugged Quiver
 Runic Hatchet
+Rusted Ambush Scarab
+Rusted Bestiary Scarab
+Rusted Breach Scarab
+Rusted Cartography Scarab
 Rusted Coif
+Rusted Divination Scarab
+Rusted Elder Scarab
+Rusted Harbinger Scarab
 Rusted Hatchet
+Rusted Perandus Scarab
+Rusted Reliquary Scarab
+Rusted Shaper Scarab
 Rusted Spike
+Rusted Sulphite Scarab
 Rusted Sword
+Rusted Torment Scarab
 Rustic Sash
 Ruthless Support
 Sabre
@@ -1335,6 +1381,7 @@ Sharkskin Gloves
 Sharkskin Tunic
 Sharktooth Arrow Quiver
 Sharktooth Claw
+Shattering Steel
 Shield Charge
 Shipyard Map
 Shock Nova
@@ -1445,7 +1492,6 @@ Splinter of Xoph
 Splintered Tower Shield
 Split Arrow
 Splitnewt Talisman
-Springs Map
 Stacked Deck
 Stag Sceptre
 Static Strike
@@ -1467,6 +1513,7 @@ Stone Hammer
 Stone of Passage
 Storm Barrier Support
 Storm Blade
+Storm Brand
 Storm Burst
 Storm Call
 Strand Map
@@ -1599,14 +1646,17 @@ The King's Blade
 The King's Heart
 The Last One Standing
 The Lich
+The Life Thief
 The Lion
 The Lord in Black
 The Lover
 The Lunaris Priestess
 The Master
+The Master Artisan
 The Mayor
 The Mercenary
 The Metalsmith's Gift
+The Nurse
 The Oath
 The Obscured
 The Offering
@@ -1628,6 +1678,7 @@ The Risk
 The Rite of Elements
 The Road to Power
 The Ruthless Ceinture
+The Sacrifice
 The Saint's Treasure
 The Samurai's Eye
 The Scarred Meadow
@@ -1711,7 +1762,6 @@ Torment Leaguestone
 Tornado Shot
 Tornado Wand
 Torture Cage
-Torture Chamber Map
 Totemic Maul
 Tower Key
 Tower Map
@@ -1719,8 +1769,8 @@ Toxic Rain
 Toxic Sewer Map
 Tranquillity
 Transmutation Shard
-Trap Support
 Trap and Mine Damage Support
+Trap Support
 Trapper Boots
 Trapper Mitts
 Trarthan Powder
@@ -1729,7 +1779,6 @@ Treasure Key
 Tribal Circlet
 Tribal Club
 Tribal Maul
-Tribunal Map
 Tricorne
 Trisula
 Triumphant Lamellar
@@ -1815,16 +1864,16 @@ Vault Map
 Velvet Gloves
 Velvet Slippers
 Vengeance
-Vial Of Power
 Vial of Awakening
 Vial of Consequence
 Vial of Dominance
 Vial of Fate
+Vial Of Power
 Vial of Sacrifice
 Vial of Summoning
-Vial of Transcendence
 Vial of the Ghost
 Vial of the Ritual
+Vial of Transcendence
 Vicious Projectiles Support
 Vigilant Strike
 Vile Staff
@@ -1865,6 +1914,7 @@ Wailing Essence of Wrath
 Wailing Essence of Zeal
 Walnut Spirit Shield
 War Axe
+War Banner
 War Buckler
 War Hammer
 War Plate
@@ -1902,6 +1952,7 @@ Widowsilk Robe
 Wild Leather
 Wild Strike
 Wings of Vastiri
+Winter Orb
 Wither
 Withering Touch Support
 Wolf Pelt

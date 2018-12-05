@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media;
 using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
@@ -17,7 +18,6 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string DisplayHeading => "Corrupted";
         public override Color SummaryBackgroundColor => Colors.DarkRed;
         public override Color SummaryTextColor => Colors.White;
-        public override int SortOrder => 5;
-
+        public override BlockItemOrdering SortOrder => BlockItemOrdering.Corrupted;
     }
 }

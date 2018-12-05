@@ -225,19 +225,21 @@ namespace Filtration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A Mother&apos;s Parting Gift
+        ///   Looks up a localized string similar to A Dab of Ink
+        ///A Mother&apos;s Parting Gift
         ///Abandoned Wealth
         ///Aberrant Fossil
         ///Abyssal Axe
         ///Abyssal Cry
         ///Abyssal Sceptre
         ///Academy Map
-        ///Acid Lakes Map
+        ///Acid Caverns Map
         ///Added Chaos Damage Support
         ///Added Cold Damage Support
         ///Added Fire Damage Support
         ///Added Lightning Damage Support
         ///Additional Accuracy Support
+        ///Advanced Traps Support
         ///Aetheric Fossil
         ///Agate Amulet
         ///Albino Rhoa Feather
@@ -251,10 +253,7 @@ namespace Filtration.Properties {
         ///Amber Amulet
         ///Ambush Boots
         ///Ambush Leaguestone
-        ///Ambush Mitts
-        ///Ambusher
-        ///Amethyst Flask
-        ///Amethyst [rest of string was truncated]&quot;;.
+        ///Ambush  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ItemBaseTypes {
             get {
@@ -266,7 +265,7 @@ namespace Filtration.Properties {
         ///   Looks up a localized string similar to Abyss Jewel
         ///Active Skill Gems
         ///Amulets
-        ///Axe
+        ///Axes
         ///Belts
         ///Body Armours
         ///Boots
@@ -288,12 +287,13 @@ namespace Filtration.Properties {
         ///Labyrinth Map Item
         ///Labyrinth Trinket
         ///Large Relics
-        ///Leaguestone
+        ///Leaguestones
         ///Life Flasks
-        ///Mace
+        ///Maces
         ///Mana Flasks
         ///Map Fragments
         ///Maps
+        ///Medium Relics
         ///Misc Map Items
         ///One Hand Axes
         ///One Hand Maces
@@ -302,14 +302,12 @@ namespace Filtration.Properties {
         ///Piece
         ///Quest Items
         ///Quivers
+        ///Relics
         ///Rings
         ///Sceptres
         ///Shields
-        ///Stackable Currency
-        ///Staves
-        ///Support Skill Gems
-        ///Sword
-        ///T [rest of string was truncated]&quot;;.
+        ///Small Relics
+        ///Stackable Curre [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ItemClasses {
             get {
@@ -379,6 +377,15 @@ namespace Filtration.Properties {
         internal static string ItemMods {
             get {
                 return ResourceManager.GetString("ItemMods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A Gracious Master.
+        /// </summary>
+        internal static string Prophecies {
+            get {
+                return ResourceManager.GetString("Prophecies", resourceCulture);
             }
         }
         

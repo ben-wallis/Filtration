@@ -50,6 +50,7 @@ namespace Filtration.ViewModels
         bool DisplaySettingsPopupOpen { get; set; }
         IEnumerable<string> AutoCompleteItemClasses { get; }
         IEnumerable<string> AutoCompleteItemBaseTypes { get; }
+        IEnumerable<string> AutoCompleteProphecies { get; }
         IEnumerable<string> AutocompleteItemMods { get; }
         List<Type> BlockItemTypesAvailable { get; }
         List<Type> AudioVisualBlockItemTypesAvailable { get; }
@@ -203,6 +204,8 @@ namespace Filtration.ViewModels
 
         public IEnumerable<string> AutoCompleteItemBaseTypes => _staticDataService.ItemBaseTypes;
 
+        public IEnumerable<string> AutoCompleteProphecies => _staticDataService.Prophecies;
+
         public IEnumerable<string> AutocompleteItemMods => _staticDataService.ItemMods;
 
         public List<Type> BlockItemTypesAvailable => new List<Type>
@@ -218,6 +221,7 @@ namespace Filtration.ViewModels
             typeof (SocketGroupBlockItem),
             typeof (ClassBlockItem),
             typeof (BaseTypeBlockItem),
+            typeof (ProphecyBlockItem),
             typeof (IdentifiedBlockItem),
             typeof (CorruptedBlockItem),
             typeof (ElderItemBlockItem),

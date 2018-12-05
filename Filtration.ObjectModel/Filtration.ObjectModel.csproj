@@ -92,6 +92,7 @@
     <Compile Include="BlockItemTypes\GemLevelBlockItem.cs" />
     <Compile Include="BlockItemTypes\HasExplicitModBlockItem.cs" />
     <Compile Include="BlockItemTypes\MapIconBlockItem.cs" />
+    <Compile Include="BlockItemTypes\ProphecyBlockItem.cs" />
     <Compile Include="BlockItemTypes\ShapedMapBlockItem.cs" />
     <Compile Include="BlockItemTypes\ShaperItemBlockItem.cs" />
     <Compile Include="BlockItemTypes\ElderItemBlockItem.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Commands\ItemFilterScript\AddBlockCommand.cs" />
     <Compile Include="Commands\IUndoableCommand.cs" />
     <Compile Include="Enums\BlockAction.cs" />
+    <Compile Include="Enums\BlockItemOrdering.cs" />
     <Compile Include="Enums\BlockItemType.cs" />
     <Compile Include="Enums\EffectColor.cs" />
     <Compile Include="Enums\FilterPredicateOperator.cs" />

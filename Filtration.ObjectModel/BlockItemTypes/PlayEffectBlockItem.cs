@@ -18,6 +18,6 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string PrefixText => "PlayEffect";
         public override int MaximumAllowed => 1;
         public override string DisplayHeading => "Play Effect";
-        public override int SortOrder => 30;
+        public override BlockItemOrdering SortOrder => BlockItemOrdering.PlayEffect;
     }
 }

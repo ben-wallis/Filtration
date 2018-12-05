@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows.Media;
 using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
@@ -33,6 +34,6 @@ namespace Filtration.ObjectModel.BlockItemTypes
 
         public override Color SummaryBackgroundColor => Colors.MediumTurquoise;
         public override Color SummaryTextColor => Colors.Black;
-        public override int SortOrder => 20;
+        public override BlockItemOrdering SortOrder => BlockItemOrdering.BaseType;
     }
 }

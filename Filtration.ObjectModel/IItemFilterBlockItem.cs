@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows.Media;
+using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel
 {
@@ -12,7 +13,7 @@ namespace Filtration.ObjectModel
         Color SummaryBackgroundColor { get; }
         Color SummaryTextColor { get; }
         int MaximumAllowed { get; }
-        int SortOrder { get; }
+        BlockItemOrdering SortOrder { get; }
         bool IsDirty { get; }
         string Comment { get; set; }
     }

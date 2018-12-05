@@ -61,6 +61,7 @@ Carved
 Caster's
 Catalysed
 Catalyzing
+Catarina's Veiled
 Caustic
 Cauterising
 Cautious
@@ -115,6 +116,7 @@ Duelist's
 Eldritch
 Electrocuting
 Electromantic
+Elreon's Veiled
 Elephant's
 Emanant
 Emperor's
@@ -172,9 +174,12 @@ Glinting
 Glittering
 Glowing
 Glyphic
+Gravicius' Veiled
 Gremlin's
 Grounded
 Guatelitzi's
+Guff's Veiled
+Haku's Veiled
 Hailing
 Hale
 Halting
@@ -218,16 +223,19 @@ Instilled
 Interpermeated
 Interpolated
 Ionising
+It That Fled's Veiled
 Jagged
 Jinxing
 Journeyman's
 Judging
+Korell's Veiled
 Lacquered
 Lamprey's
 Lava Caller's
 Layered
 Leadership
 Legend's
+Leo's Veiled
 Lethal
 Lich's
 Lively
@@ -306,6 +314,7 @@ Resonating
 Resplendent
 Rhino's
 Ribbed
+Rin's Veiled
 Ripping
 Robust
 Rotund
@@ -384,6 +393,7 @@ Thundering
 Thwarting
 Titan's
 Topotante's
+Tora's Veiled
 Trapping
 Tul's
 Turncoat's
@@ -399,8 +409,10 @@ Unwavering
 Unworldly
 Urchin's
 Vaal
+Vagan's Veiled
 Vampire's
 Vaporous
+Veiled
 Vicious
 Victor's
 Vigorous
@@ -410,6 +422,7 @@ Vivacious
 Vivid
 Volcanic
 Volleying
+Vorici's Veiled
 Wailing
 Warding
 Warlock's
@@ -436,6 +449,7 @@ of Accuracy
 of Adamantite Skin
 of Adaption
 of Adrenaline
+of Aisling's Veil
 of Amassment
 of Anger
 of Animation
@@ -459,6 +473,7 @@ of Bloodlines
 of Burning
 of Calamity
 of Calm
+of Cameria's Veil
 of Celebration
 of Champions
 of Chilling
@@ -547,6 +562,7 @@ of Havoc
 of Haze
 of Heat
 of Hemomancy
+of Hillock's Veil
 of Hindering
 of Hoarding
 of Hordes
@@ -563,6 +579,8 @@ of Intelligence
 of Intercepting
 of Ire
 of Iron Skin
+of Janus' Veil
+of Jorgin's Veil
 of Joy
 of Legerdemain
 of Light
@@ -621,6 +639,7 @@ of Resistance
 of Restoration
 of Retaliation
 of Righteousness
+of Riker's Veil
 of Rime
 of Ruin
 of Runes
@@ -774,6 +793,7 @@ of the Titan
 of the Troll
 of the Underground
 of the Universe
+of the Veil
 of the Virtuoso
 of the Volcano
 of the Wall

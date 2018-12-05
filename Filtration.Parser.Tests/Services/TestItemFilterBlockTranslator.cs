@@ -568,6 +568,25 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateStringToItemFilterBlock_Prophecy_ReturnsCorrectObject()
+        {
+            // Arrange
+            var inputString = "Show" + Environment.NewLine +
+                              @"    Prophecy ""Test Prophecy 1"" ""TestOneWordProphecyInQuotes"" TestOneWordProphecyNotInQuotes ""Test Prophecy 2""";
+
+            // Act
+            var result = _testUtility.Translator.TranslateStringToItemFilterBlock(inputString, _testUtility.MockItemFilterScript);
+
+            // Assert
+            Assert.AreEqual(1, result.BlockItems.Count(b => b is ProphecyBlockItem));
+            var blockItem = result.BlockItems.OfType<ProphecyBlockItem>().First();
+            Assert.Contains("Test Prophecy 1", blockItem.Items);
+            Assert.Contains("TestOneWordProphecyInQuotes", blockItem.Items);
+            Assert.Contains("TestOneWordProphecyNotInQuotes", blockItem.Items);
+            Assert.Contains("Test Prophecy 2", blockItem.Items);
+        }
+
+        [Test]
         public void TranslateStringToItemFilterBlock_HasExplicitMod_ReturnsCorrectObject()
         {
             // Arrange
@@ -934,6 +953,7 @@ namespace Filtration.Parser.Tests.Services
                               "    ElderMap False" + Environment.NewLine +
                               @"    Class ""My Item Class"" AnotherClass ""AndAnotherClass""" + Environment.NewLine +
                               @"    BaseType MyBaseType ""Another BaseType""" + Environment.NewLine +
+                              @"    Prophecy MyProphecy ""Another Prophecy""" + Environment.NewLine +
                               @"    HasExplicitMod MyMod ""Another Mod""" + Environment.NewLine +
                               "    JunkLine Let's ignore this one!" + Environment.NewLine +
                               "    #Quality Commented out quality line" + Environment.NewLine +
@@ -1007,6 +1027,11 @@ namespace Filtration.Parser.Tests.Services
             Assert.AreEqual(2, baseTypeblockItem.Items.Count);
             Assert.Contains("MyBaseType", baseTypeblockItem.Items);
             Assert.Contains("Another BaseType", baseTypeblockItem.Items);
+
+            var prophecyblockItem = result.BlockItems.OfType<ProphecyBlockItem>().First();
+            Assert.AreEqual(2, prophecyblockItem.Items.Count);
+            Assert.Contains("MyProphecy", prophecyblockItem.Items);
+            Assert.Contains("Another Prophecy", prophecyblockItem.Items);
 
             var hasExplicitModBlockItem = result.BlockItems.OfType<HasExplicitModBlockItem>().First();
             Assert.AreEqual(2, hasExplicitModBlockItem.Items.Count);
@@ -1708,6 +1733,26 @@ namespace Filtration.Parser.Tests.Services
         }
 
         [Test]
+        public void TranslateItemFilterBlockToString_Prophecies_ReturnsCorrectString()
+        {
+            // Arrange
+            var expectedResult = "Show" + Environment.NewLine +
+                                 "    Prophecy \"Test Prophecy\" \"Another Prophecy\" \"Yet Another Prophecy\"";
+
+            var prophecyBlockItem = new ProphecyBlockItem();
+            prophecyBlockItem.Items.Add("Test Prophecy");
+            prophecyBlockItem.Items.Add("Another Prophecy");
+            prophecyBlockItem.Items.Add("Yet Another Prophecy");
+            _testUtility.TestBlock.BlockItems.Add(prophecyBlockItem);
+
+            // Act
+            var result = _testUtility.Translator.TranslateItemFilterBlockToString(_testUtility.TestBlock);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
         public void TranslateItemFilterBlockToString_HasExplicitMod_ReturnsCorrectString()
         {
             // Arrange
@@ -2013,6 +2058,7 @@ namespace Filtration.Parser.Tests.Services
                                  "    Rarity = Unique" + Environment.NewLine +
                                  "    Class \"Body Armour\" \"Gloves\" \"Belt\" \"Two Hand Axes\"" + Environment.NewLine +
                                  "    BaseType \"Greater Life Flask\" \"Simple Robe\" \"Full Wyrmscale\"" + Environment.NewLine +
+                                 "    Prophecy \"The Cursed Choir\" \"A Valuable Combination\" \"The Beautiful Guide\"" + Environment.NewLine +
                                  "    HasExplicitMod \"Guatelitzi's\" \"of Tacati\" \"Tyrannical\"" + Environment.NewLine +
                                  "    SetTextColor 255 89 0 56" + Environment.NewLine +
                                  "    SetBackgroundColor 0 0 0" + Environment.NewLine +
@@ -2046,6 +2092,11 @@ namespace Filtration.Parser.Tests.Services
             baseTypeItemblockItem.Items.Add("Simple Robe");
             baseTypeItemblockItem.Items.Add("Full Wyrmscale");
             _testUtility.TestBlock.BlockItems.Add(baseTypeItemblockItem);
+            var prophecyItemblockItem = new ProphecyBlockItem();
+            prophecyItemblockItem.Items.Add("The Cursed Choir");
+            prophecyItemblockItem.Items.Add("A Valuable Combination");
+            prophecyItemblockItem.Items.Add("The Beautiful Guide");
+            _testUtility.TestBlock.BlockItems.Add(prophecyItemblockItem);
             var hasExplicitModBlockItem = new HasExplicitModBlockItem();
             hasExplicitModBlockItem.Items.Add("Guatelitzi's");
             hasExplicitModBlockItem.Items.Add("of Tacati");

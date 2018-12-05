@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="Filtration.UserControls.BlockItemControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
              xmlns:commonConverters="clr-namespace:Filtration.Common.Converters;assembly=Filtration.Common"
@@ -11,7 +11,7 @@
              xmlns:enums="clr-namespace:Filtration.ObjectModel.Enums;assembly=Filtration.ObjectModel"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:views="clr-namespace:Filtration.Views"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=userControls:BlockItemControl}"
              d:DesignHeight="200" d:DesignWidth="190">
     <UserControl.Resources>
@@ -46,12 +46,12 @@
                             <RadioButton IsChecked="{Binding BooleanValue, Converter={StaticResource BoolInverterConverter}}">False</RadioButton>
                         </WrapPanel>
                     </DataTemplate>
-                    
+
                     <!-- NumericFilterPredicate Template -->
                     <DataTemplate DataType="{x:Type blockItemBaseTypes:NumericFilterPredicateBlockItem}">
                         <userControls:NumericFilterPredicateControl Margin="5,5,5,5" NumericFilterPredicate="{Binding FilterPredicate}" Minimum="{Binding Minimum, Mode=OneTime}" Maximum="{Binding Maximum, Mode=OneTime}" />
                     </DataTemplate>
-                    
+
                     <!-- Rarity Template -->
                     <DataTemplate DataType="{x:Type blockItemTypes:RarityBlockItem}">
                         <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
@@ -70,10 +70,15 @@
                     <DataTemplate DataType="{x:Type blockItemTypes:ClassBlockItem}">
                         <userControls:EditableListBoxControl Margin="5,5,5,5" ItemsSource="{Binding Items}" AutoCompleteItemsSource="{Binding ElementName=TopLevelGrid, Path=DataContext.AutoCompleteItemClasses}" />
                     </DataTemplate>
-                    
+
                     <!-- Base Type Template -->
                     <DataTemplate DataType="{x:Type blockItemTypes:BaseTypeBlockItem}">
                         <userControls:EditableListBoxControl Margin="5,5,5,5" ItemsSource="{Binding Items}" AutoCompleteItemsSource="{Binding ElementName=TopLevelGrid, Path=DataContext.AutoCompleteItemBaseTypes}" />
+                    </DataTemplate>
+
+                    <!-- Prophecy Template -->
+                    <DataTemplate DataType="{x:Type blockItemTypes:ProphecyBlockItem}">
+                        <userControls:EditableListBoxControl Margin="5,5,5,5" ItemsSource="{Binding Items}" AutoCompleteItemsSource="{Binding ElementName=TopLevelGrid, Path=DataContext.AutoCompleteProphecies}" />
                     </DataTemplate>
 
                     <!-- Explicit Mods Template -->
@@ -114,12 +119,12 @@
                         <StackPanel>
                             <xctk:ColorPicker  SelectedColor="{Binding Color}" AvailableColors="{Binding ElementName=BlockItemContentControl, Path=DataContext.AvailableColors }" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors"/>
                             <userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}"
-                                                                         
+
                                                                          Margin="0,2,0,2">
                                 <userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
                                     <MultiBinding Converter="{StaticResource AvailableThemeComponentsConverter}">
                                         <Binding Path="DataContext.Script.ThemeComponents" RelativeSource="{RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}"/>
-                                        <Binding Path="." />                                                                    
+                                        <Binding Path="." />
                                     </MultiBinding>
                                 </userControls:ThemeComponentSelectionControl.AvailableThemeComponents>
                             </userControls:ThemeComponentSelectionControl>
@@ -164,7 +169,7 @@
                             </userControls:ThemeComponentSelectionControl>
                         </WrapPanel>
                     </DataTemplate>
-                    
+
                     <!-- Positional Sound Template -->
                     <DataTemplate DataType="{x:Type blockItemTypes:PositionalSoundBlockItem}">
                         <WrapPanel HorizontalAlignment="Left">
@@ -225,7 +230,7 @@
                             <Button Grid.Column="0" Grid.Row="0" Command="{Binding Path=DataContext.PlayCustomSoundCommand, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterBlockView}}}" Width="20" Height="20" Background="Transparent" BorderBrush="Transparent">
                                 <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Button>
-                            <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Path=DataContext.CustomSoundsAvailable, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}}" 
+                            <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Path=DataContext.CustomSoundsAvailable, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterScriptView}}}"
                                       SelectedValue="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MetroComboBox}"/>
                             <Button Grid.Column="1" Grid.Row="0" Command="{Binding Path=DataContext.CustomSoundFileDialogCommand, RelativeSource={RelativeSource AncestorType={x:Type views:ItemFilterBlockView}}}"
                                     Width="20" Height="20" Background="Transparent" BorderBrush="Transparent" Margin="0,0,30,0" VerticalAlignment="Center" HorizontalAlignment="Right">

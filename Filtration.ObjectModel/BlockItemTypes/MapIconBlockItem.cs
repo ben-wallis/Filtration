@@ -19,6 +19,6 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string PrefixText => "MinimapIcon";
         public override int MaximumAllowed => 1;
         public override string DisplayHeading => "Minimap Icon";
-        public override int SortOrder => 29;
+        public override BlockItemOrdering SortOrder => BlockItemOrdering.MinimapIcon;
     }
 }

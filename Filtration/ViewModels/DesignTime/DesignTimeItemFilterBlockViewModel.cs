@@ -104,13 +104,14 @@ namespace Filtration.ViewModels.DesignTime
         {
             get { return Block.BlockItems.Where(b => !(b is IAudioVisualBlockItem)); }
         }
-        
+
         public IEnumerable<IItemFilterBlockItem> AudioVisualBlockItems { get; }
         public bool AdvancedBlockGroup { get; }
         public bool AudioVisualBlockItemsGridVisible { get; set; }
         public bool DisplaySettingsPopupOpen { get; set; }
         public IEnumerable<string> AutoCompleteItemClasses { get; }
         public IEnumerable<string> AutoCompleteItemBaseTypes { get; }
+        public IEnumerable<string> AutoCompleteProphecies { get; }
         public IEnumerable<string> AutocompleteItemMods { get; }
         public List<Type> BlockItemTypesAvailable => new List<Type>
                                                      {
@@ -125,6 +126,7 @@ namespace Filtration.ViewModels.DesignTime
                                                          typeof (SocketGroupBlockItem),
                                                          typeof (ClassBlockItem),
                                                          typeof (BaseTypeBlockItem),
+                                                         typeof (ProphecyBlockItem),
                                                          typeof (IdentifiedBlockItem),
                                                          typeof (CorruptedBlockItem),
                                                          typeof (ElderItemBlockItem),

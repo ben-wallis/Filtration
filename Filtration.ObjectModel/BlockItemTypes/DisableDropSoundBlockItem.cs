@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media;
 using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
@@ -17,7 +18,6 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string DisplayHeading => "Disable Drop Sound";
         public override Color SummaryBackgroundColor => Colors.Transparent;
         public override Color SummaryTextColor => Colors.Transparent;
-        public override int SortOrder => 28;
-
+        public override BlockItemOrdering SortOrder => BlockItemOrdering.DisableDropSound;
     }
 }

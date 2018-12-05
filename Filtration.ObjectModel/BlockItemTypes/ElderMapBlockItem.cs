@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media;
 using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
@@ -17,7 +18,6 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string DisplayHeading => "Elder Map";
         public override Color SummaryBackgroundColor => Colors.DarkGoldenrod;
         public override Color SummaryTextColor => Colors.White;
-        public override int SortOrder => 10;
-
+        public override BlockItemOrdering SortOrder => BlockItemOrdering.ElderMap;
     }
 }

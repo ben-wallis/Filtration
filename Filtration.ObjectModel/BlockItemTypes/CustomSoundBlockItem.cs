@@ -1,4 +1,5 @@
 ﻿using Filtration.ObjectModel.BlockItemBaseTypes;
+using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
@@ -16,6 +17,6 @@ namespace Filtration.ObjectModel.BlockItemTypes
         public override string PrefixText => "CustomAlertSound";
         public override int MaximumAllowed => 1;
         public override string DisplayHeading => "Custom Alert Sound";
-        public override int SortOrder => 31;
+        public override BlockItemOrdering SortOrder => BlockItemOrdering.CustomAlertSound;
     }
 }
