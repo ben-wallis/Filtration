@@ -4,8 +4,6 @@ namespace Filtration.ObjectModel.Enums
 {
     public enum ItemRarity
     {
-        [Description("Not Set")]
-        NotSet,
         [Description("Normal")]
         Normal,
         [Description("Magic")]

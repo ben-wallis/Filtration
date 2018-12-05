@@ -121,10 +121,8 @@ namespace Filtration.ObjectModel
                     return PathOfExileNamedColors.Colors[PathOfExileNamedColor.QuestItem];
                 }
 
-                return ItemRarity != ItemRarity.NotSet ? ItemRarity.DefaultRarityTextColor() : PathOfExileNamedColors.Colors[PathOfExileNamedColor.WhiteItem];
+                return ItemRarity.DefaultRarityTextColor();
             }
         }
-
-    
     }
 }

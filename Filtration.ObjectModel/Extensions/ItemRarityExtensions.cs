@@ -16,23 +16,20 @@ namespace Filtration.ObjectModel.Extensions
                 }
                 case ItemRarity.Normal:
                 {
-                        return PathOfExileNamedColors.Colors[PathOfExileNamedColor.WhiteItem];
-                    }
+                    return PathOfExileNamedColors.Colors[PathOfExileNamedColor.WhiteItem];
+                }
                 case ItemRarity.Rare:
                 {
-                        return PathOfExileNamedColors.Colors[PathOfExileNamedColor.RareItem];
-                    }
+                    return PathOfExileNamedColors.Colors[PathOfExileNamedColor.RareItem];
+                }
                 case ItemRarity.Unique:
                 {
-                        return PathOfExileNamedColors.Colors[PathOfExileNamedColor.UniqueItem];
-                    }
-                case ItemRarity.NotSet:
-                {
-                    return PathOfExileNamedColors.Colors[PathOfExileNamedColor.QuestItem];
+                    return PathOfExileNamedColors.Colors[PathOfExileNamedColor.UniqueItem];
                 }
-
                 default:
+                {
                     throw new ArgumentOutOfRangeException(nameof(itemRarity), itemRarity, null);
+                }
             }
         }
     }
