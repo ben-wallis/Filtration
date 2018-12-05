@@ -26,5 +26,6 @@
   </metadata>
   <files>
     <file src="*.*" target="lib\net45\" exclude="*.pdb;*.nupkg;*.vshost.*;*.xml"/>
+    <file src="Resources\AlertSounds\*.mp3" target="lib\net45\Resources\AlertSounds\" />
   </files>
 </package>
