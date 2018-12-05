@@ -4,18 +4,15 @@ using Filtration.ObjectModel.Enums;
 
 namespace Filtration.ObjectModel.BlockItemTypes
 {
-    public sealed class DisableDropSoundBlockItem : BooleanBlockItem, IAudioVisualBlockItem
+    public sealed class DisableDropSoundBlockItem : NilBlockItem, IAudioVisualBlockItem
     {
-        public DisableDropSoundBlockItem()
-        {
-        }
-
-        public DisableDropSoundBlockItem(bool booleanValue) : base(booleanValue)
+        public DisableDropSoundBlockItem() : base()
         {
         }
 
         public override string PrefixText => "DisableDropSound";
         public override string DisplayHeading => "Disable Drop Sound";
+        public override string Description => "Default drop sound disabled.";
         public override Color SummaryBackgroundColor => Colors.Transparent;
         public override Color SummaryTextColor => Colors.Transparent;
         public override BlockItemOrdering SortOrder => BlockItemOrdering.DisableDropSound;

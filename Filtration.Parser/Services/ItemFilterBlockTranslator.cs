@@ -327,7 +327,7 @@ namespace Filtration.Parser.Services
                         // Only ever use the last DisableDropSound item encountered as multiples aren't valid.
                         RemoveExistingBlockItemsOfType<DisableDropSoundBlockItem>(block);
 
-                        AddBooleanItemToBlockItems<DisableDropSoundBlockItem>(block, trimmedLine);
+                        AddNilItemToBlockItems<DisableDropSoundBlockItem>(block, trimmedLine);
                         break;
                     }
                     case "MinimapIcon":
@@ -510,6 +510,13 @@ namespace Filtration.Parser.Services
                 blockItem.BooleanValue = splitString[1].Trim().ToLowerInvariant() == "true";
                 block.BlockItems.Add(blockItem);
             }
+        }
+
+        private static void AddNilItemToBlockItems<T>(IItemFilterBlock block, string inputString) where T : NilBlockItem
+        {
+            var blockItem = Activator.CreateInstance<T>();
+            blockItem.Comment = GetTextAfterFirstComment(inputString);
+            block.BlockItems.Add(blockItem);
         }
 
         private static void AddNumericFilterPredicateItemToBlockItems<T>(IItemFilterBlock block, string inputString) where T : NumericFilterPredicateBlockItem

@@ -75,6 +75,7 @@
     <Compile Include="BlockItemBaseTypes\DualIntegerBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\EffectColorBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\IconBlockItem.cs" />
+    <Compile Include="BlockItemBaseTypes\NilBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\StringBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\StrIntBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\IntegerBlockItem.cs" />
