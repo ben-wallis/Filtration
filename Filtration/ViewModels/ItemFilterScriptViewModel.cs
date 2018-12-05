@@ -1294,23 +1294,24 @@ namespace Filtration.ViewModels
         {
             ValidateSelectedBlocks();
 
-            var modified = false;
+            var input = new List<Tuple<ObservableCollection<IItemFilterBlockItem>, IItemFilterBlockItem>>();
 
             foreach (var block in SelectedBlockViewModels.OfType<IItemFilterBlockViewModel>())
             {
-                var blockItems=  block.Block.BlockItems;
+                var blockItems = block.Block.BlockItems;
                 for (var i = 0; i < blockItems.Count; i++)
                 {
-                    if (blockItems[i] is DisableDropSoundBlockItem)
+                    var blockItem = blockItems[i];
+                    if (blockItem is DisableDropSoundBlockItem)
                     {
-                        blockItems.RemoveAt(i--);
-                        modified = true;
+                        input.Add(new Tuple<ObservableCollection<IItemFilterBlockItem>, IItemFilterBlockItem>(blockItems, blockItem));
                     }
                 }
             }
 
-            if (modified)
+            if (input.Count > 0)
             {
+                _scriptCommandManager.ExecuteCommand(new RemoveBlockItemFromBlocksCommand(input));
                 SetDirtyFlag();
             }
         }
@@ -1319,7 +1320,7 @@ namespace Filtration.ViewModels
         {
             ValidateSelectedBlocks();
 
-            var modified = false;
+            var input = new List<Tuple<ObservableCollection<IItemFilterBlockItem>, IItemFilterBlockItem>>();
 
             foreach (var block in SelectedBlockViewModels.OfType<IItemFilterBlockViewModel>())
             {
@@ -1335,12 +1336,13 @@ namespace Filtration.ViewModels
 
                 if (!found) {
                     var item = new DisableDropSoundBlockItem(true);
-                    blockItems.Add(item);
-                    modified = true;
+                    input.Add(new Tuple<ObservableCollection<IItemFilterBlockItem>, IItemFilterBlockItem>(blockItems, item));
                 }
             }
 
-            if (modified) {
+            if (input.Count > 0)
+            {
+                _scriptCommandManager.ExecuteCommand(new AddBlockItemToBlocksCommand(input));
                 SetDirtyFlag();
             }
         }
