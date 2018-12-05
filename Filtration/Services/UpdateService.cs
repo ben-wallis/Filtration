@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Filtration.Enums;
@@ -116,6 +118,17 @@ namespace Filtration.Services
 #if DEBUG
                 _downloadPrereleaseUpdates = true;
 #endif
+
+                var expectedInstallationPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Filtration");
+                var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+                var runningInstalled = baseDirectory.StartsWith(expectedInstallationPath);
+
+                if (!runningInstalled)
+                {
+                    Logger.Debug($"Skipping update check since base directory of {baseDirectory} does not start with the expected installation path of {expectedInstallationPath}");
+                    return;
+                }
 
                 async Task CheckForUpdatesAsync(IUpdateManager updateManager)
                 {

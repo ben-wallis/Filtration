@@ -158,7 +158,7 @@
                                         Visibility="{Binding HasPositionalSound, Converter={StaticResource BooleanVisibilityConverter}}"
                                         Background="Transparent"
                                         BorderBrush="Transparent"
-                                        ToolTip="Click to preview drop sound">
+                                        ToolTip="Click to preview positional drop sound">
                                     <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Button>
                                 <Button Command="{Binding PlayCustomSoundCommand}"
@@ -170,7 +170,7 @@
                                         Visibility="{Binding HasCustomSound, Converter={StaticResource BooleanVisibilityConverter}}"
                                         Background="Transparent"
                                         BorderBrush="Transparent"
-                                        ToolTip="Click to preview drop sound">
+                                        ToolTip="Click to preview custom drop sound">
                                     <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Button>
                                 <Line Y1="5" Y2="38" StrokeThickness="2" Panel.ZIndex="999"
