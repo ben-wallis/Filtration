@@ -2,7 +2,7 @@
         x:ClassModifier="internal"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:fluent="clr-namespace:Fluent;assembly=Fluent"
         xmlns:viewModels="clr-namespace:Filtration.ViewModels"
@@ -64,12 +64,12 @@
                                                  Background="ForestGreen"
                                                  BorderBrush="ForestGreen"
                                                  x:Name="ScriptToolsGroup"
-                                                 IsVisibleChanged="ScriptToolsGroup_OnIsVisibleChanged"  
+                                                 IsVisibleChanged="ScriptToolsGroup_OnIsVisibleChanged"
                                                  Visibility="{Binding ActiveDocumentIsScript, Converter={StaticResource BooleanVisibilityConverter}, Mode=OneWay}" />
                 <fluent:RibbonContextualTabGroup Header="Theme"
                                                  Background="DodgerBlue"
                                                  BorderBrush="DodgerBlue"
-                                                 x:Name="ThemeToolsGroup" 
+                                                 x:Name="ThemeToolsGroup"
                                                  IsVisibleChanged="ThemeToolsGroup_OnIsVisibleChanged"
                                                  Visibility="{Binding ActiveDocumentIsTheme, Converter={StaticResource BooleanVisibilityConverter}, Mode=OneWay}" />
             </fluent:Ribbon.ContextualGroups>
@@ -125,6 +125,10 @@
                     <fluent:Button Header="Create Theme" Command="{Binding CreateThemeCommand}" Icon="{StaticResource ThemeIcon}" LargeIcon="{StaticResource ThemeIcon}" />
                     <fluent:Button Header="Replace Colours" Command="{Binding ReplaceColorsCommand}" Icon="{StaticResource ReplaceColorsIcon}" LargeIcon="{StaticResource ReplaceColorsIcon}" />
                 </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Header="Helpers">
+                    <fluent:Button Header="Enable Drop Sounds" Command="{Binding EnableDropSoundsCommand}" SizeDefinition="Middle" Icon="{StaticResource EnableDropSoundsIcon}" LargeIcon="{StaticResource EnableDropSoundsIcon}" />
+                    <fluent:Button Header="Disable Drop Sounds" Command="{Binding DisableDropSoundsCommand}" SizeDefinition="Middle" Icon="{StaticResource DisableDropSoundsIcon}" LargeIcon="{StaticResource DisableDropSoundsIcon}" />
+                </fluent:RibbonGroupBox>
             </fluent:RibbonTabItem>
             <fluent:RibbonTabItem x:Name="ThemeToolsTabItem" Header="Theme Tools" Group="{Binding ElementName=ThemeToolsGroup}" Visibility="{Binding ActiveDocumentIsTheme, Converter={StaticResource BooleanVisibilityConverter}, Mode=OneWay}">
                 <fluent:RibbonGroupBox Header="Add Components">
@@ -172,5 +176,4 @@
         </Grid>
     </DockPanel>
 </fluent:RibbonWindow>
- 
- 
+
