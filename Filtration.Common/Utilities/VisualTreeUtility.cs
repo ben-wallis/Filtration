@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace Filtration.Utility
+namespace Filtration.Common.Utilities
 {
     public class VisualTreeUtility
     {

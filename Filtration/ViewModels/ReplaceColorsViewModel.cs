@@ -1,12 +1,9 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Media;
 using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemTypes;
-using Filtration.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using Xceed.Wpf.Toolkit;
 
 namespace Filtration.ViewModels
 {
@@ -61,8 +58,6 @@ namespace Filtration.ViewModels
 
             _itemFilterScript = itemFilterScript;
         }
-
-        public ObservableCollection<ColorItem> AvailableColors => PathOfExileColors.DefaultColors;
 
         public Color NewTextColor
         {

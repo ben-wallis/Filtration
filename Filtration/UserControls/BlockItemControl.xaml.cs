@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -8,9 +7,7 @@ using Filtration.ObjectModel;
 using Filtration.ObjectModel.BlockItemBaseTypes;
 using Filtration.ObjectModel.Enums;
 using Filtration.ObjectModel.ThemeEditor;
-using Filtration.Views;
 using GalaSoft.MvvmLight.CommandWpf;
-using Xceed.Wpf.Toolkit;
 
 namespace Filtration.UserControls
 {
@@ -80,9 +77,6 @@ namespace Filtration.UserControls
                 SetValue(RemoveEnabledProperty, value);
             }
         }
-
-
-        public ObservableCollection<ColorItem> AvailableColors => PathOfExileColors.DefaultColors;
 
         public List<string> SoundsAvailable => new List<string> {
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",

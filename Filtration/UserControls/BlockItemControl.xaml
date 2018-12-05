@@ -11,6 +11,7 @@
              xmlns:enums="clr-namespace:Filtration.ObjectModel.Enums;assembly=Filtration.ObjectModel"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:views="clr-namespace:Filtration.Views"
+             xmlns:utilities="clr-namespace:Filtration.Common.Utilities;assembly=Filtration.Common"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=userControls:BlockItemControl}"
              d:DesignHeight="200" d:DesignWidth="190">
@@ -117,7 +118,7 @@
                     <!-- Color Template -->
                     <DataTemplate DataType="{x:Type blockItemBaseTypes:ColorBlockItem}">
                         <StackPanel>
-                            <xctk:ColorPicker  SelectedColor="{Binding Color}" AvailableColors="{Binding ElementName=BlockItemContentControl, Path=DataContext.AvailableColors }" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors"/>
+                            <xctk:ColorPicker SelectedColor="{Binding Color}" AvailableColors="{x:Static utilities:PathOfExileColors.DefaultColors}" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors"/>
                             <userControls:ThemeComponentSelectionControl ThemeComponent="{Binding ThemeComponent}"
 
                                                                          Margin="0,2,0,2">

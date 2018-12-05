@@ -9,6 +9,7 @@
              xmlns:views="clr-namespace:Filtration.ThemeEditor.Views"
              xmlns:extensions="clr-namespace:Filtration.Common.Extensions;assembly=Filtration.Common"
              xmlns:enums="clr-namespace:Filtration.ObjectModel.Enums;assembly=Filtration.ObjectModel"
+             xmlns:utilities="clr-namespace:Filtration.Common.Utilities;assembly=Filtration.Common"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=themeEditor:ThemeComponent}"
              d:DesignHeight="100" d:DesignWidth="200">
@@ -63,8 +64,8 @@
         <ContentControl Grid.Row="2" Content="{Binding Mode=OneWay}">
             <ContentControl.Resources>
                 <!-- Color Theme Template -->
-                <DataTemplate  DataType="{x:Type themeEditor:ColorThemeComponent}">
-                    <xctk:ColorPicker SelectedColor="{Binding Color}" />
+                <DataTemplate DataType="{x:Type themeEditor:ColorThemeComponent}">
+                    <xctk:ColorPicker SelectedColor="{Binding Color}" AvailableColors="{x:Static utilities:PathOfExileColors.DefaultColors}" ShowAvailableColors="True" AvailableColorsHeader="Path of Exile Colors" MouseDown="ColorPicker_OnMouseDown" />
                 </DataTemplate>
 
                 <!-- Integer Theme Template -->

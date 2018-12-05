@@ -2,9 +2,9 @@
 using System.Windows.Media;
 using Xceed.Wpf.Toolkit;
 
-namespace Filtration.Views
+namespace Filtration.Common.Utilities
 {
-    internal static class PathOfExileColors
+    public static class PathOfExileColors
     {
         static PathOfExileColors()
         {

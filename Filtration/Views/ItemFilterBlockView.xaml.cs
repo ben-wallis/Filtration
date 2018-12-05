@@ -2,8 +2,8 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Filtration.Common.Utilities;
 using Filtration.UserControls;
-using Filtration.Utility;
 
 namespace Filtration.Views
 {

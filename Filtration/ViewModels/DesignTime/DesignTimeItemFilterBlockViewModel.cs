@@ -139,7 +139,6 @@ namespace Filtration.ViewModels.DesignTime
                                                          typeof (HasExplicitModBlockItem)
                                                      };
         public List<Type> AudioVisualBlockItemTypesAvailable { get; }
-        public ObservableCollection<ColorItem> AvailableColors { get; }
         public Color DisplayTextColor => Colors.Red;
         public Color DisplayBackgroundColor => Colors.White;
         public Color DisplayBorderColor => Colors.GreenYellow;

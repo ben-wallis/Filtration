@@ -54,7 +54,6 @@ namespace Filtration.ViewModels
         IEnumerable<string> AutocompleteItemMods { get; }
         List<Type> BlockItemTypesAvailable { get; }
         List<Type> AudioVisualBlockItemTypesAvailable { get; }
-        ObservableCollection<ColorItem> AvailableColors { get; }
         Color DisplayTextColor { get; }
         Color DisplayBackgroundColor { get; }
         Color DisplayBorderColor { get; }
@@ -275,8 +274,6 @@ namespace Filtration.ViewModels
                 }
             }
         }
-
-        public ObservableCollection<ColorItem> AvailableColors => PathOfExileColors.DefaultColors;
 
         public Color DisplayTextColor => Block.DisplayTextColor;
         public Color DisplayBackgroundColor => Block.DisplayBackgroundColor;
