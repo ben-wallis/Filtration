@@ -578,6 +578,9 @@ namespace Filtration.ViewModels
 
         public bool CanModifyBlock(IItemFilterBlockViewModelBase itemFilterBlock)
         {
+            if (itemFilterBlock == null)
+                return false;
+
             if (itemFilterBlock is IItemFilterBlockViewModel)
                 return true;
 
