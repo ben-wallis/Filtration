@@ -9,7 +9,8 @@
     <description>A Path of Exile loot filter script editor</description>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <copyright>Copyright 2018</copyright>
-    <releaseNotes>* All open filter scripts are now remembered on exit and reopened when the application is started rather than just the last opened one (#95)
+    <releaseNotes>* Added support for new Prophecies block item type
+* All open filter scripts are now remembered on exit and reopened when the application is started rather than just the last opened one (#95)
 * Filter sections are once again now expanded by default when scripts are opened, unless the new "Auto-expand all sections when opening scripts" setting is disabled
 * A new Clear Styles button has been added which removes all styles from the selected block (#96)
 * The Enable/Disable Block toggle button is now visible on both the Regular Block Items and Appearance Block Items views
