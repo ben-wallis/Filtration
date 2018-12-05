@@ -349,12 +349,6 @@ namespace Filtration.Parser.Services
                                 Shape = EnumHelper.GetEnumValueFromDescription<IconShape>(match.Groups[3].Value)
                             };
 
-                            var themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.Icon, match.Groups[5].Value.Trim(),
-                                blockItemValue.Size, blockItemValue.Color, blockItemValue.Shape);
-                            if(match.Groups[4].Value == "#" && !string.IsNullOrWhiteSpace(match.Groups[5].Value))
-                            {
-                                blockItemValue.ThemeComponent = themeComponent;
-                            }
                             block.BlockItems.Add(blockItemValue);
                             themeComponentType = (int)ThemeComponentType.Icon;
                         }

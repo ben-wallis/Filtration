@@ -17,6 +17,7 @@
 * New buttons for adding/removing DisableDropSound from selected blocks have been added (#110)
 * The Enable/Disable Block toggle button is now visible on both the Regular Block Items and Appearance Block Items views
 * When there are too many block items to fit horizontally in a block a horizontal scrollbar will now appear
+* Fixed an issue with MinimapIcon block items causing an "Unused Theme Components" message box to erroneously be shown when saving (#116)
 * Fixed the Advanced tab in the Color Picker in the Theme Editor not being clickable (#115)
 * Fixed the previously incorrect handling of DisableDropSound as a true/false value when in fact it is enabled/disabled purely by its presence or lack thereof in a block (#111)
 * Fixed the application freezing for a long period of time when Ctrl+A (Select All) is performed
