@@ -8,27 +8,6 @@
     <Setting Name="ExtraLineBetweenBlocks" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="SuppressUpdatesUpToVersionMajorPart" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="SuppressUpdates" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="SuppressUpdatesUpToVersionMinorPart" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="StaticDataLastUpdated" Type="System.DateTime" Scope="User">
-      <Value Profile="(Default)">2016-01-01</Value>
-    </Setting>
-    <Setting Name="ItemBaseTypesStaticDataUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://ben-wallis.github.io/Filtration/ItemBaseTypes.txt</Value>
-    </Setting>
-    <Setting Name="ItemClassesStaticDataUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://ben-wallis.github.io/Filtration/ItemClasses.txt</Value>
-    </Setting>
-    <Setting Name="UpdateDataUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://ben-wallis.github.io/Filtration/filtration_version.xml</Value>
-    </Setting>
     <Setting Name="DownloadPrereleaseUpdates" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>

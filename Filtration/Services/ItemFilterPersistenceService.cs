@@ -25,6 +25,8 @@ namespace Filtration.Services
         {
             _fileSystemService = fileSystemService;
             _itemFilterScriptTranslator = itemFilterScriptTranslator;
+
+           ItemFilterScriptDirectory = Settings.Default.DefaultFilterDirectory;
         }
 
         public string ItemFilterScriptDirectory { get; private set; }
@@ -47,6 +49,7 @@ namespace Filtration.Services
 
             ItemFilterScriptDirectory = path;
             Settings.Default.DefaultFilterDirectory = path;
+            Settings.Default.Save();
         }
 
         public async Task<IItemFilterScript> LoadItemFilterScriptAsync(string filePath)
@@ -62,7 +65,7 @@ namespace Filtration.Services
             {
                 loadedScript.FilePath = filePath;
             }
-        
+
             return loadedScript;
         }
 
