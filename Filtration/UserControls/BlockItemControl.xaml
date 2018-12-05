@@ -246,6 +246,13 @@
                             </userControls:ThemeComponentSelectionControl>
                         </Grid>
                     </DataTemplate>
+
+                    <!-- Disable Drop Sound Template -->
+                    <DataTemplate DataType="{x:Type blockItemBaseTypes:NilBlockItem}">
+                        <Grid>
+                            <TextBlock Text="{Binding Description}" VerticalAlignment="Center" />
+                        </Grid>
+                    </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>
         </Grid>

@@ -1335,7 +1335,7 @@ namespace Filtration.ViewModels
                 }
 
                 if (!found) {
-                    var item = new DisableDropSoundBlockItem(true);
+                    var item = new DisableDropSoundBlockItem();
                     input.Add(new Tuple<ObservableCollection<IItemFilterBlockItem>, IItemFilterBlockItem>(blockItems, item));
                 }
             }
