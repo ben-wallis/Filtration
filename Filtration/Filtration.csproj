@@ -462,6 +462,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Resources\Prophecies.txt" />
     <EmbeddedResource Include="Resources\ItemMods.txt" />
     <Resource Include="Resources\loading_spinner.gif" />
     <EmbeddedResource Include="Properties\Resources.resx">

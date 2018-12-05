@@ -204,7 +204,7 @@ namespace Filtration.ViewModels
 
         public IEnumerable<string> AutoCompleteItemBaseTypes => _staticDataService.ItemBaseTypes;
 
-        public IEnumerable<string> AutoCompleteProphecies => new List<string>();
+        public IEnumerable<string> AutoCompleteProphecies => _staticDataService.Prophecies;
 
         public IEnumerable<string> AutocompleteItemMods => _staticDataService.ItemMods;
 
