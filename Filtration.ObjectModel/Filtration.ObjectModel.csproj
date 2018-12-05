@@ -92,6 +92,7 @@
     <Compile Include="BlockItemTypes\GemLevelBlockItem.cs" />
     <Compile Include="BlockItemTypes\HasExplicitModBlockItem.cs" />
     <Compile Include="BlockItemTypes\MapIconBlockItem.cs" />
+    <Compile Include="BlockItemTypes\ProphecyBlockItem.cs" />
     <Compile Include="BlockItemTypes\ShapedMapBlockItem.cs" />
     <Compile Include="BlockItemTypes\ShaperItemBlockItem.cs" />
     <Compile Include="BlockItemTypes\ElderItemBlockItem.cs" />

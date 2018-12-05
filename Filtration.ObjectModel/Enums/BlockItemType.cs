@@ -8,6 +8,7 @@
         Rarity,
         Class,
         BaseType,
+        Prophecy,
         Sockets,
         LinkedSockets,
         SocketGroup,

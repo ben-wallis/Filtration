@@ -25,6 +25,7 @@ namespace Filtration.ObjectModel.Enums
         Rarity,
         Class,
         BaseType,
+        Prophecy,
         HasExplicitMod,
         SetTextColor,
         SetBackgroundColor,
