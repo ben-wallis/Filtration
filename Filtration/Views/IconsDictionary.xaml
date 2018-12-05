@@ -35,4 +35,6 @@
     <Image Source="/Filtration;component/Resources/Icons/ThemeComponentDelete.ico" x:Key="ThemeComponentDeleteIcon" x:Shared="False" />
     <Image Source="/Filtration;component/Resources/Icons/standby_enabled_icon.png" x:Key="StandbyEnabledIcon" x:Shared="False" />
     <Image Source="/Filtration;component/Resources/Icons/standby_disabled_icon.png" x:Key="StandbyDisabledIcon" x:Shared="False" />
+    <Image Source="/Filtration;component/Resources/Icons/standby_enabled_icon.png" x:Key="EnableDropSoundsIcon" x:Shared="False" />
+    <Image Source="/Filtration;component/Resources/Icons/standby_disabled_icon.png" x:Key="DisableDropSoundsIcon" x:Shared="False" />
 </ResourceDictionary>

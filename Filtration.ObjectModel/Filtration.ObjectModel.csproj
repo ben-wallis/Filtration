@@ -114,11 +114,13 @@
     <Compile Include="BlockItemTypes\WidthBlockItem.cs" />
     <Compile Include="Commands\CommandManager.cs" />
     <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\ItemFilterScript\AddBlockItemToBlocksCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\MoveBlocksToIndexCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\MoveBlocksToBottomCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\AddCommentBlockCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\MoveBlocksToTopCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\PasteBlocksCommand.cs" />
+    <Compile Include="Commands\ItemFilterScript\RemoveBlockItemFromBlocksCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\RemoveBlocksCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\SetScriptDescriptionCommand.cs" />
     <Compile Include="Commands\ItemFilterScript\AddBlockCommand.cs" />

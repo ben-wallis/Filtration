@@ -129,6 +129,9 @@ namespace Filtration.ViewModels
             ApplyThemeToScriptCommand = new RelayCommand(async () => await OnApplyThemeToScriptCommandAsync(), () => ActiveDocumentIsScript);
             EditMasterThemeCommand = new RelayCommand(OnEditMasterThemeCommand, () => ActiveDocumentIsScript);
 
+            EnableDropSoundsCommand = new RelayCommand(OnEnableDropSoundsCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock && ActiveScriptCanModifySelectedBlocks);
+            DisableDropSoundsCommand = new RelayCommand(OnDisableDropSoundsCommand, () => ActiveDocumentIsScript && ActiveScriptHasSelectedBlock && ActiveScriptCanModifySelectedBlocks);
+
             AddTextColorThemeComponentCommand = new RelayCommand(OnAddTextColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             AddBackgroundColorThemeComponentCommand = new RelayCommand(OnAddBackgroundColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
             AddBorderColorThemeComponentCommand = new RelayCommand(OnAddBorderColorThemeComponentCommand, () => ActiveDocumentIsTheme && ActiveThemeIsEditable);
@@ -229,6 +232,9 @@ namespace Filtration.ViewModels
         public RelayCommand EditMasterThemeCommand { get; }
         public RelayCommand CreateThemeCommand { get; }
         public RelayCommand ApplyThemeToScriptCommand { get; }
+
+        public RelayCommand EnableDropSoundsCommand { get; }
+        public RelayCommand DisableDropSoundsCommand { get; }
 
         public RelayCommand AddTextColorThemeComponentCommand { get; }
         public RelayCommand AddBackgroundColorThemeComponentCommand { get; }
@@ -402,7 +408,7 @@ namespace Filtration.ViewModels
                 OpenTheme(themeViewModel);
             }
         }
-        
+
         private void OpenTheme(IThemeEditorViewModel themeEditorViewModel)
         {
             if (AvalonDockWorkspaceViewModel.OpenDocuments.Contains(themeEditorViewModel))
@@ -724,11 +730,37 @@ namespace Filtration.ViewModels
                 _avalonDockWorkspaceViewModel.ActiveThemeViewModel.SelectedThemeComponent);
         }
 
+        private void OnEnableDropSoundsCommand()
+        {
+            var result = _messageBoxService.Show("Confirm",
+                "Are you sure you wish to enable drop sounds on all selected blocks?",
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.EnableDropSoundsCommand.Execute(null);
+        }
+
+        private void OnDisableDropSoundsCommand()
+        {
+            var result = _messageBoxService.Show("Confirm",
+                "Are you sure you wish to disable drop sounds on all selected blocks?",
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+
+            _avalonDockWorkspaceViewModel.ActiveScriptViewModel.DisableDropSoundsCommand.Execute(null);
+        }
+
         public async Task<bool> CloseAllDocumentsAsync()
         {
             Settings.Default.LastOpenScripts = string.Join("|", _avalonDockWorkspaceViewModel.OpenDocuments.OfType<IItemFilterScriptViewModel>().Select(sc => sc.Script.FilePath));
             var openDocuments = _avalonDockWorkspaceViewModel.OpenDocuments.OfType<IEditableDocument>().ToList();
-            
+
             foreach (var document in openDocuments)
             {
                 if (!_avalonDockWorkspaceViewModel.OpenDocuments.Contains(document))

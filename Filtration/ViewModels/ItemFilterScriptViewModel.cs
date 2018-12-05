@@ -77,6 +77,8 @@ namespace Filtration.ViewModels
         RelayCommand<bool> ToggleShowAdvancedCommand { get; }
         RelayCommand ClearFilterCommand { get; }
         RelayCommand ClearStylesCommand { get; }
+        RelayCommand EnableDropSoundsCommand { get; }
+        RelayCommand DisableDropSoundsCommand { get; }
 
         void AddCommentBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase);
         void AddBlock(IItemFilterBlockViewModelBase targetBlockViewModelBase);
@@ -180,6 +182,8 @@ namespace Filtration.ViewModels
             CollapseAllBlocksCommand = new RelayCommand(OnCollapseAllBlocksCommand);
             ExpandAllSectionsCommand = new RelayCommand(ExpandAllSections);
             CollapseAllSectionsCommand = new RelayCommand(CollapseAllSections);
+            EnableDropSoundsCommand = new RelayCommand(OnEnableDropSoundsCommand, CanModifySelectedBlocks);
+            DisableDropSoundsCommand = new RelayCommand(OnDisableDropSoundsCommand, CanModifySelectedBlocks);
 
             var icon = new BitmapImage();
             icon.BeginInit();
@@ -421,6 +425,8 @@ namespace Filtration.ViewModels
         public RelayCommand CollapseAllBlocksCommand { get; }
         public RelayCommand ExpandAllSectionsCommand { get; }
         public RelayCommand CollapseAllSectionsCommand { get; }
+        public RelayCommand EnableDropSoundsCommand { get; }
+        public RelayCommand DisableDropSoundsCommand { get; }
 
         public bool IsActiveDocument
         {
@@ -1282,6 +1288,63 @@ namespace Filtration.ViewModels
             }
 
             SetDirtyFlag();
+        }
+
+        public void OnEnableDropSoundsCommand()
+        {
+            ValidateSelectedBlocks();
+
+            var input = new List<Tuple<ObservableCollection<IItemFilterBlockItem>, IItemFilterBlockItem>>();
+
+            foreach (var block in SelectedBlockViewModels.OfType<IItemFilterBlockViewModel>())
+            {
+                var blockItems = block.Block.BlockItems;
+                for (var i = 0; i < blockItems.Count; i++)
+                {
+                    var blockItem = blockItems[i];
+                    if (blockItem is DisableDropSoundBlockItem)
+                    {
+                        input.Add(new Tuple<ObservableCollection<IItemFilterBlockItem>, IItemFilterBlockItem>(blockItems, blockItem));
+                    }
+                }
+            }
+
+            if (input.Count > 0)
+            {
+                _scriptCommandManager.ExecuteCommand(new RemoveBlockItemFromBlocksCommand(input));
+                SetDirtyFlag();
+            }
+        }
+
+        public void OnDisableDropSoundsCommand()
+        {
+            ValidateSelectedBlocks();
+
+            var input = new List<Tuple<ObservableCollection<IItemFilterBlockItem>, IItemFilterBlockItem>>();
+
+            foreach (var block in SelectedBlockViewModels.OfType<IItemFilterBlockViewModel>())
+            {
+                var blockItems = block.Block.BlockItems;
+                var found = false;
+                foreach (var item in blockItems)
+                {
+                    if (item is DisableDropSoundBlockItem)
+                    {
+                        found = true;
+                    }
+                }
+
+                if (!found) {
+                    var item = new DisableDropSoundBlockItem(true);
+                    input.Add(new Tuple<ObservableCollection<IItemFilterBlockItem>, IItemFilterBlockItem>(blockItems, item));
+                }
+            }
+
+            if (input.Count > 0)
+            {
+                _scriptCommandManager.ExecuteCommand(new AddBlockItemToBlocksCommand(input));
+                SetDirtyFlag();
+            }
         }
 
         private void OnBlockBecameDirty(object sender, EventArgs e)
