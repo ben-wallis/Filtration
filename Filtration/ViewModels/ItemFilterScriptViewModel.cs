@@ -393,7 +393,7 @@ namespace Filtration.ViewModels
         {
             for (var i = 0; i < SelectedBlockViewModels.Count; i++)
             {
-                if (!ViewItemFilterBlockViewModels.Contains(SelectedBlockViewModels[i]))
+                if (SelectedBlockViewModels[i] == null || !ViewItemFilterBlockViewModels.Contains(SelectedBlockViewModels[i]))
                 {
                     SelectedBlockViewModels.RemoveAt(i--);
                 }
@@ -562,6 +562,8 @@ namespace Filtration.ViewModels
 
         public bool CanModifySelectedBlocks()
         {
+            ValidateSelectedBlocks();
+
             if (SelectedBlockViewModels.Count < 1)
                 return false;
 

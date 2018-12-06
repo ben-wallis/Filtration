@@ -2,6 +2,7 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Filtration.Services;
+using Filtration.Utility;
 
 namespace Filtration.WindsorInstallers
 {
@@ -57,6 +58,11 @@ namespace Filtration.WindsorInstallers
             container.Register(
                 Component.For<IDialogService>()
                     .ImplementedBy<DialogService>()
+                    .LifeStyle.Singleton);
+
+            container.Register(
+                Component.For<ISplatNLogAdapter>()
+                    .ImplementedBy<SplatNLogAdapter>()
                     .LifeStyle.Singleton);
         }
     }

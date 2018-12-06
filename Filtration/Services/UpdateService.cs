@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Filtration.Enums;
 using Filtration.Properties;
+using Filtration.Utility;
 using NLog;
 using Squirrel;
 
@@ -78,11 +79,14 @@ namespace Filtration.Services
         private bool _downloadPrereleaseUpdates;
         private UpdateStatus _updateStatus;
 
-        public UpdateService(ISettingsService settingsService)
+        public UpdateService(ISettingsService settingsService,
+                             ISplatNLogAdapter splatNLogAdapter)
         {
             _settingsService = settingsService;
 
             UpdateStatus = UpdateStatus.NoUpdateAvailable;
+
+            Splat.Locator.CurrentMutable.Register(() => splatNLogAdapter, typeof(Splat.ILogger));
         }
 
         public event EventHandler<UpdateStatusChangedEventArgs> UpdateStatusChanged;
