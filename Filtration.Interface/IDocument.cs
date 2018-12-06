@@ -8,7 +8,7 @@ namespace Filtration.Interface
     {
         bool IsScript { get; }
         bool IsTheme { get; }
-        Task Close();
+        Task<bool> Close();
         RelayCommand CloseCommand { get; }
     }
 }

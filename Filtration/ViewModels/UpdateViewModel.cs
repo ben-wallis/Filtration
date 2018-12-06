@@ -65,9 +65,10 @@ namespace Filtration.ViewModels
 
         public bool IsInErrorState => UpdateStatus == UpdateStatus.Error;
 
-        public async Task Close()
+        public async Task<bool> Close()
         {
             await Task.FromResult(true);
+            return true;
         }
 
         public RelayCommand CloseCommand { get; }

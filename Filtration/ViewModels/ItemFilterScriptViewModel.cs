@@ -799,34 +799,37 @@ namespace Filtration.ViewModels
             await Close();
         }
 
-        public async Task Close()
+        public async Task<bool> Close()
         {
             if (!IsDirty)
             {
                 CloseScript();
+                return true;
             }
-            else
-            {
-                var result = _messageBoxService.Show("Filtration",
-                    "Save script \"" + Filename + "\"?", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
-                switch (result)
+            var result = _messageBoxService.Show("Filtration",
+                                                 "Save script \"" + Filename + "\"?", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
                 {
-                    case MessageBoxResult.Yes:
-                        {
-                            await SaveAsync();
-                            CloseScript();
-                            break;
-                        }
-                    case MessageBoxResult.No:
-                        {
-                            CloseScript();
-                            break;
-                        }
-                    case MessageBoxResult.Cancel:
-                        {
-                            return;
-                        }
+                    await SaveAsync();
+                    CloseScript();
+                    return true;
+                }
+                case MessageBoxResult.No:
+                {
+                    CloseScript();
+                    return true;
+                }
+                case MessageBoxResult.Cancel:
+                {
+                    return false;
+                }
+                default:
+                {
+                    return false;
                 }
             }
         }

@@ -25,7 +25,7 @@ namespace Filtration.ViewModels
         public bool IsScript => false;
         public bool IsTheme => false;
 
-        public Task Close()
+        public Task<bool> Close()
         {
             throw new System.NotImplementedException();
         }

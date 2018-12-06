@@ -44,7 +44,6 @@ namespace Filtration.Views
             if (!allDocumentsClosed)
             {
                 e.Cancel = true;
-
             }
         }
 

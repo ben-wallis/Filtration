@@ -768,7 +768,10 @@ namespace Filtration.ViewModels
                     continue;
                 }
 
-                await document.Close();
+                if (!await document.Close())
+                {
+                    return false;
+                }
             }
 
             return true;

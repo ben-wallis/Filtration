@@ -186,10 +186,11 @@ namespace Filtration.ThemeEditor.ViewModels
         }
 
 #pragma warning disable 1998
-        public async Task Close()
+        public async Task<bool> Close()
 #pragma warning restore 1998
         {
            Messenger.Default.Send(new ThemeClosedMessage {ClosedViewModel = this});
+            return true;
         }
         
         private void OnAddThemeComponentCommand(ThemeComponentType themeComponentType)

@@ -39,7 +39,7 @@ namespace Filtration.ViewModels.DesignTime
 
         public bool IsScript { get; }
         public bool IsTheme { get; }
-        public Task Close()
+        public Task<bool> Close()
         {
             throw new System.NotImplementedException();
         }
