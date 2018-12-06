@@ -462,6 +462,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Resources\Icons\no_sound_dds_light.png" />
+    <Resource Include="Resources\Icons\no_sound_dds.png" />
     <Resource Include="Resources\Icons\speaker_icon.png" />
     <Resource Include="Resources\Icons\sound_dds.png" />
     <EmbeddedResource Include="Resources\Prophecies.txt" />

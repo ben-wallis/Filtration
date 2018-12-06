@@ -139,6 +139,33 @@
                                         </MultiBinding>
                                     </Image.Source>
                                 </Image>
+                                <Image Height="28" Width="28" Margin="0,0,5,0" Source="../Resources/Icons/no_sound_dds_light.png">
+                                    <Image.ToolTip>
+                                        <TextBlock>
+                                            The default drop sound is disabled for this block.
+                                            <LineBreak /> 
+                                            Drops matched by this block emit no sound whatsoever
+                                        </TextBlock>
+                                    </Image.ToolTip>
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding HasCustomSound}" Value="False" />
+                                                        <Condition Binding="{Binding HasSound}" Value="False" />
+                                                        <Condition Binding="{Binding HasPositionalSound}" Value="False" />
+                                                        <Condition Binding="{Binding HasDisabledDefaultSound}" Value="True" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </MultiDataTrigger.Setters>
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
                                 <Button Command="{Binding PlaySoundCommand}"
                                         Width="32"
                                         Height="32"
