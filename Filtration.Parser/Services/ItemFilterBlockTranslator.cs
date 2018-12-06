@@ -567,7 +567,7 @@ namespace Filtration.Parser.Services
                 var trimmedLine = line.Trim();
                 if (trimmedLine.IndexOf('#') > 0)
                 {
-                    blockComment = trimmedLine.Substring(trimmedLine.IndexOf('#') + 1);
+                    blockComment = trimmedLine.Substring(trimmedLine.IndexOf('#') + 1).Trim();
                     trimmedLine = trimmedLine.Substring(0, trimmedLine.IndexOf('#')).Trim();
                 }
 
