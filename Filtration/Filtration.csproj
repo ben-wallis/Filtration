@@ -210,6 +210,7 @@
     <Compile Include="Converters\BooleanToBlockActionInverseConverter.cs" />
     <Compile Include="Converters\BooleanToBlockActionConverter.cs" />
     <Compile Include="Converters\BlockItemToRemoveEnabledVisibilityConverter.cs" />
+    <Compile Include="Converters\DisabledDefaultSoundConverter.cs" />
     <Compile Include="Converters\MinimapIconToCroppedBitmapConverter.cs" />
     <Compile Include="Converters\HashSignRemovalConverter.cs" />
     <Compile Include="Converters\ItemRarityConverter.cs" />
@@ -460,6 +461,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Resources\Icons\sound_dds.png" />
     <EmbeddedResource Include="Resources\Prophecies.txt" />
     <EmbeddedResource Include="Resources\ItemMods.txt" />
     <Resource Include="Resources\loading_spinner.gif" />
@@ -504,7 +506,7 @@
     <Resource Include="Resources\Icons\open_icon.png" />
     <Resource Include="Resources\Icons\arrow_down_large_icon.png" />
     <Resource Include="Resources\Icons\arrow_up_large_icon.png" />
-    <Resource Include="Resources\Icons\speaker_icon.png" />
+    <Resource Include="Resources\Icons\sound.png" />
     <Resource Include="Resources\Icons\play_icon.png" />
     <Resource Include="Resources\Icons\arrow_top_icon.png" />
     <Resource Include="Resources\Icons\arrow_bottom_icon.png" />

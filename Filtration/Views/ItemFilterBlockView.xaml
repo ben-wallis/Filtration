@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="Filtration.Views.ItemFilterBlockView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:userControls="clr-namespace:Filtration.UserControls"
              xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
@@ -10,7 +10,7 @@
              xmlns:blockItemBaseTypes="clr-namespace:Filtration.ObjectModel.BlockItemBaseTypes;assembly=Filtration.ObjectModel"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:designTime="clr-namespace:Filtration.ViewModels.DesignTime"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=designTime:DesignTimeItemFilterBlockViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="400" d:DesignWidth="817">
     <UserControl.Resources>
@@ -18,6 +18,7 @@
             <views:BindingProxy x:Key="Proxy" Data="{Binding}" />
             <converters:BlockGroupAdvancedFillColorConverter x:Key="BlockGroupAdvancedFillColorConverter" />
             <converters:MinimapIconToCroppedBitmapConverter x:Key="MinimapIconToCroppedBitmapConverter"/>
+            <converters:DisabledDefaultSoundConverter x:Key="DisabledDefaultSoundConverter"/>
             <Style TargetType="{x:Type ContentPresenter}" x:Key="BlockItemFadeInStyle">
                 <Setter Property="LayoutTransform">
                     <Setter.Value>
@@ -138,8 +139,8 @@
                                     </Image.Source>
                                 </Image>
                                 <Button Command="{Binding PlaySoundCommand}"
-                                        Width="25"
-                                        Height="25"
+                                        Width="32"
+                                        Height="32"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
                                         Margin="0,0,3,0"
@@ -147,11 +148,11 @@
                                         Background="Transparent"
                                         BorderBrush="Transparent"
                                         ToolTip="Click to preview drop sound">
-                                    <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    <Image Source="{Binding HasDisabledDefaultSound, Converter={StaticResource DisabledDefaultSoundConverter}}"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Button>
                                 <Button Command="{Binding PlayPositionalSoundCommand}"
-                                        Width="25"
-                                        Height="25"
+                                        Width="32"
+                                        Height="32"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
                                         Margin="0,0,3,0"
@@ -159,11 +160,11 @@
                                         Background="Transparent"
                                         BorderBrush="Transparent"
                                         ToolTip="Click to preview positional drop sound">
-                                    <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    <Image Source="{Binding HasDisabledDefaultSound, Converter={StaticResource DisabledDefaultSoundConverter}}"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Button>
                                 <Button Command="{Binding PlayCustomSoundCommand}"
-                                        Width="25"
-                                        Height="25"
+                                        Width="32"
+                                        Height="32"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
                                         Margin="0,0,3,0"
@@ -171,7 +172,7 @@
                                         Background="Transparent"
                                         BorderBrush="Transparent"
                                         ToolTip="Click to preview custom drop sound">
-                                    <Image Source="/Filtration;component/Resources/Icons/speaker_icon.png"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    <Image Source="{Binding HasDisabledDefaultSound, Converter={StaticResource DisabledDefaultSoundConverter}}"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Button>
                                 <Line Y1="5" Y2="38" StrokeThickness="2" Panel.ZIndex="999"
                                       Stroke="{Binding DisplayEffectColor, Converter={StaticResource ColorToSolidColorBrushConverter}, Mode=OneWay}"
