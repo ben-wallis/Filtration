@@ -573,11 +573,30 @@ namespace Filtration.Parser.Services
 
                 switch (matches.Value)
                 {
+                    case "DisableDropSound":
+                    {
+                        blockItems.Add(new DisableDropSoundBlockItem());
+                        break;
+                    }
                     case "PlayAlertSound":
                     {
                         var match = Regex.Match(trimmedLine, @"\s+(\S+) (\d+)");
                         if (!match.Success) break;
                         var blockItem = new SoundBlockItem(match.Groups[1].Value, Convert.ToInt16(match.Groups[2].Value));
+                        if(_masterComponentCollection != null && !string.IsNullOrWhiteSpace(blockComment))
+                        {
+                            ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.AlertSound,
+                                blockComment, blockItem.Value, blockItem.SecondValue);
+                                blockItem.ThemeComponent = themeComponent;
+                        }
+                        blockItems.Add(blockItem);
+                        break;
+                    }
+                    case "PlayAlertSoundPositional":
+                    {
+                        var match = Regex.Match(trimmedLine, @"\s+(\S+) (\d+)");
+                        if (!match.Success) break;
+                        var blockItem = new PositionalSoundBlockItem(match.Groups[1].Value, Convert.ToInt16(match.Groups[2].Value));
                         if(_masterComponentCollection != null && !string.IsNullOrWhiteSpace(blockComment))
                         {
                             ThemeComponent themeComponent = _masterComponentCollection.AddComponent(ThemeComponentType.AlertSound,
@@ -641,6 +660,56 @@ namespace Filtration.Parser.Services
                             blockItem.ThemeComponent = themeComponent;
                         }
                         blockItems.Add(blockItem);
+                        break;
+                    }
+                    case "MinimapIcon":
+                    {
+                        // TODO: Get size, color, shape values programmatically
+                        var match = Regex.Match(trimmedLine,
+                            @"\S+\s+(0|1|2)\s+(Red|Green|Blue|Brown|White|Yellow)\s+(Circle|Diamond|Hexagon|Square|Star|Triangle)\s*([#]?)(.*)",
+                            RegexOptions.IgnoreCase);
+
+                        if (match.Success)
+                        {
+                            var blockItemValue = new MapIconBlockItem
+                            {
+                                Size = (IconSize)short.Parse(match.Groups[1].Value),
+                                Color = EnumHelper.GetEnumValueFromDescription<IconColor>(match.Groups[2].Value),
+                                Shape = EnumHelper.GetEnumValueFromDescription<IconShape>(match.Groups[3].Value)
+                            };
+                            
+                            blockItems.Add(blockItemValue);
+                        }
+                        break;
+                    }
+                    case "PlayEffect":
+                    {
+                        // TODO: Get colors programmatically
+                        var match = Regex.Match(trimmedLine, @"\S+\s+(Red|Green|Blue|Brown|White|Yellow)\s*(Temp)?", RegexOptions.IgnoreCase);
+
+                        if (match.Success)
+                        {
+                            var blockItemValue = new PlayEffectBlockItem
+                            {
+                                Color = EnumHelper.GetEnumValueFromDescription<EffectColor>(match.Groups[1].Value),
+                                Temporary = match.Groups[2].Value.Trim().ToLower() == "temp"
+                            };
+                            blockItems.Add(blockItemValue);
+                        }
+                        break;
+                    }
+                    case "CustomAlertSound":
+                    {
+                        var match = Regex.Match(trimmedLine, @"\S+\s+""([^\*\<\>\?|]+)""");
+
+                        if (match.Success)
+                        {
+                            var blockItemValue = new CustomSoundBlockItem
+                            {
+                                Value = match.Groups[1].Value
+                            };
+                            blockItems.Add(blockItemValue);
+                        }
                         break;
                     }
                 }
