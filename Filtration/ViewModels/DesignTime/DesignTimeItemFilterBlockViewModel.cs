@@ -150,6 +150,7 @@ namespace Filtration.ViewModels.DesignTime
         public bool HasSound { get; }
         public bool HasPositionalSound { get; }
         public bool HasCustomSound { get; }
+        public bool HasDisabledDefaultSound { get; }
         public bool HasAudioVisualBlockItems { get; }
         public void RefreshBlockPreview()
         {

@@ -65,6 +65,7 @@ namespace Filtration.ViewModels
         bool HasSound { get; }
         bool HasPositionalSound { get; }
         bool HasCustomSound { get; }
+        bool HasDisabledDefaultSound { get; }
         bool HasAudioVisualBlockItems { get; }
         void RefreshBlockPreview();
     }
@@ -287,6 +288,7 @@ namespace Filtration.ViewModels
         public bool HasSound => Block.HasBlockItemOfType<SoundBlockItem>();
         public bool HasPositionalSound => Block.HasBlockItemOfType<PositionalSoundBlockItem>();
         public bool HasCustomSound => Block.HasBlockItemOfType<CustomSoundBlockItem>();
+        public bool HasDisabledDefaultSound => Block.HasBlockItemOfType<DisableDropSoundBlockItem>();
 
         public bool HasAudioVisualBlockItems => AudioVisualBlockItems.Any();
 
@@ -526,6 +528,7 @@ namespace Filtration.ViewModels
             RaisePropertyChanged(nameof(HasSound));
             RaisePropertyChanged(nameof(HasPositionalSound));
             RaisePropertyChanged(nameof(HasCustomSound));
+            RaisePropertyChanged(nameof(HasDisabledDefaultSound));
         }
 
         private void OnBlockItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
