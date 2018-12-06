@@ -29,50 +29,48 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Margin="10">
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-            <ListView ItemsSource="{Binding Source={StaticResource ComponentsViewSource}}"
+        <ListView ItemsSource="{Binding Source={StaticResource ComponentsViewSource}}"
                       SelectedItem="{Binding SelectedThemeComponent}"
                       Margin="5"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListView.Resources>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListViewItem">
-                                    <Border Name="Border" BorderBrush="Black" Background="White"  BorderThickness="1" CornerRadius="3" Margin="2" SnapsToDevicePixels="true">
-                                        <ContentPresenter />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="true">
-                                            <Setter TargetName="Border" Property="Background" Value="#A9BDD8"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListView.Resources>
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.GroupStyle>
-                    <GroupStyle>
-                        <GroupStyle.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="7,5,0,0" FontWeight="Bold" FontSize="15" Text="{Binding Path=Name, Converter={StaticResource ThemeComponentTypeToStringConverter}}"/>
-                            </DataTemplate>
-                        </GroupStyle.HeaderTemplate>
-                    </GroupStyle>
-                </ListView.GroupStyle>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <views:ThemeComponentControl DataContext="{Binding}" Margin="10,5,10,5" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </ScrollViewer>
+            <ListView.Resources>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Border Name="Border" BorderBrush="Black" Background="White"  BorderThickness="1" CornerRadius="3" Margin="2" SnapsToDevicePixels="true">
+                                    <ContentPresenter />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter TargetName="Border" Property="Background" Value="#A9BDD8"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.Resources>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="7,5,0,0" FontWeight="Bold" FontSize="15" Text="{Binding Path=Name, Converter={StaticResource ThemeComponentTypeToStringConverter}}"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <views:ThemeComponentControl DataContext="{Binding}" Margin="10,5,10,5" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>
