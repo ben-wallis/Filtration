@@ -19,6 +19,7 @@
             <converters:BlockGroupAdvancedFillColorConverter x:Key="BlockGroupAdvancedFillColorConverter" />
             <converters:MinimapIconToCroppedBitmapConverter x:Key="MinimapIconToCroppedBitmapConverter"/>
             <converters:DisabledDefaultSoundConverter x:Key="DisabledDefaultSoundConverter"/>
+            <converters:DisabledDefaultSoundTooltipConverter x:Key="DisabledDefaultSoundTooltipConverter"/>
             <Style TargetType="{x:Type ContentPresenter}" x:Key="BlockItemFadeInStyle">
                 <Setter Property="LayoutTransform">
                     <Setter.Value>
@@ -146,8 +147,13 @@
                                         Margin="0,0,3,0"
                                         Visibility="{Binding HasSound, Converter={StaticResource BooleanVisibilityConverter}}"
                                         Background="Transparent"
-                                        BorderBrush="Transparent"
-                                        ToolTip="Click to preview drop sound">
+                                        BorderBrush="Transparent">
+                                    <Button.ToolTip>
+                                        <MultiBinding Converter="{StaticResource DisabledDefaultSoundTooltipConverter}">
+                                            <Binding Source="Click to preview drop sound."/>
+                                            <Binding Path="HasDisabledDefaultSound"/>
+                                        </MultiBinding>
+                                    </Button.ToolTip>
                                     <Image Source="{Binding HasDisabledDefaultSound, Converter={StaticResource DisabledDefaultSoundConverter}}"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Button>
                                 <Button Command="{Binding PlayPositionalSoundCommand}"
@@ -158,8 +164,13 @@
                                         Margin="0,0,3,0"
                                         Visibility="{Binding HasPositionalSound, Converter={StaticResource BooleanVisibilityConverter}}"
                                         Background="Transparent"
-                                        BorderBrush="Transparent"
-                                        ToolTip="Click to preview positional drop sound">
+                                        BorderBrush="Transparent">
+                                    <Button.ToolTip>
+                                        <MultiBinding Converter="{StaticResource DisabledDefaultSoundTooltipConverter}">
+                                            <Binding Source="Click to preview positional drop sound."/>
+                                            <Binding Path="HasDisabledDefaultSound"/>
+                                        </MultiBinding>
+                                    </Button.ToolTip>
                                     <Image Source="{Binding HasDisabledDefaultSound, Converter={StaticResource DisabledDefaultSoundConverter}}"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Button>
                                 <Button Command="{Binding PlayCustomSoundCommand}"
@@ -170,8 +181,13 @@
                                         Margin="0,0,3,0"
                                         Visibility="{Binding HasCustomSound, Converter={StaticResource BooleanVisibilityConverter}}"
                                         Background="Transparent"
-                                        BorderBrush="Transparent"
-                                        ToolTip="Click to preview custom drop sound">
+                                        BorderBrush="Transparent">
+                                    <Button.ToolTip>
+                                        <MultiBinding Converter="{StaticResource DisabledDefaultSoundTooltipConverter}">
+                                            <Binding Source="Click to preview custom drop sound."/>
+                                            <Binding Path="HasDisabledDefaultSound"/>
+                                        </MultiBinding>
+                                    </Button.ToolTip>
                                     <Image Source="{Binding HasDisabledDefaultSound, Converter={StaticResource DisabledDefaultSoundConverter}}"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Button>
                                 <Line Y1="5" Y2="38" StrokeThickness="2" Panel.ZIndex="999"
