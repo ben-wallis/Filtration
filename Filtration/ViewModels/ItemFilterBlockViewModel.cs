@@ -537,6 +537,7 @@ namespace Filtration.ViewModels
             RaisePropertyChanged(nameof(SummaryBlockItems));
             RaisePropertyChanged(nameof(AudioVisualBlockItems));
             RaisePropertyChanged(nameof(HasAudioVisualBlockItems));
+            RaisePropertyChanged(nameof(HasDisabledDefaultSound));
         }
 
         private void OnCustomSoundFileDialog()
