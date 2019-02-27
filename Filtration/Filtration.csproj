@@ -212,10 +212,12 @@
     <Compile Include="Converters\BlockItemToRemoveEnabledVisibilityConverter.cs" />
     <Compile Include="Converters\DisabledDefaultSoundConverter.cs" />
     <Compile Include="Converters\DisabledDefaultSoundTooltipConverter.cs" />
+    <Compile Include="Converters\AutosaveIntervalConverter.cs" />
     <Compile Include="Converters\MinimapIconToCroppedBitmapConverter.cs" />
     <Compile Include="Converters\HashSignRemovalConverter.cs" />
     <Compile Include="Converters\ItemRarityConverter.cs" />
     <Compile Include="Converters\TreeViewMarginConverter.cs" />
+    <Compile Include="Enums\AutosaveInterval.cs" />
     <Compile Include="Enums\UpdateSource.cs" />
     <Compile Include="Models\UpdateData.cs" />
     <Compile Include="Properties\Annotations.cs" />

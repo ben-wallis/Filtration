@@ -210,6 +210,24 @@ namespace Filtration.ViewModels
                 }
             });
 
+            System.Timers.Timer timer = new System.Timers.Timer();
+            timer.Elapsed += (sender, e) => OnTimedEvent(sender, e, this);
+            timer.Interval = Settings.Default.AutosaveInterval > 0 ? Settings.Default.AutosaveInterval : double.MaxValue;
+            timer.Enabled = Settings.Default.AutosaveInterval > 0;
+            settingsPageViewModel.SetAutosaveTimer(timer);
+        }
+
+        private static void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e, MainWindowViewModel mainWindowViewModel)
+        {
+            mainWindowViewModel.AutoSave();
+        }
+
+        public void AutoSave()
+        {
+            foreach (var doc in _avalonDockWorkspaceViewModel.OpenDocuments.OfType<IItemFilterScriptViewModel>().Where(doc => doc.IsDirty && doc.IsScript && !doc.IsFilenameFake && doc.Autosave))
+            {
+                doc.SaveAsync();
+            }
         }
 
         public RelayCommand OpenScriptCommand { get; }

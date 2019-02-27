@@ -21,5 +21,8 @@ namespace Filtration.ViewModels.DesignTime
         }
 
         public bool DownloadPrereleaseUpdates { get; set; }
+        public int AutosaveInterval { get; set; }
+
+        public void SetAutosaveTimer (System.Timers.Timer timer) { }
     }
 }

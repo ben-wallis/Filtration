@@ -43,6 +43,8 @@ namespace Filtration.ViewModels
         bool ShowAdvanced { get; }
         string Description { get; set; }
         string DisplayName { get; }
+        bool IsFilenameFake { get; }
+        bool Autosave { get; }
 
         void Initialise(IItemFilterScript itemFilterScript, bool newScript);
         void RemoveDirtyFlag();
@@ -118,6 +120,9 @@ namespace Filtration.ViewModels
         private List<IDisposable> _subscriptions;
         private ObservableCollection<string> _customSoundsAvailable;
         private readonly List<IItemFilterBlockViewModelBase> _lastAddedBlocks;
+        private List<ObjectModel.ThemeEditor.ThemeComponent> _promptedThemeComponents;
+
+        public bool Autosave { get; private set; }
 
         public ItemFilterScriptViewModel(IItemFilterBlockBaseViewModelFactory itemFilterBlockBaseViewModelFactory,
                                          IItemFilterBlockTranslator blockTranslator,
@@ -138,6 +143,8 @@ namespace Filtration.ViewModels
             _subscriptions = new List<IDisposable>();
             ItemFilterBlockViewModels = new ObservableCollection<IItemFilterBlockViewModelBase>();
             SelectedBlockViewModels = new ObservableCollection<IItemFilterBlockViewModelBase>();
+            _promptedThemeComponents = new List<ObjectModel.ThemeEditor.ThemeComponent>();
+            Autosave = true;
 
             _subscriptions.Add(
                 SelectedBlockViewModels.ToObservableChangeSet()
@@ -218,7 +225,7 @@ namespace Filtration.ViewModels
 
             Script.ItemFilterBlocks.CollectionChanged += ItemFilterBlocksOnCollectionChanged;
 
-            _filenameIsFake = newScript;
+            IsFilenameFake = newScript;
 
             if (newScript)
             {
@@ -653,7 +660,7 @@ namespace Filtration.ViewModels
 
         public string Filepath => Script.FilePath;
 
-        private bool _filenameIsFake;
+        public bool IsFilenameFake { get; private set; }
         private bool _showAdvanced;
 
         public async Task SaveAsync()
@@ -661,7 +668,7 @@ namespace Filtration.ViewModels
             if (!ValidateScript()) return;
             if (!CheckForUnusedThemeComponents()) return;
 
-            if (_filenameIsFake)
+            if (IsFilenameFake)
             {
                 await SaveAsAsync();
                 return;
@@ -672,6 +679,8 @@ namespace Filtration.ViewModels
             {
                 await _persistenceService.SaveItemFilterScriptAsync(Script);
                 RemoveDirtyFlag();
+                // Restore Autosave only when user successfully saves
+                Autosave = true;
             }
             catch (Exception e)
             {
@@ -712,9 +721,11 @@ namespace Filtration.ViewModels
             {
                 Script.FilePath = saveDialog.FileName;
                 await _persistenceService.SaveItemFilterScriptAsync(Script);
-                _filenameIsFake = false;
+                IsFilenameFake = false;
                 Title = Filename;
                 RemoveDirtyFlag();
+                // Restore Autosave only when user successfully saves
+                Autosave = true;
             }
             catch (Exception e)
             {
@@ -741,15 +752,36 @@ namespace Filtration.ViewModels
                         Script.ItemFilterBlocks.OfType<ItemFilterBlock>().Count(
                             b => b.BlockItems.OfType<IBlockItemWithTheme>().Count(i => i.ThemeComponent == t) > 0) == 0).ToList();
 
+            // Do not prompt same components again
+            for (var i = _promptedThemeComponents.Count - 1; i >= 0; i--)
+            {
+                if (unusedThemeComponents.Contains(_promptedThemeComponents[i]))
+                {
+                    unusedThemeComponents.Remove(_promptedThemeComponents[i]);
+                }
+                else
+                {
+                    _promptedThemeComponents.RemoveAt(i);
+                }
+            }
+
             if (unusedThemeComponents.Count <= 0) return true;
 
             var themeComponents = unusedThemeComponents.Aggregate(string.Empty,
                 (current, themeComponent) => current + themeComponent.ComponentName + Environment.NewLine);
 
+            // Do not auto-save while user is prompted
+            Autosave = false;
+
             var ignoreUnusedThemeComponents = _messageBoxService.Show("Unused Theme Components",
                 "The following theme components are unused, they will be lost when this script is reopened. Save anyway?" +
                 Environment.NewLine + Environment.NewLine + themeComponents, MessageBoxButton.YesNo,
                 MessageBoxImage.Exclamation);
+
+            if (ignoreUnusedThemeComponents == MessageBoxResult.Yes)
+            {
+                _promptedThemeComponents.AddRange(unusedThemeComponents);
+            }
 
             return ignoreUnusedThemeComponents != MessageBoxResult.No;
         }

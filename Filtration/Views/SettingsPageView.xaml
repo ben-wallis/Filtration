@@ -1,11 +1,17 @@
-﻿<UserControl x:Class="Filtration.Views.SettingsPageView"
+﻿<UserControl
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:designTime="clr-namespace:Filtration.ViewModels.DesignTime"
+        xmlns:extensions="clr-namespace:Filtration.Common.Extensions;assembly=Filtration.Common"
+        xmlns:enums="clr-namespace:Filtration.Enums"
+        xmlns:Converters="clr-namespace:Filtration.Converters" x:Class="Filtration.Views.SettingsPageView"
         mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="400"
-        d:DataContext="{d:DesignInstance Type=designTime:DesignTimeSettingsPageViewModel, IsDesignTimeCreatable=True}">
+        d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type designTime:DesignTimeSettingsPageViewModel}}">
+    <UserControl.Resources>
+        <Converters:IntToAutosaveIntervalConverter x:Key="IntToAutosaveIntervalConverter"/>
+    </UserControl.Resources>
     <Border BorderBrush="Black" BorderThickness="1">
         <DockPanel Margin="10" MaxWidth="600" HorizontalAlignment="Left">
             <Grid DockPanel.Dock="Bottom">
@@ -27,7 +33,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">Default Filter Directory:</TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"><Run Text="Default Filter Directory:"/></TextBlock>
                     <Grid Grid.Row="0" Grid.Column="2" Height="40" Width="300">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -35,15 +41,20 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="{Binding DefaultFilterDirectory}" TextWrapping="Wrap" VerticalAlignment="Center" />
                         <Button Grid.Column="1" Margin="5,0,0,0" Width="30" Height="30" Command="{Binding SetItemFilterScriptDirectoryCommand}">
-                            <ContentControl Content="{StaticResource OpenIcon}" Width="16" Height="16"></ContentControl>
+                            <ContentControl Content="{StaticResource OpenIcon}" Width="16" Height="16"/>
                         </Button>
                     </Grid>
-                    <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">Add blank line between blocks when saving</TextBlock>
+                    <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"><Run Text="Add blank line between blocks when saving"/></TextBlock>
                     <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding ExtraLineBetweenBlocks}"  />
-                    <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center">Download pre-release updates (use with caution)</TextBlock>
+                    <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"><Run Text="Download pre-release updates (use with caution)"/></TextBlock>
                     <CheckBox Grid.Row="3" Grid.Column="2" IsChecked="{Binding DownloadPrereleaseUpdates}"  />
-                    <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">Auto-expand all sections when opening scripts</TextBlock>
+                    <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"><Run Text="Auto-expand all sections when opening scripts"/></TextBlock>
                     <CheckBox Grid.Row="4" Grid.Column="2" IsChecked="{Binding BlocksExpandedOnOpen}"  />
+                    <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"><Run Text="Auto-save interval"/></TextBlock>
+                    <ComboBox Grid.Row="5" Grid.Column="2"  ItemsSource="{Binding Source={extensions:Enumeration {x:Type enums:AutosaveInterval}}}"
+                                                              DisplayMemberPath="Description"
+                                                              SelectedValue="{Binding AutosaveInterval, Converter={StaticResource IntToAutosaveIntervalConverter}}"
+                                                              SelectedValuePath="Value" />
                 </Grid>
             </Grid>
         </DockPanel>

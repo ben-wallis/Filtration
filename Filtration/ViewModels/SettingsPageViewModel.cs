@@ -13,11 +13,15 @@ namespace Filtration.ViewModels
         bool BlocksExpandedOnOpen { get; set; }
         bool DownloadPrereleaseUpdates { get; set; }
         bool ExtraLineBetweenBlocks { get; set; }
+        int AutosaveInterval { get; set; }
+
+        void SetAutosaveTimer(System.Timers.Timer timer);
     }
 
     internal class SettingsPageViewModel : ViewModelBase, ISettingsPageViewModel
     {
         private readonly IItemFilterScriptDirectoryService _itemFilterScriptDirectoryService;
+        private System.Timers.Timer _autosaveTimer;
 
         public SettingsPageViewModel(IItemFilterScriptDirectoryService itemFilterScriptDirectoryService)
         {
@@ -45,6 +49,36 @@ namespace Filtration.ViewModels
         {
             get => Settings.Default.ExtraLineBetweenBlocks;
             set => Settings.Default.ExtraLineBetweenBlocks = value;
+        }
+
+        public int AutosaveInterval
+        {
+            get => Settings.Default.AutosaveInterval;
+            set
+            {
+                Settings.Default.AutosaveInterval = value;
+                if (_autosaveTimer != null)
+                {
+                    if (value < 0)
+                    {
+                        _autosaveTimer.Stop();
+                    }
+                    else if (_autosaveTimer.Interval != value)
+                    {
+                        _autosaveTimer.Stop();
+                        _autosaveTimer.Interval = value;
+                        _autosaveTimer.Start();
+                    }
+                }
+            }
+        }
+
+        public void SetAutosaveTimer(System.Timers.Timer timer)
+        {
+            if (_autosaveTimer == null)
+            {
+                _autosaveTimer = timer;
+            }
         }
 
         private void OnSetItemFilterScriptDirectoryCommand()

@@ -166,5 +166,20 @@ namespace Filtration.Properties {
                 this["BlocksExpandedOnOpen"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60000")]
+        public int AutosaveInterval
+        {
+            get
+            {
+                return ((int)(this["AutosaveInterval"]));
+            }
+            set
+            {
+                this["AutosaveInterval"] = value;
+            }
+        }
     }
 }
