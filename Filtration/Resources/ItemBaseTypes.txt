@@ -22,6 +22,7 @@ Alira's Amulet
 Alleyways Map
 Allflame
 Alloyed Spiked Shield
+Alone in the Darkness
 Alteration Shard
 Amber Amulet
 Ambush Boots
@@ -76,6 +77,7 @@ Armageddon Brand
 Arming Axe
 Armourer's Scrap
 Armoury Map
+Arrogance of the Vaal
 Arsenal Map
 Ashen Wood Map
 Ashscale Talisman
@@ -96,6 +98,7 @@ Avian Twins Talisman
 Awl
 Baleful Gem
 Ball Lightning
+Bane
 Bane of the Loyal
 Barbed Club
 Barbute Helmet
@@ -172,6 +175,7 @@ Bone Offering
 Bone Spirit Shield
 Bonechill Support
 Bonespire Talisman
+Boon of Justice
 Boon of the First Ones
 Boot Blade
 Boot Knife
@@ -389,6 +393,7 @@ Dagger Axe
 Damage on Full Life Support
 Dark Forest Map
 Dark Pact
+Dark Temptation
 Darkwood Sceptre
 Deadhand Talisman
 Deadly Ailments Support
@@ -450,6 +455,7 @@ Diamond Ring
 Dig Map
 Discharge
 Discipline
+Divine Ire
 Divine Life Flask
 Divine Mana Flask
 Divine Orb
@@ -510,6 +516,7 @@ Enchanted Fossil
 Encrusted Fossil
 Endurance Charge on Melee Stun Support
 Enduring Cry
+Energy Leech Support
 Enfeeble
 Engineer's Orb
 Engineer's Shard
@@ -820,7 +827,9 @@ Infernal Axe
 Infernal Blow
 Infernal Sword
 Infested Valley Map
+Infused Channelling Support
 Innervate Support
+Intensify Support
 Invasion Leaguestone
 Inya's Key
 Iron Circlet
@@ -949,6 +958,7 @@ Majestic Plate
 Malachai's Entrails
 Malachai's Heart
 Malachai's Lungs
+Malevolence
 Malformation Map
 Maligaro's Map
 Maligaro's Spike
@@ -1009,6 +1019,7 @@ Molten Shell
 Molten Strike
 Monkey Paw Talisman
 Monkey Twins Talisman
+Monochrome
 Moon Orb
 Moon Staff
 Moon Temple Map
@@ -1183,6 +1194,7 @@ Prophet Crown
 Prosperity
 Puncture
 Punishment
+Purifying Flame
 Purity of Elements
 Purity of Fire
 Purity of Ice
@@ -1295,6 +1307,7 @@ Saint's Hauberk
 Saintly Chainmail
 Sallet
 Sambar Sceptre
+Sambodhi's Vow
 Samite Gloves
 Samite Helmet
 Samite Slippers
@@ -1357,6 +1370,7 @@ Serpentscale Gauntlets
 Serrated Arrow Quiver
 Serrated Foil
 Serrated Fossil
+Seven Years Bad Luck
 Shabby Jerkin
 Shackled Boots
 Shadow Axe
@@ -1457,6 +1471,7 @@ Soldier Helmet
 Soldier's Brigandine
 Sorcerer Boots
 Sorcerer Gloves
+Soulrend
 Sovereign Spiked Shield
 Spark
 Sparkling Claw
@@ -1628,6 +1643,7 @@ The Garish Power
 The Gemcutter
 The Gentleman
 The Gladiator
+The Golden Era
 The Hale Heart
 The Harvester
 The Hermit
@@ -1642,19 +1658,24 @@ The Inventor
 The Iron Bard
 The Jester
 The Jeweller's Boon
+The Journey
 The King's Blade
 The King's Heart
+The Landing
 The Last One Standing
 The Lich
 The Life Thief
 The Lion
 The Lord in Black
+The Lord of Celebration
 The Lover
 The Lunaris Priestess
+The Mad King
 The Master
 The Master Artisan
 The Mayor
 The Mercenary
+The Messenger
 The Metalsmith's Gift
 The Nurse
 The Oath
@@ -1684,6 +1705,7 @@ The Samurai's Eye
 The Scarred Meadow
 The Scavenger
 The Scholar
+The Seeker
 The Sephirot
 The Shaper's Key
 The Shaper's Realm
@@ -1800,6 +1822,7 @@ Underground River Map
 Underground Sea Map
 Undying Flesh Talisman
 Unearth
+Unleash Support
 Unset Ring
 Unshaping Orb
 Ursine Pelt
@@ -1924,6 +1947,7 @@ Warlord's Mark
 Waste Pool Map
 Wasteland Map
 Waterways Map
+Wave of Conviction
 Waxed Garb
 Wealth and Power
 Weeping Essence
@@ -1978,4 +2002,5 @@ Yriel's Key
 Zealot Boots
 Zealot Gloves
 Zealot Helmet
+Zealotry
 Zodiac Leather
