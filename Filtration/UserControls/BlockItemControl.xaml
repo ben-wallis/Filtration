@@ -87,6 +87,11 @@
                         <userControls:EditableListBoxControl Margin="5,5,5,5" ItemsSource="{Binding Items}" AutoCompleteItemsSource="{Binding ElementName=TopLevelGrid, Path=DataContext.AutocompleteItemMods}" />
                     </DataTemplate>
 
+                    <!-- Enchantments Template -->
+                    <DataTemplate DataType="{x:Type blockItemTypes:HasEnchantmentBlockItem}">
+                        <userControls:EditableListBoxControl Margin="5,5,5,5" ItemsSource="{Binding Items}" AutoCompleteItemsSource="{Binding ElementName=TopLevelGrid, Path=DataContext.AutocompleteEnchantments}" />
+                    </DataTemplate>
+
                     <!-- Socket Groups Template -->
                     <DataTemplate DataType="{x:Type blockItemTypes:SocketGroupBlockItem}">
                         <userControls:EditableListBoxControl Margin="5,5,5,5" ItemsSource="{Binding Items}" />

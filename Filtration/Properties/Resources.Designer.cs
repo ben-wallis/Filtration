@@ -388,7 +388,18 @@ namespace Filtration.Properties {
                 return ResourceManager.GetString("Prophecies", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Enchantment Decree of Force.
+        /// </summary>
+        internal static string Enchantments
+        {
+            get
+            {
+                return ResourceManager.GetString("Enchantments", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>

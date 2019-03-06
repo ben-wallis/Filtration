@@ -208,6 +208,8 @@ namespace Filtration.ViewModels
 
         public IEnumerable<string> AutocompleteItemMods => _staticDataService.ItemMods;
 
+        public IEnumerable<string> AutocompleteEnchantments => _staticDataService.Enchantments;
+
         public List<Type> BlockItemTypesAvailable => new List<Type>
         {
             typeof (ItemLevelBlockItem),
@@ -226,12 +228,16 @@ namespace Filtration.ViewModels
             typeof (CorruptedBlockItem),
             typeof (ElderItemBlockItem),
             typeof (ShaperItemBlockItem),
+            typeof (SynthesisedItemBlockItem),
+            typeof (FracturedItemBlockItem),
+            typeof (AnyEnchantmentBlockItem),
             typeof (MapTierBlockItem),
             typeof (ShapedMapBlockItem),
             typeof (ElderMapBlockItem),
             typeof (GemLevelBlockItem),
             typeof (StackSizeBlockItem),
-            typeof (HasExplicitModBlockItem)
+            typeof (HasExplicitModBlockItem),
+            typeof (HasEnchantmentBlockItem)
         };
 
         public List<Type> AudioVisualBlockItemTypesAvailable => new List<Type>
