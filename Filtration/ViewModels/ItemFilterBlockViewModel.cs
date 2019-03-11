@@ -351,6 +351,10 @@ namespace Filtration.ViewModels
         private void OnPasteBlockStyleCommand()
         {
             _parentScriptViewModel.PasteBlockStyle(this);
+            foreach (var blockItem in Block.BlockItems.OfType<IAudioVisualBlockItem>())
+            {
+                blockItem.PropertyChanged += OnBlockItemChanged;
+            }
         }
 
         private void OnAddBlockCommand()
