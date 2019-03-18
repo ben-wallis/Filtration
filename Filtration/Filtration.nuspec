@@ -8,26 +8,12 @@
     <authors>Ben Wallis</authors>
     <description>A Path of Exile loot filter script editor</description>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <copyright>Copyright 2018</copyright>
-    <releaseNotes>* Added support for new Prophecies block item type
-* Added Betrayal League Item Base Types and Item Classes to static data
-* All open filter scripts are now remembered on exit and reopened when the application is started rather than just the last opened one (#95)
-* Filter sections are once again now expanded by default when scripts are opened, unless the new "Auto-expand all sections when opening scripts" setting is disabled
-* A new Clear Styles button has been added which removes all styles from the selected block (#96)
-* New buttons for adding/removing DisableDropSound from selected blocks have been added (#110)
-* Added a new indicator for blocks with a DisableDropSound block present (#113)
-* The Enable/Disable Block toggle button is now visible on both the Regular Block Items and Appearance Block Items views
-* When there are too many block items to fit horizontally in a block a horizontal scrollbar will now appear
-* Fixed an issue with MinimapIcon block items causing an "Unused Theme Components" message box to erroneously be shown when saving (#116)
-* Fixed the Advanced tab in the Color Picker in the Theme Editor not being clickable (#115)
-* Fixed the previously incorrect handling of DisableDropSound as a true/false value when in fact it is enabled/disabled purely by its presence or lack thereof in a block (#111)
-* Fixed the application freezing for a long period of time when Ctrl+A (Select All) is performed
-* Fixed the Switch to Appearance/Regular Block Items text overlapping block items
-* Fixed theme saving (blank theme files were being saved) (#83)
-* Fixed checkboxes in Block Group Browser (#97)
-* Fixed the Select Path of Exile data directory dialog appearing after every upgrade (#94)
-* Fixed an issue where custom sounds were only populated from the default Path of Exile data directory rather than the configured directory
-* Clean installs no longer prompt to select the Path of Exile data directory if the default directory exists</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <releaseNotes>* Added support for AnyEnchantment block item type
+* Added support for HasEnchantment block item type
+* Added support for FracturedItem block item type
+* Added support for SynthesisedItem block item type
+* Fixed parsing of disabled Show/Hide blocks with extra information following the Show/Hide keyword (#133)</releaseNotes>
     <dependencies />
   </metadata>
   <files>
