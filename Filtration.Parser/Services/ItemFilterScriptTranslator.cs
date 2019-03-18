@@ -61,8 +61,7 @@ namespace Filtration.Parser.Services
                 lines[i] = lines[i].Trim();
                 if(!lines[i].StartsWith("#"))
                 {
-                    string curLine = Regex.Replace(lines[i], @"\s+", "");
-                    if ((curLine.StartsWith("Show") || curLine.StartsWith("Hide")) && (curLine.Length == 4 || curLine[4] == '#')) // found
+                    if ((lines[i].StartsWith("Show") || lines[i].StartsWith("Hide")) && (lines[i].Length == 4 || lines[i][4] == ' ')) // found
                     {
                         inBlock[i] = true;
                         break;
@@ -98,8 +97,8 @@ namespace Filtration.Parser.Services
             {
                 if (!inDisabledBlock && lines[i].StartsWith("#"))
                 {
-                    string curLine = Regex.Replace(lines[i].Substring(1), @"\s+", "");
-                    if ((curLine.StartsWith("Show") || curLine.StartsWith("Hide")) && (curLine.Length == 4 || curLine[4] == '#') && !inBlock[i])
+                    string curLine = lines[i].Substring(1).Trim();
+                    if ((curLine.StartsWith("Show") || curLine.StartsWith("Hide")) && (curLine.Length == 4 || curLine[4] == ' ') && !inBlock[i])
                     {
                         inDisabledBlock = true;
                         lines[i] = lines[i].Substring(1).TrimStart(' ');
