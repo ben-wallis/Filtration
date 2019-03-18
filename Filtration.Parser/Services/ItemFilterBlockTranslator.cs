@@ -184,6 +184,21 @@ namespace Filtration.Parser.Services
                         AddBooleanItemToBlockItems<ShaperItemBlockItem>(block, trimmedLine);
                         break;
                     }
+                    case "SynthesisedItem":
+                    {
+                        AddBooleanItemToBlockItems<SynthesisedItemBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "FracturedItem":
+                    {
+                        AddBooleanItemToBlockItems<FracturedItemBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "AnyEnchantment":
+                    {
+                        AddBooleanItemToBlockItems<AnyEnchantmentBlockItem>(block, trimmedLine);
+                        break;
+                    }
                     case "ShapedMap":
                     {
                         AddBooleanItemToBlockItems<ShapedMapBlockItem>(block, trimmedLine);
@@ -315,6 +330,11 @@ namespace Filtration.Parser.Services
                     case "HasExplicitMod":
                     {
                         AddStringListItemToBlockItems<HasExplicitModBlockItem>(block, trimmedLine);
+                        break;
+                    }
+                    case "HasEnchantment":
+                    {
+                        AddStringListItemToBlockItems<HasEnchantmentBlockItem>(block, trimmedLine);
                         break;
                     }
                     case "ElderMap":

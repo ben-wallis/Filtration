@@ -81,8 +81,11 @@
     <Compile Include="BlockItemBaseTypes\IntegerBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\NumericFilterPredicateBlockItem.cs" />
     <Compile Include="BlockItemBaseTypes\StringListBlockItem.cs" />
+    <Compile Include="BlockItemTypes\AnyEnchantmentBlockItem.cs" />
     <Compile Include="BlockItemTypes\BackgroundColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\BaseTypeBlockItem.cs" />
+    <Compile Include="BlockItemTypes\FracturedItemBlockItem.cs" />
+    <Compile Include="BlockItemTypes\HasEnchantmentBlockItem.cs" />
     <Compile Include="BlockItemTypes\MapTierBlockItem.cs" />
     <Compile Include="BlockItemTypes\PlayEffectBlockItem.cs" />
     <Compile Include="BlockItemTypes\BorderColorBlockItem.cs" />
@@ -95,6 +98,7 @@
     <Compile Include="BlockItemTypes\MapIconBlockItem.cs" />
     <Compile Include="BlockItemTypes\ProphecyBlockItem.cs" />
     <Compile Include="BlockItemTypes\ShapedMapBlockItem.cs" />
+    <Compile Include="BlockItemTypes\SynthesisedItemBlockItem.cs" />
     <Compile Include="BlockItemTypes\ShaperItemBlockItem.cs" />
     <Compile Include="BlockItemTypes\ElderItemBlockItem.cs" />
     <Compile Include="BlockItemTypes\CorruptedBlockItem.cs" />

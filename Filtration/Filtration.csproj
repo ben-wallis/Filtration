@@ -463,6 +463,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Resources\Enchantments.txt" />
     <Resource Include="Resources\Icons\no_sound_dds_light.png" />
     <Resource Include="Resources\Icons\no_sound_dds.png" />
     <Resource Include="Resources\Icons\speaker_icon.png" />
