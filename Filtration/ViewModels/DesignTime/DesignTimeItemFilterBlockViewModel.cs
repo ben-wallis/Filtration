@@ -131,12 +131,16 @@ namespace Filtration.ViewModels.DesignTime
                                                          typeof (CorruptedBlockItem),
                                                          typeof (ElderItemBlockItem),
                                                          typeof (ShaperItemBlockItem),
+                                                         typeof (SynthesisedItemBlockItem),
+                                                         typeof (FracturedItemBlockItem),
+                                                         typeof (AnyEnchantmentBlockItem),
                                                          typeof (MapTierBlockItem),
                                                          typeof (ShapedMapBlockItem),
                                                          typeof (ElderMapBlockItem),
                                                          typeof (GemLevelBlockItem),
                                                          typeof (StackSizeBlockItem),
-                                                         typeof (HasExplicitModBlockItem)
+                                                         typeof (HasExplicitModBlockItem),
+                                                         typeof (HasEnchantmentBlockItem)
                                                      };
         public List<Type> AudioVisualBlockItemTypesAvailable { get; }
         public Color DisplayTextColor => Colors.Red;

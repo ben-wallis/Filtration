@@ -322,7 +322,13 @@ namespace Filtration.Parser.Tests.Services
                                   Environment.NewLine +
                                   "Show" + Environment.NewLine +
                                   "   ItemLevel > 20" + Environment.NewLine +
-                                  "    SetTextColor 255 255 0";
+                                  "    SetTextColor 255 255 0" + Environment.NewLine +
+                                  Environment.NewLine +
+                                  "#Show $Recipes->Glassblower->15% %D1" + Environment.NewLine +
+                                  "#    SetTextColor 255 255 0" + Environment.NewLine +
+                                  Environment.NewLine +
+                                  "#Hide simple text without any special character" + Environment.NewLine +
+                                  "#    SetTextColor 255 255 0";
 
 
             var blockTranslator = new ItemFilterBlockTranslator(Mock.Of<IBlockGroupHierarchyBuilder>());
@@ -332,15 +338,21 @@ namespace Filtration.Parser.Tests.Services
             var result = translator.TranslateStringToItemFilterScript(testInputScript);
 
             // Assert
-            Assert.AreEqual(3, result.ItemFilterBlocks.Count);
+            Assert.AreEqual(5, result.ItemFilterBlocks.Count);
 
             var firstBlock = result.ItemFilterBlocks.OfType<ItemFilterBlock>().First();
             var secondBlock = result.ItemFilterBlocks.OfType<ItemFilterBlock>().Skip(1).First();
             var thirdBlock = result.ItemFilterBlocks.OfType<ItemFilterBlock>().Skip(2).First();
+            var fourthBlock = result.ItemFilterBlocks.OfType<ItemFilterBlock>().Skip(3).First();
+            var fifthBlock = result.ItemFilterBlocks.OfType<ItemFilterBlock>().Skip(4).First();
 
             Assert.AreEqual(3, firstBlock.BlockItems.Count);
             Assert.AreEqual(5, secondBlock.BlockItems.Count);
             Assert.AreEqual(3, thirdBlock.BlockItems.Count);
+            Assert.AreEqual(2, fourthBlock.BlockItems.Count);
+            Assert.AreEqual(2, fifthBlock.BlockItems.Count);
+            Assert.AreEqual(false, fourthBlock.Enabled);
+            Assert.AreEqual(false, fifthBlock.Enabled);
         }
 
         [Test]

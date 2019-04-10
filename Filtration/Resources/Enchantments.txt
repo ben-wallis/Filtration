@@ -1,0 +1,1107 @@
+﻿Armageddon Brand Attached Target Fire Penetration 1
+Armageddon Brand Attached Target Fire Penetration 2
+Armageddon Brand Repeat Frequency 1
+Armageddon Brand Repeat Frequency 2
+Enchantment Abyssal Cry Damage 1
+Enchantment Abyssal Cry Damage 2
+Enchantment Abyssal Cry Duration 1
+Enchantment Abyssal Cry Duration 2
+Enchantment Ancestor Warchief Area Of Effect 1
+Enchantment Ancestor Warchief Area Of Effect 2
+Enchantment Ancestor Warchief Melee Damage 1
+Enchantment Ancestor Warchief Melee Damage 2
+Enchantment Ancestral Protector Attack Speed 1
+Enchantment Ancestral Protector Attack Speed 2
+Enchantment Ancestral Protector Damage 1
+Enchantment Ancestral Protector Damage 2
+Enchantment Ancestral Protector Placement Speed 1
+Enchantment Ancestral Protector Placement Speed 2
+Enchantment Ancestral Protector Resistances 1
+Enchantment Ancestral Protector Resistances 2
+Enchantment Ancestral Warchief Damage 1
+Enchantment Ancestral Warchief Damage 2
+Enchantment Anger Reservation 1
+Enchantment Anger Reservation 2
+Enchantment Animate Guardian Damage 1
+Enchantment Animate Guardian Damage 2
+Enchantment Animate Guardian Elemental Resistances 1
+Enchantment Animate Guardian Elemental Resistances 2
+Enchantment Animate Weapon Chance To Create Additional Copy 1
+Enchantment Animate Weapon Chance To Create Additional Copy 2
+Enchantment Animate Weapon Damage 1
+Enchantment Animate Weapon Damage 2
+Enchantment Animate Weapon Duration 1
+Enchantment Animate Weapon Duration 2
+Enchantment Arc Damage 1
+Enchantment Arc Damage 2
+Enchantment Arc Damage Per Chain 1
+Enchantment Arc Damage Per Chain 2
+Enchantment Arc Num Of Additional Projectiles In Chain 1
+Enchantment Arc Shock Chance 1
+Enchantment Arc Shock Chance 2
+Enchantment Arctic Armour Buff Effect 1
+Enchantment Arctic Armour Buff Effect 2
+Enchantment Arctic Armour Mana Reservation 1
+Enchantment Arctic Armour Mana Reservation 2
+Enchantment Arctic Breath Area Of Effect 1
+Enchantment Arctic Breath Area Of Effect 2
+Enchantment Arctic Breath Chilling Area Movement Velocity 1
+Enchantment Arctic Breath Damage 1
+Enchantment Arctic Breath Damage 2
+Enchantment Arctic Breath Duration 1
+Enchantment Arctic Breath Duration 2
+Enchantment Armageddon Brand Damage 1
+Enchantment Armageddon Brand Damage 2
+Enchantment Assassins Mark Curse Effect 1
+Enchantment Assassins Mark Curse Effect 2
+Enchantment Assassins Mark Duration 1
+Enchantment Assassins Mark Duration 2
+Enchantment Attack and Cast Speed 1
+Enchantment Attack and Cast Speed 2
+Enchantment Attack and Cast Speed 3
+Enchantment Attack Dodge 1
+Enchantment Attack Dodge 2
+Enchantment Attack Dodge 3
+Enchantment Ball Lightning Additional Projectiles 1
+Enchantment Ball Lightning Area Of Effect 1
+Enchantment Ball Lightning Area Of Effect 2
+Enchantment Ball Lightning Damage 1
+Enchantment Ball Lightning Damage 2
+Enchantment Bane Area Of Effect 1
+Enchantment Bane Area Of Effect 2
+Enchantment Bane Damage 1
+Enchantment Bane Damage 2
+Enchantment Bane Linked Curse Effect 1
+Enchantment Bane Linked Curse Effect 2
+Enchantment Barrage Attack Speed 1
+Enchantment Barrage Attack Speed 2
+Enchantment Barrage Damage 1
+Enchantment Barrage Damage 2
+Enchantment Barrage Num Of Additional Projectiles 1
+Enchantment Bear Trap Cooldown Speed 1
+Enchantment Bear Trap Cooldown Speed 2
+Enchantment Bear Trap Damage 1
+Enchantment Bear Trap Damage 2
+Enchantment Bear Trap Damage Taken 1
+Enchantment Bear Trap Damage Taken 2
+Enchantment Blade Flurry Area Of Effect 1
+Enchantment Blade Flurry Area Of Effect 2
+Enchantment Blade Flurry Damage 1
+Enchantment Blade Flurry Damage 2
+Enchantment Blade Flurry Dodge Per Stack 1
+Enchantment Blade Flurry Dodge Per Stack 2
+Enchantment Blade Vortex Area Of Effect 1
+Enchantment Blade Vortex Area Of Effect 2
+Enchantment Blade Vortex Crit Multi Per Blade 1
+Enchantment Blade Vortex Crit Multi Per Blade 2
+Enchantment Blade Vortex Damage 1
+Enchantment Blade Vortex Damage 2
+Enchantment Blade Vortex Duration 1
+Enchantment Blade Vortex Duration 2
+Enchantment Bladefall Additional Volley
+Enchantment Bladefall Area Of Effect 1
+Enchantment Bladefall Area Of Effect 2
+Enchantment Bladefall Critical Strike Chance 1
+Enchantment Bladefall Critical Strike Chance 2
+Enchantment Bladefall Damage 1
+Enchantment Bladefall Damage 2
+Enchantment Blast Rain Additional Blast 1
+Enchantment Blast Rain Additional Blast 2
+Enchantment Blast Rain Area Of Effect 1
+Enchantment Blast Rain Area Of Effect 2
+Enchantment Blast Rain Damage 1
+Enchantment Blast Rain Damage 2
+Enchantment Blight Area Of Effect 1
+Enchantment Blight Area Of Effect 2
+Enchantment Blight Damage 1
+Enchantment Blight Damage 2
+Enchantment Blight Secondary Skill Duration 1
+Enchantment Blight Secondary Skill Duration 2
+Enchantment Blink Arrow Attack Speed 1
+Enchantment Blink Arrow Attack Speed 2
+Enchantment Blink Arrow Cooldown Speed 1
+Enchantment Blink Arrow Cooldown Speed 2
+Enchantment Blink Arrow Damage 1
+Enchantment Blink Arrow Damage 2
+Enchantment Blood Rage Attack Speed 1
+Enchantment Blood Rage Attack Speed 2
+Enchantment Blood Rage Frenzy On Kill 1
+Enchantment Blood Rage Frenzy On Kill 2
+Enchantment Body Swap Cast Speed 1
+Enchantment Body Swap Cast Speed 2
+Enchantment Body Swap Damage 1
+Enchantment Body Swap Damage 2
+Enchantment Bone Offering Block Chance 1
+Enchantment Bone Offering Block Chance 2
+Enchantment Bone Offering Duration 1
+Enchantment Bone Offering Duration 2
+Enchantment Burning Arrow Damage 1
+Enchantment Burning Arrow Damage 2
+Enchantment Burning Arrow Ignite Chance 1
+Enchantment Burning Arrow Ignite Chance 2
+Enchantment Burning Arrow Physical Damage Percent To Add As Fire Damage 1
+Enchantment Burning Arrow Physical Damage Percent To Add As Fire Damage 2
+Enchantment Caustic Arrow Area Of Effect 1
+Enchantment Caustic Arrow Area Of Effect 2
+Enchantment Caustic Arrow Damage 1
+Enchantment Caustic Arrow Damage 2
+Enchantment Caustic Arrow Duration 1
+Enchantment Caustic Arrow Duration 2
+Enchantment Caustic Arrow Wither On Hit 1
+Enchantment Caustic Arrow Wither On Hit 2
+Enchantment Chaos Damage 1
+Enchantment Chaos Damage 2
+Enchantment Chaos Damage 3
+Enchantment Chaos Golem Elemental Resistances 1
+Enchantment Chaos Golem Elemental Resistances 2
+Enchantment Chaos Golem Percent Additional Physical Damage Reduction 1
+Enchantment Chaos Golem Percent Additional Physical Damage Reduction 2
+Enchantment Charged Dash Damage 1
+Enchantment Charged Dash Damage 2
+Enchantment Charged Dash Dodge When Finished Channelling 1
+Enchantment Charged Dash Dodge When Finished Channelling 2
+Enchantment Charged Dash Movement Speed 1
+Enchantment Charged Dash Movement Speed 2
+Enchantment Charged Dash Radius Final Explosion 1
+Enchantment Charged Dash Radius Final Explosion 2
+Enchantment Clarity Mana Reservation 1
+Enchantment Clarity Mana Reservation 2
+Enchantment Cleave Area Of Effect 1
+Enchantment Cleave Area Of Effect 2
+Enchantment Cleave Attack Speed 1
+Enchantment Cleave Attack Speed 2
+Enchantment Cleave Damage 1
+Enchantment Cleave Damage 2
+Enchantment Cold Damage 1
+Enchantment Cold Damage 2
+Enchantment Cold Damage 3
+Enchantment Cold Snap Area Of Effect 1
+Enchantment Cold Snap Area Of Effect 2
+Enchantment Cold Snap Cooldown Speed 1
+Enchantment Cold Snap Cooldown Speed 2
+Enchantment Cold Snap Damage 1
+Enchantment Cold Snap Damage 2
+Enchantment Commandment of Blades
+Enchantment Commandment of Flames
+Enchantment Commandment of Force
+Enchantment Commandment of Frost
+Enchantment Commandment of Fury
+Enchantment Commandment of Inferno
+Enchantment Commandment of Ire
+Enchantment Commandment of Light
+Enchantment Commandment of Reflection
+Enchantment Commandment of Spite
+Enchantment Commandment of the Grave
+Enchantment Commandment of the Tempest
+Enchantment Commandment of Thunder
+Enchantment Commandment of War
+Enchantment Commandment of Winter
+Enchantment Conductivity Curse Effect 1
+Enchantment Conductivity Curse Effect 2
+Enchantment Conductivity Duration 1
+Enchantment Conductivity Duration 2
+Enchantment Consecrated Path Area Of Effect 1
+Enchantment Consecrated Path Area Of Effect 2
+Enchantment Consecrated Path Damage 1
+Enchantment Consecrated Path Damage 2
+Enchantment Consecrated Path Range 1
+Enchantment Consecrated Path Range 2
+Enchantment Contagion Damage 1
+Enchantment Contagion Damage 2
+Enchantment Contagion Duration 1
+Enchantment Contagion Duration 2
+Enchantment Contagion Radius 1
+Enchantment Contagion Radius 2
+Enchantment Conversion Trap Cooldown Speed 1
+Enchantment Conversion Trap Cooldown Speed 2
+Enchantment Conversion Trap Damage 1
+Enchantment Conversion Trap Damage 2
+Enchantment Convocation Cooldown Speed 1
+Enchantment Convocation Cooldown Speed 2
+Enchantment Convocation Life Regeneration 1
+Enchantment Convocation Life Regeneration 2
+Enchantment Cremation Cast Speed 1
+Enchantment Cremation Cast Speed 2
+Enchantment Cremation Damage 1
+Enchantment Cremation Damage 2
+Enchantment Cremation Maximum Geysers 1
+Enchantment Critical Strike Chance 1
+Enchantment Critical Strike Chance 2
+Enchantment Critical Strike Chance 3
+Enchantment Cyclone Attack Speed 1
+Enchantment Cyclone Attack Speed 2
+Enchantment Cyclone Damage 1
+Enchantment Cyclone Damage 2
+Enchantment Dack Pact Cast Speed 1
+Enchantment Dack Pact Cast Speed 2
+Enchantment Dark Pact Area Of Effect 1
+Enchantment Dark Pact Area Of Effect 2
+Enchantment Dark Pact Damage 1
+Enchantment Dark Pact Damage 2
+Enchantment Decoy Totem Area Of Effect 1
+Enchantment Decoy Totem Area Of Effect 2
+Enchantment Decoy Totem Life 1
+Enchantment Decoy Totem Life 2
+Enchantment Decree of Blades
+Enchantment Decree of Flames
+Enchantment Decree of Force
+Enchantment Decree of Frost
+Enchantment Decree of Fury
+Enchantment Decree of Inferno
+Enchantment Decree of Ire
+Enchantment Decree of Light
+Enchantment Decree of Reflection
+Enchantment Decree of Spite
+Enchantment Decree of the Grave
+Enchantment Decree of the Tempest
+Enchantment Decree of Thunder
+Enchantment Decree of War
+Enchantment Decree of Winter
+Enchantment Desecrate Additional Corpse 1
+Enchantment Desecrate Additional Corpse 2
+Enchantment Desecrate Cooldown Speed 1
+Enchantment Desecrate Cooldown Speed 2
+Enchantment Despair Duration 1
+Enchantment Despair Duration 2
+Enchantment Despair Effect 1
+Enchantment Despair Effect 2
+Enchantment Determination Mana Reservation 1
+Enchantment Determination Mana Reservation 2
+Enchantment Detonate Dead Area Of Effect 1
+Enchantment Detonate Dead Area Of Effect 2
+Enchantment Detonate Dead Damage 1
+Enchantment Detonate Dead Damage 2
+Enchantment Detonate Dead Percent Chance To Detonate Additional Corpse 1
+Enchantment Detonate Dead Percent Chance To Detonate Additional Corpse 2
+Enchantment Devouring Totem Leech Per Second 1
+Enchantment Devouring Totem Leech Per Second 2
+Enchantment Devouring Totem Percent Chance To Consume Additional Corpse 1
+Enchantment Devouring Totem Percent Chance To Consume Additional Corpse 2
+Enchantment Discharge Area of Effect 1
+Enchantment Discharge Area of Effect 2
+Enchantment Discharge Consume Charges 1
+Enchantment Discharge Consume Charges 2
+Enchantment Discharge Damage 1
+Enchantment Discharge Damage 2
+Enchantment Discipline Mana Reservation 1
+Enchantment Discipline Mana Reservation 2
+Enchantment Divine Ire Beam Width 1
+Enchantment Divine Ire Beam Width 2
+Enchantment Divine Ire Damage 1
+Enchantment Divine Ire Damage 2
+Enchantment Divine Ire Number Of Additional Nearby Enemies To Zap 1
+Enchantment Divine Ire Number Of Additional Nearby Enemies To Zap 2
+Enchantment Dominating Blow Additional Magic 1
+Enchantment Dominating Blow Additional Magic 2
+Enchantment Dominating Blow Additional Rare 1
+Enchantment Dominating Blow Duration 1
+Enchantment Dominating Blow Duration 2
+Enchantment Double Slash Added Phys To Bleeding 1
+Enchantment Double Slash Added Phys To Bleeding 2
+Enchantment Double Slash Area Of Effect 1
+Enchantment Double Slash Area Of Effect 2
+Enchantment Double Slash Critical Strikes 1
+Enchantment Double Slash Critical Strikes 2
+Enchantment Double Strike Attack Speed 1
+Enchantment Double Strike Attack Speed 2
+Enchantment Double Strike Critical Strike Chance 1
+Enchantment Double Strike Critical Strike Chance 2
+Enchantment Double Strike Damage 1
+Enchantment Double Strike Damage 2
+Enchantment Double Strike Double Damage Vs Bleeding 1
+Enchantment Double Strike Double Damage Vs Bleeding 2
+Enchantment Dread Banner Effect 1
+Enchantment Dread Banner Effect 2
+Enchantment Dual Strike Attack Speed 1
+Enchantment Dual Strike Attack Speed 2
+Enchantment Dual Strike Critical Strike Chance 1
+Enchantment Dual Strike Critical Strike Chance 2
+Enchantment Dual Strike Damage 1
+Enchantment Dual Strike Damage 2
+Enchantment Earthquake Area Of Effect 1
+Enchantment Earthquake Area Of Effect 2
+Enchantment Earthquake Damage 1
+Enchantment Earthquake Damage 2
+Enchantment Earthquake Duration 1
+Enchantment Earthquake Duration 2
+Enchantment Edict of Blades
+Enchantment Edict of Flames
+Enchantment Edict of Force
+Enchantment Edict of Frost
+Enchantment Edict of Fury
+Enchantment Edict of Inferno
+Enchantment Edict of Ire
+Enchantment Edict of Light
+Enchantment Edict of Reflection
+Enchantment Edict of Spite
+Enchantment Edict of the Grave
+Enchantment Edict of the Tempest
+Enchantment Edict of Thunder
+Enchantment Edict of War
+Enchantment Edict of Winter
+Enchantment Elemental Hit Attack Speed 1
+Enchantment Elemental Hit Attack Speed 2
+Enchantment Elemental Hit Chance To Freeze Shock Ignite 1
+Enchantment Elemental Hit Chance To Freeze Shock Ignite 2
+Enchantment Elemental Hit Damage 1
+Enchantment Elemental Hit Damage 2
+Enchantment Elemental Penetration 1
+Enchantment Elemental Penetration 2
+Enchantment Elemental Penetration 3
+Enchantment Elemental Weakness Curse Effect 1
+Enchantment Elemental Weakness Curse Effect 2
+Enchantment Elemental Weakness Duration 1
+Enchantment Elemental Weakness Duration 2
+Enchantment Enduring Cry Cooldown Speed 1
+Enchantment Enduring Cry Cooldown Speed 2
+Enchantment Enduring Cry Life Regeneration 1
+Enchantment Enduring Cry Life Regeneration 2
+Enchantment Enfeeble Curse Effect 1
+Enchantment Enfeeble Curse Effect 2
+Enchantment Enfeeble Duration 1
+Enchantment Enfeeble Duration 2
+Enchantment Essence Drain Damage 1
+Enchantment Essence Drain Damage 2
+Enchantment Essence Drain Duration 1
+Enchantment Essence Drain Duration 2
+Enchantment Ethereal Knives Damage 1
+Enchantment Ethereal Knives Damage 2
+Enchantment Ethereal Knives Number Of Targets To Pierce 1
+Enchantment Ethereal Knives Projectile Speed 1
+Enchantment Ethereal Knives Projectile Speed 2
+Enchantment Explosive Arrow Area Of Effect 1
+Enchantment Explosive Arrow Area Of Effect 2
+Enchantment Explosive Arrow Attack Speed 1
+Enchantment Explosive Arrow Attack Speed 2
+Enchantment Explosive Arrow Damage 1
+Enchantment Explosive Arrow Damage 2
+Enchantment Fire Beam Cast Speed 1
+Enchantment Fire Beam Cast Speed 2
+Enchantment Fire Beam Length 1
+Enchantment Fire Beam Length 2
+Enchantment Fire Damage 1
+Enchantment Fire Damage 2
+Enchantment Fire Damage 3
+Enchantment Fire Nova Mine Cast Speed 1
+Enchantment Fire Nova Mine Cast Speed 2
+Enchantment Fire Nova Mine Damage 1
+Enchantment Fire Nova Mine Damage 2
+Enchantment Fire Nova Mine Num Of Additional Repeats 1
+Enchantment Fire Nova Mine Num Of Additional Repeats 2
+Enchantment Fire Trap Burning Damage 1
+Enchantment Fire Trap Burning Damage 2
+Enchantment Fire Trap Burning Ground Duration 1
+Enchantment Fire Trap Burning Ground Duration 2
+Enchantment Fire Trap Damage 1
+Enchantment Fire Trap Damage 2
+Enchantment Fireball Cast Speed 1
+Enchantment Fireball Cast Speed 2
+Enchantment Fireball Damage 1
+Enchantment Fireball Damage 2
+Enchantment Fireball Ignite Chance 1
+Enchantment Fireball Ignite Chance 2
+Enchantment Firestorm Damage 1
+Enchantment Firestorm Damage 2
+Enchantment Firestorm Duration 1
+Enchantment Firestorm Duration 2
+Enchantment Firestorm Explosion Area Of Effect 1
+Enchantment Firestorm Explosion Area Of Effect 2
+Enchantment Flame Dash Cooldown Speed 1
+Enchantment Flame Dash Cooldown Speed 2
+Enchantment Flame Dash Damage 1
+Enchantment Flame Dash Damage 2
+Enchantment Flame Golem Elemental Resistances 1
+Enchantment Flame Golem Elemental Resistances 2
+Enchantment Flame Golem Granted Buff Effect 1
+Enchantment Flame Golem Granted Buff Effect 2
+Enchantment Flame Surge Critical Strike Chance 1
+Enchantment Flame Surge Critical Strike Chance 2
+Enchantment Flame Surge Damage 1
+Enchantment Flame Surge Damage 2
+Enchantment Flame Surge Vs Burning Enemies 1
+Enchantment Flame Surge Vs Burning Enemies 2
+Enchantment Flame Totem Consecrated Ground Enemy Damage Taken 1
+Enchantment Flame Totem Consecrated Ground Enemy Damage Taken 2
+Enchantment Flame Totem Damage 1
+Enchantment Flame Totem Damage 2
+Enchantment Flame Totem Num Of Additional Projectiles 1
+Enchantment Flame Totem Num Of Additional Projectiles 2
+Enchantment Flame Totem Projectile Speed 1
+Enchantment Flame Totem Projectile Speed 2
+Enchantment Flameblast Area Of Effect 1
+Enchantment Flameblast Area Of Effect 2
+Enchantment Flameblast Critical Strike Chance 1
+Enchantment Flameblast Critical Strike Chance 2
+Enchantment Flameblast Damage 1
+Enchantment Flameblast Damage 2
+Enchantment Flamethrower Additional Flamethrowers 1
+Enchantment Flamethrower Additional Flamethrowers 2
+Enchantment Flamethrower Trap Cast Speed 1
+Enchantment Flamethrower Trap Cast Speed 2
+Enchantment Flamethrower Trap Cooldown Speed 1
+Enchantment Flamethrower Trap Cooldown Speed 2
+Enchantment Flamethrower Trap Damage 1
+Enchantment Flamethrower Trap Damage 2
+Enchantment Flamethrower Trap Duration 1
+Enchantment Flamethrower Trap Duration 2
+Enchantment Flammability Curse Effect 1
+Enchantment Flammability Curse Effect 2
+Enchantment Flammability Duration 1
+Enchantment Flammability Duration 2
+Enchantment Flesh Offering Attack Speed 1
+Enchantment Flesh Offering Attack Speed 2
+Enchantment Flesh Offering Duration 1
+Enchantment Flesh Offering Duration 2
+Enchantment Flicker Strike Cooldown Speed 1
+Enchantment Flicker Strike Cooldown Speed 2
+Enchantment Flicker Strike Damage 1
+Enchantment Flicker Strike Damage 2
+Enchantment Flicker Strike Damage Per Frenzy Charge 1
+Enchantment Flicker Strike Damage Per Frenzy Charge 2
+Enchantment Freeze Mine Area Of Effect 1
+Enchantment Freeze Mine Area Of Effect 2
+Enchantment Freeze Mine Cold Penetration 1
+Enchantment Freeze Mine Cold Penetration 2
+Enchantment Freezing Pulse Cast Speed 1
+Enchantment Freezing Pulse Cast Speed 2
+Enchantment Freezing Pulse Damage 1
+Enchantment Freezing Pulse Damage 2
+Enchantment Freezing Pulse Projectile Speed 1
+Enchantment Freezing Pulse Projectile Speed 2
+Enchantment Frenzy Damage 1
+Enchantment Frenzy Damage 2
+Enchantment Frenzy Damage Per Frenzy Charge 1
+Enchantment Frenzy Damage Per Frenzy Charge 2
+Enchantment Frenzy Percent Chance To Gain Additional Frenzy Charge 1
+Enchantment Frenzy Percent Chance To Gain Additional Frenzy Charge 2
+Enchantment Frost Blades Damage 1
+Enchantment Frost Blades Damage 2
+Enchantment Frost Blades Projectile Speed 1
+Enchantment Frost Blades Projectile Speed 2
+Enchantment Frost Bolt Cast Speed 1
+Enchantment Frost Bolt Cast Speed 2
+Enchantment Frost Bolt Damage 1
+Enchantment Frost Bolt Damage 2
+Enchantment Frost Bolt Freeze Chance 1
+Enchantment Frost Bolt Freeze Chance 2
+Enchantment Frost Bomb Area Of Effect 1
+Enchantment Frost Bomb Area Of Effect 2
+Enchantment Frost Bomb Cooldown Speed 1
+Enchantment Frost Bomb Cooldown Speed 2
+Enchantment Frost Bomb Damage 1
+Enchantment Frost Bomb Damage 2
+Enchantment Frost Bomb Increased Duration 1
+Enchantment Frost Bomb Increased Duration 2
+Enchantment Frost Fury Additional Max Number Of Stages 1
+Enchantment Frost Fury Area Of Effect Per Stage 1
+Enchantment Frost Fury Area Of Effect Per Stage 2
+Enchantment Frost Wall Cooldown Speed 1
+Enchantment Frost Wall Cooldown Speed 2
+Enchantment Frost Wall Duration 1
+Enchantment Frost Wall Duration 2
+Enchantment Frostbite Curse Effect 1
+Enchantment Frostbite Curse Effect 2
+Enchantment Frostbite Duration 1
+Enchantment Frostbite Duration 2
+Enchantment Glacial Cascade Area Of Effect 1
+Enchantment Glacial Cascade Area Of Effect 2
+Enchantment Glacial Cascade Damage 1
+Enchantment Glacial Cascade Damage 2
+Enchantment Glacial Cascade Physical Damage Percent To Convert To Cold 1
+Enchantment Glacial Cascade Physical Damage Percent To Convert To Cold 2
+Enchantment Glacial Hammer Damage 1
+Enchantment Glacial Hammer Damage 2
+Enchantment Glacial Hammer Freeze Chance 1
+Enchantment Glacial Hammer Freeze Chance 2
+Enchantment Glacial Hammer Physical Damage Percent To Add As Cold Damage 1
+Enchantment Glacial Hammer Physical Damage Percent To Add As Cold Damage 2
+Enchantment Grace Mana Reservation 1
+Enchantment Grace Mana Reservation 2
+Enchantment Ground Slam Angle 1
+Enchantment Ground Slam Angle 2
+Enchantment Ground Slam Area Of Effect 1
+Enchantment Ground Slam Area Of Effect 2
+Enchantment Ground Slam Damage 1
+Enchantment Ground Slam Damage 2
+Enchantment Haste Mana Reservation 1
+Enchantment Haste Mana Reservation 2
+Enchantment Hatred Mana Reservation 1
+Enchantment Hatred Mana Reservation 2
+Enchantment Heavy Strike Attack Speed 1
+Enchantment Heavy Strike Attack Speed 2
+Enchantment Heavy Strike Damage 1
+Enchantment Heavy Strike Damage 2
+Enchantment Heavy Strike Double Damage 1
+Enchantment Heavy Strike Double Damage 2
+Enchantment Herald Of Agony Mana Reservation 1
+Enchantment Herald Of Agony Mana Reservation 2
+Enchantment Herald Of Agony Num Of Secondary Projectiles 1
+Enchantment Herald Of Ash Damage 1
+Enchantment Herald Of Ash Damage 2
+Enchantment Herald Of Ash Mana Reservation 1
+Enchantment Herald Of Ash Mana Reservation 2
+Enchantment Herald Of Ice Damage 1
+Enchantment Herald Of Ice Damage 2
+Enchantment Herald Of Ice Mana Reservation 1
+Enchantment Herald Of Ice Mana Reservation 2
+Enchantment Herald Of Purity Additional Minion 1
+Enchantment Herald Of Purity Mana Reservation 1
+Enchantment Herald Of Purity Mana Reservation 2
+Enchantment Herald Of Thunder Damage 1
+Enchantment Herald Of Thunder Damage 2
+Enchantment Herald Of Thunder Mana Reservation 1
+Enchantment Herald Of Thunder Mana Reservation 2
+Enchantment Holy Relic Area Of Effect 1
+Enchantment Holy Relic Area Of Effect 2
+Enchantment Holy Relic Buff Effect 1
+Enchantment Holy Relic Buff Effect 2
+Enchantment Holy Relic Damage 1
+Enchantment Holy Relic Damage 2
+Enchantment Ice Crash Area Of Effect 1
+Enchantment Ice Crash Area Of Effect 2
+Enchantment Ice Crash Damage 1
+Enchantment Ice Crash Damage 2
+Enchantment Ice Crash Physical Damage Percent To Add As Cold Damage 1
+Enchantment Ice Crash Physical Damage Percent To Add As Cold Damage 2
+Enchantment Ice Golem Elemental Resistances 1
+Enchantment Ice Golem Elemental Resistances 2
+Enchantment Ice Golem Grants Percent Additional Critical Strike Chance And
+Enchantment Ice Golem Grants Percent Additional Critical Strike Chance And
+Enchantment Ice Nova Area Of Effect 1
+Enchantment Ice Nova Area Of Effect 2
+Enchantment Ice Nova Damage 1
+Enchantment Ice Nova Damage 2
+Enchantment Ice Nova Freeze Chance 1
+Enchantment Ice Nova Freeze Chance 2
+Enchantment Ice Nova Minimum Chill 1
+Enchantment Ice Nova Minimum Chill 2
+Enchantment Ice Shot Area Of Effect 1
+Enchantment Ice Shot Area Of Effect 2
+Enchantment Ice Shot Damage 1
+Enchantment Ice Shot Damage 2
+Enchantment Ice Shot Duration 1
+Enchantment Ice Shot Duration 2
+Enchantment Ice Siphon Trap Chill Effect 1
+Enchantment Ice Siphon Trap Chill Effect 2
+Enchantment Ice Siphon Trap Damage 1
+Enchantment Ice Siphon Trap Damage 2
+Enchantment Ice Siphon Trap Damage Taken 1
+Enchantment Ice Siphon Trap Duration 1
+Enchantment Ice Siphon Trap Duration 2
+Enchantment Ice Spear Additional Projectile 1
+Enchantment Ice Spear Distance Before Form Change 1
+Enchantment Ice Spear Distance Before Form Change 2
+Enchantment Ice Spear Percent Chance To Gain Power Charge On Critical Strike 1
+Enchantment Ice Spear Percent Chance To Gain Power Charge On Critical Strike 2
+Enchantment Ice Spear Second Form Critical Strike Chance 1
+Enchantment Ice Spear Second Form Critical Strike Chance 2
+Enchantment Ice Trap Area Of Effect 1
+Enchantment Ice Trap Area Of Effect 2
+Enchantment Ice Trap Cold Penetration 1
+Enchantment Ice Trap Cold Penetration 2
+Enchantment Ice Trap Damage 1
+Enchantment Ice Trap Damage 2
+Enchantment Immortal Call Duration 1
+Enchantment Immortal Call Duration 2
+Enchantment Immortal Call Percent Chance To Not Consume Endurance Charges 1
+Enchantment Immortal Call Percent Chance To Not Consume Endurance Charges 2
+Enchantment Incinerate Area Of Effect 1
+Enchantment Incinerate Area Of Effect 2
+Enchantment Incinerate Damage 1
+Enchantment Incinerate Damage 2
+Enchantment Incinerate Damage Per Stage 3
+Enchantment Incinerate Maximum Stages 1
+Enchantment Incinerate Maximum Stages 2
+Enchantment Infernal Blow Area Of Effect 1
+Enchantment Infernal Blow Area Of Effect 2
+Enchantment Infernal Blow Damage 1
+Enchantment Infernal Blow Damage 2
+Enchantment Infernal Blow Increased Damage Per Stack 1
+Enchantment Infernal Blow Increased Damage Per Stack 2
+Enchantment Infernal Blow Physical Damage Percent To Add As Fire Damage 1
+Enchantment Infernal Blow Physical Damage Percent To Add As Fire Damage 2
+Enchantment Kinetic Blast Area Of Effect 1
+Enchantment Kinetic Blast Area Of Effect 2
+Enchantment Kinetic Blast Damage 1
+Enchantment Kinetic Blast Damage 2
+Enchantment Kinetic Blast Explosions 1
+Enchantment Kinetic Blast Explosions 2
+Enchantment Lacerate Damage 1
+Enchantment Lacerate Damage 2
+Enchantment Lancing Steel Damage 1
+Enchantment Lancing Steel Damage 2
+Enchantment Lancing Steel Impale Chance 1
+Enchantment Lancing Steel Impale Chance 2
+Enchantment Lancing Steel Primary Proj Pierce Num 1
+Enchantment Lancing Steel Primary Proj Pierce Num 2
+Enchantment Leap Slam Area Of Effect 1
+Enchantment Leap Slam Area Of Effect 2
+Enchantment Leap Slam Attack Speed 1
+Enchantment Leap Slam Attack Speed 2
+Enchantment Leap Slam Damage 1
+Enchantment Leap Slam Damage 2
+Enchantment Leech 1
+Enchantment Leech 2
+Enchantment Leech 3
+Enchantment Lightning Arrow Area Of Effect 1
+Enchantment Lightning Arrow Area Of Effect 2
+Enchantment Lightning Arrow Damage 1
+Enchantment Lightning Arrow Damage 2
+Enchantment Lightning Arrow Extra Targets 1
+Enchantment Lightning Arrow Extra Targets 2
+Enchantment Lightning Damage 1
+Enchantment Lightning Damage 2
+Enchantment Lightning Damage 3
+Enchantment Lightning Golem Elemental Resistances 1
+Enchantment Lightning Golem Elemental Resistances 2
+Enchantment Lightning Golem Granted Buff Effect 1
+Enchantment Lightning Golem Granted Buff Effect 2
+Enchantment Lightning Strike Additional Pierce 1
+Enchantment Lightning Strike Additional Pierce 2
+Enchantment Lightning Strike Damage 1
+Enchantment Lightning Strike Damage 2
+Enchantment Lightning Strike Num Of Additional Projectiles 1
+Enchantment Lightning Strike Num Of Additional Projectiles 2
+Enchantment Lightning Tendrils Area Of Effect 1
+Enchantment Lightning Tendrils Area Of Effect 2
+Enchantment Lightning Tendrils Critical Strike Chance 1
+Enchantment Lightning Tendrils Critical Strike Chance 2
+Enchantment Lightning Tendrils Damage 1
+Enchantment Lightning Tendrils Damage 2
+Enchantment Lightning Tower Trap Additional Beams 1
+Enchantment Lightning Tower Trap Cast Speed 1
+Enchantment Lightning Tower Trap Cast Speed 2
+Enchantment Lightning Tower Trap Cooldown Speed 1
+Enchantment Lightning Tower Trap Cooldown Speed 2
+Enchantment Lightning Tower Trap Damage 1
+Enchantment Lightning Tower Trap Damage 2
+Enchantment Lightning Tower Trap Duration 1
+Enchantment Lightning Tower Trap Duration 2
+Enchantment Lightning Trap Additional Pierce 1
+Enchantment Lightning Trap Additional Pierce 2
+Enchantment Lightning Trap Damage 1
+Enchantment Lightning Trap Damage 2
+Enchantment Lightning Trap Penetration 1
+Enchantment Lightning Trap Penetration 2
+Enchantment Lightning Trap Shock Effect 1
+Enchantment Lightning Trap Shock Effect 2
+Enchantment Lightning Warp Cast Speed 1
+Enchantment Lightning Warp Cast Speed 2
+Enchantment Lightning Warp Damage 1
+Enchantment Lightning Warp Damage 2
+Enchantment Lightning Warp Duration 1
+Enchantment Lightning Warp Duration 2
+Enchantment Magma Orb Area Of Effect 1
+Enchantment Magma Orb Area Of Effect 2
+Enchantment Magma Orb Damage 1
+Enchantment Magma Orb Damage 2
+Enchantment Magma Orb Num Of Additional Projectiles In Chain 1
+Enchantment Magma Orb Num Of Additional Projectiles In Chain 2
+Enchantment Malevolence Mana Reservation 1
+Enchantment Malevolence Mana Reservation 2
+Enchantment Mana Cost 1
+Enchantment Mana Cost 2
+Enchantment Mana Cost 3
+Enchantment Mirror Arrow Attack Speed 1
+Enchantment Mirror Arrow Attack Speed 2
+Enchantment Mirror Arrow Cooldown Speed 1
+Enchantment Mirror Arrow Cooldown Speed 2
+Enchantment Mirror Arrow Damage 1
+Enchantment Mirror Arrow Damage 2
+Enchantment Molten Shell Armour 1
+Enchantment Molten Shell Armour 2
+Enchantment Molten Shell Damage 1
+Enchantment Molten Shell Damage 2
+Enchantment Molten Strike Area Of Effect 1
+Enchantment Molten Strike Area Of Effect 2
+Enchantment Molten Strike Damage 1
+Enchantment Molten Strike Damage 2
+Enchantment Molten Strike Num Of Additional Projectiles 1
+Enchantment Molten Strike Num Of Additional Projectiles 2
+Enchantment Movement Speed 1
+Enchantment Movement Speed 2
+Enchantment Movement Speed 3
+Enchantment Orb of Storms Area Of Effect 1
+Enchantment Orb of Storms Area Of Effect 2
+Enchantment Orb Of Storms Cast Speed 1
+Enchantment Orb Of Storms Cast Speed 2
+Enchantment Orb of Storms Critical Strike Chance 1
+Enchantment Orb of Storms Critical Strike Chance 2
+Enchantment Orb Of Storms Damage 1
+Enchantment Orb Of Storms Damage 2
+Enchantment Phase Run Duration 1
+Enchantment Phase Run Duration 2
+Enchantment Phase Run Percent Chance To Not Consume Frenzy Charges 1
+Enchantment Phase Run Percent Chance To Not Consume Frenzy Charges 2
+Enchantment Physical Cascade Additional Cascades 1
+Enchantment Physical Cascade Cooldown Speed 1
+Enchantment Physical Cascade Cooldown Speed 2
+Enchantment Physical Cascade Trap Damage 1
+Enchantment Physical Cascade Trap Damage 2
+Enchantment Physical Cascade Trap Duration 1
+Enchantment Physical Cascade Trap Duration 2
+Enchantment Poachers Mark Curse Effect 1
+Enchantment Poachers Mark Curse Effect 2
+Enchantment Poachers Mark Duration 1
+Enchantment Poachers Mark Duration 2
+Enchantment Power Siphon Additional Projectiles 1
+Enchantment Power Siphon Additional Projectiles 2
+Enchantment Power Siphon Attack Speed 1
+Enchantment Power Siphon Attack Speed 2
+Enchantment Power Siphon Damage 1
+Enchantment Power Siphon Damage 2
+Enchantment Power Siphon Percent Chance To Gain Power Charge On Kill 1
+Enchantment Power Siphon Percent Chance To Gain Power Charge On Kill 2
+Enchantment Projectile Weakness Curse Effect 1
+Enchantment Projectile Weakness Curse Effect 2
+Enchantment Projectile Weakness Duration 1
+Enchantment Projectile Weakness Duration 2
+Enchantment Puncture Damage 1
+Enchantment Puncture Damage 2
+Enchantment Puncture Duration 1
+Enchantment Puncture Duration 2
+Enchantment Puncture Maim On Hit Percent Chance 1
+Enchantment Puncture Maim On Hit Percent Chance 2
+Enchantment Punishment Curse Effect 1
+Enchantment Punishment Curse Effect 2
+Enchantment Punishment Duration 1
+Enchantment Punishment Duration 2
+Enchantment Purifying Flame Area Of Effect When Targeting Consecrated Ground 1
+Enchantment Purifying Flame Area Of Effect When Targeting Consecrated Ground 2
+Enchantment Purifying Flame Consecrated Ground Enemy Damage Taken 1
+Enchantment Purifying Flame Consecrated Ground Enemy Damage Taken 2
+Enchantment Purifying Flame Damage 1
+Enchantment Purifying Flame Damage 2
+Enchantment Purity Of Elements Mana Reservation 1
+Enchantment Purity Of Elements Mana Reservation 2
+Enchantment Purity Of Fire Mana Reservation 1
+Enchantment Purity Of Fire Mana Reservation 2
+Enchantment Purity Of Ice Mana Reservation 1
+Enchantment Purity Of Ice Mana Reservation 2
+Enchantment Purity Of Lightning Mana Reservation 1
+Enchantment Purity Of Lightning Mana Reservation 2
+Enchantment Rain Of Arrows Area Of Effect 1
+Enchantment Rain Of Arrows Area Of Effect 2
+Enchantment Rain Of Arrows Attack Speed 1
+Enchantment Rain Of Arrows Attack Speed 2
+Enchantment Rain Of Arrows Damage 1
+Enchantment Rain Of Arrows Damage 2
+Enchantment Rain Of Arrows Repeat Count 1
+Enchantment Rain Of Arrows Repeat Count 2
+Enchantment Raise Spectre Damage 1
+Enchantment Raise Spectre Damage 2
+Enchantment Raise Zombie Damage 1
+Enchantment Raise Zombie Damage 2
+Enchantment Rallying Cry Buff Effect 1
+Enchantment Rallying Cry Buff Effect 2
+Enchantment Rallying Cry Duration 1
+Enchantment Rallying Cry Duration 2
+Enchantment Reave Area Of Effect 1
+Enchantment Reave Area Of Effect 2
+Enchantment Reave Damage 1
+Enchantment Reave Damage 2
+Enchantment Reckoning Cooldown Speed 1
+Enchantment Reckoning Cooldown Speed 2
+Enchantment Reckoning Damage 1
+Enchantment Reckoning Damage 2
+Enchantment Regeneration 1
+Enchantment Regeneration 2
+Enchantment Regeneration 3
+Enchantment Rejuvination Totem Life Regeneration 1
+Enchantment Rejuvination Totem Life Regeneration 2
+Enchantment Rejuvination Totem Percent Life Regeneration Added As Mana Regeneration 1
+Enchantment Rejuvination Totem Percent Life Regeneration Added As Mana Regeneration 2
+Enchantment Righteous Fire Area Of Effect 1
+Enchantment Righteous Fire Area Of Effect 2
+Enchantment Righteous Fire Damage 1
+Enchantment Righteous Fire Damage 2
+Enchantment Righteous Fire Spell Damage 1
+Enchantment Righteous Fire Spell Damage 2
+Enchantment Riposte Cooldown Speed 1
+Enchantment Riposte Cooldown Speed 2
+Enchantment Riposte Damage 1
+Enchantment Riposte Damage 2
+Enchantment Scorching Ray Damage 1
+Enchantment Scorching Ray Damage 2
+Enchantment Scourge Arrow Additional Spore 1
+Enchantment Scourge Arrow Chance To Poison 1
+Enchantment Scourge Arrow Chance To Poison 2
+Enchantment Scourge Arrow Damage 1
+Enchantment Scourge Arrow Damage 2
+Enchantment Searing Bond Damage 1
+Enchantment Searing Bond Damage 2
+Enchantment Searing Bond Totem Elemental Resistances 1
+Enchantment Searing Bond Totem Elemental Resistances 2
+Enchantment Searing Bond Totem Placement Speed 1
+Enchantment Searing Bond Totem Placement Speed 2
+Enchantment Shattering Steel Additional Projectile 1
+Enchantment Shattering Steel Damage 1
+Enchantment Shattering Steel Damage 2
+Enchantment Shattering Steel Fortify On Hit Close Range 1
+Enchantment Shield Charge Attack Speed 1
+Enchantment Shield Charge Attack Speed 2
+Enchantment Shield Charge Damage 1
+Enchantment Shield Charge Damage 2
+Enchantment Shock Nova Area Of Effect 1
+Enchantment Shock Nova Area Of Effect 2
+Enchantment Shock Nova Damage 1
+Enchantment Shock Nova Damage 2
+Enchantment Shock Nova Larger Ring Damage 1
+Enchantment Shock Nova Larger Ring Damage 2
+Enchantment Shockwave Totem Cast Speed 1
+Enchantment Shockwave Totem Cast Speed 2
+Enchantment Shockwave Totem Damage 1
+Enchantment Shockwave Totem Damage 2
+Enchantment Shockwave Totem Radius 1
+Enchantment Shockwave Totem Radius 2
+Enchantment Shrapnel Shot Damage 1
+Enchantment Shrapnel Shot Damage 2
+Enchantment Shrapnel Shot Physical Damage Percent To Add As Lightning Damage 1
+Enchantment Shrapnel Shot Physical Damage Percent To Add As Lightning Damage 2
+Enchantment Shrapnel Shot Radius 1
+Enchantment Shrapnel Shot Radius 2
+Enchantment Shrapnel Trap Damage 1
+Enchantment Shrapnel Trap Damage 2
+Enchantment Shrapnel Trap Radius 1
+Enchantment Shrapnel Trap Radius 2
+Enchantment Shrapnel Trap Secondary Explosions 1
+Enchantment Shrapnel Trap Secondary Explosions 2
+Enchantment Siege Ballista Attack Speed 1
+Enchantment Siege Ballista Attack Speed 2
+Enchantment Siege Ballista Damage 1
+Enchantment Siege Ballista Damage 2
+Enchantment Siege Ballista Totem Placement Speed 1
+Enchantment Siege Ballista Totem Placement Speed 2
+Enchantment Smite Additional Target Chance 1
+Enchantment Smite Additional Target Chance 2
+Enchantment Smite Aura Effect 1
+Enchantment Smite Aura Effect 2
+Enchantment Smite Damage 1
+Enchantment Smite Damage 2
+Enchantment Smoke Mine Duration 1
+Enchantment Smoke Mine Duration 2
+Enchantment Smoke Mine Movement Speed 1
+Enchantment Smoke Mine Movement Speed 2
+Enchantment Soulrend Applies Hinder Movement Speed 1
+Enchantment Soulrend Applies Hinder Movement Speed 2
+Enchantment Soulrend Damage 1
+Enchantment Soulrend Damage 2
+Enchantment Soulrend Number Of Additional Projectiles 1
+Enchantment Spark Damage 1
+Enchantment Spark Damage 2
+Enchantment Spark Num Of Additional Projectiles 1
+Enchantment Spark Num Of Additional Projectiles 2
+Enchantment Spark Projectile Speed 1
+Enchantment Spark Projectile Speed 2
+Enchantment Spectral Shield Throw Damage 1
+Enchantment Spectral Shield Throw Damage 2
+Enchantment Spectral Shield Throw Num Of Additional Projectiles 1
+Enchantment Spectral Shield Throw Num Of Additional Projectiles 2
+Enchantment Spectral Shield Throw Projectile Speed 1
+Enchantment Spectral Shield Throw Projectile Speed 2
+Enchantment Spectral Throw Damage 1
+Enchantment Spectral Throw Damage 2
+Enchantment Spectral Throw Projectile Deceleration 1
+Enchantment Spectral Throw Projectile Deceleration 2
+Enchantment Spectral Throw Projectile Speed 1
+Enchantment Spectral Throw Projectile Speed 2
+Enchantment Spectre Attack And Cast Speed 1
+Enchantment Spectre Attack And Cast Speed 2
+Enchantment Spectre Elemental Resistances 1
+Enchantment Spectre Elemental Resistances 2
+Enchantment Spell Dodge 1
+Enchantment Spell Dodge 2
+Enchantment Spell Dodge 3
+Enchantment Spirit Offering Duration 1
+Enchantment Spirit Offering Duration 2
+Enchantment Spirit Offering Physical Added As Chaos 1
+Enchantment Spirit Offering Physical Added As Chaos 2
+Enchantment Split Arrow Critical Strike Chance 1
+Enchantment Split Arrow Critical Strike Chance 2
+Enchantment Split Arrow Damage 1
+Enchantment Split Arrow Damage 2
+Enchantment Split Arrow Num Of Additional Projectiles 1
+Enchantment Split Arrow Num Of Additional Projectiles 2
+Enchantment Static Strike Area Of Effect 1
+Enchantment Static Strike Area Of Effect 2
+Enchantment Static Strike Damage 1
+Enchantment Static Strike Damage 2
+Enchantment Static Strike Duration 1
+Enchantment Static Strike Duration 2
+Enchantment Static Strike Maximum Beam Targets 1
+Enchantment Static Strike Maximum Beam Targets 2
+Enchantment Status Ailments 1
+Enchantment Status Ailments 2
+Enchantment Status Ailments 3
+Enchantment Stone Golem Elemental Resistances 1
+Enchantment Stone Golem Elemental Resistances 2
+Enchantment Stone Golem Granted Buff Effect 1
+Enchantment Stone Golem Granted Buff Effect 2
+Enchantment Storm Brand Damage 1
+Enchantment Storm Brand Damage 2
+Enchantment Storm Burst Additional Object Chance 1
+Enchantment Storm Burst Additional Object Chance 2
+Enchantment Storm Burst Area Of Effect 1
+Enchantment Storm Burst Area Of Effect 2
+Enchantment Storm Burst Damage 1
+Enchantment Storm Burst Damage 2
+Enchantment Storm Call Area Of Effect 1
+Enchantment Storm Call Area Of Effect 2
+Enchantment Storm Call Damage 1
+Enchantment Storm Call Damage 2
+Enchantment Storm Call Duration 1
+Enchantment Storm Call Duration 2
+Enchantment Stun Avoidance 1
+Enchantment Stun Avoidance 2
+Enchantment Stun Avoidance 3
+Enchantment Summon Flame Golem Damage 1
+Enchantment Summon Flame Golem Damage 2
+Enchantment Summon Ice Golem Damage 1
+Enchantment Summon Ice Golem Damage 2
+Enchantment Summon Lightning Golem Damage 1
+Enchantment Summon Lightning Golem Damage 2
+Enchantment Summon Raging Spirit Damage 1
+Enchantment Summon Raging Spirit Damage 2
+Enchantment Summon Skeletons Additional Warrior Skeletons 1
+Enchantment Summon Skeletons Additional Warrior Skeletons 2
+Enchantment Summon Skeletons Damage 1
+Enchantment Summon Skeletons Damage 2
+Enchantment Summon Stone Golem Damage 1
+Enchantment Summon Stone Golem Damage 2
+Enchantment Summoned Raging Spirit Additional 1
+Enchantment Summoned Raging Spirit Additional 2
+Enchantment Summoned Raging Spirit Duration 1
+Enchantment Summoned Raging Spirit Duration 2
+Enchantment Sumon Chaos Golem Damage 1
+Enchantment Sumon Chaos Golem Damage 2
+Enchantment Sunder Attack Speed 1
+Enchantment Sunder Attack Speed 2
+Enchantment Sunder Damage 1
+Enchantment Sunder Damage 2
+Enchantment Sunder Radius 1
+Enchantment Sunder Radius 2
+Enchantment Sweep Area Of Effect 1
+Enchantment Sweep Area Of Effect 2
+Enchantment Sweep Damage 1
+Enchantment Sweep Damage 2
+Enchantment Sweep Knockback Chance 1
+Enchantment Sweep Knockback Chance 2
+Enchantment Tectonic Slam Area Of Effect 1
+Enchantment Tectonic Slam Area Of Effect 2
+Enchantment Tectonic Slam Chance To Charged Slam 1
+Enchantment Tectonic Slam Chance To Charged Slam 2
+Enchantment Tectonic Slam Damage 1
+Enchantment Tectonic Slam Damage 2
+Enchantment Tempest Shield Damage 1
+Enchantment Tempest Shield Damage 2
+Enchantment Tempest Shield Num Of Additional Projectiles In Chain 1
+Enchantment Tempest Shield Num Of Additional Projectiles In Chain 2
+Enchantment Temporal Chains Curse Effect 1
+Enchantment Temporal Chains Curse Effect 2
+Enchantment Temporal Chains Duration 1
+Enchantment Temporal Chains Duration 2
+Enchantment Tornado Shot Critical Strike Chance 1
+Enchantment Tornado Shot Critical Strike Chance 2
+Enchantment Tornado Shot Damage 1
+Enchantment Tornado Shot Damage 2
+Enchantment Tornado Shot Num Of Secondary Projectiles 1
+Enchantment Tornado Shot Num Of Secondary Projectiles 2
+Enchantment Toxic Rain Damage 1
+Enchantment Toxic Rain Damage 2
+Enchantment Toxic Rain Num Of Additional Projectiles 1
+Enchantment Toxic Rain Physical Added As Chaos 1
+Enchantment Toxic Rain Physical Added As Chaos 2
+Enchantment Unearth Cast Speed 1
+Enchantment Unearth Cast Speed 2
+Enchantment Unearth Corpse Level 1
+Enchantment Unearth Corpse Level 2
+Enchantment Unearth Damage 1
+Enchantment Unearth Damage 2
+Enchantment Vengeance Cooldown Speed 1
+Enchantment Vengeance Cooldown Speed 2
+Enchantment Vengeance Damage 1
+Enchantment Vengeance Damage 2
+Enchantment Vigilant Strike Damage 1
+Enchantment Vigilant Strike Damage 2
+Enchantment Vigilant Strike Fortify Duration 1
+Enchantment Vigilant Strike Fortify Duration 2
+Enchantment Viper Strike Critical Strike Chance 1
+Enchantment Viper Strike Critical Strike Chance 2
+Enchantment Viper Strike Damage 1
+Enchantment Viper Strike Damage 2
+Enchantment Viper Strike Poison Duration 1
+Enchantment Viper Strike Poison Duration 2
+Enchantment Vitality Mana Reservation 1
+Enchantment Vitality Mana Reservation 2
+Enchantment Volatile Dead Cast Speed 1
+Enchantment Volatile Dead Cast Speed 2
+Enchantment Volatile Dead Damage 1
+Enchantment Volatile Dead Damage 2
+Enchantment Volatile Dead Orbs 3
+Enchantment Vortex AoE On Frostbolt 1
+Enchantment Vortex AoE On Frostbolt 2
+Enchantment Vortex Cooldown Recovery 1
+Enchantment Vortex Cooldown Recovery 2
+Enchantment Vortex Damage 1
+Enchantment Vortex Damage 2
+Enchantment Vortex Duration 1
+Enchantment Vortex Duration 2
+Enchantment Vulnerability Curse Effect 1
+Enchantment Vulnerability Curse Effect 2
+Enchantment Vulnerability Duration 1
+Enchantment Vulnerability Duration 2
+Enchantment War Banner Effect 1
+Enchantment War Banner Effect 2
+Enchantment Warlords Mark Curse Effect 1
+Enchantment Warlords Mark Curse Effect 2
+Enchantment Warlords Mark Duration 1
+Enchantment Warlords Mark Duration 2
+Enchantment Wave Of Conviction Additional Enemy Resistance 1
+Enchantment Wave Of Conviction Additional Enemy Resistance 2
+Enchantment Wave Of Conviction Damage 1
+Enchantment Wave Of Conviction Damage 2
+Enchantment Wave Of Conviction Duration 1
+Enchantment Wave Of Conviction Duration 2
+Enchantment Whirling Blades Attack Speed 1
+Enchantment Whirling Blades Attack Speed 2
+Enchantment Whirling Blades Damage 1
+Enchantment Whirling Blades Damage 2
+Enchantment Wild Strike Area Of Effect 1
+Enchantment Wild Strike Area Of Effect 2
+Enchantment Wild Strike Damage 1
+Enchantment Wild Strike Damage 2
+Enchantment Wild Strike Num Of Additional Projectiles In Chain 1
+Enchantment Wild Strike Num Of Additional Projectiles In Chain 2
+Enchantment Winter Orb Damage 1
+Enchantment Winter Orb Damage 2
+Enchantment Wither Area Of Effect 1
+Enchantment Wither Area Of Effect 2
+Enchantment Wither Duration 1
+Enchantment Wither Duration 2
+Enchantment Word of Blades
+Enchantment Word of Flames
+Enchantment Word of Force
+Enchantment Word of Frost
+Enchantment Word of Fury
+Enchantment Word of Inferno
+Enchantment Word of Ire
+Enchantment Word of Light
+Enchantment Word of Reflection
+Enchantment Word of Spite
+Enchantment Word of the Grave
+Enchantment Word of the Tempest
+Enchantment Word of Thunder
+Enchantment Word of War
+Enchantment Word of Winter
+Enchantment Wrath Mana Reservation 1
+Enchantment Wrath Mana Reservation 2
+Enchantment Zealotry Mana Reservation 1
+Enchantment Zealotry Mana Reservation 2
+Enchantment Zombie Attack Speed 1
+Enchantment Zombie Attack Speed 2
+Enchantment Zombie Elemental Resistances 1
+Enchantment Zombie Elemental Resistances 2
+Storm Brand Additional Chain Chance 1
+Storm Brand Additional Chain Chance 2
+Storm Brand Attached Target Lightning Penetration 1
+Storm Brand Attached Target Lightning Penetration 2
