@@ -13,7 +13,8 @@
 * Added support for HasEnchantment block item type
 * Added support for FracturedItem block item type
 * Added support for SynthesisedItem block item type
-* Fixed parsing of disabled Show/Hide blocks with extra information following the Show/Hide keyword (#133)</releaseNotes>
+* Fixed parsing of disabled Show/Hide blocks with extra information following the Show/Hide keyword (#133)
+* Fixed copy/pasted block styles not affecting the preview (#126)    </releaseNotes>
     <dependencies />
   </metadata>
   <files>
