@@ -17,6 +17,7 @@ Gems
 Gloves
 Helmets
 Hybrid Flasks
+Incubator
 Incursion Item
 Jewel
 Labyrinth Item

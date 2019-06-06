@@ -4,6 +4,7 @@ Abandoned Wealth
 Aberrant Fossil
 Abyssal Axe
 Abyssal Cry
+Abyssal Incubator
 Abyssal Sceptre
 Academy Map
 Acid Caverns Map
@@ -22,6 +23,7 @@ Alira's Amulet
 Alleyways Map
 Allflame
 Alloyed Spiked Shield
+Alluring Bounty
 Alone in the Darkness
 Alteration Shard
 Amber Amulet
@@ -124,6 +126,7 @@ Bear Trap
 Beauty Through Death
 Behemoth Mace
 Belfry Map
+Berserk
 Bestel's Manuscript
 Bestiary Orb
 Beyond Leaguestone
@@ -138,6 +141,7 @@ Blade Flurry
 Blade Vortex
 Bladed Mace
 Bladefall
+Bladestorm
 Blasphemy Support
 Blast Rain
 Blessed Orb
@@ -153,6 +157,7 @@ Blind Venture
 Blinder
 Blink Arrow
 Block Chance Reduction Support
+Blood and Sand
 Blood Magic Support
 Blood Rage
 Blood Raiment
@@ -203,7 +208,9 @@ Brutality Support
 Buckskin Tower Shield
 Buckskin Tunic
 Burial Chambers Map
+Buried Treasure
 Burning Arrow
+Burning Blood
 Burning Damage Support
 Burnished Foil
 Burnished Spiked Shield
@@ -249,6 +256,7 @@ Carnal Mitts
 Carnal Sceptre
 Cartographer's Chisel
 Cartographer's Delight
+Cartographer's Incubator
 Cartographer's Seal
 Cartographer's Sextant
 Carved Wand
@@ -263,6 +271,9 @@ Castle Ruins Map
 Cat's Paw
 Caustic Arrow
 Cedar Tower Shield
+Celestial Armoursmith's Incubator
+Celestial Blacksmith's Incubator
+Celestial Jeweller's Incubator
 Cells Map
 Cemetery Map
 Ceremonial Axe
@@ -302,6 +313,7 @@ Clasped Boots
 Clasped Mitts
 Cleave
 Cleaver
+Close Combat Support
 Close Helmet
 Cloth Belt
 Cloth Belt Piece
@@ -391,10 +403,12 @@ Cutthroat's Garb
 Cyclone
 Dagger Axe
 Damage on Full Life Support
+Dark Dreams
 Dark Forest Map
 Dark Pact
 Dark Temptation
 Darkwood Sceptre
+Dash
 Deadhand Talisman
 Deadly Ailments Support
 Deafening Essence
@@ -420,6 +434,7 @@ Deafening Essence of Wrath
 Deafening Essence of Zeal
 Death
 Death Bow
+Decadent Incubator
 Decanter Spiritus
 Decay Support
 Decimation Bow
@@ -431,6 +446,7 @@ Deerskin Boots
 Deerskin Gloves
 Defiled Cathedral Map
 Deicide Mask
+Demigod's Wager
 Demon Dagger
 Demon's Horn
 Dense Fossil
@@ -460,6 +476,7 @@ Divine Life Flask
 Divine Mana Flask
 Divine Orb
 Divine Vessel
+Diviner's Incubator
 Doedre's Madness
 Dominating Blow
 Domination Leaguestone
@@ -490,6 +507,7 @@ Earth Drinker
 Earthquake
 Eber's Key
 Ebony Tower Shield
+Echoes of Love
 Eclipse Staff
 Eelskin Boots
 Eelskin Gloves
@@ -497,6 +515,7 @@ Eelskin Tunic
 Efficacy Support
 Elder Sword
 Elder's Orb
+Eldritch Incubator
 Elegant Foil
 Elegant Ringmail
 Elegant Round Shield
@@ -513,6 +532,7 @@ Emperor's Luck
 Empower Support
 Enameled Buckler
 Enchanted Fossil
+Enchanted Incubator
 Encrusted Fossil
 Endurance Charge on Melee Stun Support
 Enduring Cry
@@ -593,6 +613,7 @@ Festival Mask
 Field Lamellar
 Fields Map
 Fiend Dagger
+Fine Incubator
 Fingerless Silk Gloves
 Fir Round Shield
 Fire Arrow Quiver
@@ -613,6 +634,7 @@ Flammability
 Flanged Mace
 Flashpowder Keg
 Flaying Knife
+Flesh and Stone
 Flesh Offering
 Fleshripper
 Flicker Strike
@@ -620,9 +642,11 @@ Flooded Mine Map
 Fluted Bascinet
 Footman Sword
 Forbidden Power
+Foreboding Incubator
 Forge of the Phoenix Map
 Fork Support
 Fortify Support
+Fossilised Incubator
 Fossilised Spirit Shield
 Foul Staff
 Fractured Fossil
@@ -630,6 +654,7 @@ Fragment of the Chimera
 Fragment of the Hydra
 Fragment of the Minotaur
 Fragment of the Phoenix
+Fragmented Incubator
 Freeze Mine
 Freezing Pulse
 Frenzy
@@ -641,6 +666,7 @@ Frost Blades
 Frost Bomb
 Frost Wall
 Frostbite
+Frostblink
 Frostbolt
 Full Chainmail
 Full Dragonscale
@@ -652,6 +678,7 @@ Full Wyrmscale
 Fungal Hollow Map
 Gardens Map
 Gavel
+Gemcutter's Incubator
 Gemcutter's Prism
 Gemcutter's Promise
 Gemini Claw
@@ -659,6 +686,7 @@ Gemstone Sword
 General's Brigandine
 Generosity Support
 Geode Map
+Geomancer's Incubator
 Ghastly Eye Jewel
 Ghetto Map
 Giant Life Flask
@@ -809,9 +837,11 @@ Immolate Support
 Immortal Call
 Immortal Resolve
 Imp Dagger
+Impale Support
 Imperial Bow
 Imperial Buckler
 Imperial Claw
+Imperial Legacy
 Imperial Maul
 Imperial Skean
 Imperial Staff
@@ -828,6 +858,7 @@ Infernal Blow
 Infernal Sword
 Infested Valley Map
 Infused Channelling Support
+Infused Incubator
 Innervate Support
 Intensify Support
 Invasion Leaguestone
@@ -987,11 +1018,11 @@ Memory Fragment I
 Memory Fragment II
 Memory Fragment III
 Memory Fragment IV
+Memory Fragment IX
 Memory Fragment V
 Memory Fragment VI
 Memory Fragment VII
 Memory Fragment VIII
-Memory Fragment IX
 Memory Fragment X
 Merciless Armament
 Mesa Map
@@ -1047,6 +1078,7 @@ Muttering Essence of Hatred
 Muttering Essence of Sorrow
 Muttering Essence of Torment
 Muttering Essence of Woe
+Mysterious Incubator
 Nailed Fist
 Necromancer Circlet
 Necromancer Silks
@@ -1063,6 +1095,7 @@ Nubuck Boots
 Nubuck Gloves
 Oak Buckler
 Oak's Amulet
+Obscured Incubator
 Obsidian Key
 Occultist's Vestment
 Ochre Sceptre
@@ -1090,10 +1123,12 @@ Orb of Scouring
 Orb of Storms
 Orb of Transmutation
 Orchard Map
+Ornate Incubator
 Ornate Mace
 Ornate Ringmail
 Ornate Spiked Shield
 Ornate Sword
+Otherworldly Incubator
 Overgrown Ruin Map
 Overgrown Shrine Map
 Padded Jacket
@@ -1113,6 +1148,7 @@ Perandus Coin
 Perandus Leaguestone
 Perfect Fossil
 Perfection
+Perforate
 Pernarch
 Petrified Club
 Phantasmagoria Map
@@ -1167,8 +1203,12 @@ Powerful Alchemical Resonator
 Powerful Chaotic Resonator
 Praetor Crown
 Precinct Map
+Precision
 Prehistoric Claw
+Pride
 Pride Before the Fall
+Pride of the First Ones
+Primal Incubator
 Primal Skull Talisman
 Prime Alchemical Resonator
 Prime Chaotic Resonator
@@ -1192,6 +1232,7 @@ Prophecy Leaguestone
 Prophecy Wand
 Prophet Crown
 Prosperity
+Pulverise Support
 Puncture
 Punishment
 Purifying Flame
@@ -1206,6 +1247,7 @@ Quartz Wand
 Quicksilver Flask
 Quilted Jacket
 Racecourse Map
+Rage Support
 Rain of Arrows
 Rain of Chaos
 Rain Tempter
@@ -1380,6 +1422,7 @@ Shagreen Gloves
 Shagreen Tower Shield
 Shaper's Orb
 Shaper's Orb (Tier 1)
+Shaper's Orb (Tier 10)
 Shaper's Orb (Tier 2)
 Shaper's Orb (Tier 3)
 Shaper's Orb (Tier 4)
@@ -1388,7 +1431,6 @@ Shaper's Orb (Tier 6)
 Shaper's Orb (Tier 7)
 Shaper's Orb (Tier 8)
 Shaper's Orb (Tier 9)
-Shaper's Orb (Tier 10)
 Shard of Fate
 Sharkskin Boots
 Sharkskin Gloves
@@ -1399,6 +1441,7 @@ Shattering Steel
 Shield Charge
 Shipyard Map
 Shock Nova
+Shockwave Support
 Shockwave Totem
 Shore Map
 Short Bow
@@ -1446,10 +1489,12 @@ Simple Iron Net
 Simple Robe
 Simple Rope Net
 Simple Steel Net
+Singular Incubator
 Sinner Tricorne
 Siphoning Trap
 Skean
 Skinning Knife
+Skittering Incubator
 Slaughter Knife
 Sledgehammer
 Sleek Coat
@@ -1520,6 +1565,7 @@ Steel Ring
 Steelhead
 Steelscale Boots
 Steelscale Gauntlets
+Steelskin
 Steelwood Bow
 Stibnite Flask
 Stiletto
@@ -1579,11 +1625,13 @@ Tenderizer
 Terrace Map
 Terror Claw
 Terror Maul
+Thaumaturge's Incubator
 Thaumaturgical Net
 Thaumetic Emblem
 Thaumetic Sulphite
 The Admirer
 The Aesthete
+The Archmage's Right Hand
 The Arena Champion
 The Army of Blood
 The Artist
@@ -1612,6 +1660,7 @@ The Dapper Prodigy
 The Dark Mage
 The Darkest Dream
 The Deceiver
+The Deep Ones
 The Demoness
 The Devastator
 The Doctor
@@ -1635,6 +1684,7 @@ The Feast
 The Fiend
 The Fletcher
 The Flora's Gift
+The Fool
 The Formless Sea
 The Forsaken
 The Fox
@@ -1690,6 +1740,7 @@ The Poet
 The Polymath
 The Porcupine
 The Price of Protection
+The Primordial
 The Professor
 The Puzzle
 The Queen
@@ -1757,6 +1808,7 @@ The Wretched
 Thicket Bow
 Thicket Map
 Thief's Garb
+Thirst for Knowledge
 Thorium Spirit Shield
 Thorn Rapier
 Three Faces in the Dark
@@ -1770,7 +1822,18 @@ Tiger Hook
 Tiger Sword
 Tiger's Paw
 Timber Axe
+Time-Lost Incubator
 Time-Lost Relic
+Timeless Eternal Empire Emblem
+Timeless Eternal Empire Splinter
+Timeless Karui Emblem
+Timeless Karui Splinter
+Timeless Maraketh Emblem
+Timeless Maraketh Splinter
+Timeless Templar Emblem
+Timeless Templar Splinter
+Timeless Vaal Emblem
+Timeless Vaal Splinter
 Timeworn Claw
 Timeworn Reliquary Key
 Titan Gauntlets
@@ -1881,6 +1944,7 @@ Vaal Summon Skeletons
 Vaal Temple Map
 Valako's Jaw
 Vanguard Belt
+Vanity
 Variscite Blade
 Varnished Coat
 Vault Map
@@ -1972,6 +2036,7 @@ Whispering Essence of Contempt
 Whispering Essence of Greed
 Whispering Essence of Hatred
 Whispering Essence of Woe
+Whispering Incubator
 Widowsilk Robe
 Wild Leather
 Wild Strike

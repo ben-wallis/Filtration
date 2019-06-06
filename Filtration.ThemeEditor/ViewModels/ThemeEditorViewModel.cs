@@ -23,7 +23,6 @@ namespace Filtration.ThemeEditor.ViewModels
     {
         RelayCommand<ThemeComponentType> AddThemeComponentCommand { get; }
         RelayCommand<ThemeComponent> DeleteThemeComponentCommand { get; }
-        RelayCommand CloseCommand { get; }
 
         void InitialiseForNewTheme(ThemeComponentCollection themeComponentCollection);
         void InitialiseForMasterTheme(IItemFilterScript script);
