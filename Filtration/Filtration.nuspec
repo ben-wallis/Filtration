@@ -9,12 +9,7 @@
     <description>A Path of Exile loot filter script editor</description>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <copyright>Copyright 2019</copyright>
-    <releaseNotes>* Added support for AnyEnchantment block item type
-* Added support for HasEnchantment block item type
-* Added support for FracturedItem block item type
-* Added support for SynthesisedItem block item type
-* Fixed parsing of disabled Show/Hide blocks with extra information following the Show/Hide keyword (#133)
-* Fixed copy/pasted block styles not affecting the preview (#126)    </releaseNotes>
+    <releaseNotes>* Added Legion League Item Base Types and Item Classes to static data</releaseNotes>
     <dependencies />
   </metadata>
   <files>
