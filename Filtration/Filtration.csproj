@@ -606,8 +606,8 @@
     </ReadLinesFromFile>
     <ItemGroup>
       <!-- If your .NET version is <3.5 and you get build error, move this ItemGroup outside of Target -->
-      <NuGetExe Include="..\packages\NuGet.CommandLine.*\tools\nuget.exe" />
-      <SquirrelExe Include="..\packages\Squirrel.Windows.*\tools\squirrel.exe" />
+      <NuGetExe Include="$(UserProfile)\.nuget\packages\NuGet.CommandLine\4.7.1\tools\nuget.exe" />
+      <SquirrelExe Include="$(UserProfile)\.nuget\packages\Squirrel.Windows\1.9.0\tools\squirrel.exe" />
     </ItemGroup>
     <PropertyGroup>
       <ReleaseDir>..\Releases\</ReleaseDir>
