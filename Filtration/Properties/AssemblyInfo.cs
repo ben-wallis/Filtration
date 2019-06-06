@@ -6,12 +6,12 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("XVar Industries Inc.")]
 [assembly: AssemblyProduct("Filtration")]
-[assembly: AssemblyCopyright("Copyright © Ben Wallis 2018")]
+[assembly: AssemblyCopyright("Copyright © Ben Wallis 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("1.2.0")]
-[assembly: AssemblyInformationalVersion("1.2.0")]
+[assembly: AssemblyVersion("1.2.1")]
+[assembly: AssemblyInformationalVersion("1.2.1")]
 
 [assembly: InternalsVisibleTo("Filtration.Tests")]
 [assembly: InternalsVisibleTo("Filtration.ItemFilterPreview.Tests")]
