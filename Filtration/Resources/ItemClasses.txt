@@ -10,6 +10,7 @@ Claws
 Currency
 Daggers
 Delve Socketable Currency
+Delve Stackable Socketable Currency
 Divination Card
 Fishing Rods
 Flasks
@@ -41,6 +42,7 @@ Quest Items
 Quivers
 Relics
 Rings
+Rune Dagger
 Sceptres
 Shields
 Small Relics
@@ -54,3 +56,4 @@ Two Hand Maces
 Two Hand Swords
 Utility Flasks
 Wands
+Warstaff

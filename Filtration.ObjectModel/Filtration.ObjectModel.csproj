@@ -63,6 +63,7 @@
     <Compile Include="BlockItemTypes\AnyEnchantmentBlockItem.cs" />
     <Compile Include="BlockItemTypes\BackgroundColorBlockItem.cs" />
     <Compile Include="BlockItemTypes\BaseTypeBlockItem.cs" />
+    <Compile Include="BlockItemTypes\BlightedMapBlockItem.cs" />
     <Compile Include="BlockItemTypes\FracturedItemBlockItem.cs" />
     <Compile Include="BlockItemTypes\HasEnchantmentBlockItem.cs" />
     <Compile Include="BlockItemTypes\MapTierBlockItem.cs" />

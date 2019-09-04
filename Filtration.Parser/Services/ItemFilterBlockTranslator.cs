@@ -419,6 +419,11 @@ namespace Filtration.Parser.Services
                         AddNumericFilterPredicateItemToBlockItems<MapTierBlockItem>(block, trimmedLine);
                         break;
                     }
+                    case "BlightedMap":
+                    {
+                        AddBooleanItemToBlockItems<BlightedMapBlockItem>(block, trimmedLine);
+                        break;
+                    }
                 }
 
                 if (!string.IsNullOrWhiteSpace(blockComment) && block.BlockItems.Count > 1)

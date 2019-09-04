@@ -234,10 +234,11 @@ namespace Filtration.ViewModels
             typeof (MapTierBlockItem),
             typeof (ShapedMapBlockItem),
             typeof (ElderMapBlockItem),
+            typeof (BlightedMapBlockItem),
             typeof (GemLevelBlockItem),
             typeof (StackSizeBlockItem),
             typeof (HasExplicitModBlockItem),
-            typeof (HasEnchantmentBlockItem)
+            typeof (HasEnchantmentBlockItem),
         };
 
         public List<Type> AudioVisualBlockItemTypesAvailable => new List<Type>

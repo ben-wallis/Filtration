@@ -18,6 +18,7 @@ namespace Filtration.ObjectModel.Enums
         MapTier,
         ShapedMap,
         ElderMap,
+        BligtedMap,
         SocketGroup,
         Height,
         Width,
