@@ -32,7 +32,7 @@
             <StackPanel Grid.Row="0" Grid.Column="1">
                 <TextBlock FontWeight="Black">Filtration</TextBlock>
                 <TextBlock Text="{Binding Version}" />
-                <TextBlock>Copyright © 2018</TextBlock>
+                <TextBlock>Copyright © 2019</TextBlock>
                 <TextBlock>Created by Ben Wallis</TextBlock>
                 <TextBlock>
                     <Hyperlink NavigateUri="https://github.com/ben-wallis/Filtration/" extensions:HyperlinkExtensions.IsExternal="True">https://github.com/ben-wallis/Filtration/</Hyperlink>
