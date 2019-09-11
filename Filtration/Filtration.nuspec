@@ -9,7 +9,9 @@
     <description>A Path of Exile loot filter script editor</description>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <copyright>Copyright 2019</copyright>
-    <releaseNotes>* Added Legion League Item Base Types and Item Classes to static data</releaseNotes>
+    <releaseNotes>* Added Blight League Item Base Types and Item Classes to static data
+* Adding the first Block Group to a script will now enable Block Groups for the script
+* Removing the last Block Group from a script will now disable Block Groups for the script</releaseNotes>
     <dependencies />
   </metadata>
   <files>
