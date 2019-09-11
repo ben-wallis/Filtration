@@ -624,6 +624,7 @@ namespace Filtration.ViewModels
 
                 Block.IsEdited = true;
                 _parentScriptViewModel.SetDirtyFlag();
+                _parentScriptViewModel.Script.ItemFilterScriptSettings.BlockGroupsEnabled = true;
 
                 Messenger.Default.Send(new NotificationMessage<bool>(_parentScriptViewModel.ShowAdvanced, "BlockGroupsChanged"));
                 UpdateBlockGroups();
@@ -652,6 +653,11 @@ namespace Filtration.ViewModels
 
                 Messenger.Default.Send(new NotificationMessage<bool>(_parentScriptViewModel.ShowAdvanced, "BlockGroupsChanged"));
                 UpdateBlockGroups();
+
+                if (BlockGroups.Count <= 0)
+                {
+                    _parentScriptViewModel.Script.ItemFilterScriptSettings.BlockGroupsEnabled = false;
+                }
             }
         }
 
