@@ -2,9 +2,9 @@
 
 Filtration is an editor for Path of Exile item filter scripts.
 
-## Current Release (Released 2019-06-06)
+## Current Release (Released 2019-09-11)
 <b>Installer</b><br>
-<a href="https://github.com/ben-wallis/Filtration/releases/download/1.2.1/Setup.exe">Setup.exe</a>
+<a href="https://github.com/ben-wallis/Filtration/releases/download/1.2.2/Setup.exe">Setup.exe</a>
 
 ## System Requirements
 Filtration requires .NET Framework 4.6.1 installed.
@@ -28,6 +28,3 @@ If you'd like to make your script fully compatible with Filtration, please take 
 
 ##### Theme Editor
 <img src="https://i.imgur.com/Pi9wds1.png" />
-
-## Contact
-You can find me on irc.freenode.net in #filtration
